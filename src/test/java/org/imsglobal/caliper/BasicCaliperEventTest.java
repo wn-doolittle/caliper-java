@@ -8,13 +8,12 @@ import org.junit.Test;
 
 public class BasicCaliperEventTest {
 
-	final CountDownLatch latch = new CountDownLatch(1);
 	Client client;
 
 	@Test
 	public void test() {
 
-		String TESTING_HOST = "https://2f00a71ed0d1.b.passageway.io";
+		String TESTING_HOST = "https://dev-null.org";
 		String API_KEY = "6xp7jKrOSOWOgy3acxHFWA";
 
 		// Initialize

@@ -3,7 +3,7 @@ package org.imsglobal.caliper;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * IntelliSense client options
+ * Caliper client options
  * 
  */
 public class Options {

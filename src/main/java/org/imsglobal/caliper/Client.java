@@ -29,7 +29,7 @@ public class Client {
 	 * you to conveniently consume the API without making any HTTP requests
 	 * yourself.
 	 * 
-	 * This client should be designed to be thread-safe and to not block each
+	 * This client is designed to be thread-safe and to not block each
 	 * call in order to make a HTTP request
 	 * 
 	 * 
@@ -49,7 +49,7 @@ public class Client {
 	 * you to conveniently consume the API without making any HTTP requests
 	 * yourself.
 	 * 
-	 * This client should be designed to be thread-safe and to not block each
+	 * This client is designed to be thread-safe and to not block each
 	 * call in order to make a HTTP request
 	 * 
 	 * 

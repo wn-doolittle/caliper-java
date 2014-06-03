@@ -6,8 +6,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A thread-safe and lock-free double implementation
- * based on this stack overflow answer:
- * http://stackoverflow.com/questions/5505460/java-is-there-no-atomicfloat-or-atomicdouble
  *
  */
 class AtomicDouble extends Number {

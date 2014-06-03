@@ -27,7 +27,7 @@ public class Statistics extends ConcurrentHashMap<String, Statistic> {
 		
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append("\n-------- Safe Client Statistics --------\n");
+		builder.append("\n-------- Caliper Java Statistics --------\n");
 		
 		for (Entry<String, Statistic> entry : entrySet()) {
 			
