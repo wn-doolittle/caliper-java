@@ -12,20 +12,6 @@ public class Caliper {
 	/**
 	 * Creates a new Caliper client.
 	 * 
-	 * This method is thread-safe.
-	 * 
-	 * @param apiKey
-	 *            Your Caliper EventStore apiKey.
-	 */
-	public static synchronized void initialize(String apiKey) {
-
-		if (defaultClient == null)
-			defaultClient = new Client(apiKey, new Options());
-	}
-
-	/**
-	 * Creates a new Caliper client.
-	 * 
 	 * Creates a new Caliper client.
 	 * 
 	 * This method is thread-safe.
@@ -38,10 +24,10 @@ public class Caliper {
 	 * 
 	 * 
 	 */
-	public static synchronized void initialize(String apiKey, Options options) {
+	public static synchronized void initialize(Options options) {
 
 		if (defaultClient == null)
-			defaultClient = new Client(apiKey, options);
+			defaultClient = new Client(options);
 	}
 
 	private static void isInitialized() {

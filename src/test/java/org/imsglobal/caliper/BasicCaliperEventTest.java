@@ -13,13 +13,8 @@ public class BasicCaliperEventTest {
 	@Test
 	public void test() {
 
-		String TESTING_HOST = "https://dev-null.org";
-		String API_KEY = "6xp7jKrOSOWOgy3acxHFWA";
 
-		// Initialize
-		Options options = new Options();
-		options.setHost(TESTING_HOST);
-		Caliper.initialize(API_KEY, options);
+		Caliper.initialize(TestUtils.getTestingOptions());
 
 		// TODO - Describes test goes here
 		
@@ -33,8 +28,8 @@ public class BasicCaliperEventTest {
 		
 		// Send two events
 
-		// There should be two event queued
-//		assertEquals("Expect two event to be queued", 2, Caliper
+		// There should be two caliperEvent queued
+//		assertEquals("Expect two caliperEvent to be queued", 2, Caliper
 //				.getStatistics().getMeasures().getCount());
 
 		// There should be seven message successfully sent

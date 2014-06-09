@@ -14,6 +14,8 @@ import org.imsglobal.caliper.stats.CaliperStatistics;
  * The client is an HTTP wrapper over the Caliper REST API. It will allow you to
  * conveniently consume the API without making any HTTP requests yourself.
  * 
+ * @author pnayak
+ * 
  */
 public class Client {
 
@@ -22,25 +24,6 @@ public class Client {
 	private EventStoreRequestor eventStoreRequestor;
 	private CaliperStatistics stats;
 
-	/**
-	 * Creates a new Caliper client.
-	 * 
-	 * The client is an HTTP wrapper over the Caliper REST API. It will allow
-	 * you to conveniently consume the API without making any HTTP requests
-	 * yourself.
-	 * 
-	 * This client is designed to be thread-safe and to not block each
-	 * call in order to make a HTTP request
-	 * 
-	 * 
-	 * @param apiKey
-	 *            Your Caliper EventStore apiKey
-	 * 
-	 */
-	public Client(String apiKey) {
-
-		this(apiKey, new Options());
-	}
 
 	/**
 	 * Creates a new Caliper client.
@@ -60,20 +43,24 @@ public class Client {
 	 * 
 	 * 
 	 */
-	public Client(String apiKey, Options options) {
+	public Client(Options options) {
 
 		String errorPrefix = "caliper-java client must be initialized with a valid ";
 
-		if (StringUtils.isEmpty(apiKey))
-			throw new IllegalArgumentException(errorPrefix + "apiKey.");
-
 		if (options == null)
 			throw new IllegalArgumentException(errorPrefix + "options.");
+		
+		apiKey = options.getApiKey();
+		
+		if (StringUtils.isEmpty(apiKey))
+			throw new IllegalArgumentException(errorPrefix + "apiKey.");
+				
+		if (StringUtils.isEmpty(options.getHost()))
+			throw new IllegalArgumentException(errorPrefix + "host.");
 
-		this.apiKey = apiKey;
 		this.options = options;
 
-		eventStoreRequestor = new HttpRequestor();
+		eventStoreRequestor = new HttpRequestor(options);
 
 		stats = new CaliperStatistics();
 	}

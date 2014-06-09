@@ -5,8 +5,15 @@ import org.apache.commons.lang.StringUtils;
 /**
  * Caliper client options
  * 
+ * @author pnayak
+ * 
  */
 public class Options {
+	
+	/**
+	 * The API Key (potentially required by Caliper EventSTore)
+	 */
+	private String apiKey;
 
 	/**
 	 * The REST API endpoint (with scheme)
@@ -70,5 +77,19 @@ public class Options {
 
 		this.timeout = timeout;
 		return this;
+	}
+
+	/**
+	 * @return the apiKey
+	 */
+	public String getApiKey() {
+		return apiKey;
+	}
+
+	/**
+	 * @param apiKey the apiKey to set
+	 */
+	public void setApiKey(String apiKey) {
+		this.apiKey = apiKey;
 	}
 }
