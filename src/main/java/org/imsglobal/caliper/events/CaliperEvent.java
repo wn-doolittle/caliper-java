@@ -19,16 +19,16 @@ public class CaliperEvent {
 	@SerializedName("@type")
 	private String type;
 
-	@SerializedName("@action")
+	@SerializedName("action")
 	private String action;
 
-	@SerializedName("@agent")
+	@SerializedName("agent")
 	private String agent;
 	
-	@SerializedName("@activityContext")
+	@SerializedName("activityContext")
 	private String activityContext;
 
-	@SerializedName("@startedAtTime")
+	@SerializedName("startedAtTime")
 	private long startedAt;
 
 	/**

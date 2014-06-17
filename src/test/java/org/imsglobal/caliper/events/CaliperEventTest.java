@@ -43,7 +43,7 @@ public class CaliperEventTest {
 	@Test
 	public void test() {
 
-		String expectedCaliperEventJson = "{\"@context\":\"http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent\",\"@type\":\"NavigationEvent\",\"@action\":\"navigate_to\",\"@agent\":\"uri:/someEdu/user/42\",\"@activityContext\":\"uri:/someEdu/reading/42\",\"@startedAtTime\":1402965614516}";
+		String expectedCaliperEventJson = "{\"@context\":\"http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent\",\"@type\":\"NavigationEvent\",\"action\":\"navigate_to\",\"agent\":\"uri:/someEdu/user/42\",\"activityContext\":\"uri:/someEdu/reading/42\",\"startedAtTime\":1402965614516}";
 
 		Gson gson = new Gson();
 
