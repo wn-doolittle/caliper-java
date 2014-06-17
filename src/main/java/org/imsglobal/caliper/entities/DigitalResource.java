@@ -4,6 +4,6 @@ package org.imsglobal.caliper.entities;
  * @author pnayak
  *
  */
-public interface DigitalResource {
+public class DigitalResource extends CaliperEntity {
 
 }
