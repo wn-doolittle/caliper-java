@@ -17,6 +17,9 @@ public class CaliperEntity {
 	
 	@SerializedName("@type")
 	String type;
+	
+	@SerializedName("lastModifiedTime")
+	private long lastModifiedAt;
 
 	/**
 	 * @return the id
@@ -46,6 +49,20 @@ public class CaliperEntity {
 	 */
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	/**
+	 * @return the lastModifiedAt
+	 */
+	public long getLastModifiedAt() {
+		return lastModifiedAt;
+	}
+
+	/**
+	 * @param lastModifiedAt the lastModifiedAt to set
+	 */
+	public void setLastModifiedAt(long lastModifiedAt) {
+		this.lastModifiedAt = lastModifiedAt;
 	}
 
 }
