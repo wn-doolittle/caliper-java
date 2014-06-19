@@ -3,6 +3,9 @@
  */
 package org.imsglobal.caliper.events;
 
+import org.imsglobal.caliper.entities.ActivityContext;
+import org.imsglobal.caliper.entities.Agent;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -23,10 +26,10 @@ public class CaliperEvent {
 	private String action;
 
 	@SerializedName("agent")
-	private String agent;
+	private Agent agent;
 	
-	@SerializedName("activityContext")
-	private String activityContext;
+	@SerializedName("object")
+	private ActivityContext activityContext;
 
 	@SerializedName("startedAtTime")
 	private long startedAt;
@@ -94,7 +97,7 @@ public class CaliperEvent {
 	/**
 	 * @return the agent
 	 */
-	public String getAgent() {
+	public Agent getAgent() {
 		return agent;
 	}
 
@@ -102,14 +105,14 @@ public class CaliperEvent {
 	 * @param agent
 	 *            the agent to set
 	 */
-	public void setAgent(String agent) {
+	public void setAgent(Agent agent) {
 		this.agent = agent;
 	}
 
 	/**
 	 * @return the activityContext
 	 */
-	public String getActivityContext() {
+	public ActivityContext getActivityContext() {
 		return activityContext;
 	}
 
@@ -117,7 +120,7 @@ public class CaliperEvent {
 	 * @param activityContext
 	 *            the activityContext to set
 	 */
-	public void setActivityContext(String activityContext) {
+	public void setActivityContext(ActivityContext activityContext) {
 		this.activityContext = activityContext;
 	}
 }

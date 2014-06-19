@@ -1,6 +1,7 @@
 package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.entities.Agent;
+import org.imsglobal.caliper.entities.CaliperEntity;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.events.CaliperEvent;
 import org.imsglobal.caliper.stats.CaliperStatistics;
@@ -67,24 +68,24 @@ public class Caliper {
 	 *            the DigitalResource
 	 * 
 	 */
-	public static void describe(DigitalResource digitalResource) {
+	public static void describe(CaliperEntity caliperEntity) {
 		isInitialized();
-		defaultClient.describe(digitalResource);
+		defaultClient.describe(caliperEntity);
 	}
 
-	/**
-	 * Caliper Sensor API
-	 * 
-	 * Describe a {@link Agent} that is part of the learning graph
-	 * 
-	 * @param agent
-	 *            the Agent
-	 * 
-	 */
-	public static void describe(Agent agent) {
-		isInitialized();
-		defaultClient.describe(agent);
-	}
+//	/**
+//	 * Caliper Sensor API
+//	 * 
+//	 * Describe a {@link Agent} that is part of the learning graph
+//	 * 
+//	 * @param agent
+//	 *            the Agent
+//	 * 
+//	 */
+//	public static void describe(Agent agent) {
+//		isInitialized();
+//		defaultClient.describe(agent);
+//	}
 
 	/**
 	 * Returns statistics for the Caliper client

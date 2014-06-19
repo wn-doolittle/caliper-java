@@ -2,6 +2,7 @@ package org.imsglobal.caliper;
 
 import org.apache.commons.lang.StringUtils;
 import org.imsglobal.caliper.entities.Agent;
+import org.imsglobal.caliper.entities.CaliperEntity;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.events.CaliperEvent;
 import org.imsglobal.caliper.request.EventStoreRequestor;
@@ -77,9 +78,9 @@ public class Client {
 
 	}
 
-	public void describe(DigitalResource digitalResource) {
+	public void describe(CaliperEntity caliperEntity) {
 
-		eventStoreRequestor.send(digitalResource);
+		eventStoreRequestor.send(caliperEntity);
 
 		stats.updateDescribes(1);
 

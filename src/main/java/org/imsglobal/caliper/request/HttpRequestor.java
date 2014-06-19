@@ -14,8 +14,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.imsglobal.caliper.Options;
-import org.imsglobal.caliper.entities.Agent;
-import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.CaliperEntity;
 import org.imsglobal.caliper.events.CaliperEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +48,7 @@ public class HttpRequestor implements EventStoreRequestor {
 		this.options = options;
 		initialize();
 	}
-	
+
 	public static synchronized void initialize() {
 		if (httpClient == null) {
 			httpClient = HttpClients.createDefault();
@@ -103,11 +102,11 @@ public class HttpRequestor implements EventStoreRequestor {
 	 */
 	protected StringEntity generatePayload(CaliperEvent caliperEvent)
 			throws UnsupportedEncodingException {
-		
+
 		Gson gson = new Gson();
 		StringEntity payLoad = new StringEntity(gson.toJson(caliperEvent));
 		payLoad.setContentType("application/json");
-		
+
 		return payLoad;
 	}
 
@@ -119,20 +118,7 @@ public class HttpRequestor implements EventStoreRequestor {
 	 * caliper.entities.DigitalResource)
 	 */
 	@Override
-	public void send(DigitalResource digitalResource) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.imsglobal.caliper.request.EventStoreRequestor#send(org.imsglobal.
-	 * caliper.entities.Agent)
-	 */
-	@Override
-	public void send(Agent agent) {
+	public void send(CaliperEntity caliperEntity) {
 		// TODO Auto-generated method stub
 
 	}
