@@ -11,12 +11,13 @@ public class BasicCaliperEventTest {
 
 		Caliper.initialize(TestUtils.getTestingOptions());
 
-		// Measure test - Send two events
-		Caliper.measure(TestUtils.getTestCaliperEvent());
-		Caliper.measure(TestUtils.getTestCaliperEvent());
+		// Measure test - Send 50 events
+		for (int i = 0 ; i < 50 ; i++) {
+			Caliper.measure(TestUtils.getTestCaliperEvent());
+		}
 
 		// There should be two caliperEvents queued
-		assertEquals("Expect two caliperEvent to be sent", 2, Caliper
+		assertEquals("Expect fifty caliperEvent to be sent", 50, Caliper
 				.getStatistics().getMeasures().getCount());
 
 		// TODO - Describes test - Send five describes
@@ -27,7 +28,7 @@ public class BasicCaliperEventTest {
 
 		// There should be two message successfully sent
 		int successes = Caliper.getStatistics().getSuccessful().getCount();
-		assertEquals("Expect two messages to be successfuly sent", 2, successes);
+		assertEquals("Expect fifty messages to be successfuly sent", 50, successes);
 
 		// There should be zero failures
 		int failures = Caliper.getStatistics().getFailed().getCount();
