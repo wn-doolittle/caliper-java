@@ -3,6 +3,10 @@
  */
 package org.imsglobal.caliper.entities;
 
+import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -14,12 +18,16 @@ public class CaliperEntity {
 	@CaliperReference
 	@SerializedName("@id")
 	String id;
-	
+
 	@SerializedName("@type")
 	String type;
-	
+
 	@SerializedName("lastModifiedTime")
 	private long lastModifiedAt;
+
+	@JsonIgnore
+	@SerializedName("properties")
+	private Map<String, String> properties;
 
 	/**
 	 * @return the id
@@ -59,10 +67,26 @@ public class CaliperEntity {
 	}
 
 	/**
-	 * @param lastModifiedAt the lastModifiedAt to set
+	 * @param lastModifiedAt
+	 *            the lastModifiedAt to set
 	 */
 	public void setLastModifiedAt(long lastModifiedAt) {
 		this.lastModifiedAt = lastModifiedAt;
+	}
+
+	/**
+	 * @return the properties
+	 */
+	public Map<String, String> getProperties() {
+		return properties;
+	}
+
+	/**
+	 * @param properties
+	 *            the properties to set
+	 */
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
 	}
 
 }

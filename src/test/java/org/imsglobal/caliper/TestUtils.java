@@ -15,7 +15,7 @@ public class TestUtils {
 
 	public static Options getTestingOptions() {
 
-		String TESTING_HOST = "http://requestb.in/p6nc7zp6";
+		String TESTING_HOST = "http://localhost:1080/1.0/event/put";
 		String API_KEY = "6xp7jKrOSOWOgy3acxHFWA";
 
 		Options options = new Options();

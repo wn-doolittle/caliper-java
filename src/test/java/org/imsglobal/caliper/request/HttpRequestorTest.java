@@ -13,6 +13,9 @@ import org.imsglobal.caliper.events.CaliperEvent;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.io.CharStreams;
 
@@ -22,7 +25,11 @@ import com.google.common.io.CharStreams;
  * @author pnayak
  * @author yoganandp
  */
+@Category(org.imsglobal.caliper.UnitTest.class)
 public class HttpRequestorTest {
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(HttpRequestorTest.class);
 
 	CaliperEvent caliperEvent;
 	Options options;
@@ -53,7 +60,7 @@ public class HttpRequestorTest {
 
 			String expectedCaliperEventJson = "{\"@context\":\"http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent\",\"@type\":\"NavigationEvent\",\"action\":\"navigate_to\",\"agent\":{\"@id\":\"uri:/someEdu/user/42\",\"@type\":\"agent\"},\"object\":{\"@id\":\"uri:/someEdu/reading/42\",\"@type\":\"reading\",\"startedAtTime\":1402965614516}";
 
-//			assertEquals(expectedCaliperEventJson, actualContent);
+			// assertEquals(expectedCaliperEventJson, actualContent);
 
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

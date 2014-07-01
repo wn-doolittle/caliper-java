@@ -1,9 +1,7 @@
 package org.imsglobal.caliper;
 
 import org.apache.commons.lang.StringUtils;
-import org.imsglobal.caliper.entities.Agent;
 import org.imsglobal.caliper.entities.CaliperEntity;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.events.CaliperEvent;
 import org.imsglobal.caliper.request.EventStoreRequestor;
 import org.imsglobal.caliper.request.HttpRequestor;
@@ -25,7 +23,6 @@ public class Client {
 	private EventStoreRequestor eventStoreRequestor;
 	private CaliperStatistics stats;
 
-
 	/**
 	 * Creates a new Caliper client.
 	 * 
@@ -33,8 +30,8 @@ public class Client {
 	 * you to conveniently consume the API without making any HTTP requests
 	 * yourself.
 	 * 
-	 * This client is designed to be thread-safe and to not block each
-	 * call in order to make a HTTP request
+	 * This client is designed to be thread-safe and to not block each call in
+	 * order to make a HTTP request
 	 * 
 	 * 
 	 * @param apiKey
@@ -50,12 +47,12 @@ public class Client {
 
 		if (options == null)
 			throw new IllegalArgumentException(errorPrefix + "options.");
-		
+
 		apiKey = options.getApiKey();
-		
+
 		if (StringUtils.isEmpty(apiKey))
 			throw new IllegalArgumentException(errorPrefix + "apiKey.");
-				
+
 		if (StringUtils.isEmpty(options.getHost()))
 			throw new IllegalArgumentException(errorPrefix + "host.");
 
@@ -72,25 +69,28 @@ public class Client {
 
 	public void measure(CaliperEvent caliperEvent) {
 
-		eventStoreRequestor.send(caliperEvent);
+		boolean status = eventStoreRequestor.send(caliperEvent);
 
-		stats.updateMeasures(1);
+		this.stats.updateMeasures(1);
 
+		if (status) {
+			stats.updateSuccessful(1);
+		} else {
+			stats.updateFailed(1);
+		}
 	}
 
 	public void describe(CaliperEntity caliperEntity) {
 
-		eventStoreRequestor.send(caliperEntity);
+		boolean status = eventStoreRequestor.send(caliperEntity);
 
-		stats.updateDescribes(1);
+		this.stats.updateDescribes(1);
 
-	}
-
-	public void describe(Agent agent) {
-
-		eventStoreRequestor.send(agent);
-
-		stats.updateDescribes(1);
+		if (status) {
+			stats.updateSuccessful(1);
+		} else {
+			stats.updateFailed(1);
+		}
 
 	}
 

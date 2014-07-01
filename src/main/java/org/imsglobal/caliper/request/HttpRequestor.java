@@ -4,12 +4,10 @@
 package org.imsglobal.caliper.request;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -19,13 +17,11 @@ import org.imsglobal.caliper.events.CaliperEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
-
 /**
  * @author pnayak
  * 
  */
-public class HttpRequestor implements EventStoreRequestor {
+public class HttpRequestor extends EventStoreRequestor {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(HttpRequestor.class);
@@ -63,7 +59,9 @@ public class HttpRequestor implements EventStoreRequestor {
 	 * caliper.events.CaliperEvent)
 	 */
 	@Override
-	public void send(CaliperEvent caliperEvent) {
+	public boolean send(CaliperEvent caliperEvent) {
+
+		boolean status = Boolean.FALSE;
 
 		try {
 
@@ -76,38 +74,33 @@ public class HttpRequestor implements EventStoreRequestor {
 			response = httpClient.execute(httpPost);
 
 			if (response.getStatusLine().getStatusCode() != 200) {
+				int statusCode = response.getStatusLine().getStatusCode();
+				response.close();
+				status = Boolean.FALSE;
 				throw new RuntimeException("Failed : HTTP error code : "
-						+ response.getStatusLine().getStatusCode());
+						+ statusCode);
+			} else {
+
+				LOG.debug("----------------------------------------");
+				LOG.debug(response.getStatusLine().toString());
+				LOG.debug(EntityUtils.toString(response.getEntity()));
+
+				response.close();
+
+				status = Boolean.TRUE;
+
+				LOG.debug("Exiting send()...");
 			}
 
-			LOG.debug("----------------------------------------");
-			LOG.debug(response.getStatusLine().toString());
-			LOG.debug(EntityUtils.toString(response.getEntity()));
-
-			response.close();
-
-			LOG.debug("Exiting send()...");
-
 		} catch (ClientProtocolException cpe) {
+			status = Boolean.FALSE;
 			cpe.printStackTrace();
 		} catch (IOException ioe) {
+			status = Boolean.FALSE;
 			ioe.printStackTrace();
 		}
-	}
 
-	/**
-	 * @param caliperEvent
-	 * @return
-	 * @throws UnsupportedEncodingException
-	 */
-	protected StringEntity generatePayload(CaliperEvent caliperEvent)
-			throws UnsupportedEncodingException {
-
-		Gson gson = new Gson();
-		StringEntity payLoad = new StringEntity(gson.toJson(caliperEvent));
-		payLoad.setContentType("application/json");
-
-		return payLoad;
+		return status;
 	}
 
 	/*
@@ -118,9 +111,9 @@ public class HttpRequestor implements EventStoreRequestor {
 	 * caliper.entities.DigitalResource)
 	 */
 	@Override
-	public void send(CaliperEntity caliperEntity) {
+	public boolean send(CaliperEntity caliperEntity) {
 		// TODO Auto-generated method stub
-
+		return Boolean.FALSE;
 	}
 
 	private static void checkInitialized() {

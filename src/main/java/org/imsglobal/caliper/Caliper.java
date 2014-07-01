@@ -73,20 +73,6 @@ public class Caliper {
 		defaultClient.describe(caliperEntity);
 	}
 
-//	/**
-//	 * Caliper Sensor API
-//	 * 
-//	 * Describe a {@link Agent} that is part of the learning graph
-//	 * 
-//	 * @param agent
-//	 *            the Agent
-//	 * 
-//	 */
-//	public static void describe(Agent agent) {
-//		isInitialized();
-//		defaultClient.describe(agent);
-//	}
-
 	/**
 	 * Returns statistics for the Caliper client
 	 */
