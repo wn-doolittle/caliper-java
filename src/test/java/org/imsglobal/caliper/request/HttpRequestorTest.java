@@ -58,9 +58,11 @@ public class HttpRequestorTest {
 			String actualContent = CharStreams.toString(new InputStreamReader(
 					payload.getContent(), "UTF-8"));
 
-			String expectedCaliperEventJson = "{\"@context\":\"http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent\",\"@type\":\"NavigationEvent\",\"action\":\"navigate_to\",\"agent\":{\"@id\":\"uri:/someEdu/user/42\",\"@type\":\"agent\"},\"object\":{\"@id\":\"uri:/someEdu/reading/42\",\"@type\":\"reading\",\"startedAtTime\":1402965614516}";
+//			String expectedCaliperEventJson = "[{\"type\":\"caliperEvent\",\"time\":\"2014-07-01T14:29:29.858-04:00\",\"data\":{\"@context\":\"http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent\",\"@type\":\"NavigationEvent\",\"action\":\"navigate_to\",\"agent\":{\"@id\":\"uri:/someEdu/user/42\",\"@type\":\"agent\",\"lastModifiedTime\":0},\"object\":{\"@id\":\"uri:/someEdu/reading/42\",\"@type\":\"reading\",\"lastModifiedTime\":0},\"startedAtTime\":1402965614516}}]";
 
-			// assertEquals(expectedCaliperEventJson, actualContent);
+			// TODO - need to fix time comparison
+			
+//			assertEquals(expectedCaliperEventJson, actualContent);
 
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

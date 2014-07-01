@@ -3,6 +3,8 @@
  */
 package org.imsglobal.caliper.events;
 
+import static org.junit.Assert.assertEquals;
+
 import org.imsglobal.caliper.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,15 +39,18 @@ public class CaliperEventTest {
 	@Test
 	public void test() {
 
-		String expectedCaliperEventJson = "{\"@context\":\"http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent\",\"@type\":\"NavigationEvent\",\"action\":\"navigate_to\",\"agent\":{\"@id\":\"uri:/someEdu/user/42\",\"@type\":\"agent\"},\"object\":{\"@id\":\"uri:/someEdu/reading/42\",\"@type\":\"reading\",\"startedAtTime\":1402965614516}";
+		String expectedCaliperEventJson = "{\"@context\":\"http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent\",\"@type\":\"NavigationEvent\",\"action\":\"navigate_to\",\"agent\":{\"@id\":\"uri:/someEdu/user/42\",\"@type\":\"agent\",\"lastModifiedTime\":0},\"object\":{\"@id\":\"uri:/someEdu/reading/42\",\"@type\":\"reading\",\"lastModifiedTime\":0},\"startedAtTime\":1402965614516}";
 
 		Gson gson = new Gson();
 
 		String caliperEventJSON = gson.toJson(caliperEvent);
 
-		// assertEquals("CaliperEvent JSON does not match expected JSON",
-		// caliperEventJSON, expectedCaliperEventJson);
-
+		LOG.debug("Expected CaliperEvent JSON = " + expectedCaliperEventJson);
 		LOG.debug("Caliper Event JSON = " + caliperEventJSON);
+		
+		assertEquals("CaliperEvent JSON does not match expected JSON",
+				caliperEventJSON, expectedCaliperEventJson);
 	}
 }
+
+
