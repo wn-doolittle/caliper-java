@@ -5,28 +5,29 @@ package org.imsglobal.caliper.entities;
 
 import java.util.Map;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * @author pnayak
  * 
  */
+@JsonPropertyOrder({ "@id", "@type", "lastModifiedTime" })
 public class CaliperEntity {
 
 	@CaliperReference
-	@SerializedName("@id")
+	@JsonProperty("@id")
 	String id;
 
-	@SerializedName("@type")
+	@JsonProperty("@type")
 	String type;
 
-	@SerializedName("lastModifiedTime")
+	@JsonProperty("lastModifiedTime")
 	private long lastModifiedAt;
 
 	@JsonIgnore
-	@SerializedName("properties")
+	@JsonProperty("properties")
 	private Map<String, String> properties;
 
 	/**

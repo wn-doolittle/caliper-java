@@ -3,6 +3,8 @@
  */
 package org.imsglobal.caliper.events;
 
+import static com.yammer.dropwizard.testing.JsonHelpers.asJson;
+import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 import org.imsglobal.caliper.TestUtils;
@@ -11,8 +13,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.gson.Gson;
 
 /**
  * @author pnayak
@@ -37,20 +37,10 @@ public class CaliperEventTest {
 	}
 
 	@Test
-	public void test() {
+	public void caliperEventSerializesToJSON() throws Exception {
 
-		String expectedCaliperEventJson = "{\"@context\":\"http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent\",\"@type\":\"NavigationEvent\",\"action\":\"navigate_to\",\"agent\":{\"@id\":\"uri:/someEdu/user/42\",\"@type\":\"agent\",\"lastModifiedTime\":0},\"object\":{\"@id\":\"uri:/someEdu/reading/42\",\"@type\":\"reading\",\"lastModifiedTime\":0},\"startedAtTime\":1402965614516,\"endedAtTime\":0}";
+		assertEquals("Test if CaliperEvent can be serialized to JSON",
+				jsonFixture("fixtures/caliperEvent.json"), asJson(caliperEvent));
 
-		Gson gson = new Gson();
-
-		String caliperEventJSON = gson.toJson(caliperEvent);
-
-		LOG.debug("Expected CaliperEvent JSON = " + expectedCaliperEventJson);
-		LOG.debug("Caliper Event JSON = " + caliperEventJSON);
-		
-		assertEquals("CaliperEvent JSON does not match expected JSON",
-				caliperEventJSON, expectedCaliperEventJson);
 	}
 }
-
-

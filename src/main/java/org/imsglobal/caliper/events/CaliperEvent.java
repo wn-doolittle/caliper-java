@@ -7,7 +7,8 @@ import org.imsglobal.caliper.entities.Agent;
 import org.imsglobal.caliper.entities.Course;
 import org.imsglobal.caliper.entities.SoftwareApplication;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Base class for all Caliper Events
@@ -15,33 +16,35 @@ import com.google.gson.annotations.SerializedName;
  * @author pnayak
  * 
  */
+@JsonPropertyOrder({ "@context", "@type", "action", "agent", "object",
+		"startedAtTime", "endedAtTime" })
 public class CaliperEvent {
 
-	@SerializedName("@context")
+	@JsonProperty("@context")
 	private String context;
 
-	@SerializedName("@type")
+	@JsonProperty("@type")
 	private String type;
 
-	@SerializedName("action")
+	@JsonProperty("action")
 	private String action;
 
-	@SerializedName("agent")
+	@JsonProperty("agent")
 	private Agent agent;
 
-	@SerializedName("object")
+	@JsonProperty("object")
 	private Object object;
 
-	@SerializedName("edApp")
+	@JsonProperty("edApp")
 	private SoftwareApplication edApp;
 
-	@SerializedName("group")
+	@JsonProperty("group")
 	private Course course;
 
-	@SerializedName("startedAtTime")
+	@JsonProperty("startedAtTime")
 	private long startedAt;
 
-	@SerializedName("endedAtTime")
+	@JsonProperty("endedAtTime")
 	private long endedAt;
 
 	/**
