@@ -17,9 +17,6 @@ public class ViewedEvent extends CaliperEvent {
 	 */
 	private DigitalResource embeddedContent;
 
-	/**
-	 * 
-	 */
 	public ViewedEvent() {
 		super();
 

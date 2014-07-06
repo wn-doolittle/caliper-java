@@ -28,7 +28,7 @@ public class CaliperEntity {
 
 	@JsonIgnore
 	@JsonProperty("properties")
-	private Map<String, String> properties;
+	private Map<String, Object> properties;
 
 	/**
 	 * @return the id
@@ -78,7 +78,7 @@ public class CaliperEntity {
 	/**
 	 * @return the properties
 	 */
-	public Map<String, String> getProperties() {
+	public Map<String, Object> getProperties() {
 		return properties;
 	}
 
@@ -86,7 +86,7 @@ public class CaliperEntity {
 	 * @param properties
 	 *            the properties to set
 	 */
-	public void setProperties(Map<String, String> properties) {
+	public void setProperties(Map<String, Object> properties) {
 		this.properties = properties;
 	}
 

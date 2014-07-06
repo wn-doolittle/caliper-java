@@ -23,9 +23,6 @@ public class UsedEvent extends CaliperEvent {
 	 */
 	private DigitalResource embeddedContent;
 
-	/**
-	 * 
-	 */
 	public UsedEvent() {
 		super();
 

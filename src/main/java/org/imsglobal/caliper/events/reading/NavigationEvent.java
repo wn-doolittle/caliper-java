@@ -23,9 +23,6 @@ public class NavigationEvent extends CaliperEvent {
 	 */
 	private String operationType;
 
-	/**
-	 * 
-	 */
 	public NavigationEvent() {
 		super();
 
