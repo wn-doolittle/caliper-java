@@ -4,7 +4,6 @@
 package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.entities.Agent;
-import org.imsglobal.caliper.entities.Course;
 import org.imsglobal.caliper.entities.SoftwareApplication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
