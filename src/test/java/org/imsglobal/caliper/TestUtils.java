@@ -42,7 +42,7 @@ public class TestUtils {
 		ActivityContext activityContext = new ActivityContext();
 		activityContext.setId("uri:/someEdu/reading/42");
 		activityContext.setType("reading"); // TODO fix
-		caliperEvent.setActivityContext(activityContext);
+		caliperEvent.setObject(activityContext);
 
 		caliperEvent.setStartedAt(1402965614516l);
 		

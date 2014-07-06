@@ -3,8 +3,9 @@
  */
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.entities.ActivityContext;
 import org.imsglobal.caliper.entities.Agent;
+import org.imsglobal.caliper.entities.Course;
+import org.imsglobal.caliper.entities.SoftwareApplication;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -27,12 +28,21 @@ public class CaliperEvent {
 
 	@SerializedName("agent")
 	private Agent agent;
-	
+
 	@SerializedName("object")
-	private ActivityContext activityContext;
+	private Object object;
+
+	@SerializedName("edApp")
+	private SoftwareApplication edApp;
+
+	@SerializedName("group")
+	private Course course;
 
 	@SerializedName("startedAtTime")
 	private long startedAt;
+
+	@SerializedName("endedAtTime")
+	private long endedAt;
 
 	/**
 	 * @return the action
@@ -110,17 +120,62 @@ public class CaliperEvent {
 	}
 
 	/**
-	 * @return the activityContext
+	 * @return the object
 	 */
-	public ActivityContext getActivityContext() {
-		return activityContext;
+	public Object getObject() {
+		return object;
 	}
 
 	/**
-	 * @param activityContext
-	 *            the activityContext to set
+	 * @param object
+	 *            the object to set
 	 */
-	public void setActivityContext(ActivityContext activityContext) {
-		this.activityContext = activityContext;
+	public void setObject(Object object) {
+		this.object = object;
+	}
+
+	/**
+	 * @return the edApp
+	 */
+	public SoftwareApplication getEdApp() {
+		return edApp;
+	}
+
+	/**
+	 * @param edApp
+	 *            the edApp to set
+	 */
+	public void setEdApp(SoftwareApplication edApp) {
+		this.edApp = edApp;
+	}
+
+	/**
+	 * @return the course
+	 */
+	public Course getCourse() {
+		return course;
+	}
+
+	/**
+	 * @param course
+	 *            the course to set
+	 */
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	/**
+	 * @return the endedAt
+	 */
+	public long getEndedAt() {
+		return endedAt;
+	}
+
+	/**
+	 * @param endedAt
+	 *            the endedAt to set
+	 */
+	public void setEndedAt(long endedAt) {
+		this.endedAt = endedAt;
 	}
 }
