@@ -10,6 +10,7 @@ import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.Options;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.events.CaliperEvent;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +50,8 @@ public class HttpRequestorTest {
 		StringEntity payload = null;
 
 		try {
-			payload = httpRequestor.generatePayload(caliperEvent);
+			payload = httpRequestor.generatePayload(caliperEvent,
+					DateTime.parse("2014-07-01T14:29:29.858-04:00"));
 
 			String expectedContentType = "Content-Type: application/json";
 			assertEquals(expectedContentType, payload.getContentType()
@@ -58,11 +60,9 @@ public class HttpRequestorTest {
 			String actualContent = CharStreams.toString(new InputStreamReader(
 					payload.getContent(), "UTF-8"));
 
-//			String expectedCaliperEventJson = "[{\"type\":\"caliperEvent\",\"time\":\"2014-07-01T14:29:29.858-04:00\",\"data\":{\"@context\":\"http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent\",\"@type\":\"NavigationEvent\",\"action\":\"navigate_to\",\"agent\":{\"@id\":\"uri:/someEdu/user/42\",\"@type\":\"agent\",\"lastModifiedTime\":0},\"object\":{\"@id\":\"uri:/someEdu/reading/42\",\"@type\":\"reading\",\"lastModifiedTime\":0},\"startedAtTime\":1402965614516}}]";
+			String expectedCaliperEventJson = "[{\"type\":\"caliperEvent\",\"time\":\"2014-07-01T14:29:29.858-04:00\",\"data\":{\"@context\":\"http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent\",\"@type\":\"NavigationEvent\",\"action\":\"navigate_to\",\"agent\":{\"@id\":\"uri:/someEdu/user/42\",\"@type\":\"agent\",\"lastModifiedTime\":0},\"object\":{\"@id\":\"uri:/someEdu/reading/42\",\"@type\":\"reading\",\"lastModifiedTime\":0},\"startedAtTime\":1402965614516,\"endedAtTime\":0}}]";
 
-			// TODO - need to fix time comparison
-			
-//			assertEquals(expectedCaliperEventJson, actualContent);
+			assertEquals(expectedCaliperEventJson, actualContent);
 
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

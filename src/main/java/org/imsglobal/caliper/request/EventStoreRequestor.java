@@ -16,28 +16,34 @@ public abstract class EventStoreRequestor {
 	public abstract boolean send(CaliperEvent caliperEvent);
 
 	public abstract boolean send(CaliperEntity caliperEntity);
-	
+
 	/**
 	 * @param caliperEvent
+	 * @param sendTime
+	 *            - OPTIONAL, time to record the send of this event
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	protected StringEntity generatePayload(CaliperEvent caliperEvent)
-			throws UnsupportedEncodingException {
-		
+	protected StringEntity generatePayload(CaliperEvent caliperEvent,
+			DateTime sendTime) throws UnsupportedEncodingException {
+
+		if (sendTime == null) {
+			sendTime = DateTime.now();
+		}
+
 		List<EventStoreEnvelope> listPayload = Lists.newArrayList();
 		EventStoreEnvelope envelope = new EventStoreEnvelope();
 		envelope.setType("caliperEvent");
-		envelope.setTime(DateTime.now().toString());
+		envelope.setTime(sendTime.toString());
 		envelope.setData(caliperEvent);
 		listPayload.add(envelope);
-				
+
 		Gson gson = new Gson();
 		String jsonPayload = gson.toJson(listPayload);
-//		LOG.debug("Sending: " + jsonPayload);
+		// LOG.debug("Sending: " + jsonPayload);
 		StringEntity payLoad = new StringEntity(jsonPayload);
 		payLoad.setContentType("application/json");
-		
+
 		return payLoad;
 	}
 

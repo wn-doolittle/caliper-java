@@ -70,7 +70,7 @@ public class HttpRequestor extends EventStoreRequestor {
 			checkInitialized();
 
 			HttpPost httpPost = new HttpPost(this.getOptions().getHost());
-			httpPost.setEntity(generatePayload(caliperEvent));
+			httpPost.setEntity(generatePayload(caliperEvent, null));
 			response = httpClient.execute(httpPost);
 
 			if (response.getStatusLine().getStatusCode() != 200) {
