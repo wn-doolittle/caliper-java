@@ -20,32 +20,54 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 		"startedAtTime", "endedAtTime" })
 public class CaliperEvent {
 
+	// Core properties
+
+	/**
+	 * Required - the JSON-LD context for the CaliperEvent
+	 */
 	@JsonProperty("@context")
 	private String context;
 
+	/**
+	 * Required - the type of the CaliperEvent
+	 */
 	@JsonProperty("@type")
 	private String type;
 
+	/**
+	 * Required - Action performed by Agent From Metric Profile
+	 */
 	@JsonProperty("action")
 	private String action;
 
+	/**
+	 * Required - Agent (User, System) that performed the action
+	 */
 	@JsonProperty("agent")
 	private Agent agent;
 
+	/**
+	 * Required - "Activity Context" from Metric Profile
+	 */
 	@JsonProperty("object")
 	private Object object;
 
-	@JsonProperty("edApp")
-	private SoftwareApplication edApp;
-
-	@JsonProperty("group")
-	private Course course;
-
+	/**
+	 * Required time in milliseconds that the event was started at
+	 */
 	@JsonProperty("startedAtTime")
 	private long startedAt;
 
+	/**
+	 * An optional time in milliseconds that the event ended at
+	 */
 	@JsonProperty("endedAtTime")
 	private long endedAt;
+
+	// Contextual Properties ("Learning Context")
+
+	@JsonProperty("edApp")
+	private SoftwareApplication edApp;
 
 	/**
 	 * @return the action
@@ -150,21 +172,6 @@ public class CaliperEvent {
 	 */
 	public void setEdApp(SoftwareApplication edApp) {
 		this.edApp = edApp;
-	}
-
-	/**
-	 * @return the course
-	 */
-	public Course getCourse() {
-		return course;
-	}
-
-	/**
-	 * @param course
-	 *            the course to set
-	 */
-	public void setCourse(Course course) {
-		this.course = course;
 	}
 
 	/**
