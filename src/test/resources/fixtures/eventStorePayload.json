@@ -9,13 +9,13 @@
 			"@id": "uri:/someEdu/user/42",
 			"@type": "agent",
 			"lastModifiedTime": 0,
-			"properties": null
+			"properties": {}
 		},
 		"object": {
 			"@id": "uri:/someEdu/reading/42",
 			"@type": "reading",
 			"lastModifiedTime": 0,
-			"properties": null
+			"properties": {}
 		},
 		"startedAtTime": 1402965614516,
 		"endedAtTime": 0,

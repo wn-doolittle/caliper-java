@@ -8,6 +8,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.Maps;
 
 /**
  * @author pnayak
@@ -28,7 +29,7 @@ public class CaliperEntity {
 
 	@JsonIgnore
 	@JsonProperty("properties")
-	private Map<String, Object> properties;
+	private Map<String, Object> properties = Maps.newHashMap();
 
 	/**
 	 * @return the id
