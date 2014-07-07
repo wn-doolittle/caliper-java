@@ -14,12 +14,14 @@ public class SharedEvent extends BaseAnnotationEvent {
 	}
 
 	public SharedEvent forShare() {
-		SharedEvent event = new SharedEvent("annotate.share");
+		SharedEvent event = new SharedEvent("SharedEvent");
+		event.setAction("shared");
 		return event;
 	}
 
 	public SharedEvent forUnShare() {
-		SharedEvent event = new SharedEvent("annotate.unshare");
+		SharedEvent event = new SharedEvent("SharedEvent");
+		event.setAction("unshared");
 		return event;
 	}
 

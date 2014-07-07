@@ -28,6 +28,7 @@ public class UsedEvent extends CaliperEvent {
 
 		setContext("http://purl.imsglobal.org/ctx/caliper/v1/UsedEvent");
 		setType("UsedEvent");
+		setAction("used");
 	}
 
 	/**

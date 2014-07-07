@@ -14,17 +14,20 @@ public class CommentedEvent extends BaseAnnotationEvent {
 	}
 
 	public CommentedEvent forAddComment() {
-		CommentedEvent event = new CommentedEvent("annotate.comment.add");
+		CommentedEvent event = new CommentedEvent("CommentedEvent");
+		event.setAction("commented");
 		return event;
 	}
 
 	public CommentedEvent forUpdateComment() {
-		CommentedEvent event = new CommentedEvent("annotate.comment.update");
+		CommentedEvent event = new CommentedEvent("CommentedEvent");
+		event.setAction("comment-updated");
 		return event;
 	}
 
 	public CommentedEvent forRemoveComment() {
-		CommentedEvent event = new CommentedEvent("annotate.comment.remove");
+		CommentedEvent event = new CommentedEvent("CommentedEvent");
+		event.setAction("uncommented");
 		return event;
 	}
 

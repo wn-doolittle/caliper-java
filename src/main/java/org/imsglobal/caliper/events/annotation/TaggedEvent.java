@@ -20,12 +20,14 @@ public class TaggedEvent extends BaseAnnotationEvent {
 	}
 
 	public TaggedEvent forTag() {
-		TaggedEvent event = new TaggedEvent("annotate.tag");
+		TaggedEvent event = new TaggedEvent("TaggedEvent");
+		event.setAction("tagged");
 		return event;
 	}
 
 	public TaggedEvent forUnTag() {
-		TaggedEvent event = new TaggedEvent("annotate.untag");
+		TaggedEvent event = new TaggedEvent("TaggedEvent");
+		event.setAction("untagged");
 		return event;
 	}
 

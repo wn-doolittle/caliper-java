@@ -14,12 +14,14 @@ public class HilightedEvent extends BaseAnnotationEvent {
 	}
 
 	public HilightedEvent forHilight() {
-		HilightedEvent event = new HilightedEvent("annotate.hilight");
+		HilightedEvent event = new HilightedEvent("HilightedEvent");
+		event.setAction("hilighted");
 		return event;
 	}
 
 	public HilightedEvent forUnHilight() {
-		HilightedEvent event = new HilightedEvent("annotate.unhilight");
+		HilightedEvent event = new HilightedEvent("HilightedEvent");
+		event.setAction("unhilighted");
 		return event;
 	}
 

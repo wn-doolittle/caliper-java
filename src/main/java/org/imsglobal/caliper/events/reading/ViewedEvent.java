@@ -22,6 +22,7 @@ public class ViewedEvent extends CaliperEvent {
 
 		setContext("http://purl.imsglobal.org/ctx/caliper/v1/ViewedEvent");
 		setType("ViewedEvent");
+		setAction("viewed");
 	}
 
 	/**
