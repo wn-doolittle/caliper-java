@@ -10,18 +10,19 @@ package org.imsglobal.caliper.events.annotation;
 public class BookmarkedEvent extends BaseAnnotationEvent {
 
 	public BookmarkedEvent(String type) {
-		this.setType(type);
+		setContext("http://purl.imsglobal.org/ctx/caliper/v1/BookmarkedEvent");
+		setType(type);
 	}
 
-	public BookmarkedEvent forMark() {
+	public static BookmarkedEvent forMark() {
 		BookmarkedEvent event = new BookmarkedEvent("BookmarkedEvent");
-		this.setAction("marked");
+		event.setAction("marked");
 		return event;
 	}
 
-	public BookmarkedEvent forUnMark() {
+	public static BookmarkedEvent forUnMark() {
 		BookmarkedEvent event = new BookmarkedEvent("BookmarkedEvent");
-		this.setAction("unmarked");
+		event.setAction("unmarked");
 		return event;
 	}
 

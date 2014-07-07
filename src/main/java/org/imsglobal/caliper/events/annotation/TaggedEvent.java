@@ -16,16 +16,17 @@ public class TaggedEvent extends BaseAnnotationEvent {
 	private List<String> tags = Lists.newArrayList();
 
 	public TaggedEvent(String type) {
-		this.setType(type);
+		setContext("http://purl.imsglobal.org/ctx/caliper/v1/TaggedEvent");
+		setType(type);
 	}
 
-	public TaggedEvent forTag() {
+	public static TaggedEvent forTag() {
 		TaggedEvent event = new TaggedEvent("TaggedEvent");
 		event.setAction("tagged");
 		return event;
 	}
 
-	public TaggedEvent forUnTag() {
+	public static TaggedEvent forUnTag() {
 		TaggedEvent event = new TaggedEvent("TaggedEvent");
 		event.setAction("untagged");
 		return event;

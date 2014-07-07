@@ -10,22 +10,23 @@ package org.imsglobal.caliper.events.annotation;
 public class CommentedEvent extends BaseAnnotationEvent {
 
 	public CommentedEvent(String type) {
-		this.setType(type);
+		setContext("http://purl.imsglobal.org/ctx/caliper/v1/CommentedEvent");
+		setType(type);
 	}
 
-	public CommentedEvent forAddComment() {
+	public static CommentedEvent forAddComment() {
 		CommentedEvent event = new CommentedEvent("CommentedEvent");
 		event.setAction("commented");
 		return event;
 	}
 
-	public CommentedEvent forUpdateComment() {
+	public static CommentedEvent forUpdateComment() {
 		CommentedEvent event = new CommentedEvent("CommentedEvent");
 		event.setAction("comment-updated");
 		return event;
 	}
 
-	public CommentedEvent forRemoveComment() {
+	public static CommentedEvent forRemoveComment() {
 		CommentedEvent event = new CommentedEvent("CommentedEvent");
 		event.setAction("uncommented");
 		return event;

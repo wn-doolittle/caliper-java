@@ -10,16 +10,17 @@ package org.imsglobal.caliper.events.annotation;
 public class HilightedEvent extends BaseAnnotationEvent {
 
 	public HilightedEvent(String type) {
-		this.setType(type);
+		setContext("http://purl.imsglobal.org/ctx/caliper/v1/HilightedEvent");
+		setType(type);
 	}
 
-	public HilightedEvent forHilight() {
+	public static HilightedEvent forHilight() {
 		HilightedEvent event = new HilightedEvent("HilightedEvent");
 		event.setAction("hilighted");
 		return event;
 	}
 
-	public HilightedEvent forUnHilight() {
+	public static HilightedEvent forUnHilight() {
 		HilightedEvent event = new HilightedEvent("HilightedEvent");
 		event.setAction("unhilighted");
 		return event;

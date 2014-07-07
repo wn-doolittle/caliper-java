@@ -10,16 +10,17 @@ package org.imsglobal.caliper.events.annotation;
 public class SharedEvent extends BaseAnnotationEvent {
 
 	public SharedEvent(String type) {
-		this.setType(type);
+		setContext("http://purl.imsglobal.org/ctx/caliper/v1/SharedEvent");
+		setType(type);
 	}
 
-	public SharedEvent forShare() {
+	public static SharedEvent forShare() {
 		SharedEvent event = new SharedEvent("SharedEvent");
 		event.setAction("shared");
 		return event;
 	}
 
-	public SharedEvent forUnShare() {
+	public static SharedEvent forUnShare() {
 		SharedEvent event = new SharedEvent("SharedEvent");
 		event.setAction("unshared");
 		return event;
