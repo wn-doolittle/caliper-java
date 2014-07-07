@@ -5,27 +5,29 @@ package org.imsglobal.caliper.entities;
 
 /**
  * @author pnayak
- * 
+ *
  */
-public class Course extends CaliperEntity {
-
-	private String title;
+public class Course extends Organization {
+	
 	private String label;
 	private String courseNumber;
-
+	private String semester; // TODO - check agains LIS Organization
+	
 	/**
-	 * @return the title
+	 * 
 	 */
-	public String getTitle() {
-		return title;
+	public Course() {
+		super();
+		setType("http://purl.imsglobal.org/ctx/caliper/v1/Course");
 	}
 
 	/**
-	 * @param title
-	 *            the title to set
+	 * @param id
+	 * @param parentOrg
 	 */
-	public void setTitle(String title) {
-		this.title = title;
+	public Course(String id, Organization parentOrg) {
+		super(id, parentOrg);
+		setType("http://purl.imsglobal.org/ctx/caliper/v1/Course");
 	}
 
 	/**
@@ -56,6 +58,21 @@ public class Course extends CaliperEntity {
 	 */
 	public void setCourseNumber(String courseNumber) {
 		this.courseNumber = courseNumber;
+	}
+
+	/**
+	 * @return the semester
+	 */
+	public String getSemester() {
+		return semester;
+	}
+
+	/**
+	 * @param semester
+	 *            the semester to set
+	 */
+	public void setSemester(String semester) {
+		this.semester = semester;
 	}
 
 }

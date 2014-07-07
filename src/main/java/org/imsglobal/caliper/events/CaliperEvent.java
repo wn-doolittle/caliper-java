@@ -4,6 +4,7 @@
 package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.entities.Agent;
+import org.imsglobal.caliper.entities.Organization;
 import org.imsglobal.caliper.entities.SoftwareApplication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -67,6 +68,9 @@ public class CaliperEvent {
 
 	@JsonProperty("edApp")
 	private SoftwareApplication edApp;
+
+	@JsonProperty("organization")
+	private Organization organization;
 
 	/**
 	 * @return the action
@@ -186,5 +190,20 @@ public class CaliperEvent {
 	 */
 	public void setEndedAt(long endedAt) {
 		this.endedAt = endedAt;
+	}
+
+	/**
+	 * @return the organization
+	 */
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	/**
+	 * @param organization
+	 *            the organization to set
+	 */
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 }

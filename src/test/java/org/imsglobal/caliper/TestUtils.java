@@ -34,8 +34,7 @@ public class TestUtils {
 		caliperEvent.setType("NavigationEvent");
 		caliperEvent.setAction("navigate_to");
 
-		Agent agent = new Agent();
-		agent.setId("uri:/someEdu/user/42");
+		Agent agent = new Agent("uri:/someEdu/user/42");
 		agent.setType("agent"); // TODO fix
 		caliperEvent.setAgent(agent);
 
@@ -45,8 +44,7 @@ public class TestUtils {
 		caliperEvent.setObject(activityContext);
 
 		caliperEvent.setStartedAt(1402965614516l);
-		
+
 		return caliperEvent;
 	}
-
 }

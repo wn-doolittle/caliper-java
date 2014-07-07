@@ -9,6 +9,13 @@ package org.imsglobal.caliper.entities;
  */
 public class Agent extends CaliperEntity {
 	
-	
+	/**
+	 * @param id
+	 * @param parentOrg
+	 */
+	public Agent(String id) {
+		setId(id);
+		setType("http://purl.imsglobal.org/ctx/caliper/v1/Person");
+	}
 
 }

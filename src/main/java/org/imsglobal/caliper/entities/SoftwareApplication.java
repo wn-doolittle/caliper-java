@@ -8,6 +8,6 @@ package org.imsglobal.caliper.entities;
  * 
  */
 @CaliperLearningContext
-public class SoftwareApplication {
+public class SoftwareApplication extends CaliperEntity {
 
 }
