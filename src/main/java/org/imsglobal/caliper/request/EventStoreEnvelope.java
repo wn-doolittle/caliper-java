@@ -7,10 +7,11 @@ import org.imsglobal.caliper.events.CaliperEvent;
 
 /**
  * @author pnayak
- *
+ * 
  */
 public class EventStoreEnvelope {
-	
+
+	private String id;
 	private String type;
 	private String time;
 	private CaliperEvent data;
@@ -58,6 +59,21 @@ public class EventStoreEnvelope {
 	 */
 	public void setData(CaliperEvent data) {
 		this.data = data;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

@@ -45,6 +45,7 @@ public class HttpRequestorTest {
 		String jsonPayload = null;
 
 		jsonPayload = httpRequestor.getPayloadJson(caliperEvent,
+				"caliper-java_fccffd9b-68d5-4183-b563-e22136aafaa3",
 				DateTime.parse("2014-07-01T14:29:29.858-04:00"));
 
 		assertEquals("Test HTTP Requestor payload JSON",
@@ -58,6 +59,7 @@ public class HttpRequestorTest {
 		StringEntity payload = null;
 
 		payload = httpRequestor.generatePayload(caliperEvent,
+				"caliper-java_fccffd9b-68d5-4183-b563-e22136aafaa3",
 				DateTime.parse("2014-07-01T14:29:29.858-04:00"));
 
 		String expectedContentType = "Content-Type: application/json";

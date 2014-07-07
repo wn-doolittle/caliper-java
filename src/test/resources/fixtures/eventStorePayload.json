@@ -1,4 +1,5 @@
 [{
+    "id"  : "caliper-java_fccffd9b-68d5-4183-b563-e22136aafaa3",
 	"type": "caliperEvent",
 	"time": "2014-07-01T14:29:29.858-04:00",
 	"data": {
