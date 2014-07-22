@@ -7,14 +7,14 @@ package org.imsglobal.caliper.entities.annotation;
  * @author pnayak
  * 
  */
-public class Highlight extends Annotation {
+public class HighlightAnnotation extends Annotation {
 
 	private TextPositionSelector selection;
 	private String selectionText;
 
-	public Highlight(String id) {
+	public HighlightAnnotation(String id) {
 		super(id);
-		setType("http://purl.imsglobal.org/caliper/v1/Annotation");
+		setType("http://purl.imsglobal.org/caliper/v1/HighlightAnnotation");
 		selection = new TextPositionSelector();
 	}
 

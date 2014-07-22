@@ -14,8 +14,25 @@ import org.imsglobal.caliper.entities.schemadotorg.Thing;
  */
 public class Annotation extends CaliperEntity implements Thing {
 
+	private Object target;
+
 	public Annotation(String id) {
 		setId(id);
 		setType("http://purl.imsglobal.org/caliper/v1/Annotation");
+	}
+
+	/**
+	 * @return the target
+	 */
+	public Object getTarget() {
+		return target;
+	}
+
+	/**
+	 * @param target
+	 *            the target to set
+	 */
+	public void setTarget(Object target) {
+		this.target = target;
 	}
 }
