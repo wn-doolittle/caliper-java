@@ -3,8 +3,8 @@
  */
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.entities.Agent;
-import org.imsglobal.caliper.entities.Organization;
+import org.imsglobal.caliper.entities.LISOrganization;
+import org.imsglobal.caliper.entities.LISPerson;
 import org.imsglobal.caliper.entities.SoftwareApplication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * @author pnayak
  * 
  */
-@JsonPropertyOrder({ "@context", "@type", "action", "agent", "object",
-		"startedAtTime", "endedAtTime" })
+@JsonPropertyOrder({ "@context", "@type", "action", "actor", "object",
+		"startedAtTime", "endedAtTime", "edApp", "group" })
 public class CaliperEvent {
 
 	// Core properties
@@ -43,8 +43,8 @@ public class CaliperEvent {
 	/**
 	 * Required - Agent (User, System) that performed the action
 	 */
-	@JsonProperty("agent")
-	private Agent agent;
+	@JsonProperty("actor")
+	private LISPerson actor;
 
 	/**
 	 * Required - "Activity Context" from Metric Profile
@@ -69,8 +69,8 @@ public class CaliperEvent {
 	@JsonProperty("edApp")
 	private SoftwareApplication edApp;
 
-	@JsonProperty("organization")
-	private Organization organization;
+	@JsonProperty("group")
+	private LISOrganization lisOrganization;
 
 	/**
 	 * @return the action
@@ -133,21 +133,6 @@ public class CaliperEvent {
 	}
 
 	/**
-	 * @return the agent
-	 */
-	public Agent getAgent() {
-		return agent;
-	}
-
-	/**
-	 * @param agent
-	 *            the agent to set
-	 */
-	public void setAgent(Agent agent) {
-		this.agent = agent;
-	}
-
-	/**
 	 * @return the object
 	 */
 	public Object getObject() {
@@ -193,17 +178,32 @@ public class CaliperEvent {
 	}
 
 	/**
-	 * @return the organization
+	 * @return the actor
 	 */
-	public Organization getOrganization() {
-		return organization;
+	public LISPerson getActor() {
+		return actor;
 	}
 
 	/**
-	 * @param organization
-	 *            the organization to set
+	 * @param actor
+	 *            the actor to set
 	 */
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
+	public void setActor(LISPerson actor) {
+		this.actor = actor;
+	}
+
+	/**
+	 * @return the lisOrganization
+	 */
+	public LISOrganization getLisOrganization() {
+		return lisOrganization;
+	}
+
+	/**
+	 * @param lisOrganization
+	 *            the lisOrganization to set
+	 */
+	public void setLisOrganization(LISOrganization lisOrganization) {
+		this.lisOrganization = lisOrganization;
 	}
 }

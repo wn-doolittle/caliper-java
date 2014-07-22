@@ -4,7 +4,7 @@
 package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.entities.ActivityContext;
-import org.imsglobal.caliper.entities.Agent;
+import org.imsglobal.caliper.entities.LISPerson;
 import org.imsglobal.caliper.events.CaliperEvent;
 
 /**
@@ -34,9 +34,8 @@ public class TestUtils {
 		caliperEvent.setType("NavigationEvent");
 		caliperEvent.setAction("navigate_to");
 
-		Agent agent = new Agent("uri:/someEdu/user/42");
-		agent.setType("agent"); // TODO fix
-		caliperEvent.setAgent(agent);
+		LISPerson actor = new LISPerson("uri:/someEdu/user/42");
+		caliperEvent.setActor(actor);
 
 		ActivityContext activityContext = new ActivityContext();
 		activityContext.setId("uri:/someEdu/reading/42");

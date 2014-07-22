@@ -13,6 +13,10 @@ import com.google.common.collect.Maps;
 /**
  * @author pnayak
  * 
+ * The base Caliper Entity.  
+ * 
+ * Analogous to a schema.org Thing
+ * 
  */
 @JsonPropertyOrder({ "@id", "@type", "lastModifiedTime" })
 public class CaliperEntity {
@@ -90,5 +94,4 @@ public class CaliperEntity {
 	public void setProperties(Map<String, Object> properties) {
 		this.properties = properties;
 	}
-
 }

@@ -1,6 +1,5 @@
 package org.imsglobal.caliper;
 
-import org.imsglobal.caliper.entities.Agent;
 import org.imsglobal.caliper.entities.CaliperEntity;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.events.CaliperEvent;

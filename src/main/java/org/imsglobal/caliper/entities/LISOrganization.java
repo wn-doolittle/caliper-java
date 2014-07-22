@@ -7,27 +7,27 @@ package org.imsglobal.caliper.entities;
  * @author pnayak
  * 
  */
-public class Organization extends CaliperEntity {
+public class LISOrganization extends CaliperEntity {
 
 	/**
 	 * 
 	 */
-	public Organization() {
+	public LISOrganization() {
 		super();
-		setType("http://purl.imsglobal.org/ctx/caliper/v1/Organization");
+		setType("http://purl.imsglobal.org/ctx/caliper/v1/LISOrganization");
 	}
 
 	/**
 	 * @param parentOrg
 	 */
-	public Organization(String id, Organization parentOrg) {
-		setType("http://purl.imsglobal.org/ctx/caliper/v1/Organization");
+	public LISOrganization(String id, LISOrganization parentOrg) {
+		setType("http://purl.imsglobal.org/ctx/caliper/v1/LISOrganization");
 		this.parentOrg = parentOrg;
 		this.id = id;
 	}
 
 	private String title;
-	private Organization parentOrg;
+	private LISOrganization parentOrg;
 
 	/**
 	 * @return the title

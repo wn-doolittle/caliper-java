@@ -7,11 +7,11 @@ package org.imsglobal.caliper.entities;
  * @author pnayak
  *
  */
-public class Course extends Organization {
+public class Course extends LISOrganization {
 	
 	private String label;
 	private String courseNumber;
-	private String semester; // TODO - check agains LIS Organization
+	private String semester; // TODO - check agains LIS LISOrganization
 	
 	/**
 	 * 
@@ -25,7 +25,7 @@ public class Course extends Organization {
 	 * @param id
 	 * @param parentOrg
 	 */
-	public Course(String id, Organization parentOrg) {
+	public Course(String id, LISOrganization parentOrg) {
 		super(id, parentOrg);
 		setType("http://purl.imsglobal.org/ctx/caliper/v1/Course");
 	}
