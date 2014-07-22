@@ -18,7 +18,7 @@ public class Course extends LISOrganization {
 	 */
 	public Course() {
 		super();
-		setType("http://purl.imsglobal.org/ctx/caliper/v1/Course");
+		setType("http://purl.imsglobal.org/caliper/v1/Course");
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class Course extends LISOrganization {
 	 */
 	public Course(String id, LISOrganization parentOrg) {
 		super(id, parentOrg);
-		setType("http://purl.imsglobal.org/ctx/caliper/v1/Course");
+		setType("http://purl.imsglobal.org/caliper/v1/Course");
 	}
 
 	/**

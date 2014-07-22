@@ -14,7 +14,7 @@ public class LISOrganization extends CaliperEntity implements CaliperAgent {
 	 */
 	public LISOrganization() {
 		super();
-		setType("http://purl.imsglobal.org/ctx/caliper/v1/LISOrganization");
+		setType("http://purl.imsglobal.org/caliper/v1/LISOrganization");
 	}
 
 	/**

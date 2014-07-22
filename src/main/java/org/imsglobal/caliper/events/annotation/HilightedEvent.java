@@ -7,23 +7,16 @@ package org.imsglobal.caliper.events.annotation;
  * @author pnayak
  * 
  */
-public class HilightedEvent extends BaseAnnotationEvent {
+public class HilightedEvent extends AnnotationEvent {
 
-	public HilightedEvent(String type) {
+	public HilightedEvent() {
 		setContext("http://purl.imsglobal.org/ctx/caliper/v1/HilightedEvent");
-		setType(type);
+		setType("http://purl.imsglobal.org/caliper/v1/HilightedEvent");
 	}
 
-	public static HilightedEvent forHilight() {
-		HilightedEvent event = new HilightedEvent("HilightedEvent");
-		event.setAction("hilighted");
+	public static HilightedEvent forAction(String action) {
+		HilightedEvent event = new HilightedEvent();
+		event.setAction(action);
 		return event;
 	}
-
-	public static HilightedEvent forUnHilight() {
-		HilightedEvent event = new HilightedEvent("HilightedEvent");
-		event.setAction("unhilighted");
-		return event;
-	}
-
 }

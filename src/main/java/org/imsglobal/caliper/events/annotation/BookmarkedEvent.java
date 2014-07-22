@@ -7,23 +7,16 @@ package org.imsglobal.caliper.events.annotation;
  * @author pnayak
  * 
  */
-public class BookmarkedEvent extends BaseAnnotationEvent {
+public class BookmarkedEvent extends AnnotationEvent {
 
-	public BookmarkedEvent(String type) {
+	public BookmarkedEvent() {
 		setContext("http://purl.imsglobal.org/ctx/caliper/v1/BookmarkedEvent");
-		setType(type);
+		setType("http://purl.imsglobal.org/caliper/v1/BookmarkedEvent");
 	}
 
-	public static BookmarkedEvent forMark() {
-		BookmarkedEvent event = new BookmarkedEvent("BookmarkedEvent");
-		event.setAction("marked");
+	public static BookmarkedEvent forAction(String action) {
+		BookmarkedEvent event = new BookmarkedEvent();
+		event.setAction(action);
 		return event;
 	}
-
-	public static BookmarkedEvent forUnMark() {
-		BookmarkedEvent event = new BookmarkedEvent("BookmarkedEvent");
-		event.setAction("unmarked");
-		return event;
-	}
-
 }

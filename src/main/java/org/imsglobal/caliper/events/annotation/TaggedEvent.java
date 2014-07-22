@@ -11,24 +11,18 @@ import com.google.common.collect.Lists;
  * @author pnayak
  * 
  */
-public class TaggedEvent extends BaseAnnotationEvent {
+public class TaggedEvent extends AnnotationEvent {
 
 	private List<String> tags = Lists.newArrayList();
 
-	public TaggedEvent(String type) {
+	public TaggedEvent() {
 		setContext("http://purl.imsglobal.org/ctx/caliper/v1/TaggedEvent");
-		setType(type);
+		setType("http://purl.imsglobal.org/caliper/v1/TaggedEvent");
 	}
 
-	public static TaggedEvent forTag() {
-		TaggedEvent event = new TaggedEvent("TaggedEvent");
-		event.setAction("tagged");
-		return event;
-	}
-
-	public static TaggedEvent forUnTag() {
-		TaggedEvent event = new TaggedEvent("TaggedEvent");
-		event.setAction("untagged");
+	public static TaggedEvent forAction(String action) {
+		TaggedEvent event = new TaggedEvent();
+		event.setAction(action);
 		return event;
 	}
 

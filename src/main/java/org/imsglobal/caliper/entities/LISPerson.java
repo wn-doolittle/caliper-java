@@ -11,7 +11,7 @@ public class LISPerson extends CaliperEntity implements CaliperAgent {
 
 	public LISPerson(String id) {
 		setId(id);
-		setType("http://purl.imsglobal.org/ctx/caliper/v1/LISPerson");
+		setType("http://purl.imsglobal.org/caliper/v1/LISPerson");
 	}
 
 }

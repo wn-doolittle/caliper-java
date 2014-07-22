@@ -7,23 +7,16 @@ package org.imsglobal.caliper.events.annotation;
  * @author pnayak
  * 
  */
-public class SharedEvent extends BaseAnnotationEvent {
+public class SharedEvent extends AnnotationEvent {
 
-	public SharedEvent(String type) {
+	public SharedEvent() {
 		setContext("http://purl.imsglobal.org/ctx/caliper/v1/SharedEvent");
-		setType(type);
+		setType("http://purl.imsglobal.org/caliper/v1/SharedEvent");
 	}
 
-	public static SharedEvent forShare() {
-		SharedEvent event = new SharedEvent("SharedEvent");
-		event.setAction("shared");
+	public static SharedEvent forAction(String action) {
+		SharedEvent event = new SharedEvent();
+		event.setAction(action);
 		return event;
 	}
-
-	public static SharedEvent forUnShare() {
-		SharedEvent event = new SharedEvent("SharedEvent");
-		event.setAction("unshared");
-		return event;
-	}
-
 }

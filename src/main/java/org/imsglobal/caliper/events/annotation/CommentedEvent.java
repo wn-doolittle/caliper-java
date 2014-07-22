@@ -7,29 +7,16 @@ package org.imsglobal.caliper.events.annotation;
  * @author pnayak
  * 
  */
-public class CommentedEvent extends BaseAnnotationEvent {
+public class CommentedEvent extends AnnotationEvent {
 
-	public CommentedEvent(String type) {
+	public CommentedEvent() {
 		setContext("http://purl.imsglobal.org/ctx/caliper/v1/CommentedEvent");
-		setType(type);
+		setType("http://purl.imsglobal.org/caliper/v1/CommentedEvent");
 	}
 
-	public static CommentedEvent forAddComment() {
-		CommentedEvent event = new CommentedEvent("CommentedEvent");
-		event.setAction("commented");
+	public static CommentedEvent forAction(String action) {
+		CommentedEvent event = new CommentedEvent();
+		event.setAction(action);
 		return event;
 	}
-
-	public static CommentedEvent forUpdateComment() {
-		CommentedEvent event = new CommentedEvent("CommentedEvent");
-		event.setAction("comment-updated");
-		return event;
-	}
-
-	public static CommentedEvent forRemoveComment() {
-		CommentedEvent event = new CommentedEvent("CommentedEvent");
-		event.setAction("uncommented");
-		return event;
-	}
-
 }
