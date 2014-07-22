@@ -24,7 +24,7 @@ public class NavigationEvent extends CaliperEvent {
 		super();
 
 		setContext("http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent");
-		setType("NavigationEvent");
+		setType("http://purl.imsglobal.org/caliper/v1/NavigationEvent");
 		setAction("navigatedTo");
 	}
 

@@ -16,7 +16,7 @@ public class ViewedEvent extends CaliperEvent {
 		super();
 
 		setContext("http://purl.imsglobal.org/ctx/caliper/v1/ViewedEvent");
-		setType("ViewedEvent");
+		setType("http://purl.imsglobal.org/caliper/v1/ViewedEvent");
 		setAction("viewed");
 	}
 }
