@@ -7,7 +7,7 @@ package org.imsglobal.caliper.entities;
  * @author pnayak
  * 
  */
-public class LISOrganization extends CaliperEntity {
+public class LISOrganization extends CaliperEntity implements CaliperAgent {
 
 	/**
 	 * 

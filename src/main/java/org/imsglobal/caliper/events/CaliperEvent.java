@@ -3,8 +3,8 @@
  */
 package org.imsglobal.caliper.events;
 
+import org.imsglobal.caliper.entities.CaliperAgent;
 import org.imsglobal.caliper.entities.LISOrganization;
-import org.imsglobal.caliper.entities.LISPerson;
 import org.imsglobal.caliper.entities.SoftwareApplication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * @author pnayak
  * 
  */
-@JsonPropertyOrder({ "@context", "@type", "action", "actor", "object",
+@JsonPropertyOrder({ "@context", "@type", "actor", "action", "object",
 		"startedAtTime", "endedAtTime", "edApp", "group" })
 public class CaliperEvent {
 
@@ -44,7 +44,7 @@ public class CaliperEvent {
 	 * Required - Agent (User, System) that performed the action
 	 */
 	@JsonProperty("actor")
-	private LISPerson actor;
+	private CaliperAgent actor;
 
 	/**
 	 * Required - "Activity Context" from Metric Profile
@@ -178,21 +178,6 @@ public class CaliperEvent {
 	}
 
 	/**
-	 * @return the actor
-	 */
-	public LISPerson getActor() {
-		return actor;
-	}
-
-	/**
-	 * @param actor
-	 *            the actor to set
-	 */
-	public void setActor(LISPerson actor) {
-		this.actor = actor;
-	}
-
-	/**
 	 * @return the lisOrganization
 	 */
 	public LISOrganization getLisOrganization() {
@@ -205,5 +190,19 @@ public class CaliperEvent {
 	 */
 	public void setLisOrganization(LISOrganization lisOrganization) {
 		this.lisOrganization = lisOrganization;
+	}
+
+	/**
+	 * @return the actor
+	 */
+	public CaliperAgent getActor() {
+		return actor;
+	}
+
+	/**
+	 * @param actor the actor to set
+	 */
+	public void setActor(CaliperAgent actor) {
+		this.actor = actor;
 	}
 }

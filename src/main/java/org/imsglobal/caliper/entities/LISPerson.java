@@ -7,7 +7,7 @@ package org.imsglobal.caliper.entities;
  * @author pnayak
  * 
  */
-public class LISPerson extends CaliperEntity {
+public class LISPerson extends CaliperEntity implements CaliperAgent {
 
 	public LISPerson(String id) {
 		setId(id);

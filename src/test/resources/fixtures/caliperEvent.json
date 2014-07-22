@@ -1,13 +1,13 @@
 {
 	"@context": "http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent",
 	"@type": "NavigationEvent",
-	"action": "navigate_to",
 	"actor": {
 		"@id": "uri:/someEdu/user/42",
 		"@type": "http://purl.imsglobal.org/ctx/caliper/v1/LISPerson",
 		"lastModifiedTime": 0,
 		"properties": {}
 	},
+	"action": "navigate_to",
 	"object": {
 		"@id": "uri:/someEdu/reading/42",
 		"@type": "reading",
