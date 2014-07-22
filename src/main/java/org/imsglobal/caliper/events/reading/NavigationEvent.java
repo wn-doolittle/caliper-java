@@ -6,6 +6,8 @@ package org.imsglobal.caliper.events.reading;
 import org.imsglobal.caliper.entities.CaliperDigitalResource;
 import org.imsglobal.caliper.events.CaliperEvent;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author pnayak
  * 
@@ -13,15 +15,10 @@ import org.imsglobal.caliper.events.CaliperEvent;
 public class NavigationEvent extends CaliperEvent {
 
 	/**
-	 * Optional - Describes the frame from which the navigation starts
+	 * Describes the resource from which the navigation starts
 	 */
+	@JsonProperty("navigatedFrom")
 	private CaliperDigitalResource fromResource;
-
-	/**
-	 * The way in which the reader performed the navigation. (PageTurn, Link,
-	 * Scroll, Direct, SearchResult)
-	 */
-	private String operationType;
 
 	public NavigationEvent() {
 		super();
@@ -45,20 +42,4 @@ public class NavigationEvent extends CaliperEvent {
 	public void setFromResource(CaliperDigitalResource fromResource) {
 		this.fromResource = fromResource;
 	}
-
-	/**
-	 * @return the operationType
-	 */
-	public String getOperationType() {
-		return operationType;
-	}
-
-	/**
-	 * @param operationType
-	 *            the operationType to set
-	 */
-	public void setOperationType(String operationType) {
-		this.operationType = operationType;
-	}
-
 }
