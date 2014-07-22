@@ -1,7 +1,7 @@
 package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.entities.CaliperEntity;
-import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.CaliperDigitalResource;
 import org.imsglobal.caliper.events.CaliperEvent;
 import org.imsglobal.caliper.stats.CaliperStatistics;
 
@@ -61,10 +61,10 @@ public class Caliper {
 	/**
 	 * Caliper Sensor API
 	 * 
-	 * Describe a {@link DigitalResource} that is part of the learning graph
+	 * Describe a {@link CaliperDigitalResource} that is part of the learning graph
 	 * 
 	 * @param digitalResource
-	 *            the DigitalResource
+	 *            the CaliperDigitalResource
 	 * 
 	 */
 	public static void describe(CaliperEntity caliperEntity) {

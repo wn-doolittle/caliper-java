@@ -3,7 +3,7 @@
  */
 package org.imsglobal.caliper.events.reading;
 
-import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.CaliperDigitalResource;
 import org.imsglobal.caliper.events.CaliperEvent;
 
 /**
@@ -15,7 +15,7 @@ public class NavigationEvent extends CaliperEvent {
 	/**
 	 * Optional - Describes the frame from which the navigation starts
 	 */
-	private DigitalResource fromResource;
+	private CaliperDigitalResource fromResource;
 
 	/**
 	 * The way in which the reader performed the navigation. (PageTurn, Link,
@@ -34,7 +34,7 @@ public class NavigationEvent extends CaliperEvent {
 	/**
 	 * @return the fromResource
 	 */
-	public DigitalResource getFromResource() {
+	public CaliperDigitalResource getFromResource() {
 		return fromResource;
 	}
 
@@ -42,7 +42,7 @@ public class NavigationEvent extends CaliperEvent {
 	 * @param fromResource
 	 *            the fromResource to set
 	 */
-	public void setFromResource(DigitalResource fromResource) {
+	public void setFromResource(CaliperDigitalResource fromResource) {
 		this.fromResource = fromResource;
 	}
 

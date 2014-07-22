@@ -14,7 +14,7 @@ public class BaseAnnotationEvent extends CaliperEvent {
 
 	/**
 	 * Optional (but highly recommended) - {@link Location} of the
-	 * annotation within the referenced {@link DigitalResource}
+	 * annotation within the referenced {@link CaliperDigitalResource}
 	 */
 	private Location location;
 

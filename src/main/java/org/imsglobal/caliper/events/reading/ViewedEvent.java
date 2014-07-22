@@ -3,7 +3,7 @@
  */
 package org.imsglobal.caliper.events.reading;
 
-import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.CaliperDigitalResource;
 import org.imsglobal.caliper.events.CaliperEvent;
 
 /**
@@ -15,7 +15,7 @@ public class ViewedEvent extends CaliperEvent {
 	/**
 	 * Optional - embedded web content
 	 */
-	private DigitalResource embeddedContent;
+	private CaliperDigitalResource embeddedContent;
 
 	public ViewedEvent() {
 		super();
@@ -28,7 +28,7 @@ public class ViewedEvent extends CaliperEvent {
 	/**
 	 * @return the embeddedContent
 	 */
-	public DigitalResource getEmbeddedContent() {
+	public CaliperDigitalResource getEmbeddedContent() {
 		return embeddedContent;
 	}
 
@@ -36,7 +36,7 @@ public class ViewedEvent extends CaliperEvent {
 	 * @param embeddedContent
 	 *            the embeddedContent to set
 	 */
-	public void setEmbeddedContent(DigitalResource embeddedContent) {
+	public void setEmbeddedContent(CaliperDigitalResource embeddedContent) {
 		this.embeddedContent = embeddedContent;
 	}
 }
