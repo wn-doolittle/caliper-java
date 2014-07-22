@@ -1,33 +1,35 @@
 /**
  * 
  */
-package org.imsglobal.caliper.entities;
+package org.imsglobal.caliper.entities.lis;
+
+import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 
 /**
  * @author pnayak
- *
+ * 
  */
-public class Course extends LISOrganization {
-	
+public class LISCourseSection extends LISOrganization {
+
 	private String label;
 	private String courseNumber;
 	private String semester; // TODO - check agains LIS LISOrganization
-	
+
 	/**
 	 * 
 	 */
-	public Course() {
+	public LISCourseSection() {
 		super();
-		setType("http://purl.imsglobal.org/caliper/v1/Course");
+		setType("http://purl.imsglobal.org/caliper/v1/LISCourseSection");
 	}
 
 	/**
 	 * @param id
 	 * @param parentOrg
 	 */
-	public Course(String id, LISOrganization parentOrg) {
+	public LISCourseSection(String id, LISOrganization parentOrg) {
 		super(id, parentOrg);
-		setType("http://purl.imsglobal.org/caliper/v1/Course");
+		setType("http://purl.imsglobal.org/caliper/v1/LISCourseSection");
 	}
 
 	/**

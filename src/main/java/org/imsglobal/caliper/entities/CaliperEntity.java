@@ -23,6 +23,7 @@ public class CaliperEntity {
 
 	@CaliperReference
 	@JsonProperty("@id")
+	protected
 	String id;
 
 	@JsonProperty("@type")

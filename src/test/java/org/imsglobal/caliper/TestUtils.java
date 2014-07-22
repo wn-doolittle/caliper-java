@@ -4,7 +4,8 @@
 package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.entities.ActivityContext;
-import org.imsglobal.caliper.entities.LISPerson;
+import org.imsglobal.caliper.entities.lis.LISPerson;
+import org.imsglobal.caliper.entities.reading.EPubVolume;
 import org.imsglobal.caliper.events.CaliperEvent;
 
 /**
@@ -41,6 +42,15 @@ public class TestUtils {
 		activityContext.setId("uri:/someEdu/reading/42");
 		activityContext.setType("reading"); // TODO fix
 		caliperEvent.setObject(activityContext);
+
+		EPubVolume readiumReading = new EPubVolume(
+				"https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)");
+		readiumReading
+				.setName("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)");
+		readiumReading.setLastModifiedAt(1402965614516l);
+		readiumReading.setLanguage("English");
+
+		caliperEvent.setTarget(readiumReading);
 
 		caliperEvent.setStartedAt(1402965614516l);
 

@@ -4,8 +4,8 @@
 package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.entities.CaliperAgent;
-import org.imsglobal.caliper.entities.LISOrganization;
 import org.imsglobal.caliper.entities.SoftwareApplication;
+import org.imsglobal.caliper.entities.lis.LISOrganization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * 
  */
 @JsonPropertyOrder({ "@context", "@type", "actor", "action", "object",
-		"startedAtTime", "endedAtTime", "edApp", "group" })
+		"target", "startedAtTime", "endedAtTime", "edApp", "group" })
 public class CaliperEvent {
 
 	// Core properties
@@ -51,6 +51,12 @@ public class CaliperEvent {
 	 */
 	@JsonProperty("object")
 	private Object object;
+
+	/**
+	 * Optional - "target" from Metric Profile
+	 */
+	@JsonProperty("target")
+	private Object target;
 
 	/**
 	 * Required time in milliseconds that the event was started at
@@ -200,9 +206,25 @@ public class CaliperEvent {
 	}
 
 	/**
-	 * @param actor the actor to set
+	 * @param actor
+	 *            the actor to set
 	 */
 	public void setActor(CaliperAgent actor) {
 		this.actor = actor;
+	}
+
+	/**
+	 * @return the target
+	 */
+	public Object getTarget() {
+		return target;
+	}
+
+	/**
+	 * @param target
+	 *            the target to set
+	 */
+	public void setTarget(Object target) {
+		this.target = target;
 	}
 }

@@ -1,7 +1,10 @@
 /**
  * 
  */
-package org.imsglobal.caliper.entities;
+package org.imsglobal.caliper.entities.lis;
+
+import org.imsglobal.caliper.entities.CaliperAgent;
+import org.imsglobal.caliper.entities.CaliperEntity;
 
 /**
  * @author pnayak
