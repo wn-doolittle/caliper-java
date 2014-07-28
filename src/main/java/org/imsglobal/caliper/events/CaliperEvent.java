@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * 
  */
 @JsonPropertyOrder({ "@context", "@type", "actor", "action", "object",
-		"target", "startedAtTime", "endedAtTime", "edApp", "group" })
+		"target", "generated", "startedAtTime", "endedAtTime", "edApp", "group" })
 public class CaliperEvent {
 
 	// Core properties
@@ -57,6 +57,12 @@ public class CaliperEvent {
 	 */
 	@JsonProperty("target")
 	private Object target;
+
+	/**
+	 * Optional - entity "generated" as result of action - from Metric Profile
+	 */
+	@JsonProperty("generated")
+	private Object generated;
 
 	/**
 	 * Required time in milliseconds that the event was started at
@@ -226,5 +232,20 @@ public class CaliperEvent {
 	 */
 	public void setTarget(Object target) {
 		this.target = target;
+	}
+
+	/**
+	 * @return the generated
+	 */
+	public Object getGenerated() {
+		return generated;
+	}
+
+	/**
+	 * @param generated
+	 *            the generated to set
+	 */
+	public void setGenerated(Object generated) {
+		this.generated = generated;
 	}
 }

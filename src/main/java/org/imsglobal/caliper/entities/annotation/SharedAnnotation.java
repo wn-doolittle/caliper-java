@@ -11,21 +11,21 @@ import com.google.common.collect.Lists;
  * @author pnayak
  * 
  */
-public class ShareAnnotation extends Annotation {
+public class SharedAnnotation extends Annotation {
 
 	// TODO - this should be a list of LISGroup or LISPerson/s
-	List<String> users = Lists.newArrayList();
+	List<String> withAgents = Lists.newArrayList();
 
-	public ShareAnnotation(String id) {
+	public SharedAnnotation(String id) {
 		super(id);
-		setType("http://purl.imsglobal.org/caliper/v1/ShareAnnotation");
+		setType("http://purl.imsglobal.org/caliper/v1/SharedAnnotation");
 	}
 
 	/**
 	 * @return the users
 	 */
 	public List<String> getUsers() {
-		return users;
+		return withAgents;
 	}
 
 	/**
@@ -33,6 +33,6 @@ public class ShareAnnotation extends Annotation {
 	 *            the users to set
 	 */
 	public void setUsers(List<String> users) {
-		this.users = users;
+		this.withAgents = users;
 	}
 }
