@@ -191,7 +191,7 @@ public class BaseProfile {
     }
 
     /**
-     * Static factory
+     * Static factory method.
      * @return a new instance of the builder.
      */
     public static Builder<?> builder() {
