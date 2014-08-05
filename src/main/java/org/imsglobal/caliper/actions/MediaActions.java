@@ -54,17 +54,17 @@ public enum MediaActions {
 
     /**
      * @param key
-     * @return enum constant by reverse lookup
-     */
-    public static MediaActions constant(String key) {
-        return lookup.get(key);
-    }
-
-    /**
-     * @param key
      * @return true if lookup returns a key match; false otherwise.
      */
     public static boolean hasKey(String key) {
         return lookup.containsKey(key.toLowerCase());
+    }
+
+    /**
+     * @param key
+     * @return enum constant by reverse lookup
+     */
+    public static MediaActions lookupConstant(String key) {
+        return lookup.get(key);
     }
 }

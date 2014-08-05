@@ -43,17 +43,17 @@ public enum AssignableActions {
 
     /**
      * @param key
-     * @return enum constant by reverse lookup
-     */
-    public static AssignableActions constant(String key) {
-        return lookup.get(key);
-    }
-
-    /**
-     * @param key
      * @return true if lookup returns a key match; false otherwise.
      */
     public static boolean hasKey(String key) {
         return lookup.containsKey(key.toLowerCase());
+    }
+
+    /**
+     * @param key
+     * @return enum constant by reverse lookup
+     */
+    public static AssignableActions lookupConstant(String key) {
+        return lookup.get(key);
     }
 }
