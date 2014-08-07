@@ -1,17 +1,53 @@
-package org.imsglobal.caliper.metrics;
+package org.imsglobal.caliper.profiles;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseProfile {
+@JsonPropertyOrder({
+    "name",
+    "partOf",
+    "about",
+    "objectType",
+    "alignedLearningObjectives",
+    "keyword",
+    "action",
+    "inLanguage",
+    "target",
+    "generated" })
+public abstract class BaseProfile {
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("partOf")
     private String partOf;
+
+    @JsonProperty("about")
     private String about;
+
+    @JsonProperty("objectType")
     private List<String> objectType = new ArrayList<String>();
-    private final String action;
+
+    @JsonProperty("alignedLearningObjectives")
     private List<String> alignedLearningObjectives = new ArrayList<String>();
+
+    @JsonProperty("keyword")
     private List<String> keyword = new ArrayList<String>();
+
+    @JsonProperty("inLanguage")
     private String inLanguage;
+
+    @JsonProperty("action")
+    private String action;
+
+    @JsonProperty("target")
+    private Object target;
+
+    @JsonProperty("generated")
+    private Object generated;
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -21,10 +57,12 @@ public class BaseProfile {
         this.partOf = builder.partOf;
         this.about = builder.about;
         this.objectType = builder.objectType;
-        this.action = builder.action;
         this.alignedLearningObjectives = builder.alignedLearningObjectives;
         this.keyword = builder.keyword;
         this.inLanguage = builder.inLanguage;
+        this.action = builder.action;
+        this.target = builder.target;
+        this.generated = builder.generated;
     }
 
     /**
@@ -44,7 +82,7 @@ public class BaseProfile {
     /**
      * @return the subject matter of the content.
      */
-    public String about() {
+    public String getAbout() {
         return about;
     }
 
@@ -56,16 +94,9 @@ public class BaseProfile {
     }
 
     /**
-     * @return action.
-     */
-    public String getAction() {
-        return action;
-    }
-
-    /**
      * @return learning objectives.
      */
-    public List<String> getalignedLearningObjectives() {
+    public List<String> getAlignedLearningObjectives() {
         return alignedLearningObjectives;
     }
 
@@ -84,7 +115,29 @@ public class BaseProfile {
     }
 
     /**
-     * Initialize default parameter values in the builder (not in the outer profile class).
+     * @return action.
+     */
+    public String getAction() {
+        return action;
+    }
+
+    /**
+     * @return target object, if exists.
+     */
+    public Object getTarget() {
+        return target;
+    }
+
+    /**
+     * @return generated object, if exists.
+     */
+    public Object getGenerated() {
+        return generated;
+    }
+
+    /**
+     * Initialize default parameter values in the builder (not in the outer profile class).  Given the abstract nature
+     * of BaseProfile, the builder's .build() method is omitted.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> {
@@ -92,16 +145,18 @@ public class BaseProfile {
         private String partOf;
         private String about;
         private List<String> objectType;
-        private String action;
         private List<String> alignedLearningObjectives = new ArrayList<String>();
         private List<String> keyword = new ArrayList<String>();
         private String inLanguage;
+        private String action;
+        private Object target;
+        private Object generated;
 
         protected abstract T self();
 
         /**
          * @param name
-         * @return learning activity name.
+         * @return builder.
          */
         public T name(String name) {
             this.name = name;
@@ -110,7 +165,7 @@ public class BaseProfile {
 
         /**
          * @param partOf
-         * @return parent learning activity.
+         * @return builder.
          */
         public T partOf(String partOf) {
             this.partOf = partOf;
@@ -119,7 +174,7 @@ public class BaseProfile {
 
         /**
          * @param about
-         * @return the subject matter of the content.
+         * @return builder.
          */
         public T about(String about) {
             this.about = about;
@@ -128,7 +183,7 @@ public class BaseProfile {
 
         /**
          * @param objectType
-         * @return objectType
+         * @return builder.
          */
         public T objectType(List<String> objectType) {
             this.objectType = objectType;
@@ -136,17 +191,8 @@ public class BaseProfile {
         }
 
         /**
-         * @param action
-         * @return action.
-         */
-        public T action(String action) {
-            this.action = action;
-            return self();
-        }
-
-        /**
          * @param alignedLearningObjectives
-         * @return list of learning objectives associated with the profile.
+         * @return builder.
          */
         public T alignedLearningObjectives(List<String> alignedLearningObjectives) {
             this.alignedLearningObjectives = alignedLearningObjectives;
@@ -155,7 +201,7 @@ public class BaseProfile {
 
         /**
          * @param keyword
-         * @return keywords or tags used to describe content.
+         * @return builder.
          */
         public T keyword(List<String> keyword) {
             this.keyword = keyword;
@@ -164,7 +210,7 @@ public class BaseProfile {
 
         /**
          * @param inLanguage
-         * @return language code of the content per the IETF BCP 47 standard.
+         * @return builder.
          */
         public T inLanguage(String inLanguage) {
             this.inLanguage = inLanguage;
@@ -172,11 +218,30 @@ public class BaseProfile {
         }
 
         /**
-         * Client invokes build method in order to create an immutable metric profile object.
-         * @return a new instance of the BaseProfile.
+         * @param action
+         * @return builder.
          */
-        public BaseProfile build() {
-            return new BaseProfile(this);
+        public T action(String action) {
+            this.action = action;
+            return self();
+        }
+
+        /**
+         * @param target
+         * @return builder.
+         */
+        public T target(Object target) {
+            this.target = target;
+            return self();
+        }
+
+        /**
+         * @param generated
+         * @return builder.
+         */
+        public T generated(Object generated) {
+            this.generated = generated;
+            return self();
         }
     }
 
@@ -188,13 +253,5 @@ public class BaseProfile {
         protected Builder2 self() {
             return this;
         }
-    }
-
-    /**
-     * Static factory method.
-     * @return a new instance of the builder.
-     */
-    public static Builder<?> builder() {
-        return new Builder2();
     }
 }

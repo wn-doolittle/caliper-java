@@ -1,15 +1,46 @@
-package org.imsglobal.caliper.metrics;
+package org.imsglobal.caliper.profiles;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.actions.AssignableActions;
 
 import java.util.Date;
+import java.util.ResourceBundle;
 
+@JsonPropertyOrder({
+    "dateCreated",
+    "datePublished",
+    "dateToStartOn",
+    "dateToShow",
+    "dateToSubmit",
+    "maxAttempts",
+    "maxSubmits",
+    "action" })
 public class AssignableProfile extends BaseProfile {
+
+    @JsonProperty("dateCreated")
     private Date dateCreated;
+
+    @JsonProperty("datePublished")
     private Date datePublished;
+
+    @JsonProperty("dateToStartOn")
     private Date dateToStartOn;
+
+    @JsonProperty("dateToShow")
     private Date dateToShow;
+
+    @JsonProperty("dateToSubmit")
     private Date dateToSubmit;
+
+    @JsonProperty("maxAttempts")
     private int maxAttempts;
+
+    @JsonProperty("maxSubmits")
     private int maxSubmits;
+
+    @JsonProperty("action")
+    private String action;
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -23,6 +54,7 @@ public class AssignableProfile extends BaseProfile {
         this.dateToSubmit = builder.dateToSubmit;
         this.maxAttempts = builder.maxAttempts;
         this.maxSubmits = builder.maxSubmits;
+        this.action = builder.action;
     }
 
     /**
@@ -75,6 +107,13 @@ public class AssignableProfile extends BaseProfile {
     }
 
     /**
+     * @return action.
+     */
+    public String getAction() {
+        return action;
+    }
+
+    /**
      * Initialize default parameter values in the builder (not in the outer profile class).
      * @param <T> builder
      */
@@ -86,10 +125,11 @@ public class AssignableProfile extends BaseProfile {
         private Date dateToSubmit;
         private int maxAttempts;
         private int maxSubmits;
+        private String action;
 
         /**
          * @param dateCreated
-         * @return creation date.
+         * @return builder.
          */
         private T dateCreated(Date dateCreated) {
             this.dateCreated = dateCreated;
@@ -98,7 +138,7 @@ public class AssignableProfile extends BaseProfile {
 
         /**
          * @param datePublished
-         * @return publication date.
+         * @return builder.
          */
         private T datePublished(Date datePublished) {
             this.datePublished = datePublished;
@@ -107,7 +147,7 @@ public class AssignableProfile extends BaseProfile {
 
         /**
          * @param dateToStartOn
-         * @return start date.
+         * @return builder.
          */
         private T dateToStartOn(Date dateToStartOn) {
             this.dateToStartOn = dateToStartOn;
@@ -116,7 +156,7 @@ public class AssignableProfile extends BaseProfile {
 
         /**
          * @param dateToShow
-         * @return show date.
+         * @return builder.
          */
         private T dateToShow(Date dateToShow) {
             this.dateToShow = dateToShow;
@@ -125,7 +165,7 @@ public class AssignableProfile extends BaseProfile {
 
         /**
          * @param dateToSubmit
-         * @return submission date.
+         * @return builder.
          */
         private T dateToSubmit(Date dateToSubmit) {
             this.dateToSubmit = dateToSubmit;
@@ -134,7 +174,7 @@ public class AssignableProfile extends BaseProfile {
 
         /**
          * @param maxAttempts
-         * @return max attempts permitted.
+         * @return builder.
          */
         private T maxAttempts(int maxAttempts) {
             this.maxAttempts = maxAttempts;
@@ -143,10 +183,19 @@ public class AssignableProfile extends BaseProfile {
 
         /**
          * @param maxSubmits
-         * @return max submissions permitted.
+         * @return builder.
          */
         private T maxSubmits(int maxSubmits) {
             this.maxSubmits = maxSubmits;
+            return self();
+        }
+
+        /**
+         * @param key
+         * @return builder after validating action key.
+         */
+        public T action(String key) {
+            this.action = validateAction(key);
             return self();
         }
 
@@ -175,5 +224,17 @@ public class AssignableProfile extends BaseProfile {
      */
     public static Builder<?> builder() {
         return new Builder2();
+    }
+
+    /**
+     * @param key resource bundle key attribute of target constant
+     * @return resource bundle key
+     */
+    private static String validateAction(String key) {
+        if (AssignableActions.hasKey(key)) {
+            return ResourceBundle.getBundle("resources.actions").getString(key);
+        } else {
+            throw new IllegalArgumentException("Unrecognized constant");
+        }
     }
 }

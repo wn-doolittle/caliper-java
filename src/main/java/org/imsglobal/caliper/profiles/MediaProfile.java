@@ -1,16 +1,57 @@
-package org.imsglobal.caliper.metrics;
+package org.imsglobal.caliper.profiles;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.actions.MediaActions;
+
+import java.util.ResourceBundle;
+
+@JsonPropertyOrder ({
+    "mediaFrame",
+    "mediaTimestamp",
+    "mediaTargetFrame",
+    "mediaTargetTimestamp",
+    "mediaLength",
+    "resolutionX",
+    "resolutionY",
+    "sizeX",
+    "sizeY",
+    "isEmbedded",
+    "action" })
 public class MediaProfile extends BaseProfile {
+
+    @JsonProperty("mediaFrame")
     private int mediaFrame;
+
+    @JsonProperty("mediaTimestamp")
     private long mediaTimestamp;
+
+    @JsonProperty("mediaTargetFrame")
     private int mediaTargetFrame;
+
+    @JsonProperty("mediaTargetTimestamp")
     private long mediaTargetTimestamp;
+
+    @JsonProperty("mediaLength")
     private int mediaLength;
+
+    @JsonProperty("resolutionX")
     private int resolutionX;
+
+    @JsonProperty("resolutionY")
     private int resolutionY;
+
+    @JsonProperty("sizeX")
     private int sizeX;
+
+    @JsonProperty("sizeY")
     private int sizeY;
+
+    @JsonProperty("isEmbedded")
     private boolean isEmbedded;
+
+    @JsonProperty("action")
+    private String action;
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -27,6 +68,7 @@ public class MediaProfile extends BaseProfile {
         this.sizeX = builder.sizeX;
         this.sizeY = builder.sizeY;
         this.isEmbedded = builder.isEmbedded;
+        this.action = builder.action;
     }
 
     /**
@@ -100,6 +142,13 @@ public class MediaProfile extends BaseProfile {
     }
 
     /**
+     * @return action.
+     */
+    public String getAction() {
+        return action;
+    }
+
+    /**
      * Initialize default parameter values in the builder (not in the outer profile class).
      * @param <T> builder
      */
@@ -114,10 +163,11 @@ public class MediaProfile extends BaseProfile {
         private int sizeX;
         private int sizeY;
         private boolean isEmbedded = false;
+        private String action;
 
         /**
          * @param mediaFrame
-         * @return current frame at time of action.
+         * @return builder.
          */
         public T mediaFrame(int mediaFrame) {
             this.mediaFrame = mediaFrame;
@@ -126,7 +176,7 @@ public class MediaProfile extends BaseProfile {
 
         /**
          * @param mediaTimestamp
-         * @return media timestamp at moment of action.
+         * @return builder.
          */
         public T mediaTimestamp(long mediaTimestamp) {
             this.mediaTimestamp = mediaTimestamp;
@@ -135,7 +185,7 @@ public class MediaProfile extends BaseProfile {
 
         /**
          * @param mediaTargetFrame
-         * @return target frame (start, forward/reverse, end).
+         * @return builder.
          */
         public T mediaTargetFrame(int mediaTargetFrame) {
             this.mediaTargetFrame = mediaTargetFrame;
@@ -144,7 +194,7 @@ public class MediaProfile extends BaseProfile {
 
         /**
          * @param mediaTargetTimestamp
-         * @return target media timestamp at moment of action.
+         * @return builder.
          */
         public T mediaTargetTimestamp(long mediaTargetTimestamp) {
             this.mediaTargetTimestamp = mediaTargetTimestamp;
@@ -153,7 +203,7 @@ public class MediaProfile extends BaseProfile {
 
         /**
          * @param mediaLength
-         * @return media length.
+         * @return builder.
          */
         public T mediaLength(int mediaLength) {
             this.mediaLength = mediaLength;
@@ -162,7 +212,7 @@ public class MediaProfile extends BaseProfile {
 
         /**
          * @param resolutionX
-         * @return number of horizontal pixels.
+         * @return builder.
          */
         public T resolutionX(int resolutionX) {
             this.resolutionX = resolutionX;
@@ -171,7 +221,7 @@ public class MediaProfile extends BaseProfile {
 
         /**
          * @param resolutionY
-         * @return number of vertical pixels.
+         * @return builder.
          */
         public T resolutionY(int resolutionY) {
             this.resolutionY = resolutionY;
@@ -180,7 +230,7 @@ public class MediaProfile extends BaseProfile {
 
         /**
          * @param sizeX
-         * @return number of horizontal pixels.
+         * @return builder.
          */
         public T sizeX(int sizeX) {
             this.sizeX = sizeX;
@@ -189,7 +239,7 @@ public class MediaProfile extends BaseProfile {
 
         /**
          * @param sizeY
-         * @return number of vertical pixels.
+         * @return builder.
          */
         public T sizeY(int sizeY) {
             this.sizeY = sizeY;
@@ -198,10 +248,19 @@ public class MediaProfile extends BaseProfile {
 
         /**
          * @param isEmbedded
-         * @return true or false.
+         * @return builder.
          */
         public T isEmbedded(boolean isEmbedded) {
             this.isEmbedded = isEmbedded;
+            return self();
+        }
+
+        /**
+         * @param key
+         * @return builder after validating action key.
+         */
+        public T action(String key) {
+            this.action = validateAction(key);
             return self();
         }
 
@@ -230,5 +289,17 @@ public class MediaProfile extends BaseProfile {
      */
     public static Builder<?> builder() {
         return new Builder2();
+    }
+
+    /**
+     * @param key resource bundle key attribute of target constant
+     * @return resource bundle key
+     */
+    private static String validateAction(String key) {
+        if (MediaActions.hasKey(key)) {
+            return ResourceBundle.getBundle("resources.actions").getString(key);
+        } else {
+            throw new IllegalArgumentException("Unrecognized constant");
+        }
     }
 }

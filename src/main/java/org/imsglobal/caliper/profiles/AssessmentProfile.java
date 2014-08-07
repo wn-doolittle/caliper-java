@@ -1,32 +1,52 @@
-package org.imsglobal.caliper.metrics;
+package org.imsglobal.caliper.profiles;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import org.imsglobal.caliper.actions.AssessmentActions;
 
+@JsonPropertyOrder({
+    "maxSubmits",
+    "submissionCount",
+    "maxTimeAllowed",
+    "timeTaken",
+    "action" })
 public class AssessmentProfile extends BaseProfile {
-    private int maxSubmissionsAllowed;
+    
+    @JsonProperty("maxSubmits")
+    private int maxSubmits;  // dup assignable
+
+    @JsonProperty("submissionCount")
     private int submissionCount;
+
+    @JsonProperty("maxTimeAllowed")  // move to assignable
     private int maxTimeAllowed;
+
+    @JsonProperty("timeTaken")
     private int timeTaken;
-    private List<String> assets = new ArrayList<String>();
+
+    @JsonProperty("action")
+    private String action;
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
     protected AssessmentProfile(Builder<?> builder) {
         super(builder);
-        this.maxSubmissionsAllowed = builder.maxSubmissionsAllowed;
+        this.maxSubmits = builder.maxSubmits;
         this.submissionCount = builder.submissionCount;
         this.maxTimeAllowed = builder.maxTimeAllowed;
         this.timeTaken = builder.timeTaken;
-        this.assets = builder.assets;
+        this.action = builder.action;
     }
 
     /**
      * @return maximum number of submissions allowed.
      */
-    public int getMaxSubmissionsAllowed() {
-        return maxSubmissionsAllowed;
+    public int getmaxSubmits() {
+        return maxSubmits;
     }
 
     /**
@@ -51,10 +71,10 @@ public class AssessmentProfile extends BaseProfile {
     }
 
     /**
-     * @return list of asset references associated with the assessment.
+     * @return action
      */
-    public List<String> getAssets() {
-        return assets;
+    public String getAction() {
+        return action;
     }
 
     /**
@@ -62,24 +82,25 @@ public class AssessmentProfile extends BaseProfile {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
-        private int maxSubmissionsAllowed;
+        private int maxSubmits;
         private int submissionCount;
         private int maxTimeAllowed;
         private int timeTaken;
         private List<String> assets = new ArrayList<String>();
+        private String action;
 
         /**
-         * @param maxSubmissionsAllowed
-         * @return Assessment setting specifying the maximum number of allowed submissions.
+         * @param maxSubmits
+         * @return builder.
          */
-        public T maxSubmissionsAllowed(int maxSubmissionsAllowed) {
-            this.maxSubmissionsAllowed = maxSubmissionsAllowed;
+        public T maxSubmits(int maxSubmits) {
+            this.maxSubmits = maxSubmits;
             return self();
         }
 
         /**
          * @param submissionCount
-         * @return current count of submissions.
+         * @return builder.
          */
         public T submissionCount(int submissionCount) {
             this.submissionCount = submissionCount;
@@ -89,7 +110,7 @@ public class AssessmentProfile extends BaseProfile {
         /**
          * TODO time interval: Fractional hours, minutes?
          * @param maxTimeAllowed
-         * @return Assessment setting specifying the maximum time allowed to complete the assessment.
+         * @return builder.
          */
         public T maxTimeAllowed(int maxTimeAllowed) {
             this.maxTimeAllowed = maxTimeAllowed;
@@ -98,7 +119,7 @@ public class AssessmentProfile extends BaseProfile {
 
         /**
          * @param timeTaken
-         * @return time spent on assessment.
+         * @return builder.
          */
         public T timeTaken(int timeTaken) {
             this.timeTaken = timeTaken;
@@ -106,11 +127,11 @@ public class AssessmentProfile extends BaseProfile {
         }
 
         /**
-         * @param assets
-         * @return URI list of item assets:, hint, model answer, etc.
+         * @param key
+         * @return builder after validating action key.
          */
-        public T assets(List<String> assets) {
-            this.assets = assets;
+        public T action(String key) {
+            this.action = validateAction(key);
             return self();
         }
 
@@ -139,5 +160,17 @@ public class AssessmentProfile extends BaseProfile {
      */
     public static Builder<?> builder() {
         return new Builder2();
+    }
+
+    /**
+     * @param key resource bundle key attribute of target constant
+     * @return resource bundle key
+     */
+    private static String validateAction(String key) {
+        if (AssessmentActions.hasKey(key)) {
+            return ResourceBundle.getBundle("resources.actions").getString(key);
+        } else {
+            throw new IllegalArgumentException("Unrecognized constant");
+        }
     }
 }
