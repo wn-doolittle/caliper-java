@@ -3,19 +3,19 @@ package org.imsglobal.caliper.actions;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum PerformanceActions {
-    GRADED("performance.graded"),
-    POSTED("performance.posted");
-    // REPORTED("performance.reported");
+public enum OutcomeActions {
+    GRADED("outcome.graded"),
+    POSTED("outcome.posted");
+    // REPORTED("outcome.reported");
 
     private final String key;
-    private static final Map<String, PerformanceActions> lookup = new HashMap<String, PerformanceActions>();
+    private static final Map<String, OutcomeActions> lookup = new HashMap<String, OutcomeActions>();
 
     /**
      * Create reverse lookup hash map
      */
     static {
-        for (PerformanceActions constants : PerformanceActions.values())
+        for (OutcomeActions constants : OutcomeActions.values())
             lookup.put(constants.key(), constants);
     }
 
@@ -23,7 +23,7 @@ public enum PerformanceActions {
      * Constructor
      * @param key
      */
-    private PerformanceActions(String key) {
+    private OutcomeActions(String key) {
         this.key = key;
     }
 
@@ -46,7 +46,7 @@ public enum PerformanceActions {
      * @param key
      * @return enum constant by reverse lookup
      */
-    public static PerformanceActions lookupConstant(String key) {
+    public static OutcomeActions lookupConstant(String key) {
         return lookup.get(key);
     }
 }
