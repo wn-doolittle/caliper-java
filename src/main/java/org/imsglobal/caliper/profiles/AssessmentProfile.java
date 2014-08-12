@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import org.imsglobal.caliper.actions.AssessmentActions;
+import org.imsglobal.caliper.actions.AssessmentItemActions;
 
 @JsonPropertyOrder({
     "maxSubmits",
@@ -167,7 +168,7 @@ public class AssessmentProfile extends BaseProfile {
      * @return resource bundle key
      */
     private static String validateAction(String key) {
-        if (AssessmentActions.hasKey(key)) {
+        if (AssessmentActions.hasKey(key) || AssessmentItemActions.hasKey(key)) {
             return ResourceBundle.getBundle("resources.actions").getString(key);
         } else {
             throw new IllegalArgumentException("Unrecognized constant");

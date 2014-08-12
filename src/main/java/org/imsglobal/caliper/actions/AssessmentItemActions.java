@@ -3,20 +3,21 @@ package org.imsglobal.caliper.actions;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum AssessmentActions {
-    STARTED("assessment.started"),
-    PAUSED("assessment.paused"),
-    RESTARTED("assessment.restarted"),
-    SUBMITTED("assessment.submitted");
+public enum AssessmentItemActions {
+    STARTED("assessment.item.started"),
+    COMPLETED("assessment.item.completed"),
+    SKIPPED("assessment.item.skipped"),
+    REVIEWED("assessment.item.reviewed"),
+    VIEWED("assessment.item.viewed");
 
     private final String key;
-    private static final Map<String, AssessmentActions> lookup = new HashMap<String, AssessmentActions>();
+    private static final Map<String, AssessmentItemActions> lookup = new HashMap<String, AssessmentItemActions>();
 
     /**
      * Create reverse lookup hash map
      */
     static {
-        for (AssessmentActions constants : AssessmentActions.values())
+        for (AssessmentItemActions constants : AssessmentItemActions.values())
             lookup.put(constants.key(), constants);
     }
 
@@ -24,7 +25,7 @@ public enum AssessmentActions {
      * Constructor
      * @param key
      */
-    private AssessmentActions(String key) {
+    private AssessmentItemActions(String key) {
         this.key = key;
     }
 
@@ -47,7 +48,7 @@ public enum AssessmentActions {
      * @param key
      * @return enum constant by reverse lookup
      */
-    public static AssessmentActions lookupConstant(String key) {
+    public static AssessmentItemActions lookupConstant(String key) {
         return lookup.get(key);
     }
 }
