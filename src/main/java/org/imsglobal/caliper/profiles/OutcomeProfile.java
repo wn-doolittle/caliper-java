@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
     "comment",
     "learningObjectiveResult",
     "action" })
-public class PerformanceProfile extends BaseProfile {
+public class OutcomeProfile extends BaseProfile {
 
     @JsonProperty("normalScore")
     private double normalScore;
@@ -47,7 +47,7 @@ public class PerformanceProfile extends BaseProfile {
     /**
      * @param builder apply builder object properties to the profile object.
      */
-    protected PerformanceProfile(Builder<?> builder) {
+    protected OutcomeProfile(Builder<?> builder) {
         super(builder);
         this.normalScore = builder.normalScore;
         this.penaltyScore = builder.penaltyScore;
@@ -224,8 +224,8 @@ public class PerformanceProfile extends BaseProfile {
          * Client invokes the build method in order to create an immutable profile object.
          * @return a new instance of MediaProfile.
          */
-        public PerformanceProfile build() {
-            return new PerformanceProfile(this);
+        public OutcomeProfile build() {
+            return new OutcomeProfile(this);
         }
     }
 
