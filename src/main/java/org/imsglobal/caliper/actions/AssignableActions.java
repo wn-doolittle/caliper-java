@@ -8,7 +8,6 @@ public enum AssignableActions {
     ACTIVATED("assignable.activated"),
     COMPLETED("assignable.completed"),
     DEACTIVATED("assignable.deactivated"),
-    GRADED("assignable.graded"),
     HID("assignable.hid"),
     REVIEWED("assignable.reviewed"),
     SHOWED("assignable.showed"),
