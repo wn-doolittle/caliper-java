@@ -2,7 +2,7 @@ package org.imsglobal.caliper.profiles;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.actions.PerformanceActions;
+import org.imsglobal.caliper.actions.OutcomeActions;
 import java.util.ResourceBundle;
 
 @JsonPropertyOrder({
@@ -252,7 +252,7 @@ public class OutcomeProfile extends BaseProfile {
      * @return resource bundle key
      */
     private static String validateAction(String key) {
-        if (PerformanceActions.hasKey(key)) {
+        if (OutcomeActions.hasKey(key)) {
             return ResourceBundle.getBundle("resources.actions").getString(key);
         } else {
             throw new IllegalArgumentException("Unrecognized constant");
