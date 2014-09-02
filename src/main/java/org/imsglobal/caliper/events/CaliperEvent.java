@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * 
  */
 @JsonPropertyOrder({ "@context", "@type", "actor", "action", "object",
-		"target", "generated", "startedAtTime", "endedAtTime", "edApp", "group" })
+		"target", "generated", "startedAtTime", "endedAtTime", "duration", "edApp", "group" })
 public class CaliperEvent {
 
 	// Core properties
@@ -75,6 +75,17 @@ public class CaliperEvent {
 	 */
 	@JsonProperty("endedAtTime")
 	private long endedAt;
+	
+	/**
+	 * An xsd:duration (http://books.xmlschemata.org/relaxng/ch19-77073.html)
+	 * The format is expected to be PnYnMnDTnHnMnS
+	 * Valid values include PT1004199059S, PT130S, PT2M10S, P1DT2S, -P1Y, or P1Y2M3DT5H20M30.123S.
+	 * The following values are invalid: 1Y (leading P is missing), P1S (T separator is missing), 
+	 * P-1Y (all parts must be positive), P1M2Y (parts order is significant and Y must precede M), 
+	 * or P1Y-1M (all parts must be positive).
+	 */
+	@JsonProperty("duration")
+	private String duration;
 
 	// Contextual Properties ("Learning Context")
 
@@ -247,5 +258,19 @@ public class CaliperEvent {
 	 */
 	public void setGenerated(Object generated) {
 		this.generated = generated;
+	}
+
+	/**
+	 * @return the duration
+	 */
+	public String getDuration() {
+		return duration;
+	}
+
+	/**
+	 * @param duration the duration to set
+	 */
+	public void setDuration(String duration) {
+		this.duration = duration;
 	}
 }
