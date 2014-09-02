@@ -48,7 +48,6 @@ public class TestUtils {
 		readiumReading
 				.setName("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)");
 		readiumReading.setLastModifiedAt(1402965614516l);
-		readiumReading.setLanguage("English");
 
 		caliperEvent.setTarget(readiumReading);
 

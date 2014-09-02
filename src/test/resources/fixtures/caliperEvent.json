@@ -20,10 +20,9 @@
         "lastModifiedTime":1402965614516,
         "properties":{},
         "name":"The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)",
-        "alignedLearningObjectives":[],
-        "keywords":[],
-        "about":null,
-        "language":"English",
+        "alignedLearningObjective":[],
+        "keyword":[],
+        "objectType":null,
         "partOf":null
     },
     "generated": null,

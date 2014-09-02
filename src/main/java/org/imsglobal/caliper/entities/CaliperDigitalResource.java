@@ -5,6 +5,7 @@ import java.util.List;
 import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.Lists;
 
 /**
@@ -28,6 +29,7 @@ import com.google.common.collect.Lists;
  *         as Scheme and Lisp
  * 
  */
+@JsonPropertyOrder({ "@id", "@type", "lastModifiedTime", "properties", "name", "alignedLearningObjective", "keyword", "objectType", "partOf" })
 public class CaliperDigitalResource extends CaliperEntity implements
 		CreativeWork {
 
@@ -36,19 +38,22 @@ public class CaliperDigitalResource extends CaliperEntity implements
 
 	@JsonProperty("partOf")
 	private Object parentRef;
+	
+	@JsonProperty("objectType")
+	private Object objectType;
 
-	@JsonProperty("alignedLearningObjectives")
+	@JsonProperty("alignedLearningObjective")
 	private List<LearningObjective> alignedLearningObjectives = Lists
 			.newArrayList();
 
-	@JsonProperty("keywords")
+	@JsonProperty("keyword")
 	private List<String> keywords = Lists.newArrayList();
 
-	@JsonProperty("about")
-	private String about;
-
-	@JsonProperty("language")
-	private String language;
+//	@JsonProperty("about")
+//	private String about;
+//
+//	@JsonProperty("language")
+//	private String language;
 
 	/**
 	 * @return the name
@@ -109,31 +114,17 @@ public class CaliperDigitalResource extends CaliperEntity implements
 	}
 
 	/**
-	 * @return the about
+	 * @return the objectType
 	 */
-	public String getAbout() {
-		return about;
+	public Object getObjectType() {
+		return objectType;
 	}
 
 	/**
-	 * @param about the about to set
+	 * @param objectType the objectType to set
 	 */
-	public void setAbout(String about) {
-		this.about = about;
-	}
-
-	/**
-	 * @return the language
-	 */
-	public String getLanguage() {
-		return language;
-	}
-
-	/**
-	 * @param language the language to set
-	 */
-	public void setLanguage(String language) {
-		this.language = language;
+	public void setObjectType(Object objectType) {
+		this.objectType = objectType;
 	}
 
 }
