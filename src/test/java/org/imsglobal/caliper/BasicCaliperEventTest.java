@@ -11,9 +11,9 @@ public class BasicCaliperEventTest {
 
 		CaliperSensor.initialize(TestUtils.getTestingOptions());
 
-		// Measure test - Send 50 events
+		// Fire event test - Send 50 events
 		for (int i = 0 ; i < 50 ; i++) {
-			CaliperSensor.measure(TestUtils.getTestCaliperEvent());
+			CaliperSensor.send(TestUtils.getTestCaliperEvent());
 		}
 
 		// There should be two caliperEvents queued
