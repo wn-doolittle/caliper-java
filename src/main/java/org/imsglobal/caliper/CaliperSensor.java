@@ -45,10 +45,10 @@ public class CaliperSensor {
 	 *            the Caliper CaliperEvent
 	 * 
 	 */
-	public static void measure(CaliperEvent caliperEvent) {
+	public static void send(CaliperEvent caliperEvent) {
 
 		isInitialized();
-		defaultClient.measure(caliperEvent);
+		defaultClient.send(caliperEvent);
 	}
 
 	/**

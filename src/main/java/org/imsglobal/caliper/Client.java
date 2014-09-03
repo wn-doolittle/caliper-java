@@ -67,7 +67,7 @@ public class Client {
 	// API Calls
 	//
 
-	public void measure(CaliperEvent caliperEvent) {
+	public void send(CaliperEvent caliperEvent) {
 
 		boolean status = eventStoreRequestor.send(caliperEvent);
 
