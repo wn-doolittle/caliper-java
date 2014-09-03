@@ -71,6 +71,11 @@
 			<name>Prashant Nayak</name>
 			<email>prashant@intellifylearning.com</email>
 		</developer>
+        <developer>
+            <id>arwhyte</id>
+            <name>Anthony Whyte</name>
+            <email>arwhyte@umich.edu</email>
+        </developer>
 	</developers>
 
 	<dependencies>
