@@ -9,12 +9,10 @@ import java.util.List;
 @JsonPropertyOrder({
     "name",
     "partOf",
-    "about",
     "objectType",
     "alignedLearningObjectives",
     "keyword",
     "action",
-    "inLanguage",
     "target",
     "generated" })
 public abstract class BaseProfile {
@@ -25,20 +23,14 @@ public abstract class BaseProfile {
     @JsonProperty("partOf")
     private String partOf;
 
-    @JsonProperty("about")
-    private String about;
-
     @JsonProperty("objectType")
     private List<String> objectType = new ArrayList<String>();
 
-    @JsonProperty("alignedLearningObjectives")
-    private List<String> alignedLearningObjectives = new ArrayList<String>();
+    @JsonProperty("alignedLearningObjective")
+    private List<String> alignedLearningObjective = new ArrayList<String>();
 
     @JsonProperty("keyword")
     private List<String> keyword = new ArrayList<String>();
-
-    @JsonProperty("inLanguage")
-    private String inLanguage;
 
     @JsonProperty("action")
     private String action;
@@ -55,11 +47,9 @@ public abstract class BaseProfile {
     protected BaseProfile(Builder<?> builder) {
         this.name = builder.name;
         this.partOf = builder.partOf;
-        this.about = builder.about;
         this.objectType = builder.objectType;
-        this.alignedLearningObjectives = builder.alignedLearningObjectives;
+        this.alignedLearningObjective = builder.alignedLearningObjective;
         this.keyword = builder.keyword;
-        this.inLanguage = builder.inLanguage;
         this.action = builder.action;
         this.target = builder.target;
         this.generated = builder.generated;
@@ -80,13 +70,6 @@ public abstract class BaseProfile {
     }
 
     /**
-     * @return the subject matter of the content.
-     */
-    public String getAbout() {
-        return about;
-    }
-
-    /**
      * @return objectType.
      */
     public List<String> getObjectType() {
@@ -96,8 +79,8 @@ public abstract class BaseProfile {
     /**
      * @return learning objectives.
      */
-    public List<String> getAlignedLearningObjectives() {
-        return alignedLearningObjectives;
+    public List<String> getAlignedLearningObjective() {
+        return alignedLearningObjective;
     }
 
     /**
@@ -105,13 +88,6 @@ public abstract class BaseProfile {
      */
     public List<String> getKeyword() {
         return keyword;
-    }
-
-    /**
-     * @return language code of the content per the IETF BCP 47 standard.
-     */
-    public String getInLanguage() {
-        return inLanguage;
     }
 
     /**
@@ -143,11 +119,9 @@ public abstract class BaseProfile {
     public static abstract class Builder<T extends Builder<T>> {
         private String name;
         private String partOf;
-        private String about;
         private List<String> objectType;
-        private List<String> alignedLearningObjectives = new ArrayList<String>();
+        private List<String> alignedLearningObjective = new ArrayList<String>();
         private List<String> keyword = new ArrayList<String>();
-        private String inLanguage;
         private String action;
         private Object target;
         private Object generated;
@@ -173,15 +147,6 @@ public abstract class BaseProfile {
         }
 
         /**
-         * @param about
-         * @return builder.
-         */
-        public T about(String about) {
-            this.about = about;
-            return self();
-        }
-
-        /**
          * @param objectType
          * @return builder.
          */
@@ -191,11 +156,11 @@ public abstract class BaseProfile {
         }
 
         /**
-         * @param alignedLearningObjectives
+         * @param alignedLearningObjective
          * @return builder.
          */
-        public T alignedLearningObjectives(List<String> alignedLearningObjectives) {
-            this.alignedLearningObjectives = alignedLearningObjectives;
+        public T alignedLearningObjective(List<String> alignedLearningObjective) {
+            this.alignedLearningObjective = alignedLearningObjective;
             return self();
         }
 
@@ -205,15 +170,6 @@ public abstract class BaseProfile {
          */
         public T keyword(List<String> keyword) {
             this.keyword = keyword;
-            return self();
-        }
-
-        /**
-         * @param inLanguage
-         * @return builder.
-         */
-        public T inLanguage(String inLanguage) {
-            this.inLanguage = inLanguage;
             return self();
         }
 
