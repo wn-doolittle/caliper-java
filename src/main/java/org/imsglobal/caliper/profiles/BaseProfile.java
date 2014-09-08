@@ -10,7 +10,7 @@ import java.util.List;
     "name",
     "partOf",
     "objectType",
-    "alignedLearningObjectives",
+    "alignedLearningObjective",
     "keyword",
     "action",
     "target",
