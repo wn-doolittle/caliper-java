@@ -3,6 +3,7 @@
  */
 package org.imsglobal.caliper.events.assignable;
 
+import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 import org.imsglobal.caliper.events.CaliperEvent;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
@@ -29,5 +30,21 @@ public class AssignableEvent extends CaliperEvent {
 		AssignableEvent event = new AssignableEvent();
 		event.setAction(action.toString());
 		return event;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.imsglobal.caliper.events.CaliperEvent#setObject(java.lang.Object)
+	 */
+	@Override
+	public void setObject(Object object) {
+		
+		// TODO - Enforce restrictions on object type per metric profile
+		if (getAction().equals(Action.started.toString())) {
+			if (!(object instanceof CaliperAssignableDigitalResource)) {
+				// TODO - throw proper exception
+			}
+		}
+		
+		super.setObject(object);
 	}
 }

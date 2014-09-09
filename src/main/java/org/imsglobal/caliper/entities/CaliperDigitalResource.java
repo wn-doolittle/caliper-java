@@ -29,7 +29,8 @@ import com.google.common.collect.Lists;
  *         as Scheme and Lisp
  * 
  */
-@JsonPropertyOrder({ "@id", "@type", "lastModifiedTime", "properties", "name", "alignedLearningObjective", "keyword", "objectType", "partOf" })
+@JsonPropertyOrder({ "@id", "@type", "lastModifiedTime", "properties", "name", "alignedLearningObjective", 
+	                 "keyword", "objectType", "partOf" })
 public class CaliperDigitalResource extends CaliperEntity implements
 		CreativeWork {
 

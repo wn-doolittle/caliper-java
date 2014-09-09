@@ -3,7 +3,7 @@
  */
 package org.imsglobal.caliper.entities.assessment;
 
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
+import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 import org.imsglobal.caliper.entities.qti.Assessment;
 
 /**
@@ -14,8 +14,8 @@ import org.imsglobal.caliper.entities.qti.Assessment;
  *         Part of the Assessment Metric Profile
  * 
  */
-public class CaliperAssessmentItem extends CaliperDigitalResource implements
-		Assessment {
+public class CaliperAssessmentItem extends CaliperAssignableDigitalResource
+		implements Assessment {
 
 	public CaliperAssessmentItem(String id) {
 		super();
