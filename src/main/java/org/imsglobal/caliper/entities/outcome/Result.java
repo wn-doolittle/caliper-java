@@ -21,6 +21,11 @@ public class Result extends CaliperEntity {
 			curvedTotalScore, curveFactor;
 	private String comment;
 	private CaliperAgent scoredBy;
+	
+	public Result(String id) {
+		setId(id);
+		setType("http://purl.imsglobal.org/caliper/v1/Result");
+	}
 
 	/**
 	 * @return the normalScore

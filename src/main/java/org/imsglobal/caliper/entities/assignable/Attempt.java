@@ -19,6 +19,11 @@ public class Attempt extends CaliperEntity {
 	private Assignable assignable;
 	private CaliperAgent actor;
 
+	public Attempt(String id) {
+		setId(id);
+		setType("http://purl.imsglobal.org/caliper/v1/Attempt");
+	}
+
 	/**
 	 * @return the count
 	 */
