@@ -19,6 +19,7 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource
 	private long dateCreated, datePublished, dateToActivate, dateToShow,
 			dateToStartOn, dateToSubmit;
 	private int maxAttempts, maxSubmits;
+	private double maxScore;
 
 	/**
 	 * @return the dateCreated
@@ -138,6 +139,21 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource
 	 */
 	public void setMaxSubmits(int maxSubmits) {
 		this.maxSubmits = maxSubmits;
+	}
+
+	/**
+	 * @return the maxScore
+	 */
+	public double getMaxScore() {
+		return maxScore;
+	}
+
+	/**
+	 * @param maxScore
+	 *            the maxScore to set
+	 */
+	public void setMaxScore(double maxScore) {
+		this.maxScore = maxScore;
 	}
 
 }
