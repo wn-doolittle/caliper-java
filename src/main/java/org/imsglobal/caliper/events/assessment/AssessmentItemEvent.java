@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreType;
 public class AssessmentItemEvent extends CaliperEvent {
 	@JsonIgnoreType
 	public enum Action {
-		started, paused, restarted, submitted
+		started, completed, viewed, reviewed, skipped
 	}
 
 	public AssessmentItemEvent() {
