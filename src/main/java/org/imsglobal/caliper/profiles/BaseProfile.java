@@ -1,17 +1,14 @@
 package org.imsglobal.caliper.profiles;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.entities.LearningContext;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.imsglobal.caliper.entities.SoftwareApplication;
-import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.entities.lis.LISOrganization;
-import org.imsglobal.caliper.events.CaliperEvent;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 @JsonPropertyOrder({
+    "learningContext",
     "name",
     "partOf",
     "objectType",
@@ -21,11 +18,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "target",
     "generated" })
 public abstract class BaseProfile {
-	
-	// Contextual Properties ("Learning Context")
-	private SoftwareApplication edApp;
-	private LISOrganization lisOrganization;
-	private Agent agent;
+
+    @JsonProperty("learningContext")
+    private LearningContext learningContext;
 
     @JsonProperty("name")
     private String name;
@@ -52,9 +47,10 @@ public abstract class BaseProfile {
     private Object generated;
 
     /**
-     * @param profileContext apply builder object properties to the profile object.
+     * @param builder apply builder object properties to the profile object.
      */
     protected BaseProfile(Builder<?> builder) {
+        this.learningContext = builder.learningContext;
         this.name = builder.name;
         this.partOf = builder.partOf;
         this.objectType = builder.objectType;
@@ -65,6 +61,12 @@ public abstract class BaseProfile {
         this.generated = builder.generated;
     }
 
+    /**
+     * @return learningContext.
+     */
+    public LearningContext getLearningContext() {
+        return learningContext;
+    }
     /**
      * @return name.
      */
@@ -127,6 +129,7 @@ public abstract class BaseProfile {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> {
+        private LearningContext learningContext;
         private String name;
         private String partOf;
         private List<String> objectType;
@@ -137,6 +140,15 @@ public abstract class BaseProfile {
         private Object generated;
 
         protected abstract T self();
+
+        /**
+         * @param learningContext
+         * @return builder.
+         */
+        public T learningContext(LearningContext learningContext) {
+            this.learningContext = learningContext;
+            return self();
+        }
 
         /**
          * @param name
@@ -220,46 +232,4 @@ public abstract class BaseProfile {
             return this;
         }
     }
-
-	/**
-	 * @return the edApp
-	 */
-	public SoftwareApplication getEdApp() {
-		return edApp;
-	}
-
-	/**
-	 * @param edApp the edApp to set
-	 */
-	public void setEdApp(SoftwareApplication edApp) {
-		this.edApp = edApp;
-	}
-
-	/**
-	 * @return the lisOrganization
-	 */
-	public LISOrganization getLisOrganization() {
-		return lisOrganization;
-	}
-
-	/**
-	 * @param lisOrganization the lisOrganization to set
-	 */
-	public void setLisOrganization(LISOrganization lisOrganization) {
-		this.lisOrganization = lisOrganization;
-	}
-
-	/**
-	 * @return the agent
-	 */
-	public Agent getAgent() {
-		return agent;
-	}
-
-	/**
-	 * @param agent the agent to set
-	 */
-	public void setAgent(Agent agent) {
-		this.agent = agent;
-	}
 }
