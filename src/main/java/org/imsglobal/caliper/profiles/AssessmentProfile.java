@@ -2,11 +2,12 @@ package org.imsglobal.caliper.profiles;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 import org.imsglobal.caliper.actions.AssessmentActions;
 import org.imsglobal.caliper.actions.AssessmentItemActions;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 @JsonPropertyOrder({
     "maxSubmits",
@@ -46,7 +47,7 @@ public class AssessmentProfile extends BaseProfile {
     /**
      * @return maximum number of submissions allowed.
      */
-    public int getmaxSubmits() {
+    public int getMaxSubmits() {
         return maxSubmits;
     }
 

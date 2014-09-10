@@ -132,7 +132,7 @@ public abstract class BaseProfile {
         private LearningContext learningContext;
         private String name;
         private String partOf;
-        private List<String> objectType;
+        private List<String> objectType = new ArrayList<String>();
         private List<String> alignedLearningObjective = new ArrayList<String>();
         private List<String> keyword = new ArrayList<String>();
         private String action;

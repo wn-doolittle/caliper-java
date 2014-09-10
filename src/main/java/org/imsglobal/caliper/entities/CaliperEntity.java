@@ -1,98 +1,141 @@
-/**
- * 
- */
 package org.imsglobal.caliper.entities;
-
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.Maps;
+import java.util.Map;
 
 /**
- * @author pnayak
- * 
- * The base Caliper Entity.  
- * 
- * Analogous to a schema.org Thing
- * 
+ * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
 @JsonPropertyOrder({ "@id", "@type", "lastModifiedTime" })
 public class CaliperEntity {
 
-	@CaliperReference
-	@JsonProperty("@id")
-	protected
-	String id;
+    @CaliperReference
+    @JsonProperty("@id")
+    protected final String id;
 
-	@JsonProperty("@type")
-	String type;
+    @JsonProperty("@type")
+    private final String type;
 
-	@JsonProperty("lastModifiedTime")
-	private long lastModifiedAt;
+    @JsonProperty("lastModifiedTime")
+    private long lastModifiedAt;
 
-	@JsonIgnore
-	@JsonProperty("properties")
-	private Map<String, Object> properties = Maps.newHashMap();
+    @JsonIgnore
+    @JsonProperty("properties")
+    private Map<String, Object> properties = Maps.newHashMap();
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
+    /**
+     * @param builder apply builder object properties to the CaliperEntity object.
+     */
+    protected CaliperEntity(Builder<?> builder) {
+        this.id = builder.id;
+        this.type = builder.type;
+        this.lastModifiedAt = builder.lastModifiedAt;
+        this.properties = builder.properties;
+    }
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * @param type
-	 *            the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
+    /**
+     * @return the lastModifiedAt
+     */
+    public long getLastModifiedAt() {
+        return lastModifiedAt;
+    }
 
-	/**
-	 * @return the lastModifiedAt
-	 */
-	public long getLastModifiedAt() {
-		return lastModifiedAt;
-	}
+    /**
+     * @return the properties
+     */
+    public Map<String, Object> getProperties() {
+        return properties;
+    }
 
-	/**
-	 * @param lastModifiedAt
-	 *            the lastModifiedAt to set
-	 */
-	public void setLastModifiedAt(long lastModifiedAt) {
-		this.lastModifiedAt = lastModifiedAt;
-	}
+    /**
+     * Builder class provides a fluid interface for setting object properties.
+     * @param <T> builder
+     */
+    public static abstract class Builder<T extends Builder<T>> {
+        private String id;
+        private String type;
+        private long lastModifiedAt;
+        private Map<String, Object> properties = Maps.newHashMap();
 
-	/**
-	 * @return the properties
-	 */
-	public Map<String, Object> getProperties() {
-		return properties;
-	}
+        protected abstract T self();
 
-	/**
-	 * @param properties
-	 *            the properties to set
-	 */
-	public void setProperties(Map<String, Object> properties) {
-		this.properties = properties;
-	}
+        /**
+         * @param id
+         * @return builder.
+         */
+        public T id(String id) {
+            this.id = id;
+            return self();
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        public T type(String type) {
+            this.type = type;
+            return self();
+        }
+
+        /**
+         * @param lastModifiedAt
+         * @return builder.
+         */
+        public T lastModifiedAt(long lastModifiedAt) {
+            this.lastModifiedAt = lastModifiedAt;
+            return self();
+        }
+
+        /**
+         * @param properties
+         * @return builder.
+         */
+        public T properties(Map<String, Object> properties) {
+            this.properties = properties;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable CaliperEntity object.
+         * @return a new instance of CaliperEntity.
+         */
+        public CaliperEntity build() {
+            return new CaliperEntity(this);
+        }
+    }
+
+    /**
+     *
+     */
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
+
+    /**
+     * Static factory method.
+     * @return a new instance of the builder.
+     */
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 }

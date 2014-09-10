@@ -49,7 +49,7 @@ public class LearningContext {
     }
 
     /**
-     * Initialize default parameter values in the builder.
+     * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> {

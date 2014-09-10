@@ -1,80 +1,139 @@
-/**
- * 
- */
 package org.imsglobal.caliper.entities.lis;
 
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
-
-/**
- * @author pnayak
- * 
- */
 public class LISCourseSection extends LISOrganization {
 
-	private String label;
-	private String courseNumber;
-	private String semester; // TODO - check agains LIS LISOrganization
+    private final String type;
+    private String label;
+    private String courseNumber;
+    private String semester; // TODO - check against LIS LISOrganization
 
-	/**
-	 * 
-	 */
-	public LISCourseSection() {
-		super();
-		setType("http://purl.imsglobal.org/caliper/v1/LISCourseSection");
-	}
+    /**
+     * @param builder apply builder object properties to the LISCourseSection object.
+     */
+    protected LISCourseSection(Builder<?> builder) {
+        super(builder);
+        this.type = builder.type;
+        this.label = builder.label;
+        this.courseNumber = builder.courseNumber;
+        this.semester = builder.semester;
+    }
 
-	/**
-	 * @param id
-	 * @param parentOrg
-	 */
-	public LISCourseSection(String id, LISOrganization parentOrg) {
-		super(id, parentOrg);
-		setType("http://purl.imsglobal.org/caliper/v1/LISCourseSection");
-	}
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * @return the label
-	 */
-	public String getLabel() {
-		return label;
-	}
+    /**
+     * @return the label
+     */
+    public String getLabel() {
+        return label;
+    }
 
-	/**
-	 * @param label
-	 *            the label to set
-	 */
-	public void setLabel(String label) {
-		this.label = label;
-	}
+    /**
+     * @return the courseNumber
+     */
+    public String getCourseNumber() {
+        return courseNumber;
+    }
 
-	/**
-	 * @return the courseNumber
-	 */
-	public String getCourseNumber() {
-		return courseNumber;
-	}
+    /**
+     * @return the semester
+     */
+    public String getSemester() {
+        return semester;
+    }
 
-	/**
-	 * @param courseNumber
-	 *            the courseNumber to set
-	 */
-	public void setCourseNumber(String courseNumber) {
-		this.courseNumber = courseNumber;
-	}
+    /**
+     * Builder class provides a fluid interface for setting object properties.
+     * @param <T> builder
+     */
+    public static abstract class Builder<T extends Builder<T>> extends LISOrganization.Builder<T>  {
+        private static final String LISCOURSESECTION_TYPE = "http://purl.imsglobal.org/caliper/v1/LISCourseSection";
+        private String type;
+        private String label;
+        private String courseNumber;
+        private String semester; // TODO - check against LIS LISOrganization
 
-	/**
-	 * @return the semester
-	 */
-	public String getSemester() {
-		return semester;
-	}
+        /**
+         * Initialize type with default value.  Required if builder().type() is not set by user.
+         */
+        public Builder() {
+            type(LISCOURSESECTION_TYPE);
+        }
 
-	/**
-	 * @param semester
-	 *            the semester to set
-	 */
-	public void setSemester(String semester) {
-		this.semester = semester;
-	}
+        /**
+         * @param type
+         * @return the IMS Global type reference URI.
+         */
+        @Override
+        public T type(String type) {
+            if (type.equals(LISCOURSESECTION_TYPE)) {
+                this.type = type;
+            } else {
+                this.type = LISCOURSESECTION_TYPE;
+            }
+            return self();
+        }
+
+        /**
+         * @param label
+         * @return course section label.
+         */
+        public T label(String label) {
+            this.label = label;
+            return self();
+        }
+
+        /**
+         * @param courseNumber
+         * @return course number.
+         */
+        public T courseNumber(String courseNumber) {
+            this.courseNumber = courseNumber;
+            return self();
+        }
+
+        /**
+         * @param semester
+         * @return semester.
+         */
+        public T semester(String semester) {
+            this.semester = semester;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of the LISCourseSection.
+         */
+        public LISCourseSection build() {
+            return new LISCourseSection (this);
+        }
+    }
+
+    /**
+     *
+     */
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
+
+    /**
+     * Static factory method.
+     * @return a new instance of the builder.
+     */
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
+
+
+
 
 }

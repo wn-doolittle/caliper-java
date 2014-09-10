@@ -1,13 +1,12 @@
 package org.imsglobal.caliper.entities;
 
-public class LearningObjective extends CaliperEntity {
-
+public class Target extends CaliperEntity {
     private final String type;
 
     /**
      * @param builder apply builder object properties to the Target object.
      */
-    protected LearningObjective(Builder<?> builder) {
+    protected Target(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -25,14 +24,14 @@ public class LearningObjective extends CaliperEntity {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
-        private final String LEARNOBJECTIVE_TYPE = "http://purl.imsglobal.org/caliper/v1/LearningObjective";
+        private static final String TARGET_TYPE = "http://purl.imsglobal.org/caliper/v1/Target";
         private String type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(LEARNOBJECTIVE_TYPE);
+            type(TARGET_TYPE);
         }
 
         /**
@@ -41,20 +40,20 @@ public class LearningObjective extends CaliperEntity {
          */
         @Override
         public T type(String type) {
-            if (type.equals(LEARNOBJECTIVE_TYPE)) {
+            if (type.equals(TARGET_TYPE)) {
                 this.type = type;
             } else {
-                this.type = LEARNOBJECTIVE_TYPE;
+                this.type = TARGET_TYPE;
             }
             return self();
         }
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the AssessmentProfile.
+         * @return a new instance of Target.
          */
-        public LearningObjective build() {
-            return new LearningObjective(this);
+        public Target build() {
+            return new Target (this);
         }
     }
 
