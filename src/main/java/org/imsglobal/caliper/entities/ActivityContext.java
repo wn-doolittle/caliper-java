@@ -4,7 +4,7 @@ public class ActivityContext extends CaliperEntity {
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the Generated object.
+     * @param builder apply builder object properties to the ActivityContext object.
      */
     protected ActivityContext(Builder<?> builder) {
         super(builder);
@@ -50,7 +50,7 @@ public class ActivityContext extends CaliperEntity {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of Generated.
+         * @return a new instance of ActivityContext.
          */
         public ActivityContext build() {
             return new ActivityContext(this);
