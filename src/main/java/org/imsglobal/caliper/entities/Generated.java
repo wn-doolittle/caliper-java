@@ -53,7 +53,7 @@ public class Generated extends CaliperEntity {
          * @return a new instance of Generated.
          */
         public Generated build() {
-            return new Generated (this);
+            return new Generated(this);
         }
     }
 

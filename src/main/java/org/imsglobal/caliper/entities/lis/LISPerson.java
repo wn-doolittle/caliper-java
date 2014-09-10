@@ -57,7 +57,7 @@ public class LISPerson extends CaliperEntity implements CaliperAgent {
          * @return a new instance of the LISPerson.
          */
         public LISPerson build() {
-            return new LISPerson (this);
+            return new LISPerson(this);
         }
     }
 

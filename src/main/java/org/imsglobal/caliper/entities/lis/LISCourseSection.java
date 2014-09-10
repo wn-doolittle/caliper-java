@@ -111,7 +111,7 @@ public class LISCourseSection extends LISOrganization {
          * @return a new instance of the LISCourseSection.
          */
         public LISCourseSection build() {
-            return new LISCourseSection (this);
+            return new LISCourseSection(this);
         }
     }
 

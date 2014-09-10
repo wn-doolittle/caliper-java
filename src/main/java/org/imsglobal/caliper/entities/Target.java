@@ -53,7 +53,7 @@ public class Target extends CaliperEntity {
          * @return a new instance of Target.
          */
         public Target build() {
-            return new Target (this);
+            return new Target(this);
         }
     }
 

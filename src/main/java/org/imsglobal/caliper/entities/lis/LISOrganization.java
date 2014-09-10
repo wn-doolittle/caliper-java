@@ -95,7 +95,7 @@ public class LISOrganization extends CaliperEntity implements CaliperAgent {
          * @return a new instance of the LISOrganization.
          */
         public LISOrganization build() {
-            return new LISOrganization (this);
+            return new LISOrganization(this);
         }
     }
 
