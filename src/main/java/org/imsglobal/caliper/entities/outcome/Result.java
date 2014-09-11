@@ -73,14 +73,14 @@ public class Result extends CaliperEntity {
     }
 
     /**
-     * @return the scoredBy
+     * @return the agent who scored the result
      */
     public CaliperAgent getScoredBy() {
         return scoredBy;
     }
 
     /**
-     * @param builder apply builder object properties to the Target object.
+     * @param builder apply builder object properties to the Result object.
      */
     protected Result(Builder<?> builder) {
         super(builder);
@@ -155,7 +155,7 @@ public class Result extends CaliperEntity {
 
         /**
          * @param totalScore
-         * @return extra credit score.
+         * @return total score.
          */
         public T totalScore(double totalScore) {
             this.totalScore = totalScore;
@@ -164,7 +164,7 @@ public class Result extends CaliperEntity {
 
         /**
          * @param curvedTotalScore
-         * @return extra credit score.
+         * @return curved total score.
          */
         public T curvedTotalScore(double curvedTotalScore) {
             this.curvedTotalScore = curvedTotalScore;
@@ -173,7 +173,7 @@ public class Result extends CaliperEntity {
 
         /**
          * @param curveFactor
-         * @return extra credit score.
+         * @return curve factor.
          */
         public T curveFactor(double curveFactor) {
             this.curveFactor = curveFactor;
@@ -182,7 +182,7 @@ public class Result extends CaliperEntity {
 
         /**
          * @param comment
-         * @return extra credit score.
+         * @return comment.
          */
         public T comment(String comment) {
             this.comment = comment;
@@ -191,7 +191,7 @@ public class Result extends CaliperEntity {
 
         /**
          * @param scoredBy
-         * @return extra credit score.
+         * @return agent who scored the result.
          */
         public T scoredBy(CaliperAgent scoredBy) {
             this.scoredBy = scoredBy;
@@ -200,7 +200,7 @@ public class Result extends CaliperEntity {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of Target.
+         * @return a new instance of Result.
          */
         public Result build() {
             return new Result(this);
