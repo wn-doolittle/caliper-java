@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.imsglobal.caliper.entities.assessment;
 
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
