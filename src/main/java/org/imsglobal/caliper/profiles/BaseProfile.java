@@ -114,14 +114,14 @@ public abstract class BaseProfile {
     /**
      * @return target object, if exists.
      */
-    public Object getTarget() {
+    public Target getTarget() {
         return target;
     }
 
     /**
      * @return generated object, if exists.
      */
-    public Object getGenerated() {
+    public Generated getGenerated() {
         return generated;
     }
 
