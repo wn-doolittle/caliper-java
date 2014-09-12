@@ -3,9 +3,10 @@ package org.imsglobal.caliper.entities.lis;
 public class LISCourseSection extends LISOrganization {
 
     private final String type;
-    private String label;
-    private String courseNumber;
     private String semester; // TODO - check against LIS LISOrganization
+    private String courseNumber;
+    private String label;
+
 
     /**
      * @param builder apply builder object properties to the LISCourseSection object.
@@ -27,10 +28,10 @@ public class LISCourseSection extends LISOrganization {
     }
 
     /**
-     * @return the label
+     * @return the semester
      */
-    public String getLabel() {
-        return label;
+    public String getSemester() {
+        return semester;
     }
 
     /**
@@ -41,10 +42,10 @@ public class LISCourseSection extends LISOrganization {
     }
 
     /**
-     * @return the semester
+     * @return the label
      */
-    public String getSemester() {
-        return semester;
+    public String getLabel() {
+        return label;
     }
 
     /**
@@ -80,11 +81,11 @@ public class LISCourseSection extends LISOrganization {
         }
 
         /**
-         * @param label
-         * @return course section label.
+         * @param semester
+         * @return semester.
          */
-        public T label(String label) {
-            this.label = label;
+        public T semester(String semester) {
+            this.semester = semester;
             return self();
         }
 
@@ -98,11 +99,11 @@ public class LISCourseSection extends LISOrganization {
         }
 
         /**
-         * @param semester
-         * @return semester.
+         * @param label
+         * @return course section label.
          */
-        public T semester(String semester) {
-            this.semester = semester;
+        public T label(String label) {
+            this.label = label;
             return self();
         }
 
