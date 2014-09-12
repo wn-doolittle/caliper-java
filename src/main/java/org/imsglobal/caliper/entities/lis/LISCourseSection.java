@@ -14,9 +14,9 @@ public class LISCourseSection extends LISOrganization {
     protected LISCourseSection(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.label = builder.label;
-        this.courseNumber = builder.courseNumber;
         this.semester = builder.semester;
+        this.courseNumber = builder.courseNumber;
+        this.label = builder.label;
     }
 
     /**
