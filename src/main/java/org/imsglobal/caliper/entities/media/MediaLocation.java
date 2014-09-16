@@ -3,7 +3,11 @@
  */
 package org.imsglobal.caliper.entities.media;
 
+import java.util.UUID;
+
 import org.imsglobal.caliper.entities.CaliperEntity;
+
+import com.google.common.base.Strings;
 
 /**
  * @author pnayak
@@ -14,8 +18,19 @@ public class MediaLocation extends CaliperEntity {
 	/**
 	 * @param currentTime
 	 */
-	public MediaLocation(long currentTime) {
+	public MediaLocation(String id, long currentTime) {
+		
 		super();
+		
+		// Set id and JSON-LD @type
+		if (Strings.isNullOrEmpty(id)) {
+			// auto generate a UUID
+			setId("http://purl.imsglobal.org/caliper/v1/medialocation/" + new UUID(1000l, 500l));
+		} else {
+			setId(id);
+		}
+		setType("http://purl.imsglobal.org/caliper/v1/MediaLocation");
+		
 		this.currentTime = currentTime;
 	}
 
