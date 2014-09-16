@@ -16,7 +16,7 @@ public class AssignableEvent extends CaliperEvent {
 
 	@JsonIgnoreType
 	public enum Action {
-		started, submitted, completed, abandoned, reviewed, activated, deactivated, showed, hid
+		started, completed, abandoned, reviewed, activated, deactivated, showed, hid
 	}
 
 	public AssignableEvent() {

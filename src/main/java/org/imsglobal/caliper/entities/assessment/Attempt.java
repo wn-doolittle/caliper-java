@@ -1,10 +1,11 @@
 /**
  * 
  */
-package org.imsglobal.caliper.entities.assignable;
+package org.imsglobal.caliper.entities.assessment;
 
 import org.imsglobal.caliper.entities.CaliperAgent;
 import org.imsglobal.caliper.entities.CaliperEntity;
+import org.imsglobal.caliper.entities.assignable.Assignable;
 
 /**
  * @author pnayak
