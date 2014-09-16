@@ -50,8 +50,8 @@ public class AnnotationEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
-        private static final String ANNOTATION_EVENT = "http://purl.imsglobal.org/ctx/caliper/v1/AnnotationEvent";
-        private static final String TARGET_TYPE = "http://purl.imsglobal.org/caliper/v1/AnnotationEvent";
+        private static final String ANNOTATIONEVENT_CONTEXT = "http://purl.imsglobal.org/ctx/caliper/v1/AnnotationEvent";
+        private static final String ANNOTATIONEVENT_TYPE = "http://purl.imsglobal.org/caliper/v1/AnnotationEvent";
         private String context;
         private String type;
         private String action;
@@ -60,8 +60,8 @@ public class AnnotationEvent extends CaliperEvent {
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(ANNOTATION_EVENT);
-            type(TARGET_TYPE);
+            context(ANNOTATIONEVENT_CONTEXT);
+            type(ANNOTATIONEVENT_TYPE);
         }
 
         /**
@@ -71,10 +71,10 @@ public class AnnotationEvent extends CaliperEvent {
          */
         @Override
         public T context(String context) {
-            if (type.equals(ANNOTATION_EVENT)) {
+            if (type.equals(ANNOTATIONEVENT_CONTEXT)) {
                 this.context = type;
             } else {
-                this.context = ANNOTATION_EVENT;
+                this.context = ANNOTATIONEVENT_CONTEXT;
             }
             return self();
         }
@@ -86,10 +86,10 @@ public class AnnotationEvent extends CaliperEvent {
          */
         @Override
         public T type(String type) {
-            if (type.equals(TARGET_TYPE)) {
+            if (type.equals(ANNOTATIONEVENT_TYPE)) {
                 this.type = type;
             } else {
-                this.type = TARGET_TYPE;
+                this.type = ANNOTATIONEVENT_TYPE;
             }
             return self();
         }
