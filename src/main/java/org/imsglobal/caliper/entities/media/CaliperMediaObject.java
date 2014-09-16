@@ -16,8 +16,9 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
 	/**
 	 * 
 	 */
-	public CaliperMediaObject() {
+	public CaliperMediaObject(String id) {
 		super();
+		setId(id);
 		setType("http://purl.imsglobal.org/caliper/v1/CaliperMediaObject");
 	}
 

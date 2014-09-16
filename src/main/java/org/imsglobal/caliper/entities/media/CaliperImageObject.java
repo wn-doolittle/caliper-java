@@ -3,7 +3,6 @@
  */
 package org.imsglobal.caliper.entities.media;
 
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
 import org.imsglobal.caliper.entities.schemadotorg.ImageObject;
 
 /**
@@ -18,8 +17,8 @@ public class CaliperImageObject extends CaliperMediaObject implements
 	/**
 	 * 
 	 */
-	public CaliperImageObject() {
-		super();
+	public CaliperImageObject(String id) {
+		super(id);
 		setType("http://purl.imsglobal.org/caliper/v1/CaliperImageObject");
 	}
 

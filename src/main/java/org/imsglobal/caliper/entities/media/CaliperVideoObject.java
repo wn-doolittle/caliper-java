@@ -18,8 +18,8 @@ public class CaliperVideoObject extends CaliperMediaObject implements
 	/**
 	 * 
 	 */
-	public CaliperVideoObject() {
-		super();
+	public CaliperVideoObject(String id) {
+		super(id);
 		setType("http://purl.imsglobal.org/caliper/v1/CaliperVideoObject");
 	}
 
