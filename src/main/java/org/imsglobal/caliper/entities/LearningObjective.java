@@ -37,7 +37,7 @@ public class LearningObjective extends CaliperEntity {
 
         /**
          * @param type
-         * @return the IMS Global type reference URI.
+         * @return builder
          */
         @Override
         public T type(String type) {
