@@ -20,6 +20,12 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource
 			dateToStartOn, dateToSubmit;
 	private int maxAttempts, maxSubmits;
 	private double maxScore;
+	
+	public CaliperAssignableDigitalResource(String id) {
+		super();
+		setId(id);
+		setType("http://purl.imsglobal.org/caliper/v1/Assignment");
+	}
 
 	/**
 	 * @return the dateCreated

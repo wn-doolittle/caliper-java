@@ -18,7 +18,7 @@ public class CaliperAssessment extends CaliperAssignableDigitalResource
 		implements Assessment {
 
 	public CaliperAssessment(String id) {
-		super();
+		super(id);
 		setId(id);
 		setType("http://purl.imsglobal.org/caliper/v1/Assessment");
 	}
