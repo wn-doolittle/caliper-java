@@ -8,6 +8,7 @@ import org.imsglobal.caliper.entities.CaliperDigitalResource;
 public abstract class CaliperMediaObject extends CaliperDigitalResource {
 
     private final String type;
+    private long duration;
 
     /**
      * @param builder apply builder object properties to the CaliperMediaObject object.
@@ -15,6 +16,7 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
     protected CaliperMediaObject(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
+        this.duration = builder.duration;
     }
 
     /**
@@ -26,6 +28,13 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
     }
 
     /**
+     * @return duration
+     */
+    public long getDuration() {
+        return duration;
+    }
+
+    /**
      * Initialize default parameter values in the builder (not in the outer profile class).  Given the abstract nature
      * of BaseProfile, the builder's .build() method is omitted.
      * @param <T> builder
@@ -33,6 +42,7 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
     public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T> {
         private static final String MEDIAOBJECT_TYPE = "http://purl.imsglobal.org/caliper/v1/CaliperMediaObject";
         private String type;
+        private long duration;
 
         protected abstract T self();
 
@@ -54,6 +64,15 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
             } else {
                 this.type = MEDIAOBJECT_TYPE;
             }
+            return self();
+        }
+
+        /**
+         * @param duration
+         * @return duration
+         */
+        public T duration(long duration) {
+            this.duration = duration;
             return self();
         }
     }
