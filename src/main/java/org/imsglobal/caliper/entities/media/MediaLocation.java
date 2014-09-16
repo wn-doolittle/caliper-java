@@ -12,6 +12,14 @@ import org.imsglobal.caliper.entities.CaliperEntity;
 public class MediaLocation extends CaliperEntity {
 
 	/**
+	 * @param currentTime
+	 */
+	public MediaLocation(long currentTime) {
+		super();
+		this.currentTime = currentTime;
+	}
+
+	/**
 	 * The time value (from beginning of media) that indicates the current
 	 * location
 	 */
