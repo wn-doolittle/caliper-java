@@ -13,6 +13,8 @@ import org.imsglobal.caliper.entities.CaliperDigitalResource;
  */
 public abstract class CaliperMediaObject extends CaliperDigitalResource {
 
+	private long duration;
+
 	/**
 	 * 
 	 */
@@ -20,6 +22,21 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
 		super();
 		setId(id);
 		setType("http://purl.imsglobal.org/caliper/v1/CaliperMediaObject");
+	}
+
+	/**
+	 * @return the duration
+	 */
+	public long getDuration() {
+		return duration;
+	}
+
+	/**
+	 * @param duration
+	 *            the duration to set
+	 */
+	public void setDuration(long duration) {
+		this.duration = duration;
 	}
 
 }
