@@ -11,6 +11,8 @@ import com.google.common.base.Strings;
  */
 public class MediaLocation extends CaliperEntity {
 
+    private final String id;
+    private final String type;
 	/**
 	 * @param currentTime
 	 */
@@ -41,6 +43,8 @@ public class MediaLocation extends CaliperEntity {
      */
     protected MediaLocation(Builder<?> builder) {
         super(builder);
+        this.id = builder.id;
+        this.type = builder.type;
         this.currentTime = builder.currentTime;
     }
 
@@ -56,7 +60,61 @@ public class MediaLocation extends CaliperEntity {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+        private static final String MEDIALOCATION_TYPE = "http://purl.imsglobal.org/caliper/v1/MediaLocation";
+        private String id;
+        private String type;
         private long currentTime;
+        private UUID uuid = new UUID(1000l, 500l);
+
+        /**
+         * Initialize type with default values.  Required if builder().id() and/or .type() is not set by user.
+         */
+        public Builder() {
+            id(MEDIALOCATION_TYPE + "/" + uuid);
+            type(MEDIALOCATION_TYPE);
+        }
+
+        /**
+         * DO WE NEED/WANT TO DO THIS?
+         * Initialize Id
+         * @param id
+         */
+        public Builder(String id) {
+            if (Strings.isNullOrEmpty(id)) {
+                id(MEDIALOCATION_TYPE + "/" + uuid);
+            } else {
+                id(id);
+            }
+            type(MEDIALOCATION_TYPE);
+        }
+
+        /**
+         * @param id
+         * @return builder
+         */
+        @Override
+        public T id(String id) {
+            if (Strings.isNullOrEmpty(id)) {
+                this.id = MEDIALOCATION_TYPE + "/" + uuid;
+            } else {
+                this.id = id;
+            }
+            return self();
+        }
+
+        /**
+         * @param type
+         * @return builder
+         */
+        @Override
+        public T type(String type) {
+            if (type.equals(MEDIALOCATION_TYPE)) {
+                this.type = type;
+            } else {
+                this.type = MEDIALOCATION_TYPE;
+            }
+            return self();
+        }
 
         /**
          * @param currentTime
