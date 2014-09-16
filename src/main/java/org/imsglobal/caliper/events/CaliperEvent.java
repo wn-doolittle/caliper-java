@@ -1,276 +1,362 @@
-/**
- * 
- */
 package org.imsglobal.caliper.events;
-
-import org.imsglobal.caliper.entities.CaliperAgent;
-import org.imsglobal.caliper.entities.SoftwareApplication;
-import org.imsglobal.caliper.entities.lis.LISOrganization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.entities.CaliperAgent;
+import org.imsglobal.caliper.entities.Generated;
+import org.imsglobal.caliper.entities.SoftwareApplication;
+import org.imsglobal.caliper.entities.Target;
+import org.imsglobal.caliper.entities.lis.LISOrganization;
 
 /**
  * Base class for all Caliper Events
- * 
- * @author pnayak
- * 
  */
-@JsonPropertyOrder({ "@context", "@type", "actor", "action", "object",
-		"target", "generated", "startedAtTime", "endedAtTime", "duration", "edApp", "group" })
+@JsonPropertyOrder({
+        "@context",
+        "@type",
+        "edApp",
+        "group",
+        "actor",
+        "action",
+        "object",
+        "target",
+        "generated",
+        "startedAtTime",
+        "endedAtTime",
+        "duration"})
 public class CaliperEvent {
 
-	// Core properties
+    /**
+     * Required - the JSON-LD context for the CaliperEvent
+     */
+    @JsonProperty("@context")
+    private final String context;
 
-	/**
-	 * Required - the JSON-LD context for the CaliperEvent
-	 */
-	@JsonProperty("@context")
-	private String context;
+    /**
+     * Required - the type of the CaliperEvent
+     */
+    @JsonProperty("@type")
+    private final String type;
 
-	/**
-	 * Required - the type of the CaliperEvent
-	 */
-	@JsonProperty("@type")
-	private String type;
+    /**
+     * Learning Context
+     */
+    @JsonProperty("edApp")
+    private SoftwareApplication edApp;
 
-	/**
-	 * Required - Action performed by Agent From Metric Profile
-	 */
-	@JsonProperty("action")
-	private String action;
+    /**
+     * Learning Context
+     */
+    @JsonProperty("group")
+    private LISOrganization lisOrganization;
 
-	/**
-	 * Required - Agent (User, System) that performed the action
-	 */
-	@JsonProperty("actor")
-	private CaliperAgent actor;
+    /**
+     * Required - Agent (User, System) that performed the action
+     */
+    @JsonProperty("actor")
+    private final CaliperAgent actor;
 
-	/**
-	 * Required - "Activity Context" from Metric Profile
-	 */
-	@JsonProperty("object")
-	private Object object;
+    /**
+     * Required - Action performed by Agent From Metric Profile
+     */
+    @JsonProperty("action")
+    private final String action;
 
-	/**
-	 * Optional - "target" from Metric Profile
-	 */
-	@JsonProperty("target")
-	private Object target;
+    /**
+     * Required - "Activity Context" from Metric Profile
+     */
+    @JsonProperty("object")
+    private Object object;
 
-	/**
-	 * Optional - entity "generated" as result of action - from Metric Profile
-	 */
-	@JsonProperty("generated")
-	private Object generated;
+    /**
+     * Optional - "target" from Metric Profile
+     */
+    @JsonProperty("target")
+    private Target target;
 
-	/**
-	 * Required time in milliseconds that the event was started at
-	 */
-	@JsonProperty("startedAtTime")
-	private long startedAt;
+    /**
+     * Optional - entity "generated" as result of action - from Metric Profile
+     */
+    @JsonProperty("generated")
+    private Generated generated;
 
-	/**
-	 * An optional time in milliseconds that the event ended at
-	 */
-	@JsonProperty("endedAtTime")
-	private long endedAt;
-	
-	/**
-	 * An xsd:duration (http://books.xmlschemata.org/relaxng/ch19-77073.html)
-	 * The format is expected to be PnYnMnDTnHnMnS
-	 * Valid values include PT1004199059S, PT130S, PT2M10S, P1DT2S, -P1Y, or P1Y2M3DT5H20M30.123S.
-	 * The following values are invalid: 1Y (leading P is missing), P1S (T separator is missing), 
-	 * P-1Y (all parts must be positive), P1M2Y (parts order is significant and Y must precede M), 
-	 * or P1Y-1M (all parts must be positive).
-	 */
-	@JsonProperty("duration")
-	private String duration;
+    /**
+     * Required time in milliseconds that the event was started at
+     */
+    @JsonProperty("startedAtTime")
+    private long startedAt;
 
-	// Contextual Properties ("Learning Context")
+    /**
+     * An optional time in milliseconds that the event ended at
+     */
+    @JsonProperty("endedAtTime")
+    private long endedAt;
 
-	@JsonProperty("edApp")
-	private SoftwareApplication edApp;
+    /**
+     * An xsd:duration (http://books.xmlschemata.org/relaxng/ch19-77073.html)
+     * The format is expected to be PnYnMnDTnHnMnS
+     * Valid values include PT1004199059S, PT130S, PT2M10S, P1DT2S, -P1Y, or P1Y2M3DT5H20M30.123S.
+     * The following values are invalid: 1Y (leading P is missing), P1S (T separator is missing),
+     * P-1Y (all parts must be positive), P1M2Y (parts order is significant and Y must precede M),
+     * or P1Y-1M (all parts must be positive).
+     */
+    @JsonProperty("duration")
+    private String duration;
 
-	@JsonProperty("group")
-	private LISOrganization lisOrganization;
+    /**
+     * @param builder apply builder object properties to the CaliperEvent object.
+     */
+    protected CaliperEvent(Builder<?> builder) {
+        this.context = builder.context;
+        this.type = builder.type;
+        this.edApp = builder.edApp;
+        this.lisOrganization = builder.lisOrganization;
+        this.actor = builder.actor;
+        this.action = builder.action;
+        this.object = builder.object;
+        this.target = builder.target;
+        this.generated = builder.generated;
+        this.startedAt = builder.startedAt;
+        this.endedAt = builder.endedAt;
+        this.duration = builder.duration;
+    }
 
-	/**
-	 * @return the action
-	 */
-	public String getAction() {
-		return action;
-	}
+    /**
+     * @return the context
+     */
+    public String getContext() {
+        return context;
+    }
 
-	/**
-	 * @param action
-	 *            the action to set
-	 */
-	public void setAction(String action) {
-		this.action = action;
-	}
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * @return the startedAt
-	 */
-	public long getStartedAt() {
-		return startedAt;
-	}
+    /**
+     * @return the edApp
+     */
+    public SoftwareApplication getEdApp() {
+        return edApp;
+    }
 
-	/**
-	 * @param startedAt
-	 *            the startedAt to set
-	 */
-	public void setStartedAt(long startedAt) {
-		this.startedAt = startedAt;
-	}
+    /**
+     * @return the lisOrganization
+     */
+    public LISOrganization getLisOrganization() {
+        return lisOrganization;
+    }
 
-	/**
-	 * @return the context
-	 */
-	public String getContext() {
-		return context;
-	}
+    /**
+     * @return the actor
+     */
+    public CaliperAgent getActor() {
+        return actor;
+    }
 
-	/**
-	 * @param context
-	 *            the context to set
-	 */
-	public void setContext(String context) {
-		this.context = context;
-	}
+    /**
+     * @return the action
+     */
+    public String getAction() {
+        return action;
+    }
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
+    /**
+     * @return the object
+     */
+    public Object getObject() {
+        return object;
+    }
 
-	/**
-	 * @param type
-	 *            the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
+    /**
+     * @return the target
+     */
+    public Target getTarget() {
+        return target;
+    }
 
-	/**
-	 * @return the object
-	 */
-	public Object getObject() {
-		return object;
-	}
+    /**
+     * @return generated
+     */
+    public Generated getGenerated() {
+        return generated;
+    }
 
-	/**
-	 * @param object
-	 *            the object to set
-	 */
-	public void setObject(Object object) {
-		this.object = object;
-	}
+    /**
+     * @return the startedAt time
+     */
+    public long getStartedAt() {
+        return startedAt;
+    }
 
-	/**
-	 * @return the edApp
-	 */
-	public SoftwareApplication getEdApp() {
-		return edApp;
-	}
+    /**
+     * @return endedAt time
+     */
+    public long getEndedAt() {
+        return endedAt;
+    }
 
-	/**
-	 * @param edApp
-	 *            the edApp to set
-	 */
-	public void setEdApp(SoftwareApplication edApp) {
-		this.edApp = edApp;
-	}
+    /**
+     * @return the duration
+     */
+    public String getDuration() {
+        return duration;
+    }
 
-	/**
-	 * @return the endedAt
-	 */
-	public long getEndedAt() {
-		return endedAt;
-	}
+    /**
+     * Builder class provides a fluid interface for setting object properties.
+     * @param <T> builder
+     */
+    public static abstract class Builder<T extends Builder<T>> {
+        private String context;
+        private String type;
+        private SoftwareApplication edApp;
+        private LISOrganization lisOrganization;
+        private CaliperAgent actor;
+        private String action;
+        private Object object;
+        private Target target;
+        private Generated generated;
+        private long startedAt;
+        private long endedAt;
+        private String duration;
 
-	/**
-	 * @param endedAt
-	 *            the endedAt to set
-	 */
-	public void setEndedAt(long endedAt) {
-		this.endedAt = endedAt;
-	}
+        protected abstract T self();
 
-	/**
-	 * @return the lisOrganization
-	 */
-	public LISOrganization getLisOrganization() {
-		return lisOrganization;
-	}
+        /**
+         * @param context
+         * @return builder.
+         */
+        public T context(String context) {
+            this.context = context;
+            return self();
+        }
 
-	/**
-	 * @param lisOrganization
-	 *            the lisOrganization to set
-	 */
-	public void setLisOrganization(LISOrganization lisOrganization) {
-		this.lisOrganization = lisOrganization;
-	}
+        /**
+         * @param type
+         * @return builder.
+         */
+        public T type(String type) {
+            this.type = type;
+            return self();
+        }
 
-	/**
-	 * @return the actor
-	 */
-	public CaliperAgent getActor() {
-		return actor;
-	}
+        /**
+         * @param edApp
+         * @return builder.
+         */
+        public T edApp(SoftwareApplication edApp) {
+            this.edApp = edApp;
+            return self();
+        }
 
-	/**
-	 * @param actor
-	 *            the actor to set
-	 */
-	public void setActor(CaliperAgent actor) {
-		this.actor = actor;
-	}
+        /**
+         * @param lisOrganization
+         * @return builder.
+         */
+        public T lisOrganization(LISOrganization lisOrganization) {
+            this.lisOrganization = lisOrganization;
+            return self();
+        }
 
-	/**
-	 * @return the target
-	 */
-	public Object getTarget() {
-		return target;
-	}
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(CaliperAgent actor) {
+            this.actor = actor;
+            return self();
+        }
 
-	/**
-	 * @param target
-	 *            the target to set
-	 */
-	public void setTarget(Object target) {
-		this.target = target;
-	}
+        /**
+         * @param action
+         * @return builder.
+         */
+        public T action(String action) {
+            this.action = action;
+            return self();
+        }
 
-	/**
-	 * @return the generated
-	 */
-	public Object getGenerated() {
-		return generated;
-	}
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(Object object) {
+            this.object = object;
+            return self();
+        }
 
-	/**
-	 * @param generated
-	 *            the generated to set
-	 */
-	public void setGenerated(Object generated) {
-		this.generated = generated;
-	}
+        /**
+         * @param target
+         * @return builder.
+         */
+        public T target(Target target) {
+            this.target = target;
+            return self();
+        }
 
-	/**
-	 * @return the duration
-	 */
-	public String getDuration() {
-		return duration;
-	}
+        /**
+         * @param generated
+         * @return builder.
+         */
+        public T generated(Generated generated) {
+            this.generated = generated;
+            return self();
+        }
 
-	/**
-	 * @param duration the duration to set
-	 */
-	public void setDuration(String duration) {
-		this.duration = duration;
-	}
+        /**
+         * @param startedAt
+         * @return builder.
+         */
+        public T startedAt(long startedAt) {
+            this.startedAt = startedAt;
+            return self();
+        }
+
+        /**
+         * @param endedAt
+         * @return builder.
+         */
+        public T endedAt(long endedAt) {
+            this.endedAt = endedAt;
+            return self();
+        }
+
+        /**
+         * @param duration
+         * @return builder.
+         */
+        public T duration(String duration) {
+            this.duration = duration;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable CaliperEvent object.
+         * @return a new instance of CaliperEvent.
+         */
+        public CaliperEvent build() {
+            return new CaliperEvent(this);
+        }
+    }
+
+    /**
+     *
+     */
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
+
+    /**
+     * Static factory method.
+     * @return a new instance of the builder.
+     */
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 }
