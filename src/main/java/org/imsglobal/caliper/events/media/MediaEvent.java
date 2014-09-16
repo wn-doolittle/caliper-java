@@ -62,18 +62,17 @@ public class MediaEvent extends CaliperEvent {
 		super.setObject(object);
 	}
 
-	/**
-	 * @return the mediaLocation
-	 */
-	public MediaLocation getMediaLocation() {
-		return mediaLocation;
-	}
+    /**
+     * @return the mediaLocation
+     */
+    public MediaLocation getMediaLocation() {
+        return mediaLocation;
+    }
 
-	/**
-	 * @param mediaLocation the mediaLocation to set
-	 */
-	public void setMediaLocation(MediaLocation mediaLocation) {
-		this.mediaLocation = mediaLocation;
-	}
-
+    /**
+     * @param mediaLocation the mediaLocation to set
+     */
+    public void setMediaLocation(MediaLocation mediaLocation) {
+        this.mediaLocation = mediaLocation;
+    }
 }
