@@ -13,30 +13,12 @@ public class MediaLocation extends CaliperEntity {
 
     private final String id;
     private final String type;
-	/**
-	 * @param currentTime
-	 */
-	public MediaLocation(String id, long currentTime) {
-		
-		super();
-		
-		// Set id and JSON-LD @type
-		if (Strings.isNullOrEmpty(id)) {
-			// auto generate a UUID
-			setId("http://purl.imsglobal.org/caliper/v1/medialocation/" + new UUID(1000l, 500l));
-		} else {
-			setId(id);
-		}
-		setType("http://purl.imsglobal.org/caliper/v1/MediaLocation");
-		
-		this.currentTime = currentTime;
-	}
 
-	/**
-	 * The time value (from beginning of media) that indicates the current
-	 * location
-	 */
-	private long currentTime;
+    /**
+     * The time value (from beginning of media) that indicates the current
+     * location
+     */
+    private long currentTime;
 
     /**
      * @param builder apply builder object properties to the MediaLocation object.
