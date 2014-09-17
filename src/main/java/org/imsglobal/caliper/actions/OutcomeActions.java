@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum OutcomeActions {
-    GRADED("outcome.graded"),
-    POSTED("outcome.posted");
+    GRADED("outcome.graded");
+    // POSTED("outcome.posted");
     // REPORTED("outcome.reported");
 
     private final String key;
