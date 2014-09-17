@@ -1,11 +1,15 @@
 package org.imsglobal.caliper.events.annotation;
 
+import org.imsglobal.caliper.actions.AnnotationActions;
 import org.imsglobal.caliper.events.CaliperEvent;
+
+import java.util.ResourceBundle;
 
 public class AnnotationEvent extends CaliperEvent {
 
     private final String context;
     private final String type;
+    private final String action;
 
     /**
      * @param builder apply builder object properties to the AnnotationEvent object.
@@ -14,6 +18,7 @@ public class AnnotationEvent extends CaliperEvent {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
+        this.action = builder.action;
     }
 
     /**
@@ -43,6 +48,14 @@ public class AnnotationEvent extends CaliperEvent {
     @Override
     public String getType() {
         return type;
+    }
+
+    /**
+     * @return the action
+     */
+    @Override
+    public String getAction() {
+        return action;
     }
 
     /**
@@ -94,7 +107,19 @@ public class AnnotationEvent extends CaliperEvent {
             return self();
         }
 
-        // TODO WE NEED TO VALIDATE ACCEPTED ACTIONS FOR THIS EVENT.
+        /**
+         * @param key
+         * @return builder
+         */
+        @Override
+        public T action(String key) {
+            if (AnnotationActions.hasKey(key)) {
+                this.action = ResourceBundle.getBundle("resources.actions").getString(key);
+                return self();
+            } else {
+                throw new IllegalArgumentException("Unrecognized constant");
+            }
+        }
 
         /**
          * Client invokes build method in order to create an immutable object.
