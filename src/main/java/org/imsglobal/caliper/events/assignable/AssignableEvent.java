@@ -140,8 +140,12 @@ public class AssignableEvent extends CaliperEvent {
             }
         }
 
+        /*
+        * (non-Javadoc)
+        * @see org.imsglobal.caliper.events.CaliperEvent#setObject(java.lang.Object)
+        */
+
         /**
-         * @see org.imsglobal.caliper.events.CaliperEvent#setObject(java.lang.Object)
          * @param object
          * @return builder
          */
