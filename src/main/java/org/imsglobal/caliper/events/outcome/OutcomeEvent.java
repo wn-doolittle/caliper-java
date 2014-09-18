@@ -1,7 +1,6 @@
 package org.imsglobal.caliper.events.outcome;
 
 import org.imsglobal.caliper.actions.OutcomeActions;
-import org.imsglobal.caliper.entities.Generated;
 import org.imsglobal.caliper.entities.assessment.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.events.CaliperEvent;
@@ -82,7 +81,7 @@ public class OutcomeEvent extends CaliperEvent {
      * @return object
      */
     @Override
-    public Generated getGenerated() {
+    public Object getGenerated() {
         return generated;
     }
 
@@ -200,7 +199,7 @@ public class OutcomeEvent extends CaliperEvent {
          * @return builder
          */
         @Override
-        public T generated(Generated generated) {
+        public T generated(Object generated) {
             if (object instanceof Result) {
                 this.generated = generated;
                 return self();
@@ -224,7 +223,7 @@ public class OutcomeEvent extends CaliperEvent {
             super.setGenerated(generated);
         }
         */
-        
+
         /**
          * Client invokes build method in order to create an immutable object.
          * @return a new instance of OutcomeEvent.
