@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum MediaActions {
-    ENABLEDCC("media.accessibility.enabledCC"),
-    DISABLEDCC("media.accessibility.disabledCC"),
+    ENABLEDCLOSECAPTIONING("media.accessibility.enabledCloseCaptioning"),
+    DISABLEDCLOSEDCAPTIONING("media.accessibility.disabledCloseCaptioning"),
 
-    CHANGEDVOL("media.audio.changedVolume"),
+    CHANGEDVOLUME("media.audio.changedVolume"),
     MUTED("media.audio.muted"),
     UNMUTED("media.audio.unmuted"),
 
@@ -23,8 +23,8 @@ public enum MediaActions {
     CHANGEDVIEWERSIZE("media.viewer.changedViewerSize"),
     ENTEREDFULLSCREEN("media.viewer.enteredFullScreen"),
     EXITEDFULLSCREEN("media.viewer.exitedFullScreen"),
-    ENTEREDPOPOUT("media.viewer.enteredPopout"),
-    EXITEDPOPOUT("media.viewer.exitedPopout");
+    OPENEDPOPOUT("media.viewer.openedPopout"),
+    CLOSEDPOPOUT("media.viewer.closedPopout");
 
     private final String key;
     private static final Map<String, MediaActions> lookup = new HashMap<String, MediaActions>();
