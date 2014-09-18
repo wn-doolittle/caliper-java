@@ -114,7 +114,7 @@ public class ViewedEvent extends CaliperEvent {
          * Client invokes build method in order to create an immutable object.
          * @return a new instance of ViewedEvent.
          */
-        public ViewedEvent  build() {
+        public ViewedEvent build() {
             return new ViewedEvent (this);
         }
     }

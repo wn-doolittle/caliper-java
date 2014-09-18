@@ -69,6 +69,7 @@ public class AssignableEvent extends CaliperEvent {
      * TODO original version did not include an accessor for the object.  Retain or drop?
      * @return object
      */
+    @Override
     public Object getObject() {
         return object;
     }
@@ -142,8 +143,9 @@ public class AssignableEvent extends CaliperEvent {
         /**
          * @see org.imsglobal.caliper.events.CaliperEvent#setObject(java.lang.Object)
          * @param object
-         * @return
+         * @return builder
          */
+        @Override
         public T object(Object object) {
             if (object instanceof CaliperAssignableDigitalResource) {
                 this.object = object;
