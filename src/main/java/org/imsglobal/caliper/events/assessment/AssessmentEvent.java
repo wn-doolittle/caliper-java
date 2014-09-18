@@ -7,13 +7,6 @@ import java.util.ResourceBundle;
 
 public class AssessmentEvent extends CaliperEvent {
 
-    /**
-    @JsonIgnoreType
-    public enum Action {
-        started, paused, restarted, submitted
-    }
-    **/
-
     private final String context;
     private final String type;
     private final String action;

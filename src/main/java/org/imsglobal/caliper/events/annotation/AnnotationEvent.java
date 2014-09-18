@@ -78,7 +78,7 @@ public class AnnotationEvent extends CaliperEvent {
         }
 
         /**
-         * TODO Perhaps we should always just auto-generate the context for the user; drop setter?
+         * TODO Perhaps we should just auto-generate the context for the user; drop setter?
          * @param context
          * @return builder
          */
@@ -93,7 +93,7 @@ public class AnnotationEvent extends CaliperEvent {
         }
 
         /**
-         * TODO Perhaps we should always just auto-generate the context for the user; drop setter?
+         * TODO Perhaps we should just auto-generate the context for the user; drop setter?
          * @param type
          * @return builder
          */

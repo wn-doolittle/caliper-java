@@ -7,12 +7,6 @@ import java.util.ResourceBundle;
 
 public class AssessmentItemEvent extends CaliperEvent {
 
-    /**
-    @JsonIgnoreType
-    public enum Action {
-        started, completed, viewed, reviewed, skipped}
-    */
-
     private final String context;
     private final String type;
     private final String action;
