@@ -161,9 +161,6 @@ public class AssignableEvent extends CaliperEvent {
             }
         }
 
-        /** (non-Javadoc)
-        * @see org.imsglobal.caliper.events.CaliperEvent#setObject(java.lang.Object)
-        */
         /**
          @Override
          public void setObject(Object object) {
