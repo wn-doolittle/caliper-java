@@ -20,6 +20,8 @@ import java.util.ResourceBundle;
     "action" })
 public class MediaProfile extends BaseProfile {
 
+    private MediaActions actions;
+
     @JsonProperty("mediaFrame")
     private int mediaFrame;
 
@@ -69,6 +71,13 @@ public class MediaProfile extends BaseProfile {
         this.sizeY = builder.sizeY;
         this.isEmbedded = builder.isEmbedded;
         this.action = builder.action;
+    }
+
+    /**
+     * @return Media action enums
+     */
+    public MediaActions getActions() {
+        return actions;
     }
 
     /**

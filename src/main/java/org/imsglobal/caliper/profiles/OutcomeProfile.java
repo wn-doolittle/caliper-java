@@ -1,9 +1,11 @@
 package org.imsglobal.caliper.profiles;
 
+import org.imsglobal.caliper.actions.OutcomeActions;
 import org.imsglobal.caliper.entities.outcome.Result;
 
 public class OutcomeProfile extends BaseProfile {
 
+    private OutcomeActions actions;
     private Result result;
 
     /**
@@ -12,6 +14,13 @@ public class OutcomeProfile extends BaseProfile {
     protected OutcomeProfile(Builder<?> builder) {
         super(builder);
         this.result = builder.result;
+    }
+
+    /**
+     * @return Outcome actions
+     */
+    public OutcomeActions getActions() {
+        return actions;
     }
 
     /**

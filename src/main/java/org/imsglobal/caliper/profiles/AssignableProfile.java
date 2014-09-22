@@ -1,9 +1,11 @@
 package org.imsglobal.caliper.profiles;
 
+import org.imsglobal.caliper.actions.AssignableActions;
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 
 public class AssignableProfile extends BaseProfile {
 
+    private AssignableActions actions;
     private CaliperAssignableDigitalResource assignable;
 
     /**
@@ -12,6 +14,13 @@ public class AssignableProfile extends BaseProfile {
     protected AssignableProfile(Builder<?> builder) {
         super(builder);
         this.assignable = builder.assignable;
+    }
+
+    /**
+     * @return Assignable action enums
+     */
+    public AssignableActions getActions() {
+        return actions;
     }
 
     /**

@@ -6,10 +6,10 @@ import org.imsglobal.caliper.actions.ReadingActions;
 import org.imsglobal.caliper.events.CaliperEvent;
 
 public class ReadingProfile extends BaseProfile {
-	
+
+    private ReadingActions actions;
     private Object frame;
     private Object navigatedFrom;
-    private String action;
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -41,8 +41,8 @@ public class ReadingProfile extends BaseProfile {
     /**
      * @return action.
      */
-    public String getAction() {
-        return action;
+    public ReadingActions getActions() {
+        return actions;
     }
 
     /**

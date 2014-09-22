@@ -16,7 +16,6 @@ import java.util.List;
     "objectType",
     "alignedLearningObjective",
     "keyword",
-    "action",
     "target",
     "generated" })
 public abstract class BaseProfile {
@@ -39,9 +38,6 @@ public abstract class BaseProfile {
     @JsonProperty("keyword")
     private List<String> keyword = new ArrayList<String>();
 
-    @JsonProperty("action")
-    private String action;
-
     @JsonProperty("target")
     private Target target;
 
@@ -58,7 +54,6 @@ public abstract class BaseProfile {
         this.objectType = builder.objectType;
         this.alignedLearningObjective = builder.alignedLearningObjective;
         this.keyword = builder.keyword;
-        this.action = builder.action;
         this.target = builder.target;
         this.generated = builder.generated;
     }
@@ -105,13 +100,6 @@ public abstract class BaseProfile {
     }
 
     /**
-     * @return action.
-     */
-    public String getAction() {
-        return action;
-    }
-
-    /**
      * @return target object, if exists.
      */
     public Target getTarget() {
@@ -137,7 +125,6 @@ public abstract class BaseProfile {
         private List<String> objectType = new ArrayList<String>();
         private List<String> alignedLearningObjective = new ArrayList<String>();
         private List<String> keyword = new ArrayList<String>();
-        private String action;
         private Target target;
         private Generated generated;
 
@@ -194,15 +181,6 @@ public abstract class BaseProfile {
          */
         public T keyword(List<String> keyword) {
             this.keyword = keyword;
-            return self();
-        }
-
-        /**
-         * @param action
-         * @return builder.
-         */
-        public T action(String action) {
-            this.action = action;
             return self();
         }
 
