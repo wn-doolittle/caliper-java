@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ReadingActions {
-    NAVIGATED("reading.navigated"),
+    NAVIGATEDTO("reading.navigatedTo"),
     SEARCHED("reading.searched"),
     VIEWED("reading.viewed");
 
