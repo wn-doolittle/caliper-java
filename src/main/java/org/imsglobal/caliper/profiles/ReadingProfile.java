@@ -52,7 +52,6 @@ public class ReadingProfile extends BaseProfile {
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
         private Object frame;
         private Object navigatedFrom;
-        private String action;
 
         /**
          * @param frame
@@ -69,15 +68,6 @@ public class ReadingProfile extends BaseProfile {
          */
         public T navigatedFrom(Object navigatedFrom) {
             this.navigatedFrom = navigatedFrom;
-            return self();
-        }
-
-        /**
-         * @param key
-         * @return builder after validating action key.
-         */
-        public T action(String key) {
-            this.action = validateAction(key);
             return self();
         }
 
@@ -106,17 +96,5 @@ public class ReadingProfile extends BaseProfile {
      */
     public static Builder<?> builder() {
         return new Builder2();
-    }
-
-    /**
-     * @param key resource bundle key attribute of target constant
-     * @return resource bundle key
-     */
-    private static String validateAction(String key) {
-        if (ReadingActions.hasKey(key)) {
-            return ResourceBundle.getBundle("resources.actions").getString(key);
-        } else {
-            throw new IllegalArgumentException("Unrecognized constant");
-        }
     }
 }
