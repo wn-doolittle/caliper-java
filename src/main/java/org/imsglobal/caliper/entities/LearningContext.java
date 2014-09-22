@@ -2,7 +2,6 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.LISOrganization;
 
 @JsonPropertyOrder({ "edApp", "lisOrganization", "agent"})
@@ -15,7 +14,7 @@ public class LearningContext {
     private LISOrganization lisOrganization;
 
     @JsonProperty("agent")
-    private Agent agent;
+    private CaliperAgent agent;
 
     /**
      * @param builder apply builder object properties to the LearningContext object.
@@ -44,7 +43,7 @@ public class LearningContext {
     /**
      * @return the agent.
      */
-    public Agent getAgent() {
+    public CaliperAgent getAgent() {
         return agent;
     }
 
@@ -56,7 +55,7 @@ public class LearningContext {
     // public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
         private SoftwareApplication edApp;
         private LISOrganization lisOrganization;
-        private Agent agent;
+        private CaliperAgent agent;
 
         protected abstract T self();
 
@@ -82,7 +81,7 @@ public class LearningContext {
          * @param agent
          * @return builder.
          */
-        private T agent(Agent agent) {
+        private T agent(CaliperAgent agent) {
             this.agent = agent;
             return self();
         }
