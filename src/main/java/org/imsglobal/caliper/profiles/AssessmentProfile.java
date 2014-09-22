@@ -32,10 +32,17 @@ public class AssessmentProfile extends BaseProfile {
     }
 
     /**
-     * @return Caliper Assessment.
+     * @return Assessment
      */
-    public CaliperAssessment getCaliperAssessment() {
+    public CaliperAssessment getAssessment() {
         return assessment;
+    }
+
+    /**
+     * @return List of assessment items
+     */
+    public List<CaliperAssessmentItem>  getAssessmentItem() {
+        return assessmentItem;
     }
 
     /**
