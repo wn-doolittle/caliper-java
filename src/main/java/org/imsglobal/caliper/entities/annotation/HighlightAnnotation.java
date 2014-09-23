@@ -79,11 +79,20 @@ public class HighlightAnnotation extends Annotation {
         }
 
         /**
-         * @param selection
+         * @param start
          * @return text position selector.
          */
-        public T selection(TextPositionSelector selection) {
-            this.selection = selection;
+        public T selectionStart(String start) {
+            this.selection.setStart(start);
+            return self();
+        }
+
+        /**
+         * @param end
+         * @return text position selector.
+         */
+        public T selectionEnd(String end) {
+            this.selection.setEnd(end);
             return self();
         }
 
