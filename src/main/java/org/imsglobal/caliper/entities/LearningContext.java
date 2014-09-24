@@ -63,7 +63,7 @@ public class LearningContext {
          * @param edApp
          * @return builder.
          */
-        private T edApp(SoftwareApplication edApp) {
+        public T edApp(SoftwareApplication edApp) {
             this.edApp = edApp;
             return self();
         }
@@ -72,7 +72,7 @@ public class LearningContext {
          * @param lisOrganization
          * @return builder.
          */
-        private T lisOrganization(LISOrganization lisOrganization) {
+        public T lisOrganization(LISOrganization lisOrganization) {
             this.lisOrganization = lisOrganization;
             return self();
         }
@@ -81,7 +81,7 @@ public class LearningContext {
          * @param agent
          * @return builder.
          */
-        private T agent(CaliperAgent agent) {
+        public T agent(CaliperAgent agent) {
             this.agent = agent;
             return self();
         }
