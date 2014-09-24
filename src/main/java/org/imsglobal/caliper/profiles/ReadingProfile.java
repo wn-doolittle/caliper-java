@@ -4,7 +4,7 @@ import org.imsglobal.caliper.actions.ReadingActions;
 
 public class ReadingProfile extends BaseProfile {
 
-    private ReadingActions actions;
+    private ReadingActions action;
     private Object frame;
     private Object navigatedFrom;
 
@@ -35,8 +35,8 @@ public class ReadingProfile extends BaseProfile {
     /**
      * @return action.
      */
-    public ReadingActions getActions() {
-        return actions;
+    public ReadingActions getAction() {
+        return action;
     }
 
     /**
