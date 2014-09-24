@@ -1,9 +1,6 @@
 package org.imsglobal.caliper.profiles;
 
-import java.util.ResourceBundle;
-
 import org.imsglobal.caliper.actions.ReadingActions;
-import org.imsglobal.caliper.events.CaliperEvent;
 
 public class ReadingProfile extends BaseProfile {
 
@@ -14,13 +11,10 @@ public class ReadingProfile extends BaseProfile {
     /**
      * @param builder apply builder object properties to the profile object.
      */
-    protected ReadingProfile(Builder<?> profileContext) {
-        super(profileContext);
-    }
-    
-    public CaliperEvent get(Class eventType) {
-    	
-    	return null;
+    protected ReadingProfile(Builder<?> builder) {
+        super(builder);
+        this.frame = builder.frame;
+        this.navigatedFrom = builder.navigatedFrom;
     }
 
     /**
