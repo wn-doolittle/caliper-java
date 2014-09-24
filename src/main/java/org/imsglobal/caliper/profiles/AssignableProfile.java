@@ -41,7 +41,7 @@ public class AssignableProfile extends BaseProfile {
          * @param assignable
          * @return builder.
          */
-        private T assignable(CaliperAssignableDigitalResource assignable) {
+        public T assignable(CaliperAssignableDigitalResource assignable) {
             this.assignable = assignable;
             return self();
         }

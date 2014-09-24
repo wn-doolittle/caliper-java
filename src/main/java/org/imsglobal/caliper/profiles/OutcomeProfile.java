@@ -41,7 +41,7 @@ public class OutcomeProfile extends BaseProfile {
          * @param result
          * @return builder.
          */
-        private T result(Result result) {
+        public T result(Result result) {
             this.result = result;
             return self();
         }
