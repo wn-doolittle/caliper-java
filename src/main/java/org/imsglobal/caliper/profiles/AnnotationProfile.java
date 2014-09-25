@@ -1,34 +1,35 @@
 package org.imsglobal.caliper.profiles;
 
-import org.imsglobal.caliper.actions.AssignableActions;
-import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
+import org.imsglobal.caliper.actions.AnnotationActions;
+import org.imsglobal.caliper.entities.annotation.Annotation;
 
-public class AssignableProfile extends BaseProfile {
+public class AnnotationProfile extends BaseProfile {
 
-    private static AssignableActions action;
-    private CaliperAssignableDigitalResource assignable;
+    private static AnnotationActions action;
+    private Annotation annotation;
 
     /**
      * @param builder apply builder object properties to the profile object.
+     * @param action
      */
-    protected AssignableProfile(Builder<?> builder, AssignableActions action) {
+    protected AnnotationProfile(Builder<?> builder, AnnotationActions action) {
         super(builder);
-        this.assignable = builder.assignable;
+        this.annotation = builder.annotation;
         this.action = action;
     }
 
     /**
-     * @return Assignable action enums
+     * @return annotation
      */
-    public AssignableActions getAction() {
-        return action;
+    public Annotation getAnnotation() {
+        return annotation;
     }
 
     /**
-     * @return assignable digital resource.
+     * @return action.
      */
-    public CaliperAssignableDigitalResource getAssignable() {
-        return assignable;
+    public AnnotationActions getAction() {
+        return action;
     }
 
     /**
@@ -36,23 +37,23 @@ public class AssignableProfile extends BaseProfile {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
-        private CaliperAssignableDigitalResource assignable;
+        private Annotation annotation;
 
         /**
-         * @param assignable
+         * @param annotation
          * @return builder.
          */
-        public T assignable(CaliperAssignableDigitalResource assignable) {
-            this.assignable = assignable;
+        public T annotation(Annotation annotation) {
+            this.annotation = annotation;
             return self();
         }
 
         /**
          * Client invokes the build method in order to create an immutable profile object.
-         * @return a new instance of MediaProfile.
+         * @return a new instance of AnnotationProfile.
          */
-        public AssignableProfile build() {
-            return new AssignableProfile(this, action);
+        public AnnotationProfile build() {
+            return new AnnotationProfile(this, action);
         }
     }
 

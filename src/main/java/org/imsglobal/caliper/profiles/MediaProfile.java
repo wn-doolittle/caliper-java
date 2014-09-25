@@ -6,22 +6,23 @@ import org.imsglobal.caliper.entities.schemadotorg.MediaObject;
 
 public class MediaProfile extends BaseProfile {
 
-    private MediaActions actions;
+    private static MediaActions action;
     private MediaObject mediaObject;
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
-    protected MediaProfile(Builder<?> builder) {
+    protected MediaProfile(Builder<?> builder, MediaActions action) {
         super(builder);
         this.mediaObject = builder.mediaObject;
+        this.action = action;
     }
 
     /**
      * @return Media action enums
      */
-    public MediaActions getActions() {
-        return actions;
+    public MediaActions getAction() {
+        return action;
     }
 
     /**
@@ -52,7 +53,7 @@ public class MediaProfile extends BaseProfile {
          * @return a new instance of MediaProfile.
          */
         public MediaProfile build() {
-            return new MediaProfile(this);
+            return new MediaProfile(this, action);
         }
     }
 

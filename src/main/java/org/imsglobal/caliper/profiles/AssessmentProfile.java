@@ -1,34 +1,33 @@
 package org.imsglobal.caliper.profiles;
 
-
 import org.imsglobal.caliper.actions.AssessmentActions;
 import org.imsglobal.caliper.entities.assessment.CaliperAssessment;
 import org.imsglobal.caliper.entities.assessment.CaliperAssessmentItem;
+
 import java.util.List;
-
-
 import java.util.ArrayList;
 
 public class AssessmentProfile extends BaseProfile {
 
-    private AssessmentActions actions;
+    private static AssessmentActions action;
     private CaliperAssessment assessment;
     private List<CaliperAssessmentItem> assessmentItem = new ArrayList<CaliperAssessmentItem>();
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
-    protected AssessmentProfile(Builder<?> builder) {
+    protected AssessmentProfile(Builder<?> builder, AssessmentActions action) {
         super(builder);
         this.assessment = builder.assessment;
         this.assessmentItem = builder.assessmentItem;
+        this.action = action;
     }
 
     /**
      * @return Assessment action enums
      */
-    public AssessmentActions getActions() {
-        return actions;
+    public AssessmentActions getAction() {
+        return action;
     }
 
     /**
@@ -76,7 +75,7 @@ public class AssessmentProfile extends BaseProfile {
          * @return a new instance of the AssessmentProfile.
          */
         public AssessmentProfile build() {
-            return new AssessmentProfile(this);
+            return new AssessmentProfile(this, action);
         }
     }
 

@@ -5,22 +5,23 @@ import org.imsglobal.caliper.entities.outcome.Result;
 
 public class OutcomeProfile extends BaseProfile {
 
-    private OutcomeActions actions;
+    private static OutcomeActions action;
     private Result result;
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
-    protected OutcomeProfile(Builder<?> builder) {
+    protected OutcomeProfile(Builder<?> builder, OutcomeActions action) {
         super(builder);
         this.result = builder.result;
+        this.action = action;
     }
 
     /**
      * @return Outcome actions
      */
-    public OutcomeActions getActions() {
-        return actions;
+    public OutcomeActions getAction() {
+        return action;
     }
 
     /**
@@ -51,7 +52,7 @@ public class OutcomeProfile extends BaseProfile {
          * @return a new instance of MediaProfile.
          */
         public OutcomeProfile build() {
-            return new OutcomeProfile(this);
+            return new OutcomeProfile(this, action);
         }
     }
 

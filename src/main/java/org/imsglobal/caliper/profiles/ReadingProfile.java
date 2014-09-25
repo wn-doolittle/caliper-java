@@ -4,17 +4,25 @@ import org.imsglobal.caliper.actions.ReadingActions;
 
 public class ReadingProfile extends BaseProfile {
 
-    private ReadingActions action;
+    private static ReadingActions action;
     private Object frame;
     private Object navigatedFrom;
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
-    protected ReadingProfile(Builder<?> builder) {
+    protected ReadingProfile(Builder<?> builder, ReadingActions action) {
         super(builder);
         this.frame = builder.frame;
         this.navigatedFrom = builder.navigatedFrom;
+        this.action = action;
+    }
+
+    /**
+     * @return scoped set of actions
+     */
+    public ReadingActions getAction() {
+        return action;
     }
 
     /**
@@ -30,13 +38,6 @@ public class ReadingProfile extends BaseProfile {
      */
     public Object navigatedFrom() {
         return navigatedFrom;
-    }
-
-    /**
-     * @return action.
-     */
-    public ReadingActions getAction() {
-        return action;
     }
 
     /**
@@ -70,7 +71,7 @@ public class ReadingProfile extends BaseProfile {
          * @return a new instance of MediaProfile.
          */
         public ReadingProfile build() {
-            return new ReadingProfile(this);
+            return new ReadingProfile(this, action);
         }
     }
 
