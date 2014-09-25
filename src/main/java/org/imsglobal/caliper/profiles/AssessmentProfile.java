@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.profiles;
 
 import org.imsglobal.caliper.actions.AssessmentActions;
+import org.imsglobal.caliper.actions.AssessmentItemActions;
 import org.imsglobal.caliper.entities.assessment.CaliperAssessment;
 import org.imsglobal.caliper.entities.assessment.CaliperAssessmentItem;
 
@@ -10,24 +11,19 @@ import java.util.ArrayList;
 public class AssessmentProfile extends BaseProfile {
 
     private static AssessmentActions action;
+    private static AssessmentItemActions itemAction;
     private CaliperAssessment assessment;
     private List<CaliperAssessmentItem> assessmentItem = new ArrayList<CaliperAssessmentItem>();
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
-    protected AssessmentProfile(Builder<?> builder, AssessmentActions action) {
+    protected AssessmentProfile(Builder<?> builder, AssessmentActions action, AssessmentItemActions itemAction) {
         super(builder);
         this.assessment = builder.assessment;
         this.assessmentItem = builder.assessmentItem;
         this.action = action;
-    }
-
-    /**
-     * @return Assessment action enums
-     */
-    public AssessmentActions getAction() {
-        return action;
+        this.itemAction = itemAction;
     }
 
     /**
@@ -42,6 +38,20 @@ public class AssessmentProfile extends BaseProfile {
      */
     public List<CaliperAssessmentItem>  getAssessmentItem() {
         return assessmentItem;
+    }
+
+    /**
+     * @return Assessment action enums
+     */
+    public AssessmentActions getAction() {
+        return action;
+    }
+
+    /**
+     * @return Assessment item action enums
+     */
+    public AssessmentItemActions getItemAction() {
+        return itemAction;
     }
 
     /**
@@ -75,7 +85,7 @@ public class AssessmentProfile extends BaseProfile {
          * @return a new instance of the AssessmentProfile.
          */
         public AssessmentProfile build() {
-            return new AssessmentProfile(this, action);
+            return new AssessmentProfile(this, action, itemAction);
         }
     }
 
