@@ -2,9 +2,7 @@ package org.imsglobal.caliper.profiles;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.Generated;
 import org.imsglobal.caliper.entities.LearningContext;
-import org.imsglobal.caliper.entities.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +37,12 @@ public abstract class BaseProfile {
     private List<String> keyword = new ArrayList<String>();
 
     @JsonProperty("target")
-    private Target target;
+    private Object target;
+    //private Target target;
 
     @JsonProperty("generated")
-    private Generated generated;
+    private Object generated;
+    //private Generated generated;
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -102,14 +102,14 @@ public abstract class BaseProfile {
     /**
      * @return target object, if exists.
      */
-    public Target getTarget() {
+    public Object getTarget() {
         return target;
     }
 
     /**
      * @return generated object, if exists.
      */
-    public Generated getGenerated() {
+    public Object getGenerated() {
         return generated;
     }
 
@@ -125,8 +125,10 @@ public abstract class BaseProfile {
         private List<String> objectType = new ArrayList<String>();
         private List<String> alignedLearningObjective = new ArrayList<String>();
         private List<String> keyword = new ArrayList<String>();
-        private Target target;
-        private Generated generated;
+        private Object target;
+        //private Target target;
+        private Object generated;
+       // private Generated generated;
 
         protected abstract T self();
 
@@ -188,7 +190,7 @@ public abstract class BaseProfile {
          * @param target
          * @return builder.
          */
-        public T target(Target target) {
+        public T target(Object target) {
             this.target = target;
             return self();
         }
@@ -197,7 +199,7 @@ public abstract class BaseProfile {
          * @param generated
          * @return builder.
          */
-        public T generated(Generated generated) {
+        public T generated(Object generated) {
             this.generated = generated;
             return self();
         }
