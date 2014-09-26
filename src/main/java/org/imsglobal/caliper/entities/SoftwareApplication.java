@@ -3,7 +3,7 @@ package org.imsglobal.caliper.entities;
 import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 
 @CaliperLearningContext
-public class SoftwareApplication extends CaliperEntity implements CreativeWork {
+public class SoftwareApplication extends CaliperEntity implements CaliperAgent, CreativeWork {
 
     private final String type;
 
@@ -78,5 +78,4 @@ public class SoftwareApplication extends CaliperEntity implements CreativeWork {
     public static Builder<?> builder() {
         return new Builder2();
     }
-
 }
