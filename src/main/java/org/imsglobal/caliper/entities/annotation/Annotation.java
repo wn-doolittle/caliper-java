@@ -1,7 +1,6 @@
 package org.imsglobal.caliper.entities.annotation;
 
 import org.imsglobal.caliper.entities.CaliperEntity;
-import org.imsglobal.caliper.entities.Target;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
 /**
@@ -13,7 +12,8 @@ import org.imsglobal.caliper.entities.schemadotorg.Thing;
 public class Annotation extends CaliperEntity implements Thing {
 
     private final String type;
-    private Target target;
+    private Object target;
+    // private Target target;
 
     /**
      * @param builder apply builder object properties to the Annotation object.
@@ -36,7 +36,7 @@ public class Annotation extends CaliperEntity implements Thing {
     /**
      * @return the target
      */
-    public Target getTarget() {
+    public Object getTarget() {
         return target;
     }
 
@@ -48,7 +48,8 @@ public class Annotation extends CaliperEntity implements Thing {
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
         private static final String ANNOTATON_TYPE = "http://purl.imsglobal.org/caliper/v1/Annotation";
         private String type;
-        private Target target;
+        private Object target;
+        // private Target target;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
@@ -75,7 +76,7 @@ public class Annotation extends CaliperEntity implements Thing {
          * @param target
          * @return annotation target.
          */
-        public T target(Target target) {
+        public T target(Object target) {
             this.target = target;
             return self();
         }
