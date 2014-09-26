@@ -36,7 +36,7 @@ public class ReadingProfile extends BaseProfile {
     /**
      * @return return the starting location.
      */
-    public Object navigatedFrom() {
+    public Object getNavigatedFrom() {
         return navigatedFrom;
     }
 
