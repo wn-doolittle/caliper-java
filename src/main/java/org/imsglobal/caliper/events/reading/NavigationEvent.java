@@ -142,7 +142,7 @@ public class NavigationEvent extends CaliperEvent {
          * @param fromResource
          * @return builder
          */
-        public T action(CaliperDigitalResource fromResource) {
+        public T fromResource(CaliperDigitalResource fromResource) {
             this.fromResource = fromResource;
             return self();
         }
