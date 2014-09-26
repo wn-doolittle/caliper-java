@@ -84,13 +84,13 @@ public class CaliperEvent {
      * Required time in milliseconds that the event was started at
      */
     @JsonProperty("startedAtTime")
-    private long startedAt;
+    private long startedAtTime;
 
     /**
      * An optional time in milliseconds that the event ended at
      */
     @JsonProperty("endedAtTime")
-    private long endedAt;
+    private long endedAtTime;
 
     /**
      * An xsd:duration (http://books.xmlschemata.org/relaxng/ch19-77073.html)
@@ -116,8 +116,8 @@ public class CaliperEvent {
         this.object = builder.object;
         this.target = builder.target;
         this.generated = builder.generated;
-        this.startedAt = builder.startedAt;
-        this.endedAt = builder.endedAt;
+        this.startedAtTime = builder.startedAtTime;
+        this.endedAtTime = builder.endedAtTime;
         this.duration = builder.duration;
     }
 
@@ -187,15 +187,15 @@ public class CaliperEvent {
     /**
      * @return the startedAt time
      */
-    public long getStartedAt() {
-        return startedAt;
+    public long getStartedAtTime() {
+        return startedAtTime;
     }
 
     /**
      * @return endedAt time
      */
-    public long getEndedAt() {
-        return endedAt;
+    public long getEndedAtTime() {
+        return endedAtTime;
     }
 
     /**
@@ -221,8 +221,8 @@ public class CaliperEvent {
         //private Target target;
         private Object generated;
         //private Generated generated;
-        private long startedAt;
-        private long endedAt;
+        private long startedAtTime;
+        private long endedAtTime;
         private String duration;
 
         protected abstract T self();
@@ -309,20 +309,20 @@ public class CaliperEvent {
         }
 
         /**
-         * @param startedAt
+         * @param startedAtTime
          * @return builder.
          */
-        public T startedAt(long startedAt) {
-            this.startedAt = startedAt;
+        public T startedAtTime(long startedAtTime) {
+            this.startedAtTime = startedAtTime;
             return self();
         }
 
         /**
-         * @param endedAt
+         * @param endedAtTime
          * @return builder.
          */
-        public T endedAt(long endedAt) {
-            this.endedAt = endedAt;
+        public T endedAtTime(long endedAtTime) {
+            this.endedAtTime = endedAtTime;
             return self();
         }
 
