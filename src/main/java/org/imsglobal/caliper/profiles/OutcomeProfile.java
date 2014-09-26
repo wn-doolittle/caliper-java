@@ -1,11 +1,13 @@
 package org.imsglobal.caliper.profiles;
 
 import org.imsglobal.caliper.actions.OutcomeActions;
+import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 import org.imsglobal.caliper.entities.outcome.Result;
 
 public class OutcomeProfile extends BaseProfile {
 
     private static OutcomeActions action;
+    private CaliperAssignableDigitalResource assignable;
     private Result result;
 
     /**
@@ -13,6 +15,7 @@ public class OutcomeProfile extends BaseProfile {
      */
     protected OutcomeProfile(Builder<?> builder, OutcomeActions action) {
         super(builder);
+        this.assignable = builder.assignable;
         this.result = builder.result;
         this.action = action;
     }
@@ -22,6 +25,13 @@ public class OutcomeProfile extends BaseProfile {
      */
     public OutcomeActions getAction() {
         return action;
+    }
+
+    /**
+     * @return assignable digital resource.
+     */
+    public CaliperAssignableDigitalResource getAssignable() {
+        return assignable;
     }
 
     /**
@@ -36,7 +46,17 @@ public class OutcomeProfile extends BaseProfile {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
+        private CaliperAssignableDigitalResource assignable;
         private Result result;
+
+        /**
+         * @param assignable
+         * @return builder.
+         */
+        public T assignable(CaliperAssignableDigitalResource assignable) {
+            this.assignable = assignable;
+            return self();
+        }
 
         /**
          * @param result
