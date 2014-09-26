@@ -127,8 +127,8 @@ public class MediaEvent extends CaliperEvent {
          */
         @Override
         public T context(String context) {
-            if (type.equals(MEDIAEVENT_CONTEXT)) {
-                this.context = type;
+            if (context.equals(MEDIAEVENT_CONTEXT)) {
+                this.context = context;
             } else {
                 this.context = MEDIAEVENT_CONTEXT;
             }

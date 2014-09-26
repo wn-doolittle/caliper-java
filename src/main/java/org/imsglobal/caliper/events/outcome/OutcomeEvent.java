@@ -114,8 +114,8 @@ public class OutcomeEvent extends CaliperEvent {
          */
         @Override
         public T context(String context) {
-            if (type.equals(OUTCOMEEVENT_CONTEXT)) {
-                this.context = type;
+            if (context.equals(OUTCOMEEVENT_CONTEXT)) {
+                this.context = context;
             } else {
                 this.context = OUTCOMEEVENT_CONTEXT;
             }

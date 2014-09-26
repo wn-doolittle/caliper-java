@@ -84,8 +84,8 @@ public class AnnotationEvent extends CaliperEvent {
          */
         @Override
         public T context(String context) {
-            if (type.equals(ANNOTATIONEVENT_CONTEXT)) {
-                this.context = type;
+            if (context.equals(ANNOTATIONEVENT_CONTEXT)) {
+                this.context = context;
             } else {
                 this.context = ANNOTATIONEVENT_CONTEXT;
             }

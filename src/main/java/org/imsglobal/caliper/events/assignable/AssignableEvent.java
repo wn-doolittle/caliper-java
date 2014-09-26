@@ -101,8 +101,8 @@ public class AssignableEvent extends CaliperEvent {
          */
         @Override
         public T context(String context) {
-            if (type.equals(ASSIGNABLEEVENT_CONTEXT)) {
-                this.context = type;
+            if (context.equals(ASSIGNABLEEVENT_CONTEXT)) {
+                this.context = context;
             } else {
                 this.context = ASSIGNABLEEVENT_CONTEXT;
             }

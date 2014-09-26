@@ -72,8 +72,8 @@ public class ViewedEvent extends CaliperEvent {
          */
         @Override
         public T context(String context) {
-            if (type.equals(VIEWEDEVENT_CONTEXT)) {
-                this.context = type;
+            if (context.equals(VIEWEDEVENT_CONTEXT)) {
+                this.context = context;
             } else {
                 this.context = VIEWEDEVENT_CONTEXT;
             }

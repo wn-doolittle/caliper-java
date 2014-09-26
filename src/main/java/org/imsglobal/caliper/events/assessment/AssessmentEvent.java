@@ -86,8 +86,8 @@ public class AssessmentEvent extends CaliperEvent {
          */
         @Override
         public T context(String context) {
-            if (type.equals(ASSESSMENTEVENT_CONTEXT)) {
-                this.context = type;
+            if (context.equals(ASSESSMENTEVENT_CONTEXT)) {
+                this.context = context;
             } else {
                 this.context = ASSESSMENTEVENT_CONTEXT;
             }

@@ -100,8 +100,8 @@ public class NavigationEvent extends CaliperEvent {
          */
         @Override
         public T context(String context) {
-            if (type.equals(NAVIGATIONEVENT_CONTEXT)) {
-                this.context = type;
+            if (context.equals(NAVIGATIONEVENT_CONTEXT)) {
+                this.context = context;
             } else {
                 this.context = NAVIGATIONEVENT_CONTEXT;
             }
