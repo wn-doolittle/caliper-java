@@ -1,7 +1,7 @@
-caliper-java
+IMS Global caliper-java
 ==============
 
-caliper-java is a java client for the Caliper Sensor API
+caliper-java is a java client for the IMS Global Caliper Analytics™ Sensor API
 
 ## Running Tests
 
@@ -17,6 +17,8 @@ To run "integration" level tests, you will need to
 
 ## Documentation
 
-Documentation is available at [https://imsglobal.org/caliper/java](https://imsglobal.org/caliper/java).
+Documentation is available at [http://imsglobal.org/caliper/java](https://imsglobal.org/caliper/java).
 
 ..
+
+©2014 IMS Global Learning Consortium, Inc. All Rights Reserved.  Trademark Information - http://www.imsglobal.org/copyright.html
