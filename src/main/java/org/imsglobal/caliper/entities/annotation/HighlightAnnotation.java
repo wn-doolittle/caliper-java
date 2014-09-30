@@ -62,6 +62,7 @@ public class HighlightAnnotation extends Annotation {
          */
         public Builder() {
             type(HIGHLIGHTANNOTATON_TYPE);
+            selection = new TextPositionSelector();
         }
 
         /**
