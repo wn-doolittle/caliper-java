@@ -1,30 +1,20 @@
 package org.imsglobal.caliper.profiles;
 
-import org.imsglobal.caliper.actions.OutcomeActions;
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 import org.imsglobal.caliper.entities.outcome.Result;
 
 public class OutcomeProfile extends BaseProfile {
 
-    private static OutcomeActions action;
     private CaliperAssignableDigitalResource assignable;
     private Result result;
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
-    protected OutcomeProfile(Builder<?> builder, OutcomeActions action) {
+    protected OutcomeProfile(Builder<?> builder) {
         super(builder);
         this.assignable = builder.assignable;
         this.result = builder.result;
-        this.action = action;
-    }
-
-    /**
-     * @return Outcome actions
-     */
-    public OutcomeActions getAction() {
-        return action;
     }
 
     /**
@@ -72,7 +62,7 @@ public class OutcomeProfile extends BaseProfile {
          * @return a new instance of MediaProfile.
          */
         public OutcomeProfile build() {
-            return new OutcomeProfile(this, action);
+            return new OutcomeProfile(this);
         }
     }
 

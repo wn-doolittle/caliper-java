@@ -1,27 +1,17 @@
 package org.imsglobal.caliper.profiles;
 
-import org.imsglobal.caliper.actions.AssignableActions;
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 
 public class AssignableProfile extends BaseProfile {
 
-    private static AssignableActions action;
     private CaliperAssignableDigitalResource assignable;
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
-    protected AssignableProfile(Builder<?> builder, AssignableActions action) {
+    protected AssignableProfile(Builder<?> builder) {
         super(builder);
         this.assignable = builder.assignable;
-        this.action = action;
-    }
-
-    /**
-     * @return Assignable action enums
-     */
-    public AssignableActions getAction() {
-        return action;
     }
 
     /**
@@ -52,7 +42,7 @@ public class AssignableProfile extends BaseProfile {
          * @return a new instance of MediaProfile.
          */
         public AssignableProfile build() {
-            return new AssignableProfile(this, action);
+            return new AssignableProfile(this);
         }
     }
 

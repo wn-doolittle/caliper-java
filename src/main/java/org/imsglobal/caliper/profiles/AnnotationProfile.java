@@ -1,21 +1,17 @@
 package org.imsglobal.caliper.profiles;
 
-import org.imsglobal.caliper.actions.AnnotationActions;
 import org.imsglobal.caliper.entities.annotation.Annotation;
 
 public class AnnotationProfile extends BaseProfile {
 
-    private static AnnotationActions action;
     private Annotation annotation;
 
     /**
      * @param builder apply builder object properties to the profile object.
-     * @param action
      */
-    protected AnnotationProfile(Builder<?> builder, AnnotationActions action) {
+    protected AnnotationProfile(Builder<?> builder) {
         super(builder);
         this.annotation = builder.annotation;
-        this.action = action;
     }
 
     /**
@@ -23,13 +19,6 @@ public class AnnotationProfile extends BaseProfile {
      */
     public Annotation getAnnotation() {
         return annotation;
-    }
-
-    /**
-     * @return action.
-     */
-    public AnnotationActions getAction() {
-        return action;
     }
 
     /**
@@ -53,7 +42,7 @@ public class AnnotationProfile extends BaseProfile {
          * @return a new instance of AnnotationProfile.
          */
         public AnnotationProfile build() {
-            return new AnnotationProfile(this, action);
+            return new AnnotationProfile(this);
         }
     }
 
