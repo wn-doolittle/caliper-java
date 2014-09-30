@@ -13,7 +13,6 @@ public class OutcomeEvent extends CaliperEvent {
     private final String type;
     private final String action;
     private Object object;
-    //private Generated generated;
     private Object generated;
 
     /**
@@ -96,7 +95,6 @@ public class OutcomeEvent extends CaliperEvent {
         private String type;
         private String action;
         private Object object;
-        //private Generated generated;
         private Object generated;
 
         /**
@@ -200,7 +198,7 @@ public class OutcomeEvent extends CaliperEvent {
          */
         @Override
         public T generated(Object generated) {
-            if (object instanceof Result) {
+            if (generated instanceof Result) {
                 this.generated = generated;
                 return self();
             } else {
