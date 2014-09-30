@@ -52,7 +52,7 @@ public enum AnnotationActions {
      * @return true if lookup returns a key match; false otherwise.
      */
     public static boolean hasKey(String key) {
-        return lookup.containsKey(key.toLowerCase());
+        return lookup.containsKey(key);
     }
 
     /**
