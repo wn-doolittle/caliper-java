@@ -134,7 +134,7 @@ public class AssignableEvent extends CaliperEvent {
                 this.action = ResourceBundle.getBundle("resources.actions").getString(key);
                 return self();
             } else {
-                throw new IllegalArgumentException("Unrecognized constant");
+                throw new IllegalArgumentException("Unrecognized constant: " + key);
                 // TODO add logging
                 // TODO do something clever with exception
             }
