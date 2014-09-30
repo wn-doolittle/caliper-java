@@ -131,7 +131,7 @@ public class AssignableEvent extends CaliperEvent {
         @Override
         public T action(String key) {
             if (AssignableActions.hasKey(key)) {
-                this.action = ResourceBundle.getBundle("resources.actions").getString(key);
+                this.action = ResourceBundle.getBundle("actions").getString(key);
                 return self();
             } else {
                 throw new IllegalArgumentException("Unrecognized constant: " + key);

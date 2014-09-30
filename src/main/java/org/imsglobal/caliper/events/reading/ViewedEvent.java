@@ -103,7 +103,7 @@ public class ViewedEvent extends CaliperEvent {
         @Override
         public T action(String key) {
             if (ReadingActions.hasKey(key)) {
-                this.action = ResourceBundle.getBundle("resources.actions").getString(key);
+                this.action = ResourceBundle.getBundle("actions").getString(key);
                 return self();
             } else {
                 throw new IllegalArgumentException("Unrecognized constant: " + key);
