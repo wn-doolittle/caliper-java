@@ -11,19 +11,36 @@ import java.util.ResourceBundle;
 
 public class MediaEvent extends CaliperEvent {
 
-    /**
-    @JsonIgnoreType
-    public enum Action {
-        started, paused, ended, jumpedTo, forwardedTo, rewindedTo, changedSpeed,
-        changedVolume, muted, unmuted, changedResolution, changedViewerSize,
-        enteredFullScreen, exitedFullScreen, openPopup, closePopup,
-        enabledCloseCaptioning, disabledCloseCaptioning
-	}
-    */
+    public enum Identifier {
+        CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1/MediaEvent"),
+        TYPE("http://purl.imsglobal.org/caliper/v1/MediaEvent");
 
-    private final String context;
-    private final String type;
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Identifier(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
+    /**
+     * Media action
+     */
     private final String action;
+
+    /**
+     * Media activity context
+     */
     private Object object;
 
     /**
@@ -37,42 +54,9 @@ public class MediaEvent extends CaliperEvent {
      */
     protected MediaEvent(Builder<?> builder) {
         super(builder);
-        this.context = builder.context;
-        this.type = builder.type;
         this.action = builder.action;
         this.object = builder.object;
         this.mediaLocation = builder.mediaLocation;
-    }
-
-    /**
-     public MediaEvent() {
-     super();
-
-     setContext("http://purl.imsglobal.org/ctx/caliper/v1/MediaEvent");
-     setType("http://purl.imsglobal.org/caliper/v1/MediaEvent");
-     }
-
-     public static MediaEvent forAction(Action action) {
-     MediaEvent event = new MediaEvent();
-     event.setAction(action.toString());
-     return event;
-     }
-     */
-
-    /**
-     * @return context
-     */
-    @Override
-    public String getContext() {
-        return context;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -84,7 +68,6 @@ public class MediaEvent extends CaliperEvent {
     }
 
     /**
-     * TODO original version did not include an accessor for the object.  Retain or drop?
      * @return object
      */
     @Override
@@ -104,10 +87,6 @@ public class MediaEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
-        private static final String MEDIAEVENT_CONTEXT = "http://purl.imsglobal.org/ctx/caliper/v1/MediaEvent";
-        private static final String MEDIAEVENT_TYPE = "http://purl.imsglobal.org/caliper/v1/MediaEvent";
-        private String context;
-        private String type;
         private String action;
         private Object object;
         private MediaLocation mediaLocation;
@@ -116,38 +95,8 @@ public class MediaEvent extends CaliperEvent {
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(MEDIAEVENT_CONTEXT);
-            type(MEDIAEVENT_TYPE);
-        }
-
-        /**
-         * TODO Perhaps we should just auto-generate the context for the user; drop setter?
-         * @param context
-         * @return builder
-         */
-        @Override
-        public T context(String context) {
-            if (context.equals(MEDIAEVENT_CONTEXT)) {
-                this.context = context;
-            } else {
-                this.context = MEDIAEVENT_CONTEXT;
-            }
-            return self();
-        }
-
-        /**
-         * TODO Perhaps we should just auto-generate the context for the user; drop setter?
-         * @param type
-         * @return builder
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(MEDIAEVENT_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = MEDIAEVENT_TYPE;
-            }
-            return self();
+            context(MediaEvent.Identifier.CONTEXT.uri());
+            type(MediaEvent.Identifier.TYPE.uri());
         }
 
         /**
@@ -186,21 +135,6 @@ public class MediaEvent extends CaliperEvent {
                 // TODO do something clever with exception
             }
         }
-
-        /**
-         @Override
-         public void setObject(Object object) {
-
-         // TODO - Enforce restrictions on object type per metric profile
-         if (getAction().equals(Action.started.toString())) {
-         if (!(object instanceof CaliperMediaObject)) {
-         // TODO - throw proper exception
-         }
-         }
-
-         super.setObject(object);
-         }
-         */
 
         /**
          * @param mediaLocation

@@ -10,8 +10,31 @@ import java.util.ResourceBundle;
 
 public class NavigationEvent extends CaliperEvent {
 
-    private final String context;
-    private final String type;
+    public enum Identifier {
+        CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent"),
+        TYPE("http://purl.imsglobal.org/caliper/v1/NavigationEvent");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Identifier(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
+    /**
+     * Navigation action
+     */
     private final String action;
 
     /**
@@ -25,36 +48,8 @@ public class NavigationEvent extends CaliperEvent {
      */
     protected NavigationEvent(Builder<?> builder) {
         super(builder);
-        this.context = builder.context;
-        this.type = builder.type;
         this.action = builder.action;
         this.fromResource = builder.fromResource;
-    }
-
-    /**
-     public NavigationEvent() {
-     super();
-
-     setContext("http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent");
-     setType("http://purl.imsglobal.org/caliper/v1/NavigationEvent");
-     setAction("navigatedTo");
-     }
-     */
-
-    /**
-     * @return context
-     */
-    @Override
-    public String getContext() {
-        return context;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -77,10 +72,6 @@ public class NavigationEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
-        private static final String NAVIGATIONEVENT_CONTEXT = "http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent";
-        private static final String NAVIGATIONEVENT_TYPE = "http://purl.imsglobal.org/caliper/v1/NavigationEvent";
-        private String context;
-        private String type;
         private String action;
         private CaliperDigitalResource fromResource;
 
@@ -88,43 +79,12 @@ public class NavigationEvent extends CaliperEvent {
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(NAVIGATIONEVENT_CONTEXT);
-            type(NAVIGATIONEVENT_TYPE);
-            action("reading.navigatedTo");
+            context(NavigationEvent.Identifier.CONTEXT.uri());
+            type(NavigationEvent.Identifier.TYPE.uri());
+            action(ReadingActions.NAVIGATEDTO.key());
         }
 
         /**
-         * TODO Perhaps we should always just auto-generate the context for the user; drop setter?
-         * @param context
-         * @return builder
-         */
-        @Override
-        public T context(String context) {
-            if (context.equals(NAVIGATIONEVENT_CONTEXT)) {
-                this.context = context;
-            } else {
-                this.context = NAVIGATIONEVENT_CONTEXT;
-            }
-            return self();
-        }
-
-        /**
-         * TODO Perhaps we should always just auto-generate the context for the user; drop setter?
-         * @param type
-         * @return builder
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(NAVIGATIONEVENT_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = NAVIGATIONEVENT_TYPE;
-            }
-            return self();
-        }
-
-        /**
-         * TODO Validation while limited to reading events does not restrict arg to "navigatedTo" only;
          * @param key
          * @return builder
          */

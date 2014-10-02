@@ -7,8 +7,31 @@ import java.util.ResourceBundle;
 
 public class AssessmentItemEvent extends CaliperEvent {
 
-    private final String context;
-    private final String type;
+    public enum Identifier {
+        CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1/AssessmentItemEvent"),
+        TYPE("http://purl.imsglobal.org/caliper/v1/AssessmentItemEvent");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Identifier(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
+    /**
+     * AssessmentItem action
+     */
     private final String action;
 
     /**
@@ -16,40 +39,7 @@ public class AssessmentItemEvent extends CaliperEvent {
      */
     protected AssessmentItemEvent(Builder<?> builder) {
         super(builder);
-        this.context = builder.context;
-        this.type = builder.type;
         this.action = builder.action;
-    }
-
-    /**
-    public AssessmentItemEvent() {
-        super();
-
-        setContext("http://purl.imsglobal.org/ctx/caliper/v1/AssessmentItemEvent");
-        setType("http://purl.imsglobal.org/caliper/v1/AssessmentItemEvent");
-    }
-
-    public static AssessmentItemEvent forAction(Action action) {
-        AssessmentItemEvent event = new AssessmentItemEvent();
-        event.setAction(action.toString());
-        return event;
-    }
-     */
-
-    /**
-     * @return context
-     */
-    @Override
-    public String getContext() {
-        return context;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -65,48 +55,14 @@ public class AssessmentItemEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
-        private static final String ASSESSMENTITEMEVENT_CONTEXT = "http://purl.imsglobal.org/ctx/caliper/v1/AssessmentItemEvent";
-        private static final String ASSESSMENTITEMEVENT_TYPE = "http://purl.imsglobal.org/caliper/v1/AssessmentItemEvent";
-        private String context;
-        private String type;
         private String action;
 
         /**
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(ASSESSMENTITEMEVENT_CONTEXT);
-            type(ASSESSMENTITEMEVENT_TYPE);
-        }
-
-        /**
-         * TODO Perhaps we should always just auto-generate the context for the user; drop setter?
-         * @param context
-         * @return builder
-         */
-        @Override
-        public T context(String context) {
-            if (context.equals(ASSESSMENTITEMEVENT_CONTEXT)) {
-                this.context = context;
-            } else {
-                this.context = ASSESSMENTITEMEVENT_CONTEXT;
-            }
-            return self();
-        }
-
-        /**
-         * TODO Perhaps we should always just auto-generate the context for the user; drop setter?
-         * @param type
-         * @return builder
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(ASSESSMENTITEMEVENT_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = ASSESSMENTITEMEVENT_TYPE;
-            }
-            return self();
+            context(AssessmentItemEvent.Identifier.CONTEXT.uri());
+            type(AssessmentItemEvent.Identifier.TYPE.uri());
         }
 
         /**

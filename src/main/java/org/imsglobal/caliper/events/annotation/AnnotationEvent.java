@@ -7,8 +7,31 @@ import java.util.ResourceBundle;
 
 public class AnnotationEvent extends CaliperEvent {
 
-    private final String context;
-    private final String type;
+    public enum Identifier {
+        CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1/AnnotationEvent"),
+        TYPE("http://purl.imsglobal.org/caliper/v1/AnnotationEvent");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Identifier(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
+    /**
+     * Annotation action
+     */
     private final String action;
 
     /**
@@ -16,38 +39,7 @@ public class AnnotationEvent extends CaliperEvent {
      */
     protected AnnotationEvent(Builder<?> builder) {
         super(builder);
-        this.context = builder.context;
-        this.type = builder.type;
         this.action = builder.action;
-    }
-
-    /**
-     public AnnotationEvent() {
-     setContext("http://purl.imsglobal.org/ctx/caliper/v1/AnnotationEvent");
-     setType("http://purl.imsglobal.org/caliper/v1/AnnotationEvent");
-     }
-
-     public static AnnotationEvent forAction(String action) {
-     AnnotationEvent event = new AnnotationEvent();
-     event.setAction(action);
-     return event;
-     }
-     */
-
-    /**
-     * @return context
-     */
-    @Override
-    public String getContext() {
-        return context;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -63,48 +55,14 @@ public class AnnotationEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
-        private static final String ANNOTATIONEVENT_CONTEXT = "http://purl.imsglobal.org/ctx/caliper/v1/AnnotationEvent";
-        private static final String ANNOTATIONEVENT_TYPE = "http://purl.imsglobal.org/caliper/v1/AnnotationEvent";
-        private String context;
-        private String type;
         private String action;
 
         /**
-         * Initialize type with default valueS.  Required if .builder() properties are not set by user.
+         * Initialize with default values.
          */
         public Builder() {
-            context(ANNOTATIONEVENT_CONTEXT);
-            type(ANNOTATIONEVENT_TYPE);
-        }
-
-        /**
-         * TODO Perhaps we should just auto-generate the context for the user; drop setter?
-         * @param context
-         * @return builder
-         */
-        @Override
-        public T context(String context) {
-            if (context.equals(ANNOTATIONEVENT_CONTEXT)) {
-                this.context = context;
-            } else {
-                this.context = ANNOTATIONEVENT_CONTEXT;
-            }
-            return self();
-        }
-
-        /**
-         * TODO Perhaps we should just auto-generate the context for the user; drop setter?
-         * @param type
-         * @return builder
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(ANNOTATIONEVENT_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = ANNOTATIONEVENT_TYPE;
-            }
-            return self();
+            context(AnnotationEvent.Identifier.CONTEXT.uri());
+            type(AnnotationEvent.Identifier.TYPE.uri());
         }
 
         /**

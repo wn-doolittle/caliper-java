@@ -7,8 +7,31 @@ import java.util.ResourceBundle;
 
 public class ViewedEvent extends CaliperEvent {
 
-    private final String context;
-    private final String type;
+    public enum Identifier {
+        CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1/ViewedEvent"),
+        TYPE("http://purl.imsglobal.org/caliper/v1/ViewedEvent");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Identifier(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
+    /**
+     * Viewed action
+     */
     private final String action;
 
     /**
@@ -16,25 +39,7 @@ public class ViewedEvent extends CaliperEvent {
      */
     protected ViewedEvent (Builder<?> builder) {
         super(builder);
-        this.context = builder.context;
-        this.type = builder.type;
         this.action = builder.action;
-    }
-
-    /**
-     * @return context
-     */
-    @Override
-    public String getContext() {
-        return context;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -50,53 +55,18 @@ public class ViewedEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
-        private static final String VIEWEDEVENT_CONTEXT = "http://purl.imsglobal.org/ctx/caliper/v1/ViewedEvent";
-        private static final String VIEWEDEVENT_TYPE = "http://purl.imsglobal.org/caliper/v1/ViewedEvent";
-        private String context;
-        private String type;
         private String action;
 
         /**
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(VIEWEDEVENT_CONTEXT);
-            type(VIEWEDEVENT_TYPE);
-            action("reading.viewed");
+            context(ViewedEvent.Identifier.CONTEXT.uri());
+            type(ViewedEvent.Identifier.TYPE.uri());
+            action(ReadingActions.VIEWED.key());
         }
 
         /**
-         * TODO Perhaps we should always just auto-generate the context for the user; drop setter?
-         * @param context
-         * @return builder
-         */
-        @Override
-        public T context(String context) {
-            if (context.equals(VIEWEDEVENT_CONTEXT)) {
-                this.context = context;
-            } else {
-                this.context = VIEWEDEVENT_CONTEXT;
-            }
-            return self();
-        }
-
-        /**
-         * TODO Perhaps we should always just auto-generate the context for the user; drop setter?
-         * @param type
-         * @return builder
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(VIEWEDEVENT_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = VIEWEDEVENT_TYPE;
-            }
-            return self();
-        }
-
-        /**
-         * TODO Validation while limited to reading events does not restrict arg to "viewed" only;
          * @param key
          * @return builder
          */

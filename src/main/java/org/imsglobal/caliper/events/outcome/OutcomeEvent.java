@@ -9,10 +9,41 @@ import java.util.ResourceBundle;
 
 public class OutcomeEvent extends CaliperEvent {
 
-    private final String context;
-    private final String type;
+    public enum Identifier {
+        CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1/OutcomeEvent"),
+        TYPE("http://purl.imsglobal.org/caliper/v1/OutcomeEvent");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Identifier(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
+    /**
+     * Outcome action
+     */
     private final String action;
+
+    /**
+     * Outcome activity context
+     */
     private Object object;
+
+    /**
+     * Outcome generated result
+     */
     private Object generated;
 
     /**
@@ -20,42 +51,9 @@ public class OutcomeEvent extends CaliperEvent {
      */
     protected OutcomeEvent(Builder<?> builder) {
         super(builder);
-        this.context = builder.context;
-        this.type = builder.type;
         this.action = builder.action;
         this.object = builder.object;
         this.generated = builder.generated;
-    }
-
-    /**
-     public OutcomeEvent() {
-     super();
-
-     setContext("http://purl.imsglobal.org/ctx/caliper/v1/OutcomeEvent");
-     setType("http://purl.imsglobal.org/caliper/v1/OutcomeEvent");
-     }
-
-     public static OutcomeEvent forAction(Action action) {
-     OutcomeEvent event = new OutcomeEvent();
-     event.setAction(action.toString());
-     return event;
-     }
-     */
-
-    /**
-     * @return context
-     */
-    @Override
-    public String getContext() {
-        return context;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -67,7 +65,6 @@ public class OutcomeEvent extends CaliperEvent {
     }
 
     /**
-     * TODO original version did not include an accessor for the object.  Retain or drop?
      * @return object
      */
     @Override
@@ -76,7 +73,6 @@ public class OutcomeEvent extends CaliperEvent {
     }
 
     /**
-     * TODO original version did not include an accessor for generated.  Retain or drop?
      * @return object
      */
     @Override
@@ -89,10 +85,6 @@ public class OutcomeEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
-        private static final String OUTCOMEEVENT_CONTEXT = "http://purl.imsglobal.org/ctx/caliper/v1/OutcomeEvent";
-        private static final String OUTCOMEEVENT_TYPE = "http://purl.imsglobal.org/caliper/v1/OutcomeEvent";
-        private String context;
-        private String type;
         private String action;
         private Object object;
         private Object generated;
@@ -101,38 +93,8 @@ public class OutcomeEvent extends CaliperEvent {
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(OUTCOMEEVENT_CONTEXT);
-            type(OUTCOMEEVENT_TYPE);
-        }
-
-        /**
-         * TODO Perhaps we should just auto-generate the context for the user; drop setter?
-         * @param context
-         * @return builder
-         */
-        @Override
-        public T context(String context) {
-            if (context.equals(OUTCOMEEVENT_CONTEXT)) {
-                this.context = context;
-            } else {
-                this.context = OUTCOMEEVENT_CONTEXT;
-            }
-            return self();
-        }
-
-        /**
-         * TODO Perhaps we should just auto-generate the context for the user; drop setter?
-         * @param type
-         * @return builder
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(OUTCOMEEVENT_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = OUTCOMEEVENT_TYPE;
-            }
-            return self();
+            context(OutcomeEvent.Identifier.CONTEXT.uri());
+            type(OutcomeEvent.Identifier.TYPE.uri());
         }
 
         /**
@@ -172,21 +134,6 @@ public class OutcomeEvent extends CaliperEvent {
             }
         }
 
-        /**
-        @Override
-        public void setObject(Object object) {
-
-            // TODO - Enforce restrictions on object type per metric profile
-            if (getAction().equals(Action.graded.toString())) {
-                if (!(object instanceof Attempt)) {
-                    // TODO - throw proper exception
-                }
-            }
-
-            super.setObject(object);
-        }
-        */
-
         /*
          * (non-Javadoc)
          * @see org.imsglobal.caliper.events.CaliperEvent#setGenerated(java.lang.Object)
@@ -207,20 +154,6 @@ public class OutcomeEvent extends CaliperEvent {
                 // TODO do something clever with exception
             }
         }
-
-        /**
-        @Override
-        public void setGenerated(Object generated) {
-
-            // TODO - Enforce restrictions on object type per metric profile
-            if (getAction().equals(Action.graded.toString())) {
-                if (!(generated instanceof Result)) {
-                    // TODO - throw proper exception
-                }
-            }
-            super.setGenerated(generated);
-        }
-        */
 
         /**
          * Client invokes build method in order to create an immutable object.
