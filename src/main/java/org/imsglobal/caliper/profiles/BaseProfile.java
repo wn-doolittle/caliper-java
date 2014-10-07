@@ -1,46 +1,27 @@
 package org.imsglobal.caliper.profiles;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.LearningContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonPropertyOrder({
-    "learningContext",
-    "name",
-    "partOf",
-    "objectType",
-    "alignedLearningObjective",
-    "keyword",
-    "target",
-    "generated" })
 public abstract class BaseProfile {
 
-    @JsonProperty("learningContext")
     private LearningContext learningContext;
 
-    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("partOf")
     private String partOf;
 
-    @JsonProperty("objectType")
     private List<String> objectType = new ArrayList<String>();
 
-    @JsonProperty("alignedLearningObjective")
     private List<String> alignedLearningObjective = new ArrayList<String>();
 
-    @JsonProperty("keyword")
     private List<String> keyword = new ArrayList<String>();
 
-    @JsonProperty("target")
     private Object target;
     //private Target target;
 
-    @JsonProperty("generated")
     private Object generated;
     //private Generated generated;
 
@@ -64,6 +45,7 @@ public abstract class BaseProfile {
     public LearningContext getLearningContext() {
         return learningContext;
     }
+
     /**
      * @return name.
      */
