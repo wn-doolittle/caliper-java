@@ -11,22 +11,11 @@ import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
  */
 public class EPubChapter extends CaliperDigitalResource implements CreativeWork {
 
-    private final String type;
-
     /**
      * @param builder apply builder object properties to the EPubChapter object.
      */
     protected EPubChapter(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -34,28 +23,12 @@ public class EPubChapter extends CaliperDigitalResource implements CreativeWork 
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
-        private static final String EPUBCHAPTER_TYPE = "http://www.idpf.org/epub/vocab/structure/#chapter";
-        private String type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(EPUBCHAPTER_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return the IMS Global type reference URI.
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(EPUBCHAPTER_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = EPUBCHAPTER_TYPE;
-            }
-            return self();
+            type(CaliperDigitalResource.Type.EPUB_CHAPTER.uri());
         }
 
         /**
