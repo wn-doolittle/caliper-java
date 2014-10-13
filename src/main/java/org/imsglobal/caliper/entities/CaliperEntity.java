@@ -12,6 +12,31 @@ import java.util.Map;
 @JsonPropertyOrder({ "@id", "@type", "lastModifiedTime" })
 public class CaliperEntity {
 
+    public enum Type {
+        ACTIVITY_CONTEXT("http://purl.imsglobal.org/caliper/v1/ActivityContext"),
+        CALIPER_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/CaliperDigitalResource"),
+        CALIPER_ENTITY("http://purl.imsglobal.org/caliper/v1/CaliperEntity"),
+        LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
+        SOFTWARE_APPLICATION("http://purl.imsglobal.org/caliper/v1/SoftwareApplication");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Type(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
     @CaliperReference
     @JsonProperty("@id")
     protected final String id;
@@ -77,6 +102,13 @@ public class CaliperEntity {
         protected abstract T self();
 
         /**
+         * Initialize type with default value.
+         */
+        public Builder() {
+            this.type(Type.CALIPER_ENTITY.uri());
+        }
+
+        /**
          * @param id
          * @return builder.
          */
@@ -86,6 +118,7 @@ public class CaliperEntity {
         }
 
         /**
+         * Private scope
          * @param type
          * @return builder.
          */

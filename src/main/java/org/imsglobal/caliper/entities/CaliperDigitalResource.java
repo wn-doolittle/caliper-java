@@ -38,27 +38,6 @@ import java.util.List;
         "partOf" })
 public class CaliperDigitalResource extends CaliperEntity implements CreativeWork {
 
-    public enum Identifier {
-        TYPE("http://purl.imsglobal.org/caliper/v1/CaliperDigitalResource");
-
-        private final String uri;
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Identifier(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-    }
-
     @JsonProperty("name")
     private String name;
 
@@ -69,8 +48,7 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
     private Object objectType;
 
     @JsonProperty("alignedLearningObjective")
-    private List<LearningObjective> alignedLearningObjective = Lists
-            .newArrayList();
+    private List<LearningObjective> alignedLearningObjective = Lists.newArrayList();
 
     @JsonProperty("keyword")
     private List<String> keyword = Lists.newArrayList();
@@ -137,7 +115,7 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperDigitalResource.Identifier.TYPE.uri());
+            type(CaliperDigitalResource.Type.CALIPER_DIGITAL_RESOURCE.uri());
         }
 
         /**

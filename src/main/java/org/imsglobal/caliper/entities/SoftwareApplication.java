@@ -5,27 +5,6 @@ import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 @CaliperLearningContext
 public class SoftwareApplication extends CaliperEntity implements CaliperAgent, CreativeWork {
 
-    public enum Identifier {
-        TYPE("http://purl.imsglobal.org/caliper/v1/SoftwareApplication");
-
-        private final String uri;
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Identifier(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-    }
-
     /**
      * @param builder apply builder object properties to the SoftwareApplication object.
      */
@@ -43,7 +22,7 @@ public class SoftwareApplication extends CaliperEntity implements CaliperAgent, 
          * Initialize type with default value.
          */
         public Builder() {
-            type(SoftwareApplication.Identifier.TYPE.uri());
+            type(CaliperEntity.Type.SOFTWARE_APPLICATION.uri());
         }
 
         /**

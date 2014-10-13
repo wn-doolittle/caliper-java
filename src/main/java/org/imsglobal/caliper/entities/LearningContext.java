@@ -52,7 +52,6 @@ public class LearningContext {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> {
-    // public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
         private SoftwareApplication edApp;
         private LISOrganization lisOrganization;
         private CaliperAgent agent;

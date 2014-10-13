@@ -2,27 +2,6 @@ package org.imsglobal.caliper.entities;
 
 public class LearningObjective extends CaliperEntity {
 
-    public enum Identifier {
-        TYPE("http://purl.imsglobal.org/caliper/v1/LearningObjective");
-
-        private final String uri;
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Identifier(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-    }
-
     /**
      * @param builder apply builder object properties to the Target object.
      */
@@ -40,7 +19,7 @@ public class LearningObjective extends CaliperEntity {
          * Initialize type with default value.
          */
         public Builder() {
-            type(LearningObjective.Identifier.TYPE.uri());
+            type(CaliperEntity.Type.LEARNING_OBJECTIVE.uri());
         }
 
         /**

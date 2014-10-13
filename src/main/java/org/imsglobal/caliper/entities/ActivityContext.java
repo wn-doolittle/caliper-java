@@ -2,27 +2,6 @@ package org.imsglobal.caliper.entities;
 
 public class ActivityContext extends CaliperEntity {
 
-    public enum Identifier {
-        TYPE("http://purl.imsglobal.org/caliper/v1/ActivityContext");
-
-        private final String uri;
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Identifier(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-    }
-
     /**
      * @param builder apply builder object properties to the ActivityContext object.
      */
@@ -40,7 +19,7 @@ public class ActivityContext extends CaliperEntity {
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(ActivityContext.Identifier.TYPE.uri());
+            type(CaliperEntity.Type.ACTIVITY_CONTEXT.uri());
         }
 
         /**
