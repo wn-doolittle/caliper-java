@@ -4,22 +4,11 @@ import org.imsglobal.caliper.entities.CaliperDigitalResource;
 
 public class WebPage extends CaliperDigitalResource implements CreativeWork {
 
-    private final String type;
-
     /**
      * @param builder apply builder object properties to the WebPage object.
      */
     protected WebPage(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -27,28 +16,12 @@ public class WebPage extends CaliperDigitalResource implements CreativeWork {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
-        private static final String WEBPAGE_TYPE = "http://purl.imsglobal.org/caliper/v1/WebPage";
-        private String type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(WEBPAGE_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return the IMS Global type reference URI.
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(WEBPAGE_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = WEBPAGE_TYPE;
-            }
-            return self();
+            type(CaliperDigitalResource.Type.WEB_PAGE.uri());
         }
 
         /**

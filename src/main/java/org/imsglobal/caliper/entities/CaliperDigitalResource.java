@@ -44,7 +44,8 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
         EPUB_CHAPTER("http://www.idpf.org/epub/vocab/structure/#chapter"),
         EPUB_PART("http://www.idpf.org/epub/vocab/structure/#part"),
         EPUB_SUB_CHAPTER("http://www.idpf.org/epub/vocab/structure/#subchapter"),
-        EPUB_VOLUME("http://www.idpf.org/epub/vocab/structure/#volume");
+        EPUB_VOLUME("http://www.idpf.org/epub/vocab/structure/#volume"),
+        WEB_PAGE("http://purl.imsglobal.org/caliper/v1/WebPage");
 
         private final String uri;
 
