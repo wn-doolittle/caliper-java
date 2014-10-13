@@ -1,11 +1,30 @@
 package org.imsglobal.caliper.entities.lis;
 
 import org.imsglobal.caliper.entities.CaliperAgent;
-import org.imsglobal.caliper.entities.CaliperEntity;
 
-public class LISOrganization extends CaliperEntity implements CaliperAgent {
+public class LISOrganization extends CaliperAgent {
 
-    private final String type;
+    public enum Type {
+        LIS_COURSE_SECTION("http://purl.imsglobal.org/caliper/v1/LISCourseSection");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Type(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
     private String title;
     private LISOrganization parentOrg;
 
@@ -14,17 +33,8 @@ public class LISOrganization extends CaliperEntity implements CaliperAgent {
      */
     protected LISOrganization(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
         this.title = builder.title;
         this.parentOrg = builder.parentOrg;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -45,31 +55,15 @@ public class LISOrganization extends CaliperEntity implements CaliperAgent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
-        private static final String LISORG_TYPE = "http://purl.imsglobal.org/caliper/v1/LISOrganization";
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends CaliperAgent.Builder<T>  {
         private String title;
         private LISOrganization parentOrg;
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
-            type(LISORG_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return the IMS Global type reference URI.
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(LISORG_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = LISORG_TYPE;
-            }
-            return self();
+            type(CaliperAgent.Type.LIS_ORGANIZATION.uri());
         }
 
         /**

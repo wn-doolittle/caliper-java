@@ -1,55 +1,27 @@
 package org.imsglobal.caliper.entities.lis;
 
 import org.imsglobal.caliper.entities.CaliperAgent;
-import org.imsglobal.caliper.entities.CaliperEntity;
 
-public class LISPerson extends CaliperEntity implements CaliperAgent {
-
-    private final String type;
+public class LISPerson extends CaliperAgent {
 
     /**
      * @param builder apply builder object properties to the LISPerson object.
      */
     protected LISPerson(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
-        private static final String LISPERSON_TYPE = "http://purl.imsglobal.org/caliper/v1/LISPerson";
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends CaliperAgent.Builder<T>  {
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
-            type(LISPERSON_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return the IMS Global type reference URI.
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(LISPERSON_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = LISPERSON_TYPE;
-            }
-            return self();
+            type(CaliperAgent.Type.LIS_PERSON.uri());
         }
 
         /**
@@ -78,5 +50,4 @@ public class LISPerson extends CaliperEntity implements CaliperAgent {
     public static Builder<?> builder() {
         return new Builder2();
     }
-
 }

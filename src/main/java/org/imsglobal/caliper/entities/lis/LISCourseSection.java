@@ -2,29 +2,18 @@ package org.imsglobal.caliper.entities.lis;
 
 public class LISCourseSection extends LISOrganization {
 
-    private final String type;
     private String semester; // TODO - check against LIS LISOrganization
     private String courseNumber;
     private String label;
-
 
     /**
      * @param builder apply builder object properties to the LISCourseSection object.
      */
     protected LISCourseSection(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
         this.semester = builder.semester;
         this.courseNumber = builder.courseNumber;
         this.label = builder.label;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -53,31 +42,15 @@ public class LISCourseSection extends LISOrganization {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends LISOrganization.Builder<T>  {
-        private static final String LISCOURSESECTION_TYPE = "http://purl.imsglobal.org/caliper/v1/LISCourseSection";
-        private String type;
         private String label;
         private String courseNumber;
         private String semester; // TODO - check against LIS LISOrganization
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
-            type(LISCOURSESECTION_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return the IMS Global type reference URI.
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(LISCOURSESECTION_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = LISCOURSESECTION_TYPE;
-            }
-            return self();
+            type(LISOrganization.Type.LIS_COURSE_SECTION.uri());
         }
 
         /**
@@ -133,8 +106,4 @@ public class LISCourseSection extends LISOrganization {
     public static Builder<?> builder() {
         return new Builder2();
     }
-
-
-
-
 }

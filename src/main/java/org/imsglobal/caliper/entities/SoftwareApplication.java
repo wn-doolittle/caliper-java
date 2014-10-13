@@ -1,9 +1,10 @@
 package org.imsglobal.caliper.entities;
 
 import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
+import org.imsglobal.caliper.entities.foaf.Agent;
 
 @CaliperLearningContext
-public class SoftwareApplication extends CaliperEntity implements CaliperAgent, CreativeWork {
+public class SoftwareApplication extends CaliperEntity implements Agent, CreativeWork {
 
     /**
      * @param builder apply builder object properties to the SoftwareApplication object.
