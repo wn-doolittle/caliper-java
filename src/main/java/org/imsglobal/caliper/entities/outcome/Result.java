@@ -9,19 +9,10 @@ import org.imsglobal.caliper.entities.CaliperEntity;
  */
 public class Result extends CaliperEntity {
 
-    private final String type;
     private double normalScore, penaltyScore, extraCreditScore, totalScore, curvedTotalScore, curveFactor;
     private String comment;
     private CaliperAgent scoredBy;
     // TODO - need to include target, learningObjective and scoreConstraints from metric profile
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
-    }
 
     /**
      * @return the normalScore
@@ -84,7 +75,6 @@ public class Result extends CaliperEntity {
      */
     protected Result(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
         this.normalScore = builder.normalScore;
         this.penaltyScore = builder.penaltyScore;
         this.extraCreditScore = builder.extraCreditScore;
@@ -100,30 +90,15 @@ public class Result extends CaliperEntity {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
-        private static final String RESULT_TYPE = "http://purl.imsglobal.org/caliper/v1/Result";
         private double normalScore, penaltyScore, extraCreditScore, totalScore, curvedTotalScore, curveFactor;
-        private String type, comment;
+        private String comment;
         private CaliperAgent scoredBy;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(RESULT_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return the IMS Global type reference URI.
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(RESULT_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = RESULT_TYPE;
-            }
-            return self();
+            type(CaliperEntity.Type.RESULT.uri());
         }
 
         /**
