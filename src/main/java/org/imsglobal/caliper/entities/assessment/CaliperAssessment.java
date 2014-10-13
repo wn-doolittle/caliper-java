@@ -27,7 +27,7 @@ public class CaliperAssessment extends CaliperAssignableDigitalResource implemen
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperAssignableDigitalResource.Type.CALIPER_ASSESSMENT.uri());
+            type(CaliperAssignableDigitalResource.Type.ASSESSMENT.uri());
         }
 
         /**

@@ -7,7 +7,29 @@ import org.imsglobal.caliper.entities.CaliperDigitalResource;
  */
 public abstract class CaliperMediaObject extends CaliperDigitalResource {
 
-    private final String type;
+    public enum Type {
+        CALIPER_AUDIO_OBJECT("http://purl.imsglobal.org/caliper/v1/CaliperAudioObject"),
+        CALIPER_IMAGE_OBJECT("http://purl.imsglobal.org/caliper/v1/CaliperImageObject"),
+        CALIPER_VIDEO_OBJECT("http://purl.imsglobal.org/caliper/v1/CaliperVideoObject");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Type(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
     private long duration;
 
     /**
@@ -15,16 +37,7 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
      */
     protected CaliperMediaObject(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
         this.duration = builder.duration;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -40,8 +53,6 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T> {
-        private static final String MEDIAOBJECT_TYPE = "http://purl.imsglobal.org/caliper/v1/CaliperMediaObject";
-        private String type;
         private long duration;
 
         protected abstract T self();
@@ -50,21 +61,7 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(MEDIAOBJECT_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return builder
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(MEDIAOBJECT_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = MEDIAOBJECT_TYPE;
-            }
-            return self();
+            type(CaliperDigitalResource.Type.CALIPER_MEDIA_OBJECT.uri());
         }
 
         /**

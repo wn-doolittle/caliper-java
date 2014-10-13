@@ -7,22 +7,11 @@ import org.imsglobal.caliper.entities.schemadotorg.ImageObject;
  */
 public class CaliperImageObject extends CaliperMediaObject implements ImageObject {
 
-    private final String type;
-
     /**
      * @param builder apply builder object properties to the CaliperImageObject object.
      */
     protected CaliperImageObject(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -30,28 +19,12 @@ public class CaliperImageObject extends CaliperMediaObject implements ImageObjec
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperMediaObject.Builder<T>  {
-        private static final String IMAGEOBJECT_TYPE = "http://purl.imsglobal.org/caliper/v1/CaliperImageObject";
-        private String type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(IMAGEOBJECT_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return builder
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(IMAGEOBJECT_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = IMAGEOBJECT_TYPE ;
-            }
-            return self();
+            type(CaliperMediaObject.Type.CALIPER_IMAGE_OBJECT.uri());
         }
 
         /**

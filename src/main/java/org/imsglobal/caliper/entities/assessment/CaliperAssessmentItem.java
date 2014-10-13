@@ -27,7 +27,7 @@ public class CaliperAssessmentItem extends CaliperAssignableDigitalResource impl
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(CaliperAssignableDigitalResource.Type.CALIPER_ASSESSMENT_ITEM.uri());
+            type(CaliperAssignableDigitalResource.Type.ASSESSMENT_ITEM.uri());
         }
 
         /**

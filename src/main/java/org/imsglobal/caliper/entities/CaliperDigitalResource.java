@@ -38,6 +38,28 @@ import java.util.List;
         "partOf" })
 public class CaliperDigitalResource extends CaliperEntity implements CreativeWork {
 
+    public enum Type {
+        CALIPER_ASSIGNABLE_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/CaliperAssignableDigitalResource"),
+        CALIPER_MEDIA_OBJECT("http://purl.imsglobal.org/caliper/v1/CaliperMediaObject");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Type(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
     @JsonProperty("name")
     private String name;
 

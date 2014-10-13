@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class CaliperAssignableDigitalResource extends CaliperDigitalResource implements Assignable {
 
     public enum Type {
-        CALIPER_ASSESSMENT("http://purl.imsglobal.org/caliper/v1/Assessment"),
-        CALIPER_ASSESSMENT_ITEM("http://purl.imsglobal.org/caliper/v1/AssessmentItem"),
-        CALIPER_ASSIGNABLE_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/CaliperAssignableDigitalResource");
+        ASSESSMENT("http://purl.imsglobal.org/caliper/v1/Assessment"),
+        ASSESSMENT_ITEM("http://purl.imsglobal.org/caliper/v1/AssessmentItem");
 
         private final String uri;
 
@@ -130,7 +129,7 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource imp
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperAssignableDigitalResource.Type.CALIPER_ASSIGNABLE_DIGITAL_RESOURCE.uri());
+            type(CaliperDigitalResource.Type.CALIPER_ASSIGNABLE_DIGITAL_RESOURCE.uri());
         }
 
         /**
