@@ -115,7 +115,7 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperDigitalResource.Type.CALIPER_DIGITAL_RESOURCE.uri());
+            type(CaliperEntity.Type.CALIPER_DIGITAL_RESOURCE.uri());
         }
 
         /**
