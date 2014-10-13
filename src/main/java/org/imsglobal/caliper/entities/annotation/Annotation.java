@@ -11,27 +11,43 @@ import org.imsglobal.caliper.entities.schemadotorg.Thing;
  */
 public class Annotation extends CaliperEntity implements Thing {
 
-    private final String type;
+    public enum Identifier {
+        ANNOTATION_TYPE("http://purl.imsglobal.org/caliper/v1/Annotation"),
+        BOOKMARK_ANNOTATON_TYPE("http://purl.imsglobal.org/caliper/v1/BookmarkAnnotation"),
+        HIGHLIGHT_ANNOTATON_TYPE("http://purl.imsglobal.org/caliper/v1/HighlightAnnotation"),
+        SHARED_ANNOTATON_TYPE("http://purl.imsglobal.org/caliper/v1/SharedAnnotation"),
+        TAG_ANNOTATON_TYPE("http://purl.imsglobal.org/caliper/v1/TagAnnotation");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Identifier(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
+    /**
+     * Target object.
+     */
     private Object target;
-    // private Target target;
 
     /**
      * @param builder apply builder object properties to the Annotation object.
      */
     protected Annotation(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
         this.target = builder.target;
     }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
-    }
-
 
     /**
      * @return the target
@@ -46,30 +62,13 @@ public class Annotation extends CaliperEntity implements Thing {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
-        private static final String ANNOTATON_TYPE = "http://purl.imsglobal.org/caliper/v1/Annotation";
-        private String type;
         private Object target;
-        // private Target target;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(ANNOTATON_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return the IMS Global type reference URI.
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(ANNOTATON_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = ANNOTATON_TYPE;
-            }
-            return self();
+            type(Annotation.Identifier.ANNOTATION_TYPE.uri());
         }
 
         /**

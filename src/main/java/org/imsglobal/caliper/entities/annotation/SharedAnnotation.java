@@ -6,24 +6,15 @@ import java.util.List;
 
 public class SharedAnnotation extends Annotation {
 
-    private final String type;
-    private List<String> withAgents = Lists.newArrayList(); // TODO should be a list of LISGroup or LISPersons
+    // TODO should be a list of LISGroup or LISPersons
+    private List<String> withAgents = Lists.newArrayList();
 
     /**
      * @param builder apply builder object properties to the SharedAnnotation object.
      */
     protected SharedAnnotation(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
         this.withAgents = builder.withAgents;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -38,29 +29,13 @@ public class SharedAnnotation extends Annotation {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
-        private static final String SHAREDANNOTATON_TYPE = "http://purl.imsglobal.org/caliper/v1/SharedAnnotation";
-        private String type;
         private List<String> withAgents = Lists.newArrayList();
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(SHAREDANNOTATON_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return the IMS Global type reference URI.
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(SHAREDANNOTATON_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = SHAREDANNOTATON_TYPE;
-            }
-            return self();
+            type(Annotation.Identifier.SHARED_ANNOTATON_TYPE.uri());
         }
 
         /**

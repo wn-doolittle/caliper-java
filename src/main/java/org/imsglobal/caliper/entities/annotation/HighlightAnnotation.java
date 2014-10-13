@@ -2,7 +2,6 @@ package org.imsglobal.caliper.entities.annotation;
 
 public class HighlightAnnotation extends Annotation {
 
-    private final String type;
     private TextPositionSelector selection;
     private String selectionText;
 
@@ -11,26 +10,8 @@ public class HighlightAnnotation extends Annotation {
      */
     protected HighlightAnnotation(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
         this.selection = builder.selection;
         this.selectionText = builder.selectionText;
-    }
-
-    /**
-     * Original constructor
-    public HighlightAnnotation(String id) {
-        super(id);
-        setType("http://purl.imsglobal.org/caliper/v1/HighlightAnnotation");
-        selection = new TextPositionSelector();
-    }
-    */
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -52,31 +33,15 @@ public class HighlightAnnotation extends Annotation {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
-        private static final String HIGHLIGHTANNOTATON_TYPE = "http://purl.imsglobal.org/caliper/v1/HighlightAnnotation";
-        private String type;
         private TextPositionSelector selection;
         private String selectionText;
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
-            type(HIGHLIGHTANNOTATON_TYPE);
+            type(Annotation.Identifier.HIGHLIGHT_ANNOTATON_TYPE.uri());
             selection = new TextPositionSelector();
-        }
-
-        /**
-         * @param type
-         * @return the IMS Global type reference URI.
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(HIGHLIGHTANNOTATON_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = HIGHLIGHTANNOTATON_TYPE;
-            }
-            return self();
         }
 
         /**

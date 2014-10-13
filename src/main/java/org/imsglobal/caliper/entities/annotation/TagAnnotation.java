@@ -6,7 +6,6 @@ import java.util.List;
 
 public class TagAnnotation extends Annotation {
 
-    private final String type;
     private List<String> tags = Lists.newArrayList();
 
     /**
@@ -14,16 +13,7 @@ public class TagAnnotation extends Annotation {
      */
     protected TagAnnotation(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
         this.tags = builder.tags;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -38,29 +28,13 @@ public class TagAnnotation extends Annotation {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
-        private static final String TAGANNOTATON_TYPE = "http://purl.imsglobal.org/caliper/v1/TagAnnotation";
-        private String type;
         private List<String> tags = Lists.newArrayList();
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
-            type(TAGANNOTATON_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return the IMS Global type reference URI.
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(TAGANNOTATON_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = TAGANNOTATON_TYPE;
-            }
-            return self();
+            type(Annotation.Identifier.TAG_ANNOTATON_TYPE.uri());
         }
 
         /**
