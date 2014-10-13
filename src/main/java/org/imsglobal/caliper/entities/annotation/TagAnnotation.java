@@ -34,7 +34,7 @@ public class TagAnnotation extends Annotation {
          * Initialize type with default value.
          */
         public Builder() {
-            type(Annotation.Identifier.TAG_ANNOTATON_TYPE.uri());
+            type(Annotation.Type.TAG_ANNOTATON.uri());
         }
 
         /**

@@ -30,7 +30,7 @@ public class BookmarkAnnotation extends Annotation {
          * Initialize type with default value.
          */
         public Builder() {
-            type(Annotation.Identifier.BOOKMARK_ANNOTATON_TYPE.uri());
+            type(Annotation.Type.BOOKMARK_ANNOTATON.uri());
         }
 
         /**

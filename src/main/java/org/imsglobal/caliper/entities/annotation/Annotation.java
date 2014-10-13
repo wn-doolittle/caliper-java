@@ -11,12 +11,12 @@ import org.imsglobal.caliper.entities.schemadotorg.Thing;
  */
 public class Annotation extends CaliperEntity implements Thing {
 
-    public enum Identifier {
-        ANNOTATION_TYPE("http://purl.imsglobal.org/caliper/v1/Annotation"),
-        BOOKMARK_ANNOTATON_TYPE("http://purl.imsglobal.org/caliper/v1/BookmarkAnnotation"),
-        HIGHLIGHT_ANNOTATON_TYPE("http://purl.imsglobal.org/caliper/v1/HighlightAnnotation"),
-        SHARED_ANNOTATON_TYPE("http://purl.imsglobal.org/caliper/v1/SharedAnnotation"),
-        TAG_ANNOTATON_TYPE("http://purl.imsglobal.org/caliper/v1/TagAnnotation");
+    public enum Type {
+        ANNOTATION("http://purl.imsglobal.org/caliper/v1/Annotation"),
+        BOOKMARK_ANNOTATON("http://purl.imsglobal.org/caliper/v1/BookmarkAnnotation"),
+        HIGHLIGHT_ANNOTATON("http://purl.imsglobal.org/caliper/v1/HighlightAnnotation"),
+        SHARED_ANNOTATON("http://purl.imsglobal.org/caliper/v1/SharedAnnotation"),
+        TAG_ANNOTATON("http://purl.imsglobal.org/caliper/v1/TagAnnotation");
 
         private final String uri;
 
@@ -24,7 +24,7 @@ public class Annotation extends CaliperEntity implements Thing {
          * Private constructor
          * @param uri
          */
-        private Identifier(final String uri) {
+        private Type(final String uri) {
             this.uri = uri;
         }
 
@@ -68,7 +68,7 @@ public class Annotation extends CaliperEntity implements Thing {
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(Annotation.Identifier.ANNOTATION_TYPE.uri());
+            type(Annotation.Type.ANNOTATION.uri());
         }
 
         /**

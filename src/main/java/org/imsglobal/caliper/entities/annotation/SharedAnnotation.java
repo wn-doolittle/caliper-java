@@ -35,7 +35,7 @@ public class SharedAnnotation extends Annotation {
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(Annotation.Identifier.SHARED_ANNOTATON_TYPE.uri());
+            type(Annotation.Type.SHARED_ANNOTATON.uri());
         }
 
         /**

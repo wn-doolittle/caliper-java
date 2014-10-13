@@ -40,7 +40,7 @@ public class HighlightAnnotation extends Annotation {
          * Initialize type with default value.
          */
         public Builder() {
-            type(Annotation.Identifier.HIGHLIGHT_ANNOTATON_TYPE.uri());
+            type(Annotation.Type.HIGHLIGHT_ANNOTATON.uri());
             selection = new TextPositionSelector();
         }
 
