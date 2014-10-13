@@ -2,22 +2,32 @@ package org.imsglobal.caliper.entities;
 
 public class LearningObjective extends CaliperEntity {
 
-    private final String type;
+    public enum Identifier {
+        TYPE("http://purl.imsglobal.org/caliper/v1/LearningObjective");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Identifier(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
 
     /**
      * @param builder apply builder object properties to the Target object.
      */
     protected LearningObjective(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -25,28 +35,12 @@ public class LearningObjective extends CaliperEntity {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
-        private final String LEARNOBJECTIVE_TYPE = "http://purl.imsglobal.org/caliper/v1/LearningObjective";
-        private String type;
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
-            type(LEARNOBJECTIVE_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return builder
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(LEARNOBJECTIVE_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = LEARNOBJECTIVE_TYPE;
-            }
-            return self();
+            type(LearningObjective.Identifier.TYPE.uri());
         }
 
         /**
