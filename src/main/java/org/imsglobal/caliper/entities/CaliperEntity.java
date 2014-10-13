@@ -14,6 +14,7 @@ public class CaliperEntity {
 
     public enum Type {
         ACTIVITY_CONTEXT("http://purl.imsglobal.org/caliper/v1/ActivityContext"),
+        ATTEMPT("http://purl.imsglobal.org/caliper/v1/Attempt"),
         CALIPER_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/CaliperDigitalResource"),
         CALIPER_ENTITY("http://purl.imsglobal.org/caliper/v1/CaliperEntity"),
         LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),

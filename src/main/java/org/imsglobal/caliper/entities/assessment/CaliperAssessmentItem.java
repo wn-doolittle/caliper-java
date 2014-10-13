@@ -10,22 +10,11 @@ import org.imsglobal.caliper.entities.qti.AssessmentItem;
  */
 public class CaliperAssessmentItem extends CaliperAssignableDigitalResource implements AssessmentItem {
 
-    private final String type;
-
     /**
      * @param builder apply builder object properties to the CaliperAssessmentItem object.
      */
     protected CaliperAssessmentItem(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
@@ -33,28 +22,12 @@ public class CaliperAssessmentItem extends CaliperAssignableDigitalResource impl
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperAssignableDigitalResource.Builder<T>  {
-        private static final String ASSESSMENTITEM_TYPE = "http://purl.imsglobal.org/caliper/v1/AssessmentItem";
-        private String type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(ASSESSMENTITEM_TYPE);
-        }
-
-        /**
-         * @param type
-         * @return the IMS Global type reference URI.
-         */
-        @Override
-        public T type(String type) {
-            if (type.equals(ASSESSMENTITEM_TYPE)) {
-                this.type = type;
-            } else {
-                this.type = ASSESSMENTITEM_TYPE;
-            }
-            return self();
+            type(CaliperAssignableDigitalResource.Type.CALIPER_ASSESSMENT_ITEM.uri());
         }
 
         /**
