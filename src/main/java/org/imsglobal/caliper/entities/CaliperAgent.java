@@ -6,7 +6,8 @@ public class CaliperAgent extends CaliperEntity implements Agent {
 
     public enum Type {
         LIS_PERSON("http://purl.imsglobal.org/caliper/v1/LISPerson"),
-        LIS_ORGANIZATION("http://purl.imsglobal.org/caliper/v1/LISOrganization");
+        LIS_ORGANIZATION("http://purl.imsglobal.org/caliper/v1/LISOrganization"),
+        SOFTWARE_APPLICATION("http://purl.imsglobal.org/caliper/v1/SoftwareApplication");
 
         private final String uri;
 

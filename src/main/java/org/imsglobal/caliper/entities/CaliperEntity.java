@@ -18,8 +18,7 @@ public class CaliperEntity {
         CALIPER_AGENT("http://purl.imsglobal.org/caliper/v1/CaliperAgent"),
         CALIPER_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/CaliperDigitalResource"),
         CALIPER_ENTITY("http://purl.imsglobal.org/caliper/v1/CaliperEntity"),
-        LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
-        SOFTWARE_APPLICATION("http://purl.imsglobal.org/caliper/v1/SoftwareApplication");
+        LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective");
 
         private final String uri;
 
