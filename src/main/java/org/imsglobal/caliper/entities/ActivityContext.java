@@ -16,7 +16,7 @@ public class ActivityContext extends CaliperEntity {
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
             type(CaliperEntity.Type.ACTIVITY_CONTEXT.uri());
