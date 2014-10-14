@@ -8,31 +8,8 @@ import java.util.ResourceBundle;
 
 public class AssignableEvent extends CaliperEvent {
 
-    public enum Identifier {
-        CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1/AssignableEvent"),
-        TYPE("http://purl.imsglobal.org/caliper/v1/AssignableEvent");
-
-        private final String uri;
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Identifier(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-    }
-
-    /**
-     * Assignable action
-     */
+    private final String context;
+    private final String type;
     private final String action;
 
     /**
@@ -45,8 +22,26 @@ public class AssignableEvent extends CaliperEvent {
      */
     protected AssignableEvent(Builder<?> builder) {
         super(builder);
+        this.context = builder.context;
+        this.type = builder.type;
         this.action = builder.action;
         this.object = builder.object;
+    }
+
+    /**
+     * @return the context
+     */
+    @Override
+    public String getContext() {
+        return context;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -71,6 +66,8 @@ public class AssignableEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
+        private String context;
+        private String type;
         private String action;
         private Object object;
 
@@ -78,8 +75,26 @@ public class AssignableEvent extends CaliperEvent {
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(AssignableEvent.Identifier.CONTEXT.uri());
-            type(AssignableEvent.Identifier.TYPE.uri());
+            context(CaliperEvent.Context.ASSIGNABLE.uri());
+            type(CaliperEvent.Type.ASSIGNABLE.uri());
+        }
+
+        /**
+         * @param context
+         * @return builder.
+         */
+        private T context(String context) {
+            this.context = context;
+            return self();
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

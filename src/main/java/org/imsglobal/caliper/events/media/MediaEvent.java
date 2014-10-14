@@ -11,31 +11,8 @@ import java.util.ResourceBundle;
 
 public class MediaEvent extends CaliperEvent {
 
-    public enum Identifier {
-        CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1/MediaEvent"),
-        TYPE("http://purl.imsglobal.org/caliper/v1/MediaEvent");
-
-        private final String uri;
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Identifier(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-    }
-
-    /**
-     * Media action
-     */
+    private final String context;
+    private final String type;
     private final String action;
 
     /**
@@ -54,9 +31,27 @@ public class MediaEvent extends CaliperEvent {
      */
     protected MediaEvent(Builder<?> builder) {
         super(builder);
+        this.context = builder.context;
+        this.type = builder.type;
         this.action = builder.action;
         this.object = builder.object;
         this.mediaLocation = builder.mediaLocation;
+    }
+
+    /**
+     * @return the context
+     */
+    @Override
+    public String getContext() {
+        return context;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -87,6 +82,8 @@ public class MediaEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
+        private String context;
+        private String type;
         private String action;
         private Object object;
         private MediaLocation mediaLocation;
@@ -95,8 +92,26 @@ public class MediaEvent extends CaliperEvent {
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(MediaEvent.Identifier.CONTEXT.uri());
-            type(MediaEvent.Identifier.TYPE.uri());
+            context(CaliperEvent.Context.MEDIA.uri());
+            type(CaliperEvent.Type.MEDIA.uri());
+        }
+
+        /**
+         * @param context
+         * @return builder.
+         */
+        private T context(String context) {
+            this.context = context;
+            return self();
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

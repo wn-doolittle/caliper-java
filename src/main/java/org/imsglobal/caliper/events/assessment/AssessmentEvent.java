@@ -7,31 +7,8 @@ import java.util.ResourceBundle;
 
 public class AssessmentEvent extends CaliperEvent {
 
-    public enum Identifier {
-        CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1/AssessmentEvent"),
-        TYPE("http://purl.imsglobal.org/caliper/v1/AssessmentEvent");
-
-        private final String uri;
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Identifier(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-    }
-
-    /**
-     * Assessment action
-     */
+    private final String context;
+    private final String type;
     private final String action;
 
     /**
@@ -39,7 +16,25 @@ public class AssessmentEvent extends CaliperEvent {
      */
     protected AssessmentEvent(Builder<?> builder) {
         super(builder);
+        this.context = builder.context;
+        this.type = builder.type;
         this.action = builder.action;
+    }
+
+    /**
+     * @return the context
+     */
+    @Override
+    public String getContext() {
+        return context;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -55,14 +50,34 @@ public class AssessmentEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
+        private String context;
+        private String type;
         private String action;
 
         /**
          * Initialize with default values.
          */
         public Builder() {
-            context(AssessmentEvent.Identifier.CONTEXT.uri());
-            type(AssessmentEvent.Identifier.TYPE.uri());
+            context(CaliperEvent.Context.ASSESSMENT.uri());
+            type(CaliperEvent.Type.ANNOTATION.uri());
+        }
+
+        /**
+         * @param context
+         * @return builder.
+         */
+        private T context(String context) {
+            this.context = context;
+            return self();
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

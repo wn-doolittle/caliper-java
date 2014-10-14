@@ -24,6 +24,64 @@ import org.imsglobal.caliper.entities.lis.LISOrganization;
         "duration"})
 public class CaliperEvent {
 
+    public enum Context {
+        ANNOTATION("http://purl.imsglobal.org/ctx/caliper/v1/AnnotationEvent"),
+        ASSESSMENT("http://purl.imsglobal.org/ctx/caliper/v1/AssessmentEvent"),
+        ASSESSMENT_ITEM("http://purl.imsglobal.org/ctx/caliper/v1/AssessmentItemEvent"),
+        ASSIGNABLE("http://purl.imsglobal.org/ctx/caliper/v1/AssignableEvent"),
+        CALIPER_EVENT("http://purl.imsglobal.org/ctx/caliper/v1/CaliperEvent"),
+        MEDIA("http://purl.imsglobal.org/ctx/caliper/v1/MediaEvent"),
+        NAVIGATION("http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent"),
+        OUTCOME("http://purl.imsglobal.org/ctx/caliper/v1/OutcomeEvent"),
+        VIEWED("http://purl.imsglobal.org/ctx/caliper/v1/ViewedEvent");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Context(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
+    public enum Type {
+        ANNOTATION("http://purl.imsglobal.org/caliper/v1/AnnotationEvent"),
+        ASSESSMENT("http://purl.imsglobal.org/caliper/v1/AssessmentEvent"),
+        ASSESSMENT_ITEM("http://purl.imsglobal.org/caliper/v1/AssessmentItemEvent"),
+        ASSIGNABLE("http://purl.imsglobal.org/caliper/v1/AssignableEvent"),
+        CALIPER_EVENT("http://purl.imsglobal.org/caliper/v1/CaliperEvent"),
+        MEDIA("http://purl.imsglobal.org/caliper/v1/MediaEvent"),
+        NAVIGATION("http://purl.imsglobal.org/caliper/v1/NavigationEvent"),
+        OUTCOME("http://purl.imsglobal.org/caliper/v1/OutcomeEvent"),
+        VIEWED("http://purl.imsglobal.org/caliper/v1/ViewedEvent");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Type(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
+
     /**
      * Required - the JSON-LD context for the CaliperEvent
      */
@@ -218,20 +276,23 @@ public class CaliperEvent {
         private String action;
         private Object object;
         private Object target;
-        //private Target target;
         private Object generated;
-        //private Generated generated;
         private long startedAtTime;
         private long endedAtTime;
         private String duration;
 
         protected abstract T self();
 
+        public Builder() {
+            this.context(Context.CALIPER_EVENT.uri());
+            this.type(Type.CALIPER_EVENT.uri());
+        }
+
         /**
          * @param context
          * @return builder.
          */
-        public T context(String context) {
+        private T context(String context) {
             this.context = context;
             return self();
         }
@@ -240,7 +301,7 @@ public class CaliperEvent {
          * @param type
          * @return builder.
          */
-        public T type(String type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

@@ -7,31 +7,8 @@ import java.util.ResourceBundle;
 
 public class AssessmentItemEvent extends CaliperEvent {
 
-    public enum Identifier {
-        CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1/AssessmentItemEvent"),
-        TYPE("http://purl.imsglobal.org/caliper/v1/AssessmentItemEvent");
-
-        private final String uri;
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Identifier(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-    }
-
-    /**
-     * AssessmentItem action
-     */
+    private final String context;
+    private final String type;
     private final String action;
 
     /**
@@ -39,7 +16,25 @@ public class AssessmentItemEvent extends CaliperEvent {
      */
     protected AssessmentItemEvent(Builder<?> builder) {
         super(builder);
+        this.context = builder.context;
+        this.type = builder.type;
         this.action = builder.action;
+    }
+
+    /**
+     * @return the context
+     */
+    @Override
+    public String getContext() {
+        return context;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -55,14 +50,34 @@ public class AssessmentItemEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
+        private String context;
+        private String type;
         private String action;
 
         /**
-         * Initialize type with default valueS.  Required if .builder() properties are not set by user.
+         * Initialize type with default values.
          */
         public Builder() {
-            context(AssessmentItemEvent.Identifier.CONTEXT.uri());
-            type(AssessmentItemEvent.Identifier.TYPE.uri());
+            context(CaliperEvent.Context.ASSESSMENT_ITEM.uri());
+            type(CaliperEvent.Type.ASSESSMENT_ITEM.uri());
+        }
+
+        /**
+         * @param context
+         * @return builder.
+         */
+        private T context(String context) {
+            this.context = context;
+            return self();
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

@@ -10,31 +10,8 @@ import java.util.ResourceBundle;
 
 public class NavigationEvent extends CaliperEvent {
 
-    public enum Identifier {
-        CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent"),
-        TYPE("http://purl.imsglobal.org/caliper/v1/NavigationEvent");
-
-        private final String uri;
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Identifier(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-    }
-
-    /**
-     * Navigation action
-     */
+    private final String context;
+    private final String type;
     private final String action;
 
     /**
@@ -48,8 +25,26 @@ public class NavigationEvent extends CaliperEvent {
      */
     protected NavigationEvent(Builder<?> builder) {
         super(builder);
+        this.context = builder.context;
+        this.type = builder.type;
         this.action = builder.action;
         this.fromResource = builder.fromResource;
+    }
+
+    /**
+     * @return the context
+     */
+    @Override
+    public String getContext() {
+        return context;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -72,16 +67,36 @@ public class NavigationEvent extends CaliperEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
+        private String context;
+        private String type;
         private String action;
         private CaliperDigitalResource fromResource;
 
         /**
-         * Initialize type with default valueS.  Required if .builder() properties are not set by user.
+         * Initialize type with default values.
          */
         public Builder() {
-            context(NavigationEvent.Identifier.CONTEXT.uri());
-            type(NavigationEvent.Identifier.TYPE.uri());
+            context(CaliperEvent.Context.NAVIGATION.uri());
+            type(CaliperEvent.Type.NAVIGATION.uri());
             action(ReadingActions.NAVIGATEDTO.key());
+        }
+
+        /**
+         * @param context
+         * @return builder.
+         */
+        private T context(String context) {
+            this.context = context;
+            return self();
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**
