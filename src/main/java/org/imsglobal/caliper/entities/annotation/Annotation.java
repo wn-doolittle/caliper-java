@@ -36,9 +36,7 @@ public class Annotation extends CaliperEntity implements Thing {
         }
     }
 
-    /**
-     * Target object.
-     */
+    private final String type;
     private Object target;
 
     /**
@@ -46,7 +44,16 @@ public class Annotation extends CaliperEntity implements Thing {
      */
     protected Annotation(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.target = builder.target;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -62,6 +69,7 @@ public class Annotation extends CaliperEntity implements Thing {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+        private String type;
         private Object target;
 
         /**
@@ -69,6 +77,15 @@ public class Annotation extends CaliperEntity implements Thing {
          */
         public Builder() {
             type(Annotation.Type.ANNOTATION.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

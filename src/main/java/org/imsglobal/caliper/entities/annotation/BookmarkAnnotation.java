@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities.annotation;
 
 public class BookmarkAnnotation extends Annotation {
 
+    private final String type;
     private String bookmarkNotes;
 
     /**
@@ -9,7 +10,16 @@ public class BookmarkAnnotation extends Annotation {
      */
     protected BookmarkAnnotation(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.bookmarkNotes = builder.bookmarkNotes;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -24,6 +34,7 @@ public class BookmarkAnnotation extends Annotation {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
+        private String type;
         private String bookmarkNotes;
 
         /**
@@ -31,6 +42,15 @@ public class BookmarkAnnotation extends Annotation {
          */
         public Builder() {
             type(Annotation.Type.BOOKMARK_ANNOTATON.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

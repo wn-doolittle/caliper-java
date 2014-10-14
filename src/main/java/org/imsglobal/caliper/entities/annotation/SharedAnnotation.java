@@ -6,6 +6,7 @@ import java.util.List;
 
 public class SharedAnnotation extends Annotation {
 
+    private final String type;
     // TODO should be a list of LISGroup or LISPersons
     private List<String> withAgents = Lists.newArrayList();
 
@@ -14,13 +15,22 @@ public class SharedAnnotation extends Annotation {
      */
     protected SharedAnnotation(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.withAgents = builder.withAgents;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
      * @return the users
      */
-    public List<String> getUsers() {
+    public List<String> getWithAgents() {
         return withAgents;
     }
 
@@ -29,6 +39,7 @@ public class SharedAnnotation extends Annotation {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
+        private String type;
         private List<String> withAgents = Lists.newArrayList();
 
         /**
@@ -36,6 +47,15 @@ public class SharedAnnotation extends Annotation {
          */
         public Builder() {
             type(Annotation.Type.SHARED_ANNOTATON.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

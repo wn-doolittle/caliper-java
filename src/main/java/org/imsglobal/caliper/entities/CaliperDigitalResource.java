@@ -65,6 +65,9 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
         }
     }
 
+    @JsonProperty("@type")
+    private final String type;
+
     @JsonProperty("name")
     private String name;
 
@@ -85,11 +88,20 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
      */
     protected CaliperDigitalResource(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.name = builder.name;
         this.partOf = builder.partOf;
         this.objectType = builder.objectType;
         this.alignedLearningObjective = builder.alignedLearningObjective;
         this.keyword = builder.keyword;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -132,6 +144,7 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+        private String type;
         private String name;
         private Object partOf;
         private List<LearningObjective> alignedLearningObjective = new ArrayList<LearningObjective>();
@@ -143,6 +156,15 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
          */
         public Builder() {
             type(CaliperEntity.Type.CALIPER_DIGITAL_RESOURCE.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

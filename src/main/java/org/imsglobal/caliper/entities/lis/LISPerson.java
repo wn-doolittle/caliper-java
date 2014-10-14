@@ -4,11 +4,22 @@ import org.imsglobal.caliper.entities.CaliperAgent;
 
 public class LISPerson extends CaliperAgent {
 
+    private final String type;
+
     /**
      * @param builder apply builder object properties to the LISPerson object.
      */
     protected LISPerson(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -16,12 +27,22 @@ public class LISPerson extends CaliperAgent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperAgent.Builder<T>  {
+        private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
             type(CaliperAgent.Type.LIS_PERSON.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

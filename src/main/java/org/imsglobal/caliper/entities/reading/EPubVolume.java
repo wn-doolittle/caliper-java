@@ -11,11 +11,22 @@ import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
  */
 public class EPubVolume extends CaliperDigitalResource implements CreativeWork {
 
+    private final String type;
+
     /**
      * @param builder apply builder object properties to the EPubVolume object.
      */
     protected EPubVolume(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -23,12 +34,22 @@ public class EPubVolume extends CaliperDigitalResource implements CreativeWork {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+        private String type;
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
             type(CaliperDigitalResource.Type.EPUB_VOLUME.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

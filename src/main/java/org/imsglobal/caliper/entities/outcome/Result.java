@@ -9,10 +9,35 @@ import org.imsglobal.caliper.entities.CaliperEntity;
  */
 public class Result extends CaliperEntity {
 
+    private final String type;
     private double normalScore, penaltyScore, extraCreditScore, totalScore, curvedTotalScore, curveFactor;
     private String comment;
     private CaliperAgent scoredBy;
     // TODO - need to include target, learningObjective and scoreConstraints from metric profile
+
+    /**
+     * @param builder apply builder object properties to the Result object.
+     */
+    protected Result(Builder<?> builder) {
+        super(builder);
+        this.type = builder.type;
+        this.normalScore = builder.normalScore;
+        this.penaltyScore = builder.penaltyScore;
+        this.extraCreditScore = builder.extraCreditScore;
+        this.totalScore = builder.totalScore;
+        this.curvedTotalScore = builder.curvedTotalScore;
+        this.curveFactor = builder.curveFactor;
+        this.comment = builder.comment;
+        this.scoredBy = builder.scoredBy;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
 
     /**
      * @return the normalScore
@@ -70,20 +95,6 @@ public class Result extends CaliperEntity {
         return scoredBy;
     }
 
-    /**
-     * @param builder apply builder object properties to the Result object.
-     */
-    protected Result(Builder<?> builder) {
-        super(builder);
-        this.normalScore = builder.normalScore;
-        this.penaltyScore = builder.penaltyScore;
-        this.extraCreditScore = builder.extraCreditScore;
-        this.totalScore = builder.totalScore;
-        this.curvedTotalScore = builder.curvedTotalScore;
-        this.curveFactor = builder.curveFactor;
-        this.comment = builder.comment;
-        this.scoredBy = builder.scoredBy;
-    }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
@@ -91,7 +102,7 @@ public class Result extends CaliperEntity {
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
         private double normalScore, penaltyScore, extraCreditScore, totalScore, curvedTotalScore, curveFactor;
-        private String comment;
+        private String type, comment;
         private CaliperAgent scoredBy;
 
         /**
@@ -99,6 +110,15 @@ public class Result extends CaliperEntity {
          */
         public Builder() {
             type(CaliperEntity.Type.RESULT.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

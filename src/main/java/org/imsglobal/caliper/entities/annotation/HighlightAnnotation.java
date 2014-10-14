@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities.annotation;
 
 public class HighlightAnnotation extends Annotation {
 
+    private final String type;
     private TextPositionSelector selection;
     private String selectionText;
 
@@ -10,8 +11,17 @@ public class HighlightAnnotation extends Annotation {
      */
     protected HighlightAnnotation(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.selection = builder.selection;
         this.selectionText = builder.selectionText;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -33,6 +43,7 @@ public class HighlightAnnotation extends Annotation {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
+        private String type;
         private TextPositionSelector selection;
         private String selectionText;
 
@@ -42,6 +53,15 @@ public class HighlightAnnotation extends Annotation {
         public Builder() {
             type(Annotation.Type.HIGHLIGHT_ANNOTATON.uri());
             selection = new TextPositionSelector();
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

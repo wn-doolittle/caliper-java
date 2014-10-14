@@ -7,11 +7,22 @@ import org.imsglobal.caliper.entities.schemadotorg.VideoObject;
  */
 public class CaliperVideoObject extends CaliperMediaObject implements VideoObject {
 
+    private final String type;
+
     /**
      * @param builder apply builder object properties to the CaliperVideoObject object.
      */
     protected CaliperVideoObject(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -19,12 +30,22 @@ public class CaliperVideoObject extends CaliperMediaObject implements VideoObjec
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperMediaObject.Builder<T>  {
+        private String type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
             type(CaliperMediaObject.Type.CALIPER_VIDEO_OBJECT.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

@@ -3,11 +3,22 @@ package org.imsglobal.caliper.entities;
 @CaliperLearningContext
 public class SoftwareApplication extends CaliperAgent {
 
+    private final String type;
+
     /**
      * @param builder apply builder object properties to the SoftwareApplication object.
      */
     protected SoftwareApplication(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -15,12 +26,22 @@ public class SoftwareApplication extends CaliperAgent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperAgent.Builder<T>  {
+        private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
             type(CaliperAgent.Type.SOFTWARE_APPLICATION.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

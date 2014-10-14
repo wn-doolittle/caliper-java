@@ -11,6 +11,7 @@ import com.google.common.base.Strings;
  */
 public class MediaLocation extends CaliperEntity {
 
+    private final String type;
     private final String id;
 
     /**
@@ -24,8 +25,17 @@ public class MediaLocation extends CaliperEntity {
      */
     protected MediaLocation(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.id = builder.id;
         this.currentTime = builder.currentTime;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -40,6 +50,7 @@ public class MediaLocation extends CaliperEntity {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+        private String type;
         private String id;
         private long currentTime;
         private UUID uuid = new UUID(1000l, 500l);
@@ -50,6 +61,15 @@ public class MediaLocation extends CaliperEntity {
         public Builder() {
             id(CaliperEntity.Type.MEDIA_LOCATION.uri() + "/" + uuid);
             type(CaliperEntity.Type.MEDIA_LOCATION.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

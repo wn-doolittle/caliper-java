@@ -121,11 +121,10 @@ public class CaliperEntity {
         }
 
         /**
-         * Private scope
          * @param type
          * @return builder.
          */
-        public T type(String type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

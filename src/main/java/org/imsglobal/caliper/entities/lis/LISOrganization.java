@@ -25,6 +25,7 @@ public class LISOrganization extends CaliperAgent {
         }
     }
 
+    private final String type;
     private String title;
     private LISOrganization parentOrg;
 
@@ -33,8 +34,17 @@ public class LISOrganization extends CaliperAgent {
      */
     protected LISOrganization(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.title = builder.title;
         this.parentOrg = builder.parentOrg;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -56,6 +66,7 @@ public class LISOrganization extends CaliperAgent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperAgent.Builder<T>  {
+        private String type;
         private String title;
         private LISOrganization parentOrg;
 
@@ -64,6 +75,15 @@ public class LISOrganization extends CaliperAgent {
          */
         public Builder() {
             type(CaliperAgent.Type.LIS_ORGANIZATION.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

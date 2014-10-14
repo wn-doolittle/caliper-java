@@ -33,6 +33,7 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource imp
         }
     }
 
+    private final String type;
     private long dateCreated, datePublished, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
     private int maxAttempts, maxSubmits;
     private double maxScore;
@@ -42,6 +43,7 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource imp
      */
     protected CaliperAssignableDigitalResource(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.dateCreated = builder.dateCreated;
         this.datePublished = builder.datePublished;
         this.dateToActivate = builder.dateToActivate;
@@ -51,6 +53,14 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource imp
         this.maxAttempts = builder.maxAttempts;
         this.maxSubmits = builder.maxSubmits;
         this.maxScore = builder.maxScore;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -121,6 +131,7 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource imp
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+        private String type;
         private long dateCreated, datePublished, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
         private int maxAttempts, maxSubmits;
         private double maxScore;
@@ -130,6 +141,15 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource imp
          */
         public Builder() {
             type(CaliperDigitalResource.Type.CALIPER_ASSIGNABLE_DIGITAL_RESOURCE.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

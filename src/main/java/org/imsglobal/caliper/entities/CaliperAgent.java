@@ -27,11 +27,22 @@ public class CaliperAgent extends CaliperEntity implements Agent {
         }
     }
 
+    private final String type;
+
     /**
      * @param builder apply builder object properties to the SoftwareApplication object.
      */
     protected CaliperAgent(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -39,12 +50,22 @@ public class CaliperAgent extends CaliperEntity implements Agent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+        private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
             type(CaliperEntity.Type.CALIPER_AGENT.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

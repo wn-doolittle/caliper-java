@@ -30,6 +30,7 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
         }
     }
 
+    private final String type;
     private long duration;
 
     /**
@@ -37,7 +38,16 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
      */
     protected CaliperMediaObject(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.duration = builder.duration;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -53,6 +63,7 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T> {
+        private String type;
         private long duration;
 
         protected abstract T self();
@@ -62,6 +73,15 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
          */
         public Builder() {
             type(CaliperDigitalResource.Type.CALIPER_MEDIA_OBJECT.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

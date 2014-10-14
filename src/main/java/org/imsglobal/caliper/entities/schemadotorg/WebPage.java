@@ -4,11 +4,14 @@ import org.imsglobal.caliper.entities.CaliperDigitalResource;
 
 public class WebPage extends CaliperDigitalResource implements CreativeWork {
 
+    private final String type;
+
     /**
      * @param builder apply builder object properties to the WebPage object.
      */
     protected WebPage(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
     }
 
     /**
@@ -16,12 +19,22 @@ public class WebPage extends CaliperDigitalResource implements CreativeWork {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+        private String type;
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
             type(CaliperDigitalResource.Type.WEB_PAGE.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

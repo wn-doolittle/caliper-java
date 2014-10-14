@@ -10,6 +10,7 @@ import org.imsglobal.caliper.entities.assignable.Assignable;
  */
 public class Attempt extends CaliperEntity {
 
+    private final String type;
     private Assignable assignable;
     private CaliperAgent actor;
     private int count;
@@ -19,9 +20,18 @@ public class Attempt extends CaliperEntity {
      */
     protected Attempt(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.assignable = builder.assignable;
         this.actor = builder.actor;
         this.count = builder.count;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -50,6 +60,7 @@ public class Attempt extends CaliperEntity {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+        private String type;
         private Assignable assignable;
         private CaliperAgent actor;
         private int count;
@@ -59,6 +70,15 @@ public class Attempt extends CaliperEntity {
          */
         public Builder() {
             type(CaliperEntity.Type.ATTEMPT.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

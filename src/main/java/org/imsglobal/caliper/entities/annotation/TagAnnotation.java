@@ -6,6 +6,7 @@ import java.util.List;
 
 public class TagAnnotation extends Annotation {
 
+    private final String type;
     private List<String> tags = Lists.newArrayList();
 
     /**
@@ -13,7 +14,16 @@ public class TagAnnotation extends Annotation {
      */
     protected TagAnnotation(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.tags = builder.tags;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -28,6 +38,7 @@ public class TagAnnotation extends Annotation {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
+        private String type;
         private List<String> tags = Lists.newArrayList();
 
         /**
@@ -35,6 +46,15 @@ public class TagAnnotation extends Annotation {
          */
         public Builder() {
             type(Annotation.Type.TAG_ANNOTATON.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**

@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities.lis;
 
 public class LISCourseSection extends LISOrganization {
 
+    private final String type;
     private String semester; // TODO - check against LIS LISOrganization
     private String courseNumber;
     private String label;
@@ -11,9 +12,18 @@ public class LISCourseSection extends LISOrganization {
      */
     protected LISCourseSection(Builder<?> builder) {
         super(builder);
+        this.type = builder.type;
         this.semester = builder.semester;
         this.courseNumber = builder.courseNumber;
         this.label = builder.label;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -42,6 +52,7 @@ public class LISCourseSection extends LISOrganization {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends LISOrganization.Builder<T>  {
+        private String type;
         private String label;
         private String courseNumber;
         private String semester; // TODO - check against LIS LISOrganization
@@ -51,6 +62,15 @@ public class LISCourseSection extends LISOrganization {
          */
         public Builder() {
             type(LISOrganization.Type.LIS_COURSE_SECTION.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
         }
 
         /**
