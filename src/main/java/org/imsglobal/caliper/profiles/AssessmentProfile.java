@@ -1,11 +1,8 @@
 package org.imsglobal.caliper.profiles;
 
 import org.imsglobal.caliper.entities.assessment.CaliperAssessment;
-import org.imsglobal.caliper.entities.assessment.CaliperAssessmentItem;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class AssessmentProfile extends BaseProfile {
@@ -110,7 +107,6 @@ public class AssessmentProfile extends BaseProfile {
     }
 
     private CaliperAssessment assessment;
-    private List<CaliperAssessmentItem> assessmentItem = new ArrayList<CaliperAssessmentItem>();
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -118,7 +114,6 @@ public class AssessmentProfile extends BaseProfile {
     protected AssessmentProfile(Builder<?> builder) {
         super(builder);
         this.assessment = builder.assessment;
-        this.assessmentItem = builder.assessmentItem;
     }
 
     /**
@@ -129,19 +124,11 @@ public class AssessmentProfile extends BaseProfile {
     }
 
     /**
-     * @return List of assessment items
-     */
-    public List<CaliperAssessmentItem>  getAssessmentItem() {
-        return assessmentItem;
-    }
-
-    /**
      * Initialize default parameter values in the builder (not in the outer profile class).
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
         private CaliperAssessment assessment;
-        private List<CaliperAssessmentItem> assessmentItem = new ArrayList<CaliperAssessmentItem>();
 
         /**
          * @param assessment
@@ -149,15 +136,6 @@ public class AssessmentProfile extends BaseProfile {
          */
         public T assessment(CaliperAssessment assessment) {
             this.assessment = assessment;
-            return self();
-        }
-
-        /**
-         * @param assessmentItem
-         * @return builder.
-         */
-        public T assessmentItem(List<CaliperAssessmentItem> assessmentItem) {
-            this.assessmentItem = assessmentItem;
             return self();
         }
 
