@@ -87,13 +87,12 @@ public class OutcomeEvent extends CaliperEvent {
         private Object generated;
 
         /**
-         * Initialize type with default valueS.  Required if .builder() properties are not set by user.
+         * Initialize type with default values.
          */
         public Builder() {
             context(CaliperEvent.Context.OUTCOME.uri());
             type(CaliperEvent.Type.OUTCOME.uri());
         }
-
 
         /**
          * @param context
@@ -112,7 +111,7 @@ public class OutcomeEvent extends CaliperEvent {
             this.type = type;
             return self();
         }
-        
+
         /**
          * @param key
          * @return builder
