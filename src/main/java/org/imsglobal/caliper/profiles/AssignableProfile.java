@@ -4,65 +4,9 @@ import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AssignableProfile extends BaseProfile {
-
-    public enum AssignableAction {
-        ABANDONED("assignable.abandoned"),
-        ACTIVATED("assignable.activated"),
-        COMPLETED("assignable.completed"),
-        DEACTIVATED("assignable.deactivated"),
-        HID("assignable.hid"),
-        REVIEWED("assignable.reviewed"),
-        SHOWED("assignable.showed"),
-        STARTED("assignable.started"),
-        SUBMITTED("assignable.submitted");
-
-        private final String key;
-        private static final Map<String, AssignableAction> lookup = new HashMap<String, AssignableAction>();
-
-        /**
-         * Create reverse lookup hash map
-         */
-        static {
-            for (AssignableAction constants : AssignableAction.values())
-                lookup.put(constants.key(), constants);
-        }
-
-        /**
-         * Constructor
-         * @param key
-         */
-        private AssignableAction(String key) {
-            this.key = key;
-        }
-
-        /**
-         * @return ResourceBundle key for internationalized action strings.
-         */
-        public String key() {
-            return key;
-        }
-
-        /**
-         * @param key
-         * @return true if lookup returns a key match; false otherwise.
-         */
-        public static boolean hasKey(String key) {
-            return lookup.containsKey(key);
-        }
-
-        /**
-         * @param key
-         * @return enum constant by reverse lookup
-         */
-        public static AssignableAction lookupConstant(String key) {
-            return lookup.get(key);
-        }
-    }
 
     private CaliperAssignableDigitalResource assignable;
     private List<Attempt> attempts = new ArrayList<Attempt>();

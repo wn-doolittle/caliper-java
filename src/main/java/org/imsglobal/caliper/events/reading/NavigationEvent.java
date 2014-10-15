@@ -78,7 +78,7 @@ public class NavigationEvent extends CaliperEvent {
         public Builder() {
             context(CaliperEvent.Context.NAVIGATION.uri());
             type(CaliperEvent.Type.NAVIGATION.uri());
-            action(ReadingActions.NAVIGATEDTO.key());
+            action(ReadingActions.NAVIGATED_TO.key());
         }
 
         /**

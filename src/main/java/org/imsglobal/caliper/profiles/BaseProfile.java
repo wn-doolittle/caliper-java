@@ -9,13 +9,9 @@ import java.util.List;
 public abstract class BaseProfile {
 
     private LearningContext learningContext;
-
     private ActivityContext activityContext;
-
     private List<String> actions = new ArrayList<String>();
-
     private List<Object> targets = new ArrayList<Object>();
-
     private List<Object> generateds = new ArrayList<Object>();
 
     /**
