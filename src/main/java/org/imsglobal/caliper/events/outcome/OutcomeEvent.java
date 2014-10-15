@@ -1,7 +1,7 @@
 package org.imsglobal.caliper.events.outcome;
 
 import org.imsglobal.caliper.actions.OutcomeActions;
-import org.imsglobal.caliper.entities.assessment.Attempt;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.events.CaliperEvent;
 
