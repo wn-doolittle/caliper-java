@@ -55,31 +55,39 @@ public class ReadingProfile extends BaseProfile {
         }
     }
 
-    private List<Object> frameList = new ArrayList<Object>();
-    private List<Object> navigatedFromList = new ArrayList<Object>();
+    /**
+     * Collection of frames
+     */
+    private List<Object> frames = new ArrayList<Object>();
 
     /**
+     * Collection of NavigatedFrom frames
+     */
+    private List<Object> navigatedFroms = new ArrayList<Object>();
+
+    /**
+     * Constructor
      * @param builder apply builder object properties to the profile object.
      */
     protected ReadingProfile(Builder<?> builder) {
         super(builder);
-        this.frameList = builder.frameList;
-        this.navigatedFromList = builder.navigatedFromList;
+        this.frames = builder.frames;
+        this.navigatedFroms = builder.navigatedFroms;
     }
 
     /**
      * A frame registers the location or range within a piece of content (a page, a section, or epub cfi).
      * @return List of frames
      */
-    public List<Object> getFrameList() {
-        return frameList;
+    public List<Object> getFrames() {
+        return frames;
     }
 
     /**
      * @return return a list of starting locations.
      */
-    public List<Object> getNavigatedFromList() {
-        return navigatedFromList;
+    public List<Object> getNavigatedFroms() {
+        return navigatedFroms;
     }
 
     /**
@@ -88,15 +96,15 @@ public class ReadingProfile extends BaseProfile {
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
 
-        private List<Object> frameList = new ArrayList<Object>();
-        private List<Object> navigatedFromList = new ArrayList<Object>();
+        private List<Object> frames = new ArrayList<Object>();
+        private List<Object> navigatedFroms = new ArrayList<Object>();
 
         /**
-         * @param frameList
+         * @param frames
          * @return builder.
          */
-        public T frameList(List<Object> frameList) {
-            this.frameList = frameList;
+        public T frames(List<Object> frames) {
+            this.frames = frames;
             return self();
         }
 
@@ -105,16 +113,16 @@ public class ReadingProfile extends BaseProfile {
          * @return builder
          */
         public T frame(Object frame) {
-            this.frameList.add(frame);
+            this.frames.add(frame);
             return self();
         }
 
         /**
-         * @param navigatedFromList
+         * @param navigatedFroms
          * @return builder.
          */
-        public T navigatedFromList(List<Object> navigatedFromList) {
-            this.navigatedFromList = navigatedFromList;
+        public T navigatedFroms(List<Object> navigatedFroms) {
+            this.navigatedFroms = navigatedFroms;
             return self();
         }
 
@@ -123,7 +131,7 @@ public class ReadingProfile extends BaseProfile {
          * @return builder
          */
         public T navigatedFrom(Object navigatedFrom) {
-            this.navigatedFromList.add(navigatedFrom);
+            this.navigatedFroms.add(navigatedFrom);
             return self();
         }
 
