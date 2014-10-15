@@ -1,9 +1,11 @@
 package org.imsglobal.caliper.profiles;
 
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
-import org.imsglobal.caliper.entities.outcome.Result;
+import org.imsglobal.caliper.entities.outcome.Outcome;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class OutcomeProfile extends BaseProfile {
@@ -57,7 +59,7 @@ public class OutcomeProfile extends BaseProfile {
     }
 
     private CaliperAssignableDigitalResource assignable;
-    private Result result;
+    private List<Outcome> outcomes = new ArrayList<Outcome>();
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -65,7 +67,7 @@ public class OutcomeProfile extends BaseProfile {
     protected OutcomeProfile(Builder<?> builder) {
         super(builder);
         this.assignable = builder.assignable;
-        this.result = builder.result;
+        this.outcomes = builder.outcomes;
     }
 
     /**
@@ -76,10 +78,10 @@ public class OutcomeProfile extends BaseProfile {
     }
 
     /**
-     * @return result.
+     * @return list of outcomes (paired attempt and result)
      */
-    public Result getResult() {
-        return result;
+    public List<Outcome> getOutcomes() {
+        return outcomes;
     }
 
     /**
@@ -88,7 +90,7 @@ public class OutcomeProfile extends BaseProfile {
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
         private CaliperAssignableDigitalResource assignable;
-        private Result result;
+        private List<Outcome> outcomes = new ArrayList<Outcome>();
 
         /**
          * @param assignable
@@ -100,11 +102,20 @@ public class OutcomeProfile extends BaseProfile {
         }
 
         /**
-         * @param result
-         * @return builder.
+         * @param outcomes
+         * @return builder
          */
-        public T result(Result result) {
-            this.result = result;
+        public T outcomes(List<Outcome> outcomes) {
+            this.outcomes = outcomes;
+            return self();
+        }
+
+        /**
+         * @param outcome
+         * @return builder
+         */
+        public T outcome(Outcome outcome) {
+            this.outcomes.add(outcome);
             return self();
         }
 
