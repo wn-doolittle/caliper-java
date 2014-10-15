@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.profiles;
 
+import org.imsglobal.caliper.entities.ActivityContext;
 import org.imsglobal.caliper.entities.LearningContext;
 
 import java.util.ArrayList;
@@ -9,90 +10,58 @@ public abstract class BaseProfile {
 
     private LearningContext learningContext;
 
-    private String name;
+    private ActivityContext activityContext;
 
-    private String partOf;
+    private List<String> actions = new ArrayList<String>();
 
-    private List<String> objectType = new ArrayList<String>();
+    private List<Object> targets = new ArrayList<Object>();
 
-    private List<String> alignedLearningObjective = new ArrayList<String>();
-
-    private List<String> keyword = new ArrayList<String>();
-
-    private Object target;
-    //private Target target;
-
-    private Object generated;
-    //private Generated generated;
+    private List<Object> generateds = new ArrayList<Object>();
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
     protected BaseProfile(Builder<?> builder) {
         this.learningContext = builder.learningContext;
-        this.name = builder.name;
-        this.partOf = builder.partOf;
-        this.objectType = builder.objectType;
-        this.alignedLearningObjective = builder.alignedLearningObjective;
-        this.keyword = builder.keyword;
-        this.target = builder.target;
-        this.generated = builder.generated;
+        this.activityContext = builder.activityContext;
+        this.actions = builder.actions;
+        this.targets = builder.targets;
+        this.generateds = builder.generateds;
     }
 
     /**
-     * @return learningContext.
+     * @return the learning context.
      */
     public LearningContext getLearningContext() {
         return learningContext;
     }
 
     /**
-     * @return name.
+     * @return activity context
      */
-    public String getName() {
-        return name;
+    public ActivityContext getActivityContext() {
+        return activityContext;
     }
 
     /**
-     * @return parent identifier.
+     * @return list of actions for a given activity
      */
-    public String getPartOf() {
-        return partOf;
+    public List<String> getActions() {
+        return actions;
     }
 
     /**
-     * @return objectType.
+     * @return list of target objects for a given activity
      */
-    public List<String> getObjectType() {
-        return objectType;
+    public List<Object> getTargets() {
+        return targets;
     }
 
     /**
-     * @return learning objectives.
+     * @return list of generated objects for a given activity
      */
-    public List<String> getAlignedLearningObjective() {
-        return alignedLearningObjective;
-    }
-
-    /**
-     * @return topics.
-     */
-    public List<String> getKeyword() {
-        return keyword;
-    }
-
-    /**
-     * @return target object, if exists.
-     */
-    public Object getTarget() {
-        return target;
-    }
-
-    /**
-     * @return generated object, if exists.
-     */
-    public Object getGenerated() {
-        return generated;
+    public List<Object> getGenerateds() {
+        return generateds;
     }
 
     /**
@@ -102,15 +71,10 @@ public abstract class BaseProfile {
      */
     public static abstract class Builder<T extends Builder<T>> {
         private LearningContext learningContext;
-        private String name;
-        private String partOf;
-        private List<String> objectType = new ArrayList<String>();
-        private List<String> alignedLearningObjective = new ArrayList<String>();
-        private List<String> keyword = new ArrayList<String>();
-        private Object target;
-        //private Target target;
-        private Object generated;
-       // private Generated generated;
+        private ActivityContext activityContext;
+        private List<String> actions = new ArrayList<String>();
+        private List<Object> targets = new ArrayList<Object>();
+        private List<Object> generateds = new ArrayList<Object>();
 
         protected abstract T self();
 
@@ -124,47 +88,38 @@ public abstract class BaseProfile {
         }
 
         /**
-         * @param name
+         * @param activityContext
          * @return builder.
          */
-        public T name(String name) {
-            this.name = name;
+        public T activityContext(ActivityContext activityContext) {
+            this.activityContext = activityContext;
             return self();
         }
 
         /**
-         * @param partOf
+         * @param actions
          * @return builder.
          */
-        public T partOf(String partOf) {
-            this.partOf = partOf;
+        public T actions(List<String> actions) {
+            this.actions = actions;
             return self();
         }
 
         /**
-         * @param objectType
+         * @param action
          * @return builder.
          */
-        public T objectType(List<String> objectType) {
-            this.objectType = objectType;
+        public T action(String action) {
+            this.actions.add(action);
             return self();
         }
 
         /**
-         * @param alignedLearningObjective
+         * @param targets
          * @return builder.
          */
-        public T alignedLearningObjective(List<String> alignedLearningObjective) {
-            this.alignedLearningObjective = alignedLearningObjective;
-            return self();
-        }
-
-        /**
-         * @param keyword
-         * @return builder.
-         */
-        public T keyword(List<String> keyword) {
-            this.keyword = keyword;
+        public T targets(List<Object> targets) {
+            this.targets = targets;
             return self();
         }
 
@@ -173,7 +128,16 @@ public abstract class BaseProfile {
          * @return builder.
          */
         public T target(Object target) {
-            this.target = target;
+            this.targets.add(target);
+            return self();
+        }
+
+        /**
+         * @param generateds
+         * @return builder.
+         */
+        public T generateds(List<Object> generateds) {
+            this.generateds = generateds;
             return self();
         }
 
@@ -182,7 +146,7 @@ public abstract class BaseProfile {
          * @return builder.
          */
         public T generated(Object generated) {
-            this.generated = generated;
+            this.generateds.add(generated);
             return self();
         }
     }
