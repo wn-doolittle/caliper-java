@@ -1,6 +1,6 @@
 IMS Global caliper-java
 ==============
-Note: THESE MATERIALS ARE FOR IMS CONTRIBUTING MEMBERS ONLY. 
+NOTE: THESE MATERIALS ARE FOR IMS CONTRIBUTING MEMBERS ONLY. THEY MAY NOT BE RELEASED UNTIL APPROVED BY IMS GLOBAL. 
 
 caliper-java is a java client for the IMS Global Caliper Analytics™ Sensor API
 
