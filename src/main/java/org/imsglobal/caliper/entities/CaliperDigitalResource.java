@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -147,8 +145,8 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
         private String type;
         private String name;
         private Object partOf;
-        private List<LearningObjective> alignedLearningObjective = new ArrayList<LearningObjective>();
-        private List<String> keyword = new ArrayList<String>();
+        private List<LearningObjective> alignedLearningObjective = Lists.newArrayList();
+        private List<String> keyword = Lists.newArrayList();
         private Object objectType;
 
         /*

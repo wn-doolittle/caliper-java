@@ -1,12 +1,12 @@
 package org.imsglobal.caliper.profiles;
 
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
 import java.util.List;
 
 public class ReadingProfile extends BaseProfile {
 
-    private List<Object> frames = new ArrayList<Object>();
-    private List<Object> navigatedFroms = new ArrayList<Object>();
+    private List<Object> frames = Lists.newArrayList();
+    private List<Object> navigatedFroms = Lists.newArrayList();
 
     /**
      * Constructor
@@ -39,8 +39,8 @@ public class ReadingProfile extends BaseProfile {
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
 
-        private List<Object> frames = new ArrayList<Object>();
-        private List<Object> navigatedFroms = new ArrayList<Object>();
+        private List<Object> frames = Lists.newArrayList();
+        private List<Object> navigatedFroms = Lists.newArrayList();
 
         /**
          * @param frames

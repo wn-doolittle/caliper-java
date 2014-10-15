@@ -1,9 +1,8 @@
 package org.imsglobal.caliper.entities.assessment;
 
+import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 import org.imsglobal.caliper.entities.qti.Assessment;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +13,7 @@ import java.util.List;
 public class CaliperAssessment extends CaliperAssignableDigitalResource implements Assessment {
 
     private final String type;
-    private List<CaliperAssessmentItem> assessmentItems = new ArrayList<CaliperAssessmentItem>();
+    private List<CaliperAssessmentItem> assessmentItems = Lists.newArrayList();
 
     /**
      * @param builder apply builder object properties to the CaliperAssessment object.
@@ -46,7 +45,7 @@ public class CaliperAssessment extends CaliperAssignableDigitalResource implemen
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperAssignableDigitalResource.Builder<T>  {
         private String type;
-        private List<CaliperAssessmentItem> assessmentItems = new ArrayList<CaliperAssessmentItem>();
+        private List<CaliperAssessmentItem> assessmentItems = Lists.newArrayList();
 
         /**
          * Initialize type with default value.

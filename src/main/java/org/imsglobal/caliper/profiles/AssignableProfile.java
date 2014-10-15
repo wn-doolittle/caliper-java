@@ -1,15 +1,14 @@
 package org.imsglobal.caliper.profiles;
 
+import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class AssignableProfile extends BaseProfile {
 
     private CaliperAssignableDigitalResource assignable;
-    private List<Attempt> attempts = new ArrayList<Attempt>();
+    private List<Attempt> attempts = Lists.newArrayList();
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -40,7 +39,7 @@ public class AssignableProfile extends BaseProfile {
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
         private CaliperAssignableDigitalResource assignable;
-        private List<Attempt> attempts = new ArrayList<Attempt>();
+        private List<Attempt> attempts = Lists.newArrayList();
 
         /**
          * @param assignable

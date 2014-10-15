@@ -1,18 +1,17 @@
 package org.imsglobal.caliper.profiles;
 
+import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.ActivityContext;
 import org.imsglobal.caliper.entities.LearningContext;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseProfile {
 
     private LearningContext learningContext;
     private ActivityContext activityContext;
-    private List<String> actions = new ArrayList<String>();
-    private List<Object> targets = new ArrayList<Object>();
-    private List<Object> generateds = new ArrayList<Object>();
+    private List<String> actions = Lists.newArrayList();
+    private List<Object> targets = Lists.newArrayList();
+    private List<Object> generateds = Lists.newArrayList();
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -68,9 +67,9 @@ public abstract class BaseProfile {
     public static abstract class Builder<T extends Builder<T>> {
         private LearningContext learningContext;
         private ActivityContext activityContext;
-        private List<String> actions = new ArrayList<String>();
-        private List<Object> targets = new ArrayList<Object>();
-        private List<Object> generateds = new ArrayList<Object>();
+        private List<String> actions = Lists.newArrayList();
+        private List<Object> targets = Lists.newArrayList();
+        private List<Object> generateds = Lists.newArrayList();
 
         protected abstract T self();
 

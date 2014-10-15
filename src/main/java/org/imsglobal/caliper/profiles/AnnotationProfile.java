@@ -1,13 +1,12 @@
 package org.imsglobal.caliper.profiles;
 
+import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.annotation.Annotation;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class AnnotationProfile extends BaseProfile {
 
-    private List<Annotation> annotations = new ArrayList<Annotation>();
+    private List<Annotation> annotations = Lists.newArrayList();
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -29,7 +28,7 @@ public class AnnotationProfile extends BaseProfile {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
-        private List<Annotation> annotations = new ArrayList<Annotation>();
+        private List<Annotation> annotations = Lists.newArrayList();
 
         /**
          * @param annotations
