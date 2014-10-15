@@ -1,8 +1,11 @@
 package org.imsglobal.caliper.profiles;
 
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AssignableProfile extends BaseProfile {
@@ -62,6 +65,7 @@ public class AssignableProfile extends BaseProfile {
     }
 
     private CaliperAssignableDigitalResource assignable;
+    private List<Attempt> attempts = new ArrayList<Attempt>();
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -69,6 +73,7 @@ public class AssignableProfile extends BaseProfile {
     protected AssignableProfile(Builder<?> builder) {
         super(builder);
         this.assignable = builder.assignable;
+        this.attempts = builder.attempts;
     }
 
     /**
@@ -79,11 +84,19 @@ public class AssignableProfile extends BaseProfile {
     }
 
     /**
+     * @return attempts
+     */
+    public List<Attempt> getAttempts() {
+        return attempts;
+    }
+
+    /**
      * Initialize default parameter values in the builder (not in the outer profile class).
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
         private CaliperAssignableDigitalResource assignable;
+        private List<Attempt> attempts = new ArrayList<Attempt>();
 
         /**
          * @param assignable
@@ -91,6 +104,24 @@ public class AssignableProfile extends BaseProfile {
          */
         public T assignable(CaliperAssignableDigitalResource assignable) {
             this.assignable = assignable;
+            return self();
+        }
+
+        /**
+         * @param attempts
+         * @return builder
+         */
+        public T attempts(List<Attempt> attempts) {
+            this.attempts = attempts;
+            return self();
+        }
+
+        /**
+         * @param attempt
+         * @return builder.
+         */
+        public T attempt(Attempt attempt) {
+            this.attempts.add(attempt);
             return self();
         }
 
