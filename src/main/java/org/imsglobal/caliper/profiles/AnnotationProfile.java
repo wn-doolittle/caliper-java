@@ -2,7 +2,9 @@ package org.imsglobal.caliper.profiles;
 
 import org.imsglobal.caliper.entities.annotation.Annotation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AnnotationProfile extends BaseProfile {
@@ -68,21 +70,24 @@ public class AnnotationProfile extends BaseProfile {
         }
     }
 
-    private Annotation annotation;
+    /**
+     * List of annotations
+     */
+    private List<Annotation> annotations = new ArrayList<Annotation>();
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
     protected AnnotationProfile(Builder<?> builder) {
         super(builder);
-        this.annotation = builder.annotation;
+        this.annotations = builder.annotations;
     }
 
     /**
      * @return annotation
      */
-    public Annotation getAnnotation() {
-        return annotation;
+    public List<Annotation> getAnnotations() {
+        return annotations;
     }
 
     /**
@@ -90,14 +95,23 @@ public class AnnotationProfile extends BaseProfile {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
-        private Annotation annotation;
+        private List<Annotation> annotations = new ArrayList<Annotation>();
+
+        /**
+         * @param annotations
+         * @return builder.
+         */
+        public T annotations(List<Annotation> annotations) {
+            this.annotations = annotations;
+            return self();
+        }
 
         /**
          * @param annotation
          * @return builder.
          */
         public T annotation(Annotation annotation) {
-            this.annotation = annotation;
+            this.annotations.add(annotation);
             return self();
         }
 
