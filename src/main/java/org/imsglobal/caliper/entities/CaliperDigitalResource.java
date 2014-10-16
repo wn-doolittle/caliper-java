@@ -193,6 +193,15 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
         }
 
         /**
+         * @param learningObjective
+         * @return builder.
+         */
+        public T learningObjective(LearningObjective learningObjective) {
+            this.alignedLearningObjective.add(learningObjective);
+            return self();
+        }
+
+        /**
          * @param keyword
          * @return builder.
          */
