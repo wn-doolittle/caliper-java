@@ -1,34 +1,45 @@
 {
-	"@context": "http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent",
-	"@type": "NavigationEvent",
-	"actor": {
-		"@id": "uri:/someEdu/user/42",
-		"@type": "http://purl.imsglobal.org/caliper/v1/LISPerson",
-		"lastModifiedTime": 0,
-		"properties": {}
-	},
-	"action": "navigate_to",
-	"object": {
-		"@id": "uri:/someEdu/reading/42",
-		"@type": "reading",
-		"lastModifiedTime": 0,
-		"properties": {}
-	},
-	"target":{
-        "@id":"https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)",
-        "@type":"http://www.idpf.org/epub/vocab/structure/#volume",
-        "lastModifiedTime":1402965614516,
-        "properties":{},
-        "name":"The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)",
-        "alignedLearningObjective":[],
-        "keyword":[],
-        "objectType":null,
-        "partOf":null
+    "@context": "http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent",
+    "@type": "http://purl.imsglobal.org/caliper/v1/NavigationEvent",
+    "edApp": null,
+    "group": null,
+    "actor": {
+        "@id": "uri:/someEdu/user/42",
+        "@type": "http://purl.imsglobal.org/caliper/v1/LISPerson",
+        "lastModifiedTime": 0,
+        "properties": {}
+    },
+    "action": "navigated to",
+    "object": {
+        "@id": "uri:/someEdu/reading/42",
+        "@type": "http://purl.imsglobal.org/caliper/v1/ActivityContext",
+        "lastModifiedTime": 0,
+        "properties": {}
+    },
+    "target": {
+        "@id": "https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)",
+        "@type": "http://www.idpf.org/epub/vocab/structure/#volume",
+        "lastModifiedTime": 1402965614516,
+        "properties": {},
+        "name": "The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)",
+        "alignedLearningObjective": [],
+        "keyword": [],
+        "objectType": null,
+        "partOf": null
     },
     "generated": null,
-	"startedAtTime": 1402965614516,
-	"endedAtTime": 0,
-	"duration": null,
-	"edApp": null,
-	"group": null
+    "startedAtTime": 1402965614516,
+    "endedAtTime": 0,
+    "duration": null,
+    "navigatedFrom": {
+        "@id": "AmRev-101-landingPage",
+        "@type": "http://purl.imsglobal.org/caliper/v1/CaliperDigitalResource",
+        "lastModifiedTime": 0,
+        "properties": {},
+        "name": "American Revolution 101 Landing Page",
+        "alignedLearningObjective": [],
+        "keyword": [],
+        "objectType": null,
+        "partOf": null
+    }
 }
