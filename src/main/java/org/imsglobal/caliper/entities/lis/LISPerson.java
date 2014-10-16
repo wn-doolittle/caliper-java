@@ -1,9 +1,11 @@
 package org.imsglobal.caliper.entities.lis;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperAgent;
 
 public class LISPerson extends CaliperAgent {
 
+    @JsonProperty("@type")
     private final String type;
 
     /**

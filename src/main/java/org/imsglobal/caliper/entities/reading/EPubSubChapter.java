@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.reading;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperDigitalResource;
 import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 
@@ -11,6 +12,7 @@ import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
  */
 public class EPubSubChapter extends CaliperDigitalResource implements CreativeWork {
 
+    @JsonProperty("@type")
     private final String type;
 
     /**

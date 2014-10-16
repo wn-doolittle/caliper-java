@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.foaf.Agent;
 
 public class CaliperAgent extends CaliperEntity implements Agent {
@@ -27,6 +28,7 @@ public class CaliperAgent extends CaliperEntity implements Agent {
         }
     }
 
+    @JsonProperty("@type")
     private final String type;
 
     /**

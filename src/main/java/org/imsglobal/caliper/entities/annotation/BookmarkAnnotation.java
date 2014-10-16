@@ -1,8 +1,13 @@
 package org.imsglobal.caliper.entities.annotation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class BookmarkAnnotation extends Annotation {
 
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("bookmarkNotes")
     private String bookmarkNotes;
 
     /**

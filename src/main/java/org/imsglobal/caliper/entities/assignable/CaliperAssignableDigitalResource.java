@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.assignable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperDigitalResource;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -33,9 +34,34 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource imp
         }
     }
 
+    @JsonProperty("@type")
     private final String type;
-    private long dateCreated, datePublished, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
-    private int maxAttempts, maxSubmits;
+
+    @JsonProperty("dateCreated")
+    private long dateCreated;
+
+    @JsonProperty("datePublished")
+    private long datePublished;
+
+    @JsonProperty("dateToActivate")
+    private long dateToActivate;
+
+    @JsonProperty("dateToShow")
+    private long dateToShow;
+
+    @JsonProperty("dateToStartOn")
+    private long dateToStartOn;
+
+    @JsonProperty("dateToSubmit")
+    private long dateToSubmit;
+
+    @JsonProperty("maxAttempts")
+    private int maxAttempts;
+
+    @JsonProperty("maxSubmits")
+    private int maxSubmits;
+
+    @JsonProperty("maxScore")
     private double maxScore;
 
     /**

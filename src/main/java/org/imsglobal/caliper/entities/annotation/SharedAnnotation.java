@@ -1,13 +1,17 @@
 package org.imsglobal.caliper.entities.annotation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 
 import java.util.List;
 
 public class SharedAnnotation extends Annotation {
 
+    @JsonProperty("@type")
     private final String type;
+
     // TODO should be a list of LISGroup or LISPersons
+    @JsonProperty("withAgents")
     private List<String> withAgents = Lists.newArrayList();
 
     /**

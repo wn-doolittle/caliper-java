@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.events.outcome;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.OutcomeActions;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
@@ -9,8 +10,13 @@ import java.util.ResourceBundle;
 
 public class OutcomeEvent extends CaliperEvent {
 
+    @JsonProperty("@context")
     private final String context;
+
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("action")
     private final String action;
 
     /**

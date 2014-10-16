@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.lis;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperAgent;
 
 public class LISOrganization extends CaliperAgent {
@@ -25,8 +26,13 @@ public class LISOrganization extends CaliperAgent {
         }
     }
 
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("parentOrg")
     private LISOrganization parentOrg;
 
     /**

@@ -1,9 +1,11 @@
 package org.imsglobal.caliper.entities.schemadotorg;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperDigitalResource;
 
 public class WebPage extends CaliperDigitalResource implements CreativeWork {
 
+    @JsonProperty("@type")
     private final String type;
 
     /**

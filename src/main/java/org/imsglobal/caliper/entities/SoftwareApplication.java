@@ -1,8 +1,11 @@
 package org.imsglobal.caliper.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @CaliperLearningContext
 public class SoftwareApplication extends CaliperAgent {
 
+    @JsonProperty("@type")
     private final String type;
 
     /**

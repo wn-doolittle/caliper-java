@@ -1,9 +1,16 @@
 package org.imsglobal.caliper.entities.annotation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class HighlightAnnotation extends Annotation {
 
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("selection")
     private TextPositionSelector selection;
+
+    @JsonProperty("selectionText")
     private String selectionText;
 
     /**

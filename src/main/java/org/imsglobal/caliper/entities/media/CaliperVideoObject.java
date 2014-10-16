@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.media;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.schemadotorg.VideoObject;
 
 /**
@@ -7,6 +8,7 @@ import org.imsglobal.caliper.entities.schemadotorg.VideoObject;
  */
 public class CaliperVideoObject extends CaliperMediaObject implements VideoObject {
 
+    @JsonProperty("@type")
     private final String type;
 
     /**

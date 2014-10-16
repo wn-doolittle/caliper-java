@@ -10,8 +10,13 @@ import java.util.ResourceBundle;
 
 public class NavigationEvent extends CaliperEvent {
 
+    @JsonProperty("@context")
     private final String context;
+
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("action")
     private final String action;
 
     /**

@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.assessment;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 import org.imsglobal.caliper.entities.qti.Assessment;
@@ -12,7 +13,10 @@ import java.util.List;
  */
 public class CaliperAssessment extends CaliperAssignableDigitalResource implements Assessment {
 
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("assessmentItems")
     private List<CaliperAssessmentItem> assessmentItems = Lists.newArrayList();
 
     /**

@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.outcome;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperAgent;
 import org.imsglobal.caliper.entities.CaliperEntity;
 
@@ -9,10 +10,33 @@ import org.imsglobal.caliper.entities.CaliperEntity;
  */
 public class Result extends CaliperEntity {
 
+    @JsonProperty("@type")
     private final String type;
-    private double normalScore, penaltyScore, extraCreditScore, totalScore, curvedTotalScore, curveFactor;
+
+    @JsonProperty("normalScore")
+    private double normalScore;
+
+    @JsonProperty("penaltyScore")
+    private double penaltyScore;
+
+    @JsonProperty("extraCreditScore")
+    private double extraCreditScore;
+
+    @JsonProperty("totalScore")
+    private double totalScore;
+
+    @JsonProperty("curvedTotalScore")
+    private double curvedTotalScore;
+
+    @JsonProperty("curveFactor")
+    private double curveFactor;
+
+    @JsonProperty("comment")
     private String comment;
+
+    @JsonProperty("scoredBy")
     private CaliperAgent scoredBy;
+
     // TODO - need to include target, learningObjective and scoreConstraints from metric profile
 
     /**

@@ -1,12 +1,16 @@
 package org.imsglobal.caliper.entities.annotation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 
 import java.util.List;
 
 public class TagAnnotation extends Annotation {
 
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("tags")
     private List<String> tags = Lists.newArrayList();
 
     /**

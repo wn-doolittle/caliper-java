@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.events.reading;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.ReadingActions;
 import org.imsglobal.caliper.events.CaliperEvent;
 
@@ -7,8 +8,13 @@ import java.util.ResourceBundle;
 
 public class ViewedEvent extends CaliperEvent {
 
+    @JsonProperty("@context")
     private final String context;
+
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("action")
     private final String action;
 
     /**

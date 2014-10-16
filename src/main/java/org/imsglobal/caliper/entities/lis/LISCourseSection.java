@@ -1,10 +1,19 @@
 package org.imsglobal.caliper.entities.lis;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class LISCourseSection extends LISOrganization {
 
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("semester")
     private String semester; // TODO - check against LIS LISOrganization
+
+    @JsonProperty("courseNumber")
     private String courseNumber;
+
+    @JsonProperty("label")
     private String label;
 
     /**

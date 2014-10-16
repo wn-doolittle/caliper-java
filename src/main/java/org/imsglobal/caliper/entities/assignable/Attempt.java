@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.assignable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperAgent;
 import org.imsglobal.caliper.entities.CaliperEntity;
 
@@ -9,9 +10,16 @@ import org.imsglobal.caliper.entities.CaliperEntity;
  */
 public class Attempt extends CaliperEntity {
 
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("assignable")
     private Assignable assignable;
+
+    @JsonProperty("actor")
     private CaliperAgent actor;
+
+    @JsonProperty("count")
     private int count;
 
     /**

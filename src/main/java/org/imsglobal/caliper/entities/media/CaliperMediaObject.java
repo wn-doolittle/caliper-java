@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.media;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperDigitalResource;
 
 /**
@@ -30,7 +31,10 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
         }
     }
 
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("duration")
     private long duration;
 
     /**

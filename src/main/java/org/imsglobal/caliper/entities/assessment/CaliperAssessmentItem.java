@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.assessment;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 import org.imsglobal.caliper.entities.qti.AssessmentItem;
 
@@ -10,6 +11,7 @@ import org.imsglobal.caliper.entities.qti.AssessmentItem;
  */
 public class CaliperAssessmentItem extends CaliperAssignableDigitalResource implements AssessmentItem {
 
+    @JsonProperty("@type")
     private final String type;
 
     /**

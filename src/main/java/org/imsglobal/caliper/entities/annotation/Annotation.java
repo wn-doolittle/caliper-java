@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.annotation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperEntity;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
@@ -36,7 +37,10 @@ public class Annotation extends CaliperEntity implements Thing {
         }
     }
 
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("target")
     private Object target;
 
     /**

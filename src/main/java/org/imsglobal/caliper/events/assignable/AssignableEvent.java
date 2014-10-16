@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.events.assignable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.AssignableActions;
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 import org.imsglobal.caliper.events.CaliperEvent;
@@ -8,8 +9,13 @@ import java.util.ResourceBundle;
 
 public class AssignableEvent extends CaliperEvent {
 
+    @JsonProperty("@context")
     private final String context;
+
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("action")
     private final String action;
 
     /**

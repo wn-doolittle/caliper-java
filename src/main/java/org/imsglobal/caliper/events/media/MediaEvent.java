@@ -11,13 +11,16 @@ import java.util.ResourceBundle;
 
 public class MediaEvent extends CaliperEvent {
 
+    @JsonProperty("@context")
     private final String context;
+
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("action")
     private final String action;
 
-    /**
-     * Media activity context
-     */
+    @JsonProperty("object")
     private Object object;
 
     /**

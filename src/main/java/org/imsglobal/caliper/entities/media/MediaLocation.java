@@ -1,17 +1,19 @@
 package org.imsglobal.caliper.entities.media;
 
-import java.util.UUID;
-
-import org.imsglobal.caliper.entities.CaliperEntity;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Strings;
+import org.imsglobal.caliper.entities.CaliperEntity;
+import java.util.UUID;
 
 /**
  * Media Location
  */
 public class MediaLocation extends CaliperEntity {
 
+    @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("@id")
     private final String id;
 
     /**

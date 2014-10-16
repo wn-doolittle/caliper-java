@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.media;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.schemadotorg.AudioObject;
 
 /**
@@ -7,6 +8,7 @@ import org.imsglobal.caliper.entities.schemadotorg.AudioObject;
  */
 public class CaliperAudioObject extends CaliperMediaObject implements AudioObject {
 
+    @JsonProperty("@type")
     private final String type;
 
     /**

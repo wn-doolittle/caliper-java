@@ -1,7 +1,10 @@
 package org.imsglobal.caliper.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ActivityContext extends CaliperEntity {
 
+    @JsonProperty("@type")
     private final String type;
 
     /**
