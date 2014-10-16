@@ -1,10 +1,15 @@
 package org.imsglobal.caliper.profiles;
 
+import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.media.MediaLocation;
 import org.imsglobal.caliper.entities.schemadotorg.MediaObject;
+
+import java.util.List;
 
 public class MediaProfile extends BaseProfile {
 
     private MediaObject mediaObject;
+    private List<MediaLocation> mediaLocations = Lists.newArrayList();
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -12,14 +17,22 @@ public class MediaProfile extends BaseProfile {
     protected MediaProfile(Builder<?> builder) {
         super(builder);
         this.mediaObject = builder.mediaObject;
+        this.mediaLocations = builder.mediaLocations;
     }
 
     /**
      * @return media object
      */
-   public MediaObject getMediaObject() {
+    public MediaObject getMediaObject() {
        return mediaObject;
-   }
+    }
+
+    /**
+     * @return list of media locations
+     */
+    public List<MediaLocation> getMediaLocations() {
+        return mediaLocations;
+    }
 
     /**
      * Initialize default parameter values in the builder (not in the outer profile class).
@@ -27,6 +40,7 @@ public class MediaProfile extends BaseProfile {
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
         private MediaObject mediaObject;
+        private List<MediaLocation> mediaLocations = Lists.newArrayList();
 
         /**
          * @param mediaObject
@@ -34,6 +48,24 @@ public class MediaProfile extends BaseProfile {
          */
         public T mediaObject(MediaObject mediaObject) {
             this.mediaObject = mediaObject;
+            return self();
+        }
+
+        /**
+         * @param mediaLocations
+         * @return builder
+         */
+        public T mediaLocations(List<MediaLocation> mediaLocations) {
+            this.mediaLocations = mediaLocations;
+            return self();
+        }
+
+        /**
+         * @param mediaLocation
+         * @return builder
+         */
+        public T mediaLocation(MediaLocation mediaLocation) {
+            this.mediaLocations.add(mediaLocation);
             return self();
         }
 
