@@ -110,7 +110,7 @@ public class NavigationEvent extends CaliperEvent {
          */
         @Override
         public T action(String key) {
-            if (ReadingActions.hasKey(key)) {
+            if (key.equals("navigation.navigatedTo")) {
                 this.action = ResourceBundle.getBundle("actions").getString(key);
                 return self();
             } else {

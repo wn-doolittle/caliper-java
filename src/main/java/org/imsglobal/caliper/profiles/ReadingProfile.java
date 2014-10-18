@@ -6,7 +6,6 @@ import java.util.List;
 public class ReadingProfile extends BaseProfile {
 
     private List<Object> frames = Lists.newArrayList();
-    private List<Object> navigationHistory = Lists.newArrayList();
 
     /**
      * Constructor
@@ -15,7 +14,6 @@ public class ReadingProfile extends BaseProfile {
     protected ReadingProfile(Builder<?> builder) {
         super(builder);
         this.frames = builder.frames;
-        this.navigationHistory = builder.navigationHistory;
     }
 
     /**
@@ -27,20 +25,12 @@ public class ReadingProfile extends BaseProfile {
     }
 
     /**
-     * @return return a list of starting locations.
-     */
-    public List<Object> getNavigationHistory() {
-        return navigationHistory;
-    }
-
-    /**
      * Initialize default parameter values in the builder (not in the outer profile class).
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
 
         private List<Object> frames = Lists.newArrayList();
-        private List<Object> navigationHistory = Lists.newArrayList();
 
         /**
          * @param frames
@@ -57,24 +47,6 @@ public class ReadingProfile extends BaseProfile {
          */
         public T frame(Object frame) {
             this.frames.add(frame);
-            return self();
-        }
-
-        /**
-         * @param navigationHistory
-         * @return builder.
-         */
-        public T navigationHistory(List<Object> navigationHistory) {
-            this.navigationHistory = navigationHistory;
-            return self();
-        }
-
-        /**
-         * @param navigatedFrom
-         * @return builder
-         */
-        public T navigatedFrom(Object navigatedFrom) {
-            this.navigationHistory.add(navigatedFrom);
             return self();
         }
 

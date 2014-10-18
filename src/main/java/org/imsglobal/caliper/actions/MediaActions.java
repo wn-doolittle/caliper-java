@@ -25,7 +25,8 @@ public enum MediaActions {
     CLOSEDPOPOUT("media.viewer.closedPopout"),
     ENTEREDFULLSCREEN("media.viewer.enteredFullScreen"),
     EXITEDFULLSCREEN("media.viewer.exitedFullScreen"),
-    OPENEDPOPOUT("media.viewer.openedPopout");
+    OPENEDPOPOUT("media.viewer.openedPopout"),
+    NAVIGATED_TO("navigation.navigatedTo");
 
     private final String key;
     private static final Map<String, MediaActions> lookup = new HashMap<String, MediaActions>();

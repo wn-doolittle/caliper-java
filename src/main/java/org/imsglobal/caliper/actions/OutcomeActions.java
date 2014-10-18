@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum OutcomeActions {
-    GRADED("outcome.graded");
+    GRADED("outcome.graded"),
     // POSTED("outcome.posted");
     // REPORTED("outcome.reported");
+
+    NAVIGATED_TO("navigation.navigatedTo");
 
     private final String key;
     private static final Map<String, OutcomeActions> lookup = new HashMap<String, OutcomeActions>();
