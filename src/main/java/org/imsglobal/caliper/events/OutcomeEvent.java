@@ -1,4 +1,4 @@
-package org.imsglobal.caliper.events.outcome;
+package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.OutcomeActions;

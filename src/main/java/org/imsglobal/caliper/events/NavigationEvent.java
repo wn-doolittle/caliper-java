@@ -1,4 +1,4 @@
-package org.imsglobal.caliper.events.reading;
+package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.actions.ReadingActions;
 import org.imsglobal.caliper.entities.CaliperDigitalResource;

@@ -1,4 +1,4 @@
-package org.imsglobal.caliper.events.assignable;
+package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.AssignableActions;

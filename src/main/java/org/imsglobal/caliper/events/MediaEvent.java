@@ -1,4 +1,4 @@
-package org.imsglobal.caliper.events.media;
+package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.actions.MediaActions;
 import org.imsglobal.caliper.entities.media.CaliperMediaObject;
