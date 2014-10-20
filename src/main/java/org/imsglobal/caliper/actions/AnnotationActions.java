@@ -21,7 +21,8 @@ public enum AnnotationActions {
     SUBSCRIBED("annotation.subscribed"),
     TAGGED("annotation.tagged"),
 
-    NAVIGATED_TO("navigation.navigatedTo");
+    NAVIGATED_TO("navigation.navigatedTo"),
+    VIEWED("navigation.viewed");
 
     private final String key;
     private static final Map<String, AnnotationActions> lookup = new HashMap<String, AnnotationActions>();

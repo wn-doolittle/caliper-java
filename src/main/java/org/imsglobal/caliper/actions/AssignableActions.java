@@ -13,9 +13,9 @@ public enum AssignableActions {
     SHOWED("assignable.showed"),
     STARTED("assignable.started"),
     SUBMITTED("assignable.submitted"),
-    VIEWED("assignable.viewed"),
 
-    NAVIGATED_TO("navigation.navigatedTo");
+    NAVIGATED_TO("navigation.navigatedTo"),
+    VIEWED("navigation.viewed");
 
     private final String key;
     private static final Map<String, AssignableActions> lookup = new HashMap<String, AssignableActions>();
