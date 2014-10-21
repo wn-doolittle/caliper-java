@@ -1,17 +1,13 @@
-/**
- * 
- */
 package org.imsglobal.caliper;
 
+import org.imsglobal.caliper.actions.ReadingActions;
 import org.imsglobal.caliper.entities.ActivityContext;
 import org.imsglobal.caliper.entities.lis.LISPerson;
 import org.imsglobal.caliper.entities.reading.EPubVolume;
+import org.imsglobal.caliper.entities.schemadotorg.WebPage;
 import org.imsglobal.caliper.events.CaliperEvent;
+import org.imsglobal.caliper.events.NavigationEvent;
 
-/**
- * @author pnayak
- * 
- */
 public class TestUtils {
 
 	public static Options getTestingOptions() {
@@ -27,6 +23,7 @@ public class TestUtils {
 
 	}
 
+    /*
 	public static CaliperEvent getTestCaliperEvent() {
 
 		CaliperEvent caliperEvent = new CaliperEvent();
@@ -55,4 +52,25 @@ public class TestUtils {
 
 		return caliperEvent;
 	}
+	*/
+
+    public static CaliperEvent getTestNavigationEvent() {
+
+        NavigationEvent event = NavigationEvent.builder()
+            .actor(LISPerson.builder().id("uri:/someEdu/user/42").lastModifiedAt(0).build())
+            .action(ReadingActions.NAVIGATED_TO.key())
+            .object(ActivityContext.builder().id("uri:/someEdu/reading/42").lastModifiedAt(0).build())
+            .target(EPubVolume.builder()
+                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
+                .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                .lastModifiedAt(1402965614516l)
+                .build())
+            .startedAtTime(1402965614516l)
+            .fromResource(WebPage.builder()
+                .id("AmRev-101-landingPage")
+                .name("American Revolution 101 Landing Page").build())
+            .build();
+
+        return event;
+    }
 }

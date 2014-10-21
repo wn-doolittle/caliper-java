@@ -5,8 +5,11 @@ import java.util.Map;
 
 public enum OutcomeActions {
     GRADED("outcome.graded"),
-    POSTED("outcome.posted");
+    // POSTED("outcome.posted");
     // REPORTED("outcome.reported");
+
+    NAVIGATED_TO("navigation.navigatedTo"),
+    VIEWED("navigation.viewed");
 
     private final String key;
     private static final Map<String, OutcomeActions> lookup = new HashMap<String, OutcomeActions>();
@@ -39,7 +42,7 @@ public enum OutcomeActions {
      * @return true if lookup returns a key match; false otherwise.
      */
     public static boolean hasKey(String key) {
-        return lookup.containsKey(key.toLowerCase());
+        return lookup.containsKey(key);
     }
 
     /**

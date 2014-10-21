@@ -8,7 +8,9 @@ public enum AssessmentItemActions {
     COMPLETED("assessment.item.completed"),
     SKIPPED("assessment.item.skipped"),
     REVIEWED("assessment.item.reviewed"),
-    VIEWED("assessment.item.viewed");
+    VIEWED("assessment.item.viewed"),
+
+    NAVIGATED_TO("navigation.navigatedTo");
 
     private final String key;
     private static final Map<String, AssessmentItemActions> lookup = new HashMap<String, AssessmentItemActions>();
@@ -41,7 +43,7 @@ public enum AssessmentItemActions {
      * @return true if lookup returns a key match; false otherwise.
      */
     public static boolean hasKey(String key) {
-        return lookup.containsKey(key.toLowerCase());
+        return lookup.containsKey(key);
     }
 
     /**

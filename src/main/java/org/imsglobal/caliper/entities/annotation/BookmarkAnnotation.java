@@ -1,33 +1,96 @@
-/**
- * 
- */
 package org.imsglobal.caliper.entities.annotation;
 
-/**
- * @author pnayak
- * 
- */
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class BookmarkAnnotation extends Annotation {
 
-	private String bookmarkNotes;
+    @JsonProperty("@type")
+    private final String type;
 
-	public BookmarkAnnotation(String id) {
-		super(id);
-		setType("http://purl.imsglobal.org/caliper/v1/BookmarkAnnotation");
-	}
+    @JsonProperty("bookmarkNotes")
+    private String bookmarkNotes;
 
-	/**
-	 * @return the bookmarkNotes
-	 */
-	public String getBookmarkNotes() {
-		return bookmarkNotes;
-	}
+    /**
+     * @param builder apply builder object properties to the BookmarkAnnotation object.
+     */
+    protected BookmarkAnnotation(Builder<?> builder) {
+        super(builder);
+        this.type = builder.type;
+        this.bookmarkNotes = builder.bookmarkNotes;
+    }
 
-	/**
-	 * @param bookmarkNotes
-	 *            the bookmarkNotes to set
-	 */
-	public void setBookmarkNotes(String bookmarkNotes) {
-		this.bookmarkNotes = bookmarkNotes;
-	}
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @return the bookmarkNotes
+     */
+    public String getBookmarkNotes() {
+        return bookmarkNotes;
+    }
+
+    /**
+     * Builder class provides a fluid interface for setting object properties.
+     * @param <T> builder
+     */
+    public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
+        private String type;
+        private String bookmarkNotes;
+
+        /**
+         * Initialize type with default value.
+         */
+        public Builder() {
+            type(Annotation.Type.BOOKMARK_ANNOTATON.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
+        }
+
+        /**
+         * @param bookmarkNotes
+         * @return annotation bookmark notes.
+         */
+        public T bookmarkNotes(String bookmarkNotes) {
+            this.bookmarkNotes = bookmarkNotes;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of BookmarkAnnotation.
+         */
+        public BookmarkAnnotation build() {
+            return new BookmarkAnnotation(this);
+        }
+    }
+
+    /**
+     *
+     */
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
+
+    /**
+     * Static factory method.
+     * @return a new instance of the builder.
+     */
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 }

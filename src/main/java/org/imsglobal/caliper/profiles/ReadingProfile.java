@@ -1,48 +1,25 @@
 package org.imsglobal.caliper.profiles;
 
-import java.util.ResourceBundle;
-
-import org.imsglobal.caliper.actions.ReadingActions;
-import org.imsglobal.caliper.events.CaliperEvent;
+import org.imsglobal.caliper.entities.CaliperDigitalResource;
 
 public class ReadingProfile extends BaseProfile {
-	
-    private Object frame;
-    private Object navigatedFrom;
-    private String action;
+
+    private CaliperDigitalResource reading;
 
     /**
+     * Constructor
      * @param builder apply builder object properties to the profile object.
      */
-    protected ReadingProfile(Builder<?> profileContext) {
-        super(profileContext);
-    }
-    
-    public CaliperEvent get(Class eventType) {
-    	
-    	return null;
+    protected ReadingProfile(Builder<?> builder) {
+        super(builder);
+        this.reading = builder.reading;
     }
 
     /**
-     * A frame registers the location or range within a piece of content (a page, a section, or epub cfi).
-     * @return frame
+     * @return reading
      */
-    public Object getFrame() {
-        return frame;
-    }
-
-    /**
-     * @return return the starting location.
-     */
-    public Object navigatedFrom() {
-        return navigatedFrom;
-    }
-
-    /**
-     * @return action.
-     */
-    public String getAction() {
-        return action;
+    public CaliperDigitalResource getReading () {
+        return reading;
     }
 
     /**
@@ -50,34 +27,15 @@ public class ReadingProfile extends BaseProfile {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
-        private Object frame;
-        private Object navigatedFrom;
-        private String action;
+
+        private CaliperDigitalResource reading;
 
         /**
-         * @param frame
-         * @return builder.
+         * @param reading
+         * @return builder
          */
-        public T frame(Object frame) {
-            this.frame = frame;
-            return self();
-        }
-
-        /**
-         * @param navigatedFrom
-         * @return builder.
-         */
-        public T navigatedFrom(Object navigatedFrom) {
-            this.navigatedFrom = navigatedFrom;
-            return self();
-        }
-
-        /**
-         * @param key
-         * @return builder after validating action key.
-         */
-        public T action(String key) {
-            this.action = validateAction(key);
+        public T reading(CaliperDigitalResource reading) {
+            this.reading = reading;
             return self();
         }
 
@@ -106,17 +64,5 @@ public class ReadingProfile extends BaseProfile {
      */
     public static Builder<?> builder() {
         return new Builder2();
-    }
-
-    /**
-     * @param key resource bundle key attribute of target constant
-     * @return resource bundle key
-     */
-    private static String validateAction(String key) {
-        if (ReadingActions.hasKey(key)) {
-            return ResourceBundle.getBundle("resources.actions").getString(key);
-        } else {
-            throw new IllegalArgumentException("Unrecognized constant");
-        }
     }
 }

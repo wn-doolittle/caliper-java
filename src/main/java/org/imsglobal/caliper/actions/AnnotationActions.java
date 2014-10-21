@@ -19,7 +19,10 @@ public enum AnnotationActions {
     REPLIED("annotation.replied"),
     SHARED("annotation.shared"),
     SUBSCRIBED("annotation.subscribed"),
-    TAGGED("annotation.tagged");
+    TAGGED("annotation.tagged"),
+
+    NAVIGATED_TO("navigation.navigatedTo"),
+    VIEWED("navigation.viewed");
 
     private final String key;
     private static final Map<String, AnnotationActions> lookup = new HashMap<String, AnnotationActions>();
@@ -52,7 +55,7 @@ public enum AnnotationActions {
      * @return true if lookup returns a key match; false otherwise.
      */
     public static boolean hasKey(String key) {
-        return lookup.containsKey(key.toLowerCase());
+        return lookup.containsKey(key);
     }
 
     /**

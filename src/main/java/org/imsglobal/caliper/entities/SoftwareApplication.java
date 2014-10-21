@@ -1,21 +1,76 @@
-/**
- * 
- */
 package org.imsglobal.caliper.entities;
 
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author pnayak
- * 
- */
 @CaliperLearningContext
-public class SoftwareApplication extends CaliperEntity implements CreativeWork,
-		CaliperAgent {
+public class SoftwareApplication extends CaliperAgent {
 
-	public SoftwareApplication(String id) {
-		setId(id);
-		setType("http://purl.imsglobal.org/caliper/v1/SoftwareApplication");
-	}
+    @JsonProperty("@type")
+    private final String type;
 
+    /**
+     * @param builder apply builder object properties to the SoftwareApplication object.
+     */
+    protected SoftwareApplication(Builder<?> builder) {
+        super(builder);
+        this.type = builder.type;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Builder class provides a fluid interface for setting object properties.
+     * @param <T> builder
+     */
+    public static abstract class Builder<T extends Builder<T>> extends CaliperAgent.Builder<T>  {
+        private String type;
+
+        /**
+         * Initialize type with default value.
+         */
+        public Builder() {
+            type(CaliperAgent.Type.SOFTWARE_APPLICATION.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of the SoftwareApplication.
+         */
+        public SoftwareApplication build() {
+            return new SoftwareApplication(this);
+        }
+    }
+
+    /**
+     *
+     */
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
+
+    /**
+     * Static factory method.
+     * @return a new instance of the builder.
+     */
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 }

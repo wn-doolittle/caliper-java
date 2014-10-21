@@ -1,25 +1,21 @@
-package org.imsglobal.caliper.entities.annotation;
+package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Lists;
 
-import java.util.List;
-
-public class TagAnnotation extends Annotation {
+public class Frame extends CaliperDigitalResource {
 
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("tags")
-    private List<String> tags = Lists.newArrayList();
+    @JsonProperty("index")
+    private int index;
 
     /**
-     * @param builder apply builder object properties to the TagAnnotation object.
+     * @param builder apply builder object properties to the ActivityContext object.
      */
-    protected TagAnnotation(Builder<?> builder) {
+    protected Frame(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.tags = builder.tags;
     }
 
     /**
@@ -31,25 +27,25 @@ public class TagAnnotation extends Annotation {
     }
 
     /**
-     * @return the tags
+     * @return numeric index of the location relative to sibling locations in the content
      */
-    public List<String> getTags() {
-        return tags;
+    public int getIndex() {
+        return index;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
         private String type;
-        private List<String> tags = Lists.newArrayList();
+        private int index;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(Annotation.Type.TAG_ANNOTATON.uri());
+            type(CaliperEntity.Type.FRAME.uri());
         }
 
         /**
@@ -62,20 +58,20 @@ public class TagAnnotation extends Annotation {
         }
 
         /**
-         * @param tags
-         * @return annotation tags.
+         * @param index
+         * @return builder.
          */
-        public T tags(List<String> tags) {
-            this.tags = tags;
+        public T index(int index) {
+            this.index = index;
             return self();
         }
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of TagAnnotation.
+         * @return a new instance of ActivityContext.
          */
-        public TagAnnotation build() {
-            return new TagAnnotation(this);
+        public Frame build() {
+            return new Frame(this);
         }
     }
 

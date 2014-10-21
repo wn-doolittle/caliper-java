@@ -1,28 +1,23 @@
-/**
- * 
- */
 package org.imsglobal.caliper.entities.assignable;
 
 /**
- * @author pnayak
- * 
- *         Representation of Assignable from correspoding metric profile
+ * Representation of Assignable from corresponding metric profile
  */
 public interface Assignable {
 
-	public long getDateCreated();
+	long getDateCreated();
 
-	public long getDatePublished();
+	long getDatePublished();
 
-	public long getDateToStartOn();
+	long getDateToStartOn();
 
-	public long getDateToActivate();
+	long getDateToActivate();
 
-	public long getDateToShow();
+	long getDateToShow();
 
-	public long getDateToSubmit();
+	long getDateToSubmit();
 
-	public int getMaxAttempts();
+	int getMaxAttempts();
 
-	public int getMaxSubmits();
+	int getMaxSubmits();
 }

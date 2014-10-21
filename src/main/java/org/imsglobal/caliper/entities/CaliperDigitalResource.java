@@ -1,131 +1,227 @@
 package org.imsglobal.caliper.entities;
 
-import java.util.List;
-
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
+import java.util.List;
 
 /**
- * @author pnayak
- * 
- *         Caliper representation of a CreativeWork
- *         (https://schema.org/CreativeWork)
- * 
- *         We add on learning specific attributes, including a list of
- *         {@link LearningObjective} learning objectives and a list of
- *         {@link String} keywords
- * 
- *         In addition, we add a the following attributes:
- * 
- *         name (https://schema.org/name) -the name of the resource,
- * 
- *         about (https://schema.org/about) - the subject matter of the resource
- * 
- *         language (https://schema.org/Language) - Natural languages such as
- *         Spanish, Tamil, Hindi, English, etc. and programming languages such
- *         as Scheme and Lisp
- * 
+ * Caliper representation of a CreativeWork (https://schema.org/CreativeWork)
+ *
+ * We add learning specific attributes, including a list of
+ * {@link LearningObjective} learning objectives and a list of
+ * {@link String} keywords
+ *
+ * In addition, we add the following attributes:
+ *
+ * name (https://schema.org/name) -the name of the resource,
+ *
+ * about (https://schema.org/about) - the subject matter of the resource
+ *
+ * language (https://schema.org/Language) - Natural languages such as
+ * Spanish, Tamil, Hindi, English, etc. and programming languages such
+ * as Scheme and Lisp.
  */
-@JsonPropertyOrder({ "@id", "@type", "lastModifiedTime", "properties", "name", "alignedLearningObjective", 
-	                 "keyword", "objectType", "partOf" })
-public class CaliperDigitalResource extends CaliperEntity implements
-		CreativeWork {
 
-	@JsonProperty("name")
-	private String name;
+@JsonPropertyOrder({
+        "@id",
+        "@type",
+        "name",
+        "objectType",
+        "properties",
+        "alignedLearningObjective",
+        "keyword",
+        "partOf",
+        "lastModifiedTime" })
+public class CaliperDigitalResource extends CaliperEntity implements CreativeWork {
 
-	@JsonProperty("partOf")
-	private Object parentRef;
-	
-	@JsonProperty("objectType")
-	private Object objectType;
+    public enum Type {
+        CALIPER_ASSIGNABLE_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/CaliperAssignableDigitalResource"),
+        CALIPER_MEDIA_OBJECT("http://purl.imsglobal.org/caliper/v1/CaliperMediaObject"),
+        EPUB_CHAPTER("http://www.idpf.org/epub/vocab/structure/#chapter"),
+        EPUB_PART("http://www.idpf.org/epub/vocab/structure/#part"),
+        EPUB_SUB_CHAPTER("http://www.idpf.org/epub/vocab/structure/#subchapter"),
+        EPUB_VOLUME("http://www.idpf.org/epub/vocab/structure/#volume"),
+        WEB_PAGE("http://purl.imsglobal.org/caliper/v1/WebPage");
 
-	@JsonProperty("alignedLearningObjective")
-	private List<LearningObjective> alignedLearningObjectives = Lists
-			.newArrayList();
+        private final String uri;
 
-	@JsonProperty("keyword")
-	private List<String> keywords = Lists.newArrayList();
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Type(final String uri) {
+            this.uri = uri;
+        }
 
-//	@JsonProperty("about")
-//	private String about;
-//
-//	@JsonProperty("language")
-//	private String language;
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+    @JsonProperty("@type")
+    private final String type;
 
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    @JsonProperty("objectType")
+    private Object objectType;
 
-	/**
-	 * @return the parentRef
-	 */
-	public Object getParentRef() {
-		return parentRef;
-	}
+    @JsonProperty("alignedLearningObjective")
+    private List<LearningObjective> alignedLearningObjective = Lists.newArrayList();
 
-	/**
-	 * @param parentRef the parentRef to set
-	 */
-	public void setParentRef(Object parentRef) {
-		this.parentRef = parentRef;
-	}
+    @JsonProperty("keyword")
+    private List<String> keyword = Lists.newArrayList();
 
-	/**
-	 * @return the alignedLearningObjectives
-	 */
-	public List<LearningObjective> getAlignedLearningObjectives() {
-		return alignedLearningObjectives;
-	}
+    @JsonProperty("partOf")
+    private Object partOf;
 
-	/**
-	 * @param alignedLearningObjectives the alignedLearningObjectives to set
-	 */
-	public void setAlignedLearningObjectives(
-			List<LearningObjective> alignedLearningObjectives) {
-		this.alignedLearningObjectives = alignedLearningObjectives;
-	}
+    /**
+     * @param builder apply builder object properties to the profile object.
+     */
+    protected CaliperDigitalResource(Builder<?> builder) {
+        super(builder);
+        this.type = builder.type;
+        this.objectType = builder.objectType;
+        this.alignedLearningObjective = builder.alignedLearningObjective;
+        this.keyword = builder.keyword;
+        this.partOf = builder.partOf;
+    }
 
-	/**
-	 * @return the keywords
-	 */
-	public List<String> getKeywords() {
-		return keywords;
-	}
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * @param keywords the keywords to set
-	 */
-	public void setKeywords(List<String> keywords) {
-		this.keywords = keywords;
-	}
+    /**
+     * @return the objectType
+     */
+    public Object getObjectType() {
+        return objectType;
+    }
 
-	/**
-	 * @return the objectType
-	 */
-	public Object getObjectType() {
-		return objectType;
-	}
+    /**
+     * @return the aligned learning objectives
+     */
+    public List<LearningObjective> getAlignedLearningObjective() {
+        return alignedLearningObjective;
+    }
 
-	/**
-	 * @param objectType the objectType to set
-	 */
-	public void setObjectType(Object objectType) {
-		this.objectType = objectType;
-	}
+    /**
+     * @return the keywords
+     */
+    public List<String> getKeyword() {
+        return keyword;
+    }
 
+    /**
+     * @return the parent reference.
+     */
+    public Object getPartOf() {
+        return partOf;
+    }
+
+    /**
+     * Initialize default parameter values in the builder.
+     * @param <T> builder
+     */
+    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+        private String type;
+        private Object objectType;
+        private List<LearningObjective> alignedLearningObjective = Lists.newArrayList();
+        private List<String> keyword = Lists.newArrayList();
+        private Object partOf;
+
+        /*
+         * Initialize type with default value.
+         */
+        public Builder() {
+            type(CaliperEntity.Type.CALIPER_DIGITAL_RESOURCE.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
+        }
+
+        /**
+         * @param objectType
+         * @return builder.
+         */
+        public T objectType(Object objectType) {
+            this.objectType = objectType;
+            return self();
+        }
+
+        /**
+         * @param alignedLearningObjective
+         * @return builder.
+         */
+        public T alignedLearningObjective(List<LearningObjective> alignedLearningObjective) {
+            this.alignedLearningObjective = alignedLearningObjective;
+            return self();
+        }
+
+        /**
+         * @param learningObjective
+         * @return builder.
+         */
+        public T learningObjective(LearningObjective learningObjective) {
+            this.alignedLearningObjective.add(learningObjective);
+            return self();
+        }
+
+        /**
+         * @param keyword
+         * @return builder.
+         */
+        public T keyword(List<String> keyword) {
+            this.keyword = keyword;
+            return self();
+        }
+
+        /**
+         * @param partOf
+         * @return builder.
+         */
+        public T partOf(Object partOf) {
+            this.partOf = partOf;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable profile object.
+         * @return a new instance of the AssessmentProfile.
+         */
+        public CaliperDigitalResource build() {
+            return new CaliperDigitalResource(this);
+        }
+    }
+
+    /**
+     *
+     */
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
+
+    /**
+     * Static factory method.
+     * @return a new instance of the builder.
+     */
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 }

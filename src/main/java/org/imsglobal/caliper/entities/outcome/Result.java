@@ -1,150 +1,246 @@
-/**
- * 
- */
 package org.imsglobal.caliper.entities.outcome;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperAgent;
 import org.imsglobal.caliper.entities.CaliperEntity;
 
 /**
- * @author pnayak
- * 
- *         Representation of a Result. Result's are generated as part of an
- *         interaction represented by an OutcomeEvent
+ * Representation of a Result. Result's are generated as
+ * part of an interaction represented by an OutcomeEvent.
  */
 public class Result extends CaliperEntity {
 
-	// TODO - need to include target, learningObjective and scoreConstraints
-	// from metric profile
+    @JsonProperty("@type")
+    private final String type;
 
-	private double normalScore, penaltyScore, extraCreditScore, totalScore,
-			curvedTotalScore, curveFactor;
-	private String comment;
-	private CaliperAgent scoredBy;
-	
-	public Result(String id) {
-		setId(id);
-		setType("http://purl.imsglobal.org/caliper/v1/Result");
-	}
+    @JsonProperty("normalScore")
+    private double normalScore;
 
-	/**
-	 * @return the normalScore
-	 */
-	public double getNormalScore() {
-		return normalScore;
-	}
+    @JsonProperty("penaltyScore")
+    private double penaltyScore;
 
-	/**
-	 * @param normalScore
-	 *            the normalScore to set
-	 */
-	public void setNormalScore(double normalScore) {
-		this.normalScore = normalScore;
-	}
+    @JsonProperty("extraCreditScore")
+    private double extraCreditScore;
 
-	/**
-	 * @return the penaltyScore
-	 */
-	public double getPenaltyScore() {
-		return penaltyScore;
-	}
+    @JsonProperty("totalScore")
+    private double totalScore;
 
-	/**
-	 * @param penaltyScore
-	 *            the penaltyScore to set
-	 */
-	public void setPenaltyScore(double penaltyScore) {
-		this.penaltyScore = penaltyScore;
-	}
+    @JsonProperty("curvedTotalScore")
+    private double curvedTotalScore;
 
-	/**
-	 * @return the extraCreditScore
-	 */
-	public double getExtraCreditScore() {
-		return extraCreditScore;
-	}
+    @JsonProperty("curveFactor")
+    private double curveFactor;
 
-	/**
-	 * @param extraCreditScore
-	 *            the extraCreditScore to set
-	 */
-	public void setExtraCreditScore(double extraCreditScore) {
-		this.extraCreditScore = extraCreditScore;
-	}
+    @JsonProperty("comment")
+    private String comment;
 
-	/**
-	 * @return the totalScore
-	 */
-	public double getTotalScore() {
-		return totalScore;
-	}
+    @JsonProperty("scoredBy")
+    private CaliperAgent scoredBy;
 
-	/**
-	 * @param totalScore
-	 *            the totalScore to set
-	 */
-	public void setTotalScore(double totalScore) {
-		this.totalScore = totalScore;
-	}
+    // TODO - need to include target, learningObjective and scoreConstraints from metric profile
 
-	/**
-	 * @return the curvedTotalScore
-	 */
-	public double getCurvedTotalScore() {
-		return curvedTotalScore;
-	}
+    /**
+     * @param builder apply builder object properties to the Result object.
+     */
+    protected Result(Builder<?> builder) {
+        super(builder);
+        this.type = builder.type;
+        this.normalScore = builder.normalScore;
+        this.penaltyScore = builder.penaltyScore;
+        this.extraCreditScore = builder.extraCreditScore;
+        this.totalScore = builder.totalScore;
+        this.curvedTotalScore = builder.curvedTotalScore;
+        this.curveFactor = builder.curveFactor;
+        this.comment = builder.comment;
+        this.scoredBy = builder.scoredBy;
+    }
 
-	/**
-	 * @param curvedTotalScore
-	 *            the curvedTotalScore to set
-	 */
-	public void setCurvedTotalScore(double curvedTotalScore) {
-		this.curvedTotalScore = curvedTotalScore;
-	}
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * @return the curveFactor
-	 */
-	public double getCurveFactor() {
-		return curveFactor;
-	}
+    /**
+     * @return the normalScore
+     */
+    public double getNormalScore() {
+        return normalScore;
+    }
 
-	/**
-	 * @param curveFactor
-	 *            the curveFactor to set
-	 */
-	public void setCurveFactor(double curveFactor) {
-		this.curveFactor = curveFactor;
-	}
+    /**
+     * @return the penaltyScore
+     */
+    public double getPenaltyScore() {
+        return penaltyScore;
+    }
 
-	/**
-	 * @return the comment
-	 */
-	public String getComment() {
-		return comment;
-	}
+    /**
+     * @return the extraCreditScore
+     */
+    public double getExtraCreditScore() {
+        return extraCreditScore;
+    }
 
-	/**
-	 * @param comment
-	 *            the comment to set
-	 */
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    /**
+     * @return the totalScore
+     */
+    public double getTotalScore() {
+        return totalScore;
+    }
 
-	/**
-	 * @return the scoredBy
-	 */
-	public CaliperAgent getScoredBy() {
-		return scoredBy;
-	}
+    /**
+     * @return the curvedTotalScore
+     */
+    public double getCurvedTotalScore() {
+        return curvedTotalScore;
+    }
 
-	/**
-	 * @param scoredBy
-	 *            the scoredBy to set
-	 */
-	public void setScoredBy(CaliperAgent scoredBy) {
-		this.scoredBy = scoredBy;
-	}
+    /**
+     * @return the curveFactor
+     */
+    public double getCurveFactor() {
+        return curveFactor;
+    }
 
+    /**
+     * @return the comment
+     */
+    public String getComment() {
+        return comment;
+    }
+
+    /**
+     * @return the agent who scored the result
+     */
+    public CaliperAgent getScoredBy() {
+        return scoredBy;
+    }
+
+
+    /**
+     * Builder class provides a fluid interface for setting object properties.
+     * @param <T> builder
+     */
+    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+        private double normalScore, penaltyScore, extraCreditScore, totalScore, curvedTotalScore, curveFactor;
+        private String type, comment;
+        private CaliperAgent scoredBy;
+
+        /**
+         * Initialize type with default value.  Required if builder().type() is not set by user.
+         */
+        public Builder() {
+            type(CaliperEntity.Type.RESULT.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
+        }
+
+        /**
+         * @param normalScore
+         * @return normal score.
+         */
+        public T normalScore(double normalScore) {
+            this.normalScore = normalScore;
+            return self();
+        }
+
+        /**
+         * @param penaltyScore
+         * @return penalty score.
+         */
+        public T penaltyScore(double penaltyScore) {
+            this.penaltyScore = penaltyScore;
+            return self();
+        }
+
+        /**
+         * @param extraCreditScore
+         * @return extra credit score.
+         */
+        public T extraCreditScore(double extraCreditScore) {
+            this.extraCreditScore = extraCreditScore;
+            return self();
+        }
+
+        /**
+         * @param totalScore
+         * @return total score.
+         */
+        public T totalScore(double totalScore) {
+            this.totalScore = totalScore;
+            return self();
+        }
+
+        /**
+         * @param curvedTotalScore
+         * @return curved total score.
+         */
+        public T curvedTotalScore(double curvedTotalScore) {
+            this.curvedTotalScore = curvedTotalScore;
+            return self();
+        }
+
+        /**
+         * @param curveFactor
+         * @return curve factor.
+         */
+        public T curveFactor(double curveFactor) {
+            this.curveFactor = curveFactor;
+            return self();
+        }
+
+        /**
+         * @param comment
+         * @return comment.
+         */
+        public T comment(String comment) {
+            this.comment = comment;
+            return self();
+        }
+
+        /**
+         * @param scoredBy
+         * @return agent who scored the result.
+         */
+        public T scoredBy(CaliperAgent scoredBy) {
+            this.scoredBy = scoredBy;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of Result.
+         */
+        public Result build() {
+            return new Result(this);
+        }
+    }
+
+    /**
+     *
+     */
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
+
+    /**
+     * Static factory method.
+     * @return a new instance of the builder.
+     */
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 }

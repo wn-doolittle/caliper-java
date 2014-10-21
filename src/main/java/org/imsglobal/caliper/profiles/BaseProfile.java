@@ -1,124 +1,63 @@
 package org.imsglobal.caliper.profiles;
 
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.CaliperDigitalResource;
+import org.imsglobal.caliper.entities.LearningContext;
+
 import java.util.List;
 
-import org.imsglobal.caliper.entities.SoftwareApplication;
-import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.entities.lis.LISOrganization;
-import org.imsglobal.caliper.events.CaliperEvent;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-@JsonPropertyOrder({
-    "name",
-    "partOf",
-    "objectType",
-    "alignedLearningObjective",
-    "keyword",
-    "action",
-    "target",
-    "generated" })
 public abstract class BaseProfile {
-	
-	// Contextual Properties ("Learning Context")
-	private SoftwareApplication edApp;
-	private LISOrganization lisOrganization;
-	private Agent agent;
 
-    @JsonProperty("name")
-    private String name;
-
-    @JsonProperty("partOf")
-    private String partOf;
-
-    @JsonProperty("objectType")
-    private List<String> objectType = new ArrayList<String>();
-
-    @JsonProperty("alignedLearningObjective")
-    private List<String> alignedLearningObjective = new ArrayList<String>();
-
-    @JsonProperty("keyword")
-    private List<String> keyword = new ArrayList<String>();
-
-    @JsonProperty("action")
-    private String action;
-
-    @JsonProperty("target")
-    private Object target;
-
-    @JsonProperty("generated")
-    private Object generated;
+    private LearningContext learningContext;
+    private List<String> actions = Lists.newArrayList();
+    private List<CaliperDigitalResource> fromResources = Lists.newArrayList();
+    private List<Object> targets = Lists.newArrayList();
+    private List<Object> generateds = Lists.newArrayList();
 
     /**
-     * @param profileContext apply builder object properties to the profile object.
+     * @param builder apply builder object properties to the profile object.
      */
     protected BaseProfile(Builder<?> builder) {
-        this.name = builder.name;
-        this.partOf = builder.partOf;
-        this.objectType = builder.objectType;
-        this.alignedLearningObjective = builder.alignedLearningObjective;
-        this.keyword = builder.keyword;
-        this.action = builder.action;
-        this.target = builder.target;
-        this.generated = builder.generated;
+        this.learningContext = builder.learningContext;
+        this.actions = builder.actions;
+        this.fromResources = builder.fromResources;
+        this.targets = builder.targets;
+        this.generateds = builder.generateds;
     }
 
     /**
-     * @return name.
+     * @return the learning context.
      */
-    public String getName() {
-        return name;
+    public LearningContext getLearningContext() {
+        return learningContext;
     }
 
     /**
-     * @return parent identifier.
+     * @return list of actions for a given activity
      */
-    public String getPartOf() {
-        return partOf;
+    public List<String> getActions() {
+        return actions;
     }
 
     /**
-     * @return objectType.
+     * @return navigation history
      */
-    public List<String> getObjectType() {
-        return objectType;
+    public List<CaliperDigitalResource> getFromResources() {
+        return fromResources;
     }
 
     /**
-     * @return learning objectives.
+     * @return list of target objects for a given activity
      */
-    public List<String> getAlignedLearningObjective() {
-        return alignedLearningObjective;
+    public List<Object> getTargets() {
+        return targets;
     }
 
     /**
-     * @return topics.
+     * @return list of generated objects for a given activity
      */
-    public List<String> getKeyword() {
-        return keyword;
-    }
-
-    /**
-     * @return action.
-     */
-    public String getAction() {
-        return action;
-    }
-
-    /**
-     * @return target object, if exists.
-     */
-    public Object getTarget() {
-        return target;
-    }
-
-    /**
-     * @return generated object, if exists.
-     */
-    public Object getGenerated() {
-        return generated;
+    public List<Object> getGenerateds() {
+        return generateds;
     }
 
     /**
@@ -127,59 +66,30 @@ public abstract class BaseProfile {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> {
-        private String name;
-        private String partOf;
-        private List<String> objectType;
-        private List<String> alignedLearningObjective = new ArrayList<String>();
-        private List<String> keyword = new ArrayList<String>();
-        private String action;
-        private Object target;
-        private Object generated;
+        private LearningContext learningContext;
+        private List<String> actions = Lists.newArrayList();
+        private List<CaliperDigitalResource> fromResources = Lists.newArrayList();
+        private List<Object> targets = Lists.newArrayList();
+        private List<Object> generateds = Lists.newArrayList();
 
         protected abstract T self();
 
         /**
-         * @param name
+         * @param learningContext
          * @return builder.
          */
-        public T name(String name) {
-            this.name = name;
+        public T learningContext(LearningContext learningContext) {
+            this.learningContext = learningContext;
             return self();
         }
 
         /**
-         * @param partOf
+         * @param actions
          * @return builder.
          */
-        public T partOf(String partOf) {
-            this.partOf = partOf;
-            return self();
-        }
 
-        /**
-         * @param objectType
-         * @return builder.
-         */
-        public T objectType(List<String> objectType) {
-            this.objectType = objectType;
-            return self();
-        }
-
-        /**
-         * @param alignedLearningObjective
-         * @return builder.
-         */
-        public T alignedLearningObjective(List<String> alignedLearningObjective) {
-            this.alignedLearningObjective = alignedLearningObjective;
-            return self();
-        }
-
-        /**
-         * @param keyword
-         * @return builder.
-         */
-        public T keyword(List<String> keyword) {
-            this.keyword = keyword;
+        public T actions(List<String> actions) {
+            this.actions = actions;
             return self();
         }
 
@@ -187,8 +97,36 @@ public abstract class BaseProfile {
          * @param action
          * @return builder.
          */
+
         public T action(String action) {
-            this.action = action;
+            this.actions.add(action);
+            return self();
+        }
+
+        /**
+         * @param fromResources
+         * @return builder
+         */
+        public T fromResources(List<CaliperDigitalResource> fromResources) {
+            this.fromResources = fromResources;
+            return self();
+        }
+
+        /**
+         * @param fromResource
+         * @return builder
+         */
+        public T fromResource(CaliperDigitalResource fromResource) {
+            this.fromResources.add(fromResource);
+            return self();
+        }
+
+        /**
+         * @param targets
+         * @return builder.
+         */
+        public T targets(List<Object> targets) {
+            this.targets = targets;
             return self();
         }
 
@@ -197,7 +135,16 @@ public abstract class BaseProfile {
          * @return builder.
          */
         public T target(Object target) {
-            this.target = target;
+            this.targets.add(target);
+            return self();
+        }
+
+        /**
+         * @param generateds
+         * @return builder.
+         */
+        public T generateds(List<Object> generateds) {
+            this.generateds = generateds;
             return self();
         }
 
@@ -206,7 +153,7 @@ public abstract class BaseProfile {
          * @return builder.
          */
         public T generated(Object generated) {
-            this.generated = generated;
+            this.generateds.add(generated);
             return self();
         }
     }
@@ -220,46 +167,4 @@ public abstract class BaseProfile {
             return this;
         }
     }
-
-	/**
-	 * @return the edApp
-	 */
-	public SoftwareApplication getEdApp() {
-		return edApp;
-	}
-
-	/**
-	 * @param edApp the edApp to set
-	 */
-	public void setEdApp(SoftwareApplication edApp) {
-		this.edApp = edApp;
-	}
-
-	/**
-	 * @return the lisOrganization
-	 */
-	public LISOrganization getLisOrganization() {
-		return lisOrganization;
-	}
-
-	/**
-	 * @param lisOrganization the lisOrganization to set
-	 */
-	public void setLisOrganization(LISOrganization lisOrganization) {
-		this.lisOrganization = lisOrganization;
-	}
-
-	/**
-	 * @return the agent
-	 */
-	public Agent getAgent() {
-		return agent;
-	}
-
-	/**
-	 * @param agent the agent to set
-	 */
-	public void setAgent(Agent agent) {
-		this.agent = agent;
-	}
 }

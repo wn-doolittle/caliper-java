@@ -1,127 +1,37 @@
 package org.imsglobal.caliper.profiles;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.actions.OutcomeActions;
-import java.util.ResourceBundle;
+import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
+import org.imsglobal.caliper.entities.outcome.Outcome;
 
-@JsonPropertyOrder({
-    "normalScore",
-    "penaltyScore",
-    "extraCreditScore",
-    "totalScore",
-    "curveFactor",
-    "ScoreConstraints",
-    "comment",
-    "learningObjectiveResult",
-    "action" })
+import java.util.List;
+
 public class OutcomeProfile extends BaseProfile {
 
-    @JsonProperty("normalScore")
-    private double normalScore;
-
-    @JsonProperty("penaltyScore")
-    private double penaltyScore;
-
-    @JsonProperty("extraCreditScore")
-    private double extraCreditScore;
-
-    @JsonProperty("totalScore")
-    private double totalScore;
-
-    @JsonProperty("curveFactor")
-    private double curveFactor;
-
-    @JsonProperty("scoreConstraints")
-    private Object scoreConstraints;
-
-    @JsonProperty("comment")
-    private String comment;
-
-    @JsonProperty("learningObjectiveResult")
-    private Object learningObjectiveResult;
-
-    @JsonProperty("action")
-    private String action;
+    private CaliperAssignableDigitalResource assignable;
+    private List<Outcome> outcomes = Lists.newArrayList();
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
     protected OutcomeProfile(Builder<?> builder) {
         super(builder);
-        this.normalScore = builder.normalScore;
-        this.penaltyScore = builder.penaltyScore;
-        this.extraCreditScore = builder.extraCreditScore;
-        this.totalScore = builder.totalScore;
-        this.curveFactor = builder.curveFactor;
-        this.scoreConstraints = builder.scoreConstraints;
-        this.comment = builder.comment;
-        this.learningObjectiveResult = builder.learningObjectiveResult;
-        this.action = builder.action;
+        this.assignable = builder.assignable;
+        this.outcomes = builder.outcomes;
     }
 
     /**
-     * @return score earned by the learner before adding extra credit or subtracting penalties.
+     * @return assignable digital resource.
      */
-    public double getNormalScore() {
-        return normalScore;
+    public CaliperAssignableDigitalResource getAssignable() {
+        return assignable;
     }
 
     /**
-     * @return number of point deducted from the normal score due to some penalty such
-     * as submitting an assignment after the due date.
+     * @return list of outcomes (paired attempt and result)
      */
-    public double getPenaltyScore() {
-        return penaltyScore;
-    }
-
-    /**
-     * @return number of extra credit points earned by the learner.
-     */
-    public double getExtraCreditScore() {
-        return extraCreditScore;
-    }
-
-    /**
-     * @return total score on the assignment (totalScore=normalScore + extraCreditScore - penalty)
-     */
-    public double getTotalScore() {
-        return totalScore;
-    }
-
-    /**
-     * @return curve adjusted total score.
-     */
-    public double getCurveFactor() {
-        return curveFactor;
-    }
-
-    /**
-     * @return score constraints.
-     */
-    public Object getScoreConstraints() {
-        return scoreConstraints;
-    }
-
-    /**
-     * @return comment about the result suitable for display to the learner.
-     */
-    public String getComment() {
-        return comment;
-    }
-
-    /**
-     * @return learning objective met by the result.
-     */
-    public Object getLearningObjectiveResult() {
-        return learningObjectiveResult;
-    }
-
-    /**
-     * @return action.
-     */
-    public String getAction() {
-        return action;
+    public List<Outcome> getOutcomes() {
+        return outcomes;
     }
 
     /**
@@ -129,94 +39,33 @@ public class OutcomeProfile extends BaseProfile {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
-        private double normalScore;
-        private double penaltyScore;
-        private double extraCreditScore;
-        private double totalScore;
-        private double curveFactor;
-        private Object scoreConstraints;
-        private String comment;
-        private Object learningObjectiveResult;
-        private String action;
+        private CaliperAssignableDigitalResource assignable;
+        private List<Outcome> outcomes = Lists.newArrayList();
 
         /**
-         * @param normalScore
+         * @param assignable
          * @return builder.
          */
-        private T normalScore(double normalScore) {
-            this.normalScore = normalScore;
+        public T assignable(CaliperAssignableDigitalResource assignable) {
+            this.assignable = assignable;
             return self();
         }
 
         /**
-         * @param penaltyScore
-         * @return builder.
+         * @param outcomes
+         * @return builder
          */
-        private T penaltyScore(double penaltyScore) {
-            this.penaltyScore = penaltyScore;
+        public T outcomes(List<Outcome> outcomes) {
+            this.outcomes = outcomes;
             return self();
         }
 
         /**
-         * @param extraCreditScore
-         * @return builder.
+         * @param outcome
+         * @return builder
          */
-        private T extraCreditScore(double extraCreditScore) {
-            this.extraCreditScore = extraCreditScore;
-            return self();
-        }
-
-        /**
-         * @param totalScore
-         * @return builder.
-         */
-        private T totalScore(double totalScore) {
-            this.totalScore = totalScore;
-            return self();
-        }
-
-        /**
-         * @param curveFactor
-         * @return builder.
-         */
-        private T curveFactor(double curveFactor) {
-            this.curveFactor = curveFactor;
-            return self();
-        }
-
-        /**
-         * @param scoreConstraints
-         * @return builder.
-         */
-        private T scoreConstraints(Object scoreConstraints) {
-            this.scoreConstraints = scoreConstraints;
-            return self();
-        }
-
-        /**
-         * @param comment
-         * @return builder.
-         */
-        private T comment(String comment) {
-            this.comment = comment;
-            return self();
-        }
-
-        /**
-         * @param learningObjectiveResult
-         * @return builder.
-         */
-        private T learningObjectiveResult(Object learningObjectiveResult) {
-            this.learningObjectiveResult = learningObjectiveResult;
-            return self();
-        }
-
-        /**
-         * @param key
-         * @return action verb from the actions resource bundle.
-         */
-        public T action(String key) {
-            this.action = validateAction(key);
+        public T outcome(Outcome outcome) {
+            this.outcomes.add(outcome);
             return self();
         }
 
@@ -245,17 +94,5 @@ public class OutcomeProfile extends BaseProfile {
      */
     public static Builder<?> builder() {
         return new Builder2();
-    }
-
-    /**
-     * @param key resource bundle key attribute of target constant
-     * @return resource bundle key
-     */
-    private static String validateAction(String key) {
-        if (OutcomeActions.hasKey(key)) {
-            return ResourceBundle.getBundle("resources.actions").getString(key);
-        } else {
-            throw new IllegalArgumentException("Unrecognized constant");
-        }
     }
 }

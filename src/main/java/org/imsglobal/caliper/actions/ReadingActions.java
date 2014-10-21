@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ReadingActions {
-    NAVIGATED("reading.navigated"),
     SEARCHED("reading.searched"),
-    VIEWED("reading.viewed");
+
+    NAVIGATED_TO("navigation.navigatedTo"),
+    VIEWED("navigation.viewed");
 
     private final String key;
     private static final Map<String, ReadingActions> lookup = new HashMap<String, ReadingActions>();
@@ -39,7 +40,7 @@ public enum ReadingActions {
      * @return true if lookup returns a key match; false otherwise.
      */
     public static boolean hasKey(String key) {
-        return lookup.containsKey(key.toLowerCase());
+        return lookup.containsKey(key);
     }
 
     /**

@@ -1,165 +1,288 @@
-/**
- * 
- */
 package org.imsglobal.caliper.entities.assignable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperDigitalResource;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
- * @author pnayak
- * 
+ * Assignable Digital Resource
  */
 @JsonInclude(Include.NON_NULL)
-public class CaliperAssignableDigitalResource extends CaliperDigitalResource
-		implements Assignable {
+public class CaliperAssignableDigitalResource extends CaliperDigitalResource implements Assignable {
 
-	private long dateCreated, datePublished, dateToActivate, dateToShow,
-			dateToStartOn, dateToSubmit;
-	private int maxAttempts, maxSubmits;
-	private double maxScore;
-	
-	public CaliperAssignableDigitalResource(String id) {
-		super();
-		setId(id);
-		setType("http://purl.imsglobal.org/caliper/v1/Assignment");
-	}
+    public enum Type {
+        ASSESSMENT("http://purl.imsglobal.org/caliper/v1/Assessment"),
+        ASSESSMENT_ITEM("http://purl.imsglobal.org/caliper/v1/AssessmentItem");
 
-	/**
-	 * @return the dateCreated
-	 */
-	public long getDateCreated() {
-		return dateCreated;
-	}
+        private final String uri;
 
-	/**
-	 * @param dateCreated
-	 *            the dateCreated to set
-	 */
-	public void setDateCreated(long dateCreated) {
-		this.dateCreated = dateCreated;
-	}
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Type(final String uri) {
+            this.uri = uri;
+        }
 
-	/**
-	 * @return the datePublished
-	 */
-	public long getDatePublished() {
-		return datePublished;
-	}
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
 
-	/**
-	 * @param datePublished
-	 *            the datePublished to set
-	 */
-	public void setDatePublished(long datePublished) {
-		this.datePublished = datePublished;
-	}
+    @JsonProperty("@type")
+    private final String type;
 
-	/**
-	 * @return the dateToActivate
-	 */
-	public long getDateToActivate() {
-		return dateToActivate;
-	}
+    @JsonProperty("dateCreated")
+    private long dateCreated;
 
-	/**
-	 * @param dateToActivate
-	 *            the dateToActivate to set
-	 */
-	public void setDateToActivate(long dateToActivate) {
-		this.dateToActivate = dateToActivate;
-	}
+    @JsonProperty("datePublished")
+    private long datePublished;
 
-	/**
-	 * @return the dateToShow
-	 */
-	public long getDateToShow() {
-		return dateToShow;
-	}
+    @JsonProperty("dateToActivate")
+    private long dateToActivate;
 
-	/**
-	 * @param dateToShow
-	 *            the dateToShow to set
-	 */
-	public void setDateToShow(long dateToShow) {
-		this.dateToShow = dateToShow;
-	}
+    @JsonProperty("dateToShow")
+    private long dateToShow;
 
-	/**
-	 * @return the dateToStartOn
-	 */
-	public long getDateToStartOn() {
-		return dateToStartOn;
-	}
+    @JsonProperty("dateToStartOn")
+    private long dateToStartOn;
 
-	/**
-	 * @param dateToStartOn
-	 *            the dateToStartOn to set
-	 */
-	public void setDateToStartOn(long dateToStartOn) {
-		this.dateToStartOn = dateToStartOn;
-	}
+    @JsonProperty("dateToSubmit")
+    private long dateToSubmit;
 
-	/**
-	 * @return the dateToSubmit
-	 */
-	public long getDateToSubmit() {
-		return dateToSubmit;
-	}
+    @JsonProperty("maxAttempts")
+    private int maxAttempts;
 
-	/**
-	 * @param dateToSubmit
-	 *            the dateToSubmit to set
-	 */
-	public void setDateToSubmit(long dateToSubmit) {
-		this.dateToSubmit = dateToSubmit;
-	}
+    @JsonProperty("maxSubmits")
+    private int maxSubmits;
 
-	/**
-	 * @return the maxAttempts
-	 */
-	public int getMaxAttempts() {
-		return maxAttempts;
-	}
+    @JsonProperty("maxScore")
+    private double maxScore;
 
-	/**
-	 * @param maxAttempts
-	 *            the maxAttempts to set
-	 */
-	public void setMaxAttempts(int maxAttempts) {
-		this.maxAttempts = maxAttempts;
-	}
+    /**
+     * @param builder apply builder object properties to the Target object.
+     */
+    protected CaliperAssignableDigitalResource(Builder<?> builder) {
+        super(builder);
+        this.type = builder.type;
+        this.dateCreated = builder.dateCreated;
+        this.datePublished = builder.datePublished;
+        this.dateToActivate = builder.dateToActivate;
+        this.dateToShow = builder.dateToShow;
+        this.dateToStartOn = builder.dateToStartOn;
+        this.dateToSubmit = builder.dateToSubmit;
+        this.maxAttempts = builder.maxAttempts;
+        this.maxSubmits = builder.maxSubmits;
+        this.maxScore = builder.maxScore;
+    }
 
-	/**
-	 * @return the maxSubmits
-	 */
-	public int getMaxSubmits() {
-		return maxSubmits;
-	}
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * @param maxSubmits
-	 *            the maxSubmits to set
-	 */
-	public void setMaxSubmits(int maxSubmits) {
-		this.maxSubmits = maxSubmits;
-	}
+    /**
+     * @return the dateCreated
+     */
+    public long getDateCreated() {
+        return dateCreated;
+    }
 
-	/**
-	 * @return the maxScore
-	 */
-	public double getMaxScore() {
-		return maxScore;
-	}
+    /**
+     * @return the datePublished
+     */
+    public long getDatePublished() {
+        return datePublished;
+    }
 
-	/**
-	 * @param maxScore
-	 *            the maxScore to set
-	 */
-	public void setMaxScore(double maxScore) {
-		this.maxScore = maxScore;
-	}
+    /**
+     * @return the dateToActivate
+     */
+    public long getDateToActivate() {
+        return dateToActivate;
+    }
 
+    /**
+     * @return the dateToShow
+     */
+    public long getDateToShow() {
+        return dateToShow;
+    }
+
+    /**
+     * @return the dateToStartOn
+     */
+    public long getDateToStartOn() {
+        return dateToStartOn;
+    }
+
+    /**
+     * @return the dateToSubmit
+     */
+    public long getDateToSubmit() {
+        return dateToSubmit;
+    }
+
+    /**
+     * @return the maxAttempts
+     */
+    public int getMaxAttempts() {
+        return maxAttempts;
+    }
+
+    /**
+     * @return the maxSubmits
+     */
+    public int getMaxSubmits() {
+        return maxSubmits;
+    }
+
+    /**
+     * @return the maxScore
+     */
+    public double getMaxScore() {
+        return maxScore;
+    }
+
+    /**
+     * Builder class provides a fluid interface for setting object properties.
+     * @param <T> builder
+     */
+    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+        private String type;
+        private long dateCreated, datePublished, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
+        private int maxAttempts, maxSubmits;
+        private double maxScore;
+
+        /**
+         * Initialize type with default value.
+         */
+        public Builder() {
+            type(CaliperDigitalResource.Type.CALIPER_ASSIGNABLE_DIGITAL_RESOURCE.uri());
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
+            return self();
+        }
+
+        /**
+         * @param dateCreated
+         * @return builder
+         */
+        public T dateCreated(long dateCreated) {
+            this.dateCreated = dateCreated;
+            return self();
+        }
+
+        /**
+         * @param datePublished
+         * @return builder
+         */
+        public T datePublished(long datePublished) {
+            this.datePublished = datePublished;
+            return self();
+        }
+
+        /**
+         * @param dateToActivate
+         * @return builder
+         */
+        public T dateToActivate(long dateToActivate) {
+            this.dateToActivate = dateToActivate;
+            return self();
+        }
+
+        /**
+         * @param dateToShow
+         * @return builder
+         */
+        public T dateToShow(long dateToShow) {
+            this.dateToShow = dateToShow;
+            return self();
+        }
+
+        /**
+         * @param dateToStartOn
+         * @return builder
+         */
+        public T dateToStartOn(long dateToStartOn) {
+            this.dateToStartOn = dateToStartOn;
+            return self();
+        }
+
+        /**
+         * @param dateToSubmit
+         * @return builder
+         */
+        public T dateToSubmit(long dateToSubmit) {
+            this.dateToSubmit = dateToSubmit;
+            return self();
+        }
+
+        /**
+         * @param maxAttempts
+         * @return builder
+         */
+        public T maxAttempts(int maxAttempts) {
+            this.maxAttempts = maxAttempts;
+            return self();
+        }
+
+        /**
+         * @param maxSubmits
+         * @return builder
+         */
+        public T maxSubmits(int maxSubmits) {
+            this.maxSubmits = maxSubmits;
+            return self();
+        }
+
+        /**
+         * @param maxScore
+         * @return builder
+         */
+        public T maxScore(int maxScore) {
+            this.maxScore = maxScore;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of Target.
+         */
+        public CaliperAssignableDigitalResource build() {
+            return new CaliperAssignableDigitalResource(this);
+        }
+    }
+
+    /**
+     *
+     */
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
+
+    /**
+     * Static factory method.
+     * @return a new instance of the builder.
+     */
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 }
