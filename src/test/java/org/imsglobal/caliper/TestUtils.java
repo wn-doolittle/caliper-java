@@ -6,7 +6,7 @@ import org.imsglobal.caliper.entities.lis.LISPerson;
 import org.imsglobal.caliper.entities.reading.EPubVolume;
 import org.imsglobal.caliper.entities.schemadotorg.WebPage;
 import org.imsglobal.caliper.events.CaliperEvent;
-import org.imsglobal.caliper.events.reading.NavigationEvent;
+import org.imsglobal.caliper.events.NavigationEvent;
 
 public class TestUtils {
 

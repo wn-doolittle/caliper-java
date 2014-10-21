@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ReadingActions {
-    NAVIGATED_TO("reading.navigatedTo"),
     SEARCHED("reading.searched"),
-    VIEWED("reading.viewed");
+
+    NAVIGATED_TO("navigation.navigatedTo"),
+    VIEWED("navigation.viewed");
 
     private final String key;
     private static final Map<String, ReadingActions> lookup = new HashMap<String, ReadingActions>();

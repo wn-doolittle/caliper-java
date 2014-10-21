@@ -1,12 +1,12 @@
-package org.imsglobal.caliper.events.assessment;
+package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.AssessmentItemActions;
+import org.imsglobal.caliper.actions.AssessmentActions;
 import org.imsglobal.caliper.events.CaliperEvent;
 
 import java.util.ResourceBundle;
 
-public class AssessmentItemEvent extends CaliperEvent {
+public class AssessmentEvent extends CaliperEvent {
 
     @JsonProperty("@context")
     private final String context;
@@ -20,7 +20,7 @@ public class AssessmentItemEvent extends CaliperEvent {
     /**
      * @param builder apply builder object properties to the AssessmentEvent object.
      */
-    protected AssessmentItemEvent(Builder<?> builder) {
+    protected AssessmentEvent(Builder<?> builder) {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
@@ -61,11 +61,11 @@ public class AssessmentItemEvent extends CaliperEvent {
         private String action;
 
         /**
-         * Initialize type with default values.
+         * Initialize with default values.
          */
         public Builder() {
-            context(CaliperEvent.Context.ASSESSMENT_ITEM.uri());
-            type(CaliperEvent.Type.ASSESSMENT_ITEM.uri());
+            context(CaliperEvent.Context.ASSESSMENT.uri());
+            type(CaliperEvent.Type.ANNOTATION.uri());
         }
 
         /**
@@ -92,7 +92,7 @@ public class AssessmentItemEvent extends CaliperEvent {
          */
         @Override
         public T action(String key) {
-            if (AssessmentItemActions.hasKey(key)) {
+            if (AssessmentActions.hasKey(key)) {
                 this.action = ResourceBundle.getBundle("actions").getString(key);
                 return self();
             } else {
@@ -104,8 +104,8 @@ public class AssessmentItemEvent extends CaliperEvent {
          * Client invokes build method in order to create an immutable object.
          * @return a new instance of AssessmentEvent.
          */
-        public AssessmentItemEvent build() {
-            return new AssessmentItemEvent(this);
+        public AssessmentEvent build() {
+            return new AssessmentEvent(this);
         }
     }
 

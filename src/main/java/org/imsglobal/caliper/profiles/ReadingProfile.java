@@ -1,12 +1,10 @@
 package org.imsglobal.caliper.profiles;
 
-import com.google.common.collect.Lists;
-import java.util.List;
+import org.imsglobal.caliper.entities.CaliperDigitalResource;
 
 public class ReadingProfile extends BaseProfile {
 
-    private List<Object> frames = Lists.newArrayList();
-    private List<Object> navigationHistory = Lists.newArrayList();
+    private CaliperDigitalResource reading;
 
     /**
      * Constructor
@@ -14,23 +12,14 @@ public class ReadingProfile extends BaseProfile {
      */
     protected ReadingProfile(Builder<?> builder) {
         super(builder);
-        this.frames = builder.frames;
-        this.navigationHistory = builder.navigationHistory;
+        this.reading = builder.reading;
     }
 
     /**
-     * A frame registers the location or range within a piece of content (a page, a section, or epub cfi).
-     * @return List of frames
+     * @return reading
      */
-    public List<Object> getFrames() {
-        return frames;
-    }
-
-    /**
-     * @return return a list of starting locations.
-     */
-    public List<Object> getNavigationHistory() {
-        return navigationHistory;
+    public CaliperDigitalResource getReading () {
+        return reading;
     }
 
     /**
@@ -39,42 +28,14 @@ public class ReadingProfile extends BaseProfile {
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
 
-        private List<Object> frames = Lists.newArrayList();
-        private List<Object> navigationHistory = Lists.newArrayList();
+        private CaliperDigitalResource reading;
 
         /**
-         * @param frames
-         * @return builder.
-         */
-        public T frames(List<Object> frames) {
-            this.frames = frames;
-            return self();
-        }
-
-        /**
-         * @param frame
+         * @param reading
          * @return builder
          */
-        public T frame(Object frame) {
-            this.frames.add(frame);
-            return self();
-        }
-
-        /**
-         * @param navigationHistory
-         * @return builder.
-         */
-        public T navigationHistory(List<Object> navigationHistory) {
-            this.navigationHistory = navigationHistory;
-            return self();
-        }
-
-        /**
-         * @param navigatedFrom
-         * @return builder
-         */
-        public T navigatedFrom(Object navigatedFrom) {
-            this.navigationHistory.add(navigatedFrom);
+        public T reading(CaliperDigitalResource reading) {
+            this.reading = reading;
             return self();
         }
 

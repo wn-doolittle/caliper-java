@@ -1,12 +1,13 @@
-package org.imsglobal.caliper.events.assessment;
+package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.AssessmentActions;
+import org.imsglobal.caliper.actions.AssignableActions;
+import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
 import org.imsglobal.caliper.events.CaliperEvent;
 
 import java.util.ResourceBundle;
 
-public class AssessmentEvent extends CaliperEvent {
+public class AssignableEvent extends CaliperEvent {
 
     @JsonProperty("@context")
     private final String context;
@@ -18,13 +19,19 @@ public class AssessmentEvent extends CaliperEvent {
     private final String action;
 
     /**
-     * @param builder apply builder object properties to the AssessmentEvent object.
+     * Assignable activity context
      */
-    protected AssessmentEvent(Builder<?> builder) {
+    private Object object;
+
+    /**
+     * @param builder apply builder object properties to the AssignableEvent object.
+     */
+    protected AssignableEvent(Builder<?> builder) {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
+        this.object = builder.object;
     }
 
     /**
@@ -52,6 +59,15 @@ public class AssessmentEvent extends CaliperEvent {
     }
 
     /**
+     * TODO original version did not include an accessor for the object.  Retain or drop?
+     * @return object
+     */
+    @Override
+    public Object getObject() {
+        return object;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
@@ -59,13 +75,14 @@ public class AssessmentEvent extends CaliperEvent {
         private String context;
         private String type;
         private String action;
+        private Object object;
 
         /**
-         * Initialize with default values.
+         * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(CaliperEvent.Context.ASSESSMENT.uri());
-            type(CaliperEvent.Type.ANNOTATION.uri());
+            context(CaliperEvent.Context.ASSIGNABLE.uri());
+            type(CaliperEvent.Type.ASSIGNABLE.uri());
         }
 
         /**
@@ -92,20 +109,43 @@ public class AssessmentEvent extends CaliperEvent {
          */
         @Override
         public T action(String key) {
-            if (AssessmentActions.hasKey(key)) {
+            if (AssignableActions.hasKey(key)) {
                 this.action = ResourceBundle.getBundle("actions").getString(key);
                 return self();
             } else {
                 throw new IllegalArgumentException("Unrecognized constant: " + key);
+                // TODO add logging
+                // TODO do something clever with exception
+            }
+        }
+
+        /*
+        * (non-Javadoc)
+        * @see org.imsglobal.caliper.events.CaliperEvent#setObject(java.lang.Object)
+        */
+
+        /**
+         * @param object
+         * @return builder
+         */
+        @Override
+        public T object(Object object) {
+            if (object instanceof CaliperAssignableDigitalResource) {
+                this.object = object;
+                return self();
+            } else {
+                throw new ClassCastException("Object cannot be cast as a Caliper assignable digital resource");
+                // TODO add logging
+                // TODO do something clever with exception
             }
         }
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of AssessmentEvent.
+         * @return a new instance of AssignableEvent.
          */
-        public AssessmentEvent build() {
-            return new AssessmentEvent(this);
+        public AssignableEvent build() {
+            return new AssignableEvent(this);
         }
     }
 

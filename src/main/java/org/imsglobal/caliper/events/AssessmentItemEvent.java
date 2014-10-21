@@ -1,12 +1,12 @@
-package org.imsglobal.caliper.events.annotation;
+package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.AnnotationActions;
+import org.imsglobal.caliper.actions.AssessmentItemActions;
 import org.imsglobal.caliper.events.CaliperEvent;
 
 import java.util.ResourceBundle;
 
-public class AnnotationEvent extends CaliperEvent {
+public class AssessmentItemEvent extends CaliperEvent {
 
     @JsonProperty("@context")
     private final String context;
@@ -18,9 +18,9 @@ public class AnnotationEvent extends CaliperEvent {
     private final String action;
 
     /**
-     * @param builder apply builder object properties to the AnnotationEvent object.
+     * @param builder apply builder object properties to the AssessmentEvent object.
      */
-    protected AnnotationEvent(Builder<?> builder) {
+    protected AssessmentItemEvent(Builder<?> builder) {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
@@ -61,11 +61,11 @@ public class AnnotationEvent extends CaliperEvent {
         private String action;
 
         /**
-         * Initialize with default values.
+         * Initialize type with default values.
          */
         public Builder() {
-            context(CaliperEvent.Context.ANNOTATION.uri());
-            type(CaliperEvent.Type.ANNOTATION.uri());
+            context(CaliperEvent.Context.ASSESSMENT_ITEM.uri());
+            type(CaliperEvent.Type.ASSESSMENT_ITEM.uri());
         }
 
         /**
@@ -92,7 +92,7 @@ public class AnnotationEvent extends CaliperEvent {
          */
         @Override
         public T action(String key) {
-            if (AnnotationActions.hasKey(key)) {
+            if (AssessmentItemActions.hasKey(key)) {
                 this.action = ResourceBundle.getBundle("actions").getString(key);
                 return self();
             } else {
@@ -102,10 +102,10 @@ public class AnnotationEvent extends CaliperEvent {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of AnnotationEvent.
+         * @return a new instance of AssessmentEvent.
          */
-        public AnnotationEvent build() {
-            return new AnnotationEvent(this);
+        public AssessmentItemEvent build() {
+            return new AssessmentItemEvent(this);
         }
     }
 

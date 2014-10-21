@@ -6,6 +6,7 @@
     "actor": {
         "@id": "uri:/someEdu/user/42",
         "@type": "http://purl.imsglobal.org/caliper/v1/LISPerson",
+        "name": null,
         "lastModifiedTime": 0,
         "properties": {}
     },
@@ -13,19 +14,20 @@
     "object": {
         "@id": "uri:/someEdu/reading/42",
         "@type": "http://purl.imsglobal.org/caliper/v1/ActivityContext",
+        "name": null,
         "lastModifiedTime": 0,
         "properties": {}
     },
     "target": {
         "@id": "https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)",
         "@type": "http://www.idpf.org/epub/vocab/structure/#volume",
-        "lastModifiedTime": 1402965614516,
-        "properties": {},
         "name": "The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)",
+        "objectType": null,
+        "properties": {},
         "alignedLearningObjective": [],
         "keyword": [],
-        "objectType": null,
-        "partOf": null
+        "partOf": null,
+        "lastModifiedTime": 1402965614516
     },
     "generated": null,
     "startedAtTime": 1402965614516,
@@ -34,12 +36,12 @@
     "navigatedFrom": {
         "@id": "AmRev-101-landingPage",
         "@type": "http://purl.imsglobal.org/caliper/v1/CaliperDigitalResource",
-        "lastModifiedTime": 0,
-        "properties": {},
         "name": "American Revolution 101 Landing Page",
+        "objectType": null,
+        "properties": {},
         "alignedLearningObjective": [],
         "keyword": [],
-        "objectType": null,
-        "partOf": null
+        "partOf": null,
+        "lastModifiedTime": 0
     }
 }

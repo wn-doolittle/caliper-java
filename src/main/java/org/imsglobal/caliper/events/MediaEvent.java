@@ -1,13 +1,15 @@
-package org.imsglobal.caliper.events.assignable;
+package org.imsglobal.caliper.events;
+
+import org.imsglobal.caliper.actions.MediaActions;
+import org.imsglobal.caliper.entities.media.CaliperMediaObject;
+import org.imsglobal.caliper.entities.media.MediaLocation;
+import org.imsglobal.caliper.events.CaliperEvent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.AssignableActions;
-import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
-import org.imsglobal.caliper.events.CaliperEvent;
 
 import java.util.ResourceBundle;
 
-public class AssignableEvent extends CaliperEvent {
+public class MediaEvent extends CaliperEvent {
 
     @JsonProperty("@context")
     private final String context;
@@ -18,20 +20,25 @@ public class AssignableEvent extends CaliperEvent {
     @JsonProperty("action")
     private final String action;
 
-    /**
-     * Assignable activity context
-     */
+    @JsonProperty("object")
     private Object object;
 
     /**
-     * @param builder apply builder object properties to the AssignableEvent object.
+     * Describes the location within the media that is relevant to this event
      */
-    protected AssignableEvent(Builder<?> builder) {
+    @JsonProperty("mediaLocation")
+    private MediaLocation mediaLocation;
+
+    /**
+     * @param builder apply builder object properties to the MediaEvent object.
+     */
+    protected MediaEvent(Builder<?> builder) {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
         this.object = builder.object;
+        this.mediaLocation = builder.mediaLocation;
     }
 
     /**
@@ -59,12 +66,18 @@ public class AssignableEvent extends CaliperEvent {
     }
 
     /**
-     * TODO original version did not include an accessor for the object.  Retain or drop?
      * @return object
      */
     @Override
     public Object getObject() {
         return object;
+    }
+
+    /**
+     * @return the mediaLocation
+     */
+    public MediaLocation getMediaLocation() {
+        return mediaLocation;
     }
 
     /**
@@ -76,13 +89,14 @@ public class AssignableEvent extends CaliperEvent {
         private String type;
         private String action;
         private Object object;
+        private MediaLocation mediaLocation;
 
         /**
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(CaliperEvent.Context.ASSIGNABLE.uri());
-            type(CaliperEvent.Type.ASSIGNABLE.uri());
+            context(CaliperEvent.Context.MEDIA.uri());
+            type(CaliperEvent.Type.MEDIA.uri());
         }
 
         /**
@@ -109,7 +123,7 @@ public class AssignableEvent extends CaliperEvent {
          */
         @Override
         public T action(String key) {
-            if (AssignableActions.hasKey(key)) {
+            if (MediaActions.hasKey(key)) {
                 this.action = ResourceBundle.getBundle("actions").getString(key);
                 return self();
             } else {
@@ -130,22 +144,31 @@ public class AssignableEvent extends CaliperEvent {
          */
         @Override
         public T object(Object object) {
-            if (object instanceof CaliperAssignableDigitalResource) {
+            if (object instanceof CaliperMediaObject) {
                 this.object = object;
                 return self();
             } else {
-                throw new ClassCastException("Object cannot be cast as a Caliper assignable digital resource");
+                throw new ClassCastException("Object cannot be cast as a Caliper media object");
                 // TODO add logging
                 // TODO do something clever with exception
             }
         }
 
         /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of AssignableEvent.
+         * @param mediaLocation
+         * @return builder
          */
-        public AssignableEvent build() {
-            return new AssignableEvent(this);
+        public T mediaLocation(MediaLocation mediaLocation) {
+            this.mediaLocation = mediaLocation;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of MediaEvent.
+         */
+        public MediaEvent build() {
+            return new MediaEvent(this);
         }
     }
 

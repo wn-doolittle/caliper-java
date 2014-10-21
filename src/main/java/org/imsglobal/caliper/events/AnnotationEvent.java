@@ -1,12 +1,12 @@
-package org.imsglobal.caliper.events.reading;
+package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.ReadingActions;
+import org.imsglobal.caliper.actions.AnnotationActions;
 import org.imsglobal.caliper.events.CaliperEvent;
 
 import java.util.ResourceBundle;
 
-public class ViewedEvent extends CaliperEvent {
+public class AnnotationEvent extends CaliperEvent {
 
     @JsonProperty("@context")
     private final String context;
@@ -18,9 +18,9 @@ public class ViewedEvent extends CaliperEvent {
     private final String action;
 
     /**
-     * @param builder apply builder object properties to the ViewedEvent object.
+     * @param builder apply builder object properties to the AnnotationEvent object.
      */
-    protected ViewedEvent (Builder<?> builder) {
+    protected AnnotationEvent(Builder<?> builder) {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
@@ -61,12 +61,11 @@ public class ViewedEvent extends CaliperEvent {
         private String action;
 
         /**
-         * Initialize type with default valueS.  Required if .builder() properties are not set by user.
+         * Initialize with default values.
          */
         public Builder() {
-            context(CaliperEvent.Context.VIEWED.uri());
-            type(CaliperEvent.Type.VIEWED.uri());
-            action(ReadingActions.VIEWED.key());
+            context(CaliperEvent.Context.ANNOTATION.uri());
+            type(CaliperEvent.Type.ANNOTATION.uri());
         }
 
         /**
@@ -93,7 +92,7 @@ public class ViewedEvent extends CaliperEvent {
          */
         @Override
         public T action(String key) {
-            if (ReadingActions.hasKey(key)) {
+            if (AnnotationActions.hasKey(key)) {
                 this.action = ResourceBundle.getBundle("actions").getString(key);
                 return self();
             } else {
@@ -103,10 +102,10 @@ public class ViewedEvent extends CaliperEvent {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of ViewedEvent.
+         * @return a new instance of AnnotationEvent.
          */
-        public ViewedEvent build() {
-            return new ViewedEvent (this);
+        public AnnotationEvent build() {
+            return new AnnotationEvent(this);
         }
     }
 

@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
-@JsonPropertyOrder({ "@id", "@type", "lastModifiedTime" })
+@JsonPropertyOrder({ "@id", "@type", "name", "lastModifiedTime" })
 public class CaliperEntity {
 
     public enum Type {
@@ -18,6 +18,7 @@ public class CaliperEntity {
         CALIPER_AGENT("http://purl.imsglobal.org/caliper/v1/CaliperAgent"),
         CALIPER_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/CaliperDigitalResource"),
         CALIPER_ENTITY("http://purl.imsglobal.org/caliper/v1/CaliperEntity"),
+        FRAME("http://purl.imsglobal.org/caliper/v1/Frame"),
         LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
         MEDIA_LOCATION("http://purl.imsglobal.org/caliper/v1/MediaLocation"),
         RESULT("http://purl.imsglobal.org/caliper/v1/Result");
@@ -47,6 +48,9 @@ public class CaliperEntity {
     @JsonProperty("@type")
     private final String type;
 
+    @JsonProperty("name")
+    private final String name;
+
     @JsonProperty("lastModifiedTime")
     private long lastModifiedAt;
 
@@ -60,6 +64,7 @@ public class CaliperEntity {
     protected CaliperEntity(Builder<?> builder) {
         this.id = builder.id;
         this.type = builder.type;
+        this.name = builder.name;
         this.lastModifiedAt = builder.lastModifiedAt;
         this.properties = builder.properties;
     }
@@ -76,6 +81,13 @@ public class CaliperEntity {
      */
     public String getType() {
         return type;
+    }
+
+    /**
+     * @return human readable identifier
+     */
+    public String getName() {
+        return name;
     }
 
     /**
@@ -99,6 +111,7 @@ public class CaliperEntity {
     public static abstract class Builder<T extends Builder<T>> {
         private String id;
         private String type;
+        private String name;
         private long lastModifiedAt;
         private Map<String, Object> properties = Maps.newHashMap();
 
@@ -126,6 +139,15 @@ public class CaliperEntity {
          */
         private T type(String type) {
             this.type = type;
+            return self();
+        }
+
+        /**
+         * @param name
+         * @return builder.
+         */
+        public T name(String name) {
+            this.name = name;
             return self();
         }
 
