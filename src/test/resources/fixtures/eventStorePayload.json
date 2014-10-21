@@ -5,8 +5,6 @@
     "data": {
         "@context": "http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent",
         "@type": "http://purl.imsglobal.org/caliper/v1/NavigationEvent",
-        "edApp": null,
-        "group": null,
         "actor": {
             "@id": "uri:/someEdu/user/42",
             "@type": "http://purl.imsglobal.org/caliper/v1/LISPerson",
@@ -37,6 +35,8 @@
         "startedAtTime": 1402965614516,
         "endedAtTime": 0,
         "duration": null,
+        "edApp": null,
+        "group": null,
         "navigatedFrom": {
             "@id": "AmRev-101-landingPage",
             "@type": "http://purl.imsglobal.org/caliper/v1/CaliperDigitalResource",

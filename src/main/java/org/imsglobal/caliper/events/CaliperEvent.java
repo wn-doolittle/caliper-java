@@ -12,8 +12,6 @@ import org.imsglobal.caliper.entities.lis.LISOrganization;
 @JsonPropertyOrder({
         "@context",
         "@type",
-        "edApp",
-        "group",
         "actor",
         "action",
         "object",
@@ -21,7 +19,9 @@ import org.imsglobal.caliper.entities.lis.LISOrganization;
         "generated",
         "startedAtTime",
         "endedAtTime",
-        "duration"})
+        "duration",
+        "edApp",
+        "group" })
 public class CaliperEvent {
 
     public enum Context {
