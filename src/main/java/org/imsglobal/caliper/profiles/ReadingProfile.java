@@ -1,11 +1,10 @@
 package org.imsglobal.caliper.profiles;
 
-import com.google.common.collect.Lists;
-import java.util.List;
+import org.imsglobal.caliper.entities.CaliperDigitalResource;
 
 public class ReadingProfile extends BaseProfile {
 
-    private List<Object> frames = Lists.newArrayList();
+    private CaliperDigitalResource reading;
 
     /**
      * Constructor
@@ -13,15 +12,14 @@ public class ReadingProfile extends BaseProfile {
      */
     protected ReadingProfile(Builder<?> builder) {
         super(builder);
-        this.frames = builder.frames;
+        this.reading = builder.reading;
     }
 
     /**
-     * A frame registers the location or range within a piece of content (a page, a section, or epub cfi).
-     * @return List of frames
+     * @return reading
      */
-    public List<Object> getFrames() {
-        return frames;
+    public CaliperDigitalResource getReading () {
+        return reading;
     }
 
     /**
@@ -30,23 +28,14 @@ public class ReadingProfile extends BaseProfile {
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
 
-        private List<Object> frames = Lists.newArrayList();
+        private CaliperDigitalResource reading;
 
         /**
-         * @param frames
-         * @return builder.
-         */
-        public T frames(List<Object> frames) {
-            this.frames = frames;
-            return self();
-        }
-
-        /**
-         * @param frame
+         * @param reading
          * @return builder
          */
-        public T frame(Object frame) {
-            this.frames.add(frame);
+        public T reading(CaliperDigitalResource reading) {
+            this.reading = reading;
             return self();
         }
 
