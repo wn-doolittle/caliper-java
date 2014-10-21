@@ -3,7 +3,6 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.AssignableActions;
 import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
-import org.imsglobal.caliper.events.CaliperEvent;
 
 import java.util.ResourceBundle;
 
@@ -21,6 +20,7 @@ public class AssignableEvent extends CaliperEvent {
     /**
      * Assignable activity context
      */
+    @JsonProperty("object")
     private Object object;
 
     /**
