@@ -27,13 +27,13 @@ import java.util.List;
 @JsonPropertyOrder({
         "@id",
         "@type",
-        "lastModifiedTime",
-        "properties",
         "name",
+        "objectType",
+        "properties",
         "alignedLearningObjective",
         "keyword",
-        "objectType",
-        "partOf" })
+        "partOf",
+        "lastModifiedTime" })
 public class CaliperDigitalResource extends CaliperEntity implements CreativeWork {
 
     public enum Type {
@@ -66,12 +66,6 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("name")
-    private String name;
-
-    @JsonProperty("partOf")
-    private Object partOf;
-
     @JsonProperty("objectType")
     private Object objectType;
 
@@ -81,17 +75,19 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
     @JsonProperty("keyword")
     private List<String> keyword = Lists.newArrayList();
 
+    @JsonProperty("partOf")
+    private Object partOf;
+
     /**
      * @param builder apply builder object properties to the profile object.
      */
     protected CaliperDigitalResource(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.name = builder.name;
-        this.partOf = builder.partOf;
         this.objectType = builder.objectType;
         this.alignedLearningObjective = builder.alignedLearningObjective;
         this.keyword = builder.keyword;
+        this.partOf = builder.partOf;
     }
 
     /**
@@ -103,17 +99,10 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
     }
 
     /**
-     * @return the name
+     * @return the objectType
      */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @return the parent reference.
-     */
-    public Object getPartOf() {
-        return partOf;
+    public Object getObjectType() {
+        return objectType;
     }
 
     /**
@@ -131,10 +120,10 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
     }
 
     /**
-     * @return the objectType
+     * @return the parent reference.
      */
-    public Object getObjectType() {
-        return objectType;
+    public Object getPartOf() {
+        return partOf;
     }
 
     /**
@@ -143,11 +132,10 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
         private String type;
-        private String name;
-        private Object partOf;
+        private Object objectType;
         private List<LearningObjective> alignedLearningObjective = Lists.newArrayList();
         private List<String> keyword = Lists.newArrayList();
-        private Object objectType;
+        private Object partOf;
 
         /*
          * Initialize type with default value.
@@ -166,20 +154,11 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
         }
 
         /**
-         * @param name
+         * @param objectType
          * @return builder.
          */
-        public T name(String name) {
-            this.name = name;
-            return self();
-        }
-
-        /**
-         * @param partOf
-         * @return builder.
-         */
-        public T partOf(Object partOf) {
-            this.partOf = partOf;
+        public T objectType(Object objectType) {
+            this.objectType = objectType;
             return self();
         }
 
@@ -211,11 +190,11 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
         }
 
         /**
-         * @param objectType
+         * @param partOf
          * @return builder.
          */
-        public T objectType(Object objectType) {
-            this.objectType = objectType;
+        public T partOf(Object partOf) {
+            this.partOf = partOf;
             return self();
         }
 
