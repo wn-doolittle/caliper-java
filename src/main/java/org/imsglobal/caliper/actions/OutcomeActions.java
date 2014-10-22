@@ -8,8 +8,7 @@ public enum OutcomeActions {
     // POSTED("outcome.posted");
     // REPORTED("outcome.reported");
 
-    NAVIGATED_TO("navigation.navigatedTo"),
-    VIEWED("navigation.viewed");
+    NAVIGATED_TO("navigation.navigatedTo");
 
     private final String key;
     private static final Map<String, OutcomeActions> lookup = new HashMap<String, OutcomeActions>();

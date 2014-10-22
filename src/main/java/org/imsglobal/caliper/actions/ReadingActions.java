@@ -5,9 +5,9 @@ import java.util.Map;
 
 public enum ReadingActions {
     SEARCHED("reading.searched"),
+    VIEWED("reading.viewed"),
 
-    NAVIGATED_TO("navigation.navigatedTo"),
-    VIEWED("navigation.viewed");
+    NAVIGATED_TO("navigation.navigatedTo");
 
     private final String key;
     private static final Map<String, ReadingActions> lookup = new HashMap<String, ReadingActions>();
