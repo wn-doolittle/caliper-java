@@ -14,13 +14,30 @@ public class Attempt extends CaliperEntity {
     private final String type;
 
     @JsonProperty("assignable")
-    private Assignable assignable;
+    private final Assignable assignable;
 
     @JsonProperty("actor")
-    private CaliperAgent actor;
+    private final CaliperAgent actor;
 
     @JsonProperty("count")
     private int count;
+
+    @JsonProperty("startedAtTime")
+    private long startedAtTime;
+
+    @JsonProperty("endedAtTime")
+    private long endedAtTime;
+
+    /**
+     * An xsd:duration (http://books.xmlschemata.org/relaxng/ch19-77073.html)
+     * The format is expected to be PnYnMnDTnHnMnS
+     * Valid values include PT1004199059S, PT130S, PT2M10S, P1DT2S, -P1Y, or P1Y2M3DT5H20M30.123S.
+     * The following values are invalid: 1Y (leading P is missing), P1S (T separator is missing),
+     * P-1Y (all parts must be positive), P1M2Y (parts order is significant and Y must precede M),
+     * or P1Y-1M (all parts must be positive).
+     */
+    @JsonProperty("duration")
+    private String duration;
 
     /**
      * @param builder apply builder object properties to the Attempt object.
@@ -31,6 +48,9 @@ public class Attempt extends CaliperEntity {
         this.assignable = builder.assignable;
         this.actor = builder.actor;
         this.count = builder.count;
+        this.startedAtTime = builder.startedAtTime;
+        this.endedAtTime = builder.endedAtTime;
+        this.duration = builder.duration;
     }
 
     /**
@@ -63,6 +83,41 @@ public class Attempt extends CaliperEntity {
     }
 
     /**
+     * @return started at time
+     */
+    public long getStartedAtTime() {
+        return startedAtTime;
+    }
+
+    /**
+     * @return ended at time
+     */
+    public long getEndedAtTime() {
+        return endedAtTime;
+    }
+
+    /**
+     * @param endedAtTime
+     */
+    public void updateEndedAtTime(long endedAtTime) {
+        this.endedAtTime = endedAtTime;
+    }
+
+    /**
+     * @return duration of event
+     */
+    public String getDuration() {
+        return duration;
+    }
+
+    /**
+     * @param duration
+     */
+    public void updateDuration(String duration) {
+        this.duration = duration;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
@@ -71,6 +126,9 @@ public class Attempt extends CaliperEntity {
         private Assignable assignable;
         private CaliperAgent actor;
         private int count;
+        private long startedAtTime;
+        private long endedAtTime;
+        private String duration;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
@@ -112,6 +170,33 @@ public class Attempt extends CaliperEntity {
          */
         public T count(int count) {
             this.count = count;
+            return self();
+        }
+
+        /**
+         * @param startedAtTime
+         * @return
+         */
+        public T startedAtTime(long startedAtTime) {
+            this.startedAtTime = startedAtTime;
+            return self();
+        }
+
+        /**
+         * @param endedAtTime
+         * @return builder
+         */
+        public T endedAtTime(long endedAtTime) {
+            this.endedAtTime = endedAtTime;
+            return self();
+        }
+
+        /**
+         * @param duration
+         * @return
+         */
+        public T duration(String duration) {
+            this.duration = duration;
             return self();
         }
 
