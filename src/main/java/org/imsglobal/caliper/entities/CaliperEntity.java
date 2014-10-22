@@ -18,10 +18,10 @@ public class CaliperEntity {
         CALIPER_AGENT("http://purl.imsglobal.org/caliper/v1/CaliperAgent"),
         CALIPER_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/CaliperDigitalResource"),
         CALIPER_ENTITY("http://purl.imsglobal.org/caliper/v1/CaliperEntity"),
-        FRAME("http://purl.imsglobal.org/caliper/v1/Frame"),
         LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
         MEDIA_LOCATION("http://purl.imsglobal.org/caliper/v1/MediaLocation"),
-        RESULT("http://purl.imsglobal.org/caliper/v1/Result");
+        RESULT("http://purl.imsglobal.org/caliper/v1/Result"),
+        VIEW("http://purl.imsglobal.org/caliper/v1/View");
 
         private final String uri;
 
