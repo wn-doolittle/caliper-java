@@ -1,26 +1,23 @@
-package org.imsglobal.caliper.entities.assignable;
+package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.CaliperAgent;
 import org.imsglobal.caliper.entities.CaliperEntity;
 
 /**
- * Representation of an Attempt. Attempts are generated as part of or
- * are the object of an interaction represented by an AssignableEvent
+ * Representation of a View. Views are generated as part of or
+ * are the object of an interaction with a Reading.
  */
-public class Attempt extends CaliperEntity {
+public class View extends CaliperEntity {
 
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("assignable")
-    private final Assignable assignable;
+    @JsonProperty("frame")
+    private final Frame frame;
 
     @JsonProperty("actor")
     private final CaliperAgent actor;
-
-    @JsonProperty("count")
-    private int count;
 
     @JsonProperty("startedAtTime")
     private long startedAtTime;
@@ -40,14 +37,13 @@ public class Attempt extends CaliperEntity {
     private String duration;
 
     /**
-     * @param builder apply builder object properties to the Attempt object.
+     * @param builder apply builder object properties to the View object.
      */
-    protected Attempt(Builder<?> builder) {
+    protected View(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.assignable = builder.assignable;
+        this.frame = builder.frame;
         this.actor = builder.actor;
-        this.count = builder.count;
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
         this.duration = builder.duration;
@@ -62,10 +58,10 @@ public class Attempt extends CaliperEntity {
     }
 
     /**
-     * @return the assignable
+     * @return the frame
      */
-    public Assignable getAssignable() {
-        return assignable;
+    public Frame getFrame() {
+        return frame;
     }
 
     /**
@@ -73,13 +69,6 @@ public class Attempt extends CaliperEntity {
      */
     public CaliperAgent getActor() {
         return actor;
-    }
-
-    /**
-     * @return the count
-     */
-    public int getCount() {
-        return count;
     }
 
     /**
@@ -123,9 +112,8 @@ public class Attempt extends CaliperEntity {
      */
     public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
         private String type;
-        private Assignable assignable;
+        private Frame frame;
         private CaliperAgent actor;
-        private int count;
         private long startedAtTime;
         private long endedAtTime;
         private String duration;
@@ -134,7 +122,7 @@ public class Attempt extends CaliperEntity {
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(CaliperEntity.Type.ATTEMPT.uri());
+            type(CaliperEntity.Type.VIEW.uri());
         }
 
         /**
@@ -147,11 +135,11 @@ public class Attempt extends CaliperEntity {
         }
 
         /**
-         * @param assignable
+         * @param frame
          * @return builder
          */
-        public T assignable(Assignable assignable) {
-            this.assignable = assignable;
+        public T frame(Frame frame) {
+            this.frame = frame;
             return self();
         }
 
@@ -161,15 +149,6 @@ public class Attempt extends CaliperEntity {
          */
         public T actor(CaliperAgent actor) {
             this.actor = actor;
-            return self();
-        }
-
-        /**
-         * @param count
-         * @return builder
-         */
-        public T count(int count) {
-            this.count = count;
             return self();
         }
 
@@ -204,8 +183,8 @@ public class Attempt extends CaliperEntity {
          * Client invokes build method in order to create an immutable object.
          * @return a new instance of Attempt.
          */
-        public Attempt build() {
-            return new Attempt(this);
+        public View build() {
+            return new View(this);
         }
     }
 

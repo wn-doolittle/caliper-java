@@ -92,7 +92,7 @@ public class ViewedEvent extends CaliperEvent {
          */
         @Override
         public T action(String key) {
-            if (key.equals("navigation.viewed")) {
+            if (key.equals(ReadingActions.VIEWED.key())) {
                 this.action = ResourceBundle.getBundle("actions").getString(key);
                 return self();
             } else {

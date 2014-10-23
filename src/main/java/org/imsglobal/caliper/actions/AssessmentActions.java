@@ -9,8 +9,7 @@ public enum AssessmentActions {
     RESTARTED("assessment.restarted"),
     SUBMITTED("assessment.submitted"),
 
-    NAVIGATED_TO("navigation.navigatedTo"),
-    VIEWED("navigation.viewed");
+    NAVIGATED_TO("navigation.navigatedTo");
 
     private final String key;
     private static final Map<String, AssessmentActions> lookup = new HashMap<String, AssessmentActions>();
