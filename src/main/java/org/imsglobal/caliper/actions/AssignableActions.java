@@ -13,7 +13,6 @@ public enum AssignableActions {
     SHOWED("assignable.showed"),
     STARTED("assignable.started"),
     SUBMITTED("assignable.submitted"),
-    VIEWED("assignable.viewed"),
 
     NAVIGATED_TO("navigation.navigatedTo");
 
