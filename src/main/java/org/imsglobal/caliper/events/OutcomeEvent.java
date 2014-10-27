@@ -7,7 +7,7 @@ import org.imsglobal.caliper.entities.outcome.Result;
 
 import java.util.ResourceBundle;
 
-public class OutcomeEvent extends CaliperEvent {
+public class OutcomeEvent extends Event {
 
     @JsonProperty("@context")
     private final String context;
@@ -86,7 +86,7 @@ public class OutcomeEvent extends CaliperEvent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private String context;
         private String type;
         private String action;
@@ -97,8 +97,8 @@ public class OutcomeEvent extends CaliperEvent {
          * Initialize type with default values.
          */
         public Builder() {
-            context(CaliperEvent.Context.OUTCOME.uri());
-            type(CaliperEvent.Type.OUTCOME.uri());
+            context(Event.Context.OUTCOME.uri());
+            type(Event.Type.OUTCOME.uri());
         }
 
         /**
@@ -137,7 +137,7 @@ public class OutcomeEvent extends CaliperEvent {
 
         /*
          * (non-Javadoc)
-         * @see org.imsglobal.caliper.events.CaliperEvent#setObject(java.lang.Object)
+         * @see org.imsglobal.caliper.events.Event#setObject(java.lang.Object)
          */
 
         /**
@@ -158,7 +158,7 @@ public class OutcomeEvent extends CaliperEvent {
 
         /*
          * (non-Javadoc)
-         * @see org.imsglobal.caliper.events.CaliperEvent#setGenerated(java.lang.Object)
+         * @see org.imsglobal.caliper.events.Event#setGenerated(java.lang.Object)
          */
 
         /**

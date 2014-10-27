@@ -1,45 +1,51 @@
 package org.imsglobal.caliper.stats;
 
-import java.util.concurrent.ConcurrentHashMap;
 
-public class Statistics extends ConcurrentHashMap<String, Statistic> {
+public class Statistics extends StatisticsMap {
 
-	private static final long serialVersionUID = -8837006750327885446L;
-	
-	public Statistic ensure(String key) {
-		if (this.containsKey(key)) return this.get(key);
+	private static final long serialVersionUID = 5469315718941515883L;
 
-		Statistic statistic = new Statistic();
-		this.put(key, statistic);
-		return statistic;
+	private static String MEASURE_KEY = "Measure";
+	private static String DESCRIBE_KEY = "Describe";
+
+	private static String SUCCESSFUL_KEY = "Successful";
+	private static String FAILED_KEY = "Failed";
+
+/**
+	 * Returns the statistic representing how many 
+	 * {@link Caliper#describe
+	 * calls happened
+	 * @return
+	 */
+	public Statistic getDescribes() {
+		return ensure(DESCRIBE_KEY);
 	}
-	
-	public void update(String operation, double val) {
-		if (!this.containsKey(operation)) {
-			this.putIfAbsent(operation, new Statistic());
-		}
-		
-		this.get(operation).update(val);
+
+	public void updateDescribes(double val) {
+		update(MEASURE_KEY, val);
 	}
-	
-	@Override
-	public String toString() {
-		
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append("\n-------- Caliper Java Statistics --------\n");
-		
-		for (Entry<String, Statistic> entry : entrySet()) {
-			
-			String operation = entry.getKey();
-			Statistic statistic = entry.getValue();
-			
-			builder.append(String.format("%s : %s\n", operation, statistic.toString()));
-		}
-		
-		builder.append("----------------------------------------\n");
-		
-		return builder.toString();
+
+	public Statistic getMeasures() {
+		return ensure(MEASURE_KEY);
 	}
-	
+
+	public void updateMeasures(double val) {
+		update(MEASURE_KEY, val);
+	}
+
+	public Statistic getSuccessful() {
+		return ensure(SUCCESSFUL_KEY);
+	}
+
+	public void updateSuccessful(double val) {
+		update(SUCCESSFUL_KEY, val);
+	}
+
+	public Statistic getFailed() {
+		return ensure(FAILED_KEY);
+	}
+
+	public void updateFailed(double val) {
+		update(FAILED_KEY, val);
+	}
 }

@@ -1,17 +1,17 @@
 package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
+import org.imsglobal.caliper.entities.DigitalResource;
 
 /**
  * An image, video, or audio object embedded in a web page.
  */
-public abstract class CaliperMediaObject extends CaliperDigitalResource {
+public abstract class MediaObject extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.MediaObject {
 
     public enum Type {
-        CALIPER_AUDIO_OBJECT("http://purl.imsglobal.org/caliper/v1/CaliperAudioObject"),
-        CALIPER_IMAGE_OBJECT("http://purl.imsglobal.org/caliper/v1/CaliperImageObject"),
-        CALIPER_VIDEO_OBJECT("http://purl.imsglobal.org/caliper/v1/CaliperVideoObject");
+        AUDIO_OBJECT("http://purl.imsglobal.org/caliper/v1/AudioObject"),
+        IMAGE_OBJECT("http://purl.imsglobal.org/caliper/v1/ImageObject"),
+        VIDEO_OBJECT("http://purl.imsglobal.org/caliper/v1/VideoObject");
 
         private final String uri;
 
@@ -38,9 +38,9 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
     private long duration;
 
     /**
-     * @param builder apply builder object properties to the CaliperMediaObject object.
+     * @param builder apply builder object properties to the MediaObject object.
      */
-    protected CaliperMediaObject(Builder<?> builder) {
+    protected MediaObject(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.duration = builder.duration;
@@ -63,10 +63,10 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
 
     /**
      * Initialize default parameter values in the builder (not in the outer profile class).  Given the abstract nature
-     * of BaseProfile, the builder's .build() method is omitted.
+     * of Profile, the builder's .build() method is omitted.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
         private String type;
         private long duration;
 
@@ -76,7 +76,7 @@ public abstract class CaliperMediaObject extends CaliperDigitalResource {
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(CaliperDigitalResource.Type.CALIPER_MEDIA_OBJECT.uri());
+            type(DigitalResource.Type.MEDIA_OBJECT.uri());
         }
 
         /**

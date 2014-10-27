@@ -2,13 +2,13 @@ package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class LISCourseSection extends LISOrganization {
+public class LisCourseSection extends LisOrganization {
 
     @JsonProperty("@type")
     private final String type;
 
     @JsonProperty("semester")
-    private String semester; // TODO - check against LIS LISOrganization
+    private String semester; // TODO - check against LIS LisOrganization
 
     @JsonProperty("courseNumber")
     private String courseNumber;
@@ -17,9 +17,9 @@ public class LISCourseSection extends LISOrganization {
     private String label;
 
     /**
-     * @param builder apply builder object properties to the LISCourseSection object.
+     * @param builder apply builder object properties to the LisCourseSection object.
      */
-    protected LISCourseSection(Builder<?> builder) {
+    protected LisCourseSection(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.semester = builder.semester;
@@ -60,17 +60,17 @@ public class LISCourseSection extends LISOrganization {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends LISOrganization.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends LisOrganization.Builder<T>  {
         private String type;
         private String label;
         private String courseNumber;
-        private String semester; // TODO - check against LIS LISOrganization
+        private String semester; // TODO - check against LIS LisOrganization
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(LISOrganization.Type.LIS_COURSE_SECTION.uri());
+            type(LisOrganization.Type.LIS_COURSE_SECTION.uri());
         }
 
         /**
@@ -111,10 +111,10 @@ public class LISCourseSection extends LISOrganization {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the LISCourseSection.
+         * @return a new instance of the LisCourseSection.
          */
-        public LISCourseSection build() {
-            return new LISCourseSection(this);
+        public LisCourseSection build() {
+            return new LisCourseSection(this);
         }
     }
 

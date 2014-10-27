@@ -2,7 +2,7 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ActivityContext extends CaliperEntity {
+public class ActivityContext extends Entity {
 
     @JsonProperty("@type")
     private final String type;
@@ -27,14 +27,14 @@ public class ActivityContext extends CaliperEntity {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperEntity.Type.ACTIVITY_CONTEXT.uri());
+            type(Entity.Type.ACTIVITY_CONTEXT.uri());
         }
 
         /**

@@ -1,15 +1,14 @@
 package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.actions.MediaActions;
-import org.imsglobal.caliper.entities.media.CaliperMediaObject;
+import org.imsglobal.caliper.entities.media.MediaObject;
 import org.imsglobal.caliper.entities.media.MediaLocation;
-import org.imsglobal.caliper.events.CaliperEvent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ResourceBundle;
 
-public class MediaEvent extends CaliperEvent {
+public class MediaEvent extends Event {
 
     @JsonProperty("@context")
     private final String context;
@@ -84,7 +83,7 @@ public class MediaEvent extends CaliperEvent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private String context;
         private String type;
         private String action;
@@ -95,8 +94,8 @@ public class MediaEvent extends CaliperEvent {
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(CaliperEvent.Context.MEDIA.uri());
-            type(CaliperEvent.Type.MEDIA.uri());
+            context(Event.Context.MEDIA.uri());
+            type(Event.Type.MEDIA.uri());
         }
 
         /**
@@ -135,7 +134,7 @@ public class MediaEvent extends CaliperEvent {
 
         /*
         * (non-Javadoc)
-        * @see org.imsglobal.caliper.events.CaliperEvent#setObject(java.lang.Object)
+        * @see org.imsglobal.caliper.events.Event#setObject(java.lang.Object)
         */
 
         /**
@@ -144,7 +143,7 @@ public class MediaEvent extends CaliperEvent {
          */
         @Override
         public T object(Object object) {
-            if (object instanceof CaliperMediaObject) {
+            if (object instanceof MediaObject) {
                 this.object = object;
                 return self();
             } else {

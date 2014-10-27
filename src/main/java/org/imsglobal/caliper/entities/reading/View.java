@@ -1,14 +1,14 @@
 package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperAgent;
-import org.imsglobal.caliper.entities.CaliperEntity;
+import org.imsglobal.caliper.entities.Agent;
+import org.imsglobal.caliper.entities.Entity;
 
 /**
  * Representation of a View. Views are generated as part of or
  * are the object of an interaction with a Reading.
  */
-public class View extends CaliperEntity {
+public class View extends Entity {
 
     @JsonProperty("@type")
     private final String type;
@@ -17,7 +17,7 @@ public class View extends CaliperEntity {
     private final Frame frame;
 
     @JsonProperty("actor")
-    private final CaliperAgent actor;
+    private final Agent actor;
 
     @JsonProperty("startedAtTime")
     private long startedAtTime;
@@ -67,7 +67,7 @@ public class View extends CaliperEntity {
     /**
      * @return the actor
      */
-    public CaliperAgent getActor() {
+    public Agent getActor() {
         return actor;
     }
 
@@ -110,10 +110,10 @@ public class View extends CaliperEntity {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
         private Frame frame;
-        private CaliperAgent actor;
+        private Agent actor;
         private long startedAtTime;
         private long endedAtTime;
         private String duration;
@@ -122,7 +122,7 @@ public class View extends CaliperEntity {
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(CaliperEntity.Type.VIEW.uri());
+            type(Entity.Type.VIEW.uri());
         }
 
         /**
@@ -147,7 +147,7 @@ public class View extends CaliperEntity {
          * @param actor
          * @return builder
          */
-        public T actor(CaliperAgent actor) {
+        public T actor(Agent actor) {
             this.actor = actor;
             return self();
         }

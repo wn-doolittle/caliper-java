@@ -1,20 +1,19 @@
 package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.schemadotorg.VideoObject;
 
 /**
- * A Video object embedded in a web page.
+ * An image object embedded in a web page.
  */
-public class CaliperVideoObject extends CaliperMediaObject implements VideoObject {
+public class ImageObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.ImageObject {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the CaliperVideoObject object.
+     * @param builder apply builder object properties to the ImageObject object.
      */
-    protected CaliperVideoObject(Builder<?> builder) {
+    protected ImageObject(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -31,14 +30,14 @@ public class CaliperVideoObject extends CaliperMediaObject implements VideoObjec
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperMediaObject.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
         private String type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(CaliperMediaObject.Type.CALIPER_VIDEO_OBJECT.uri());
+            type(MediaObject.Type.IMAGE_OBJECT.uri());
         }
 
         /**
@@ -52,10 +51,10 @@ public class CaliperVideoObject extends CaliperMediaObject implements VideoObjec
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of CaliperVideoObject.
+         * @return a new instance of ImageObject.
          */
-        public CaliperVideoObject build() {
-            return new CaliperVideoObject(this);
+        public ImageObject build() {
+            return new ImageObject(this);
         }
     }
 

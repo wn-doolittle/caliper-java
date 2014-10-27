@@ -1,14 +1,14 @@
 package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
+import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 import org.imsglobal.caliper.entities.outcome.Outcome;
 
 import java.util.List;
 
-public class OutcomeProfile extends BaseProfile {
+public class OutcomeProfile extends Profile {
 
-    private CaliperAssignableDigitalResource assignable;
+    private AssignableDigitalResource assignable;
     private List<Outcome> outcomes = Lists.newArrayList();
 
     /**
@@ -23,7 +23,7 @@ public class OutcomeProfile extends BaseProfile {
     /**
      * @return assignable digital resource.
      */
-    public CaliperAssignableDigitalResource getAssignable() {
+    public AssignableDigitalResource getAssignable() {
         return assignable;
     }
 
@@ -38,15 +38,15 @@ public class OutcomeProfile extends BaseProfile {
      * Initialize default parameter values in the builder (not in the outer profile class).
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
-        private CaliperAssignableDigitalResource assignable;
+    public static abstract class Builder<T extends Builder<T>> extends Profile.Builder<T>  {
+        private AssignableDigitalResource assignable;
         private List<Outcome> outcomes = Lists.newArrayList();
 
         /**
          * @param assignable
          * @return builder.
          */
-        public T assignable(CaliperAssignableDigitalResource assignable) {
+        public T assignable(AssignableDigitalResource assignable) {
             this.assignable = assignable;
             return self();
         }

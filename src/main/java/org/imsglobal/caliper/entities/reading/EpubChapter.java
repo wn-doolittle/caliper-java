@@ -1,40 +1,24 @@
-package org.imsglobal.caliper.entities;
+package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 
-public class CaliperAgent extends CaliperEntity implements Agent {
-
-    public enum Type {
-        LIS_PERSON("http://purl.imsglobal.org/caliper/v1/LISPerson"),
-        LIS_ORGANIZATION("http://purl.imsglobal.org/caliper/v1/LISOrganization"),
-        SOFTWARE_APPLICATION("http://purl.imsglobal.org/caliper/v1/SoftwareApplication");
-
-        private final String uri;
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Type(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-    }
+/**
+ * Representation of an EPUB 3 Volume.
+ * 
+ * A major structural division of a piece of writing
+ * http://www.idpf.org/epub/vocab/structure/#chapter
+ */
+public class EpubChapter extends DigitalResource implements CreativeWork {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the SoftwareApplication object.
+     * @param builder apply builder object properties to the EpubChapter object.
      */
-    protected CaliperAgent(Builder<?> builder) {
+    protected EpubChapter(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -51,14 +35,14 @@ public class CaliperAgent extends CaliperEntity implements Agent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperEntity.Type.CALIPER_AGENT.uri());
+            type(DigitalResource.Type.EPUB_CHAPTER.uri());
         }
 
         /**
@@ -72,10 +56,10 @@ public class CaliperAgent extends CaliperEntity implements Agent {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the SoftwareApplication.
+         * @return a new instance of EpubChapter.
          */
-        public CaliperAgent build() {
-            return new CaliperAgent(this);
+        public EpubChapter build() {
+            return new EpubChapter(this);
         }
     }
 

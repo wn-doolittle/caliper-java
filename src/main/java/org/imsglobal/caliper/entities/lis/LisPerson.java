@@ -1,24 +1,17 @@
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
+import org.imsglobal.caliper.entities.Agent;
 
-/**
- * Representation of an EPUB 3 Volume.
- * 
- * A major structural division of a piece of writing
- * http://www.idpf.org/epub/vocab/structure/#chapter
- */
-public class EPubChapter extends CaliperDigitalResource implements CreativeWork {
+public class LisPerson extends Agent {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the EPubChapter object.
+     * @param builder apply builder object properties to the LisPerson object.
      */
-    protected EPubChapter(Builder<?> builder) {
+    protected LisPerson(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -35,14 +28,14 @@ public class EPubChapter extends CaliperDigitalResource implements CreativeWork 
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T>  {
         private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperDigitalResource.Type.EPUB_CHAPTER.uri());
+            type(Agent.Type.LIS_PERSON.uri());
         }
 
         /**
@@ -56,10 +49,10 @@ public class EPubChapter extends CaliperDigitalResource implements CreativeWork 
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of EPubPart.
+         * @return a new instance of the LisPerson.
          */
-        public EPubChapter build() {
-            return new EPubChapter(this);
+        public LisPerson build() {
+            return new LisPerson(this);
         }
     }
 

@@ -1,12 +1,12 @@
 package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperAgent;
+import org.imsglobal.caliper.entities.Agent;
 
-public class LISOrganization extends CaliperAgent {
+public class LisOrganization extends Agent {
 
     public enum Type {
-        LIS_COURSE_SECTION("http://purl.imsglobal.org/caliper/v1/LISCourseSection");
+        LIS_COURSE_SECTION("http://purl.imsglobal.org/caliper/v1/LisCourseSection");
 
         private final String uri;
 
@@ -33,12 +33,12 @@ public class LISOrganization extends CaliperAgent {
     private String title;
 
     @JsonProperty("parentOrg")
-    private LISOrganization parentOrg;
+    private LisOrganization parentOrg;
 
     /**
-     * @param builder apply builder object properties to the LISOrganization object.
+     * @param builder apply builder object properties to the LisOrganization object.
      */
-    protected LISOrganization(Builder<?> builder) {
+    protected LisOrganization(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.title = builder.title;
@@ -63,7 +63,7 @@ public class LISOrganization extends CaliperAgent {
     /**
      * @return parent organization.
      */
-    public LISOrganization getParentOrg() {
+    public LisOrganization getParentOrg() {
         return parentOrg;
     }
 
@@ -71,16 +71,16 @@ public class LISOrganization extends CaliperAgent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperAgent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T>  {
         private String type;
         private String title;
-        private LISOrganization parentOrg;
+        private LisOrganization parentOrg;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperAgent.Type.LIS_ORGANIZATION.uri());
+            type(Agent.Type.LIS_ORGANIZATION.uri());
         }
 
         /**
@@ -105,17 +105,17 @@ public class LISOrganization extends CaliperAgent {
          * @param parentOrg
          * @return builder.
          */
-        public T parentOrg(LISOrganization parentOrg) {
+        public T parentOrg(LisOrganization parentOrg) {
             this.parentOrg = parentOrg;
             return self();
         }
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the LISOrganization.
+         * @return a new instance of the LisOrganization.
          */
-        public LISOrganization build() {
-            return new LISOrganization(this);
+        public LisOrganization build() {
+            return new LisOrganization(this);
         }
     }
 

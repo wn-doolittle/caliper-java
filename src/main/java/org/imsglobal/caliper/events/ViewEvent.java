@@ -5,7 +5,7 @@ import org.imsglobal.caliper.actions.ReadingActions;
 
 import java.util.ResourceBundle;
 
-public class ViewedEvent extends CaliperEvent {
+public class ViewEvent extends Event {
 
     @JsonProperty("@context")
     private final String context;
@@ -17,9 +17,9 @@ public class ViewedEvent extends CaliperEvent {
     private final String action;
 
     /**
-     * @param builder apply builder object properties to the ViewedEvent object.
+     * @param builder apply builder object properties to the ViewEvent object.
      */
-    protected ViewedEvent (Builder<?> builder) {
+    protected ViewEvent(Builder<?> builder) {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
@@ -54,7 +54,7 @@ public class ViewedEvent extends CaliperEvent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private String context;
         private String type;
         private String action;
@@ -63,8 +63,8 @@ public class ViewedEvent extends CaliperEvent {
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(CaliperEvent.Context.VIEWED.uri());
-            type(CaliperEvent.Type.VIEWED.uri());
+            context(Event.Context.VIEWED.uri());
+            type(Event.Type.VIEWED.uri());
             action(ReadingActions.VIEWED.key());
         }
 
@@ -102,10 +102,10 @@ public class ViewedEvent extends CaliperEvent {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of ViewedEvent.
+         * @return a new instance of ViewEvent.
          */
-        public ViewedEvent build() {
-            return new ViewedEvent (this);
+        public ViewEvent build() {
+            return new ViewEvent(this);
         }
     }
 

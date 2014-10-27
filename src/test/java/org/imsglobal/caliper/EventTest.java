@@ -4,21 +4,21 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class BasicCaliperEventTest {
+public class EventTest {
 
     @Test
     public void test() {
 
-        CaliperSensor.initialize(TestUtils.getTestingOptions());
+        Sensor.initialize(TestUtils.getTestingOptions());
 
         // Fire event test - Send 50 events
         for (int i = 0 ; i < 50 ; i++) {
-            CaliperSensor.send(TestUtils.getTestNavigationEvent());
+            Sensor.send(TestUtils.getTestNavigationEvent());
         }
 
         // There should be two caliperEvents queued
-        assertEquals("Expect fifty caliperEvent to be sent", 50,
-            CaliperSensor.getStatistics().getMeasures().getCount());
+        assertEquals("Expect fifty Caliper events to be sent", 50,
+            Sensor.getStatistics().getMeasures().getCount());
 
         // TODO - Describes test - Send five describes
 
@@ -27,11 +27,11 @@ public class BasicCaliperEventTest {
         // .getStatistics().getDescribes().getCount());
 
         // There should be two message successfully sent
-        int successes = CaliperSensor.getStatistics().getSuccessful().getCount();
-        assertEquals("Expect fifty messages to be successfully sent", 50, successes);
+        int successes = Sensor.getStatistics().getSuccessful().getCount();
+        assertEquals("Expect fifty messages to be sent successfully", 50, successes);
 
         // There should be zero failures
-        int failures = CaliperSensor.getStatistics().getFailed().getCount();
+        int failures = Sensor.getStatistics().getFailed().getCount();
         assertEquals("Expect zero message failures to be sent", 0, failures);
     }
 }

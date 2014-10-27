@@ -1,10 +1,10 @@
 package org.imsglobal.caliper.profiles;
 
-import org.imsglobal.caliper.entities.assessment.CaliperAssessment;
+import org.imsglobal.caliper.entities.assessment.Assessment;
 
-public class AssessmentProfile extends BaseProfile {
+public class AssessmentProfile extends Profile {
 
-    private CaliperAssessment assessment;
+    private Assessment assessment;
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -15,9 +15,9 @@ public class AssessmentProfile extends BaseProfile {
     }
 
     /**
-     * @return Assessment
+     * @return QtiAssessment
      */
-    public CaliperAssessment getAssessment() {
+    public Assessment getAssessment() {
         return assessment;
     }
 
@@ -25,14 +25,14 @@ public class AssessmentProfile extends BaseProfile {
      * Initialize default parameter values in the builder (not in the outer profile class).
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
-        private CaliperAssessment assessment;
+    public static abstract class Builder<T extends Builder<T>> extends Profile.Builder<T>  {
+        private Assessment assessment;
 
         /**
          * @param assessment
          * @return builder.
          */
-        public T assessment(CaliperAssessment assessment) {
+        public T assessment(Assessment assessment) {
             this.assessment = assessment;
             return self();
         }

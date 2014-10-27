@@ -1,14 +1,14 @@
 package org.imsglobal.caliper.entities.assignable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperAgent;
-import org.imsglobal.caliper.entities.CaliperEntity;
+import org.imsglobal.caliper.entities.Agent;
+import org.imsglobal.caliper.entities.Entity;
 
 /**
  * Representation of an Attempt. Attempts are generated as part of or
  * are the object of an interaction represented by an AssignableEvent
  */
-public class Attempt extends CaliperEntity {
+public class Attempt extends Entity {
 
     @JsonProperty("@type")
     private final String type;
@@ -17,7 +17,7 @@ public class Attempt extends CaliperEntity {
     private final Assignable assignable;
 
     @JsonProperty("actor")
-    private final CaliperAgent actor;
+    private final Agent actor;
 
     @JsonProperty("count")
     private int count;
@@ -71,7 +71,7 @@ public class Attempt extends CaliperEntity {
     /**
      * @return the actor
      */
-    public CaliperAgent getActor() {
+    public Agent getActor() {
         return actor;
     }
 
@@ -121,10 +121,10 @@ public class Attempt extends CaliperEntity {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
         private Assignable assignable;
-        private CaliperAgent actor;
+        private Agent actor;
         private int count;
         private long startedAtTime;
         private long endedAtTime;
@@ -134,7 +134,7 @@ public class Attempt extends CaliperEntity {
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(CaliperEntity.Type.ATTEMPT.uri());
+            type(Entity.Type.ATTEMPT.uri());
         }
 
         /**
@@ -159,7 +159,7 @@ public class Attempt extends CaliperEntity {
          * @param actor
          * @return builder
          */
-        public T actor(CaliperAgent actor) {
+        public T actor(Agent actor) {
             this.actor = actor;
             return self();
         }

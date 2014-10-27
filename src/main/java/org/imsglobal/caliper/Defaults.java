@@ -1,6 +1,5 @@
 package org.imsglobal.caliper;
 
-
 public class Defaults {
 
 	public static final String HOST = "http://dev-null.comt";

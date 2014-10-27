@@ -1,25 +1,40 @@
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
+import org.imsglobal.caliper.entities.foaf.FoafAgent;
 
-/**
- * Representation of an EPUB 3 Volume
- * 
- * A major structural division of a piece of writing, typically
- * encapsulating a set of related chapters.
- * http://www.idpf.org/epub/vocab/structure/#part
- */
-public class EPubPart extends CaliperDigitalResource implements CreativeWork {
+public class Agent extends Entity implements FoafAgent {
+
+    public enum Type {
+        LIS_PERSON("http://purl.imsglobal.org/caliper/v1/LisPerson"),
+        LIS_ORGANIZATION("http://purl.imsglobal.org/caliper/v1/LisOrganization"),
+        SOFTWARE_APPLICATION("http://purl.imsglobal.org/caliper/v1/SoftwareApplication");
+
+        private final String uri;
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Type(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+    }
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the EPubPart object.
+     * @param builder apply builder object properties to the SoftwareApplication object.
      */
-    protected EPubPart(Builder<?> builder) {
+    protected Agent(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -36,14 +51,14 @@ public class EPubPart extends CaliperDigitalResource implements CreativeWork {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperDigitalResource.Type.EPUB_PART.uri());
+            type(Entity.Type.AGENT.uri());
         }
 
         /**
@@ -57,10 +72,10 @@ public class EPubPart extends CaliperDigitalResource implements CreativeWork {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of EPubPart.
+         * @return a new instance of the SoftwareApplication.
          */
-        public EPubPart build() {
-            return new EPubPart(this);
+        public Agent build() {
+            return new Agent(this);
         }
     }
 

@@ -7,7 +7,7 @@
         "@type": "http://purl.imsglobal.org/caliper/v1/NavigationEvent",
         "actor": {
             "@id": "uri:/someEdu/user/42",
-            "@type": "http://purl.imsglobal.org/caliper/v1/LISPerson",
+            "@type": "http://purl.imsglobal.org/caliper/v1/LisPerson",
             "name": null,
             "lastModifiedTime": 0,
             "properties": {}
@@ -39,7 +39,7 @@
         "group": null,
         "navigatedFrom": {
             "@id": "AmRev-101-landingPage",
-            "@type": "http://purl.imsglobal.org/caliper/v1/CaliperDigitalResource",
+            "@type": "http://purl.imsglobal.org/caliper/v1/DigitalResource",
             "name": "American Revolution 101 Landing Page",
             "objectType": null,
             "properties": {},

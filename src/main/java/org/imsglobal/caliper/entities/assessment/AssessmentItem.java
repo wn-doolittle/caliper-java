@@ -1,24 +1,23 @@
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities.assessment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
+import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
+import org.imsglobal.caliper.entities.qti.QtiAssessmentItem;
 
 /**
- * Representation of an EPUB 3 Volume
+ * Caliper representation of an QtiAssessment Item.
  * 
- * A component of a collection
- * http://www.idpf.org/epub/vocab/structure/#volume
+ * Part of the QtiAssessment Metric Profile.
  */
-public class EPubVolume extends CaliperDigitalResource implements CreativeWork {
+public class AssessmentItem extends AssignableDigitalResource implements QtiAssessmentItem {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the EPubVolume object.
+     * @param builder apply builder object properties to the QtiAssessmentItem object.
      */
-    protected EPubVolume(Builder<?> builder) {
+    protected AssessmentItem(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -35,14 +34,14 @@ public class EPubVolume extends CaliperDigitalResource implements CreativeWork {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
         private String type;
 
         /**
-         * Initialize type with default value.
+         * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(CaliperDigitalResource.Type.EPUB_VOLUME.uri());
+            type(AssignableDigitalResource.Type.ASSESSMENT_ITEM.uri());
         }
 
         /**
@@ -56,10 +55,10 @@ public class EPubVolume extends CaliperDigitalResource implements CreativeWork {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of EPubVolume.
+         * @return a new instance of QtiAssessmentItem.
          */
-        public EPubVolume build() {
-            return new EPubVolume(this);
+        public AssessmentItem build() {
+            return new AssessmentItem(this);
         }
     }
 

@@ -6,20 +6,19 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.http.entity.StringEntity;
-import org.imsglobal.caliper.entities.CaliperEntity;
-import org.imsglobal.caliper.events.CaliperEvent;
+import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.events.Event;
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators.UUIDGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
 public abstract class EventStoreRequestor {
 
-	public abstract boolean send(CaliperEvent caliperEvent);
+	public abstract boolean send(Event caliperEvent);
 
-	public abstract boolean send(CaliperEntity caliperEntity);
+	public abstract boolean send(Entity caliperEntity);
 
 	/**
 	 * @param caliperEvent
@@ -30,7 +29,7 @@ public abstract class EventStoreRequestor {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	protected StringEntity generatePayload(CaliperEvent caliperEvent,
+	protected StringEntity generatePayload(Event caliperEvent,
 			String id, DateTime sendTime) throws UnsupportedEncodingException {
 
 		if (id == null) {
@@ -54,7 +53,7 @@ public abstract class EventStoreRequestor {
 	 * @param sendTime
 	 * @return
 	 */
-	protected String getPayloadJson(CaliperEvent caliperEvent, String id,
+	protected String getPayloadJson(Event caliperEvent, String id,
 			DateTime sendTime) {
 
 		List<EventStoreEnvelope> listPayload = Lists.newArrayList();

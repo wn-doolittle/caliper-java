@@ -2,7 +2,7 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.lis.LISOrganization;
+import org.imsglobal.caliper.entities.lis.LisOrganization;
 
 @JsonPropertyOrder({ "edApp", "lisOrganization", "agent"})
 public class LearningContext {
@@ -11,10 +11,10 @@ public class LearningContext {
     private SoftwareApplication edApp;
 
     @JsonProperty("lisOrganization")
-    private LISOrganization lisOrganization;
+    private LisOrganization lisOrganization;
 
     @JsonProperty("agent")
-    private CaliperAgent agent;
+    private Agent agent;
 
     /**
      * @param builder apply builder object properties to the LearningContext object.
@@ -36,14 +36,14 @@ public class LearningContext {
     /**
      * @return the LIS Organization.
      */
-    public LISOrganization getLisOrganization() {
+    public LisOrganization getLisOrganization() {
         return lisOrganization;
     }
 
     /**
      * @return the agent.
      */
-    public CaliperAgent getAgent() {
+    public Agent getAgent() {
         return agent;
     }
 
@@ -53,8 +53,8 @@ public class LearningContext {
      */
     public static abstract class Builder<T extends Builder<T>> {
         private SoftwareApplication edApp;
-        private LISOrganization lisOrganization;
-        private CaliperAgent agent;
+        private LisOrganization lisOrganization;
+        private Agent agent;
 
         protected abstract T self();
 
@@ -71,7 +71,7 @@ public class LearningContext {
          * @param lisOrganization
          * @return builder.
          */
-        public T lisOrganization(LISOrganization lisOrganization) {
+        public T lisOrganization(LisOrganization lisOrganization) {
             this.lisOrganization = lisOrganization;
             return self();
         }
@@ -80,7 +80,7 @@ public class LearningContext {
          * @param agent
          * @return builder.
          */
-        public T agent(CaliperAgent agent) {
+        public T agent(Agent agent) {
             this.agent = agent;
             return self();
         }

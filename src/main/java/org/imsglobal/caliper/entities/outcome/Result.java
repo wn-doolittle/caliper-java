@@ -1,14 +1,14 @@
 package org.imsglobal.caliper.entities.outcome;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperAgent;
-import org.imsglobal.caliper.entities.CaliperEntity;
+import org.imsglobal.caliper.entities.Agent;
+import org.imsglobal.caliper.entities.Entity;
 
 /**
  * Representation of a Result. Result's are generated as
  * part of an interaction represented by an OutcomeEvent.
  */
-public class Result extends CaliperEntity {
+public class Result extends Entity {
 
     @JsonProperty("@type")
     private final String type;
@@ -35,7 +35,7 @@ public class Result extends CaliperEntity {
     private String comment;
 
     @JsonProperty("scoredBy")
-    private CaliperAgent scoredBy;
+    private Agent scoredBy;
 
     // TODO - need to include target, learningObjective and scoreConstraints from metric profile
 
@@ -115,7 +115,7 @@ public class Result extends CaliperEntity {
     /**
      * @return the agent who scored the result
      */
-    public CaliperAgent getScoredBy() {
+    public Agent getScoredBy() {
         return scoredBy;
     }
 
@@ -124,16 +124,16 @@ public class Result extends CaliperEntity {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private double normalScore, penaltyScore, extraCreditScore, totalScore, curvedTotalScore, curveFactor;
         private String type, comment;
-        private CaliperAgent scoredBy;
+        private Agent scoredBy;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(CaliperEntity.Type.RESULT.uri());
+            type(Entity.Type.RESULT.uri());
         }
 
         /**
@@ -212,7 +212,7 @@ public class Result extends CaliperEntity {
          * @param scoredBy
          * @return agent who scored the result.
          */
-        public T scoredBy(CaliperAgent scoredBy) {
+        public T scoredBy(Agent scoredBy) {
             this.scoredBy = scoredBy;
             return self();
         }

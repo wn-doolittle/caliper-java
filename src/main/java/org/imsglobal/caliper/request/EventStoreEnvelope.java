@@ -3,7 +3,7 @@
  */
 package org.imsglobal.caliper.request;
 
-import org.imsglobal.caliper.events.CaliperEvent;
+import org.imsglobal.caliper.events.Event;
 
 /**
  * @author pnayak
@@ -14,7 +14,7 @@ public class EventStoreEnvelope {
 	private String id;
 	private String type;
 	private String time;
-	private CaliperEvent data;
+	private Event data;
 
 	/**
 	 * @return the type
@@ -49,7 +49,7 @@ public class EventStoreEnvelope {
 	/**
 	 * @return the data
 	 */
-	public CaliperEvent getData() {
+	public Event getData() {
 		return data;
 	}
 
@@ -57,7 +57,7 @@ public class EventStoreEnvelope {
 	 * @param data
 	 *            the data to set
 	 */
-	public void setData(CaliperEvent data) {
+	public void setData(Event data) {
 		this.data = data;
 	}
 

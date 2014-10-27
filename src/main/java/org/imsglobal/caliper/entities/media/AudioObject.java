@@ -1,24 +1,19 @@
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 
 /**
- * Representation of an EPUB 3 Volume
- * 
- * A major sub-division of a chapter
- * http://www.idpf.org/epub/vocab/structure/#subchapter
+ * An audio object embedded in a web page.
  */
-public class EPubSubChapter extends CaliperDigitalResource implements CreativeWork {
+public class AudioObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.AudioObject {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the EPubSubChapter object.
+     * @param builder apply builder object properties to the AudioObject object.
      */
-    protected EPubSubChapter(Builder<?> builder) {
+    protected AudioObject(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -35,14 +30,14 @@ public class EPubSubChapter extends CaliperDigitalResource implements CreativeWo
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
         private String type;
 
         /**
-         * Initialize type with default value.
+         * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(CaliperDigitalResource.Type.EPUB_SUB_CHAPTER.uri());
+            type(MediaObject.Type.AUDIO_OBJECT.uri());
         }
 
         /**
@@ -56,10 +51,10 @@ public class EPubSubChapter extends CaliperDigitalResource implements CreativeWo
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of EPubSubChapter.
+         * @return a new instance of AudioObject.
          */
-        public EPubSubChapter build() {
-            return new EPubSubChapter(this);
+        public AudioObject build() {
+            return new AudioObject(this);
         }
     }
 

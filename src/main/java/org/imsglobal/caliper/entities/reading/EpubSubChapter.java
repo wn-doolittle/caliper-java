@@ -1,20 +1,24 @@
-package org.imsglobal.caliper.entities.media;
+package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.schemadotorg.ImageObject;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 
 /**
- * An image object embedded in a web page.
+ * Representation of an EPUB 3 Volume
+ * 
+ * A major sub-division of a chapter
+ * http://www.idpf.org/epub/vocab/structure/#subchapter
  */
-public class CaliperImageObject extends CaliperMediaObject implements ImageObject {
+public class EpubSubChapter extends DigitalResource implements CreativeWork {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the CaliperImageObject object.
+     * @param builder apply builder object properties to the EpubSubChapter object.
      */
-    protected CaliperImageObject(Builder<?> builder) {
+    protected EpubSubChapter(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -31,14 +35,14 @@ public class CaliperImageObject extends CaliperMediaObject implements ImageObjec
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperMediaObject.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperMediaObject.Type.CALIPER_IMAGE_OBJECT.uri());
+            type(DigitalResource.Type.EPUB_SUB_CHAPTER.uri());
         }
 
         /**
@@ -52,10 +56,10 @@ public class CaliperImageObject extends CaliperMediaObject implements ImageObjec
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of CaliperImageObject.
+         * @return a new instance of EpubSubChapter.
          */
-        public CaliperImageObject build() {
-            return new CaliperImageObject(this);
+        public EpubSubChapter build() {
+            return new EpubSubChapter(this);
         }
     }
 

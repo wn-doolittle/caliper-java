@@ -34,17 +34,17 @@ import java.util.List;
         "keyword",
         "partOf",
         "lastModifiedTime" })
-public class CaliperDigitalResource extends CaliperEntity implements CreativeWork {
+public class DigitalResource extends Entity implements CreativeWork {
 
     public enum Type {
-        CALIPER_ASSIGNABLE_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/CaliperAssignableDigitalResource"),
-        CALIPER_MEDIA_OBJECT("http://purl.imsglobal.org/caliper/v1/CaliperMediaObject"),
-        CALIPER_READING("http://www.idpf.org/epub/vocab/structure/CaliperReading"),
+        ASSIGNABLE_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/AssignableDigitalResource"),
         EPUB_CHAPTER("http://www.idpf.org/epub/vocab/structure/#chapter"),
         EPUB_PART("http://www.idpf.org/epub/vocab/structure/#part"),
         EPUB_SUB_CHAPTER("http://www.idpf.org/epub/vocab/structure/#subchapter"),
         EPUB_VOLUME("http://www.idpf.org/epub/vocab/structure/#volume"),
         FRAME("http://purl.imsglobal.org/caliper/v1/Frame"),
+        MEDIA_OBJECT("http://purl.imsglobal.org/caliper/v1/MediaObject"),
+        READING("http://www.idpf.org/epub/vocab/structure"),
         WEB_PAGE("http://purl.imsglobal.org/caliper/v1/WebPage");
 
         private final String uri;
@@ -83,7 +83,7 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
     /**
      * @param builder apply builder object properties to the profile object.
      */
-    protected CaliperDigitalResource(Builder<?> builder) {
+    protected DigitalResource(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.objectType = builder.objectType;
@@ -132,7 +132,7 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
         private Object objectType;
         private List<LearningObjective> alignedLearningObjective = Lists.newArrayList();
@@ -143,7 +143,7 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperEntity.Type.CALIPER_DIGITAL_RESOURCE.uri());
+            type(Entity.Type.DIGITAL_RESOURCE.uri());
         }
 
         /**
@@ -204,8 +204,8 @@ public class CaliperDigitalResource extends CaliperEntity implements CreativeWor
          * Client invokes build method in order to create an immutable profile object.
          * @return a new instance of the AssessmentProfile.
          */
-        public CaliperDigitalResource build() {
-            return new CaliperDigitalResource(this);
+        public DigitalResource build() {
+            return new DigitalResource(this);
         }
     }
 
