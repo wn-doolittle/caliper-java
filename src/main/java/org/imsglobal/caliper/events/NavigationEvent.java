@@ -1,14 +1,13 @@
 package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.actions.ReadingActions;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
-import org.imsglobal.caliper.events.CaliperEvent;
+import org.imsglobal.caliper.entities.DigitalResource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ResourceBundle;
 
-public class NavigationEvent extends CaliperEvent {
+public class NavigationEvent extends org.imsglobal.caliper.events.Event {
 
     @JsonProperty("@context")
     private final String context;
@@ -23,7 +22,7 @@ public class NavigationEvent extends CaliperEvent {
      * Describes the resource from which the navigation starts
      */
     @JsonProperty("navigatedFrom")
-    private CaliperDigitalResource fromResource;
+    private DigitalResource fromResource;
 
     /**
      * @param builder apply builder object properties to the NavigationEvent object.
@@ -63,7 +62,7 @@ public class NavigationEvent extends CaliperEvent {
     /**
      * @return the fromResource
      */
-    public CaliperDigitalResource getFromResource() {
+    public DigitalResource getFromResource() {
         return fromResource;
     }
 
@@ -71,18 +70,18 @@ public class NavigationEvent extends CaliperEvent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private String context;
         private String type;
         private String action;
-        private CaliperDigitalResource fromResource;
+        private DigitalResource fromResource;
 
         /**
          * Initialize type with default values.
          */
         public Builder() {
-            context(CaliperEvent.Context.NAVIGATION.uri());
-            type(CaliperEvent.Type.NAVIGATION.uri());
+            context(Event.Context.NAVIGATION.uri());
+            type(Event.Type.NAVIGATION.uri());
             action(ReadingActions.NAVIGATED_TO.key());
         }
 
@@ -122,7 +121,7 @@ public class NavigationEvent extends CaliperEvent {
          * @param fromResource
          * @return builder
          */
-        public T fromResource(CaliperDigitalResource fromResource) {
+        public T fromResource(DigitalResource fromResource) {
             this.fromResource = fromResource;
             return self();
         }

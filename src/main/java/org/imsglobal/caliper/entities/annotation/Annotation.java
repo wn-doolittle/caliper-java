@@ -1,7 +1,7 @@
 package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperEntity;
+import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
 /**
@@ -10,7 +10,7 @@ import org.imsglobal.caliper.entities.schemadotorg.Thing;
  * Direct sub-types can include - Highlight, Attachment, etc. - all of
  * which are specified in the Caliper Annotation Metric Profile
  */
-public abstract class Annotation extends CaliperEntity implements Thing {
+public abstract class Annotation extends Entity implements Thing {
 
     public enum Type {
         ANNOTATION("http://purl.imsglobal.org/caliper/v1/Annotation"),
@@ -72,7 +72,7 @@ public abstract class Annotation extends CaliperEntity implements Thing {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
         private Object target;
 

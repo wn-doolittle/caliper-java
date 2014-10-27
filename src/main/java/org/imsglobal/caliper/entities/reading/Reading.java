@@ -1,9 +1,9 @@
 package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
+import org.imsglobal.caliper.entities.DigitalResource;
 
-public class CaliperReading extends CaliperDigitalResource {
+public class Reading extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
@@ -23,7 +23,7 @@ public class CaliperReading extends CaliperDigitalResource {
     /**
      * @param builder apply builder object properties to the CaliperAssessment object.
      */
-    protected CaliperReading(Builder<?> builder) {
+    protected Reading(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.learningResourceType = builder.learningResourceType;
@@ -74,7 +74,7 @@ public class CaliperReading extends CaliperDigitalResource {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
         private String learningResourceType;
         private String educationalUse;
@@ -85,7 +85,7 @@ public class CaliperReading extends CaliperDigitalResource {
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperDigitalResource.Type.CALIPER_READING.uri());
+            type(DigitalResource.Type.READING.uri());
         }
 
         /**
@@ -137,8 +137,8 @@ public class CaliperReading extends CaliperDigitalResource {
          * Client invokes build method in order to create an immutable object.
          * @return a new instance of CaliperAssessment.
          */
-        public CaliperReading build() {
-            return new CaliperReading(this);
+        public Reading build() {
+            return new Reading(this);
         }
     }
 

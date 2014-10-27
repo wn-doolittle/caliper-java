@@ -1,7 +1,7 @@
 package org.imsglobal.caliper.entities.assignable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
+import org.imsglobal.caliper.entities.DigitalResource;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * Assignable Digital Resource
  */
 @JsonInclude(Include.NON_NULL)
-public class CaliperAssignableDigitalResource extends CaliperDigitalResource implements Assignable {
+public class AssignableDigitalResource extends DigitalResource implements org.imsglobal.caliper.entities.assignable.Assignable {
 
     public enum Type {
         ASSESSMENT("http://purl.imsglobal.org/caliper/v1/Assessment"),
@@ -67,7 +67,7 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource imp
     /**
      * @param builder apply builder object properties to the Target object.
      */
-    protected CaliperAssignableDigitalResource(Builder<?> builder) {
+    protected AssignableDigitalResource(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.dateCreated = builder.dateCreated;
@@ -156,7 +156,7 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource imp
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
         private long dateCreated, datePublished, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
         private int maxAttempts, maxSubmits;
@@ -166,7 +166,7 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource imp
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperDigitalResource.Type.CALIPER_ASSIGNABLE_DIGITAL_RESOURCE.uri());
+            type(DigitalResource.Type.ASSIGNABLE_DIGITAL_RESOURCE.uri());
         }
 
         /**
@@ -263,8 +263,8 @@ public class CaliperAssignableDigitalResource extends CaliperDigitalResource imp
          * Client invokes build method in order to create an immutable object.
          * @return a new instance of Target.
          */
-        public CaliperAssignableDigitalResource build() {
-            return new CaliperAssignableDigitalResource(this);
+        public AssignableDigitalResource build() {
+            return new AssignableDigitalResource(this);
         }
     }
 

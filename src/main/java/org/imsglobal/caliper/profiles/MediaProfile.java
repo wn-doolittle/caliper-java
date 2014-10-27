@@ -6,7 +6,7 @@ import org.imsglobal.caliper.entities.schemadotorg.MediaObject;
 
 import java.util.List;
 
-public class MediaProfile extends BaseProfile {
+public class MediaProfile extends org.imsglobal.caliper.profiles.Profile {
 
     private MediaObject mediaObject;
     private List<MediaLocation> mediaLocations = Lists.newArrayList();
@@ -38,7 +38,7 @@ public class MediaProfile extends BaseProfile {
      * Initialize default parameter values in the builder (not in the outer profile class).
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Profile.Builder<T>  {
         private MediaObject mediaObject;
         private List<MediaLocation> mediaLocations = Lists.newArrayList();
 

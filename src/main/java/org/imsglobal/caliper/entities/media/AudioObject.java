@@ -1,20 +1,19 @@
 package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.schemadotorg.AudioObject;
 
 /**
  * An audio object embedded in a web page.
  */
-public class CaliperAudioObject extends CaliperMediaObject implements AudioObject {
+public class AudioObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.AudioObject {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the CaliperAudioObject object.
+     * @param builder apply builder object properties to the AudioObject object.
      */
-    protected CaliperAudioObject(Builder<?> builder) {
+    protected AudioObject(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -31,14 +30,14 @@ public class CaliperAudioObject extends CaliperMediaObject implements AudioObjec
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperMediaObject.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
         private String type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(CaliperMediaObject.Type.CALIPER_AUDIO_OBJECT.uri());
+            type(MediaObject.Type.AUDIO_OBJECT.uri());
         }
 
         /**
@@ -52,10 +51,10 @@ public class CaliperAudioObject extends CaliperMediaObject implements AudioObjec
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of CaliperAudioObject.
+         * @return a new instance of AudioObject.
          */
-        public CaliperAudioObject build() {
-            return new CaliperAudioObject(this);
+        public AudioObject build() {
+            return new AudioObject(this);
         }
     }
 

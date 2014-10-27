@@ -1,23 +1,19 @@
-package org.imsglobal.caliper.entities.assessment;
+package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
-import org.imsglobal.caliper.entities.qti.AssessmentItem;
 
 /**
- * Caliper representation of an Assessment Item.
- * 
- * Part of the Assessment Metric Profile.
+ * A Video object embedded in a web page.
  */
-public class CaliperAssessmentItem extends CaliperAssignableDigitalResource implements AssessmentItem {
+public class VideoObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.VideoObject {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the CaliperAssessmentItem object.
+     * @param builder apply builder object properties to the VideoObject object.
      */
-    protected CaliperAssessmentItem(Builder<?> builder) {
+    protected VideoObject(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -34,14 +30,14 @@ public class CaliperAssessmentItem extends CaliperAssignableDigitalResource impl
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperAssignableDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
         private String type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(CaliperAssignableDigitalResource.Type.ASSESSMENT_ITEM.uri());
+            type(MediaObject.Type.VIDEO_OBJECT.uri());
         }
 
         /**
@@ -55,10 +51,10 @@ public class CaliperAssessmentItem extends CaliperAssignableDigitalResource impl
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of CaliperAssessmentItem.
+         * @return a new instance of VideoObject.
          */
-        public CaliperAssessmentItem build() {
-            return new CaliperAssessmentItem(this);
+        public VideoObject build() {
+            return new VideoObject(this);
         }
     }
 

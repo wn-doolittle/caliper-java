@@ -10,14 +10,14 @@ import java.util.Map;
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
 @JsonPropertyOrder({ "@id", "@type", "name", "lastModifiedTime" })
-public class CaliperEntity {
+public abstract class Entity {
 
     public enum Type {
         ACTIVITY_CONTEXT("http://purl.imsglobal.org/caliper/v1/ActivityContext"),
+        AGENT("http://purl.imsglobal.org/caliper/v1/Agent"),
         ATTEMPT("http://purl.imsglobal.org/caliper/v1/Attempt"),
-        CALIPER_AGENT("http://purl.imsglobal.org/caliper/v1/CaliperAgent"),
-        CALIPER_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/CaliperDigitalResource"),
-        CALIPER_ENTITY("http://purl.imsglobal.org/caliper/v1/CaliperEntity"),
+        DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/DigitalResource"),
+        ENTITY("http://purl.imsglobal.org/caliper/v1/Entity"),
         LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
         MEDIA_LOCATION("http://purl.imsglobal.org/caliper/v1/MediaLocation"),
         RESULT("http://purl.imsglobal.org/caliper/v1/Result"),
@@ -41,7 +41,7 @@ public class CaliperEntity {
         }
     }
 
-    @CaliperReference
+    @Reference
     @JsonProperty("@id")
     protected final String id;
 
@@ -59,9 +59,9 @@ public class CaliperEntity {
     private Map<String, Object> properties = Maps.newHashMap();
 
     /**
-     * @param builder apply builder object properties to the CaliperEntity object.
+     * @param builder apply builder object properties to the Entity object.
      */
-    protected CaliperEntity(Builder<?> builder) {
+    protected Entity(Builder<?> builder) {
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
@@ -121,7 +121,7 @@ public class CaliperEntity {
          * Initialize type with default value.
          */
         public Builder() {
-            this.type(Type.CALIPER_ENTITY.uri());
+            this.type(Type.ENTITY.uri());
         }
 
         /**
@@ -168,14 +168,6 @@ public class CaliperEntity {
             this.properties = properties;
             return self();
         }
-
-        /**
-         * Client invokes build method in order to create an immutable CaliperEntity object.
-         * @return a new instance of CaliperEntity.
-         */
-        public CaliperEntity build() {
-            return new CaliperEntity(this);
-        }
     }
 
     /**
@@ -186,13 +178,5 @@ public class CaliperEntity {
         protected Builder2 self() {
             return this;
         }
-    }
-
-    /**
-     * Static factory method.
-     * @return a new instance of the builder.
-     */
-    public static Builder<?> builder() {
-        return new Builder2();
     }
 }

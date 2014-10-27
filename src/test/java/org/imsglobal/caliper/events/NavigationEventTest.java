@@ -12,11 +12,11 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class CaliperEventTest {
+public class NavigationEventTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CaliperEventTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
 
-    private CaliperEvent caliperEvent;
+    private Event caliperEvent;
 
     /**
      * @throws java.lang.Exception
@@ -28,7 +28,7 @@ public class CaliperEventTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        assertEquals("Test if CaliperEvent can be serialized to JSON",
+        assertEquals("Test if Event can be serialized to JSON",
         jsonFixture("fixtures/caliperEvent.json"), asJson(caliperEvent));
     }
 }

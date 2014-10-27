@@ -2,13 +2,14 @@ package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Strings;
-import org.imsglobal.caliper.entities.CaliperEntity;
+import org.imsglobal.caliper.entities.Entity;
+
 import java.util.UUID;
 
 /**
  * Media Location
  */
-public class MediaLocation extends CaliperEntity {
+public class MediaLocation extends org.imsglobal.caliper.entities.Entity {
 
     @JsonProperty("@type")
     private final String type;
@@ -51,7 +52,7 @@ public class MediaLocation extends CaliperEntity {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
         private String id;
         private long currentTime;
@@ -61,8 +62,8 @@ public class MediaLocation extends CaliperEntity {
          * Initialize type with default values.
          */
         public Builder() {
-            id(CaliperEntity.Type.MEDIA_LOCATION.uri() + "/" + uuid);
-            type(CaliperEntity.Type.MEDIA_LOCATION.uri());
+            id(Entity.Type.MEDIA_LOCATION.uri() + "/" + uuid);
+            type(Entity.Type.MEDIA_LOCATION.uri());
         }
 
         /**
@@ -81,7 +82,7 @@ public class MediaLocation extends CaliperEntity {
         @Override
         public T id(String id) {
             if (Strings.isNullOrEmpty(id)) {
-                this.id = CaliperEntity.Type.MEDIA_LOCATION.uri() + "/" + uuid;
+                this.id = Entity.Type.MEDIA_LOCATION.uri() + "/" + uuid;
             } else {
                 this.id = id;
             }

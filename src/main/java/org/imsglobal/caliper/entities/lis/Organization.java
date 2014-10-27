@@ -1,14 +1,12 @@
-package org.imsglobal.caliper.entities;
+package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.Agent;
 
-public class CaliperAgent extends CaliperEntity implements Agent {
+public class Organization extends org.imsglobal.caliper.entities.Agent {
 
     public enum Type {
-        LIS_PERSON("http://purl.imsglobal.org/caliper/v1/LISPerson"),
-        LIS_ORGANIZATION("http://purl.imsglobal.org/caliper/v1/LISOrganization"),
-        SOFTWARE_APPLICATION("http://purl.imsglobal.org/caliper/v1/SoftwareApplication");
+        LIS_COURSE_SECTION("http://purl.imsglobal.org/caliper/v1/lis/CourseSection");
 
         private final String uri;
 
@@ -31,12 +29,20 @@ public class CaliperAgent extends CaliperEntity implements Agent {
     @JsonProperty("@type")
     private final String type;
 
+    @JsonProperty("title")
+    private String title;
+
+    @JsonProperty("parentOrg")
+    private Organization parentOrg;
+
     /**
-     * @param builder apply builder object properties to the SoftwareApplication object.
+     * @param builder apply builder object properties to the Organization object.
      */
-    protected CaliperAgent(Builder<?> builder) {
+    protected Organization(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
+        this.title = builder.title;
+        this.parentOrg = builder.parentOrg;
     }
 
     /**
@@ -48,17 +54,33 @@ public class CaliperAgent extends CaliperEntity implements Agent {
     }
 
     /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @return parent organization.
+     */
+    public Organization getParentOrg() {
+        return parentOrg;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T>  {
         private String type;
+        private String title;
+        private Organization parentOrg;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperEntity.Type.CALIPER_AGENT.uri());
+            type(Agent.Type.LIS_ORGANIZATION.uri());
         }
 
         /**
@@ -71,11 +93,29 @@ public class CaliperAgent extends CaliperEntity implements Agent {
         }
 
         /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the SoftwareApplication.
+         * @param title
+         * @return builder.
          */
-        public CaliperAgent build() {
-            return new CaliperAgent(this);
+        public T title(String title) {
+            this.title = title;
+            return self();
+        }
+
+        /**
+         * @param parentOrg
+         * @return builder.
+         */
+        public T parentOrg(Organization parentOrg) {
+            this.parentOrg = parentOrg;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of the Organization.
+         */
+        public Organization build() {
+            return new Organization(this);
         }
     }
 

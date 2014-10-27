@@ -1,23 +1,23 @@
 package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
+import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.LearningContext;
 
 import java.util.List;
 
-public abstract class BaseProfile {
+public abstract class Profile {
 
     private LearningContext learningContext;
     private List<String> actions = Lists.newArrayList();
-    private List<CaliperDigitalResource> fromResources = Lists.newArrayList();
+    private List<DigitalResource> fromResources = Lists.newArrayList();
     private List<Object> targets = Lists.newArrayList();
     private List<Object> generateds = Lists.newArrayList();
 
     /**
      * @param builder apply builder object properties to the profile object.
      */
-    protected BaseProfile(Builder<?> builder) {
+    protected Profile(Builder<?> builder) {
         this.learningContext = builder.learningContext;
         this.actions = builder.actions;
         this.fromResources = builder.fromResources;
@@ -42,7 +42,7 @@ public abstract class BaseProfile {
     /**
      * @return navigation history
      */
-    public List<CaliperDigitalResource> getFromResources() {
+    public List<DigitalResource> getFromResources() {
         return fromResources;
     }
 
@@ -62,13 +62,13 @@ public abstract class BaseProfile {
 
     /**
      * Initialize default parameter values in the builder (not in the outer profile class).  Given the abstract nature
-     * of BaseProfile, the builder's .build() method is omitted.
+     * of Profile, the builder's .build() method is omitted.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> {
         private LearningContext learningContext;
         private List<String> actions = Lists.newArrayList();
-        private List<CaliperDigitalResource> fromResources = Lists.newArrayList();
+        private List<DigitalResource> fromResources = Lists.newArrayList();
         private List<Object> targets = Lists.newArrayList();
         private List<Object> generateds = Lists.newArrayList();
 
@@ -107,7 +107,7 @@ public abstract class BaseProfile {
          * @param fromResources
          * @return builder
          */
-        public T fromResources(List<CaliperDigitalResource> fromResources) {
+        public T fromResources(List<DigitalResource> fromResources) {
             this.fromResources = fromResources;
             return self();
         }
@@ -116,7 +116,7 @@ public abstract class BaseProfile {
          * @param fromResource
          * @return builder
          */
-        public T fromResource(CaliperDigitalResource fromResource) {
+        public T fromResource(DigitalResource fromResource) {
             this.fromResources.add(fromResource);
             return self();
         }

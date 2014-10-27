@@ -3,7 +3,7 @@ package org.imsglobal.caliper.request;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.Options;
 import org.imsglobal.caliper.TestUtils;
-import org.imsglobal.caliper.events.CaliperEvent;
+import org.imsglobal.caliper.events.Event;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
@@ -21,7 +21,7 @@ public class HttpRequestorTest {
     private static final Logger LOG = LoggerFactory
             .getLogger(HttpRequestorTest.class);
 
-    CaliperEvent caliperEvent;
+    Event caliperEvent;
     Options options;
     HttpRequestor httpRequestor;
 

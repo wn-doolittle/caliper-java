@@ -2,9 +2,9 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.CaliperAgent;
+import org.imsglobal.caliper.entities.Agent;
 import org.imsglobal.caliper.entities.SoftwareApplication;
-import org.imsglobal.caliper.entities.lis.LISOrganization;
+import org.imsglobal.caliper.entities.lis.Organization;
 
 /**
  * Base class for all Caliper Events
@@ -22,18 +22,18 @@ import org.imsglobal.caliper.entities.lis.LISOrganization;
         "duration",
         "edApp",
         "group" })
-public abstract class CaliperEvent {
+public abstract class Event {
 
     public enum Context {
         ANNOTATION("http://purl.imsglobal.org/ctx/caliper/v1/AnnotationEvent"),
         ASSESSMENT("http://purl.imsglobal.org/ctx/caliper/v1/AssessmentEvent"),
         ASSESSMENT_ITEM("http://purl.imsglobal.org/ctx/caliper/v1/AssessmentItemEvent"),
         ASSIGNABLE("http://purl.imsglobal.org/ctx/caliper/v1/AssignableEvent"),
-        CALIPER_EVENT("http://purl.imsglobal.org/ctx/caliper/v1/CaliperEvent"),
+        EVENT("http://purl.imsglobal.org/ctx/caliper/v1/Event"),
         MEDIA("http://purl.imsglobal.org/ctx/caliper/v1/MediaEvent"),
         NAVIGATION("http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent"),
         OUTCOME("http://purl.imsglobal.org/ctx/caliper/v1/OutcomeEvent"),
-        VIEWED("http://purl.imsglobal.org/ctx/caliper/v1/ViewedEvent");
+        VIEWED("http://purl.imsglobal.org/ctx/caliper/v1/ViewEvent");
 
         private final String uri;
 
@@ -58,11 +58,11 @@ public abstract class CaliperEvent {
         ASSESSMENT("http://purl.imsglobal.org/caliper/v1/AssessmentEvent"),
         ASSESSMENT_ITEM("http://purl.imsglobal.org/caliper/v1/AssessmentItemEvent"),
         ASSIGNABLE("http://purl.imsglobal.org/caliper/v1/AssignableEvent"),
-        CALIPER_EVENT("http://purl.imsglobal.org/caliper/v1/CaliperEvent"),
+        EVENT("http://purl.imsglobal.org/caliper/v1/Event"),
         MEDIA("http://purl.imsglobal.org/caliper/v1/MediaEvent"),
         NAVIGATION("http://purl.imsglobal.org/caliper/v1/NavigationEvent"),
         OUTCOME("http://purl.imsglobal.org/caliper/v1/OutcomeEvent"),
-        VIEWED("http://purl.imsglobal.org/caliper/v1/ViewedEvent");
+        VIEWED("http://purl.imsglobal.org/caliper/v1/ViewEvent");
 
         private final String uri;
 
@@ -83,13 +83,13 @@ public abstract class CaliperEvent {
     }
 
     /**
-     * Required - the JSON-LD context for the CaliperEvent
+     * Required - the JSON-LD context for the Event
      */
     @JsonProperty("@context")
     private final String context;
 
     /**
-     * Required - the type of the CaliperEvent
+     * Required - the type of the Event
      */
     @JsonProperty("@type")
     private final String type;
@@ -104,13 +104,13 @@ public abstract class CaliperEvent {
      * Learning Context
      */
     @JsonProperty("group")
-    private LISOrganization lisOrganization;
+    private Organization lisOrganization;
 
     /**
      * Required - Agent (User, System) that performed the action
      */
     @JsonProperty("actor")
-    private final CaliperAgent actor;
+    private final Agent actor;
 
     /**
      * Required - Action performed by Agent From Metric Profile
@@ -162,9 +162,9 @@ public abstract class CaliperEvent {
     private String duration;
 
     /**
-     * @param builder apply builder object properties to the CaliperEvent object.
+     * @param builder apply builder object properties to the Event object.
      */
-    protected CaliperEvent(Builder<?> builder) {
+    protected Event(Builder<?> builder) {
         this.context = builder.context;
         this.type = builder.type;
         this.edApp = builder.edApp;
@@ -203,14 +203,14 @@ public abstract class CaliperEvent {
     /**
      * @return the lisOrganization
      */
-    public LISOrganization getLisOrganization() {
+    public Organization getLisOrganization() {
         return lisOrganization;
     }
 
     /**
      * @return the actor
      */
-    public CaliperAgent getActor() {
+    public Agent getActor() {
         return actor;
     }
 
@@ -271,8 +271,8 @@ public abstract class CaliperEvent {
         private String context;
         private String type;
         private SoftwareApplication edApp;
-        private LISOrganization lisOrganization;
-        private CaliperAgent actor;
+        private Organization lisOrganization;
+        private Agent actor;
         private String action;
         private Object object;
         private Object target;
@@ -284,8 +284,8 @@ public abstract class CaliperEvent {
         protected abstract T self();
 
         public Builder() {
-            this.context(Context.CALIPER_EVENT.uri());
-            this.type(Type.CALIPER_EVENT.uri());
+            this.context(Context.EVENT.uri());
+            this.type(Type.EVENT.uri());
         }
 
         /**
@@ -319,7 +319,7 @@ public abstract class CaliperEvent {
          * @param lisOrganization
          * @return builder.
          */
-        public T lisOrganization(LISOrganization lisOrganization) {
+        public T lisOrganization(Organization lisOrganization) {
             this.lisOrganization = lisOrganization;
             return self();
         }
@@ -328,7 +328,7 @@ public abstract class CaliperEvent {
          * @param actor
          * @return builder.
          */
-        public T actor(CaliperAgent actor) {
+        public T actor(Agent actor) {
             this.actor = actor;
             return self();
         }

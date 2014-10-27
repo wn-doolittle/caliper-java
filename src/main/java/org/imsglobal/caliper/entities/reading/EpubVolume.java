@@ -1,17 +1,23 @@
-package org.imsglobal.caliper.entities.lis;
+package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperAgent;
+import org.imsglobal.caliper.entities.DigitalResource;
 
-public class LISPerson extends CaliperAgent {
+/**
+ * Representation of an EPUB 3 Volume
+ * 
+ * A component of a collection
+ * http://www.idpf.org/epub/vocab/structure/#volume
+ */
+public class EpubVolume extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the LISPerson object.
+     * @param builder apply builder object properties to the EpubVolume object.
      */
-    protected LISPerson(Builder<?> builder) {
+    protected EpubVolume(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -28,14 +34,14 @@ public class LISPerson extends CaliperAgent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperAgent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperAgent.Type.LIS_PERSON.uri());
+            type(DigitalResource.Type.EPUB_VOLUME.uri());
         }
 
         /**
@@ -49,10 +55,10 @@ public class LISPerson extends CaliperAgent {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the LISPerson.
+         * @return a new instance of EpubVolume.
          */
-        public LISPerson build() {
-            return new LISPerson(this);
+        public EpubVolume build() {
+            return new EpubVolume(this);
         }
     }
 

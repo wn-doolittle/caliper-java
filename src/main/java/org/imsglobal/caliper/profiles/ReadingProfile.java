@@ -1,13 +1,13 @@
 package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
+import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.reading.View;
 import java.util.List;
 
-public class ReadingProfile extends BaseProfile {
+public class ReadingProfile extends org.imsglobal.caliper.profiles.Profile {
 
-    private CaliperDigitalResource reading;
+    private DigitalResource reading;
     private List<View> views = Lists.newArrayList();
 
     /**
@@ -23,7 +23,7 @@ public class ReadingProfile extends BaseProfile {
     /**
      * @return reading
      */
-    public CaliperDigitalResource getReading () {
+    public DigitalResource getReading () {
         return reading;
     }
 
@@ -38,16 +38,16 @@ public class ReadingProfile extends BaseProfile {
      * Initialize default parameter values in the builder (not in the outer profile class).
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Profile.Builder<T>  {
 
-        private CaliperDigitalResource reading;
+        private DigitalResource reading;
         private List<View> views = Lists.newArrayList();
 
         /**
          * @param reading
          * @return builder
          */
-        public T reading(CaliperDigitalResource reading) {
+        public T reading(DigitalResource reading) {
             this.reading = reading;
             return self();
         }

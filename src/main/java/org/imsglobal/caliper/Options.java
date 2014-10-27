@@ -4,92 +4,88 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * Caliper client options
- * 
- * @author pnayak
- * 
  */
 public class Options {
-	
-	/**
-	 * The API Key (potentially required by Caliper EventSTore)
-	 */
-	private String apiKey;
 
-	/**
-	 * The REST API endpoint (with scheme)
-	 */
-	private String host;
+    /**
+     * The API Key (potentially required by Caliper EventSTore)
+     */
+    private String apiKey;
 
-	/**
-	 * The amount of milliseconds that passes before a request is marked as
-	 * timed out
-	 */
-	private int timeout;
+    /**
+     * The REST API endpoint (with scheme)
+     */
+    private String host;
 
-	/**
-	 * Creates a default options
-	 */
-	public Options() {
-		this(Defaults.HOST, Defaults.CONNECTION_TIMEOUT);
-	}
+    /**
+     * The amount of milliseconds that passes before a request is marked as
+     * timed out
+     */
+    private int timeout;
 
-	/**
-	 * Creates an option with the provided settings
-	 * 
-	 * @param flushAt
-	 * @param flushAfter
-	 * @param maxQueueSize
-	 * @param httpConfig
-	 */
-	Options(String host, int timeout) {
-		setHost(host);
-		setTimeout(timeout);
-	}
+    /**
+     * Creates a default options
+     */
+    public Options() {
+        this(Defaults.HOST, Defaults.CONNECTION_TIMEOUT);
+    }
 
-	public String getHost() {
-		return host;
-	}
+    /**
+     * Creates an option with the provided settings
+     * @param host
+     * @param timeout
+     */
+    Options(String host, int timeout) {
+        setHost(host);
+        setTimeout(timeout);
+    }
 
-	/**
-	 * Sets the REST API endpoint
-	 * 
-	 * @param host
-	 */
-	public Options setHost(String host) {
-		if (StringUtils.isEmpty(host))
-			throw new IllegalArgumentException(
-					"Caliper#option#host must be a valid host, like 'https://api.caliper.org'.");
+    /**
+     * @return host
+     */
+    public String getHost() {
+        return host;
+    }
 
-		this.host = host;
-		return this;
-	}
+    /**
+     * Sets the REST API endpoint
+     *
+     * @param host
+     */
+    public Options setHost(String host) {
+        if (StringUtils.isEmpty(host))
+            throw new IllegalArgumentException(
+                    "Caliper#option#host must be a valid host, like 'https://api.caliper.org'.");
+        this.host = host;
+        return this;
+    }
 
-	/**
-	 * Sets the milliseconds to wait before a flush is marked as timed out.
-	 * 
-	 * @param timeout
-	 *            timeout in milliseconds.
-	 */
-	public Options setTimeout(int timeout) {
-		if (timeout < 1000)
-			throw new IllegalArgumentException(
-					"Caliper#option#timeout must be at least 1000 milliseconds.");
+    /**
+     * Sets the milliseconds to wait before a flush is marked as timed out.
+     *
+     * @param timeout
+     *            timeout in milliseconds.
+     */
+    public Options setTimeout(int timeout) {
+        if (timeout < 1000)
+            throw new IllegalArgumentException(
+                    "Caliper#option#timeout must be at least 1000 milliseconds.");
 
-		this.timeout = timeout;
-		return this;
-	}
+        this.timeout = timeout;
+        return this;
+    }
 
-	/**
-	 * @return the apiKey
-	 */
-	public String getApiKey() {
-		return apiKey;
-	}
+    /**
+     * @return the apiKey
+     */
+    public String getApiKey() {
+        return apiKey;
+    }
 
-	/**
-	 * @param apiKey the apiKey to set
-	 */
-	public void setApiKey(String apiKey) {
-		this.apiKey = apiKey;
-	}
+    /**
+     * @param apiKey the apiKey to set
+     */
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
 }

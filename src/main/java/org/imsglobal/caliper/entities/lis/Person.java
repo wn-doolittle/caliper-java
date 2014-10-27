@@ -1,33 +1,41 @@
-package org.imsglobal.caliper.entities.schemadotorg;
+package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
+import org.imsglobal.caliper.entities.Agent;
 
-public class WebPage extends CaliperDigitalResource implements CreativeWork {
+public class Person extends org.imsglobal.caliper.entities.Agent {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the WebPage object.
+     * @param builder apply builder object properties to the Person object.
      */
-    protected WebPage(Builder<?> builder) {
+    protected Person(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
+    }
+
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T>  {
         private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperDigitalResource.Type.WEB_PAGE.uri());
+            type(Agent.Type.LIS_PERSON.uri());
         }
 
         /**
@@ -41,10 +49,10 @@ public class WebPage extends CaliperDigitalResource implements CreativeWork {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of WebPage.
+         * @return a new instance of the Person.
          */
-        public WebPage build() {
-            return new WebPage(this);
+        public Person build() {
+            return new Person(this);
         }
     }
 

@@ -2,8 +2,8 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@CaliperLearningContext
-public class SoftwareApplication extends CaliperAgent {
+@Context
+public class SoftwareApplication extends org.imsglobal.caliper.entities.Agent {
 
     @JsonProperty("@type")
     private final String type;
@@ -28,14 +28,14 @@ public class SoftwareApplication extends CaliperAgent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperAgent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T>  {
         private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperAgent.Type.SOFTWARE_APPLICATION.uri());
+            type(Agent.Type.SOFTWARE_APPLICATION.uri());
         }
 
         /**

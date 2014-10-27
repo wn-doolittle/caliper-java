@@ -2,11 +2,10 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.AnnotationActions;
-import org.imsglobal.caliper.events.CaliperEvent;
 
 import java.util.ResourceBundle;
 
-public class AnnotationEvent extends CaliperEvent {
+public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
 
     @JsonProperty("@context")
     private final String context;
@@ -55,7 +54,7 @@ public class AnnotationEvent extends CaliperEvent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperEvent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private String context;
         private String type;
         private String action;
@@ -64,8 +63,8 @@ public class AnnotationEvent extends CaliperEvent {
          * Initialize with default values.
          */
         public Builder() {
-            context(CaliperEvent.Context.ANNOTATION.uri());
-            type(CaliperEvent.Type.ANNOTATION.uri());
+            context(Event.Context.ANNOTATION.uri());
+            type(Event.Type.ANNOTATION.uri());
         }
 
         /**

@@ -2,12 +2,12 @@ package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
+import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 import java.util.List;
 
-public class AssignableProfile extends BaseProfile {
+public class AssignableProfile extends org.imsglobal.caliper.profiles.Profile {
 
-    private CaliperAssignableDigitalResource assignable;
+    private AssignableDigitalResource assignable;
     private List<Attempt> attempts = Lists.newArrayList();
 
     /**
@@ -22,7 +22,7 @@ public class AssignableProfile extends BaseProfile {
     /**
      * @return assignable digital resource.
      */
-    public CaliperAssignableDigitalResource getAssignable() {
+    public AssignableDigitalResource getAssignable() {
         return assignable;
     }
 
@@ -37,15 +37,15 @@ public class AssignableProfile extends BaseProfile {
      * Initialize default parameter values in the builder (not in the outer profile class).
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseProfile.Builder<T>  {
-        private CaliperAssignableDigitalResource assignable;
+    public static abstract class Builder<T extends Builder<T>> extends Profile.Builder<T>  {
+        private AssignableDigitalResource assignable;
         private List<Attempt> attempts = Lists.newArrayList();
 
         /**
          * @param assignable
          * @return builder.
          */
-        public T assignable(CaliperAssignableDigitalResource assignable) {
+        public T assignable(AssignableDigitalResource assignable) {
             this.assignable = assignable;
             return self();
         }

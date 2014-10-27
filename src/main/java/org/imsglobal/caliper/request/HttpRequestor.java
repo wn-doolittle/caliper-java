@@ -12,8 +12,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.imsglobal.caliper.Options;
-import org.imsglobal.caliper.entities.CaliperEntity;
-import org.imsglobal.caliper.events.CaliperEvent;
+import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.events.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,10 +56,10 @@ public class HttpRequestor extends EventStoreRequestor {
 	 * 
 	 * @see
 	 * org.imsglobal.caliper.request.EventStoreRequestor#send(org.imsglobal.
-	 * caliper.events.CaliperEvent)
+	 * caliper.events.Event)
 	 */
 	@Override
-	public boolean send(CaliperEvent caliperEvent) {
+	public boolean send(Event caliperEvent) {
 
 		boolean status = Boolean.FALSE;
 
@@ -108,10 +108,10 @@ public class HttpRequestor extends EventStoreRequestor {
 	 * 
 	 * @see
 	 * org.imsglobal.caliper.request.EventStoreRequestor#send(org.imsglobal.
-	 * caliper.entities.CaliperDigitalResource)
+	 * caliper.entities.DigitalResource)
 	 */
 	@Override
-	public boolean send(CaliperEntity caliperEntity) {
+	public boolean send(Entity caliperEntity) {
 		// TODO Auto-generated method stub
 		return Boolean.FALSE;
 	}

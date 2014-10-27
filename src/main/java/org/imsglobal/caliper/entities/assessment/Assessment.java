@@ -2,27 +2,25 @@ package org.imsglobal.caliper.entities.assessment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.assignable.CaliperAssignableDigitalResource;
-import org.imsglobal.caliper.entities.qti.Assessment;
+import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
+
 import java.util.List;
 
 /**
- * Caliper representation of an Assessment.
- * 
- * Part of the Assessment Metric Profile
+ * Caliper representation of an QTI Assessment.  Part of the Assessment Metric Profile
  */
-public class CaliperAssessment extends CaliperAssignableDigitalResource implements Assessment {
+public class Assessment extends AssignableDigitalResource implements org.imsglobal.caliper.entities.qti.Assessment {
 
     @JsonProperty("@type")
     private final String type;
 
     @JsonProperty("assessmentItems")
-    private List<CaliperAssessmentItem> assessmentItems = Lists.newArrayList();
+    private List<AssessmentItem> assessmentItems = Lists.newArrayList();
 
     /**
      * @param builder apply builder object properties to the CaliperAssessment object.
      */
-    protected CaliperAssessment(Builder<?> builder) {
+    protected Assessment(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.assessmentItems = builder.assessmentItems;
@@ -39,7 +37,7 @@ public class CaliperAssessment extends CaliperAssignableDigitalResource implemen
     /**
      * @return assessment items
      */
-    public List<CaliperAssessmentItem> getAssessmentItems() {
+    public List<AssessmentItem> getAssessmentItems() {
         return assessmentItems;
     }
 
@@ -47,15 +45,15 @@ public class CaliperAssessment extends CaliperAssignableDigitalResource implemen
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperAssignableDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
         private String type;
-        private List<CaliperAssessmentItem> assessmentItems = Lists.newArrayList();
+        private List<AssessmentItem> assessmentItems = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperAssignableDigitalResource.Type.ASSESSMENT.uri());
+            type(AssignableDigitalResource.Type.ASSESSMENT.uri());
         }
 
         /**
@@ -71,7 +69,7 @@ public class CaliperAssessment extends CaliperAssignableDigitalResource implemen
          * @param assessmentItems
          * @return builder
          */
-        public T assessmentItems(List<CaliperAssessmentItem> assessmentItems) {
+        public T assessmentItems(List<AssessmentItem> assessmentItems) {
             this.assessmentItems = assessmentItems;
             return self();
         }
@@ -80,7 +78,7 @@ public class CaliperAssessment extends CaliperAssignableDigitalResource implemen
          * @param assessmentItem
          * @return builder
          */
-        public T assessmentItem(CaliperAssessmentItem assessmentItem) {
+        public T assessmentItem(AssessmentItem assessmentItem) {
             this.assessmentItems.add(assessmentItem);
             return self();
         }
@@ -89,8 +87,8 @@ public class CaliperAssessment extends CaliperAssignableDigitalResource implemen
          * Client invokes build method in order to create an immutable object.
          * @return a new instance of CaliperAssessment.
          */
-        public CaliperAssessment build() {
-            return new CaliperAssessment(this);
+        public Assessment build() {
+            return new Assessment(this);
         }
     }
 

@@ -1,44 +1,33 @@
-package org.imsglobal.caliper.entities.media;
+package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.schemadotorg.ImageObject;
 
-/**
- * An image object embedded in a web page.
- */
-public class CaliperImageObject extends CaliperMediaObject implements ImageObject {
+
+public class WebPage extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the CaliperImageObject object.
+     * @param builder apply builder object properties to the WebPage object.
      */
-    protected CaliperImageObject(Builder<?> builder) {
+    protected WebPage(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperMediaObject.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperMediaObject.Type.CALIPER_IMAGE_OBJECT.uri());
+            type(DigitalResource.Type.WEB_PAGE.uri());
         }
 
         /**
@@ -52,10 +41,10 @@ public class CaliperImageObject extends CaliperMediaObject implements ImageObjec
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of CaliperImageObject.
+         * @return a new instance of WebPage.
          */
-        public CaliperImageObject build() {
-            return new CaliperImageObject(this);
+        public WebPage build() {
+            return new WebPage(this);
         }
     }
 

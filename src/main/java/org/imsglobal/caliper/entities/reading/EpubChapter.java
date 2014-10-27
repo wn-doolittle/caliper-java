@@ -1,24 +1,23 @@
 package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
+import org.imsglobal.caliper.entities.DigitalResource;
 
 /**
- * Representation of an EPUB 3 Volume
+ * Representation of an EPUB 3 Volume.
  * 
- * A component of a collection
- * http://www.idpf.org/epub/vocab/structure/#volume
+ * A major structural division of a piece of writing
+ * http://www.idpf.org/epub/vocab/structure/#chapter
  */
-public class EPubVolume extends CaliperDigitalResource implements CreativeWork {
+public class EpubChapter extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the EPubVolume object.
+     * @param builder apply builder object properties to the EpubChapter object.
      */
-    protected EPubVolume(Builder<?> builder) {
+    protected EpubChapter(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -35,14 +34,14 @@ public class EPubVolume extends CaliperDigitalResource implements CreativeWork {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperDigitalResource.Type.EPUB_VOLUME.uri());
+            type(DigitalResource.Type.EPUB_CHAPTER.uri());
         }
 
         /**
@@ -56,10 +55,10 @@ public class EPubVolume extends CaliperDigitalResource implements CreativeWork {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of EPubVolume.
+         * @return a new instance of EpubChapter.
          */
-        public EPubVolume build() {
-            return new EPubVolume(this);
+        public EpubChapter build() {
+            return new EpubChapter(this);
         }
     }
 

@@ -1,14 +1,14 @@
 package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.CaliperDigitalResource;
+import org.imsglobal.caliper.entities.DigitalResource;
 
-public class Frame extends CaliperDigitalResource {
+public class Frame extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
 
-    private final CaliperReading reading;
+    private final Reading reading;
 
     @JsonProperty("index")
     private int index;
@@ -33,7 +33,7 @@ public class Frame extends CaliperDigitalResource {
     /**
      * @return parent reading
      */
-    public CaliperReading getReading() {
+    public Reading getReading() {
         return reading;
     }
 
@@ -48,16 +48,16 @@ public class Frame extends CaliperDigitalResource {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends CaliperDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
-        private CaliperReading reading;
+        private Reading reading;
         private int index;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(CaliperDigitalResource.Type.FRAME.uri());
+            type(DigitalResource.Type.FRAME.uri());
         }
 
         /**
@@ -73,7 +73,7 @@ public class Frame extends CaliperDigitalResource {
          * @param reading
          * @return builder
          */
-        public T reading(CaliperReading reading) {
+        public T reading(Reading reading) {
             this.reading = reading;
             return self();
         }
