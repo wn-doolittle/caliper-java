@@ -5,7 +5,7 @@ import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 import java.util.List;
 
-public class AssignableProfile extends Profile {
+public class AssignableProfile extends org.imsglobal.caliper.profiles.Profile {
 
     private AssignableDigitalResource assignable;
     private List<Attempt> attempts = Lists.newArrayList();

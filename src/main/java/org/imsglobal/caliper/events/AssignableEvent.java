@@ -6,7 +6,7 @@ import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 
 import java.util.ResourceBundle;
 
-public class AssignableEvent extends Event {
+public class AssignableEvent extends org.imsglobal.caliper.events.Event {
 
     @JsonProperty("@context")
     private final String context;

@@ -8,7 +8,7 @@ import org.imsglobal.caliper.entities.Entity;
  * Representation of a Result. Result's are generated as
  * part of an interaction represented by an OutcomeEvent.
  */
-public class Result extends Entity {
+public class Result extends org.imsglobal.caliper.entities.Entity {
 
     @JsonProperty("@type")
     private final String type;

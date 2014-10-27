@@ -2,7 +2,7 @@ package org.imsglobal.caliper.profiles;
 
 import org.imsglobal.caliper.entities.assessment.Assessment;
 
-public class AssessmentProfile extends Profile {
+public class AssessmentProfile extends org.imsglobal.caliper.profiles.Profile {
 
     private Assessment assessment;
 
@@ -15,7 +15,7 @@ public class AssessmentProfile extends Profile {
     }
 
     /**
-     * @return QtiAssessment
+     * @return Assessment
      */
     public Assessment getAssessment() {
         return assessment;

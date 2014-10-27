@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ResourceBundle;
 
-public class NavigationEvent extends Event {
+public class NavigationEvent extends org.imsglobal.caliper.events.Event {
 
     @JsonProperty("@context")
     private final String context;

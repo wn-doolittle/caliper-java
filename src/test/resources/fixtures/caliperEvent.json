@@ -3,7 +3,7 @@
     "@type": "http://purl.imsglobal.org/caliper/v1/NavigationEvent",
     "actor": {
         "@id": "uri:/someEdu/user/42",
-        "@type": "http://purl.imsglobal.org/caliper/v1/LisPerson",
+        "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
         "name": null,
         "lastModifiedTime": 0,
         "properties": {}

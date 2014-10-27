@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Agent;
 import org.imsglobal.caliper.entities.SoftwareApplication;
-import org.imsglobal.caliper.entities.lis.LisOrganization;
+import org.imsglobal.caliper.entities.lis.Organization;
 
 /**
  * Base class for all Caliper Events
@@ -104,16 +104,16 @@ public abstract class Event {
      * Learning Context
      */
     @JsonProperty("group")
-    private LisOrganization lisOrganization;
+    private Organization lisOrganization;
 
     /**
-     * Required - FoafAgent (User, System) that performed the action
+     * Required - Agent (User, System) that performed the action
      */
     @JsonProperty("actor")
     private final Agent actor;
 
     /**
-     * Required - Action performed by FoafAgent From Metric Profile
+     * Required - Action performed by Agent From Metric Profile
      */
     @JsonProperty("action")
     private final String action;
@@ -203,7 +203,7 @@ public abstract class Event {
     /**
      * @return the lisOrganization
      */
-    public LisOrganization getLisOrganization() {
+    public Organization getLisOrganization() {
         return lisOrganization;
     }
 
@@ -271,7 +271,7 @@ public abstract class Event {
         private String context;
         private String type;
         private SoftwareApplication edApp;
-        private LisOrganization lisOrganization;
+        private Organization lisOrganization;
         private Agent actor;
         private String action;
         private Object object;
@@ -319,7 +319,7 @@ public abstract class Event {
          * @param lisOrganization
          * @return builder.
          */
-        public T lisOrganization(LisOrganization lisOrganization) {
+        public T lisOrganization(Organization lisOrganization) {
             this.lisOrganization = lisOrganization;
             return self();
         }

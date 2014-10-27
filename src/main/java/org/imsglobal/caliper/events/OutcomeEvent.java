@@ -7,7 +7,7 @@ import org.imsglobal.caliper.entities.outcome.Result;
 
 import java.util.ResourceBundle;
 
-public class OutcomeEvent extends Event {
+public class OutcomeEvent extends org.imsglobal.caliper.events.Event {
 
     @JsonProperty("@context")
     private final String context;

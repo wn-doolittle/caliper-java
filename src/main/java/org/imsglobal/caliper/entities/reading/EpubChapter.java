@@ -2,7 +2,6 @@ package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 
 /**
  * Representation of an EPUB 3 Volume.
@@ -10,7 +9,7 @@ import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
  * A major structural division of a piece of writing
  * http://www.idpf.org/epub/vocab/structure/#chapter
  */
-public class EpubChapter extends DigitalResource implements CreativeWork {
+public class EpubChapter extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork {
 
     @JsonProperty("@type")
     private final String type;

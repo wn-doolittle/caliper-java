@@ -2,20 +2,19 @@ package org.imsglobal.caliper.entities.assessment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
-import org.imsglobal.caliper.entities.qti.QtiAssessmentItem;
 
 /**
- * Caliper representation of an QtiAssessment Item.
+ * Caliper representation of an Assessment Item.
  * 
- * Part of the QtiAssessment Metric Profile.
+ * Part of the Assessment Metric Profile.
  */
-public class AssessmentItem extends AssignableDigitalResource implements QtiAssessmentItem {
+public class AssessmentItem extends AssignableDigitalResource implements org.imsglobal.caliper.entities.qti.AssessmentItem {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the QtiAssessmentItem object.
+     * @param builder apply builder object properties to the AssessmentItem object.
      */
     protected AssessmentItem(Builder<?> builder) {
         super(builder);
@@ -55,7 +54,7 @@ public class AssessmentItem extends AssignableDigitalResource implements QtiAsse
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of QtiAssessmentItem.
+         * @return a new instance of AssessmentItem.
          */
         public AssessmentItem build() {
             return new AssessmentItem(this);

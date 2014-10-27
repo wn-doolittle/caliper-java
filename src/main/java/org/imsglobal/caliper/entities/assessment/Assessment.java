@@ -3,14 +3,13 @@ package org.imsglobal.caliper.entities.assessment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
-import org.imsglobal.caliper.entities.qti.QtiAssessment;
 
 import java.util.List;
 
 /**
  * Caliper representation of an QTI Assessment.  Part of the Assessment Metric Profile
  */
-public class Assessment extends AssignableDigitalResource implements QtiAssessment {
+public class Assessment extends AssignableDigitalResource implements org.imsglobal.caliper.entities.qti.Assessment {
 
     @JsonProperty("@type")
     private final String type;

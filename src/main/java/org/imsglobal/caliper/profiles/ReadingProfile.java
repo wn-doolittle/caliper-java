@@ -5,7 +5,7 @@ import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.reading.View;
 import java.util.List;
 
-public class ReadingProfile extends Profile {
+public class ReadingProfile extends org.imsglobal.caliper.profiles.Profile {
 
     private DigitalResource reading;
     private List<View> views = Lists.newArrayList();

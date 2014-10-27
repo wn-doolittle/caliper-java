@@ -10,6 +10,6 @@ package org.imsglobal.caliper.entities.foaf;
  *         group, software or physical artifact)
  * 
  */
-public interface FoafAgent {
+public interface Agent {
 
 }

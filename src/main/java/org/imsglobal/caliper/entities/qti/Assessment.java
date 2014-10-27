@@ -8,9 +8,9 @@ package org.imsglobal.caliper.entities.qti;
  * 
  * From: See http://www.imsglobal.org/question/qtiv2p1/imsqti_bindv2p1.html
  * 
- * A QTI QtiAssessmentItem
+ * A QTI Assessment
  *
  */
-public interface QtiAssessmentItem {
+public interface Assessment {
 
 }

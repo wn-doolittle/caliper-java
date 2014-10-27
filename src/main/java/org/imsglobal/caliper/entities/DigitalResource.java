@@ -3,7 +3,7 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
+
 import java.util.List;
 
 /**
@@ -34,7 +34,7 @@ import java.util.List;
         "keyword",
         "partOf",
         "lastModifiedTime" })
-public class DigitalResource extends Entity implements CreativeWork {
+public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork {
 
     public enum Type {
         ASSIGNABLE_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/AssignableDigitalResource"),

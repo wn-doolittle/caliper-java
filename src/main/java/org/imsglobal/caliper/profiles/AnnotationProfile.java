@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.annotation.Annotation;
 import java.util.List;
 
-public class AnnotationProfile extends Profile {
+public class AnnotationProfile extends org.imsglobal.caliper.profiles.Profile {
 
     private List<Annotation> annotations = Lists.newArrayList();
 

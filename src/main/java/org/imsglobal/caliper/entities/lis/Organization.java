@@ -3,10 +3,10 @@ package org.imsglobal.caliper.entities.lis;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.Agent;
 
-public class LisOrganization extends Agent {
+public class Organization extends org.imsglobal.caliper.entities.Agent {
 
     public enum Type {
-        LIS_COURSE_SECTION("http://purl.imsglobal.org/caliper/v1/LisCourseSection");
+        LIS_COURSE_SECTION("http://purl.imsglobal.org/caliper/v1/lis/CourseSection");
 
         private final String uri;
 
@@ -33,12 +33,12 @@ public class LisOrganization extends Agent {
     private String title;
 
     @JsonProperty("parentOrg")
-    private LisOrganization parentOrg;
+    private Organization parentOrg;
 
     /**
-     * @param builder apply builder object properties to the LisOrganization object.
+     * @param builder apply builder object properties to the Organization object.
      */
-    protected LisOrganization(Builder<?> builder) {
+    protected Organization(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.title = builder.title;
@@ -63,7 +63,7 @@ public class LisOrganization extends Agent {
     /**
      * @return parent organization.
      */
-    public LisOrganization getParentOrg() {
+    public Organization getParentOrg() {
         return parentOrg;
     }
 
@@ -74,7 +74,7 @@ public class LisOrganization extends Agent {
     public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T>  {
         private String type;
         private String title;
-        private LisOrganization parentOrg;
+        private Organization parentOrg;
 
         /**
          * Initialize type with default value.
@@ -105,17 +105,17 @@ public class LisOrganization extends Agent {
          * @param parentOrg
          * @return builder.
          */
-        public T parentOrg(LisOrganization parentOrg) {
+        public T parentOrg(Organization parentOrg) {
             this.parentOrg = parentOrg;
             return self();
         }
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the LisOrganization.
+         * @return a new instance of the Organization.
          */
-        public LisOrganization build() {
-            return new LisOrganization(this);
+        public Organization build() {
+            return new Organization(this);
         }
     }
 

@@ -3,15 +3,15 @@ package org.imsglobal.caliper.entities.lis;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.Agent;
 
-public class LisPerson extends Agent {
+public class Person extends org.imsglobal.caliper.entities.Agent {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the LisPerson object.
+     * @param builder apply builder object properties to the Person object.
      */
-    protected LisPerson(Builder<?> builder) {
+    protected Person(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -49,10 +49,10 @@ public class LisPerson extends Agent {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the LisPerson.
+         * @return a new instance of the Person.
          */
-        public LisPerson build() {
-            return new LisPerson(this);
+        public Person build() {
+            return new Person(this);
         }
     }
 

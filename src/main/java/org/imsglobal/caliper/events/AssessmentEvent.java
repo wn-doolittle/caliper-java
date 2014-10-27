@@ -5,7 +5,7 @@ import org.imsglobal.caliper.actions.AssessmentActions;
 
 import java.util.ResourceBundle;
 
-public class AssessmentEvent extends Event {
+public class AssessmentEvent extends org.imsglobal.caliper.events.Event {
 
     @JsonProperty("@context")
     private final String context;

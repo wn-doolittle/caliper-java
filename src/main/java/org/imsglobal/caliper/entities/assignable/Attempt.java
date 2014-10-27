@@ -8,7 +8,7 @@ import org.imsglobal.caliper.entities.Entity;
  * Representation of an Attempt. Attempts are generated as part of or
  * are the object of an interaction represented by an AssignableEvent
  */
-public class Attempt extends Entity {
+public class Attempt extends org.imsglobal.caliper.entities.Entity {
 
     @JsonProperty("@type")
     private final String type;

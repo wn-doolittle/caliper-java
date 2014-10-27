@@ -6,7 +6,7 @@ import org.imsglobal.caliper.entities.schemadotorg.MediaObject;
 
 import java.util.List;
 
-public class MediaProfile extends Profile {
+public class MediaProfile extends org.imsglobal.caliper.profiles.Profile {
 
     private MediaObject mediaObject;
     private List<MediaLocation> mediaLocations = Lists.newArrayList();

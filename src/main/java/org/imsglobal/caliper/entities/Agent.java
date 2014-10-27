@@ -1,13 +1,12 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.foaf.FoafAgent;
 
-public class Agent extends Entity implements FoafAgent {
+public class Agent extends Entity implements org.imsglobal.caliper.entities.foaf.Agent {
 
     public enum Type {
-        LIS_PERSON("http://purl.imsglobal.org/caliper/v1/LisPerson"),
-        LIS_ORGANIZATION("http://purl.imsglobal.org/caliper/v1/LisOrganization"),
+        LIS_PERSON("http://purl.imsglobal.org/caliper/v1/lis/Person"),
+        LIS_ORGANIZATION("http://purl.imsglobal.org/caliper/v1/lis/Organization"),
         SOFTWARE_APPLICATION("http://purl.imsglobal.org/caliper/v1/SoftwareApplication");
 
         private final String uri;

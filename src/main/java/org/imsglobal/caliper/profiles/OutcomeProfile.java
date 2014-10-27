@@ -6,7 +6,7 @@ import org.imsglobal.caliper.entities.outcome.Outcome;
 
 import java.util.List;
 
-public class OutcomeProfile extends Profile {
+public class OutcomeProfile extends org.imsglobal.caliper.profiles.Profile {
 
     private AssignableDigitalResource assignable;
     private List<Outcome> outcomes = Lists.newArrayList();

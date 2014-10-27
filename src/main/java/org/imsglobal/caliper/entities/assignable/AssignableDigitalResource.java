@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * Assignable Digital Resource
  */
 @JsonInclude(Include.NON_NULL)
-public class AssignableDigitalResource extends DigitalResource implements Assignable {
+public class AssignableDigitalResource extends DigitalResource implements org.imsglobal.caliper.entities.assignable.Assignable {
 
     public enum Type {
         ASSESSMENT("http://purl.imsglobal.org/caliper/v1/Assessment"),

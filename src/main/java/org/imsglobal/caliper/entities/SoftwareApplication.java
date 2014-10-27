@@ -3,7 +3,7 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Context
-public class SoftwareApplication extends Agent {
+public class SoftwareApplication extends org.imsglobal.caliper.entities.Agent {
 
     @JsonProperty("@type")
     private final String type;

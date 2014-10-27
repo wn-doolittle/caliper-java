@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * Media Location
  */
-public class MediaLocation extends Entity {
+public class MediaLocation extends org.imsglobal.caliper.entities.Entity {
 
     @JsonProperty("@type")
     private final String type;

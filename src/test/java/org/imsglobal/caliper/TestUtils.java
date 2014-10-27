@@ -2,7 +2,7 @@ package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.actions.ReadingActions;
 import org.imsglobal.caliper.entities.ActivityContext;
-import org.imsglobal.caliper.entities.lis.LisPerson;
+import org.imsglobal.caliper.entities.lis.Person;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.WebPage;
 import org.imsglobal.caliper.events.Event;
@@ -26,7 +26,7 @@ public class TestUtils {
     public static Event getTestNavigationEvent() {
 
         NavigationEvent event = NavigationEvent.builder()
-            .actor(LisPerson.builder().id("uri:/someEdu/user/42").lastModifiedAt(0).build())
+            .actor(Person.builder().id("uri:/someEdu/user/42").lastModifiedAt(0).build())
             .action(ReadingActions.NAVIGATED_TO.key())
             .object(ActivityContext.builder().id("uri:/someEdu/reading/42").lastModifiedAt(0).build())
             .target(EpubVolume.builder()
