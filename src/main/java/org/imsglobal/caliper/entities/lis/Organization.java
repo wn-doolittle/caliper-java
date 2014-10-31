@@ -1,8 +1,10 @@
 package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Agent;
 
+@JsonPropertyOrder({ "@id", "@type", "name", "parentOrg", "properties", "lastModifiedTime" })
 public class Organization extends org.imsglobal.caliper.entities.Agent {
 
     public enum Type {
@@ -29,9 +31,6 @@ public class Organization extends org.imsglobal.caliper.entities.Agent {
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("title")
-    private String title;
-
     @JsonProperty("parentOrg")
     private Organization parentOrg;
 
@@ -41,7 +40,6 @@ public class Organization extends org.imsglobal.caliper.entities.Agent {
     protected Organization(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.title = builder.title;
         this.parentOrg = builder.parentOrg;
     }
 
@@ -51,13 +49,6 @@ public class Organization extends org.imsglobal.caliper.entities.Agent {
     @Override
     public String getType() {
         return type;
-    }
-
-    /**
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
     }
 
     /**
@@ -73,7 +64,6 @@ public class Organization extends org.imsglobal.caliper.entities.Agent {
      */
     public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T>  {
         private String type;
-        private String title;
         private Organization parentOrg;
 
         /**
@@ -89,15 +79,6 @@ public class Organization extends org.imsglobal.caliper.entities.Agent {
          */
         private T type(String type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param title
-         * @return builder.
-         */
-        public T title(String title) {
-            this.title = title;
             return self();
         }
 
