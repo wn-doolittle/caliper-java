@@ -1,15 +1,15 @@
 package org.imsglobal.caliper.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.Maps;
+
 import java.util.Map;
 
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "lastModifiedTime" })
+@JsonPropertyOrder({ "@id", "@type", "name", "properties", "lastModifiedTime" })
 public abstract class Entity {
 
     public enum Type {
@@ -54,7 +54,6 @@ public abstract class Entity {
     @JsonProperty("lastModifiedTime")
     private long lastModifiedAt;
 
-    @JsonIgnore
     @JsonProperty("properties")
     private Map<String, Object> properties = Maps.newHashMap();
 
