@@ -52,7 +52,7 @@ public abstract class Entity {
     private final String name;
 
     @JsonProperty("lastModifiedTime")
-    private long lastModifiedAt;
+    private long lastModifiedTime;
 
     @JsonProperty("properties")
     private Map<String, Object> properties = Maps.newHashMap();
@@ -64,7 +64,7 @@ public abstract class Entity {
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
-        this.lastModifiedAt = builder.lastModifiedAt;
+        this.lastModifiedTime = builder.lastModifiedTime;
         this.properties = builder.properties;
     }
 
@@ -90,10 +90,10 @@ public abstract class Entity {
     }
 
     /**
-     * @return the lastModifiedAt
+     * @return the lastModifiedTime
      */
-    public long getLastModifiedAt() {
-        return lastModifiedAt;
+    public long getLastModifiedTime() {
+        return lastModifiedTime;
     }
 
     /**
@@ -111,7 +111,7 @@ public abstract class Entity {
         private String id;
         private String type;
         private String name;
-        private long lastModifiedAt;
+        private long lastModifiedTime;
         private Map<String, Object> properties = Maps.newHashMap();
 
         protected abstract T self();
@@ -151,11 +151,11 @@ public abstract class Entity {
         }
 
         /**
-         * @param lastModifiedAt
+         * @param lastModifiedTime
          * @return builder.
          */
-        public T lastModifiedAt(long lastModifiedAt) {
-            this.lastModifiedAt = lastModifiedAt;
+        public T lastModifiedTime(long lastModifiedTime) {
+            this.lastModifiedTime = lastModifiedTime;
             return self();
         }
 
