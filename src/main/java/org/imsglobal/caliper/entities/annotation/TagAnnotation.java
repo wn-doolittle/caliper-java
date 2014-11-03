@@ -49,7 +49,7 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
          * Initialize type with default value.
          */
         public Builder() {
-            type(Annotation.Type.TAG_ANNOTATON.uri());
+            type(Annotation.Type.TAG_ANNOTATION.uri());
         }
 
         /**

@@ -14,10 +14,10 @@ public abstract class Annotation extends Entity implements Thing {
 
     public enum Type {
         ANNOTATION("http://purl.imsglobal.org/caliper/v1/Annotation"),
-        BOOKMARK_ANNOTATON("http://purl.imsglobal.org/caliper/v1/BookmarkAnnotation"),
-        HIGHLIGHT_ANNOTATON("http://purl.imsglobal.org/caliper/v1/HighlightAnnotation"),
-        SHARED_ANNOTATON("http://purl.imsglobal.org/caliper/v1/SharedAnnotation"),
-        TAG_ANNOTATON("http://purl.imsglobal.org/caliper/v1/TagAnnotation");
+        BOOKMARK_ANNOTATION("http://purl.imsglobal.org/caliper/v1/BookmarkAnnotation"),
+        HIGHLIGHT_ANNOTATION("http://purl.imsglobal.org/caliper/v1/HighlightAnnotation"),
+        SHARED_ANNOTATION("http://purl.imsglobal.org/caliper/v1/SharedAnnotation"),
+        TAG_ANNOTATION("http://purl.imsglobal.org/caliper/v1/TagAnnotation");
 
         private final String uri;
 

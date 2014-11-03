@@ -46,7 +46,7 @@ public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotatio
          * Initialize type with default value.
          */
         public Builder() {
-            type(Annotation.Type.BOOKMARK_ANNOTATON.uri());
+            type(Annotation.Type.BOOKMARK_ANNOTATION.uri());
         }
 
         /**
