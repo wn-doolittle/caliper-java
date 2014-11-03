@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.TestUtils;
+import org.imsglobal.caliper.profiles.ReadingProfile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -14,21 +15,29 @@ import static org.junit.Assert.assertEquals;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class NavigationEventTest {
 
+    private ReadingProfile profile;
+    private NavigationEvent event;
     private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
-
-    private Event caliperEvent;
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        caliperEvent = TestUtils.getTestNavigationEvent();
+
+        // Build Reading Profile
+        profile = TestUtils.buildTestReadingProfile();
+
+        // Add navigation-related properties to profile
+        profile = TestUtils.addTestReadingProfileNavigationTarget(profile);
+
+        // Build event
+        event = TestUtils.buildTestNavigationEvent(profile);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        assertEquals("Test if Event can be serialized to JSON",
-        jsonFixture("fixtures/caliperEvent.json"), asJson(caliperEvent));
+        assertEquals("Test if Navigation event is serialized to JSON with expected values",
+        jsonFixture("fixtures/caliperNavigationEvent.json"), asJson(event));
     }
 }
