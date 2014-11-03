@@ -50,7 +50,7 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(Annotation.Type.SHARED_ANNOTATON.uri());
+            type(Annotation.Type.SHARED_ANNOTATION.uri());
         }
 
         /**

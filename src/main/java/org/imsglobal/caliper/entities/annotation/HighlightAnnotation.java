@@ -58,7 +58,7 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
          * Initialize type with default value.
          */
         public Builder() {
-            type(Annotation.Type.HIGHLIGHT_ANNOTATON.uri());
+            type(Annotation.Type.HIGHLIGHT_ANNOTATION.uri());
             selection = new TextPositionSelector();
         }
 
