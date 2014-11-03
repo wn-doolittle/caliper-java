@@ -69,7 +69,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     private final String type;
 
     @JsonProperty("objectType")
-    private Object objectType;
+    private List<String> objectTypes = Lists.newArrayList();
 
     @JsonProperty("alignedLearningObjective")
     private List<LearningObjective> alignedLearningObjective = Lists.newArrayList();
@@ -86,7 +86,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     protected DigitalResource(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.objectType = builder.objectType;
+        this.objectTypes = builder.objectTypes;
         this.alignedLearningObjective = builder.alignedLearningObjective;
         this.keyword = builder.keyword;
         this.partOf = builder.partOf;
@@ -101,10 +101,10 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     }
 
     /**
-     * @return the objectType
+     * @return the objectTypes
      */
-    public Object getObjectType() {
-        return objectType;
+    public List<String> getObjectTypes() {
+        return objectTypes;
     }
 
     /**
@@ -134,7 +134,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
-        private Object objectType;
+        private List<String> objectTypes = Lists.newArrayList();
         private List<LearningObjective> alignedLearningObjective = Lists.newArrayList();
         private List<String> keyword = Lists.newArrayList();
         private Object partOf;
@@ -156,11 +156,20 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         }
 
         /**
+         * @param objectTypes
+         * @return builder.
+         */
+        public T objectTypes(List<String> objectTypes) {
+            this.objectTypes = objectTypes;
+            return self();
+        }
+
+        /**
          * @param objectType
          * @return builder.
          */
-        public T objectType(Object objectType) {
-            this.objectType = objectType;
+        public T objectType(String objectType) {
+            this.objectTypes.add(objectType);
             return self();
         }
 
