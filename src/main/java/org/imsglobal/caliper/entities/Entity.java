@@ -1,15 +1,15 @@
 package org.imsglobal.caliper.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.Maps;
+
 import java.util.Map;
 
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "lastModifiedTime" })
+@JsonPropertyOrder({ "@id", "@type", "name", "properties", "lastModifiedTime" })
 public abstract class Entity {
 
     public enum Type {
@@ -52,9 +52,8 @@ public abstract class Entity {
     private final String name;
 
     @JsonProperty("lastModifiedTime")
-    private long lastModifiedAt;
+    private long lastModifiedTime;
 
-    @JsonIgnore
     @JsonProperty("properties")
     private Map<String, Object> properties = Maps.newHashMap();
 
@@ -65,7 +64,7 @@ public abstract class Entity {
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
-        this.lastModifiedAt = builder.lastModifiedAt;
+        this.lastModifiedTime = builder.lastModifiedTime;
         this.properties = builder.properties;
     }
 
@@ -91,10 +90,10 @@ public abstract class Entity {
     }
 
     /**
-     * @return the lastModifiedAt
+     * @return the lastModifiedTime
      */
-    public long getLastModifiedAt() {
-        return lastModifiedAt;
+    public long getLastModifiedTime() {
+        return lastModifiedTime;
     }
 
     /**
@@ -112,7 +111,7 @@ public abstract class Entity {
         private String id;
         private String type;
         private String name;
-        private long lastModifiedAt;
+        private long lastModifiedTime;
         private Map<String, Object> properties = Maps.newHashMap();
 
         protected abstract T self();
@@ -152,11 +151,11 @@ public abstract class Entity {
         }
 
         /**
-         * @param lastModifiedAt
+         * @param lastModifiedTime
          * @return builder.
          */
-        public T lastModifiedAt(long lastModifiedAt) {
-            this.lastModifiedAt = lastModifiedAt;
+        public T lastModifiedTime(long lastModifiedTime) {
+            this.lastModifiedTime = lastModifiedTime;
             return self();
         }
 

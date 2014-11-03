@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.reading;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
 
@@ -8,6 +9,7 @@ public class Frame extends DigitalResource {
     @JsonProperty("@type")
     private final String type;
 
+    @JsonIgnore
     private final Reading reading;
 
     @JsonProperty("index")
@@ -20,6 +22,7 @@ public class Frame extends DigitalResource {
         super(builder);
         this.type = builder.type;
         this.reading = builder.reading;
+        this.index = builder.index;
     }
 
     /**

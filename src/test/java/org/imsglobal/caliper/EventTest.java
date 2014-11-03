@@ -1,5 +1,6 @@
 package org.imsglobal.caliper;
 
+import org.imsglobal.caliper.profiles.ReadingProfile;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -11,9 +12,15 @@ public class EventTest {
 
         Sensor.initialize(TestUtils.getTestingOptions());
 
+        // Build Reading Profile
+        ReadingProfile profile = TestUtils.buildTestReadingProfile();
+
+        // Add navigation-related properties to profile
+        profile = TestUtils.addTestReadingProfileNavigationTarget(profile);
+
         // Fire event test - Send 50 events
         for (int i = 0 ; i < 50 ; i++) {
-            Sensor.send(TestUtils.getTestNavigationEvent());
+            Sensor.send(TestUtils.buildTestNavigationEvent(profile));
         }
 
         // There should be two caliperEvents queued

@@ -1,9 +1,9 @@
 package org.imsglobal.caliper.request;
 
 import org.apache.http.entity.StringEntity;
-import org.imsglobal.caliper.Options;
 import org.imsglobal.caliper.TestUtils;
-import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.events.NavigationEvent;
+import org.imsglobal.caliper.profiles.ReadingProfile;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
@@ -18,53 +18,56 @@ import static org.junit.Assert.assertEquals;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class HttpRequestorTest {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(HttpRequestorTest.class);
-
-    Event caliperEvent;
-    Options options;
-    HttpRequestor httpRequestor;
+    private HttpRequestor httpRequestor;
+    private NavigationEvent event;
+    private ReadingProfile profile;
+    private String id;
+    private DateTime timestamp;
+    private String expectedContentType;
+    private static final Logger LOG = LoggerFactory.getLogger(HttpRequestorTest.class);
 
     @Before
     public void setup() {
 
-        caliperEvent = TestUtils.getTestNavigationEvent();
-
         httpRequestor = new HttpRequestor(TestUtils.getTestingOptions());
+        id = "caliper-java_fccffd9b-68d5-4183-b563-e22136aafaa3";
+        timestamp = DateTime.parse("2014-07-01T14:29:29.858-04:00");
+        expectedContentType = "Content-Type: application/json";
+
+        // Build Reading Profile
+        profile = TestUtils.buildTestReadingProfile();
+
+        // Add navigation-related properties to profile
+        profile = TestUtils.addTestReadingProfileNavigationTarget(profile);
+
+        // Build event
+        event = TestUtils.buildTestNavigationEvent(profile);
     }
 
     @Test
     public void testGeneratePayloadJson() throws Exception {
 
-        String jsonPayload = null;
-
-        jsonPayload = httpRequestor.getPayloadJson(caliperEvent,
-                "caliper-java_fccffd9b-68d5-4183-b563-e22136aafaa3",
-                DateTime.parse("2014-07-01T14:29:29.858-04:00"));
+        String jsonPayload;
+        jsonPayload = httpRequestor.getPayloadJson(event, id, timestamp);
 
         LOG.debug("JSON payload: " + jsonPayload);
 
         assertEquals("Test HTTP Requestor payload JSON",
-                jsonFixture("fixtures/eventStorePayload.json"), jsonPayload);
+            jsonFixture("fixtures/eventStorePayload.json"), jsonPayload);
 
     }
 
     @Test
     public void testGeneratePayloadContentType() throws Exception {
 
-        StringEntity payload = null;
+        StringEntity payload;
+        payload = httpRequestor.generatePayload(event, id, timestamp);
 
-        payload = httpRequestor.generatePayload(caliperEvent,
-                "caliper-java_fccffd9b-68d5-4183-b563-e22136aafaa3",
-                DateTime.parse("2014-07-01T14:29:29.858-04:00"));
-
-        String expectedContentType = "Content-Type: application/json";
         assertEquals(expectedContentType, payload.getContentType().toString());
     }
 
     @After
     public void teardown() {
-        caliperEvent = null;
-        options = null;
+        event = null;
     }
 }
