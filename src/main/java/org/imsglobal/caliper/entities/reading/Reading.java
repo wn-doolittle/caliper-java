@@ -3,7 +3,7 @@ package org.imsglobal.caliper.entities.reading;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
 
-public class Reading extends DigitalResource {
+public class Reading extends org.imsglobal.caliper.entities.DigitalResource {
 
     @JsonProperty("@type")
     private final String type;

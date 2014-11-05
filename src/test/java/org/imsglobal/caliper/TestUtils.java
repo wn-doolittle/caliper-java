@@ -10,6 +10,7 @@ import org.imsglobal.caliper.entities.lis.Person;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.events.NavigationEvent;
+import org.imsglobal.caliper.events.ViewEvent;
 import org.imsglobal.caliper.profiles.ReadingProfile;
 
 public class TestUtils {
@@ -80,6 +81,21 @@ public class TestUtils {
         return profile;
     }
 
+    public static ReadingProfile addTestReadingProfileViewTarget(ReadingProfile profile) {
+
+        // Add navigation-related properties to profile
+        profile.getActions().add(ReadingActions.VIEWED.key());
+        profile.getTargets().add(Frame.builder()
+            .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
+            .name("Key Figures: George Washington")
+            .partOf(profile.getReading())
+            .lastModifiedTime(profile.getReading().getLastModifiedTime())
+            .index(1)
+            .build());
+
+        return profile;
+    }
+
     public static NavigationEvent buildTestNavigationEvent(ReadingProfile profile) {
 
         // Build NavigationEvent
@@ -91,6 +107,22 @@ public class TestUtils {
             .object(profile.getReading())
             .target(Iterables.getLast(profile.getTargets()))
             .fromResource(Iterables.getLast(profile.getFromResources()))
+            .startedAtTime(1402965614516l)
+            .build();
+
+        return event;
+    }
+
+    public static ViewEvent buildTestViewEvent(ReadingProfile profile) {
+
+        // Build NavigationEvent
+        ViewEvent event = ViewEvent.builder()
+            .edApp(profile.getLearningContext().getEdApp())
+            .lisOrganization(profile.getLearningContext().getLisOrganization())
+            .actor(profile.getLearningContext().getAgent())
+            .action(Iterables.getLast(profile.getActions()))
+            .object(profile.getReading())
+            .target(Iterables.getLast(profile.getTargets()))
             .startedAtTime(1402965614516l)
             .build();
 
