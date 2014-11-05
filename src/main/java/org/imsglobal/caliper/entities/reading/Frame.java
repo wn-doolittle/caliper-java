@@ -1,16 +1,12 @@
 package org.imsglobal.caliper.entities.reading;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
 
-public class Frame extends DigitalResource {
+public class Frame extends org.imsglobal.caliper.entities.DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
-
-    @JsonIgnore
-    private final Reading reading;
 
     @JsonProperty("index")
     private int index;
@@ -21,7 +17,6 @@ public class Frame extends DigitalResource {
     protected Frame(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.reading = builder.reading;
         this.index = builder.index;
     }
 
@@ -31,13 +26,6 @@ public class Frame extends DigitalResource {
     @Override
     public String getType() {
         return type;
-    }
-
-    /**
-     * @return parent reading
-     */
-    public Reading getReading() {
-        return reading;
     }
 
     /**
@@ -53,7 +41,6 @@ public class Frame extends DigitalResource {
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
-        private Reading reading;
         private int index;
 
         /**
@@ -69,15 +56,6 @@ public class Frame extends DigitalResource {
          */
         private T type(String type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param reading
-         * @return builder
-         */
-        public T reading(Reading reading) {
-            this.reading = reading;
             return self();
         }
 
