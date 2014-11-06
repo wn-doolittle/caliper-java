@@ -10,6 +10,7 @@ import org.imsglobal.caliper.entities.WebPage;
 import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
 import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
 import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
+import org.imsglobal.caliper.entities.annotation.TagAnnotation;
 import org.imsglobal.caliper.entities.lis.CourseSection;
 import org.imsglobal.caliper.entities.lis.Person;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
@@ -117,16 +118,16 @@ public class TestUtils {
             .selectionEnd(Integer.toString(489))
             .selectionText("Life, Liberty and the pursuit of Happiness")
             .target(Frame.builder()
-                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
-                .name("Key Figures: George Washington")
-                .partOf(EpubVolume.builder()
-                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
-                    .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
+                    .name("Key Figures: George Washington")
+                    .partOf(EpubVolume.builder()
+                            .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
+                            .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                            .lastModifiedTime(1402965614516l)
+                            .build())
                     .lastModifiedTime(1402965614516l)
-                    .build())
-                .lastModifiedTime(1402965614516l)
-                .index(1)
-                .build())  // TODO: REDUNDANT PROPERTY?
+                    .index(1)
+                    .build())  // TODO: REDUNDANT PROPERTY?
             .lastModifiedTime(1402965614516l)
             .build());
         profile.getTargets().add(Iterables.getLast(profile.getAnnotations()).getTarget());
@@ -139,18 +140,42 @@ public class TestUtils {
         profile.getAnnotations().add(SharedAnnotation.builder()
             .id("https://someEduApp.edu/shared/9999")
             .withAgents(Lists.newArrayList(
-                "https://some-university.edu/students/657585",
-                "https://some-university.edu/students/667788"))
+                    "https://some-university.edu/students/657585",
+                    "https://some-university.edu/students/667788"))
             .target(Frame.builder()
-                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)")
-                .name("Key Figures: John Adams")
+                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)")
+                    .name("Key Figures: John Adams")
+                    .partOf(EpubVolume.builder()
+                            .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
+                            .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                            .lastModifiedTime(1402965614516l)
+                            .build())
+                    .lastModifiedTime(1402965614516l)
+                    .index(3)
+                    .build())  // TODO: REDUNDANT PROPERTY?
+            .lastModifiedTime(1402965614516l)
+            .build());
+        profile.getTargets().add(Iterables.getLast(profile.getAnnotations()).getTarget());
+
+        return profile;
+    }
+
+    public static AnnotationProfile addTestTagAnnotation(AnnotationProfile profile) {
+
+        profile.getActions().add(AnnotationActions.SHARED.key());
+        profile.getAnnotations().add(TagAnnotation.builder()
+            .id("https://someEduApp.edu/tags/7654")
+            .tags(Lists.newArrayList("to-read", "1765", "shared-with-project-team"))
+            .target(Frame.builder()
+                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/4)")
+                .name("The Stamp Act Crisis")
                 .partOf(EpubVolume.builder()
                     .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
                     .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
                     .lastModifiedTime(1402965614516l)
                     .build())
                 .lastModifiedTime(1402965614516l)
-                .index(3)
+                .index(4)
                 .build())  // TODO: REDUNDANT PROPERTY?
             .lastModifiedTime(1402965614516l)
             .build());
