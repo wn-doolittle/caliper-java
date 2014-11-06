@@ -1,10 +1,12 @@
 package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.Lists;
 
 import java.util.List;
 
+@JsonPropertyOrder({ "@id", "@type", "name", "properties", "lastModifiedTime", "target", "withAgents" })
 public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")
