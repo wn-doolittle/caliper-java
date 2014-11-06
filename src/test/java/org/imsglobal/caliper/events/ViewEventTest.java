@@ -1,7 +1,8 @@
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.TestUtils;
+import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.profiles.ReadingProfile;
+import org.imsglobal.caliper.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -15,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class ViewEventTest {
 
+    private LearningContext learningContext;
     private ReadingProfile profile;
     private ViewEvent event;
     private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
@@ -25,8 +27,11 @@ public class ViewEventTest {
     @Before
     public void setUp() throws Exception {
 
+        // Build the Learning Context
+        learningContext = TestUtils.buildTestLearningContext();
+
         // Build Reading Profile
-        profile = TestUtils.buildTestReadingProfile();
+        profile = TestUtils.buildTestReadingProfile(learningContext);
 
         // Add navigation-related properties to profile
         profile = TestUtils.addTestReadingProfileViewTarget(profile);
