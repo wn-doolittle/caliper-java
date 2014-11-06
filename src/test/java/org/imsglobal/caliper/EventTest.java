@@ -1,5 +1,6 @@
 package org.imsglobal.caliper;
 
+import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.profiles.ReadingProfile;
 import org.junit.Test;
 
@@ -12,8 +13,11 @@ public class EventTest {
 
         Sensor.initialize(TestUtils.getTestingOptions());
 
+        // Build the Learning Context
+        LearningContext learningContext = TestUtils.buildTestLearningContext();
+
         // Build Reading Profile
-        ReadingProfile profile = TestUtils.buildTestReadingProfile();
+        ReadingProfile profile = TestUtils.buildTestReadingProfile(learningContext);
 
         // Add navigation-related properties to profile
         profile = TestUtils.addTestReadingProfileNavigationTarget(profile);

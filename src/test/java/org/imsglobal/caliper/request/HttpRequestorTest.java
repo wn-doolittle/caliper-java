@@ -2,6 +2,7 @@ package org.imsglobal.caliper.request;
 
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.TestUtils;
+import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.events.NavigationEvent;
 import org.imsglobal.caliper.profiles.ReadingProfile;
 import org.joda.time.DateTime;
@@ -19,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 public class HttpRequestorTest {
 
     private HttpRequestor httpRequestor;
+    private LearningContext learningContext;
     private NavigationEvent event;
     private ReadingProfile profile;
     private String id;
@@ -34,8 +36,11 @@ public class HttpRequestorTest {
         timestamp = DateTime.parse("2014-07-01T14:29:29.858-04:00");
         expectedContentType = "Content-Type: application/json";
 
+        // Build the Learning Context
+        learningContext = TestUtils.buildTestLearningContext();
+
         // Build Reading Profile
-        profile = TestUtils.buildTestReadingProfile();
+        profile = TestUtils.buildTestReadingProfile(learningContext);
 
         // Add navigation-related properties to profile
         profile = TestUtils.addTestReadingProfileNavigationTarget(profile);

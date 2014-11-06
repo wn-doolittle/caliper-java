@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
@@ -10,6 +11,7 @@ import org.imsglobal.caliper.entities.schemadotorg.Thing;
  * Direct sub-types can include - Highlight, Attachment, etc. - all of
  * which are specified in the Caliper Annotation Metric Profile
  */
+@JsonPropertyOrder({ "@id", "@type", "name", "properties", "lastModifiedTime", "target" })
 public abstract class Annotation extends Entity implements Thing {
 
     public enum Type {
