@@ -1,6 +1,7 @@
 package org.imsglobal.caliper;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import org.imsglobal.caliper.actions.AnnotationActions;
 import org.imsglobal.caliper.actions.ReadingActions;
 import org.imsglobal.caliper.entities.LearningContext;
@@ -8,6 +9,7 @@ import org.imsglobal.caliper.entities.SoftwareApplication;
 import org.imsglobal.caliper.entities.WebPage;
 import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
 import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
+import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
 import org.imsglobal.caliper.entities.lis.CourseSection;
 import org.imsglobal.caliper.entities.lis.Person;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
@@ -36,22 +38,22 @@ public class TestUtils {
 
         LearningContext context = LearningContext.builder()
             .edApp(SoftwareApplication.builder()
-                    .id("https://github.com/readium/readium-js-viewer")
-                    .name("Readium")
-                    .lastModifiedTime(1402965614516l)
-                    .build())
+                .id("https://github.com/readium/readium-js-viewer")
+                .name("Readium")
+                .lastModifiedTime(1402965614516l)
+                .build())
             .lisOrganization(CourseSection.builder()
-                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101")
-                    .semester("Spring-2014")
-                    .courseNumber("AmRev-101")
-                    .label("Am Rev 101")
-                    .name("American Revolution 101")
-                    .lastModifiedTime(1402965614516l)
-                    .build())
+                .id("https://some-university.edu/politicalScience/2014/american-revolution-101")
+                .semester("Spring-2014")
+                .courseNumber("AmRev-101")
+                .label("Am Rev 101")
+                .name("American Revolution 101")
+                .lastModifiedTime(1402965614516l)
+                .build())
             .agent(Person.builder()
-                    .id("https://some-university.edu/user/554433")
-                    .lastModifiedTime(1402965614516l)
-                    .build())
+                .id("https://some-university.edu/user/554433")
+                .lastModifiedTime(1402965614516l)
+                .build())
             .build();
 
         return context;
@@ -73,10 +75,10 @@ public class TestUtils {
         ReadingProfile profile = ReadingProfile.builder()
             .learningContext(learningContext)
             .reading(EpubVolume.builder()
-                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
-                    .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
-                    .lastModifiedTime(1402965614516l)
-                    .build())
+                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
+                .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                .lastModifiedTime(1402965614516l)
+                .build())
             .build();
 
         return profile;
@@ -110,24 +112,50 @@ public class TestUtils {
 
         profile.getActions().add(AnnotationActions.HIGHLIGHTED.key());
         profile.getAnnotations().add(HighlightAnnotation.builder()
-                .id("https://someEduApp.edu/highlights/12345")
-                .selectionStart(Integer.toString(455))
-                .selectionEnd(Integer.toString(489))
-                .selectionText("Life, Liberty and the pursuit of Happiness")
-                .target(Frame.builder()
-                        .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
-                        .name("Key Figures: George Washington")
-                        .partOf(EpubVolume.builder()
-                                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
-                                .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
-                                .lastModifiedTime(1402965614516l)
-                                .build())
-                        .lastModifiedTime(1402965614516l)
-                        .index(1)
-                        .build())  // TODO: REDUNDANT PROPERTY?
+            .id("https://someEduApp.edu/highlights/12345")
+            .selectionStart(Integer.toString(455))
+            .selectionEnd(Integer.toString(489))
+            .selectionText("Life, Liberty and the pursuit of Happiness")
+            .target(Frame.builder()
+                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
+                .name("Key Figures: George Washington")
+                .partOf(EpubVolume.builder()
+                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
+                    .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                    .lastModifiedTime(1402965614516l)
+                    .build())
                 .lastModifiedTime(1402965614516l)
-                .build());
+                .index(1)
+                .build())  // TODO: REDUNDANT PROPERTY?
+            .lastModifiedTime(1402965614516l)
+            .build());
         profile.getTargets().add(Iterables.getLast(profile.getAnnotations()).getTarget());
+        return profile;
+    }
+
+    public static AnnotationProfile addTestSharedAnnotation(AnnotationProfile profile) {
+
+        profile.getActions().add(AnnotationActions.SHARED.key());
+        profile.getAnnotations().add(SharedAnnotation.builder()
+            .id("https://someEduApp.edu/shared/9999")
+            .withAgents(Lists.newArrayList(
+                "https://some-university.edu/students/657585",
+                "https://some-university.edu/students/667788"))
+            .target(Frame.builder()
+                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)")
+                .name("Key Figures: John Adams")
+                .partOf(EpubVolume.builder()
+                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
+                    .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                    .lastModifiedTime(1402965614516l)
+                    .build())
+                .lastModifiedTime(1402965614516l)
+                .index(3)
+                .build())  // TODO: REDUNDANT PROPERTY?
+            .lastModifiedTime(1402965614516l)
+            .build());
+        profile.getTargets().add(Iterables.getLast(profile.getAnnotations()).getTarget());
+
         return profile;
     }
 
