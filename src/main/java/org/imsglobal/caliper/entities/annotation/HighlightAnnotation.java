@@ -1,7 +1,17 @@
 package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({
+    "@id",
+    "@type",
+    "name",
+    "properties",
+    "lastModifiedTime",
+    "target",
+    "selection",
+    "selectionText" })
 public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")
