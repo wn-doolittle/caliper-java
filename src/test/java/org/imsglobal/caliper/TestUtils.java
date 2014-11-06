@@ -6,6 +6,7 @@ import org.imsglobal.caliper.actions.ReadingActions;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.SoftwareApplication;
 import org.imsglobal.caliper.entities.WebPage;
+import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
 import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
 import org.imsglobal.caliper.entities.lis.CourseSection;
 import org.imsglobal.caliper.entities.lis.Person;
@@ -81,27 +82,51 @@ public class TestUtils {
         return profile;
     }
 
-    public static AnnotationProfile addTestHighlightAnnotation(AnnotationProfile profile) {
+    public static AnnotationProfile addTestBookmarkAnnotation(AnnotationProfile profile) {
 
-        profile.getActions().add(AnnotationActions.HIGHLIGHTED.key());
-        profile.getAnnotations().add(HighlightAnnotation.builder()
-            .id("https://someEduApp.edu/highlights/12345")
-            .selectionStart(Integer.toString(455))
-            .selectionEnd(Integer.toString(489))
-            .selectionText("Life, Liberty and the pursuit of Happiness")
+        profile.getActions().add(AnnotationActions.BOOKMARKED.key());
+        profile.getAnnotations().add(BookmarkAnnotation.builder()
+            .id("https://someEduApp.edu/bookmarks/00001")
+            .bookmarkNotes("The Intolerable Acts (1774)--bad idea Lord North")
             .target(Frame.builder()
-                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
-                .name("Key Figures: George Washington")
+                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/2)")
+                .name("Key Figures: Lord North")
                 .partOf(EpubVolume.builder()
                     .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
                     .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
                     .lastModifiedTime(1402965614516l)
                     .build())
                 .lastModifiedTime(1402965614516l)
-                .index(1)
+                .index(2)
                 .build())  // TODO: REDUNDANT PROPERTY?
             .lastModifiedTime(1402965614516l)
             .build());
+        profile.getTargets().add(Iterables.getLast(profile.getAnnotations()).getTarget());
+
+        return profile;
+    }
+
+    public static AnnotationProfile addTestHighlightAnnotation(AnnotationProfile profile) {
+
+        profile.getActions().add(AnnotationActions.HIGHLIGHTED.key());
+        profile.getAnnotations().add(HighlightAnnotation.builder()
+                .id("https://someEduApp.edu/highlights/12345")
+                .selectionStart(Integer.toString(455))
+                .selectionEnd(Integer.toString(489))
+                .selectionText("Life, Liberty and the pursuit of Happiness")
+                .target(Frame.builder()
+                        .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
+                        .name("Key Figures: George Washington")
+                        .partOf(EpubVolume.builder()
+                                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
+                                .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                                .lastModifiedTime(1402965614516l)
+                                .build())
+                        .lastModifiedTime(1402965614516l)
+                        .index(1)
+                        .build())  // TODO: REDUNDANT PROPERTY?
+                .lastModifiedTime(1402965614516l)
+                .build());
         profile.getTargets().add(Iterables.getLast(profile.getAnnotations()).getTarget());
         return profile;
     }
@@ -142,7 +167,6 @@ public class TestUtils {
         return profile;
     }
 
-
     public static AnnotationEvent buildTestAnnotationEvent(AnnotationProfile profile) {
 
         // Build Annotation Event
@@ -158,7 +182,6 @@ public class TestUtils {
 
         return event;
     }
-
 
     public static NavigationEvent buildTestNavigationEvent(ReadingProfile profile) {
 
