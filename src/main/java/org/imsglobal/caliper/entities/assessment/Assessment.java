@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.entities.assessment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 
@@ -9,6 +10,26 @@ import java.util.List;
 /**
  * Caliper representation of an QTI Assessment.  Part of the Assessment Metric Profile
  */
+@JsonPropertyOrder({
+    "@id",
+    "@type",
+    "name",
+    "objectType",
+    "properties",
+    "alignedLearningObjective",
+    "keyword",
+    "partOf",
+    "lastModifiedTime",
+    "dateCreated",
+    "datePublished",
+    "dateToActivate",
+    "dateToShow",
+    "dateToStartOn",
+    "dateToSubmit",
+    "maxAttempts",
+    "maxSubmits",
+    "maxScore",
+    "assessmentItems" })
 public class Assessment extends AssignableDigitalResource implements org.imsglobal.caliper.entities.qti.Assessment {
 
     @JsonProperty("@type")

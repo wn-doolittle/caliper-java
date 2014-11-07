@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.entities.assignable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Agent;
 import org.imsglobal.caliper.entities.Entity;
 
@@ -8,6 +9,18 @@ import org.imsglobal.caliper.entities.Entity;
  * Representation of an Attempt. Attempts are generated as part of or
  * are the object of an interaction represented by an AssignableEvent
  */
+@JsonPropertyOrder({
+    "@id",
+    "@type",
+    "name",
+    "properties",
+    "lastModifiedTime",
+    "assignable",
+    "actor",
+    "count",
+    "startedAtTime",
+    "endedAtTime",
+    "duration" })
 public class Attempt extends org.imsglobal.caliper.entities.Entity {
 
     @JsonProperty("@type")
