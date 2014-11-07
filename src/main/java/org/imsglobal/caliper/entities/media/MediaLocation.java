@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.base.Strings;
 import org.imsglobal.caliper.entities.Entity;
 
@@ -9,18 +10,26 @@ import java.util.UUID;
 /**
  * Media Location
  */
+@JsonPropertyOrder({
+    "@id",
+    "@type",
+    "name",
+    "properties",
+    "lastModifiedTime",
+    "currentTime" })
 public class MediaLocation extends org.imsglobal.caliper.entities.Entity {
-
-    @JsonProperty("@type")
-    private final String type;
 
     @JsonProperty("@id")
     private final String id;
+
+    @JsonProperty("@type")
+    private final String type;
 
     /**
      * The time value (from beginning of media) that indicates the current
      * location
      */
+    @JsonProperty("currentTime")
     private long currentTime;
 
     /**
@@ -31,6 +40,14 @@ public class MediaLocation extends org.imsglobal.caliper.entities.Entity {
         this.type = builder.type;
         this.id = builder.id;
         this.currentTime = builder.currentTime;
+    }
+
+    /**
+     * @return the id
+     */
+    @Override
+    public String getId() {
+        return id;
     }
 
     /**
@@ -53,8 +70,8 @@ public class MediaLocation extends org.imsglobal.caliper.entities.Entity {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private String type;
         private String id;
+        private String type;
         private long currentTime;
         private UUID uuid = new UUID(1000l, 500l);
 
@@ -64,15 +81,6 @@ public class MediaLocation extends org.imsglobal.caliper.entities.Entity {
         public Builder() {
             id(Entity.Type.MEDIA_LOCATION.uri() + "/" + uuid);
             type(Entity.Type.MEDIA_LOCATION.uri());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
         }
 
         /**
@@ -86,6 +94,15 @@ public class MediaLocation extends org.imsglobal.caliper.entities.Entity {
             } else {
                 this.id = id;
             }
+            return self();
+        }
+
+        /**
+         * @param type
+         * @return builder.
+         */
+        private T type(String type) {
+            this.type = type;
             return self();
         }
 
