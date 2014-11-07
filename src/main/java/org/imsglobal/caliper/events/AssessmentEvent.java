@@ -64,7 +64,7 @@ public class AssessmentEvent extends org.imsglobal.caliper.events.Event {
          */
         public Builder() {
             context(Event.Context.ASSESSMENT.uri());
-            type(Event.Type.ANNOTATION.uri());
+            type(Event.Type.ASSESSMENT.uri());
         }
 
         /**

@@ -2,10 +2,7 @@ package org.imsglobal.caliper;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.actions.AnnotationActions;
-import org.imsglobal.caliper.actions.AssignableActions;
-import org.imsglobal.caliper.actions.MediaActions;
-import org.imsglobal.caliper.actions.ReadingActions;
+import org.imsglobal.caliper.actions.*;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.LearningObjective;
 import org.imsglobal.caliper.entities.SoftwareApplication;
@@ -25,10 +22,7 @@ import org.imsglobal.caliper.entities.media.VideoObject;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.events.*;
-import org.imsglobal.caliper.profiles.AnnotationProfile;
-import org.imsglobal.caliper.profiles.AssignableProfile;
-import org.imsglobal.caliper.profiles.MediaProfile;
-import org.imsglobal.caliper.profiles.ReadingProfile;
+import org.imsglobal.caliper.profiles.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,6 +126,16 @@ public class TestUtils {
         return profile;
     }
 
+    public static AssessmentProfile buildTestAssessmentProfile(LearningContext learningContext, Assessment assessment) {
+
+        AssessmentProfile profile = AssessmentProfile.builder()
+            .learningContext(learningContext)
+            .assessment(assessment)
+            .build();
+
+        return profile;
+    }
+
     public static AssignableProfile buildTestAssignableProfile(LearningContext learningContext, Assessment assessment) {
 
         AssignableProfile profile = AssignableProfile.builder()
@@ -166,15 +170,15 @@ public class TestUtils {
                 .id("https://com.sat/super-media-tool/video/video1")
                 .name("American Revolution - Key Figures Video")
                 .learningObjective(LearningObjective.builder()
-                        .id("http://americanrevolution.com/personalities/learn")
-                        .build())
+                    .id("http://americanrevolution.com/personalities/learn")
+                    .build())
                 .duration(1420)
                 .lastModifiedTime(1402965614516l)
                 .build())
             .mediaLocation(MediaLocation.builder()
-                    .id("https://com.sat/super-media-tool/video/video1")
-                    .currentTime(0)
-                    .build())
+                .id("https://com.sat/super-media-tool/video/video1")
+                .currentTime(0)
+                .build())
             .build();
 
         return profile;
@@ -311,6 +315,19 @@ public class TestUtils {
         return profile;
     }
 
+    public static AssessmentProfile startTestAssessment(AssessmentProfile profile) {
+
+        profile.getActions().add(AssessmentActions.STARTED.key());
+        profile.getGenerateds().add(Attempt.builder()
+            .id(profile.getAssessment().getId() + "/attempt1")
+            .assignable((AssignableDigitalResource) profile.getAssessment())
+            .actor(profile.getLearningContext().getAgent())
+            .count(1)
+            .build());
+
+        return profile;
+    }
+
     public static AssignableProfile startTestAssignableAssessment(AssignableProfile profile) {
 
         profile.getActions().add(AssignableActions.STARTED.key());
@@ -352,6 +369,21 @@ public class TestUtils {
             .build();
 
         return event;
+    }
+
+    public static AssessmentEvent buildTestAssessmentEvent(AssessmentProfile assessment) {
+
+        AssessmentEvent event = AssessmentEvent.builder()
+            .edApp(assessment.getLearningContext().getEdApp())
+            .lisOrganization(assessment.getLearningContext().getLisOrganization())
+            .actor(assessment.getLearningContext().getAgent())
+            .action(Iterables.getLast(assessment.getActions()))
+            .object((AssignableDigitalResource) assessment.getAssessment())
+            .generated(Iterables.getLast(assessment.getGenerateds()))
+            .startedAtTime(1402965614516l)
+            .build();
+
+       return event;
     }
 
     public static AssignableEvent buildTestAssignableEvent(AssignableProfile profile) {
