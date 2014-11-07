@@ -1,13 +1,27 @@
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.actions.MediaActions;
-import org.imsglobal.caliper.entities.media.MediaObject;
-import org.imsglobal.caliper.entities.media.MediaLocation;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.actions.MediaActions;
+import org.imsglobal.caliper.entities.media.MediaLocation;
+import org.imsglobal.caliper.entities.media.MediaObject;
 
 import java.util.ResourceBundle;
 
+@JsonPropertyOrder({
+    "@context",
+    "@type",
+    "actor",
+    "action",
+    "object",
+    "mediaLocation",
+    "target",
+    "generated",
+    "startedAtTime",
+    "endedAtTime",
+    "duration",
+    "edApp",
+    "group" })
 public class MediaEvent extends org.imsglobal.caliper.events.Event {
 
     @JsonProperty("@context")

@@ -3,8 +3,10 @@ package org.imsglobal.caliper;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.actions.AnnotationActions;
+import org.imsglobal.caliper.actions.MediaActions;
 import org.imsglobal.caliper.actions.ReadingActions;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.LearningObjective;
 import org.imsglobal.caliper.entities.SoftwareApplication;
 import org.imsglobal.caliper.entities.WebPage;
 import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
@@ -13,12 +15,16 @@ import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
 import org.imsglobal.caliper.entities.annotation.TagAnnotation;
 import org.imsglobal.caliper.entities.lis.CourseSection;
 import org.imsglobal.caliper.entities.lis.Person;
+import org.imsglobal.caliper.entities.media.MediaLocation;
+import org.imsglobal.caliper.entities.media.VideoObject;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.events.AnnotationEvent;
+import org.imsglobal.caliper.events.MediaEvent;
 import org.imsglobal.caliper.events.NavigationEvent;
 import org.imsglobal.caliper.events.ViewEvent;
 import org.imsglobal.caliper.profiles.AnnotationProfile;
+import org.imsglobal.caliper.profiles.MediaProfile;
 import org.imsglobal.caliper.profiles.ReadingProfile;
 
 public class TestUtils {
@@ -85,6 +91,29 @@ public class TestUtils {
         return profile;
     }
 
+    public static MediaProfile buildTestVideoMediaProfile(LearningContext learningContext) {
+
+        // Initialize profile with default values
+        MediaProfile profile = MediaProfile.builder()
+            .learningContext(learningContext)
+            .mediaObject(VideoObject.builder()
+                .id("https://com.sat/super-media-tool/video/video1")
+                .name("American Revolution - Key Figures Video")
+                .learningObjective(LearningObjective.builder()
+                    .id("http://americanrevolution.com/personalities/learn")
+                    .build())
+                .duration(1420)
+                .lastModifiedTime(1402965614516l)
+                .build())
+            .mediaLocation(MediaLocation.builder()
+                .id("https://com.sat/super-media-tool/video/video1")
+                .currentTime(0)
+                .build())
+            .build();
+
+        return profile;
+    }
+
     public static AnnotationProfile addTestBookmarkAnnotation(AnnotationProfile profile) {
 
         profile.getActions().add(AnnotationActions.BOOKMARKED.key());
@@ -118,16 +147,16 @@ public class TestUtils {
             .selectionEnd(Integer.toString(489))
             .selectionText("Life, Liberty and the pursuit of Happiness")
             .target(Frame.builder()
-                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
-                    .name("Key Figures: George Washington")
-                    .partOf(EpubVolume.builder()
-                            .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
-                            .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
-                            .lastModifiedTime(1402965614516l)
-                            .build())
+                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
+                .name("Key Figures: George Washington")
+                .partOf(EpubVolume.builder()
+                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
+                    .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
                     .lastModifiedTime(1402965614516l)
-                    .index(1)
-                    .build())  // TODO: REDUNDANT PROPERTY?
+                    .build())
+                .lastModifiedTime(1402965614516l)
+                .index(1)
+                .build())  // TODO: REDUNDANT PROPERTY?
             .lastModifiedTime(1402965614516l)
             .build());
         profile.getTargets().add(Iterables.getLast(profile.getAnnotations()).getTarget());
@@ -140,19 +169,19 @@ public class TestUtils {
         profile.getAnnotations().add(SharedAnnotation.builder()
             .id("https://someEduApp.edu/shared/9999")
             .withAgents(Lists.newArrayList(
-                    "https://some-university.edu/students/657585",
-                    "https://some-university.edu/students/667788"))
+                "https://some-university.edu/students/657585",
+                "https://some-university.edu/students/667788"))
             .target(Frame.builder()
-                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)")
-                    .name("Key Figures: John Adams")
-                    .partOf(EpubVolume.builder()
-                            .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
-                            .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
-                            .lastModifiedTime(1402965614516l)
-                            .build())
-                    .lastModifiedTime(1402965614516l)
-                    .index(3)
-                    .build())  // TODO: REDUNDANT PROPERTY?
+                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)")
+                .name("Key Figures: John Adams")
+                .partOf(EpubVolume.builder()
+                        .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
+                        .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                        .lastModifiedTime(1402965614516l)
+                        .build())
+                .lastModifiedTime(1402965614516l)
+                .index(3)
+                .build())  // TODO: REDUNDANT PROPERTY?
             .lastModifiedTime(1402965614516l)
             .build());
         profile.getTargets().add(Iterables.getLast(profile.getAnnotations()).getTarget());
@@ -170,10 +199,10 @@ public class TestUtils {
                 .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/4)")
                 .name("The Stamp Act Crisis")
                 .partOf(EpubVolume.builder()
-                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
-                    .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
-                    .lastModifiedTime(1402965614516l)
-                    .build())
+                        .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
+                        .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                        .lastModifiedTime(1402965614516l)
+                        .build())
                 .lastModifiedTime(1402965614516l)
                 .index(4)
                 .build())  // TODO: REDUNDANT PROPERTY?
@@ -205,6 +234,17 @@ public class TestUtils {
         return profile;
     }
 
+    public static MediaProfile pauseVideo(MediaProfile profile) {
+
+        profile.getActions().add(MediaActions.PAUSED.key());
+        profile.getMediaLocations().add(MediaLocation.builder()
+            .id(((VideoObject) profile.getMediaObject()).getId())
+            .currentTime(710)
+            .build());
+
+        return profile;
+    }
+
     public static ReadingProfile addTestReadingProfileViewTarget(ReadingProfile profile) {
 
         // Add navigation-related properties to profile
@@ -230,6 +270,21 @@ public class TestUtils {
             .action(Iterables.getLast(profile.getActions()))
             .object(Iterables.getLast(profile.getAnnotations()))
             .target(Iterables.getLast(profile.getTargets()))
+            .startedAtTime(1402965614516l)
+            .build();
+
+        return event;
+    }
+
+    public static MediaEvent buildTestMediaEvent(MediaProfile profile) {
+
+        MediaEvent event = MediaEvent.builder()
+            .edApp(profile.getLearningContext().getEdApp())
+            .lisOrganization(profile.getLearningContext().getLisOrganization())
+            .actor(profile.getLearningContext().getAgent())
+            .action(Iterables.getLast(profile.getActions()))
+            .object(profile.getMediaObject())
+            .mediaLocation(Iterables.getLast(profile.getMediaLocations()))
             .startedAtTime(1402965614516l)
             .build();
 
