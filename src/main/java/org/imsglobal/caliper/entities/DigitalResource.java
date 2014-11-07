@@ -25,15 +25,15 @@ import java.util.List;
  */
 
 @JsonPropertyOrder({
-        "@id",
-        "@type",
-        "name",
-        "objectType",
-        "properties",
-        "alignedLearningObjective",
-        "keyword",
-        "partOf",
-        "lastModifiedTime" })
+    "@id",
+    "@type",
+    "name",
+    "objectType",
+    "properties",
+    "alignedLearningObjective",
+    "keyword",
+    "partOf",
+    "lastModifiedTime" })
 public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork {
 
     public enum Type {
