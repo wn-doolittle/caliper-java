@@ -30,19 +30,19 @@ public class AssessmentEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildTestLearningContext();
+        learningContext = TestUtils.buildLearningContext();
 
         // Build assessment
-        assessment = TestUtils.buildTestAssessment(learningContext);
+        assessment = TestUtils.buildAssessment(learningContext);
 
         // Build Profile
-        profile = TestUtils.buildTestAssessmentProfile(learningContext, assessment);
+        profile = TestUtils.buildAssessmentProfile(learningContext, assessment);
 
         // Start Assessment
-        profile = TestUtils.startTestAssessment(profile);
+        profile = TestUtils.startAssessment(profile);
 
         // Build event
-        event = TestUtils.buildTestAssessmentEvent(profile);
+        event = TestUtils.buildAssessmentEvent(profile);
     }
 
     @Test

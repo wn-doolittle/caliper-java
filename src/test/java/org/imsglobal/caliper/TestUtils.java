@@ -29,6 +29,9 @@ import java.util.List;
 
 public class TestUtils {
 
+    /**
+     * @return test options
+     */
     public static Options getTestingOptions() {
 
         String TESTING_HOST = "http://localhost:1080/1.0/event/put";
@@ -41,7 +44,10 @@ public class TestUtils {
         return options;
     }
 
-    public static LearningContext buildTestLearningContext() {
+    /**
+     * @return learning context
+     */
+    public static LearningContext buildLearningContext() {
 
         LearningContext context = LearningContext.builder()
             .edApp(SoftwareApplication.builder()
@@ -66,7 +72,11 @@ public class TestUtils {
         return context;
     }
 
-    public static Assessment buildTestAssessment(LearningContext learningContext) {
+    /**
+     * @param learningContext
+     * @return assessment
+     */
+    public static Assessment buildAssessment(LearningContext learningContext) {
 
         // Assessment items
         List<AssessmentItem> assessmentItems = new ArrayList<AssessmentItem>();
@@ -116,7 +126,11 @@ public class TestUtils {
         return assessment;
     }
 
-    public static AnnotationProfile buildTestAnnotationProfile(LearningContext learningContext) {
+    /**
+     * @param learningContext
+     * @return Annotation profile
+     */
+    public static AnnotationProfile buildAnnotationProfile(LearningContext learningContext) {
 
         // Initialize profile with default values
         AnnotationProfile profile = AnnotationProfile.builder()
@@ -126,7 +140,12 @@ public class TestUtils {
         return profile;
     }
 
-    public static AssessmentProfile buildTestAssessmentProfile(LearningContext learningContext, Assessment assessment) {
+    /**
+     * @param learningContext
+     * @param assessment
+     * @return Assessment profile
+     */
+    public static AssessmentProfile buildAssessmentProfile(LearningContext learningContext, Assessment assessment) {
 
         AssessmentProfile profile = AssessmentProfile.builder()
             .learningContext(learningContext)
@@ -136,7 +155,13 @@ public class TestUtils {
         return profile;
     }
 
-    public static AssignableProfile buildTestAssignableProfile(LearningContext learningContext, Assessment assessment) {
+    /**
+     * @param learningContext
+     * @param assessment
+     * @return Assessment assignable profile
+     */
+    public static AssignableProfile buildAssessmentAssignableProfile(LearningContext learningContext,
+                                                                     Assessment assessment) {
 
         AssignableProfile profile = AssignableProfile.builder()
             .learningContext(learningContext)
@@ -146,7 +171,11 @@ public class TestUtils {
         return profile;
     }
 
-    public static ReadingProfile buildTestReadingProfile(LearningContext learningContext) {
+    /**
+     * @param learningContext
+     * @return Reading profile
+     */
+    public static ReadingProfile buildReadingProfile(LearningContext learningContext) {
 
         // Initialize profile with default values
         ReadingProfile profile = ReadingProfile.builder()
@@ -161,7 +190,11 @@ public class TestUtils {
         return profile;
     }
 
-    public static MediaProfile buildTestVideoMediaProfile(LearningContext learningContext) {
+    /**
+     * @param learningContext
+     * @return Video media profile
+     */
+    public static MediaProfile buildVideoMediaProfile(LearningContext learningContext) {
 
         // Initialize profile with default values
         MediaProfile profile = MediaProfile.builder()
@@ -184,7 +217,11 @@ public class TestUtils {
         return profile;
     }
 
-    public static AnnotationProfile addTestBookmarkAnnotation(AnnotationProfile profile) {
+    /**
+     * @param profile
+     * @return Annotation profile with bookmark action
+     */
+    public static AnnotationProfile addBookmarkAnnotation(AnnotationProfile profile) {
 
         profile.getActions().add(AnnotationActions.BOOKMARKED.key());
         profile.getAnnotations().add(BookmarkAnnotation.builder()
@@ -208,7 +245,11 @@ public class TestUtils {
         return profile;
     }
 
-    public static AnnotationProfile addTestHighlightAnnotation(AnnotationProfile profile) {
+    /**
+     * @param profile
+     * @return  Annotation profile with highlight action
+     */
+    public static AnnotationProfile addHighlightAnnotation(AnnotationProfile profile) {
 
         profile.getActions().add(AnnotationActions.HIGHLIGHTED.key());
         profile.getAnnotations().add(HighlightAnnotation.builder()
@@ -230,10 +271,15 @@ public class TestUtils {
             .lastModifiedTime(1402965614516l)
             .build());
         profile.getTargets().add(Iterables.getLast(profile.getAnnotations()).getTarget());
+
         return profile;
     }
 
-    public static AnnotationProfile addTestSharedAnnotation(AnnotationProfile profile) {
+    /**
+     * @param profile
+     * @return Annotation profile with shared action
+     */
+    public static AnnotationProfile addSharedAnnotation(AnnotationProfile profile) {
 
         profile.getActions().add(AnnotationActions.SHARED.key());
         profile.getAnnotations().add(SharedAnnotation.builder()
@@ -259,7 +305,11 @@ public class TestUtils {
         return profile;
     }
 
-    public static AnnotationProfile addTestTagAnnotation(AnnotationProfile profile) {
+    /**
+     * @param profile
+     * @return Annotation profile with tag action
+     */
+    public static AnnotationProfile addTagAnnotation(AnnotationProfile profile) {
 
         profile.getActions().add(AnnotationActions.SHARED.key());
         profile.getAnnotations().add(TagAnnotation.builder()
@@ -283,7 +333,89 @@ public class TestUtils {
         return profile;
     }
 
-    public static ReadingProfile addTestReadingProfileNavigationTarget(ReadingProfile profile) {
+    /**
+     * @param profile
+     * @return Assessment profile with started action
+     */
+    public static AssessmentProfile startAssessment(AssessmentProfile profile) {
+
+        profile.getActions().add(AssessmentActions.STARTED.key());
+        profile.getGenerateds().add(Attempt.builder()
+            .id(profile.getAssessment().getId() + "/attempt1")
+            .assignable((AssignableDigitalResource) profile.getAssessment())
+            .actor(profile.getLearningContext().getAgent())
+            .count(1)
+            .build());
+
+        return profile;
+    }
+
+    /**
+     * @param profile
+     * @param item
+     * @return Assessment profile with started action
+     */
+    public static AssessmentProfile startAssessmentItem(AssessmentProfile profile, AssessmentItem item) {
+
+        profile.getActions().add(AssessmentItemActions.STARTED.key());
+        profile.getItemsAttempted().add(item);
+
+        return profile;
+    }
+
+    /**
+     * @param profile
+     * @param index
+     * @return Assessment action with completed action
+     */
+    public static AssessmentProfile completeAssessmentItem(AssessmentProfile profile, int index) {
+
+        profile.getActions().add(AssessmentItemActions.COMPLETED.key());
+        //profile.getGenerateds().add(Response.builder()
+        // .item(profile.getAssessment().getAssessmentItems().get(index))
+        // . . .
+        // .build(); // TODO define a response object?
+
+        return profile;
+    }
+
+    /**
+     * @param profile
+     * @return Assignable profile with started action
+     */
+    public static AssignableProfile startAssignableAssessment(AssignableProfile profile) {
+
+        profile.getActions().add(AssignableActions.STARTED.key());
+        profile.getAttempts().add(Attempt.builder()
+            .id(profile.getAssignable().getId() + "/attempt1")
+            .assignable((AssignableDigitalResource) profile.getAssignable())
+            .actor(profile.getLearningContext().getAgent())
+            .count(1)
+            .build());
+
+        return profile;
+    }
+
+    /**
+     * @param profile
+     * @return Video media profile with paused action
+     */
+    public static MediaProfile pauseVideo(MediaProfile profile) {
+
+        profile.getActions().add(MediaActions.PAUSED.key());
+        profile.getMediaLocations().add(MediaLocation.builder()
+            .id(((VideoObject) profile.getMediaObject()).getId())
+            .currentTime(710)
+            .build());
+
+        return profile;
+    }
+
+    /**
+     * @param profile
+     * @return Reading profile with navigation action
+     */
+    public static ReadingProfile navigateToReadingTarget(ReadingProfile profile) {
 
         // Add navigation-related properties to profile
         profile.getActions().add(ReadingActions.NAVIGATED_TO.key());
@@ -304,63 +436,11 @@ public class TestUtils {
         return profile;
     }
 
-    public static MediaProfile pauseVideo(MediaProfile profile) {
-
-        profile.getActions().add(MediaActions.PAUSED.key());
-        profile.getMediaLocations().add(MediaLocation.builder()
-            .id(((VideoObject) profile.getMediaObject()).getId())
-            .currentTime(710)
-            .build());
-
-        return profile;
-    }
-
-    public static AssessmentProfile startTestAssessment(AssessmentProfile profile) {
-
-        profile.getActions().add(AssessmentActions.STARTED.key());
-        profile.getGenerateds().add(Attempt.builder()
-            .id(profile.getAssessment().getId() + "/attempt1")
-            .assignable((AssignableDigitalResource) profile.getAssessment())
-            .actor(profile.getLearningContext().getAgent())
-            .count(1)
-            .build());
-
-        return profile;
-    }
-
-    public static AssessmentProfile startTestAssessmentItem(AssessmentProfile profile, AssessmentItem item) {
-
-        profile.getActions().add(AssessmentItemActions.STARTED.key());
-        profile.getItemsAttempted().add(item);
-
-        return profile;
-    }
-
-    public static AssessmentProfile completeTestAssessmentItem(AssessmentProfile profile, int index) {
-
-        profile.getActions().add(AssessmentItemActions.COMPLETED.key());
-        //profile.getGenerateds().add(Response.builder()
-        // .item(profile.getAssessment().getAssessmentItems().get(index))
-        // . . .
-        // .build(); // TODO define a response object?
-
-        return profile;
-    }
-
-    public static AssignableProfile startTestAssignableAssessment(AssignableProfile profile) {
-
-        profile.getActions().add(AssignableActions.STARTED.key());
-        profile.getAttempts().add(Attempt.builder()
-            .id(profile.getAssignable().getId() + "/attempt1")
-            .assignable((AssignableDigitalResource) profile.getAssignable())
-            .actor(profile.getLearningContext().getAgent())
-            .count(1)
-            .build());
-
-        return profile;
-    }
-
-    public static ReadingProfile addTestReadingProfileViewTarget(ReadingProfile profile) {
+    /**
+     * @param profile
+     * @return Reading profile with viewed action
+     */
+    public static ReadingProfile viewReadingTarget(ReadingProfile profile) {
 
         // Add navigation-related properties to profile
         profile.getActions().add(ReadingActions.VIEWED.key());
@@ -375,7 +455,11 @@ public class TestUtils {
         return profile;
     }
 
-    public static AnnotationEvent buildTestAnnotationEvent(AnnotationProfile profile) {
+    /**
+     * @param profile
+     * @return Annotation event
+     */
+    public static AnnotationEvent buildAnnotationEvent(AnnotationProfile profile) {
 
         AnnotationEvent event = AnnotationEvent.builder()
             .edApp(profile.getLearningContext().getEdApp())
@@ -390,7 +474,11 @@ public class TestUtils {
         return event;
     }
 
-    public static AssessmentEvent buildTestAssessmentEvent(AssessmentProfile assessment) {
+    /**
+     * @param assessment
+     * @return Assessment event
+     */
+    public static AssessmentEvent buildAssessmentEvent(AssessmentProfile assessment) {
 
         AssessmentEvent event = AssessmentEvent.builder()
             .edApp(assessment.getLearningContext().getEdApp())
@@ -405,7 +493,12 @@ public class TestUtils {
        return event;
     }
 
-    public static AssessmentItemEvent buildTestAssessmentItemEvent(AssessmentProfile profile, int index) {
+    /**
+     * @param profile
+     * @param index
+     * @return AssessmentItem event
+     */
+    public static AssessmentItemEvent buildAssessmentItemEvent(AssessmentProfile profile, int index) {
 
         AssessmentItemEvent event = AssessmentItemEvent.builder()
             .edApp(profile.getLearningContext().getEdApp())
@@ -420,7 +513,11 @@ public class TestUtils {
         return event;
     }
 
-    public static AssignableEvent buildTestAssignableEvent(AssignableProfile profile) {
+    /**
+     * @param profile
+     * @return Assignable event
+     */
+    public static AssignableEvent buildAssignableEvent(AssignableProfile profile) {
 
         AssignableEvent event = AssignableEvent.builder()
             .edApp(profile.getLearningContext().getEdApp())
@@ -435,7 +532,11 @@ public class TestUtils {
         return event;
     }
 
-    public static MediaEvent buildTestMediaEvent(MediaProfile profile) {
+    /**
+     * @param profile
+     * @return Media event
+     */
+    public static MediaEvent buildMediaEvent(MediaProfile profile) {
 
         MediaEvent event = MediaEvent.builder()
             .edApp(profile.getLearningContext().getEdApp())
@@ -450,7 +551,11 @@ public class TestUtils {
         return event;
     }
 
-    public static NavigationEvent buildTestNavigationEvent(ReadingProfile profile) {
+    /**
+     * @param profile
+     * @return Navigation event
+     */
+    public static NavigationEvent buildNavigationEvent(ReadingProfile profile) {
 
         NavigationEvent event = NavigationEvent.builder()
             .edApp(profile.getLearningContext().getEdApp())
@@ -466,7 +571,11 @@ public class TestUtils {
         return event;
     }
 
-    public static ViewEvent buildTestViewEvent(ReadingProfile profile) {
+    /**
+     * @param profile
+     * @return View event
+     */
+    public static ViewEvent buildViewEvent(ReadingProfile profile) {
 
         ViewEvent event = ViewEvent.builder()
             .edApp(profile.getLearningContext().getEdApp())

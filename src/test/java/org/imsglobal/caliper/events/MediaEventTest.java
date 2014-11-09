@@ -28,16 +28,16 @@ public class MediaEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildTestLearningContext();
+        learningContext = TestUtils.buildLearningContext();
 
         // Build Video Media Profile
-        profile = TestUtils.buildTestVideoMediaProfile(learningContext);
+        profile = TestUtils.buildVideoMediaProfile(learningContext);
 
         // Add pause action and frame coordinates
         profile = TestUtils.pauseVideo(profile);
 
         // Build event
-        event = TestUtils.buildTestMediaEvent(profile);
+        event = TestUtils.buildMediaEvent(profile);
     }
 
     @Test
