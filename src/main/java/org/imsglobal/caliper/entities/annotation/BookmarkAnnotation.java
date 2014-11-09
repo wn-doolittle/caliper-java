@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "name",
     "properties",
     "lastModifiedTime",
-    "target",
     "bookmarkNotes" })
 public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 

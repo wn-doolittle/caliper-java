@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
-@JsonPropertyOrder({ "@id", "@type", "name", "properties", "lastModifiedTime", "target", "withAgents" })
+@JsonPropertyOrder({ "@id", "@type", "name", "properties", "lastModifiedTime", "withAgents" })
 public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")
