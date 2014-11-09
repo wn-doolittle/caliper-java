@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.entities.assignable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Agent;
@@ -15,8 +16,6 @@ import org.imsglobal.caliper.entities.Entity;
     "name",
     "properties",
     "lastModifiedTime",
-    "assignable",
-    "actor",
     "count",
     "startedAtTime",
     "endedAtTime",
@@ -26,10 +25,10 @@ public class Attempt extends org.imsglobal.caliper.entities.Entity {
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("assignable")
+    @JsonIgnore
     private final Assignable assignable;
 
-    @JsonProperty("actor")
+    @JsonIgnore
     private final Agent actor;
 
     @JsonProperty("count")
