@@ -28,16 +28,16 @@ public class SharedAnnotationEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildTestLearningContext();
+        learningContext = TestUtils.buildLearningContext();
 
         // Build Reading Profile
-        profile = TestUtils.buildTestAnnotationProfile(learningContext);
+        profile = TestUtils.buildAnnotationProfile(learningContext);
 
         // Add Bookmark Annotation
-        profile = TestUtils.addTestSharedAnnotation(profile);
+        profile = TestUtils.addSharedAnnotation(profile);
 
         // Build event
-        event = TestUtils.buildTestAnnotationEvent(profile);
+        event = TestUtils.buildAnnotationEvent(profile);
     }
 
     @Test

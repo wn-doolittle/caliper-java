@@ -28,16 +28,16 @@ public class HighlightAnnotationEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildTestLearningContext();
+        learningContext = TestUtils.buildLearningContext();
 
         // Build Reading Profile
-        profile = TestUtils.buildTestAnnotationProfile(learningContext);
+        profile = TestUtils.buildAnnotationProfile(learningContext);
 
         // Add Highlight Annotation
-        profile = TestUtils.addTestHighlightAnnotation(profile);
+        profile = TestUtils.addHighlightAnnotation(profile);
 
         // Build event
-        event = TestUtils.buildTestAnnotationEvent(profile);
+        event = TestUtils.buildAnnotationEvent(profile);
     }
 
     @Test

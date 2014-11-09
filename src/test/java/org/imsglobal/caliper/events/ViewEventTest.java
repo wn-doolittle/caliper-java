@@ -28,16 +28,16 @@ public class ViewEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildTestLearningContext();
+        learningContext = TestUtils.buildLearningContext();
 
         // Build Reading Profile
-        profile = TestUtils.buildTestReadingProfile(learningContext);
+        profile = TestUtils.buildReadingProfile(learningContext);
 
         // Add navigation-related properties to profile
-        profile = TestUtils.addTestReadingProfileViewTarget(profile);
+        profile = TestUtils.viewReadingTarget(profile);
 
         // Build event
-        event = TestUtils.buildTestViewEvent(profile);
+        event = TestUtils.buildViewEvent(profile);
     }
 
     @Test

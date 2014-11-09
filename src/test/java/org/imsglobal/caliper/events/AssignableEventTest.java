@@ -29,19 +29,19 @@ public class AssignableEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildTestLearningContext();
+        learningContext = TestUtils.buildLearningContext();
 
         // Build assessment
-        assessment = TestUtils.buildTestAssessment(learningContext);
+        assessment = TestUtils.buildAssessment(learningContext);
 
         // Build Profile
-        profile = TestUtils.buildTestAssignableProfile(learningContext, assessment);
+        profile = TestUtils.buildAssessmentAssignableProfile(learningContext, assessment);
 
         // Start Assignable
-        profile = TestUtils.startTestAssignableAssessment(profile);
+        profile = TestUtils.startAssignableAssessment(profile);
 
         // Build event
-        event = TestUtils.buildTestAssignableEvent(profile);
+        event = TestUtils.buildAssignableEvent(profile);
     }
 
     @Test

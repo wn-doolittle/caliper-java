@@ -14,17 +14,17 @@ public class EventTest {
         Sensor.initialize(TestUtils.getTestingOptions());
 
         // Build the Learning Context
-        LearningContext learningContext = TestUtils.buildTestLearningContext();
+        LearningContext learningContext = TestUtils.buildLearningContext();
 
         // Build Reading Profile
-        ReadingProfile profile = TestUtils.buildTestReadingProfile(learningContext);
+        ReadingProfile profile = TestUtils.buildReadingProfile(learningContext);
 
         // Add navigation-related properties to profile
-        profile = TestUtils.addTestReadingProfileNavigationTarget(profile);
+        profile = TestUtils.navigateToReadingTarget(profile);
 
         // Fire event test - Send 50 events
         for (int i = 0 ; i < 50 ; i++) {
-            Sensor.send(TestUtils.buildTestNavigationEvent(profile));
+            Sensor.send(TestUtils.buildNavigationEvent(profile));
         }
 
         // There should be two caliperEvents queued

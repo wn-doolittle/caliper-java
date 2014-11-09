@@ -30,20 +30,20 @@ public class AssessmentItemEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildTestLearningContext();
+        learningContext = TestUtils.buildLearningContext();
 
         // Build assessment
-        assessment = TestUtils.buildTestAssessment(learningContext);
+        assessment = TestUtils.buildAssessment(learningContext);
 
         // Build Profile
-        profile = TestUtils.buildTestAssessmentProfile(learningContext, assessment);
+        profile = TestUtils.buildAssessmentProfile(learningContext, assessment);
 
         // Start AssessmentItem, record item attempted
         AssessmentItem itemAttempted = profile.getAssessment().getAssessmentItems().get(0);
-        profile = TestUtils.startTestAssessmentItem(profile, itemAttempted);
+        profile = TestUtils.startAssessmentItem(profile, itemAttempted);
 
         // Build event
-        event = TestUtils.buildTestAssessmentItemEvent(profile, 0);
+        event = TestUtils.buildAssessmentItemEvent(profile, 0);
     }
 
     @Test

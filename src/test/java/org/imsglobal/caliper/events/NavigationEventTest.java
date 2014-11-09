@@ -28,16 +28,16 @@ public class NavigationEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildTestLearningContext();
+        learningContext = TestUtils.buildLearningContext();
 
         // Build Reading Profile
-        profile = TestUtils.buildTestReadingProfile(learningContext);
+        profile = TestUtils.buildReadingProfile(learningContext);
 
         // Add navigation-related properties to profile
-        profile = TestUtils.addTestReadingProfileNavigationTarget(profile);
+        profile = TestUtils.navigateToReadingTarget(profile);
 
         // Build event
-        event = TestUtils.buildTestNavigationEvent(profile);
+        event = TestUtils.buildNavigationEvent(profile);
     }
 
     @Test
