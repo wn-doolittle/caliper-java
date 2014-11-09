@@ -3,6 +3,7 @@ package org.imsglobal.caliper.events;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
+import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.profiles.AssessmentProfile;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,12 +16,11 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssessmentEventTest {
-
+public class AssessmentItemEventTest {
     private LearningContext learningContext;
     private Assessment assessment;
     private AssessmentProfile profile;
-    private AssessmentEvent event;
+    private AssessmentItemEvent event;
     private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
 
     /**
@@ -38,16 +38,17 @@ public class AssessmentEventTest {
         // Build Profile
         profile = TestUtils.buildTestAssessmentProfile(learningContext, assessment);
 
-        // Start Assessment
-        profile = TestUtils.startTestAssessment(profile);
+        // Start AssessmentItem, record item attempted
+        AssessmentItem itemAttempted = profile.getAssessment().getAssessmentItems().get(0);
+        profile = TestUtils.startTestAssessmentItem(profile, itemAttempted);
 
         // Build event
-        event = TestUtils.buildTestAssessmentEvent(profile);
+        event = TestUtils.buildTestAssessmentItemEvent(profile, 0);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        assertEquals("Test if Assessment event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperAssessmentEvent.json"), asJson(event));
+        assertEquals("Test if Assessment Item event is serialized to JSON with expected values",
+                jsonFixture("fixtures/caliperAssessmentItemEvent.json"), asJson(event));
     }
 }
