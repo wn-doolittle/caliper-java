@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
-@JsonPropertyOrder({ "@id", "@type", "name", "properties", "lastModifiedTime", "target", "tags" })
+@JsonPropertyOrder({ "@id", "@type", "name", "properties", "lastModifiedTime", "tags" })
 public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")

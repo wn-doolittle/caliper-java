@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "name",
     "properties",
     "lastModifiedTime",
-    "target",
     "selection",
     "selectionText" })
 public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
