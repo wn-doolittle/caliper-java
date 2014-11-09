@@ -328,6 +328,25 @@ public class TestUtils {
         return profile;
     }
 
+    public static AssessmentProfile startTestAssessmentItem(AssessmentProfile profile, AssessmentItem item) {
+
+        profile.getActions().add(AssessmentItemActions.STARTED.key());
+        profile.getItemsAttempted().add(item);
+
+        return profile;
+    }
+
+    public static AssessmentProfile completeTestAssessmentItem(AssessmentProfile profile, int index) {
+
+        profile.getActions().add(AssessmentItemActions.COMPLETED.key());
+        //profile.getGenerateds().add(Response.builder()
+        // .item(profile.getAssessment().getAssessmentItems().get(index))
+        // . . .
+        // .build(); // TODO define a response object?
+
+        return profile;
+    }
+
     public static AssignableProfile startTestAssignableAssessment(AssignableProfile profile) {
 
         profile.getActions().add(AssignableActions.STARTED.key());
@@ -384,6 +403,21 @@ public class TestUtils {
             .build();
 
        return event;
+    }
+
+    public static AssessmentItemEvent buildTestAssessmentItemEvent(AssessmentProfile profile, int index) {
+
+        AssessmentItemEvent event = AssessmentItemEvent.builder()
+            .edApp(profile.getLearningContext().getEdApp())
+            .lisOrganization(profile.getLearningContext().getLisOrganization())
+            .actor(profile.getLearningContext().getAgent())
+            .action(Iterables.getLast(profile.getActions()))
+            .object((AssignableDigitalResource) Iterables.getLast(profile.getItemsAttempted()))
+            //.generated(profile.getResponses().get(index)) TODO:Add item response
+            .startedAtTime(1402965614516l)
+            .build();
+
+        return event;
     }
 
     public static AssignableEvent buildTestAssignableEvent(AssignableProfile profile) {
