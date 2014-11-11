@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.entities.outcome;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Agent;
 import org.imsglobal.caliper.entities.Entity;
 
@@ -8,6 +9,20 @@ import org.imsglobal.caliper.entities.Entity;
  * Representation of a Result. Result's are generated as
  * part of an interaction represented by an OutcomeEvent.
  */
+@JsonPropertyOrder({
+    "@id",
+    "@type",
+    "name",
+    "properties",
+    "lastModifiedTime",
+    "normalScore",
+    "penaltyScore",
+    "extraCreditScore",
+    "totalScore",
+    "curvedTotalScore",
+    "curveFactor",
+    "comment",
+    "scoredBy" })
 public class Result extends org.imsglobal.caliper.entities.Entity {
 
     @JsonProperty("@type")

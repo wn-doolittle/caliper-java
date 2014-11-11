@@ -19,6 +19,8 @@ import org.imsglobal.caliper.entities.lis.CourseSection;
 import org.imsglobal.caliper.entities.lis.Person;
 import org.imsglobal.caliper.entities.media.MediaLocation;
 import org.imsglobal.caliper.entities.media.VideoObject;
+import org.imsglobal.caliper.entities.outcome.Outcome;
+import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.events.*;
@@ -173,6 +175,25 @@ public class TestUtils {
 
     /**
      * @param learningContext
+     * @param assessmentProfile
+     * @param result
+     * @return Outcome profile for assessment attempt
+     */
+    public static OutcomeProfile buildAssessmentOutcomeProfile(LearningContext learningContext,
+        AssessmentProfile assessmentProfile, Result result) {
+
+        OutcomeProfile profile = OutcomeProfile.builder()
+            .learningContext(learningContext)
+            .action(OutcomeActions.GRADED.key())
+            .assignable(assessmentProfile.getAssessment())
+            .outcome(new Outcome((Attempt) Iterables.getLast(assessmentProfile.getGenerateds()), result))
+            .build();
+
+        return profile;
+    }
+
+    /**
+     * @param learningContext
      * @return Reading profile
      */
     public static ReadingProfile buildReadingProfile(LearningContext learningContext) {
@@ -200,18 +221,18 @@ public class TestUtils {
         MediaProfile profile = MediaProfile.builder()
             .learningContext(learningContext)
             .mediaObject(VideoObject.builder()
-                .id("https://com.sat/super-media-tool/video/video1")
-                .name("American Revolution - Key Figures Video")
-                .learningObjective(LearningObjective.builder()
-                    .id("http://americanrevolution.com/personalities/learn")
+                    .id("https://com.sat/super-media-tool/video/video1")
+                    .name("American Revolution - Key Figures Video")
+                    .learningObjective(LearningObjective.builder()
+                            .id("http://americanrevolution.com/personalities/learn")
+                            .build())
+                    .duration(1420)
+                    .lastModifiedTime(1402965614516l)
                     .build())
-                .duration(1420)
-                .lastModifiedTime(1402965614516l)
-                .build())
             .mediaLocation(MediaLocation.builder()
-                .id("https://com.sat/super-media-tool/video/video1")
-                .currentTime(0)
-                .build())
+                    .id("https://com.sat/super-media-tool/video/video1")
+                    .currentTime(0)
+                    .build())
             .build();
 
         return profile;
@@ -285,8 +306,8 @@ public class TestUtils {
         profile.getAnnotations().add(SharedAnnotation.builder()
             .id("https://someEduApp.edu/shared/9999")
             .withAgents(Lists.newArrayList(
-                "https://some-university.edu/students/657585",
-                "https://some-university.edu/students/667788"))
+                    "https://some-university.edu/students/657585",
+                    "https://some-university.edu/students/667788"))
             .target(Frame.builder()
                 .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)")
                 .name("Key Figures: John Adams")
@@ -331,6 +352,30 @@ public class TestUtils {
         profile.getTargets().add(Iterables.getLast(profile.getAnnotations()).getTarget());
 
         return profile;
+    }
+
+    /**
+     * @param profile
+     * @return result
+     */
+    public static Result buildAssessmentResult(AssessmentProfile profile) {
+
+        Attempt attempt = (Attempt) Iterables.getLast(profile.getGenerateds());
+
+        Result result = Result.builder()
+            .id(attempt.getId() + "/result")
+            .lastModifiedTime(1402965614516l)
+            .normalScore(3.0d)
+            .penaltyScore(0.0d)
+            .extraCreditScore(0.0d)
+            .totalScore(3.0d)
+            .curvedTotalScore(3.0d)
+            .curveFactor(0.0d)
+            .comment("Well done.")
+            //.scoredBy(someAgent)  TODO add agent
+            .build();
+
+        return result;
     }
 
     /**
@@ -404,9 +449,9 @@ public class TestUtils {
 
         profile.getActions().add(MediaActions.PAUSED.key());
         profile.getMediaLocations().add(MediaLocation.builder()
-            .id(((VideoObject) profile.getMediaObject()).getId())
-            .currentTime(710)
-            .build());
+                .id(((VideoObject) profile.getMediaObject()).getId())
+                .currentTime(710)
+                .build());
 
         return profile;
     }
@@ -565,6 +610,25 @@ public class TestUtils {
             .object(profile.getReading())
             .target(Iterables.getLast(profile.getTargets()))
             .fromResource(Iterables.getLast(profile.getFromResources()))
+            .startedAtTime(1402965614516l)
+            .build();
+
+        return event;
+    }
+
+    /**
+     * @param profile
+     * @return Outcome event
+     */
+    public static OutcomeEvent buildOutcomeEvent(OutcomeProfile profile) {
+
+        OutcomeEvent event = OutcomeEvent.builder()
+            .edApp(profile.getLearningContext().getEdApp())
+            .lisOrganization(profile.getLearningContext().getLisOrganization())
+            .actor(profile.getLearningContext().getAgent())
+            .action(Iterables.getLast(profile.getActions()))
+            .object((Attempt) Iterables.getLast(profile.getOutcomes()).getAttempt())
+            .generated((Result) Iterables.getLast(profile.getOutcomes()).getResult())
             .startedAtTime(1402965614516l)
             .build();
 
