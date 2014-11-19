@@ -15,7 +15,17 @@
         "name": null,
         "properties": {},
         "lastModifiedTime": 1402965614516,
-        "withAgents": ["https://some-university.edu/students/657585","https://some-university.edu/students/667788"]
+        "withAgents": [
+            {"@id": "https://some-university.edu/students/657585",
+            "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
+            "name": null,
+            "properties": {},
+            "lastModifiedTime": 1402965614516},
+            {"@id": "https://some-university.edu/students/667788",
+            "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
+            "name": null,
+            "properties": {},
+            "lastModifiedTime": 1402965614516}]
     },
     "target": {
         "@id": "https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)",
