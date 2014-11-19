@@ -3,6 +3,7 @@ package org.imsglobal.caliper;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.actions.*;
+import org.imsglobal.caliper.entities.Agent;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.LearningObjective;
 import org.imsglobal.caliper.entities.SoftwareApplication;
@@ -221,18 +222,18 @@ public class TestUtils {
         MediaProfile profile = MediaProfile.builder()
             .learningContext(learningContext)
             .mediaObject(VideoObject.builder()
-                    .id("https://com.sat/super-media-tool/video/video1")
-                    .name("American Revolution - Key Figures Video")
-                    .learningObjective(LearningObjective.builder()
-                            .id("http://americanrevolution.com/personalities/learn")
-                            .build())
-                    .duration(1420)
-                    .lastModifiedTime(1402965614516l)
-                    .build())
+                .id("https://com.sat/super-media-tool/video/video1")
+                .name("American Revolution - Key Figures Video")
+                .learningObjective(LearningObjective.builder()
+                        .id("http://americanrevolution.com/personalities/learn")
+                        .build())
+                .duration(1420)
+                .lastModifiedTime(1402965614516l)
+                .build())
             .mediaLocation(MediaLocation.builder()
-                    .id("https://com.sat/super-media-tool/video/video1")
-                    .currentTime(0)
-                    .build())
+                .id("https://com.sat/super-media-tool/video/video1")
+                .currentTime(0)
+                .build())
             .build();
 
         return profile;
@@ -304,23 +305,29 @@ public class TestUtils {
 
         profile.getActions().add(AnnotationActions.SHARED.key());
         profile.getAnnotations().add(SharedAnnotation.builder()
-            .id("https://someEduApp.edu/shared/9999")
-            .withAgents(Lists.newArrayList(
-                    "https://some-university.edu/students/657585",
-                    "https://some-university.edu/students/667788"))
-            .target(Frame.builder()
-                .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)")
-                .name("Key Figures: John Adams")
-                .partOf(EpubVolume.builder()
-                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
-                    .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                .id("https://someEduApp.edu/shared/9999")
+                .withAgents(Lists.<Agent>newArrayList(
+                    Person.builder()
+                        .id("https://some-university.edu/students/657585")
+                        .lastModifiedTime(1402965614516l)
+                        .build(),
+                    Person.builder()
+                        .id("https://some-university.edu/students/667788")
+                        .lastModifiedTime(1402965614516l)
+                        .build()))
+                .target(Frame.builder()
+                    .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)")
+                    .name("Key Figures: John Adams")
+                    .partOf(EpubVolume.builder()
+                        .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
+                        .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
+                        .lastModifiedTime(1402965614516l)
+                        .build())
                     .lastModifiedTime(1402965614516l)
-                    .build())
+                    .index(3)
+                    .build())  // TODO: REDUNDANT PROPERTY?
                 .lastModifiedTime(1402965614516l)
-                .index(3)
-                .build())  // TODO: REDUNDANT PROPERTY?
-            .lastModifiedTime(1402965614516l)
-            .build());
+                .build());
         profile.getTargets().add(Iterables.getLast(profile.getAnnotations()).getTarget());
 
         return profile;

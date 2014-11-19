@@ -3,6 +3,7 @@ package org.imsglobal.caliper.entities.annotation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.Agent;
 
 import java.util.List;
 
@@ -12,9 +13,8 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
     @JsonProperty("@type")
     private final String type;
 
-    // TODO should be a list of LISGroup or LISPersons
     @JsonProperty("withAgents")
-    private List<String> withAgents = Lists.newArrayList();
+    private List<Agent> withAgents = Lists.newArrayList();
 
     /**
      * @param builder apply builder object properties to the SharedAnnotation object.
@@ -36,7 +36,7 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
     /**
      * @return the users
      */
-    public List<String> getWithAgents() {
+    public List<Agent> getWithAgents() {
         return withAgents;
     }
 
@@ -46,7 +46,7 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
         private String type;
-        private List<String> withAgents = Lists.newArrayList();
+        private List<Agent> withAgents = Lists.newArrayList();
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
@@ -68,7 +68,7 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
          * @param withAgents
          * @return shared agents.
          */
-        public T withAgents(List<String> withAgents) {
+        public T withAgents(List<Agent> withAgents) {
             this.withAgents = withAgents;
             return self();
         }
