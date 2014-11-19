@@ -17,6 +17,14 @@ public class WebPage extends DigitalResource implements org.imsglobal.caliper.en
     }
 
     /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */

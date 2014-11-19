@@ -35,7 +35,7 @@
     "group": null,
     "navigatedFrom": {
         "@id": "AmRev-101-landingPage",
-        "@type": "http://purl.imsglobal.org/caliper/v1/DigitalResource",
+        "@type": "http://purl.imsglobal.org/caliper/v1/WebPage",
         "name": "American Revolution 101 Landing Page",
         "objectType": [],
         "properties": {},
