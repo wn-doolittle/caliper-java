@@ -33,7 +33,7 @@ public abstract class Event {
         MEDIA("http://purl.imsglobal.org/ctx/caliper/v1/MediaEvent"),
         NAVIGATION("http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent"),
         OUTCOME("http://purl.imsglobal.org/ctx/caliper/v1/OutcomeEvent"),
-        VIEWED("http://purl.imsglobal.org/ctx/caliper/v1/ViewEvent");
+        VIEW("http://purl.imsglobal.org/ctx/caliper/v1/ViewEvent");
 
         private final String uri;
 
@@ -62,7 +62,7 @@ public abstract class Event {
         MEDIA("http://purl.imsglobal.org/caliper/v1/MediaEvent"),
         NAVIGATION("http://purl.imsglobal.org/caliper/v1/NavigationEvent"),
         OUTCOME("http://purl.imsglobal.org/caliper/v1/OutcomeEvent"),
-        VIEWED("http://purl.imsglobal.org/caliper/v1/ViewEvent");
+        VIEW("http://purl.imsglobal.org/caliper/v1/ViewEvent");
 
         private final String uri;
 

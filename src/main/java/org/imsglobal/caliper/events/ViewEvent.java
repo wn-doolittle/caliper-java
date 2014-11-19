@@ -63,8 +63,8 @@ public class ViewEvent extends org.imsglobal.caliper.events.Event {
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
          */
         public Builder() {
-            context(Event.Context.VIEWED.uri());
-            type(Event.Type.VIEWED.uri());
+            context(Event.Context.VIEW.uri());
+            type(Event.Type.VIEW.uri());
             action(ReadingActions.VIEWED.key());
         }
 
