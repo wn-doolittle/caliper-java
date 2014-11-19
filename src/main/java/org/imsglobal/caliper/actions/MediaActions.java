@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum MediaActions {
-    ENABLEDCLOSECAPTIONING("media.accessibility.enabledCloseCaptioning"),
-    DISABLEDCLOSEDCAPTIONING("media.accessibility.disabledCloseCaptioning"),
+    ENABLEDCLOSEDCAPTIONING("media.accessibility.enabledClosedCaptioning"),
+    DISABLEDCLOSEDCAPTIONING("media.accessibility.disabledClosedCaptioning"),
 
     CHANGEDVOLUME("media.audio.changedVolume"),
     MUTED("media.audio.muted"),
