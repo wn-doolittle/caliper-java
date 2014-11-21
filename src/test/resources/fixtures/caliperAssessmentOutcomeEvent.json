@@ -40,9 +40,9 @@
     "endedAtTime": 0,
     "duration": null,
     "edApp": {
-        "@id": "https://github.com/readium/readium-js-viewer",
+        "@id": "https://com.sat/super-assessment-tool",
         "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
-        "name": "Readium",
+        "name": "Super Assessment Tool",
         "properties": {},
         "lastModifiedTime": 1402965614516
     },

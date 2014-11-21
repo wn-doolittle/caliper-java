@@ -1,6 +1,10 @@
 package org.imsglobal.caliper;
 
+import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.reading.EpubSubChapter;
+import org.imsglobal.caliper.entities.reading.EpubVolume;
+import org.imsglobal.caliper.events.NavigationEvent;
 import org.imsglobal.caliper.profiles.ReadingProfile;
 import org.junit.Test;
 
@@ -8,23 +12,37 @@ import static org.junit.Assert.assertEquals;
 
 public class EventTest {
 
+    private LearningContext learningContext;
+    private EpubVolume epub;
+    private String action;
+    private DigitalResource fromResource;
+    private EpubSubChapter target;
+    private NavigationEvent event;
+
     @Test
     public void test() {
 
         Sensor.initialize(TestUtils.getTestingOptions());
 
         // Build the Learning Context
-        LearningContext learningContext = TestUtils.buildLearningContext();
+        learningContext = TestUtils.buildReadiumLearningContext();
 
-        // Build Reading Profile
-        ReadingProfile profile = TestUtils.buildReadingProfile(learningContext);
+        // Build epub
+        epub = TestUtils.buildEpubVolume43();
 
-        // Add navigation-related properties to profile
-        profile = TestUtils.navigateToReadingTarget(profile);
+        // Build previous location
+        fromResource = TestUtils.buildAmRev101LandingPage();
+
+        // Build target
+        target = TestUtils.buildEpubSubChap431();
+
+        // Action
+        action = ReadingProfile.getActionFromBundle(ReadingProfile.Actions.NAVIGATED_TO.key());
+
 
         // Fire event test - Send 50 events
         for (int i = 0 ; i < 50 ; i++) {
-            Sensor.send(TestUtils.buildNavigationEvent(profile));
+            Sensor.send(TestUtils.buildEpubNavigationEvent(learningContext, epub, action, fromResource, target));
         }
 
         // There should be two caliperEvents queued
@@ -33,9 +51,8 @@ public class EventTest {
 
         // TODO - Describes test - Send five describes
 
-        // There should be four describes queued
-        // assertEquals("Expect five describes to be sent", 5, Caliper
-        // .getStatistics().getDescribes().getCount());
+        // There should be four describes queued assertEquals("Expect five describes to be sent", 5,
+        // Caliper.getStatistics().getDescribes().getCount());
 
         // There should be two message successfully sent
         int successes = Sensor.getStatistics().getSuccessful().getCount();

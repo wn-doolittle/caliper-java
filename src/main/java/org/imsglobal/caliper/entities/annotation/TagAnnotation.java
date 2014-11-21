@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
     private final String type;
 
     @JsonProperty("tags")
-    private List<String> tags = Lists.newArrayList();
+    private ImmutableList<String> tags;
 
     /**
      * @param builder apply builder object properties to the TagAnnotation object.
@@ -21,7 +22,9 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
     protected TagAnnotation(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.tags = builder.tags;
+        this.tags = ImmutableList.copyOf(builder.tags);
+        //this.tags = ImmutableList.<String>builder().addAll(tags).build();
+        //this.tags = Collections.unmodifiableList(builder.tags);
     }
 
     /**
@@ -33,9 +36,10 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
     }
 
     /**
+     * Return an immutable view of the tags list.
      * @return the tags
      */
-    public List<String> getTags() {
+    public ImmutableList<String> getTags() {
         return tags;
     }
 

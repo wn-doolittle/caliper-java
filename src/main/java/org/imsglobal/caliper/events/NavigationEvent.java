@@ -1,11 +1,8 @@
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.actions.ReadingActions;
-import org.imsglobal.caliper.entities.DigitalResource;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.ResourceBundle;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.profiles.Profile;
 
 public class NavigationEvent extends org.imsglobal.caliper.events.Event {
 
@@ -18,11 +15,17 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
     @JsonProperty("action")
     private final String action;
 
+    @JsonProperty("object")
+    private final DigitalResource object;
+
     /**
-     * Describes the resource from which the navigation starts
+     * Describes the resource from which the navigation starts.
      */
     @JsonProperty("navigatedFrom")
     private DigitalResource fromResource;
+
+    @JsonProperty("target")
+    private final DigitalResource target;
 
     /**
      * @param builder apply builder object properties to the NavigationEvent object.
@@ -32,11 +35,13 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
+        this.object = builder.object;
         this.fromResource = builder.fromResource;
+        this.target = builder.target;
     }
 
     /**
-     * @return the context
+     * @return the context.
      */
     @Override
     public String getContext() {
@@ -44,7 +49,7 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
-     * @return the type
+     * @return the type.
      */
     @Override
     public String getType() {
@@ -52,11 +57,19 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
-     * @return the action
+     * @return the action.
      */
     @Override
     public String getAction() {
         return action;
+    }
+
+    /**
+     * @return the activity context.
+     */
+    @Override
+    public DigitalResource getObject() {
+        return object;
     }
 
     /**
@@ -67,6 +80,14 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
+     * @return the target resource.
+     */
+    @Override
+    public DigitalResource getTarget() {
+        return target;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
@@ -74,7 +95,9 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
         private String context;
         private String type;
         private String action;
+        private DigitalResource object;
         private DigitalResource fromResource;
+        private DigitalResource target;
 
         /**
          * Initialize type with default values.
@@ -82,7 +105,7 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
         public Builder() {
             context(Event.Context.NAVIGATION.uri());
             type(Event.Type.NAVIGATION.uri());
-            action(ReadingActions.NAVIGATED_TO.key());
+            action(Profile.Actions.NAVIGATED_TO.key());
         }
 
         /**
@@ -109,12 +132,28 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
          */
         @Override
         public T action(String key) {
-            if (key.equals("navigation.navigatedTo")) {
-                this.action = ResourceBundle.getBundle("actions").getString(key);
-                return self();
-            } else {
-                throw new IllegalArgumentException("Unrecognized constant: " + key);
+            try {
+                this.action = Profile.getNavigatedToActionFromBundle(key);
+            } catch (IllegalArgumentException e) {
+                //TODO log and do something clever with exception.
             }
+
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        @Override
+        public T object(Object object) {
+            try {
+                this.object = Profile.validateDigitalResource(object);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
+            return self();
         }
 
         /**
@@ -123,6 +162,21 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
          */
         public T fromResource(DigitalResource fromResource) {
             this.fromResource = fromResource;
+            return self();
+        }
+
+        /**
+         * @param target
+         * @return builder.
+         */
+        @Override
+        public T target(Object target) {
+            try {
+                this.target = Profile.validateDigitalResource(target);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
             return self();
         }
 

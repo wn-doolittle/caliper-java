@@ -182,16 +182,16 @@ public abstract class Event {
     /**
      * @return the context
      */
-    public String getContext() {
-        return context;
-    }
+   public String getContext() {
+       return context;
+   }
 
     /**
      * @return the type
      */
-    public String getType() {
-        return type;
-    }
+   public String getType() {
+       return type;
+   }
 
     /**
      * @return the edApp
@@ -256,7 +256,7 @@ public abstract class Event {
         return endedAtTime;
     }
 
-    /**
+    /*;
      * @return the duration
      */
     public String getDuration() {

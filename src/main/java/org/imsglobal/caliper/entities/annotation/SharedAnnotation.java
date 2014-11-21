@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Agent;
 
@@ -14,7 +15,7 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
     private final String type;
 
     @JsonProperty("withAgents")
-    private List<Agent> withAgents = Lists.newArrayList();
+    private final ImmutableList<Agent> withAgents;
 
     /**
      * @param builder apply builder object properties to the SharedAnnotation object.
@@ -22,7 +23,9 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
     protected SharedAnnotation(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.withAgents = builder.withAgents;
+        this.withAgents = ImmutableList.copyOf(builder.withAgents);
+        //this.withAgents = ImmutableList.<Agent>builder().addAll(builder.withAgents).build();
+        //this.withAgents = Collections.unmodifiableList(builder.withAgents);
     }
 
     /**
@@ -34,9 +37,10 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
     }
 
     /**
+     * Return an immutable view of the withAgents list.
      * @return the users
      */
-    public List<Agent> getWithAgents() {
+    public ImmutableList<Agent> getWithAgents() {
         return withAgents;
     }
 

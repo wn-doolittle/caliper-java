@@ -1,9 +1,8 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.AssessmentItemActions;
-
-import java.util.ResourceBundle;
+import org.imsglobal.caliper.entities.assessment.AssessmentItem;
+import org.imsglobal.caliper.profiles.AssessmentItemProfile;
 
 public class AssessmentItemEvent extends org.imsglobal.caliper.events.Event {
 
@@ -16,6 +15,12 @@ public class AssessmentItemEvent extends org.imsglobal.caliper.events.Event {
     @JsonProperty("action")
     private final String action;
 
+    @JsonProperty("object")
+    private final AssessmentItem object;
+
+    // @JsonProperty("generated")
+    // private final Response generated;
+
     /**
      * @param builder apply builder object properties to the AssessmentEvent object.
      */
@@ -24,6 +29,8 @@ public class AssessmentItemEvent extends org.imsglobal.caliper.events.Event {
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
+        this.object = builder.object;
+        // this.generated = builder.generated;
     }
 
     /**
@@ -51,6 +58,24 @@ public class AssessmentItemEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
+     * @return the assessmentItem object.
+     */
+    @Override
+    public AssessmentItem getObject() {
+        return object;
+    }
+
+    /**
+     * @return generated response
+     */
+    /**
+    @Override
+    public Response getGenerated() {
+        return generated;
+    }
+    */
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
@@ -58,6 +83,8 @@ public class AssessmentItemEvent extends org.imsglobal.caliper.events.Event {
         private String context;
         private String type;
         private String action;
+        private AssessmentItem object;
+        // private Response generated;
 
         /**
          * Initialize type with default values.
@@ -87,17 +114,50 @@ public class AssessmentItemEvent extends org.imsglobal.caliper.events.Event {
 
         /**
          * @param key
-         * @return builder
+         * @return builder.
          */
         @Override
         public T action(String key) {
-            if (AssessmentItemActions.hasKey(key)) {
-                this.action = ResourceBundle.getBundle("actions").getString(key);
-                return self();
-            } else {
-                throw new IllegalArgumentException("Unrecognized constant: " + key);
+            try {
+                this.action = AssessmentItemProfile.getActionFromBundle(key);
+            } catch (IllegalArgumentException e) {
+                //TODO log and do something clever with exception.
             }
+
+            return self();
         }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        @Override
+        public T object(Object object) {
+            try {
+                this.object = AssessmentItemProfile.validateObject(object);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
+            return self();
+        }
+
+        /**
+         * @param generated
+         * @return builder.
+         */
+        /**
+        @Override
+        public T generated(Object generated) {
+            try {
+                this.generated = AssessmentItemProfile.validateGenerated(generated);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
+            return self();
+        }
+        */
 
         /**
          * Client invokes build method in order to create an immutable object.

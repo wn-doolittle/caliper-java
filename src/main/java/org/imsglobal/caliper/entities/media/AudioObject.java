@@ -80,26 +80,10 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
     }
 
     /**
-     * Set/reset volume level.
-     * @param volumeLevel
-     */
-    public void setVolumeLevel(String volumeLevel) {
-        this.volumeLevel = volumeLevel;
-    }
-
-    /**
      * @return muted status (true/false)
      */
     public boolean getMuted() {
         return muted;
-    }
-
-    /**
-     * Set/reset muted status (true/false)
-     * @param muted
-     */
-    public void setMuted(boolean muted) {
-        this.muted = muted;
     }
 
     /**

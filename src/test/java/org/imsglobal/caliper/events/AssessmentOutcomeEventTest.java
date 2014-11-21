@@ -3,12 +3,14 @@ package org.imsglobal.caliper.events;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
-import org.imsglobal.caliper.profiles.AssessmentProfile;
-import org.imsglobal.caliper.profiles.OutcomeProfile;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
+import org.imsglobal.caliper.profiles.OutcomeProfile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.asJson;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
@@ -17,12 +19,13 @@ import static org.junit.Assert.assertEquals;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AssessmentOutcomeEventTest {
 
-    private Assessment assessment;
-    private AssessmentProfile assessmentProfile;
     private LearningContext learningContext;
-    private OutcomeEvent event;
-    private OutcomeProfile outcomeProfile;
+    private Assessment assessment;
+    private String key;
+    private Attempt attempt;
     private Result result;
+    private OutcomeEvent event;
+    private static final Logger LOG = LoggerFactory.getLogger(AssessmentOutcomeEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -31,28 +34,22 @@ public class AssessmentOutcomeEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildLearningContext();
+        learningContext = TestUtils.buildAssessmentToolLearningContext();
 
         // Build assessment
-        assessment = TestUtils.buildAssessment(learningContext);
+        assessment = TestUtils.buildAssessment();
 
-        // Build Assessment Profile
-        assessmentProfile = TestUtils.buildAssessmentProfile(learningContext, assessment);
+        // Build attempt
+        attempt = TestUtils.buildAssessmentAttempt(learningContext, assessment);
 
-        // Start Assessment and generate attempt
-        assessmentProfile = TestUtils.startAssessment(assessmentProfile);
+        // Build action
+        key = OutcomeProfile.OutcomeActions.GRADED.key();
 
-        // Complete Assessment
-        //assessmentProfile = TestUtils.completeAssessment(assessmentProfile);
+        // Build result
+        result = TestUtils.buildAssessmentResult(attempt);
 
-        // Generate result
-        result = TestUtils.buildAssessmentResult(assessmentProfile);
-
-        // Build Outcome Profile
-        outcomeProfile = TestUtils.buildAssessmentOutcomeProfile(learningContext, assessmentProfile, result);
-
-        // Build event
-        event = TestUtils.buildOutcomeEvent(outcomeProfile);
+        // Build Outcome Event
+        event = TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, key, result);
     }
 
     @Test
