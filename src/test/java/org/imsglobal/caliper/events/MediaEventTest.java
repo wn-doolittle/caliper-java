@@ -2,6 +2,8 @@ package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.media.MediaLocation;
+import org.imsglobal.caliper.entities.media.VideoObject;
 import org.imsglobal.caliper.profiles.MediaProfile;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +19,11 @@ import static org.junit.Assert.assertEquals;
 public class MediaEventTest {
 
     private LearningContext learningContext;
-    private MediaProfile profile;
+    private MediaLocation location;
+    private VideoObject video;
+    private String key;
     private MediaEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MediaEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -28,16 +32,19 @@ public class MediaEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildLearningContext();
+        learningContext = TestUtils.buildSuperMediaToolLearningContext();
 
-        // Build Video Media Profile
-        profile = TestUtils.buildVideoMediaProfile(learningContext);
+        // Build video
+        video = TestUtils.buildVideoWithLearningObjective();
 
-        // Add pause action and frame coordinates
-        profile = TestUtils.pauseVideo(profile);
+        // Build media location
+        location = TestUtils.buildVideoMediaLocation();
+
+        // Action
+        key = MediaProfile.MediaActions.PAUSED.key();
 
         // Build event
-        event = TestUtils.buildMediaEvent(profile);
+        event = TestUtils.buildVideoMediaEvent(learningContext, video, location, key);
     }
 
     @Test

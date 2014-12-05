@@ -1,9 +1,9 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.AssessmentActions;
-
-import java.util.ResourceBundle;
+import org.imsglobal.caliper.entities.assessment.Assessment;
+import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.profiles.AssessmentProfile;
 
 public class AssessmentEvent extends org.imsglobal.caliper.events.Event {
 
@@ -16,6 +16,12 @@ public class AssessmentEvent extends org.imsglobal.caliper.events.Event {
     @JsonProperty("action")
     private final String action;
 
+    @JsonProperty("object")
+    private final Assessment object;
+
+    @JsonProperty("generated")
+    private final Attempt generated;
+
     /**
      * @param builder apply builder object properties to the AssessmentEvent object.
      */
@@ -24,6 +30,8 @@ public class AssessmentEvent extends org.imsglobal.caliper.events.Event {
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
+        this.object = builder.object;
+        this.generated = builder.generated;
     }
 
     /**
@@ -51,6 +59,22 @@ public class AssessmentEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
+     * @return assessment object.
+     */
+    @Override
+    public Assessment getObject() {
+        return object;
+    }
+
+    /**
+     * @return generated attempt
+     */
+    @Override
+    public Attempt getGenerated() {
+        return generated;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
@@ -58,6 +82,8 @@ public class AssessmentEvent extends org.imsglobal.caliper.events.Event {
         private String context;
         private String type;
         private String action;
+        private Assessment object;
+        private Attempt generated;
 
         /**
          * Initialize with default values.
@@ -87,16 +113,47 @@ public class AssessmentEvent extends org.imsglobal.caliper.events.Event {
 
         /**
          * @param key
-         * @return builder
+         * @return builder.
          */
         @Override
         public T action(String key) {
-            if (AssessmentActions.hasKey(key)) {
-                this.action = ResourceBundle.getBundle("actions").getString(key);
-                return self();
-            } else {
-                throw new IllegalArgumentException("Unrecognized constant: " + key);
+            try {
+                this.action = AssessmentProfile.getActionFromBundle(key);
+            } catch (IllegalArgumentException e) {
+                //TODO log and do something clever with exception.
             }
+
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        @Override
+        public T object(Object object) {
+            try {
+                this.object = AssessmentProfile.validateObject(object);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
+            return self();
+        }
+
+        /**
+         * @param generated
+         * @return builder.
+         */
+        @Override
+        public T generated(Object generated) {
+            try {
+                this.generated = AssessmentProfile.validateGenerated(generated);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
+            return self();
         }
 
         /**

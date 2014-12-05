@@ -2,11 +2,9 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.actions.MediaActions;
 import org.imsglobal.caliper.entities.media.MediaLocation;
 import org.imsglobal.caliper.entities.media.MediaObject;
-
-import java.util.ResourceBundle;
+import org.imsglobal.caliper.profiles.MediaProfile;
 
 @JsonPropertyOrder({
     "@context",
@@ -34,7 +32,7 @@ public class MediaEvent extends org.imsglobal.caliper.events.Event {
     private final String action;
 
     @JsonProperty("object")
-    private Object object;
+    private MediaObject object;
 
     /**
      * Describes the location within the media that is relevant to this event
@@ -79,10 +77,10 @@ public class MediaEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
-     * @return object
+     * @return the media object
      */
     @Override
-    public Object getObject() {
+    public MediaObject getObject() {
         return object;
     }
 
@@ -101,7 +99,7 @@ public class MediaEvent extends org.imsglobal.caliper.events.Event {
         private String context;
         private String type;
         private String action;
-        private Object object;
+        private MediaObject object;
         private MediaLocation mediaLocation;
 
         /**
@@ -132,39 +130,32 @@ public class MediaEvent extends org.imsglobal.caliper.events.Event {
 
         /**
          * @param key
-         * @return builder
+         * @return builder.
          */
         @Override
         public T action(String key) {
-            if (MediaActions.hasKey(key)) {
-                this.action = ResourceBundle.getBundle("actions").getString(key);
-                return self();
-            } else {
-                throw new IllegalArgumentException("Unrecognized constant: " + key);
-                // TODO add logging
-                // TODO do something clever with exception
+            try {
+                this.action = MediaProfile.getActionFromBundle(key);
+            } catch (IllegalArgumentException e) {
+                //TODO log and do something clever with exception.
             }
-        }
 
-        /*
-        * (non-Javadoc)
-        * @see org.imsglobal.caliper.events.Event#setObject(java.lang.Object)
-        */
+            return self();
+        }
 
         /**
          * @param object
-         * @return builder
+         * @return builder.
          */
         @Override
         public T object(Object object) {
-            if (object instanceof MediaObject) {
-                this.object = object;
-                return self();
-            } else {
-                throw new ClassCastException("Object cannot be cast as a Caliper media object");
-                // TODO add logging
-                // TODO do something clever with exception
+            try {
+                this.object = MediaProfile.validateObject(object);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
             }
+
+            return self();
         }
 
         /**

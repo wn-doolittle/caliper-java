@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -13,13 +14,12 @@ import java.util.Map;
 public abstract class Entity {
 
     public enum Type {
-        ACTIVITY_CONTEXT("http://purl.imsglobal.org/caliper/v1/ActivityContext"),
         AGENT("http://purl.imsglobal.org/caliper/v1/Agent"),
         ATTEMPT("http://purl.imsglobal.org/caliper/v1/Attempt"),
         DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/DigitalResource"),
         ENTITY("http://purl.imsglobal.org/caliper/v1/Entity"),
         LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
-        MEDIA_LOCATION("http://purl.imsglobal.org/caliper/v1/MediaLocation"),
+        RESPONSE("http://purl.imsglobal.org/caliper/v1/Response"),
         RESULT("http://purl.imsglobal.org/caliper/v1/Result"),
         VIEW("http://purl.imsglobal.org/caliper/v1/View");
 
@@ -51,11 +51,11 @@ public abstract class Entity {
     @JsonProperty("name")
     private final String name;
 
-    @JsonProperty("lastModifiedTime")
-    private long lastModifiedTime;
-
     @JsonProperty("properties")
-    private Map<String, Object> properties = Maps.newHashMap();
+    private final ImmutableMap<String, Object> properties;
+
+    @JsonProperty("lastModifiedTime")
+    private final long lastModifiedTime;
 
     /**
      * @param builder apply builder object properties to the Entity object.
@@ -64,63 +64,66 @@ public abstract class Entity {
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
+        this.properties = ImmutableMap.copyOf(builder.properties);
+        //this.properties = ImmutableMap.<String, Object>builder().putAll(builder.properties).build();
+        //this.properties = Collections.unmodifiableMap(properties);
         this.lastModifiedTime = builder.lastModifiedTime;
-        this.properties = builder.properties;
     }
 
     /**
-     * @return the id
+     * @return the id.
      */
     public String getId() {
         return id;
     }
 
     /**
-     * @return the type
+     * @return the type.
      */
     public String getType() {
         return type;
     }
 
     /**
-     * @return human readable identifier
+     * @return human readable identifier.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * @return the lastModifiedTime
+     * Return an immutable view of the properties map.
+     * @return properties.
+     */
+    public ImmutableMap<String, Object> getProperties() {
+        return properties;
+    }
+
+    /**
+     * @return the lastModifiedTime.
      */
     public long getLastModifiedTime() {
         return lastModifiedTime;
     }
 
     /**
-     * @return the properties
-     */
-    public Map<String, Object> getProperties() {
-        return properties;
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
         private String id;
         private String type;
         private String name;
-        private long lastModifiedTime;
         private Map<String, Object> properties = Maps.newHashMap();
+        private long lastModifiedTime;
 
         protected abstract T self();
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            this.type(Type.ENTITY.uri());
+            type(Type.ENTITY.uri());
         }
 
         /**
@@ -151,20 +154,30 @@ public abstract class Entity {
         }
 
         /**
-         * @param lastModifiedTime
-         * @return builder.
-         */
-        public T lastModifiedTime(long lastModifiedTime) {
-            this.lastModifiedTime = lastModifiedTime;
-            return self();
-        }
-
-        /**
          * @param properties
          * @return builder.
          */
         public T properties(Map<String, Object> properties) {
             this.properties = properties;
+            return self();
+        }
+
+        /**
+         * @param key
+         * @param value
+         * @return builder.
+         */
+        public T property(String key, Object value) {
+            this.properties.put(key, value);
+            return self();
+        }
+
+        /**
+         * @param lastModifiedTime
+         * @return builder.
+         */
+        public T lastModifiedTime(long lastModifiedTime) {
+            this.lastModifiedTime = lastModifiedTime;
             return self();
         }
     }

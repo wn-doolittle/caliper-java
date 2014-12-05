@@ -1,98 +1,106 @@
 package org.imsglobal.caliper.profiles;
 
-import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
-import org.imsglobal.caliper.entities.outcome.Outcome;
+import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.entities.outcome.Result;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class OutcomeProfile extends org.imsglobal.caliper.profiles.Profile {
 
-    private AssignableDigitalResource assignable;
-    private List<Outcome> outcomes = Lists.newArrayList();
+    public enum OutcomeActions {
+        GRADED("outcome.graded"),
+        // POSTED("outcome.posted");
+        // REPORTED("outcome.reported");
 
-    /**
-     * @param builder apply builder object properties to the profile object.
-     */
-    protected OutcomeProfile(Builder<?> builder) {
-        super(builder);
-        this.assignable = builder.assignable;
-        this.outcomes = builder.outcomes;
-    }
+        NAVIGATED_TO("navigation.navigatedTo");
 
-    /**
-     * @return assignable digital resource.
-     */
-    public AssignableDigitalResource getAssignable() {
-        return assignable;
-    }
-
-    /**
-     * @return list of outcomes (paired attempt and result)
-     */
-    public List<Outcome> getOutcomes() {
-        return outcomes;
-    }
-
-    /**
-     * Initialize default parameter values in the builder (not in the outer profile class).
-     * @param <T> builder
-     */
-    public static abstract class Builder<T extends Builder<T>> extends Profile.Builder<T>  {
-        private AssignableDigitalResource assignable;
-        private List<Outcome> outcomes = Lists.newArrayList();
+        private final String key;
+        private static final Map<String, OutcomeActions> lookup = new HashMap<String, OutcomeActions>();
 
         /**
-         * @param assignable
-         * @return builder.
+         * Create reverse lookup hash map
          */
-        public T assignable(AssignableDigitalResource assignable) {
-            this.assignable = assignable;
-            return self();
+        static {
+            for (OutcomeActions constants : OutcomeActions.values())
+                lookup.put(constants.key(), constants);
         }
 
         /**
-         * @param outcomes
-         * @return builder
+         * Constructor
+         * @param key
          */
-        public T outcomes(List<Outcome> outcomes) {
-            this.outcomes = outcomes;
-            return self();
+        private OutcomeActions(String key) {
+            this.key = key;
         }
 
         /**
-         * @param outcome
-         * @return builder
+         * @return ResourceBundle key for internationalized action strings.
          */
-        public T outcome(Outcome outcome) {
-            this.outcomes.add(outcome);
-            return self();
+        public String key() {
+            return key;
         }
 
         /**
-         * Client invokes the build method in order to create an immutable profile object.
-         * @return a new instance of MediaProfile.
+         * @param key
+         * @return true if lookup returns a key match; false otherwise.
          */
-        public OutcomeProfile build() {
-            return new OutcomeProfile(this);
+        public static boolean hasKey(String key) {
+            return lookup.containsKey(key);
+        }
+
+        /**
+         * @param key
+         * @return enum constant by reverse lookup
+         */
+        public static OutcomeActions lookupConstant(String key) {
+            return lookup.get(key);
         }
     }
 
     /**
-     *
+     * Constructor
      */
-    private static class Builder2 extends Builder<Builder2> {
-        @Override
-        protected Builder2 self() {
-            return this;
+    public OutcomeProfile() {
+
+    }
+
+    /**
+     * @param key
+     * @return localized action string.
+     */
+    public static String getActionFromBundle(String key) {
+        if (OutcomeActions.hasKey(key) || Actions.hasKey(key)) {
+            return ResourceBundle.getBundle("actions").getString(key);
+        } else {
+            throw new IllegalArgumentException("Unrecognized key: " + key);
         }
     }
 
     /**
-     * Static factory method.
-     * @return a new instance of the builder.
+     * @param object
+     * @return attempt.
      */
-    public static Builder<?> builder() {
-        return new Builder2();
+    public static Attempt validateObject(Object object) {
+        if (object instanceof Attempt) {
+            // TODO add additional checks
+            return (Attempt) object;
+        } else {
+            throw new ClassCastException("Object must be of type Attempt.");
+        }
+    }
+
+    /**
+     * @param object
+     * @return assessment.
+     */
+    public static Result validateGenerated(Object object) {
+        if (object instanceof Result) {
+            // TODO add additional checks
+            return (Result) object;
+        } else {
+            throw new ClassCastException("Generated must be of type Result.");
+        }
     }
 }

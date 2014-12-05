@@ -1,39 +1,39 @@
 package org.imsglobal.caliper.profiles;
 
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
+import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public abstract class Profile {
+public class AssessmentItemProfile extends org.imsglobal.caliper.profiles.Profile {
 
-    public enum Actions {
-        DOWNLOADED("item.downloaded"),
-        UPLOADED("item.uploaded"),
-
-        LOGGED_IN("session.loggedIn"),
-        LOGGED_OUT("session.loggedOut"),
+    public enum AssessmentItemActions {
+        STARTED("assessment.item.started"),
+        COMPLETED("assessment.item.completed"),
+        SKIPPED("assessment.item.skipped"),
+        REVIEWED("assessment.item.reviewed"),
+        VIEWED("assessment.item.viewed"),
 
         NAVIGATED_TO("navigation.navigatedTo");
 
         private final String key;
-        private static final Map<String, Actions> lookup = new HashMap<String, Actions>();
+        private static final Map<String, AssessmentItemActions> lookup = new HashMap<String, AssessmentItemActions>();
 
         /**
          * Create reverse lookup hash map
          */
         static {
-            for (Actions constants : Actions.values())
+            for (AssessmentItemActions constants : AssessmentItemActions.values())
                 lookup.put(constants.key(), constants);
         }
 
         /**
          * Constructor
+         *
          * @param key
          */
-        private Actions(String key) {
+        private AssessmentItemActions(String key) {
             this.key = key;
         }
 
@@ -56,15 +56,16 @@ public abstract class Profile {
          * @param key
          * @return enum constant by reverse lookup
          */
-        public static Actions lookupConstant(String key) {
+        public static AssessmentItemActions lookupConstant(String key) {
             return lookup.get(key);
         }
+
     }
 
     /**
      * Constructor
      */
-    public Profile() {
+    public AssessmentItemProfile() {
 
     }
 
@@ -72,8 +73,8 @@ public abstract class Profile {
      * @param key
      * @return localized action string.
      */
-    public static String getNavigatedToActionFromBundle(String key) {
-        if (key.equals("navigation.navigatedTo")) {
+    public static String getActionFromBundle(String key) {
+        if (AssessmentItemActions.hasKey(key) || Actions.hasKey(key)) {
             return ResourceBundle.getBundle("actions").getString(key);
         } else {
             throw new IllegalArgumentException("Unrecognized key: " + key);
@@ -82,27 +83,29 @@ public abstract class Profile {
 
     /**
      * @param object
-     * @return target Creative Work.
+     * @return assessment item.
      */
-    public static CreativeWork validateCreativeWork(Object object) {
-        if (object instanceof CreativeWork) {
+    public static AssessmentItem validateObject(Object object) {
+        if (object instanceof AssessmentItem) {
             // TODO add additional checks
-            return (CreativeWork) object;
+            return (AssessmentItem) object;
         } else {
-            throw new ClassCastException("Object must be of type CreativeWork.");
+            throw new ClassCastException("Object must be of type AssessmentItem.");
         }
     }
 
     /**
-     * @param object
-     * @return digital resource.
+     * @param generated
+     * @return generated response.
      */
-    public static DigitalResource validateDigitalResource(Object object) {
-        if (object instanceof DigitalResource) {
+    /**
+    public static Response validateGenerated(Object generated) {
+        if (generated instanceof Response) {
             // TODO add additional checks
-            return (DigitalResource) object;
+            return (Response) generated;
         } else {
-            throw new ClassCastException("Object must be of type DigitalResource.");
+            throw new ClassCastException("Generated must be of type Response.");
         }
     }
+    */
 }

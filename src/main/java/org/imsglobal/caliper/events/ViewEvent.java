@@ -1,9 +1,9 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.ReadingActions;
-
-import java.util.ResourceBundle;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.profiles.ReadingProfile;
 
 public class ViewEvent extends org.imsglobal.caliper.events.Event {
 
@@ -16,6 +16,12 @@ public class ViewEvent extends org.imsglobal.caliper.events.Event {
     @JsonProperty("action")
     private final String action;
 
+    @JsonProperty("object")
+    private final DigitalResource object;
+
+    @JsonProperty("target")
+    private final Frame target;
+
     /**
      * @param builder apply builder object properties to the ViewEvent object.
      */
@@ -24,6 +30,8 @@ public class ViewEvent extends org.imsglobal.caliper.events.Event {
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
+        this.object = builder.object;
+        this.target = builder.target;
     }
 
     /**
@@ -51,6 +59,18 @@ public class ViewEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
+     * @return digital resource object.
+     */
+    @Override
+    public DigitalResource getObject() {
+        return object;
+    }
+
+    public Frame getTarget() {
+        return target;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
@@ -58,14 +78,16 @@ public class ViewEvent extends org.imsglobal.caliper.events.Event {
         private String context;
         private String type;
         private String action;
+        private DigitalResource object;
+        private Frame target;
 
         /**
-         * Initialize type with default valueS.  Required if .builder() properties are not set by user.
+         * Initialize type with default values.  Required if .builder() properties are not set by user.
          */
         public Builder() {
             context(Event.Context.VIEW.uri());
             type(Event.Type.VIEW.uri());
-            action(ReadingActions.VIEWED.key());
+            action(ReadingProfile.ReadingActions.VIEWED.key());
         }
 
         /**
@@ -92,12 +114,43 @@ public class ViewEvent extends org.imsglobal.caliper.events.Event {
          */
         @Override
         public T action(String key) {
-            if (key.equals(ReadingActions.VIEWED.key())) {
-                this.action = ResourceBundle.getBundle("actions").getString(key);
-                return self();
-            } else {
-                throw new IllegalArgumentException("Unrecognized constant: " + key);
+            try {
+                this.action = ReadingProfile.getViewActionFromBundle(key);
+            } catch (IllegalArgumentException e) {
+                //TODO log and do something clever with exception.
             }
+
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        @Override
+        public T object(Object object) {
+            try {
+                this.object = ReadingProfile.validateObject(object);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
+            return self();
+        }
+
+        /**
+         * @param target
+         * @return builder.
+         */
+        @Override
+        public T target(Object target) {
+            try {
+                this.target = ReadingProfile.validateTarget(target);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
+            return self();
         }
 
         /**

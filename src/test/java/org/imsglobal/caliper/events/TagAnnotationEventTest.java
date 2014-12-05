@@ -2,6 +2,8 @@ package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.annotation.TagAnnotation;
+import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.profiles.AnnotationProfile;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +19,11 @@ import static org.junit.Assert.assertEquals;
 public class TagAnnotationEventTest {
 
     private LearningContext learningContext;
-    private AnnotationProfile profile;
+    private EpubSubChapter target;
+    private TagAnnotation tags;
+    private String key;
     private AnnotationEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TagAnnotationEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -28,16 +32,19 @@ public class TagAnnotationEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildLearningContext();
+        learningContext = TestUtils.buildReadiumLearningContext();
 
-        // Build Reading Profile
-        profile = TestUtils.buildAnnotationProfile(learningContext);
+        //Build target reading
+        target = TestUtils.buildEpubSubChap434();
 
-        // Add Bookmark Annotation
-        profile = TestUtils.addTagAnnotation(profile);
+        // Build Bookmark Annotation
+        tags = TestUtils.buildTagAnnotation(target);
+
+        // Add action
+       key = AnnotationProfile.AnnotationActions.TAGGED.key();
 
         // Build event
-        event = TestUtils.buildAnnotationEvent(profile);
+        event = TestUtils.buildAnnotationEvent(learningContext, tags, key, target, 4);
     }
 
     @Test

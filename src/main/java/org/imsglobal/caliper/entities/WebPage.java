@@ -3,7 +3,7 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WebPage extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork {
+public class WebPage extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.WebPage {
 
     @JsonProperty("@type")
     private final String type;

@@ -3,7 +3,7 @@ package org.imsglobal.caliper.entities.media;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.base.Strings;
-import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.DigitalResource;
 
 import java.util.UUID;
 
@@ -14,10 +14,14 @@ import java.util.UUID;
     "@id",
     "@type",
     "name",
+    "objectType",
     "properties",
+    "alignedLearningObjective",
+    "keyword",
+    "partOf",
     "lastModifiedTime",
     "currentTime" })
-public class MediaLocation extends org.imsglobal.caliper.entities.Entity {
+public class MediaLocation extends org.imsglobal.caliper.entities.DigitalResource {
 
     @JsonProperty("@id")
     private final String id;
@@ -69,18 +73,20 @@ public class MediaLocation extends org.imsglobal.caliper.entities.Entity {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String id;
         private String type;
         private long currentTime;
         private UUID uuid = new UUID(1000l, 500l);
 
+        protected abstract T self();
+
         /**
          * Initialize type with default values.
          */
         public Builder() {
-            id(Entity.Type.MEDIA_LOCATION.uri() + "/" + uuid);
-            type(Entity.Type.MEDIA_LOCATION.uri());
+            id(DigitalResource.Type.MEDIA_LOCATION.uri() + "/" + uuid);
+            type(DigitalResource.Type.MEDIA_LOCATION.uri());
         }
 
         /**
@@ -90,7 +96,7 @@ public class MediaLocation extends org.imsglobal.caliper.entities.Entity {
         @Override
         public T id(String id) {
             if (Strings.isNullOrEmpty(id)) {
-                this.id = Entity.Type.MEDIA_LOCATION.uri() + "/" + uuid;
+                this.id = DigitalResource.Type.MEDIA_LOCATION.uri() + "/" + uuid;
             } else {
                 this.id = id;
             }

@@ -3,6 +3,7 @@ package org.imsglobal.caliper.events;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.profiles.AssessmentProfile;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,9 +20,10 @@ public class AssessmentEventTest {
 
     private LearningContext learningContext;
     private Assessment assessment;
-    private AssessmentProfile profile;
+    private Attempt attempt;
+    private String key;
     private AssessmentEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AssessmentEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -30,19 +32,19 @@ public class AssessmentEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildLearningContext();
+        learningContext = TestUtils.buildAssessmentToolLearningContext();
 
         // Build assessment
-        assessment = TestUtils.buildAssessment(learningContext);
+        assessment = TestUtils.buildAssessment();
 
-        // Build Profile
-        profile = TestUtils.buildAssessmentProfile(learningContext, assessment);
+        // Generate attempt
+        attempt = TestUtils.buildAssessmentAttempt(learningContext, assessment);
 
-        // Start Assessment
-        profile = TestUtils.startAssessment(profile);
+        // Action
+        key = AssessmentProfile.AssessmentActions.STARTED.key();
 
         // Build event
-        event = TestUtils.buildAssessmentEvent(profile);
+        event = TestUtils.buildAssessmentEvent(learningContext, assessment, key, attempt);
     }
 
     @Test

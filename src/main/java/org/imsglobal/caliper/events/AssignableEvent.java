@@ -1,10 +1,9 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.AssignableActions;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
-
-import java.util.ResourceBundle;
+import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.profiles.AssignableProfile;
 
 public class AssignableEvent extends org.imsglobal.caliper.events.Event {
 
@@ -17,11 +16,11 @@ public class AssignableEvent extends org.imsglobal.caliper.events.Event {
     @JsonProperty("action")
     private final String action;
 
-    /**
-     * Assignable activity context
-     */
     @JsonProperty("object")
-    private Object object;
+    private final AssignableDigitalResource object;
+
+    @JsonProperty("generated")
+    private final Attempt generated;
 
     /**
      * @param builder apply builder object properties to the AssignableEvent object.
@@ -32,6 +31,7 @@ public class AssignableEvent extends org.imsglobal.caliper.events.Event {
         this.type = builder.type;
         this.action = builder.action;
         this.object = builder.object;
+        this.generated = builder.generated;
     }
 
     /**
@@ -59,12 +59,19 @@ public class AssignableEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
-     * TODO original version did not include an accessor for the object.  Retain or drop?
-     * @return object
+     * @return assignable object.
      */
     @Override
-    public Object getObject() {
+    public AssignableDigitalResource getObject() {
         return object;
+    }
+
+    /**
+     * @return generated attempt.
+     */
+    @Override
+    public Attempt getGenerated() {
+        return generated;
     }
 
     /**
@@ -75,7 +82,8 @@ public class AssignableEvent extends org.imsglobal.caliper.events.Event {
         private String context;
         private String type;
         private String action;
-        private Object object;
+        private AssignableDigitalResource object;
+        private Attempt generated;
 
         /**
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
@@ -105,39 +113,47 @@ public class AssignableEvent extends org.imsglobal.caliper.events.Event {
 
         /**
          * @param key
-         * @return builder
+         * @return builder.
          */
         @Override
         public T action(String key) {
-            if (AssignableActions.hasKey(key)) {
-                this.action = ResourceBundle.getBundle("actions").getString(key);
-                return self();
-            } else {
-                throw new IllegalArgumentException("Unrecognized constant: " + key);
-                // TODO add logging
-                // TODO do something clever with exception
+            try {
+                this.action = AssignableProfile.getActionFromBundle(key);
+            } catch (IllegalArgumentException e) {
+                //TODO log and do something clever with exception.
             }
-        }
 
-        /*
-        * (non-Javadoc)
-        * @see org.imsglobal.caliper.events.Event#setObject(java.lang.Object)
-        */
+            return self();
+        }
 
         /**
          * @param object
-         * @return builder
+         * @return builder.
          */
         @Override
         public T object(Object object) {
-            if (object instanceof AssignableDigitalResource) {
-                this.object = object;
-                return self();
-            } else {
-                throw new ClassCastException("Object cannot be cast as a Caliper assignable digital resource");
-                // TODO add logging
-                // TODO do something clever with exception
+            try {
+                this.object = AssignableProfile.validateObject(object);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
             }
+
+            return self();
+        }
+
+        /**
+         * @param generated
+         * @return builder.
+         */
+        @Override
+        public T generated(Object generated) {
+            try {
+                this.generated = AssignableProfile.validateGenerated(generated);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
+            return self();
         }
 
         /**

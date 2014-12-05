@@ -18,9 +18,9 @@ import static org.junit.Assert.assertEquals;
 public class AssignableEventTest {
     private LearningContext learningContext;
     private Assessment assessment;
-    private AssignableProfile profile;
+    private String key;
     private AssignableEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AssignableEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -29,19 +29,16 @@ public class AssignableEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildLearningContext();
+        learningContext = TestUtils.buildAssessmentToolLearningContext();
 
         // Build assessment
-        assessment = TestUtils.buildAssessment(learningContext);
+        assessment = TestUtils.buildAssessment();
 
-        // Build Profile
-        profile = TestUtils.buildAssessmentAssignableProfile(learningContext, assessment);
-
-        // Start Assignable
-        profile = TestUtils.startAssignableAssessment(profile);
+        // Action
+        key = AssignableProfile.AssignableActions.ACTIVATED.key();
 
         // Build event
-        event = TestUtils.buildAssignableEvent(profile);
+        event = TestUtils.buildAssessmentAssignableEvent(learningContext, assessment, key);
     }
 
     @Test

@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities.assessment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 
@@ -36,7 +37,7 @@ public class Assessment extends AssignableDigitalResource implements org.imsglob
     private final String type;
 
     @JsonProperty("assessmentItems")
-    private List<AssessmentItem> assessmentItems = Lists.newArrayList();
+    private final ImmutableList<AssessmentItem> assessmentItems;
 
     /**
      * @param builder apply builder object properties to the CaliperAssessment object.
@@ -44,7 +45,9 @@ public class Assessment extends AssignableDigitalResource implements org.imsglob
     protected Assessment(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.assessmentItems = builder.assessmentItems;
+        this.assessmentItems = ImmutableList.copyOf(builder.assessmentItems);
+        //this.assessmentItems = ImmutableList.<AssessmentItem>builder().addAll(assessmentItems).build();
+        //this.assessmentItems = Collections.unmodifiableList(assessmentItems);
     }
 
     /**
@@ -56,9 +59,10 @@ public class Assessment extends AssignableDigitalResource implements org.imsglob
     }
 
     /**
+     * Return an immutable view of the assessmentItems list.
      * @return assessment items
      */
-    public List<AssessmentItem> getAssessmentItems() {
+    public ImmutableList<AssessmentItem> getAssessmentItems() {
         return assessmentItems;
     }
 

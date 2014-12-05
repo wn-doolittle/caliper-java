@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
-import org.imsglobal.caliper.profiles.AssessmentProfile;
+import org.imsglobal.caliper.profiles.AssessmentItemProfile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -19,9 +19,10 @@ import static org.junit.Assert.assertEquals;
 public class AssessmentItemEventTest {
     private LearningContext learningContext;
     private Assessment assessment;
-    private AssessmentProfile profile;
+    private AssessmentItem item;
+    private String key;
     private AssessmentItemEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AssessmentItemEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -30,20 +31,18 @@ public class AssessmentItemEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildLearningContext();
+        learningContext = TestUtils.buildAssessmentToolLearningContext();
 
-        // Build assessment
-        assessment = TestUtils.buildAssessment(learningContext);
+        // Build assessment and get assessment item 1
+        item = TestUtils.buildAssessment().getAssessmentItems().get(0);
 
-        // Build Profile
-        profile = TestUtils.buildAssessmentProfile(learningContext, assessment);
+        // Action
+        key = AssessmentItemProfile.AssessmentItemActions.STARTED.key();
 
-        // Start AssessmentItem, record item attempted
-        AssessmentItem itemAttempted = profile.getAssessment().getAssessmentItems().get(0);
-        profile = TestUtils.startAssessmentItem(profile, itemAttempted);
+        //TODO add response
 
         // Build event
-        event = TestUtils.buildAssessmentItemEvent(profile, 0);
+        event = TestUtils.buildAssessmentItemEvent(learningContext, item, key);
     }
 
     @Test

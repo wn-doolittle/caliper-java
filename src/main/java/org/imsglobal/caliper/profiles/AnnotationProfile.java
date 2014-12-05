@@ -1,77 +1,131 @@
 package org.imsglobal.caliper.profiles;
 
-import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.annotation.Annotation;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class AnnotationProfile extends org.imsglobal.caliper.profiles.Profile {
 
-    private List<Annotation> annotations = Lists.newArrayList();
+    public enum AnnotationActions {
+        ATTACHED("annotation.attached"),
+        BOOKMARKED("annotation.bookmarked"),
+        CLASSIFIED("annotation.classified"),
+        COMMENTED("annotation.commented"),
+        DESCRIBED("annotation.described"),
+        HIGHLIGHTED("annotation.highlighted"),
+        IDENTIFIED("annotation.identified"),
+        LIKED("annotation.liked"),
+        LINKED("annotation.linked"),
+        RANKED("annotation.ranked"),
+        QUESTIONED("annotation.questioned"),
+        RECOMMENDED("annotation.recommended"),
+        REPLIED("annotation.replied"),
+        SHARED("annotation.shared"),
+        SUBSCRIBED("annotation.subscribed"),
+        TAGGED("annotation.tagged");
 
-    /**
-     * @param builder apply builder object properties to the profile object.
-     */
-    protected AnnotationProfile(Builder<?> builder) {
-        super(builder);
-        this.annotations = builder.annotations;
-    }
-
-    /**
-     * @return annotation
-     */
-    public List<Annotation> getAnnotations() {
-        return annotations;
-    }
-
-    /**
-     * Initialize default parameter values in the builder (not in the outer profile class).
-     * @param <T> builder
-     */
-    public static abstract class Builder<T extends Builder<T>> extends Profile.Builder<T>  {
-        private List<Annotation> annotations = Lists.newArrayList();
+        private final String key;
+        private static final Map<String, AnnotationActions> lookup = new HashMap<String, AnnotationActions>();
 
         /**
-         * @param annotations
-         * @return builder.
+         * Create reverse lookup hash map
          */
-        public T annotations(List<Annotation> annotations) {
-            this.annotations = annotations;
-            return self();
+        static {
+            for (AnnotationActions constants : AnnotationActions.values())
+                lookup.put(constants.key(), constants);
         }
 
         /**
-         * @param annotation
-         * @return builder.
+         * Constructor
+         * @param key
          */
-        public T annotation(Annotation annotation) {
-            this.annotations.add(annotation);
-            return self();
+        private AnnotationActions(String key) {
+            this.key = key;
         }
 
         /**
-         * Client invokes the build method in order to create an immutable profile object.
-         * @return a new instance of AnnotationProfile.
+         * @return ResourceBundle key for internationalized action strings.
          */
-        public AnnotationProfile build() {
-            return new AnnotationProfile(this);
+        public String key() {
+            return key;
+        }
+
+        /**
+         * @param key
+         * @return true if lookup returns a key match; false otherwise.
+         */
+        public static boolean hasKey(String key) {
+            return lookup.containsKey(key);
+        }
+
+        /**
+         * @param key
+         * @return enum constant by reverse lookup
+         */
+        public static AnnotationActions lookupConstant(String key) {
+            return lookup.get(key);
         }
     }
 
     /**
-     *
+     * Constructor
      */
-    private static class Builder2 extends Builder<Builder2> {
-        @Override
-        protected Builder2 self() {
-            return this;
+    public AnnotationProfile() {
+
+    }
+
+    /**
+     * @param key
+     * @return localized action string.
+     */
+    public static String getActionFromBundle(String key) {
+        if (AnnotationActions.hasKey(key) || Actions.hasKey(key)) {
+            return ResourceBundle.getBundle("actions").getString(key);
+        } else {
+            throw new IllegalArgumentException("Unrecognized key: " + key);
         }
     }
 
     /**
-     * Static factory method.
-     * @return a new instance of the builder.
+     * @param object
+     * @return activityContext object.
      */
-    public static Builder<?> builder() {
-        return new Builder2();
+    public static Annotation validateObject(Object object) {
+        if (object instanceof Annotation) {
+            //TODO CONSIDER ADDING REVERSE LOOKUP TO ENUM SO THAT ENUM CAN BE RETURNED FOR USE IN SWITCH STATEMENT
+            String type = ((Annotation) object).getType();
+            if (type.equals(Annotation.Type.BOOKMARK_ANNOTATION.uri())) {
+                // TODO CHECK REQUIRED PROPS
+            } else if (type.equals(Annotation.Type.HIGHLIGHT_ANNOTATION.uri())) {
+                // TODO CHECK REQUIRED PROPS
+            } else if (type.equals(Annotation.Type.SHARED_ANNOTATION.uri())) {
+                // TODO CHECK REQUIRED PROPS
+            } else if (type.equals(Annotation.Type.TAG_ANNOTATION.uri())) {
+                // TODO CHECK REQUIRED PROPS
+            } else {
+                // TODO THROW ERROR UNRECOGNIZED URI
+            }
+            // TODO add additional checks
+
+            return (Annotation) object;
+        } else {
+            throw new ClassCastException("Object must be of type Annotation.");
+        }
+    }
+
+    /**
+     * @param target
+     * @return target DigitalResource.
+     */
+    public static DigitalResource validateTarget(Object target) {
+        if (target instanceof DigitalResource) {
+            // TODO add additional checks
+            return (DigitalResource) target;
+        } else {
+            throw new ClassCastException("Target must be of type DigitalResource.");
+        }
     }
 }

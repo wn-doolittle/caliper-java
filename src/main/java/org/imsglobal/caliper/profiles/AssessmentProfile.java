@@ -1,98 +1,108 @@
 package org.imsglobal.caliper.profiles;
 
-import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assessment.Assessment;
-import org.imsglobal.caliper.entities.assessment.AssessmentItem;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class AssessmentProfile extends org.imsglobal.caliper.profiles.Profile {
 
-    private Assessment assessment;
-    private List<AssessmentItem> itemsAttempted = Lists.newArrayList();
+    public enum AssessmentActions {
+        STARTED("assessment.started"),
+        PAUSED("assessment.paused"),
+        RESTARTED("assessment.restarted"),
+        SUBMITTED("assessment.submitted"),
 
-    /**
-     * @param builder apply builder object properties to the profile object.
-     */
-    protected AssessmentProfile(Builder<?> builder) {
-        super(builder);
-        this.assessment = builder.assessment;
-        this.itemsAttempted = builder.itemsAttempted;
-    }
+        NAVIGATED_TO("navigation.navigatedTo");
 
-    /**
-     * @return Assessment
-     */
-    public Assessment getAssessment() {
-        return assessment;
-    }
-
-    /**
-     * @return itemsAttempted
-     */
-    public List<AssessmentItem> getItemsAttempted() {
-        return itemsAttempted;
-    }
-
-    /**
-     * Initialize default parameter values in the builder (not in the outer profile class).
-     * @param <T> builder
-     */
-    public static abstract class Builder<T extends Builder<T>> extends Profile.Builder<T>  {
-        private Assessment assessment;
-        private List<AssessmentItem> itemsAttempted = Lists.newArrayList();
+        private final String key;
+        private static final Map<String, AssessmentActions> lookup = new HashMap<String, AssessmentActions>();
 
         /**
-         * @param assessment
-         * @return builder.
+         * Create reverse lookup hash map
          */
-        public T assessment(Assessment assessment) {
-            this.assessment = assessment;
-            return self();
+        static {
+            for (AssessmentActions constants : AssessmentActions.values())
+                lookup.put(constants.key(), constants);
         }
 
         /**
-         * @param itemsAttempted
-         * @return builder
+         * Constructor
+         *
+         * @param key
          */
-        public T itemsAttempted(List<AssessmentItem> itemsAttempted) {
-            this.itemsAttempted = itemsAttempted;
-            return self();
+        private AssessmentActions(String key) {
+            this.key = key;
         }
 
         /**
-         * @param assessmentItem
-         * @return builder
+         * @return ResourceBundle key for internationalized action strings.
          */
-        public T itemAttempted(AssessmentItem assessmentItem) {
-            this.itemsAttempted.add(assessmentItem);
-            return self();
+        public String key() {
+            return key;
         }
 
         /**
-         * Client invokes build method in order to create an immutable profile object.
-         * @return a new instance of the AssessmentProfile.
+         * @param key
+         * @return true if lookup returns a key match; false otherwise.
          */
-        public AssessmentProfile build() {
-            return new AssessmentProfile(this);
+        public static boolean hasKey(String key) {
+            return lookup.containsKey(key);
+        }
+
+        /**
+         * @param key
+         * @return enum constant by reverse lookup
+         */
+        public static AssessmentActions lookupConstant(String key) {
+            return lookup.get(key);
         }
     }
 
     /**
-     *
+     * Constructor
      */
-    private static class Builder2 extends Builder<Builder2> {
-        @Override
-        protected Builder2 self() {
-            return this;
+    public AssessmentProfile() {
+
+    }
+
+    /**
+     * @param key
+     * @return localized action string.
+     */
+    public static String getActionFromBundle(String key) {
+        if (AssessmentActions.hasKey(key) || Actions.hasKey(key)) {
+            return ResourceBundle.getBundle("actions").getString(key);
+        } else {
+            throw new IllegalArgumentException("Unrecognized key: " + key);
         }
     }
 
     /**
-     * Static factory method.
-     * @return a new instance of the builder.
+     * @param object
+     * @return assessment.
      */
-    public static Builder<?> builder() {
-        return new Builder2();
+    public static Assessment validateObject(Object object) {
+        if (object instanceof Assessment) {
+            // TODO add additional checks
+            return (Assessment) object;
+        } else {
+            throw new ClassCastException("Object must be of type Assessment.");
+        }
+    }
+
+    /**
+     * @param generated
+     * @return assessment.
+     */
+    public static Attempt validateGenerated(Object generated) {
+        if (generated instanceof Attempt) {
+            // TODO add additional checks
+            return (Attempt) generated;
+        } else {
+            throw new ClassCastException("Generated must be of type Attempt.");
+        }
     }
 }

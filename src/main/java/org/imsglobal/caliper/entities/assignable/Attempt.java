@@ -109,24 +109,10 @@ public class Attempt extends org.imsglobal.caliper.entities.Entity {
     }
 
     /**
-     * @param endedAtTime
-     */
-    public void updateEndedAtTime(long endedAtTime) {
-        this.endedAtTime = endedAtTime;
-    }
-
-    /**
      * @return duration of event
      */
     public String getDuration() {
         return duration;
-    }
-
-    /**
-     * @param duration
-     */
-    public void updateDuration(String duration) {
-        this.duration = duration;
     }
 
     /**

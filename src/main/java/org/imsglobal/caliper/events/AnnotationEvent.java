@@ -1,9 +1,9 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.AnnotationActions;
-
-import java.util.ResourceBundle;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.annotation.Annotation;
+import org.imsglobal.caliper.profiles.AnnotationProfile;
 
 public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
 
@@ -16,6 +16,12 @@ public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
     @JsonProperty("action")
     private final String action;
 
+    @JsonProperty("object")
+    private final Annotation object;
+
+    @JsonProperty("target")
+    private final DigitalResource target;
+
     /**
      * @param builder apply builder object properties to the AnnotationEvent object.
      */
@@ -24,10 +30,12 @@ public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
+        this.object = builder.object;
+        this.target = builder.target;
     }
 
     /**
-     * @return the context
+     * @return the context.
      */
     @Override
     public String getContext() {
@@ -35,7 +43,7 @@ public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
-     * @return the type
+     * @return the type.
      */
     @Override
     public String getType() {
@@ -43,11 +51,27 @@ public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
-     * @return the action
+     * @return the action.
      */
     @Override
     public String getAction() {
         return action;
+    }
+
+    /**
+     * @return the annotation object.
+     */
+    @Override
+    public Annotation getObject() {
+        return object;
+    }
+
+    /**
+     * @return target digital resource.
+     */
+    @Override
+    public DigitalResource getTarget() {
+        return target;
     }
 
     /**
@@ -58,6 +82,8 @@ public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
         private String context;
         private String type;
         private String action;
+        private Annotation object;
+        private DigitalResource target;
 
         /**
          * Initialize with default values.
@@ -87,16 +113,47 @@ public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
 
         /**
          * @param key
-         * @return builder
+         * @return builder.
          */
         @Override
         public T action(String key) {
-            if (AnnotationActions.hasKey(key)) {
-                this.action = ResourceBundle.getBundle("actions").getString(key);
-                return self();
-            } else {
-                throw new IllegalArgumentException("Unrecognized constant: " + key);
+            try {
+                this.action = AnnotationProfile.getActionFromBundle(key);
+            } catch (IllegalArgumentException e) {
+                //TODO log and do something clever with exception.
             }
+
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        @Override
+        public T object(Object object) {
+            try {
+                this.object = AnnotationProfile.validateObject(object);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
+            return self();
+        }
+
+        /**
+         * @param target
+         * @return builder.
+         */
+        @Override
+        public T target(Object target) {
+            try {
+                this.target = AnnotationProfile.validateTarget(target);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
+            return self();
         }
 
         /**

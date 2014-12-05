@@ -1,11 +1,9 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.OutcomeActions;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
-
-import java.util.ResourceBundle;
+import org.imsglobal.caliper.profiles.OutcomeProfile;
 
 public class OutcomeEvent extends org.imsglobal.caliper.events.Event {
 
@@ -18,17 +16,11 @@ public class OutcomeEvent extends org.imsglobal.caliper.events.Event {
     @JsonProperty("action")
     private final String action;
 
-    /**
-     * Outcome activity context
-     */
     @JsonProperty("object")
-    private Object object;
+    private Attempt object;
 
-    /**
-     * Outcome generated result
-     */
     @JsonProperty("generated")
-    private Object generated;
+    private Result generated;
 
     /**
      * @param builder apply builder object properties to the OutcomeEvent object.
@@ -67,18 +59,18 @@ public class OutcomeEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
-     * @return object
+     * @return the attempt object.
      */
     @Override
-    public Object getObject() {
+    public Attempt getObject() {
         return object;
     }
 
     /**
-     * @return object
+     * @return the generated result.
      */
     @Override
-    public Object getGenerated() {
+    public Result getGenerated() {
         return generated;
     }
 
@@ -90,8 +82,8 @@ public class OutcomeEvent extends org.imsglobal.caliper.events.Event {
         private String context;
         private String type;
         private String action;
-        private Object object;
-        private Object generated;
+        private Attempt object;
+        private Result generated;
 
         /**
          * Initialize type with default values.
@@ -121,60 +113,47 @@ public class OutcomeEvent extends org.imsglobal.caliper.events.Event {
 
         /**
          * @param key
-         * @return builder
+         * @return builder.
          */
         @Override
         public T action(String key) {
-            if (OutcomeActions.hasKey(key)) {
-                this.action = ResourceBundle.getBundle("actions").getString(key);
-                return self();
-            } else {
-                throw new IllegalArgumentException("Unrecognized constant: " + key);
-                // TODO add logging
-                // TODO do something clever with exception
+            try {
+                this.action = OutcomeProfile.getActionFromBundle(key);
+            } catch (IllegalArgumentException e) {
+                //TODO log and do something clever with exception.
             }
-        }
 
-        /*
-         * (non-Javadoc)
-         * @see org.imsglobal.caliper.events.Event#setObject(java.lang.Object)
-         */
+            return self();
+        }
 
         /**
          * @param object
-         * @return builder
+         * @return builder.
          */
         @Override
         public T object(Object object) {
-            if (object instanceof Attempt) {
-                this.object = object;
-                return self();
-            } else {
-                throw new ClassCastException("Object cannot be cast as a Caliper attempt");
-                // TODO add logging
-                // TODO do something clever with exception
+            try {
+                this.object = OutcomeProfile.validateObject(object);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
             }
-        }
 
-        /*
-         * (non-Javadoc)
-         * @see org.imsglobal.caliper.events.Event#setGenerated(java.lang.Object)
-         */
+            return self();
+        }
 
         /**
          * @param generated
-         * @return builder
+         * @return builder.
          */
         @Override
         public T generated(Object generated) {
-            if (generated instanceof Result) {
-                this.generated = generated;
-                return self();
-            } else {
-                throw new ClassCastException("Object cannot be cast as a Caliper result");
-                // TODO add logging
-                // TODO do something clever with exception
+            try {
+                this.generated = OutcomeProfile.validateGenerated(generated);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
             }
+
+            return self();
         }
 
         /**

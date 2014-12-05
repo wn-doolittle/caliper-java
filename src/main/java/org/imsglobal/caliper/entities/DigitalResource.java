@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -43,6 +44,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         EPUB_SUB_CHAPTER("http://www.idpf.org/epub/vocab/structure/#subchapter"),
         EPUB_VOLUME("http://www.idpf.org/epub/vocab/structure/#volume"),
         FRAME("http://purl.imsglobal.org/caliper/v1/Frame"),
+        MEDIA_LOCATION("http://purl.imsglobal.org/caliper/v1/MediaLocation"),
         MEDIA_OBJECT("http://purl.imsglobal.org/caliper/v1/MediaObject"),
         READING("http://www.idpf.org/epub/vocab/structure"),
         WEB_PAGE("http://purl.imsglobal.org/caliper/v1/WebPage");
@@ -69,16 +71,16 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     private final String type;
 
     @JsonProperty("objectType")
-    private List<String> objectTypes = Lists.newArrayList();
+    private final ImmutableList<String> objectTypes;
 
     @JsonProperty("alignedLearningObjective")
-    private List<LearningObjective> alignedLearningObjective = Lists.newArrayList();
+    private final ImmutableList<LearningObjective> learningObjectives;
 
     @JsonProperty("keyword")
-    private List<String> keyword = Lists.newArrayList();
+    private final ImmutableList<String> keywords;
 
     @JsonProperty("partOf")
-    private Object partOf;
+    private final Object partOf;
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -86,9 +88,12 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     protected DigitalResource(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.objectTypes = builder.objectTypes;
-        this.alignedLearningObjective = builder.alignedLearningObjective;
-        this.keyword = builder.keyword;
+        this.objectTypes = ImmutableList.copyOf(builder.objectTypes);
+        //this.objectTypes = ImmutableList.<String>builder().addAll(objectTypes).build();
+        this.learningObjectives = ImmutableList.copyOf(builder.learningObjectives);
+        //this.learningObjectives = ImmutableList.<LearningObjective>builder().addAll(learningObjectives).build();
+        this.keywords = ImmutableList.copyOf(builder.keywords);
+        //this.keywords = ImmutableList.<String>builder().addAll(keywords).build();
         this.partOf = builder.partOf;
     }
 
@@ -101,24 +106,27 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     }
 
     /**
+     * Return an immutable view of the objectTypes list.
      * @return the objectTypes
      */
-    public List<String> getObjectTypes() {
+    public ImmutableList<String> getObjectTypes() {
         return objectTypes;
     }
 
     /**
-     * @return the aligned learning objectives
+     * Return an immutable view of the learningObjectives list.
+     * @return the learning objectives
      */
-    public List<LearningObjective> getAlignedLearningObjective() {
-        return alignedLearningObjective;
+    public ImmutableList<LearningObjective> getLearningObjectives() {
+        return learningObjectives;
     }
 
     /**
+     * Return an immutable view of the keywords list.
      * @return the keywords
      */
-    public List<String> getKeyword() {
-        return keyword;
+    public ImmutableList<String> getKeywords() {
+        return keywords;
     }
 
     /**
@@ -135,12 +143,12 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
         private List<String> objectTypes = Lists.newArrayList();
-        private List<LearningObjective> alignedLearningObjective = Lists.newArrayList();
-        private List<String> keyword = Lists.newArrayList();
+        private List<LearningObjective> learningObjectives = Lists.newArrayList();
+        private List<String> keywords = Lists.newArrayList();
         private Object partOf;
 
         /*
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
             type(Entity.Type.DIGITAL_RESOURCE.uri());
@@ -174,11 +182,11 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         }
 
         /**
-         * @param alignedLearningObjective
+         * @param learningObjectives
          * @return builder.
          */
-        public T alignedLearningObjective(List<LearningObjective> alignedLearningObjective) {
-            this.alignedLearningObjective = alignedLearningObjective;
+        public T learningObjectives(List<LearningObjective> learningObjectives) {
+            this.learningObjectives = learningObjectives;
             return self();
         }
 
@@ -187,7 +195,16 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
          * @return builder.
          */
         public T learningObjective(LearningObjective learningObjective) {
-            this.alignedLearningObjective.add(learningObjective);
+            this.learningObjectives.add(learningObjective);
+            return self();
+        }
+
+        /**
+         * @param keywords
+         * @return builder.
+         */
+        public T keywords(List<String> keywords) {
+            this.keywords = keywords;
             return self();
         }
 
@@ -195,8 +212,8 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
          * @param keyword
          * @return builder.
          */
-        public T keyword(List<String> keyword) {
-            this.keyword = keyword;
+        public T keyword(String keyword) {
+            this.keywords.add(keyword);
             return self();
         }
 

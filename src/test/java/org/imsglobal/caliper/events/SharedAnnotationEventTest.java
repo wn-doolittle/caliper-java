@@ -2,6 +2,8 @@ package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
+import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.profiles.AnnotationProfile;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +19,11 @@ import static org.junit.Assert.assertEquals;
 public class SharedAnnotationEventTest {
 
     private LearningContext learningContext;
-    private AnnotationProfile profile;
+    private EpubSubChapter epub;
+    private SharedAnnotation shared;
+    private String key;
     private AnnotationEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SharedAnnotationEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -28,16 +32,19 @@ public class SharedAnnotationEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildLearningContext();
+        learningContext = TestUtils.buildReadiumLearningContext();
 
-        // Build Reading Profile
-        profile = TestUtils.buildAnnotationProfile(learningContext);
+        //Build target reading
+        epub = (EpubSubChapter) TestUtils.buildEpubSubChap433();
 
-        // Add Bookmark Annotation
-        profile = TestUtils.addSharedAnnotation(profile);
+        // Build Bookmark Annotation
+        shared = TestUtils.buildSharedAnnotation(epub);
+
+        // Add action
+        key = AnnotationProfile.AnnotationActions.SHARED.key();
 
         // Build event
-        event = TestUtils.buildAnnotationEvent(profile);
+        event = TestUtils.buildAnnotationEvent(learningContext, shared, key, epub, 3);
     }
 
     @Test

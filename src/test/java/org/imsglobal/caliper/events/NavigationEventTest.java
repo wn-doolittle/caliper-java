@@ -1,8 +1,11 @@
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.entities.LearningContext;
-import org.imsglobal.caliper.profiles.ReadingProfile;
 import org.imsglobal.caliper.TestUtils;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.reading.EpubSubChapter;
+import org.imsglobal.caliper.entities.reading.EpubVolume;
+import org.imsglobal.caliper.profiles.ReadingProfile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -17,7 +20,10 @@ import static org.junit.Assert.assertEquals;
 public class NavigationEventTest {
 
     private LearningContext learningContext;
-    private ReadingProfile profile;
+    private EpubVolume epub;
+    private String key;
+    private DigitalResource fromResource;
+    private EpubSubChapter target;
     private NavigationEvent event;
     private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
 
@@ -28,16 +34,22 @@ public class NavigationEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildLearningContext();
+        learningContext = TestUtils.buildReadiumLearningContext();
 
-        // Build Reading Profile
-        profile = TestUtils.buildReadingProfile(learningContext);
+        // Build epub
+        epub = TestUtils.buildEpubVolume43();
 
-        // Add navigation-related properties to profile
-        profile = TestUtils.navigateToReadingTarget(profile);
+        // Build previous location
+        fromResource = TestUtils.buildAmRev101LandingPage();
+
+        // Build target
+        target = TestUtils.buildEpubSubChap431();
+
+        // Action
+        key = ReadingProfile.Actions.NAVIGATED_TO.key();
 
         // Build event
-        event = TestUtils.buildNavigationEvent(profile);
+        event = TestUtils.buildEpubNavigationEvent(learningContext, epub, key, fromResource, target);
     }
 
     @Test
