@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.profiles;
 
+import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
 
@@ -92,15 +93,15 @@ public class OutcomeProfile extends org.imsglobal.caliper.profiles.Profile {
     }
 
     /**
-     * @param object
+     * @param generated
      * @return assessment.
      */
-    public static Result validateGenerated(Object object) {
-        if (object instanceof Result) {
+    public static Result validateGenerated(Generatable generated) {
+        if (generated instanceof Result) {
             // TODO add additional checks
-            return (Result) object;
+            return (Result) generated;
         } else {
-            throw new ClassCastException("Generated must be of type Result.");
+            throw new ClassCastException("Generatable must be of type Result.");
         }
     }
 }

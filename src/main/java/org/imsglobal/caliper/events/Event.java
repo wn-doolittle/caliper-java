@@ -2,8 +2,7 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.Agent;
-import org.imsglobal.caliper.entities.SoftwareApplication;
+import org.imsglobal.caliper.entities.*;
 import org.imsglobal.caliper.entities.lis.Organization;
 
 /**
@@ -128,15 +127,13 @@ public abstract class Event {
      * Optional - "target" from Metric Profile
      */
     @JsonProperty("target")
-    private Object target;
-    //private Target target;
+    private Targetable target;
 
     /**
      * Optional - entity "generated" as result of action - from Metric Profile
      */
     @JsonProperty("generated")
-    private Object generated;
-    //private Generated generated;
+    private Generatable generated;
 
     /**
      * Required time in milliseconds that the event was started at
@@ -231,14 +228,14 @@ public abstract class Event {
     /**
      * @return the target
      */
-    public Object getTarget() {
+    public Targetable getTarget() {
         return target;
     }
 
     /**
      * @return generated
      */
-    public Object getGenerated() {
+    public Generatable getGenerated() {
         return generated;
     }
 
@@ -275,8 +272,8 @@ public abstract class Event {
         private Agent actor;
         private String action;
         private Object object;
-        private Object target;
-        private Object generated;
+        private Targetable target;
+        private Generatable generated;
         private long startedAtTime;
         private long endedAtTime;
         private String duration;
@@ -355,7 +352,7 @@ public abstract class Event {
          * @param target
          * @return builder.
          */
-        public T target(Object target) {
+        public T target(Targetable target) {
             this.target = target;
             return self();
         }
@@ -364,7 +361,7 @@ public abstract class Event {
          * @param generated
          * @return builder.
          */
-        public T generated(Object generated) {
+        public T generated(Generatable generated) {
             this.generated = generated;
             return self();
         }

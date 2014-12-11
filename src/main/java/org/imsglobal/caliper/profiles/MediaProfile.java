@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.profiles;
 
-import org.imsglobal.caliper.entities.media.MediaObject;
+import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.entities.media.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -102,23 +103,30 @@ public class MediaProfile extends org.imsglobal.caliper.profiles.Profile {
      * @return activityContext object.
      */
     public static MediaObject validateObject(Object object) {
-        if (object instanceof MediaObject) {
-            //TODO CONSIDER ADDING REVERSE LOOKUP TO ENUM SO THAT ENUM CAN BE RETURNED FOR USE IN SWITCH STATEMENT
-            String type = ((MediaObject) object).getType();
-            if (type.equals(MediaObject.Type.AUDIO_OBJECT.uri())) {
-                // TODO CHECK REQUIRED PROPS
-            } else if (type.equals(MediaObject.Type.IMAGE_OBJECT.uri())) {
-                // TODO CHECK REQUIRED PROPS
-            } else if (type.equals(MediaObject.Type.VIDEO_OBJECT.uri())) {
-                // TODO CHECK REQUIRED PROPS
-            } else {
-                // THROW ERROR unrecognized URI
-            }
-            // TODO add additional checks
-
-            return (MediaObject) object;
+        if (object instanceof AudioObject) {
+            // TODO CHECK REQUIRED PROPS
+            return (AudioObject) object;
+        } else if (object instanceof ImageObject) {
+            // TODO CHECK REQUIRED PROPS
+            return (ImageObject) object;
+        } else if (object instanceof VideoObject) {
+            // TODO CHECK REQUIRED PROPS
+            return (VideoObject) object;
         } else {
             throw new ClassCastException("Object must be of type MediaObject.");
+        }
+    }
+
+    /**
+     * @param target
+     * @return target MediaLocation.
+     */
+    public static MediaLocation validateTarget(Targetable target) {
+        if (target instanceof MediaLocation) {
+            // TODO add additional checks
+            return (MediaLocation) target;
+        } else {
+            throw new ClassCastException("Target must be of type MediaLocation.");
         }
     }
 }

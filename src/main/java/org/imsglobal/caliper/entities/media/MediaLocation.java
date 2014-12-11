@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.base.Strings;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.Targetable;
 
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ import java.util.UUID;
     "partOf",
     "lastModifiedTime",
     "currentTime" })
-public class MediaLocation extends org.imsglobal.caliper.entities.DigitalResource {
+public class MediaLocation extends DigitalResource implements Targetable {
 
     @JsonProperty("@id")
     private final String id;

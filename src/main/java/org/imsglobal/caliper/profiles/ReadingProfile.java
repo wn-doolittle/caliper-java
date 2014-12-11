@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.profiles;
 
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.reading.Frame;
 
 import java.util.HashMap;
@@ -104,7 +105,7 @@ public class ReadingProfile extends org.imsglobal.caliper.profiles.Profile {
      * @param target
      * @return target Frame.
      */
-    public static Frame validateTarget(Object target) {
+    public static Frame validateTarget(Targetable target) {
         if (target instanceof Frame) {
             // TODO add additional checks
             return (Frame) target;

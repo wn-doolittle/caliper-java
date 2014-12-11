@@ -2,6 +2,7 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.profiles.Profile;
 
 public class NavigationEvent extends org.imsglobal.caliper.events.Event {
@@ -25,7 +26,7 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
     private DigitalResource fromResource;
 
     @JsonProperty("target")
-    private final DigitalResource target;
+    private final Targetable target;
 
     /**
      * @param builder apply builder object properties to the NavigationEvent object.
@@ -83,7 +84,7 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
      * @return the target resource.
      */
     @Override
-    public DigitalResource getTarget() {
+    public Targetable getTarget() {
         return target;
     }
 
@@ -97,7 +98,7 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
         private String action;
         private DigitalResource object;
         private DigitalResource fromResource;
-        private DigitalResource target;
+        private Targetable target;
 
         /**
          * Initialize type with default values.
@@ -170,9 +171,9 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
          * @return builder.
          */
         @Override
-        public T target(Object target) {
+        public T target(Targetable target) {
             try {
-                this.target = Profile.validateDigitalResource(target);
+                this.target = Profile.validateTarget(target);
             } catch (ClassCastException e) {
                 //TODO log and do something clever with exception.
             }

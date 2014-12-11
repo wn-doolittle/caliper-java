@@ -27,7 +27,7 @@
         "lastModifiedTime": 1402965614516,
         "duration": 1420
     },
-    "mediaLocation": {
+    "target": {
         "@id": "https://com.sat/super-media-tool/video/video1",
         "@type": "http://purl.imsglobal.org/caliper/v1/MediaLocation",
         "name": null,
@@ -39,7 +39,6 @@
         "lastModifiedTime": 0,
         "currentTime": 710
     },
-    "target": null,
     "generated": null,
     "startedAtTime": 1402965614516,
     "endedAtTime": 0,

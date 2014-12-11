@@ -218,13 +218,13 @@ public class TestUtils {
                 .maxScore(1)
                 .build())
             .add(AssessmentItem.builder()
-                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3")
-                    .name("Assessment Item 3")
-                    .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
-                    .maxAttempts(2)
-                    .maxSubmits(2)
-                    .maxScore(1)
-                    .build())
+                .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3")
+                .name("Assessment Item 3")
+                .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                .maxAttempts(2)
+                .maxSubmits(2)
+                .maxScore(1)
+                .build())
             .build();
     }
 
@@ -460,14 +460,14 @@ public class TestUtils {
         return SharedAnnotation.builder()
             .id("https://someEduApp.edu/shared/9999")
             .withAgents(Lists.<Agent>newArrayList(
-                    Person.builder()
-                            .id("https://some-university.edu/students/657585")
-                            .lastModifiedTime(1402965614516l)
-                            .build(),
-                    Person.builder()
-                            .id("https://some-university.edu/students/667788")
-                            .lastModifiedTime(1402965614516l)
-                            .build()))
+                Person.builder()
+                    .id("https://some-university.edu/students/657585")
+                    .lastModifiedTime(1402965614516l)
+                    .build(),
+                Person.builder()
+                    .id("https://some-university.edu/students/667788")
+                    .lastModifiedTime(1402965614516l)
+                    .build()))
             .lastModifiedTime(1402965614516l)
             .build();
     }
@@ -490,10 +490,10 @@ public class TestUtils {
     public static final LearningContext buildSuperMediaToolLearningContext() {
         return LearningContext.builder()
             .edApp(SoftwareApplication.builder()
-                    .id("https://com.sat/super-media-tool")
-                    .name("Super Media Tool")
-                    .lastModifiedTime(1402965614516l)
-                    .build())
+                .id("https://com.sat/super-media-tool")
+                .name("Super Media Tool")
+                .lastModifiedTime(1402965614516l)
+                .build())
             .lisOrganization(buildAmRev101CourseSection())
             .agent(buildStudent554433())
             .build();
@@ -529,7 +529,7 @@ public class TestUtils {
             .actor(learningContext.getAgent())
             .object(video)
             .action(actionKey)
-            .mediaLocation(location)
+            .target(location)
             .startedAtTime(1402965614516l)
             .build();
     }

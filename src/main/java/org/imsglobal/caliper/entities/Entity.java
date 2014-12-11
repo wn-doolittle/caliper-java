@@ -18,9 +18,11 @@ public abstract class Entity {
         ATTEMPT("http://purl.imsglobal.org/caliper/v1/Attempt"),
         DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/DigitalResource"),
         ENTITY("http://purl.imsglobal.org/caliper/v1/Entity"),
+        GENERATED("http://purl.imsglobal.org/caliper/v1/Generated"),
         LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
-        RESPONSE("http://purl.imsglobal.org/caliper/v1/Response"),
+        //RESPONSE("http://purl.imsglobal.org/caliper/v1/Response"),
         RESULT("http://purl.imsglobal.org/caliper/v1/Result"),
+        TARGET("http://purl.imsglobal.org/caliper/v1/Target"),
         VIEW("http://purl.imsglobal.org/caliper/v1/View");
 
         private final String uri;
