@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Agent;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.Generatable;
 
 /**
  * Representation of an Attempt. Attempts are generated as part of or
@@ -20,7 +21,7 @@ import org.imsglobal.caliper.entities.Entity;
     "startedAtTime",
     "endedAtTime",
     "duration" })
-public class Attempt extends org.imsglobal.caliper.entities.Entity {
+public class Attempt extends Entity implements Generatable {
 
     @JsonProperty("@type")
     private final String type;

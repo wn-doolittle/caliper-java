@@ -2,6 +2,7 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.media.MediaLocation;
 import org.imsglobal.caliper.entities.media.MediaObject;
 import org.imsglobal.caliper.profiles.MediaProfile;
@@ -12,7 +13,6 @@ import org.imsglobal.caliper.profiles.MediaProfile;
     "actor",
     "action",
     "object",
-    "mediaLocation",
     "target",
     "generated",
     "startedAtTime",
@@ -34,11 +34,8 @@ public class MediaEvent extends org.imsglobal.caliper.events.Event {
     @JsonProperty("object")
     private MediaObject object;
 
-    /**
-     * Describes the location within the media that is relevant to this event
-     */
-    @JsonProperty("mediaLocation")
-    private MediaLocation mediaLocation;
+    @JsonProperty("target")
+    private MediaLocation target;
 
     /**
      * @param builder apply builder object properties to the MediaEvent object.
@@ -49,7 +46,7 @@ public class MediaEvent extends org.imsglobal.caliper.events.Event {
         this.type = builder.type;
         this.action = builder.action;
         this.object = builder.object;
-        this.mediaLocation = builder.mediaLocation;
+        this.target = builder.target;
     }
 
     /**
@@ -85,10 +82,12 @@ public class MediaEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
-     * @return the mediaLocation
+     * Describes the target location within the media that is relevant to this event.
+     * @return the mediaLocation target
      */
-    public MediaLocation getMediaLocation() {
-        return mediaLocation;
+    @Override
+    public MediaLocation getTarget() {
+        return target;
     }
 
     /**
@@ -100,7 +99,7 @@ public class MediaEvent extends org.imsglobal.caliper.events.Event {
         private String type;
         private String action;
         private MediaObject object;
-        private MediaLocation mediaLocation;
+        private MediaLocation target;
 
         /**
          * Initialize type with default valueS.  Required if .builder() properties are not set by user.
@@ -159,11 +158,17 @@ public class MediaEvent extends org.imsglobal.caliper.events.Event {
         }
 
         /**
-         * @param mediaLocation
-         * @return builder
+         * @param target
+         * @return builder.
          */
-        public T mediaLocation(MediaLocation mediaLocation) {
-            this.mediaLocation = mediaLocation;
+        @Override
+        public T target(Targetable target) {
+            try {
+                this.target = MediaProfile.validateTarget(target);
+            } catch (ClassCastException e) {
+                //TODO log and do something clever with exception.
+            }
+
             return self();
         }
 

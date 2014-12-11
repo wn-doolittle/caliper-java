@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.profiles;
 
+import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 
@@ -97,12 +98,12 @@ public class AssessmentProfile extends org.imsglobal.caliper.profiles.Profile {
      * @param generated
      * @return assessment.
      */
-    public static Attempt validateGenerated(Object generated) {
+    public static Attempt validateGenerated(Generatable generated) {
         if (generated instanceof Attempt) {
             // TODO add additional checks
             return (Attempt) generated;
         } else {
-            throw new ClassCastException("Generated must be of type Attempt.");
+            throw new ClassCastException("Generatable must be of type Attempt.");
         }
     }
 }

@@ -99,12 +99,12 @@ public class AssessmentItemProfile extends org.imsglobal.caliper.profiles.Profil
      * @return generated response.
      */
     /**
-    public static Response validateGenerated(Object generated) {
+    public static Response validateGenerated(Generatable generated) {
         if (generated instanceof Response) {
             // TODO add additional checks
             return (Response) generated;
         } else {
-            throw new ClassCastException("Generated must be of type Response.");
+            throw new ClassCastException("Generatable must be of type Response.");
         }
     }
     */

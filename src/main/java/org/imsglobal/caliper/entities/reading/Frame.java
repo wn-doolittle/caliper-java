@@ -1,9 +1,22 @@
 package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.Targetable;
 
-public class Frame extends org.imsglobal.caliper.entities.DigitalResource {
+@JsonPropertyOrder({
+    "@id",
+    "@type",
+    "name",
+    "objectType",
+    "properties",
+    "alignedLearningObjective",
+    "keyword",
+    "partOf",
+    "lastModifiedTime",
+    "index" })
+public class Frame extends DigitalResource implements Targetable {
 
     @JsonProperty("@type")
     private final String type;

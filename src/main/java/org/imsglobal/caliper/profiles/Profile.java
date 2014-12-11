@@ -1,7 +1,9 @@
 package org.imsglobal.caliper.profiles;
 
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
+import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.entities.media.MediaLocation;
+import org.imsglobal.caliper.entities.reading.Frame;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,27 +84,30 @@ public abstract class Profile {
 
     /**
      * @param object
-     * @return target Creative Work.
-     */
-    public static CreativeWork validateCreativeWork(Object object) {
-        if (object instanceof CreativeWork) {
-            // TODO add additional checks
-            return (CreativeWork) object;
-        } else {
-            throw new ClassCastException("Object must be of type CreativeWork.");
-        }
-    }
-
-    /**
-     * @param object
-     * @return digital resource.
+     * @return DigitalResource.
      */
     public static DigitalResource validateDigitalResource(Object object) {
         if (object instanceof DigitalResource) {
             // TODO add additional checks
             return (DigitalResource) object;
         } else {
-            throw new ClassCastException("Object must be of type DigitalResource.");
+            throw new ClassCastException("Object must be of type CreativeWork.");
+        }
+    }
+
+    /**
+     * @param target
+     * @return digital resource.
+     */
+    public static Targetable validateTarget(Targetable target) {
+        if (target instanceof Frame) {
+            // TODO add additional checks
+            return (Frame) target;
+        } else if (target instanceof MediaLocation) {
+            // TODO add additional checks
+            return (MediaLocation) target;
+        } else {
+            throw new ClassCastException("Object must implement the Targetable interface.");
         }
     }
 }

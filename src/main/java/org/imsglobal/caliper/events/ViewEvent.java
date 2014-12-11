@@ -2,6 +2,7 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.profiles.ReadingProfile;
 
@@ -143,7 +144,7 @@ public class ViewEvent extends org.imsglobal.caliper.events.Event {
          * @return builder.
          */
         @Override
-        public T target(Object target) {
+        public T target(Targetable target) {
             try {
                 this.target = ReadingProfile.validateTarget(target);
             } catch (ClassCastException e) {

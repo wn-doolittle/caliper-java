@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Agent;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.Generatable;
 
 /**
  * Representation of a Result. Result's are generated as
@@ -23,7 +24,7 @@ import org.imsglobal.caliper.entities.Entity;
     "curveFactor",
     "comment",
     "scoredBy" })
-public class Result extends org.imsglobal.caliper.entities.Entity {
+public class Result extends Entity implements Generatable {
 
     @JsonProperty("@type")
     private final String type;

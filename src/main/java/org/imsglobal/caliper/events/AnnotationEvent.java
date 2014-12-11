@@ -1,7 +1,7 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.annotation.Annotation;
 import org.imsglobal.caliper.profiles.AnnotationProfile;
 
@@ -20,7 +20,7 @@ public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
     private final Annotation object;
 
     @JsonProperty("target")
-    private final DigitalResource target;
+    private final Targetable target;
 
     /**
      * @param builder apply builder object properties to the AnnotationEvent object.
@@ -70,7 +70,7 @@ public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
      * @return target digital resource.
      */
     @Override
-    public DigitalResource getTarget() {
+    public Targetable getTarget() {
         return target;
     }
 
@@ -83,7 +83,7 @@ public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
         private String type;
         private String action;
         private Annotation object;
-        private DigitalResource target;
+        private Targetable target;
 
         /**
          * Initialize with default values.
@@ -146,7 +146,7 @@ public class AnnotationEvent extends org.imsglobal.caliper.events.Event {
          * @return builder.
          */
         @Override
-        public T target(Object target) {
+        public T target(Targetable target) {
             try {
                 this.target = AnnotationProfile.validateTarget(target);
             } catch (ClassCastException e) {

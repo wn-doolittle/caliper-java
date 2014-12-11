@@ -1,7 +1,8 @@
 package org.imsglobal.caliper.profiles;
 
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.annotation.Annotation;
+import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.entities.annotation.*;
+import org.imsglobal.caliper.entities.reading.Frame;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -94,23 +95,18 @@ public class AnnotationProfile extends org.imsglobal.caliper.profiles.Profile {
      * @return activityContext object.
      */
     public static Annotation validateObject(Object object) {
-        if (object instanceof Annotation) {
-            //TODO CONSIDER ADDING REVERSE LOOKUP TO ENUM SO THAT ENUM CAN BE RETURNED FOR USE IN SWITCH STATEMENT
-            String type = ((Annotation) object).getType();
-            if (type.equals(Annotation.Type.BOOKMARK_ANNOTATION.uri())) {
-                // TODO CHECK REQUIRED PROPS
-            } else if (type.equals(Annotation.Type.HIGHLIGHT_ANNOTATION.uri())) {
-                // TODO CHECK REQUIRED PROPS
-            } else if (type.equals(Annotation.Type.SHARED_ANNOTATION.uri())) {
-                // TODO CHECK REQUIRED PROPS
-            } else if (type.equals(Annotation.Type.TAG_ANNOTATION.uri())) {
-                // TODO CHECK REQUIRED PROPS
-            } else {
-                // TODO THROW ERROR UNRECOGNIZED URI
-            }
-            // TODO add additional checks
-
-            return (Annotation) object;
+        if (object instanceof BookmarkAnnotation) {
+            // TODO CHECK REQUIRED PROPS
+            return (BookmarkAnnotation) object;
+        } else if (object instanceof HighlightAnnotation) {
+            // TODO CHECK REQUIRED PROPS
+            return (HighlightAnnotation) object;
+        } else if (object instanceof SharedAnnotation) {
+            // TODO CHECK REQUIRED PROPS
+            return (SharedAnnotation) object;
+        } else if (object instanceof TagAnnotation) {
+            // TODO CHECK REQUIRED PROPS
+            return (TagAnnotation) object;
         } else {
             throw new ClassCastException("Object must be of type Annotation.");
         }
@@ -118,14 +114,14 @@ public class AnnotationProfile extends org.imsglobal.caliper.profiles.Profile {
 
     /**
      * @param target
-     * @return target DigitalResource.
+     * @return target Frame.
      */
-    public static DigitalResource validateTarget(Object target) {
-        if (target instanceof DigitalResource) {
+    public static Frame validateTarget(Targetable target) {
+        if (target instanceof Frame) {
             // TODO add additional checks
-            return (DigitalResource) target;
+            return (Frame) target;
         } else {
-            throw new ClassCastException("Target must be of type DigitalResource.");
+            throw new ClassCastException("Target must be of type Frame.");
         }
     }
 }

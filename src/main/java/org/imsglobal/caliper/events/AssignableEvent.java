@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.profiles.AssignableProfile;
@@ -146,7 +147,7 @@ public class AssignableEvent extends org.imsglobal.caliper.events.Event {
          * @return builder.
          */
         @Override
-        public T generated(Object generated) {
+        public T generated(Generatable generated) {
             try {
                 this.generated = AssignableProfile.validateGenerated(generated);
             } catch (ClassCastException e) {

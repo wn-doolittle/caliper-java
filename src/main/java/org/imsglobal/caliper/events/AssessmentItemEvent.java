@@ -148,7 +148,7 @@ public class AssessmentItemEvent extends org.imsglobal.caliper.events.Event {
          */
         /**
         @Override
-        public T generated(Object generated) {
+        public T generated(Generatable generated) {
             try {
                 this.generated = AssessmentItemProfile.validateGenerated(generated);
             } catch (ClassCastException e) {

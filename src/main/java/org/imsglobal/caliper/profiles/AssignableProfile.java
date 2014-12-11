@@ -1,5 +1,6 @@
 package org.imsglobal.caliper.profiles;
 
+import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 
@@ -101,7 +102,7 @@ public class AssignableProfile extends org.imsglobal.caliper.profiles.Profile {
      * @param generated
      * @return assessment.
      */
-    public static Attempt validateGenerated(Object generated) {
+    public static Attempt validateGenerated(Generatable generated) {
         if (generated instanceof Attempt) {
             // TODO add additional checks
             return (Attempt) generated;
