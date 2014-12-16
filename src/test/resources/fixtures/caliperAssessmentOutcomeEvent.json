@@ -5,7 +5,6 @@
         "@id": "https://some-university.edu/user/554433",
         "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
         "name": null,
-        "properties": {},
         "lastModifiedTime": 1402965614516
     },
     "action": "graded",
@@ -13,7 +12,6 @@
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/attempt1",
         "@type": "http://purl.imsglobal.org/caliper/v1/Attempt",
         "name": null,
-        "properties": {},
         "lastModifiedTime": 0,
         "count": 1,
         "startedAtTime": 0,
@@ -25,7 +23,6 @@
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/attempt1/result",
         "@type": "http://purl.imsglobal.org/caliper/v1/Result",
         "name": null,
-        "properties": {},
         "lastModifiedTime": 1402965614516,
         "normalScore": 3.0,
         "penaltyScore": 0.0,
@@ -43,7 +40,6 @@
         "@id": "https://com.sat/super-assessment-tool",
         "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Super Assessment Tool",
-        "properties": {},
         "lastModifiedTime": 1402965614516
     },
     "group": {
@@ -54,7 +50,6 @@
         "label": "Am Rev 101",
         "name": "American Revolution 101",
         "parentOrg": null,
-        "properties": {},
         "lastModifiedTime": 1402965614516
     }
 }
