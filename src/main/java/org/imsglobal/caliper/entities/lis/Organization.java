@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Agent;
 
-@JsonPropertyOrder({ "@id", "@type", "name", "parentOrg", "properties", "lastModifiedTime" })
+@JsonPropertyOrder({ "@id", "@type", "name", "parentOrg", "lastModifiedTime" })
 public class Organization extends org.imsglobal.caliper.entities.Agent {
 
     public enum Type {

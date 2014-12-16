@@ -16,7 +16,6 @@ import java.util.List;
     "@type",
     "name",
     "objectType",
-    "properties",
     "alignedLearningObjective",
     "keyword",
     "partOf",

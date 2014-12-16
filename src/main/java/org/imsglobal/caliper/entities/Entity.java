@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "properties", "lastModifiedTime" })
+@JsonPropertyOrder({ "@id", "@type", "name", "lastModifiedTime" })
 public abstract class Entity {
 
     public enum Type {

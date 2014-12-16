@@ -16,7 +16,6 @@ import java.util.UUID;
     "@type",
     "name",
     "objectType",
-    "properties",
     "alignedLearningObjective",
     "keyword",
     "partOf",

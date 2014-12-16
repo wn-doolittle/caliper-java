@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "@type",
     "name",
     "objectType",
-    "properties",
     "alignedLearningObjective",
     "keyword",
     "partOf",

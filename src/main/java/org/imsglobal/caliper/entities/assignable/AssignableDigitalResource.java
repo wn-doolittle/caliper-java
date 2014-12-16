@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
     "@type",
     "name",
     "objectType",
-    "properties",
     "alignedLearningObjective",
     "keyword",
     "partOf",

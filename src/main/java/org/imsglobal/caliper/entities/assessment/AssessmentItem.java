@@ -14,7 +14,6 @@ import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
     "@type",
     "name",
     "objectType",
-    "properties",
     "alignedLearningObjective",
     "keyword",
     "partOf",
