@@ -5,7 +5,6 @@
         "@id": "https://some-university.edu/user/554433",
         "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
         "name": null,
-        "properties": {},
         "lastModifiedTime": 1402965614516
     },
     "action": "highlighted",
@@ -13,7 +12,6 @@
         "@id": "https://someEduApp.edu/highlights/12345",
         "@type": "http://purl.imsglobal.org/caliper/v1/HighlightAnnotation",
         "name": null,
-        "properties": {},
         "lastModifiedTime": 1402965614516,
         "selection": {
             "start": "455",
@@ -26,7 +24,6 @@
         "@type": "http://purl.imsglobal.org/caliper/v1/Frame",
         "name": "Key Figures: George Washington",
         "objectType": [],
-        "properties": {},
         "alignedLearningObjective": [],
         "keyword": [],
         "partOf": {
@@ -34,7 +31,6 @@
             "@type": "http://www.idpf.org/epub/vocab/structure/#volume",
             "name": "The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)",
             "objectType": [],
-            "properties": {},
             "alignedLearningObjective": [],
             "keyword": [],
             "partOf": null,
@@ -51,7 +47,6 @@
         "@id": "https://github.com/readium/readium-js-viewer",
         "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Readium",
-        "properties": {},
         "lastModifiedTime": 1402965614516
     },
     "group": {
@@ -62,7 +57,6 @@
         "label": "Am Rev 101",
         "name": "American Revolution 101",
         "parentOrg": null,
-        "properties": {},
         "lastModifiedTime": 1402965614516
     }
 }

@@ -5,7 +5,6 @@
         "@id": "https://some-university.edu/user/554433",
         "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
         "name": null,
-        "properties": {},
         "lastModifiedTime": 1402965614516
     },
     "action": "paused",
@@ -14,12 +13,10 @@
         "@type": "http://purl.imsglobal.org/caliper/v1/VideoObject",
         "name": "American Revolution - Key Figures Video",
         "objectType": [],
-        "properties": {},
         "alignedLearningObjective": [{
             "@id": "http://americanrevolution.com/personalities/learn",
             "@type": "http://purl.imsglobal.org/caliper/v1/LearningObjective",
             "name": null,
-            "properties": {},
             "lastModifiedTime": 0
         }],
         "keyword": [],
@@ -32,7 +29,6 @@
         "@type": "http://purl.imsglobal.org/caliper/v1/MediaLocation",
         "name": null,
         "objectType": [],
-        "properties": {},
         "alignedLearningObjective": [],
         "keyword": [],
         "partOf": null,
@@ -47,7 +43,6 @@
         "@id": "https://com.sat/super-media-tool",
         "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Super Media Tool",
-        "properties": {},
         "lastModifiedTime": 1402965614516
     },
     "group": {
@@ -58,7 +53,6 @@
         "label": "Am Rev 101",
         "name": "American Revolution 101",
         "parentOrg": null,
-        "properties": {},
         "lastModifiedTime": 1402965614516
     }
 }
