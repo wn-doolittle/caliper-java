@@ -3,7 +3,8 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Context
-public class SoftwareApplication extends org.imsglobal.caliper.entities.Agent {
+public class SoftwareApplication extends Entity implements org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication,
+                                                           org.imsglobal.caliper.entities.foaf.Agent {
 
     @JsonProperty("@type")
     private final String type;
@@ -28,7 +29,7 @@ public class SoftwareApplication extends org.imsglobal.caliper.entities.Agent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
 
         /**
