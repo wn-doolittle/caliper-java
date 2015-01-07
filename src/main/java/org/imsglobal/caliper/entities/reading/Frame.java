@@ -24,7 +24,7 @@ public class Frame extends DigitalResource implements Targetable {
     private int index;
 
     /**
-     * @param builder apply builder object properties to the ActivityContext object.
+     * @param builder apply builder object properties to the Frame object.
      */
     protected Frame(Builder<?> builder) {
         super(builder);
@@ -82,7 +82,7 @@ public class Frame extends DigitalResource implements Targetable {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of ActivityContext.
+         * @return a new instance of Frame.
          */
         public Frame build() {
             return new Frame(this);
@@ -107,3 +107,4 @@ public class Frame extends DigitalResource implements Targetable {
         return new Builder2();
     }
 }
+
