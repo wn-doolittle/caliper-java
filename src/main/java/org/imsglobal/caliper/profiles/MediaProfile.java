@@ -27,7 +27,7 @@ public class MediaProfile extends org.imsglobal.caliper.profiles.Profile {
         STARTED("media.playback.started"),
 
         CHANGEDRESOLUTION("media.viewer.changedResolution"),
-        CHANGEDVIEWERSIZE("media.viewer.changedViewerSize"),
+        CHANGEDSIZE("media.viewer.changedSize"),
         CLOSEDPOPOUT("media.viewer.closedPopout"),
         ENTEREDFULLSCREEN("media.viewer.enteredFullScreen"),
         EXITEDFULLSCREEN("media.viewer.exitedFullScreen"),
