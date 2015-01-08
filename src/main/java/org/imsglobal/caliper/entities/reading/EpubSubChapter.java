@@ -9,7 +9,7 @@ import org.imsglobal.caliper.entities.DigitalResource;
  * A major sub-division of a chapter
  * http://www.idpf.org/epub/vocab/structure/#subchapter
  */
-public class EpubSubChapter extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork {
+public class EpubSubChapter extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
