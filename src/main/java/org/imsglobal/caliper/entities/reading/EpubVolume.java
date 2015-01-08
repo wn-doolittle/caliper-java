@@ -9,7 +9,7 @@ import org.imsglobal.caliper.entities.DigitalResource;
  * A component of a collection
  * http://www.idpf.org/epub/vocab/structure/#volume
  */
-public class EpubVolume extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork {
+public class EpubVolume extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
