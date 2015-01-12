@@ -2,10 +2,10 @@ package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.Agent;
+import org.imsglobal.caliper.entities.Entity;
 
 @JsonPropertyOrder({ "@id", "@type", "name", "parentOrg", "lastModifiedTime" })
-public class Organization extends org.imsglobal.caliper.entities.Agent {
+public class Organization extends Entity implements org.imsglobal.caliper.entities.foaf.Agent {
 
     public enum Type {
         LIS_COURSE_SECTION("http://purl.imsglobal.org/caliper/v1/lis/CourseSection");
@@ -62,7 +62,7 @@ public class Organization extends org.imsglobal.caliper.entities.Agent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
         private Organization parentOrg;
 
@@ -70,7 +70,7 @@ public class Organization extends org.imsglobal.caliper.entities.Agent {
          * Initialize type with default value.
          */
         public Builder() {
-            type(Agent.Type.LIS_ORGANIZATION.uri());
+            type(Entity.Type.LIS_ORGANIZATION.uri());
         }
 
         /**

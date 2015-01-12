@@ -3,8 +3,8 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Context
-public class SoftwareApplication extends Entity implements org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication,
-                                                           org.imsglobal.caliper.entities.foaf.Agent {
+public class SoftwareApplication extends Entity implements org.imsglobal.caliper.entities.foaf.Agent,
+                                                           org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication {
 
     @JsonProperty("@type")
     private final String type;
@@ -36,7 +36,7 @@ public class SoftwareApplication extends Entity implements org.imsglobal.caliper
          * Initialize type with default value.
          */
         public Builder() {
-            type(Agent.Type.SOFTWARE_APPLICATION.uri());
+            type(Entity.Type.SOFTWARE_APPLICATION.uri());
         }
 
         /**

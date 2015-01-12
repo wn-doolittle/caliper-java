@@ -16,8 +16,11 @@ public abstract class Entity {
         ENTITY("http://purl.imsglobal.org/caliper/v1/Entity"),
         GENERATED("http://purl.imsglobal.org/caliper/v1/Generated"),
         LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
+        LIS_PERSON("http://purl.imsglobal.org/caliper/v1/lis/Person"),
+        LIS_ORGANIZATION("http://purl.imsglobal.org/caliper/v1/lis/Organization"),
         //RESPONSE("http://purl.imsglobal.org/caliper/v1/Response"),
         RESULT("http://purl.imsglobal.org/caliper/v1/Result"),
+        SOFTWARE_APPLICATION("http://purl.imsglobal.org/caliper/v1/SoftwareApplication"),
         TARGET("http://purl.imsglobal.org/caliper/v1/Target"),
         VIEW("http://purl.imsglobal.org/caliper/v1/View");
 
