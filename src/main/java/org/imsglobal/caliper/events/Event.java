@@ -2,7 +2,10 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.*;
+import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.SoftwareApplication;
+import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.lis.Organization;
 
 /**
