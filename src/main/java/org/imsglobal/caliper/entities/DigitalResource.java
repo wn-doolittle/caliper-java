@@ -34,7 +34,8 @@ import java.util.List;
     "keyword",
     "partOf",
     "lastModifiedTime" })
-public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork {
+public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork,
+                                                       org.imsglobal.caliper.entities.Targetable {
 
     public enum Type {
         ASSIGNABLE_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/AssignableDigitalResource"),

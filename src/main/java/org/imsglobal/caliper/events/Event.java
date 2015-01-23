@@ -2,11 +2,14 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.SoftwareApplication;
+import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
 import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Organization;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Base class for all Caliper Events
@@ -35,6 +38,7 @@ public abstract class Event {
         MEDIA("http://purl.imsglobal.org/ctx/caliper/v1/MediaEvent"),
         NAVIGATION("http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent"),
         OUTCOME("http://purl.imsglobal.org/ctx/caliper/v1/OutcomeEvent"),
+        SESSION("http://purl.imsglobal.org/ctx/caliper/v1/SessionEvent"),
         VIEW("http://purl.imsglobal.org/ctx/caliper/v1/ViewEvent");
 
         private final String uri;
@@ -64,6 +68,7 @@ public abstract class Event {
         MEDIA("http://purl.imsglobal.org/caliper/v1/MediaEvent"),
         NAVIGATION("http://purl.imsglobal.org/caliper/v1/NavigationEvent"),
         OUTCOME("http://purl.imsglobal.org/caliper/v1/OutcomeEvent"),
+        SESSION("http://purl.imsglobal.org/caliper/v1/SessionEvent"),
         VIEW("http://purl.imsglobal.org/caliper/v1/ViewEvent");
 
         private final String uri;
@@ -182,20 +187,23 @@ public abstract class Event {
     /**
      * @return the context
      */
-   public String getContext() {
+    @NotNull
+    public String getContext() {
        return context;
    }
 
     /**
      * @return the type
      */
-   public String getType() {
+    @NotNull
+    public String getType() {
        return type;
    }
 
     /**
      * @return the edApp
      */
+    @Nullable
     public SoftwareApplication getEdApp() {
         return edApp;
     }
@@ -203,6 +211,7 @@ public abstract class Event {
     /**
      * @return the lisOrganization
      */
+    @Nullable
     public Organization getLisOrganization() {
         return lisOrganization;
     }
@@ -210,6 +219,7 @@ public abstract class Event {
     /**
      * @return the actor
      */
+    @NotNull
     public Agent getActor() {
         return actor;
     }
@@ -217,6 +227,7 @@ public abstract class Event {
     /**
      * @return the action
      */
+    @NotNull
     public String getAction() {
         return action;
     }
@@ -224,6 +235,7 @@ public abstract class Event {
     /**
      * @return the object
      */
+    @NotNull
     public Object getObject() {
         return object;
     }
@@ -231,6 +243,7 @@ public abstract class Event {
     /**
      * @return the target
      */
+    @Nullable
     public Targetable getTarget() {
         return target;
     }
@@ -238,6 +251,7 @@ public abstract class Event {
     /**
      * @return generated
      */
+    @Nullable
     public Generatable getGenerated() {
         return generated;
     }
@@ -245,6 +259,7 @@ public abstract class Event {
     /**
      * @return the startedAt time
      */
+    @NotNull
     public long getStartedAtTime() {
         return startedAtTime;
     }
@@ -252,6 +267,7 @@ public abstract class Event {
     /**
      * @return endedAt time
      */
+    @Nullable
     public long getEndedAtTime() {
         return endedAtTime;
     }
@@ -259,6 +275,7 @@ public abstract class Event {
     /*;
      * @return the duration
      */
+    @Nullable
     public String getDuration() {
         return duration;
     }
