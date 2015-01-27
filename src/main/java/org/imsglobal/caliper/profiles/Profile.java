@@ -115,43 +115,6 @@ public abstract class Profile {
     }
 
     /**
-     * Check if action string is null or blank.
-     * @param action
-     * @return boolean true/false
-     */
-    /**
-    public static boolean isAction(String action) {
-        return action != null && !action.isEmpty();
-    }
-     */
-
-
-
-    /**
-     * Validate start and end times
-     * @param startedAtTime
-     * @param endedAtTime
-     * @return boolean true/false
-     */
-    /**
-    public static boolean checkTimes(long startedAtTime, long endedAtTime) {
-        return endedAtTime >= startedAtTime;
-    }
-     */
-
-    /**
-     * Validate duration ISO-8601 format.
-     * @param duration
-     * @return
-     */
-    /**
-    public static boolean checkDuration(String duration) {
-        //TODO add ISO-8601 validation routine to this stubbed out method
-        return true;
-    }
-     */
-
-    /**
      * Get action localized value from resource bundle.
      * @param key
      * @return action string
