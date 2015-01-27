@@ -7,8 +7,6 @@ import org.imsglobal.caliper.profiles.SessionProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
-
 public class SessionEvent extends org.imsglobal.caliper.events.Event {
 
     @JsonProperty("@context")
@@ -51,7 +49,6 @@ public class SessionEvent extends org.imsglobal.caliper.events.Event {
      * @return the context
      */
     @Override
-    @NotNull
     public String getContext() {
         return context;
     }
@@ -60,7 +57,6 @@ public class SessionEvent extends org.imsglobal.caliper.events.Event {
      * @return the type
      */
     @Override
-    @NotNull
     public String getType() {
         return type;
     }
@@ -69,7 +65,6 @@ public class SessionEvent extends org.imsglobal.caliper.events.Event {
      * @return the action
      */
     @Override
-    @NotNull
     public String getAction() {
         return action;
     }
