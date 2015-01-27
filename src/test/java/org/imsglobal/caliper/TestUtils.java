@@ -2,8 +2,17 @@ package org.imsglobal.caliper;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.*;
-import org.imsglobal.caliper.entities.annotation.*;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.LearningObjective;
+import org.imsglobal.caliper.entities.Session;
+import org.imsglobal.caliper.entities.SoftwareApplication;
+import org.imsglobal.caliper.entities.WebPage;
+import org.imsglobal.caliper.entities.annotation.Annotation;
+import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
+import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
+import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
+import org.imsglobal.caliper.entities.annotation.TagAnnotation;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
@@ -16,8 +25,15 @@ import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
-import org.imsglobal.caliper.entities.Session;
-import org.imsglobal.caliper.events.*;
+import org.imsglobal.caliper.events.AnnotationEvent;
+import org.imsglobal.caliper.events.AssessmentEvent;
+import org.imsglobal.caliper.events.AssessmentItemEvent;
+import org.imsglobal.caliper.events.AssignableEvent;
+import org.imsglobal.caliper.events.MediaEvent;
+import org.imsglobal.caliper.events.NavigationEvent;
+import org.imsglobal.caliper.events.OutcomeEvent;
+import org.imsglobal.caliper.events.SessionEvent;
+import org.imsglobal.caliper.events.ViewEvent;
 
 public class TestUtils {
 
