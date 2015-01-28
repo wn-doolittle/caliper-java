@@ -14,7 +14,7 @@
         "name": null,
         "lastModifiedTime": 0,
         "count": 1,
-        "startedAtTime": 0,
+        "startedAtTime": 1402965614516,
         "endedAtTime": 0,
         "duration": null
     },
@@ -31,7 +31,12 @@
         "curvedTotalScore": 3.0,
         "curveFactor": 0.0,
         "comment":"Well done.",
-        "scoredBy": null
+        "scoredBy": {
+          "@id": "https://com.sat/super-assessment-tool",
+          "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+          "name": "Super Assessment Tool",
+          "lastModifiedTime": 1402965614516
+        }
     },
     "startedAtTime": 1402965614516,
     "endedAtTime": 0,

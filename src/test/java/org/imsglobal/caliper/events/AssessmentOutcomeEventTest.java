@@ -5,6 +5,7 @@ import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
+import org.imsglobal.caliper.entities.SoftwareApplication;
 import org.imsglobal.caliper.profiles.OutcomeProfile;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 public class AssessmentOutcomeEventTest {
 
     private LearningContext learningContext;
+    private SoftwareApplication scoredBy;
     private Assessment assessment;
     private String key;
     private Attempt attempt;
@@ -33,8 +35,11 @@ public class AssessmentOutcomeEventTest {
     @Before
     public void setUp() throws Exception {
 
-        // Build the Learning Context
-        learningContext = TestUtils.buildAssessmentToolLearningContext();
+        // Build the student learning context (attempt)
+        learningContext = TestUtils.buildAssessmentStudentLearningContext();
+
+        // Build scoredBy (edApp)
+        scoredBy = TestUtils.buildAssessmentTool();
 
         // Build assessment
         assessment = TestUtils.buildAssessment();
@@ -43,10 +48,13 @@ public class AssessmentOutcomeEventTest {
         attempt = TestUtils.buildAssessmentAttempt(learningContext, assessment);
 
         // Build action
-        key = OutcomeProfile.OutcomeActions.GRADED.key();
+        key = OutcomeProfile.Actions.GRADED.key();
+
+        // Build scoredBy (edApp)
+        scoredBy = TestUtils.buildAssessmentTool();
 
         // Build result
-        result = TestUtils.buildAssessmentResult(attempt);
+        result = TestUtils.buildAssessmentResult(attempt, scoredBy);
 
         // Build Outcome Event
         event = TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, key, result);

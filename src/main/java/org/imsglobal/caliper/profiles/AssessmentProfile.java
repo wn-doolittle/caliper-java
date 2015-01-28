@@ -1,45 +1,87 @@
 package org.imsglobal.caliper.profiles;
 
-import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.assessment.Assessment;
-import org.imsglobal.caliper.entities.assignable.Attempt;
+import com.google.common.collect.ImmutableMap;
+import org.imsglobal.caliper.events.AssessmentEvent;
+import org.imsglobal.caliper.validators.AssessmentEventValidator;
+import org.imsglobal.caliper.validators.EventValidator;
+import org.imsglobal.caliper.validators.EventValidatorContext;
+import org.imsglobal.caliper.validators.ValidatorResult;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class AssessmentProfile extends org.imsglobal.caliper.profiles.Profile {
+public class AssessmentProfile {
 
-    public enum AssessmentActions {
-        STARTED("assessment.started"),
-        PAUSED("assessment.paused"),
-        RESTARTED("assessment.restarted"),
-        SUBMITTED("assessment.submitted"),
-
-        NAVIGATED_TO("navigation.navigatedTo");
+    public enum Actions {
+        STARTED("assessment.started") {
+            @Override
+            ValidatorResult validate(AssessmentEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AssessmentEventValidator());
+                return validator.validate(event);
+            }
+        },
+        PAUSED("assessment.paused") {
+            @Override
+            ValidatorResult validate(AssessmentEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AssessmentEventValidator());
+                return validator.validate(event);
+            }
+        },
+        RESTARTED("assessment.restarted") {
+            @Override
+            ValidatorResult validate(AssessmentEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AssessmentEventValidator());
+                return validator.validate(event);
+            }
+        },
+        SUBMITTED("assessment.submitted") {
+            @Override
+            ValidatorResult validate(AssessmentEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AssessmentEventValidator());
+                return validator.validate(event);
+            }
+        },
+        UNRECOGNIZED("action.unrecognized") {
+            @Override
+            ValidatorResult validate(AssessmentEvent event) {
+                ValidatorResult result = new ValidatorResult();
+                result.errorMessage().appendText("Caliper Assessment profile conformance: "
+                    + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
+                result.errorMessage().endSentence();
+                return result;
+            }
+        };
 
         private final String key;
-        private static final Map<String, AssessmentActions> lookup = new HashMap<String, AssessmentActions>();
+        private static Map<String, Actions> lookup;
 
         /**
          * Create reverse lookup hash map
          */
         static {
-            for (AssessmentActions constants : AssessmentActions.values())
-                lookup.put(constants.key(), constants);
+            Map<String, Actions> map = new HashMap<String, Actions>();
+            for (Actions constants : Actions.values()) {
+                map.put(constants.key(), constants);
+            }
+            lookup = ImmutableMap.copyOf(map);
         }
 
         /**
-         * Constructor
-         *
+         * Private constructor
          * @param key
          */
-        private AssessmentActions(String key) {
+        private Actions(final String key) {
             this.key = key;
         }
 
         /**
-         * @return ResourceBundle key for internationalized action strings.
+         * Resource bundle key
+         * @return key
          */
         public String key() {
             return key;
@@ -54,11 +96,49 @@ public class AssessmentProfile extends org.imsglobal.caliper.profiles.Profile {
         }
 
         /**
-         * @param key
-         * @return enum constant by reverse lookup
+         * Lookup key by comparing localized action string against matching bundle value.
+         * @param action
+         * @return
          */
-        public static AssessmentActions lookupConstant(String key) {
-            return lookup.get(key);
+        public static String lookupKey(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getKey();
+                }
+            }
+            return Actions.UNRECOGNIZED.key();
+        }
+
+        /**
+         * Validate method implemented by each enum constant.
+         * @param event
+         */
+        abstract ValidatorResult validate(AssessmentEvent event);
+
+        /**
+         * Match action to enum constant and then validate event.
+         * @param event
+         * @return error message if validation errors are encountered.
+         */
+        protected static ValidatorResult validateEvent(AssessmentEvent event) {
+            return Actions.matchConstant(event.getAction()).validate(event);
+        }
+
+        /**
+         * Match the event action string against the bundle value and return
+         * the corresponding constant.
+         * @param action
+         * @return constant
+         */
+        private static Actions matchConstant(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getValue();
+                }
+            }
+            return Actions.UNRECOGNIZED;
         }
     }
 
@@ -70,40 +150,11 @@ public class AssessmentProfile extends org.imsglobal.caliper.profiles.Profile {
     }
 
     /**
-     * @param key
-     * @return localized action string.
+     * Validate AssessmentItemEvent.
+     * @param event
+     * @return ValidatorResult
      */
-    public static String getActionFromBundle(String key) {
-        if (AssessmentActions.hasKey(key) || Actions.hasKey(key)) {
-            return ResourceBundle.getBundle("actions").getString(key);
-        } else {
-            throw new IllegalArgumentException("Unrecognized key: " + key);
-        }
-    }
-
-    /**
-     * @param object
-     * @return assessment.
-     */
-    public static Assessment validateObject(Object object) {
-        if (object instanceof Assessment) {
-            // TODO add additional checks
-            return (Assessment) object;
-        } else {
-            throw new ClassCastException("Object must be of type Assessment.");
-        }
-    }
-
-    /**
-     * @param generated
-     * @return assessment.
-     */
-    public static Attempt validateGenerated(Generatable generated) {
-        if (generated instanceof Attempt) {
-            // TODO add additional checks
-            return (Attempt) generated;
-        } else {
-            throw new ClassCastException("Generatable must be of type Attempt.");
-        }
+    public static ValidatorResult validateEvent(AssessmentEvent event) {
+        return Actions.validateEvent(event);
     }
 }

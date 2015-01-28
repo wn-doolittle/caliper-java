@@ -2,7 +2,7 @@ package org.imsglobal.caliper.validators;
 
 public class ErrorMessage {
     private StringBuilder builder;
-    private String context;
+    // private String context;
     private String newline = "\n";
 
     /**
@@ -29,7 +29,8 @@ public class ErrorMessage {
      */
     public void appendText(String text) {
         if (this.builder.length() > 0) {
-            this.builder.append(", " + text + this.newline);
+            this.builder.append("," + this.newline);
+            this.builder.append(text + this.newline);
         } else {
             this.builder.append(text);
         }
@@ -44,7 +45,7 @@ public class ErrorMessage {
     }
 
     /**
-     * Prepend text and close trailing sentence with a period.
+     * Prepend intro text to message and close trailing sentence with a period.
      * @param text
      */
     public void endMessage(String text) {

@@ -2,17 +2,8 @@ package org.imsglobal.caliper;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.LearningContext;
-import org.imsglobal.caliper.entities.LearningObjective;
-import org.imsglobal.caliper.entities.Session;
-import org.imsglobal.caliper.entities.SoftwareApplication;
-import org.imsglobal.caliper.entities.WebPage;
-import org.imsglobal.caliper.entities.annotation.Annotation;
-import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
-import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
-import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
-import org.imsglobal.caliper.entities.annotation.TagAnnotation;
+import org.imsglobal.caliper.entities.*;
+import org.imsglobal.caliper.entities.annotation.*;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
@@ -25,15 +16,7 @@ import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
-import org.imsglobal.caliper.events.AnnotationEvent;
-import org.imsglobal.caliper.events.AssessmentEvent;
-import org.imsglobal.caliper.events.AssessmentItemEvent;
-import org.imsglobal.caliper.events.AssignableEvent;
-import org.imsglobal.caliper.events.MediaEvent;
-import org.imsglobal.caliper.events.NavigationEvent;
-import org.imsglobal.caliper.events.OutcomeEvent;
-import org.imsglobal.caliper.events.SessionEvent;
-import org.imsglobal.caliper.events.ViewEvent;
+import org.imsglobal.caliper.events.*;
 
 public class TestUtils {
 
@@ -95,7 +78,7 @@ public class TestUtils {
         return AnnotationEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
-            .actor(learningContext.getAgent())
+            .actor((Person) learningContext.getAgent())
             .action(actionKey)
             .object(annotation)
             .target(Frame.builder()
@@ -144,14 +127,15 @@ public class TestUtils {
         return AssignableEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
-            .actor(learningContext.getAgent())
+            .actor((Person) learningContext.getAgent())
             .action(actionKey)
             .object(assessment)
             .generated(Attempt.builder()
                     .id(assessment.getId() + "/attempt1")
                     .assignable(assessment)
-                    .actor(learningContext.getAgent())
+                    .actor((Person) learningContext.getAgent())
                     .count(1)
+                    .startedAtTime(1402965614516l)
                     .build())
             .startedAtTime(1402965614516l)
             .build();
@@ -166,8 +150,9 @@ public class TestUtils {
         return Attempt.builder()
             .id(assessment.getId() + "/attempt1")
             .assignable(assessment)
-            .actor(learningContext.getAgent())
+            .actor((Person) learningContext.getAgent())
             .count(1)
+            .startedAtTime(1402965614516l)
             .build();
     }
 
@@ -185,7 +170,7 @@ public class TestUtils {
         return AssessmentEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
-            .actor(learningContext.getAgent())
+            .actor((Person) learningContext.getAgent())
             .action(actionKey)
             .object(assessment)
             .generated(attempt)
@@ -205,7 +190,7 @@ public class TestUtils {
         return AssessmentItemEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
-            .actor(learningContext.getAgent())
+            .actor((Person) learningContext.getAgent())
             .action(actionKey)
             .object(item)
             //.generated(Response.builder() . . .) TODO:Add item response
@@ -220,29 +205,29 @@ public class TestUtils {
     public static final ImmutableList<AssessmentItem> buildAssessmentItems() {
         return ImmutableList.<AssessmentItem>builder()
             .add(AssessmentItem.builder()
-                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1")
-                    .name("Assessment Item 1")
-                    .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
-                    .maxAttempts(2)
-                    .maxSubmits(2)
-                    .maxScore(1)
-                    .build())
+                .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1")
+                .name("Assessment Item 1")
+                .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                .maxAttempts(2)
+                .maxSubmits(2)
+                .maxScore(1)
+                .build())
             .add(AssessmentItem.builder()
-                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2")
-                    .name("Assessment Item 2")
-                    .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
-                    .maxAttempts(2)
-                    .maxSubmits(2)
-                    .maxScore(1)
-                    .build())
+                .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2")
+                .name("Assessment Item 2")
+                .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                .maxAttempts(2)
+                .maxSubmits(2)
+                .maxScore(1)
+                .build())
             .add(AssessmentItem.builder()
-                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3")
-                    .name("Assessment Item 3")
-                    .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
-                    .maxAttempts(2)
-                    .maxSubmits(2)
-                    .maxScore(1)
-                    .build())
+                .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3")
+                .name("Assessment Item 3")
+                .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                .maxAttempts(2)
+                .maxSubmits(2)
+                .maxScore(1)
+                .build())
             .build();
     }
 
@@ -272,7 +257,7 @@ public class TestUtils {
      * @param attempt
      * @return assessment result.
      */
-    public static Result buildAssessmentResult(Attempt attempt) {
+    public static Result buildAssessmentResult(Attempt attempt, Agent scoredBy) {
         return Result.builder()
             .id(attempt.getId() + "/result")
             .lastModifiedTime(1402965614516l)
@@ -283,23 +268,42 @@ public class TestUtils {
             .curvedTotalScore(3.0d)
             .curveFactor(0.0d)
             .comment("Well done.")
-            //.scoredBy(someAgent)  TODO add agent
+            .scoredBy((SoftwareApplication) scoredBy)
             .build();
     }
 
     /**
-     * Sample Assessment Tool learning context.
+     * Build assessment tool.
+     */
+    public static SoftwareApplication buildAssessmentTool() {
+        return SoftwareApplication.builder()
+            .id("https://com.sat/super-assessment-tool")
+            .name("Super Assessment Tool")
+            .lastModifiedTime(1402965614516l)
+            .build();
+    }
+
+    /**
+     * Sample Assessment Tool learning context where the actor is a student.
+     * @return
+     */
+    public static final LearningContext buildAssessmentStudentLearningContext() {
+        return LearningContext.builder()
+            .edApp(buildAssessmentTool())
+            .lisOrganization(buildAmRev101CourseSection())
+            .agent(buildStudent554433())
+            .build();
+    }
+
+    /**
+     * Sample Assessment Tool learning context where the actor is the app itself.
      * @return
      */
     public static final LearningContext buildAssessmentToolLearningContext() {
         return LearningContext.builder()
-            .edApp(SoftwareApplication.builder()
-                    .id("https://com.sat/super-assessment-tool")
-                    .name("Super Assessment Tool")
-                    .lastModifiedTime(1402965614516l)
-                    .build())
+            .edApp(buildAssessmentTool())
             .lisOrganization(buildAmRev101CourseSection())
-            .agent(buildStudent554433())
+            .agent(buildAssessmentTool())
             .build();
     }
 
@@ -318,30 +322,28 @@ public class TestUtils {
 
     /**
      * @param learningContext
-     * @param edApp
      * @param actionKey
      * @param target
      * @param generated
      * @return session event
      */
     public static SessionEvent buildEpubLoginEvent(LearningContext learningContext,
-                                                           SoftwareApplication edApp,
                                                            String actionKey,
                                                            EpubSubChapter target,
                                                            Session generated) {
         return SessionEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
-            .actor(learningContext.getAgent())
+            .actor((Person) learningContext.getAgent())
             .action(actionKey)
-            .object(edApp)
+            .object(learningContext.getEdApp())
             .target(Frame.builder()
-                    .id(target.getId())
-                    .name(target.getName())
-                    .partOf(target.getPartOf())
-                    .lastModifiedTime(1402965614516l)
-                    .index(1)
-                    .build())
+                .id(target.getId())
+                .name(target.getName())
+                .partOf(target.getPartOf())
+                .lastModifiedTime(1402965614516l)
+                .index(1)
+                .build())
             .generated(generated)
             .startedAtTime(1402965614516l)
             .build();
@@ -349,47 +351,43 @@ public class TestUtils {
 
     /**
      * @param learningContext
-     * @param edApp
      * @param actionKey
      * @param target
      * @return session event
      */
     public static SessionEvent buildEpubLogoutEvent(LearningContext learningContext,
-                                                   SoftwareApplication edApp,
                                                    String actionKey,
                                                    Session target) {
         return SessionEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
-            .actor(learningContext.getAgent())
+            .actor((Person) learningContext.getAgent())
             .action(actionKey)
-            .object(edApp)
+            .object(learningContext.getEdApp())
             .target(target)
             .startedAtTime(1402965614516l)
-            .endedAtTime(1402965614516l)
+            .endedAtTime(1402965614999l)
             .build();
     }
 
     /**
      * @param learningContext
-     * @param edApp
      * @param actionKey
      * @param target
      * @return session event
      */
     public static SessionEvent buildEpubTimeoutEvent(LearningContext learningContext,
-                                                    SoftwareApplication edApp,
                                                     String actionKey,
                                                     Session target) {
         return SessionEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
-            .actor(learningContext.getEdApp())
+            .actor((SoftwareApplication) learningContext.getEdApp())
             .action(actionKey)
-            .object(edApp)
+            .object(learningContext.getEdApp())
             .target(target)
             .startedAtTime(1402965614516l)
-            .endedAtTime(1402965614516l)
+            .endedAtTime(1402965614999l)
             .build();
     }
 
@@ -409,16 +407,16 @@ public class TestUtils {
         return NavigationEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
-            .actor(learningContext.getAgent())
+            .actor((Person) learningContext.getAgent())
             .action(actionKey)
             .object(epub)
             .target(Frame.builder()
-                    .id(target.getId())
-                    .name(target.getName())
-                    .partOf(epub)
-                    .lastModifiedTime(1402965614516l)
-                    .index(1)
-                    .build())
+                .id(target.getId())
+                .name(target.getName())
+                .partOf(epub)
+                .lastModifiedTime(1402965614516l)
+                .index(1)
+                .build())
             .fromResource(fromResource)
             .startedAtTime(1402965614516l)
             .build();
@@ -495,23 +493,23 @@ public class TestUtils {
      * @param target
      * @return EPUB view event
      */
-    public static ViewEvent buildEpubViewEvent(LearningContext learningContext,
+    public static ReadingEvent buildEpubViewEvent(LearningContext learningContext,
                                                DigitalResource epub,
                                                String actionKey,
                                                DigitalResource target) {
-        return ViewEvent.builder()
+        return ReadingEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
-            .actor(learningContext.getAgent())
+            .actor((Person) learningContext.getAgent())
             .action(actionKey)
             .object(epub)
             .target(Frame.builder()
-                    .id(target.getId())
-                    .name(target.getName())
-                    .partOf(epub)
-                    .lastModifiedTime(1402965614516l)
-                    .index(1)
-                    .build())
+                .id(target.getId())
+                .name(target.getName())
+                .partOf(epub)
+                .lastModifiedTime(1402965614516l)
+                .index(1)
+                .build())
             .startedAtTime(1402965614516l)
             .build();
     }
@@ -532,16 +530,36 @@ public class TestUtils {
     }
 
     /**
+     * Build Readium App
+     * @return
+     */
+    public static SoftwareApplication buildReadiumApp() {
+        return SoftwareApplication.builder()
+            .id("https://github.com/readium/readium-js-viewer")
+            .name("Readium")
+            .lastModifiedTime(1402965614516l)
+            .build();
+    }
+
+    /**
+     * Build Readium App context
+     * @return Readium App learning context
+     */
+    public static LearningContext buildReadiumAppLearningContext() {
+        return LearningContext.builder()
+            .edApp(buildReadiumApp())
+            .lisOrganization(buildAmRev101CourseSection())
+            .agent(buildReadiumApp())
+            .build();
+    }
+
+    /**
      * @return Readium Viewer learning context
      */
-    public static LearningContext buildReadiumLearningContext() {
+    public static LearningContext buildReadiumStudentLearningContext() {
 
         return LearningContext.builder()
-            .edApp(SoftwareApplication.builder()
-                    .id("https://github.com/readium/readium-js-viewer")
-                    .name("Readium")
-                    .lastModifiedTime(1402965614516l)
-                    .build())
+            .edApp(buildReadiumApp())
             .lisOrganization(buildAmRev101CourseSection())
             .agent(buildStudent554433())
             .build();
@@ -570,7 +588,7 @@ public class TestUtils {
             .actor(buildStudent554433())
             .lastModifiedTime(1402965614516l)
             .startedAtTime(1402965614516l)
-            .endedAtTime(1402965614516l)
+            .endedAtTime(1402965614999l)
             .build();
     }
 
@@ -648,7 +666,7 @@ public class TestUtils {
         return MediaEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
-            .actor(learningContext.getAgent())
+            .actor((Person) learningContext.getAgent())
             .object(video)
             .action(actionKey)
             .target(location)

@@ -26,12 +26,12 @@
       "lastModifiedTime": 1402965614516
     },
     "startedAtTime": 1402965614516,
-    "endedAtTime": 1402965614516,
+    "endedAtTime": 1402965614999,
     "duration": null
   },
   "generated": null,
   "startedAtTime": 1402965614516,
-  "endedAtTime": 1402965614516,
+  "endedAtTime": 1402965614999,
   "duration": null,
   "edApp": {
     "@id": "https://github.com/readium/readium-js-viewer",

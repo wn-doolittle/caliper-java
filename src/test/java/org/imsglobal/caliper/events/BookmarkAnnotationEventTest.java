@@ -32,7 +32,7 @@ public class BookmarkAnnotationEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumLearningContext();
+        learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         //Build target reading
         target = (EpubSubChapter) TestUtils.buildEpubSubChap432();
@@ -41,7 +41,7 @@ public class BookmarkAnnotationEventTest {
         bookmark = TestUtils.buildBookmarkAnnotation(target);
 
         // Add action
-        key = AnnotationProfile.AnnotationActions.BOOKMARKED.key();
+        key = AnnotationProfile.Actions.BOOKMARKED.key();
 
         // Build event
         event = TestUtils.buildAnnotationEvent(learningContext, bookmark, key, target, 2);

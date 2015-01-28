@@ -32,7 +32,7 @@ public class SharedAnnotationEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumLearningContext();
+        learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         //Build target reading
         epub = (EpubSubChapter) TestUtils.buildEpubSubChap433();
@@ -41,7 +41,7 @@ public class SharedAnnotationEventTest {
         shared = TestUtils.buildSharedAnnotation(epub);
 
         // Add action
-        key = AnnotationProfile.AnnotationActions.SHARED.key();
+        key = AnnotationProfile.Actions.SHARED.key();
 
         // Build event
         event = TestUtils.buildAnnotationEvent(learningContext, shared, key, epub, 3);

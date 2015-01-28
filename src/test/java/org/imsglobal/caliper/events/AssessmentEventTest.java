@@ -32,7 +32,7 @@ public class AssessmentEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildAssessmentToolLearningContext();
+        learningContext = TestUtils.buildAssessmentStudentLearningContext();
 
         // Build assessment
         assessment = TestUtils.buildAssessment();
@@ -41,7 +41,7 @@ public class AssessmentEventTest {
         attempt = TestUtils.buildAssessmentAttempt(learningContext, assessment);
 
         // Action
-        key = AssessmentProfile.AssessmentActions.STARTED.key();
+        key = AssessmentProfile.Actions.STARTED.key();
 
         // Build event
         event = TestUtils.buildAssessmentEvent(learningContext, assessment, key, attempt);

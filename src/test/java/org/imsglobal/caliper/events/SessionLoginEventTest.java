@@ -33,10 +33,7 @@ public class SessionLoginEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumLearningContext();
-
-        // edApp object
-        edApp = learningContext.getEdApp();
+        learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         // Action
         key = SessionProfile.Actions.LOGGEDIN.key();
@@ -48,7 +45,7 @@ public class SessionLoginEventTest {
         generated = TestUtils.buildSessionStart();
 
         // Build event
-        event = TestUtils.buildEpubLoginEvent(learningContext, edApp, key, target, generated);
+        event = TestUtils.buildEpubLoginEvent(learningContext, key, target, generated);
     }
 
     @Test

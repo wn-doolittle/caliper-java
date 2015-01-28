@@ -1,54 +1,183 @@
 package org.imsglobal.caliper.profiles;
 
-import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.entities.annotation.*;
-import org.imsglobal.caliper.entities.reading.Frame;
+import com.google.common.collect.ImmutableMap;
+import org.imsglobal.caliper.events.AnnotationEvent;
+import org.imsglobal.caliper.validators.AnnotationEventValidator;
+import org.imsglobal.caliper.validators.EventValidator;
+import org.imsglobal.caliper.validators.EventValidatorContext;
+import org.imsglobal.caliper.validators.ValidatorResult;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class AnnotationProfile extends org.imsglobal.caliper.profiles.Profile {
+public class AnnotationProfile {
 
-    public enum AnnotationActions {
-        ATTACHED("annotation.attached"),
-        BOOKMARKED("annotation.bookmarked"),
-        CLASSIFIED("annotation.classified"),
-        COMMENTED("annotation.commented"),
-        DESCRIBED("annotation.described"),
-        HIGHLIGHTED("annotation.highlighted"),
-        IDENTIFIED("annotation.identified"),
-        LIKED("annotation.liked"),
-        LINKED("annotation.linked"),
-        RANKED("annotation.ranked"),
-        QUESTIONED("annotation.questioned"),
-        RECOMMENDED("annotation.recommended"),
-        REPLIED("annotation.replied"),
-        SHARED("annotation.shared"),
-        SUBSCRIBED("annotation.subscribed"),
-        TAGGED("annotation.tagged");
+    public enum Actions {
+        ATTACHED("annotation.attached") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        BOOKMARKED("annotation.bookmarked") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        CLASSIFIED("annotation.classified") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        COMMENTED("annotation.commented") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        DESCRIBED("annotation.described") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        HIGHLIGHTED("annotation.highlighted") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        IDENTIFIED("annotation.identified") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        LIKED("annotation.liked") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        LINKED("annotation.linked") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        RANKED("annotation.ranked") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        QUESTIONED("annotation.questioned") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        RECOMMENDED("annotation.recommended") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        REPLIED("annotation.replied") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        SHARED("annotation.shared") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        SUBSCRIBED("annotation.subscribed") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        TAGGED("annotation.tagged") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new AnnotationEventValidator());
+                return validator.validate(event);
+            }
+        },
+        UNRECOGNIZED("action.unrecognized") {
+            @Override
+            ValidatorResult validate(AnnotationEvent event) {
+                ValidatorResult result = new ValidatorResult();
+                result.errorMessage().appendText("Caliper Annotation profile conformance: "
+                    + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
+                result.errorMessage().endSentence();
+                return result;
+            }
+        };
 
         private final String key;
-        private static final Map<String, AnnotationActions> lookup = new HashMap<String, AnnotationActions>();
+        private static Map<String, Actions> lookup;
 
         /**
          * Create reverse lookup hash map
          */
         static {
-            for (AnnotationActions constants : AnnotationActions.values())
-                lookup.put(constants.key(), constants);
+            Map<String, Actions> map = new HashMap<String, Actions>();
+            for (Actions constants : Actions.values()) {
+                map.put(constants.key(), constants);
+            }
+            lookup = ImmutableMap.copyOf(map);
         }
 
         /**
-         * Constructor
+         * Private constructor
          * @param key
          */
-        private AnnotationActions(String key) {
+        private Actions(final String key) {
             this.key = key;
         }
 
         /**
-         * @return ResourceBundle key for internationalized action strings.
+         * Resource bundle key
+         * @return key
          */
         public String key() {
             return key;
@@ -63,11 +192,49 @@ public class AnnotationProfile extends org.imsglobal.caliper.profiles.Profile {
         }
 
         /**
-         * @param key
-         * @return enum constant by reverse lookup
+         * Lookup key by comparing localized action string against matching bundle value.
+         * @param action
+         * @return
          */
-        public static AnnotationActions lookupConstant(String key) {
-            return lookup.get(key);
+        public static String lookupKey(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getKey();
+                }
+            }
+            return Actions.UNRECOGNIZED.key();
+        }
+
+        /**
+         * Validate method implemented by each enum constant.
+         * @param event
+         */
+        abstract ValidatorResult validate(AnnotationEvent event);
+
+        /**
+         * Match action to enum constant and then validate event.
+         * @param event
+         * @return error message if validation errors are encountered.
+         */
+        protected static ValidatorResult validateEvent(AnnotationEvent event) {
+            return Actions.matchConstant(event.getAction()).validate(event);
+        }
+
+        /**
+         * Match the event action string against the bundle value and return
+         * the corresponding constant.
+         * @param action
+         * @return constant
+         */
+        private static Actions matchConstant(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getValue();
+                }
+            }
+            return Actions.UNRECOGNIZED;
         }
     }
 
@@ -79,49 +246,11 @@ public class AnnotationProfile extends org.imsglobal.caliper.profiles.Profile {
     }
 
     /**
-     * @param key
-     * @return localized action string.
+     * Validate AssessmentItemEvent.
+     * @param event
+     * @return ValidatorResult
      */
-    public static String getActionFromBundle(String key) {
-        if (AnnotationActions.hasKey(key) || Actions.hasKey(key)) {
-            return ResourceBundle.getBundle("actions").getString(key);
-        } else {
-            throw new IllegalArgumentException("Unrecognized key: " + key);
-        }
-    }
-
-    /**
-     * @param object
-     * @return activityContext object.
-     */
-    public static Annotation validateObject(Object object) {
-        if (object instanceof BookmarkAnnotation) {
-            // TODO CHECK REQUIRED PROPS
-            return (BookmarkAnnotation) object;
-        } else if (object instanceof HighlightAnnotation) {
-            // TODO CHECK REQUIRED PROPS
-            return (HighlightAnnotation) object;
-        } else if (object instanceof SharedAnnotation) {
-            // TODO CHECK REQUIRED PROPS
-            return (SharedAnnotation) object;
-        } else if (object instanceof TagAnnotation) {
-            // TODO CHECK REQUIRED PROPS
-            return (TagAnnotation) object;
-        } else {
-            throw new ClassCastException("Object must be of type Annotation.");
-        }
-    }
-
-    /**
-     * @param target
-     * @return target Frame.
-     */
-    public static Frame validateTarget(Targetable target) {
-        if (target instanceof Frame) {
-            // TODO add additional checks
-            return (Frame) target;
-        } else {
-            throw new ClassCastException("Target must be of type Frame.");
-        }
+    public static ValidatorResult validateEvent(AnnotationEvent event) {
+        return Actions.validateEvent(event);
     }
 }

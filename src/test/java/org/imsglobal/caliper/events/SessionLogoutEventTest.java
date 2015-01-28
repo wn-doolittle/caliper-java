@@ -31,10 +31,7 @@ public class SessionLogoutEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumLearningContext();
-
-        // edApp object
-        edApp = learningContext.getEdApp();
+        learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         // Action
         key = SessionProfile.Actions.LOGGEDOUT.key();
@@ -43,7 +40,7 @@ public class SessionLogoutEventTest {
         target = TestUtils.buildSessionEnd();
 
         // Build event
-        event = TestUtils.buildEpubLogoutEvent(learningContext, edApp, key, target);
+        event = TestUtils.buildEpubLogoutEvent(learningContext, key, target);
     }
 
     @Test

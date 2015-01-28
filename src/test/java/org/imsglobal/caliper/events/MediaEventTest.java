@@ -41,7 +41,7 @@ public class MediaEventTest {
         location = TestUtils.buildVideoMediaLocation();
 
         // Action
-        key = MediaProfile.MediaActions.PAUSED.key();
+        key = MediaProfile.Actions.PAUSED.key();
 
         // Build event
         event = TestUtils.buildVideoMediaEvent(learningContext, video, location, key);
