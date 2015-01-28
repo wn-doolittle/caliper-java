@@ -54,6 +54,6 @@ public class SessionLoginEventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if loggedIn event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperSessionLogInEvent.json"), asJson(event));
+                jsonFixture("fixtures/caliperSessionLoginEvent.json"), asJson(event));
     }
 }
