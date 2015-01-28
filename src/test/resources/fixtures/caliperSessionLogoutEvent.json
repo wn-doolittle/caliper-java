@@ -1,0 +1,52 @@
+{
+  "@context": "http://purl.imsglobal.org/ctx/caliper/v1/SessionEvent",
+  "@type": "http://purl.imsglobal.org/caliper/v1/SessionEvent",
+  "actor": {
+    "@id": "https://some-university.edu/user/554433",
+    "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
+    "name": null,
+    "lastModifiedTime": 1402965614516
+  },
+  "action": "logged out",
+  "object": {
+    "@id": "https://github.com/readium/readium-js-viewer",
+    "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+    "name": "Readium",
+    "lastModifiedTime": 1402965614516
+  },
+  "target": {
+    "@id": "https://github.com/readium/session-123456789",
+    "@type":"http://purl.imsglobal.org/caliper/v1/Session",
+    "name": "session-123456789",
+    "lastModifiedTime": 1402965614516,
+    "actor": {
+      "@id": "https://some-university.edu/user/554433",
+      "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
+      "name": null,
+      "lastModifiedTime": 1402965614516
+    },
+    "startedAtTime": 1402965614516,
+    "endedAtTime": 1402965614516,
+    "duration": null
+  },
+  "generated": null,
+  "startedAtTime": 1402965614516,
+  "endedAtTime": 1402965614516,
+  "duration": null,
+  "edApp": {
+    "@id": "https://github.com/readium/readium-js-viewer",
+    "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+    "name": "Readium",
+    "lastModifiedTime": 1402965614516
+  },
+  "group": {
+    "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101",
+    "@type": "http://purl.imsglobal.org/caliper/v1/lis/CourseSection",
+    "semester": "Spring-2014",
+    "courseNumber": "AmRev-101",
+    "label": "Am Rev 101",
+    "name": "American Revolution 101",
+    "parentOrg": null,
+    "lastModifiedTime": 1402965614516
+  }
+}

@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.LearningObjective;
+import org.imsglobal.caliper.entities.Session;
 import org.imsglobal.caliper.entities.SoftwareApplication;
 import org.imsglobal.caliper.entities.WebPage;
 import org.imsglobal.caliper.entities.annotation.Annotation;
@@ -31,6 +32,7 @@ import org.imsglobal.caliper.events.AssignableEvent;
 import org.imsglobal.caliper.events.MediaEvent;
 import org.imsglobal.caliper.events.NavigationEvent;
 import org.imsglobal.caliper.events.OutcomeEvent;
+import org.imsglobal.caliper.events.SessionEvent;
 import org.imsglobal.caliper.events.ViewEvent;
 
 public class TestUtils {
@@ -97,12 +99,12 @@ public class TestUtils {
             .action(actionKey)
             .object(annotation)
             .target(Frame.builder()
-                .id(target.getId())
-                .name(target.getName())
-                .partOf(target.getPartOf())
-                .lastModifiedTime(1402965614516l)
-                .index(index)
-                .build())
+                    .id(target.getId())
+                    .name(target.getName())
+                    .partOf(target.getPartOf())
+                    .lastModifiedTime(1402965614516l)
+                    .index(index)
+                    .build())
             .startedAtTime(1402965614516l)
             .build();
     }
@@ -146,11 +148,11 @@ public class TestUtils {
             .action(actionKey)
             .object(assessment)
             .generated(Attempt.builder()
-                .id(assessment.getId() + "/attempt1")
-                .assignable(assessment)
-                .actor(learningContext.getAgent())
-                .count(1)
-                .build())
+                    .id(assessment.getId() + "/attempt1")
+                    .assignable(assessment)
+                    .actor(learningContext.getAgent())
+                    .count(1)
+                    .build())
             .startedAtTime(1402965614516l)
             .build();
     }
@@ -218,29 +220,29 @@ public class TestUtils {
     public static final ImmutableList<AssessmentItem> buildAssessmentItems() {
         return ImmutableList.<AssessmentItem>builder()
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1")
-                .name("Assessment Item 1")
-                .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
-                .maxAttempts(2)
-                .maxSubmits(2)
-                .maxScore(1)
-                .build())
+                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1")
+                    .name("Assessment Item 1")
+                    .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                    .maxAttempts(2)
+                    .maxSubmits(2)
+                    .maxScore(1)
+                    .build())
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2")
-                .name("Assessment Item 2")
-                .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
-                .maxAttempts(2)
-                .maxSubmits(2)
-                .maxScore(1)
-                .build())
+                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2")
+                    .name("Assessment Item 2")
+                    .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                    .maxAttempts(2)
+                    .maxSubmits(2)
+                    .maxScore(1)
+                    .build())
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3")
-                .name("Assessment Item 3")
-                .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
-                .maxAttempts(2)
-                .maxSubmits(2)
-                .maxScore(1)
-                .build())
+                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3")
+                    .name("Assessment Item 3")
+                    .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                    .maxAttempts(2)
+                    .maxSubmits(2)
+                    .maxScore(1)
+                    .build())
             .build();
     }
 
@@ -292,10 +294,10 @@ public class TestUtils {
     public static final LearningContext buildAssessmentToolLearningContext() {
         return LearningContext.builder()
             .edApp(SoftwareApplication.builder()
-                .id("https://com.sat/super-assessment-tool")
-                .name("Super Assessment Tool")
-                .lastModifiedTime(1402965614516l)
-                .build())
+                    .id("https://com.sat/super-assessment-tool")
+                    .name("Super Assessment Tool")
+                    .lastModifiedTime(1402965614516l)
+                    .build())
             .lisOrganization(buildAmRev101CourseSection())
             .agent(buildStudent554433())
             .build();
@@ -311,6 +313,83 @@ public class TestUtils {
             .bookmarkNotes("The Intolerable Acts (1774)--bad idea Lord North")
             .lastModifiedTime(1402965614516l)
             .target(target)
+            .build();
+    }
+
+    /**
+     * @param learningContext
+     * @param edApp
+     * @param actionKey
+     * @param target
+     * @param generated
+     * @return session event
+     */
+    public static SessionEvent buildEpubLoginEvent(LearningContext learningContext,
+                                                           SoftwareApplication edApp,
+                                                           String actionKey,
+                                                           EpubSubChapter target,
+                                                           Session generated) {
+        return SessionEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .lisOrganization(learningContext.getLisOrganization())
+            .actor(learningContext.getAgent())
+            .action(actionKey)
+            .object(edApp)
+            .target(Frame.builder()
+                    .id(target.getId())
+                    .name(target.getName())
+                    .partOf(target.getPartOf())
+                    .lastModifiedTime(1402965614516l)
+                    .index(1)
+                    .build())
+            .generated(generated)
+            .startedAtTime(1402965614516l)
+            .build();
+    }
+
+    /**
+     * @param learningContext
+     * @param edApp
+     * @param actionKey
+     * @param target
+     * @return session event
+     */
+    public static SessionEvent buildEpubLogoutEvent(LearningContext learningContext,
+                                                   SoftwareApplication edApp,
+                                                   String actionKey,
+                                                   Session target) {
+        return SessionEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .lisOrganization(learningContext.getLisOrganization())
+            .actor(learningContext.getAgent())
+            .action(actionKey)
+            .object(edApp)
+            .target(target)
+            .startedAtTime(1402965614516l)
+            .endedAtTime(1402965614516l)
+            .build();
+    }
+
+    /**
+     * @param learningContext
+     * @param edApp
+     * @param actionKey
+     * @param target
+     * @return session event
+     */
+    public static SessionEvent buildEpubTimeoutEvent(LearningContext learningContext,
+                                                    SoftwareApplication edApp,
+                                                    String actionKey,
+                                                    Session target) {
+        return SessionEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .lisOrganization(learningContext.getLisOrganization())
+            .actor(learningContext.getEdApp())
+            .action(actionKey)
+            .object(edApp)
+            .target(target)
+            .startedAtTime(1402965614516l)
+            .endedAtTime(1402965614516l)
             .build();
     }
 
@@ -334,12 +413,12 @@ public class TestUtils {
             .action(actionKey)
             .object(epub)
             .target(Frame.builder()
-                .id(target.getId())
-                .name(target.getName())
-                .partOf(epub)
-                .lastModifiedTime(1402965614516l)
-                .index(1)
-                .build())
+                    .id(target.getId())
+                    .name(target.getName())
+                    .partOf(epub)
+                    .lastModifiedTime(1402965614516l)
+                    .index(1)
+                    .build())
             .fromResource(fromResource)
             .startedAtTime(1402965614516l)
             .build();
@@ -427,12 +506,12 @@ public class TestUtils {
             .action(actionKey)
             .object(epub)
             .target(Frame.builder()
-                .id(target.getId())
-                .name(target.getName())
-                .partOf(epub)
-                .lastModifiedTime(1402965614516l)
-                .index(1)
-                .build())
+                    .id(target.getId())
+                    .name(target.getName())
+                    .partOf(epub)
+                    .lastModifiedTime(1402965614516l)
+                    .index(1)
+                    .build())
             .startedAtTime(1402965614516l)
             .build();
     }
@@ -459,12 +538,39 @@ public class TestUtils {
 
         return LearningContext.builder()
             .edApp(SoftwareApplication.builder()
-                .id("https://github.com/readium/readium-js-viewer")
-                .name("Readium")
-                .lastModifiedTime(1402965614516l)
-                .build())
+                    .id("https://github.com/readium/readium-js-viewer")
+                    .name("Readium")
+                    .lastModifiedTime(1402965614516l)
+                    .build())
             .lisOrganization(buildAmRev101CourseSection())
             .agent(buildStudent554433())
+            .build();
+    }
+
+    /**
+     * @return Session
+     */
+    public static Session buildSessionStart() {
+        return Session.builder()
+            .id("https://github.com/readium/session-123456789")
+            .name("session-123456789")
+            .actor(buildStudent554433())
+            .lastModifiedTime(1402965614516l)
+            .startedAtTime(1402965614516l)
+            .build();
+    }
+
+    /**
+     * @return Session
+     */
+    public static Session buildSessionEnd() {
+        return Session.builder()
+            .id("https://github.com/readium/session-123456789")
+            .name("session-123456789")
+            .actor(buildStudent554433())
+            .lastModifiedTime(1402965614516l)
+            .startedAtTime(1402965614516l)
+            .endedAtTime(1402965614516l)
             .build();
     }
 

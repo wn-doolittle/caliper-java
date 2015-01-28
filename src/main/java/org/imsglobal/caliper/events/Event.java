@@ -2,11 +2,11 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.SoftwareApplication;
 import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Organization;
+import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
 
 /**
  * Base class for all Caliper Events
@@ -35,6 +35,7 @@ public abstract class Event {
         MEDIA("http://purl.imsglobal.org/ctx/caliper/v1/MediaEvent"),
         NAVIGATION("http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent"),
         OUTCOME("http://purl.imsglobal.org/ctx/caliper/v1/OutcomeEvent"),
+        SESSION("http://purl.imsglobal.org/ctx/caliper/v1/SessionEvent"),
         VIEW("http://purl.imsglobal.org/ctx/caliper/v1/ViewEvent");
 
         private final String uri;
@@ -64,6 +65,7 @@ public abstract class Event {
         MEDIA("http://purl.imsglobal.org/caliper/v1/MediaEvent"),
         NAVIGATION("http://purl.imsglobal.org/caliper/v1/NavigationEvent"),
         OUTCOME("http://purl.imsglobal.org/caliper/v1/OutcomeEvent"),
+        SESSION("http://purl.imsglobal.org/caliper/v1/SessionEvent"),
         VIEW("http://purl.imsglobal.org/caliper/v1/ViewEvent");
 
         private final String uri;
@@ -182,14 +184,14 @@ public abstract class Event {
     /**
      * @return the context
      */
-   public String getContext() {
+    public String getContext() {
        return context;
    }
 
     /**
      * @return the type
      */
-   public String getType() {
+    public String getType() {
        return type;
    }
 
