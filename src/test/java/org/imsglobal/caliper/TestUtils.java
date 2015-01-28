@@ -349,6 +349,52 @@ public class TestUtils {
 
     /**
      * @param learningContext
+     * @param edApp
+     * @param actionKey
+     * @param target
+     * @return session event
+     */
+    public static SessionEvent buildEpubLogoutEvent(LearningContext learningContext,
+                                                   SoftwareApplication edApp,
+                                                   String actionKey,
+                                                   Session target) {
+        return SessionEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .lisOrganization(learningContext.getLisOrganization())
+            .actor(learningContext.getAgent())
+            .action(actionKey)
+            .object(edApp)
+            .target(target)
+            .startedAtTime(1402965614516l)
+            .endedAtTime(1402965614516l)
+            .build();
+    }
+
+    /**
+     * @param learningContext
+     * @param edApp
+     * @param actionKey
+     * @param target
+     * @return session event
+     */
+    public static SessionEvent buildEpubTimeoutEvent(LearningContext learningContext,
+                                                    SoftwareApplication edApp,
+                                                    String actionKey,
+                                                    Session target) {
+        return SessionEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .lisOrganization(learningContext.getLisOrganization())
+            .actor(learningContext.getEdApp())
+            .action(actionKey)
+            .object(edApp)
+            .target(target)
+            .startedAtTime(1402965614516l)
+            .endedAtTime(1402965614516l)
+            .build();
+    }
+
+    /**
+     * @param learningContext
      * @param epub
      * @param actionKey
      * @param fromResource
@@ -504,13 +550,27 @@ public class TestUtils {
     /**
      * @return Session
      */
-    public static Session buildSession() {
+    public static Session buildSessionStart() {
         return Session.builder()
             .id("https://github.com/readium/session-123456789")
             .name("session-123456789")
             .actor(buildStudent554433())
             .lastModifiedTime(1402965614516l)
             .startedAtTime(1402965614516l)
+            .build();
+    }
+
+    /**
+     * @return Session
+     */
+    public static Session buildSessionEnd() {
+        return Session.builder()
+            .id("https://github.com/readium/session-123456789")
+            .name("session-123456789")
+            .actor(buildStudent554433())
+            .lastModifiedTime(1402965614516l)
+            .startedAtTime(1402965614516l)
+            .endedAtTime(1402965614516l)
             .build();
     }
 

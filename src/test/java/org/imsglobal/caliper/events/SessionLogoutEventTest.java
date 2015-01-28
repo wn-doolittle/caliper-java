@@ -2,9 +2,8 @@ package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
-import org.imsglobal.caliper.entities.SoftwareApplication;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.Session;
+import org.imsglobal.caliper.entities.SoftwareApplication;
 import org.imsglobal.caliper.profiles.SessionProfile;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,14 +16,13 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class SessionLoginEventTest {
+public class SessionLogoutEventTest {
     private LearningContext learningContext;
     private SoftwareApplication edApp;
     private String key;
-    private EpubSubChapter target;
-    private Session generated;
+    private Session target;
     private SessionEvent event;
-    private static final Logger log = LoggerFactory.getLogger(SessionLoginEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(SessionLogoutEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -39,21 +37,18 @@ public class SessionLoginEventTest {
         edApp = learningContext.getEdApp();
 
         // Action
-        key = SessionProfile.Actions.LOGGEDIN.key();
+        key = SessionProfile.Actions.LOGGEDOUT.key();
 
         // Build target
-        target = TestUtils.buildEpubSubChap431();
-
-        // Build generated
-        generated = TestUtils.buildSessionStart();
+        target = TestUtils.buildSessionEnd();
 
         // Build event
-        event = TestUtils.buildEpubLoginEvent(learningContext, edApp, key, target, generated);
+        event = TestUtils.buildEpubLogoutEvent(learningContext, edApp, key, target);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        assertEquals("Test if loggedIn event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperSessionLoginEvent.json"), asJson(event));
+        assertEquals("Test if loggedOut event is serialized to JSON with expected values",
+                jsonFixture("fixtures/caliperSessionLogoutEvent.json"), asJson(event));
     }
 }
