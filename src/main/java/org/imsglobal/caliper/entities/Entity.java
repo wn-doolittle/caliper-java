@@ -2,12 +2,13 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
 @JsonPropertyOrder({ "@id", "@type", "name", "lastModifiedTime" })
-public abstract class Entity {
+public abstract class Entity implements Thing {
 
     public enum Type {
         AGENT("http://purl.imsglobal.org/caliper/v1/Agent"),
