@@ -59,10 +59,10 @@ public class AssessmentEvent implements Event {
     private final Attempt generated;
 
     @JsonProperty("startedAtTime")
-    private long startedAtTime;
+    private final long startedAtTime;
 
     @JsonProperty("endedAtTime")
-    private long endedAtTime;
+    private final long endedAtTime;
 
     @JsonProperty("duration")
     private final String duration;
