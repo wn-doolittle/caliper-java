@@ -31,13 +31,13 @@ public class AssessmentItemEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildAssessmentToolLearningContext();
+        learningContext = TestUtils.buildAssessmentStudentLearningContext();
 
         // Build assessment and get assessment item 1
         item = TestUtils.buildAssessment().getAssessmentItems().get(0);
 
         // Action
-        key = AssessmentItemProfile.AssessmentItemActions.STARTED.key();
+        key = AssessmentItemProfile.Actions.STARTED.key();
 
         //TODO add response
 

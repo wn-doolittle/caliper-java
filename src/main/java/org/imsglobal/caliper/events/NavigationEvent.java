@@ -1,11 +1,35 @@
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.lis.Organization;
+import org.imsglobal.caliper.entities.lis.Person;
+import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
+import org.imsglobal.caliper.profiles.NavigationProfile;
+import org.imsglobal.caliper.profiles.ProfileUtils;
+import org.imsglobal.caliper.validators.EventValidator.Conformance;
+import org.imsglobal.caliper.validators.ValidatorResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class NavigationEvent extends org.imsglobal.caliper.events.Event {
+@JsonPropertyOrder({
+    "@context",
+    "@type",
+    "actor",
+    "action",
+    "object",
+    "target",
+    "generated",
+    "startedAtTime",
+    "endedAtTime",
+    "duration",
+    "edApp",
+    "group",
+    "navigatedFrom"})
+public class NavigationEvent implements Event {
 
     @JsonProperty("@context")
     private final String context;
@@ -13,60 +37,124 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
     @JsonProperty("@type")
     private final String type;
 
+    @JsonProperty("edApp")
+    private final SoftwareApplication edApp;
+
+    @JsonProperty("group")
+    private final Organization lisOrganization;
+
+    @JsonProperty("actor")
+    private final Person actor;
+
     @JsonProperty("action")
     private final String action;
 
     @JsonProperty("object")
     private final DigitalResource object;
 
-    /**
-     * Describes the resource from which the navigation starts.
-     */
     @JsonProperty("navigatedFrom")
-    private DigitalResource fromResource;
+    private final DigitalResource fromResource;
 
     @JsonProperty("target")
-    private final Targetable target;
+    private final DigitalResource target;
+
+    @JsonProperty("generated")
+    private final Generatable generated;
+
+    @JsonProperty("startedAtTime")
+    private final long startedAtTime;
+
+    @JsonProperty("endedAtTime")
+    private final long endedAtTime;
+
+    @JsonProperty("duration")
+    private final String duration;
+
+    @JsonIgnore
+    private static final Logger log = LoggerFactory.getLogger(NavigationEvent.class);
 
     /**
-     * @param builder apply builder object properties to the NavigationEvent object.
+     * Utilize builder to construct NavigationEvent.  Validate Navigation object copy rather than the
+     * Navigation builder.  This approach protects the class against parameter changes from another
+     * thread during the "window of vulnerability" between the time the parameters are checked
+     * until when they are copied.  Validate properties of builder copy and if conformance violations
+     * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
+     *
+     * @param builder
      */
-    protected NavigationEvent(Builder<?> builder) {
-        super(builder);
+    protected NavigationEvent(Builder builder) {
         this.context = builder.context;
         this.type = builder.type;
+        this.edApp = builder.edApp;
+        this.lisOrganization = builder.lisOrganization;
+        this.actor = builder.actor;
         this.action = builder.action;
         this.object = builder.object;
         this.fromResource = builder.fromResource;
         this.target = builder.target;
+        this.generated = builder.generated;
+        this.startedAtTime = builder.startedAtTime;
+        this.endedAtTime = builder.endedAtTime;
+        this.duration = builder.duration;
+
+        ValidatorResult result = NavigationProfile.validateEvent(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**
-     * @return the context.
+     * Required.
+     * @return the context
      */
-    @Override
     public String getContext() {
         return context;
     }
 
     /**
-     * @return the type.
+     * Required.
+     * @return the type
      */
-    @Override
     public String getType() {
         return type;
     }
 
     /**
-     * @return the action.
+     * Optional.
+     * @return the edApp
+     */
+    public SoftwareApplication getEdApp() {
+        return edApp;
+    }
+
+    /**
+     * Optional.
+     * @return the lisOrganization
+     */
+    public Organization getLisOrganization() {
+        return lisOrganization;
+    }
+
+    /**
+     * Required.  Override with a covariant return type (Person).
+     * @return the actor
      */
     @Override
+    public Person getActor() {
+        return actor;
+    }
+
+    /**
+     * Required.
+     * @return the action
+     */
     public String getAction() {
         return action;
     }
 
     /**
-     * @return the activity context.
+     * Required.
+     * @return the object.  Override with a covariant return type (DigitalResource).
      */
     @Override
     public DigitalResource getObject() {
@@ -74,6 +162,7 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
+     * Optional.
      * @return the fromResource
      */
     public DigitalResource getFromResource() {
@@ -81,24 +170,69 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
     }
 
     /**
-     * @return the target resource.
+     * Optional.  Override with a covariant return type (DigitalResource).
+     * @return the target
      */
     @Override
-    public Targetable getTarget() {
+    public DigitalResource getTarget() {
         return target;
     }
 
     /**
-     * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * Optional.
+     * @return generated
      */
-    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
+    public Generatable getGenerated() {
+        return generated;
+    }
+
+    /**
+     * Required.
+     * @return the startedAt time
+     */
+    public long getStartedAtTime() {
+        return startedAtTime;
+    }
+
+    /**
+     * Optional.
+     * @return endedAt time
+     */
+    public long getEndedAtTime() {
+        return endedAtTime;
+    }
+
+    /**
+     * Optional. An xsd:duration (http://books.xmlschemata.org/relaxng/ch19-77073.html)
+     * The format is expected to be PnYnMnDTnHnMnS
+     * Valid values include PT1004199059S, PT130S, PT2M10S, P1DT2S, -P1Y, or P1Y2M3DT5H20M30.123S.
+     * The following values are invalid: 1Y (leading P is missing), P1S (T separator is missing),
+     * P-1Y (all parts must be positive), P1M2Y (parts order is significant and Y must precede M),
+     * or P1Y-1M (all parts must be positive).
+     * @return the duration
+     */
+    public String getDuration() {
+        return duration;
+    }
+
+    /**
+     * Builder class provides a fluid interface for setting object properties.
+     */
+    public static class Builder {
+        private final String event = "NavigationEvent ";
         private String context;
         private String type;
+        private SoftwareApplication edApp;
+        private Organization lisOrganization;
+        private Person actor;
         private String action;
         private DigitalResource object;
         private DigitalResource fromResource;
-        private Targetable target;
+        private DigitalResource target;
+        private Generatable generated;
+        private long startedAtTime;
+        private long endedAtTime;
+        private String duration;
 
         /**
          * Initialize type with default values.
@@ -106,79 +240,127 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
         public Builder() {
             context(Event.Context.NAVIGATION.uri());
             type(Event.Type.NAVIGATION.uri());
-            action(Profile.Actions.NAVIGATED_TO.key());
         }
 
         /**
          * @param context
          * @return builder.
          */
-        private T context(String context) {
+        private Builder context(String context) {
             this.context = context;
-            return self();
+            return this;
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private Builder type(String type) {
             this.type = type;
-            return self();
+            return this;
         }
 
         /**
-         * @param key
-         * @return builder
+         * @param edApp
+         * @return builder.
          */
-        @Override
-        public T action(String key) {
-            try {
-                this.action = Profile.getNavigatedToActionFromBundle(key);
-            } catch (IllegalArgumentException e) {
-                //TODO log and do something clever with exception.
-            }
+        public Builder edApp(SoftwareApplication edApp) {
+            this.edApp = edApp;
+            return this;
+        }
 
-            return self();
+        /**
+         * @param lisOrganization
+         * @return builder.
+         */
+        public Builder lisOrganization(Organization lisOrganization) {
+            this.lisOrganization = lisOrganization;
+            return this;
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public Builder actor(Person actor) {
+            this.actor = actor;
+            return this;
+        }
+
+        /**
+         * @param actionKey
+         * @return builder.
+         */
+        public Builder action(String actionKey) {
+            if (NavigationProfile.Actions.hasKey(actionKey)) {
+                this.action = ProfileUtils.getLocalizedAction(actionKey);
+            } else {
+                throw new IllegalArgumentException(event + Conformance.ACTION_UNRECOGNIZED.violation());
+            }
+            return this;
         }
 
         /**
          * @param object
          * @return builder.
          */
-        @Override
-        public T object(Object object) {
-            try {
-                this.object = Profile.validateDigitalResource(object);
-            } catch (ClassCastException e) {
-                //TODO log and do something clever with exception.
-            }
-
-            return self();
+        public Builder object(DigitalResource object) {
+            this.object = object;
+            return this;
         }
 
         /**
          * @param fromResource
-         * @return builder
+         * @return builder.
          */
-        public T fromResource(DigitalResource fromResource) {
+        public Builder fromResource(DigitalResource fromResource) {
             this.fromResource = fromResource;
-            return self();
+            return this;
         }
 
         /**
          * @param target
          * @return builder.
          */
-        @Override
-        public T target(Targetable target) {
-            try {
-                this.target = Profile.validateTarget(target);
-            } catch (ClassCastException e) {
-                //TODO log and do something clever with exception.
-            }
+        public Builder target(DigitalResource target) {
+            this.target = target;
+            return this;
+        }
 
-            return self();
+        /**
+         * @param generated
+         * @return builder.
+         */
+        public Builder generated(Generatable generated) {
+            this.generated = generated;
+            return this;
+        }
+
+        /**
+         * @param startedAtTime
+         * @return builder.
+         */
+        public Builder startedAtTime(long startedAtTime) {
+            this.startedAtTime = startedAtTime;
+            return this;
+        }
+
+        /**
+         * @param endedAtTime
+         * @return builder.
+         */
+        public Builder endedAtTime(long endedAtTime) {
+            this.endedAtTime = endedAtTime;
+            return this;
+        }
+
+        /**
+         * @param duration
+         * @return builder.
+         */
+        public Builder duration(String duration) {
+            this.duration = duration;
+            return this;
         }
 
         /**
@@ -189,22 +371,12 @@ public class NavigationEvent extends org.imsglobal.caliper.events.Event {
             return new NavigationEvent(this);
         }
     }
-
-    /**
-     *
-     */
-    private static class Builder2 extends Builder<Builder2> {
-        @Override
-        protected Builder2 self() {
-            return this;
-        }
-    }
-
+    
     /**
      * Static factory method.
      * @return a new instance of the builder.
      */
-    public static Builder<?> builder() {
-        return new Builder2();
+    public static Builder builder() {
+        return new Builder();
     }
 }

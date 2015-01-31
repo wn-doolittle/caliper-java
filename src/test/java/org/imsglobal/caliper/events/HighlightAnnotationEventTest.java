@@ -32,7 +32,7 @@ public class HighlightAnnotationEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumLearningContext();
+        learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         //Build target reading
         epub = (EpubSubChapter) TestUtils.buildEpubSubChap431();
@@ -41,7 +41,7 @@ public class HighlightAnnotationEventTest {
         highlight = TestUtils.buildHighlightAnnotation(epub);
 
         // Add action
-        key = AnnotationProfile.AnnotationActions.HIGHLIGHTED.key();
+        key = AnnotationProfile.Actions.HIGHLIGHTED.key();
 
         // Build event
         event = TestUtils.buildAnnotationEvent(learningContext, highlight, key, epub, 1);

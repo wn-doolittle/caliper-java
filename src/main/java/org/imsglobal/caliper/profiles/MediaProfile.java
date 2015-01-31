@@ -1,62 +1,207 @@
 package org.imsglobal.caliper.profiles;
 
-import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.entities.media.*;
+import com.google.common.collect.ImmutableMap;
+import org.imsglobal.caliper.events.MediaEvent;
+import org.imsglobal.caliper.validators.EventValidator;
+import org.imsglobal.caliper.validators.EventValidatorContext;
+import org.imsglobal.caliper.validators.MediaEventValidator;
+import org.imsglobal.caliper.validators.ValidatorResult;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class MediaProfile extends org.imsglobal.caliper.profiles.Profile {
+public class MediaProfile {
 
-    public enum MediaActions {
-        ENABLEDCLOSEDCAPTIONING("media.accessibility.enabledClosedCaptioning"),
-        DISABLEDCLOSEDCAPTIONING("media.accessibility.disabledClosedCaptioning"),
-
-        CHANGEDVOLUME("media.audio.changedVolume"),
-        MUTED("media.audio.muted"),
-        UNMUTED("media.audio.unmuted"),
-
-        CHANGEDSPEED("media.playback.changedSpeed"),
-        ENDED("media.playback.ended"),
-        JUMPEDTO("media.playback.jumpedTo"),
-        FORWARDEDTO("media.playback.forwardedTo"),
-        PAUSED("media.playback.paused"),
-        RESUMED("media.playback.resumed"),
-        REWINDED("media.playback.rewindedTo"),
-        STARTED("media.playback.started"),
-
-        CHANGEDRESOLUTION("media.viewer.changedResolution"),
-        CHANGEDSIZE("media.viewer.changedSize"),
-        CLOSEDPOPOUT("media.viewer.closedPopout"),
-        ENTEREDFULLSCREEN("media.viewer.enteredFullScreen"),
-        EXITEDFULLSCREEN("media.viewer.exitedFullScreen"),
-        OPENEDPOPOUT("media.viewer.openedPopout"),
-
-        NAVIGATED_TO("navigation.navigatedTo");
+    public enum Actions {
+        ENABLEDCLOSEDCAPTIONING("media.accessibility.enabledClosedCaptioning") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        DISABLEDCLOSEDCAPTIONING("media.accessibility.disabledClosedCaptioning") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        CHANGEDVOLUME("media.audio.changedVolume") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        MUTED("media.audio.muted") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        UNMUTED("media.audio.unmuted") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        CHANGEDSPEED("media.playback.changedSpeed") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        ENDED("media.playback.ended") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        JUMPEDTO("media.playback.jumpedTo") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        FORWARDEDTO("media.playback.forwardedTo") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        PAUSED("media.playback.paused") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        RESUMED("media.playback.resumed") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        REWINDED("media.playback.rewindedTo") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        STARTED("media.playback.started") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        CHANGEDRESOLUTION("media.viewer.changedResolution") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        CHANGEDSIZE("media.viewer.changedSize") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        CLOSEDPOPOUT("media.viewer.closedPopout") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        ENTEREDFULLSCREEN("media.viewer.enteredFullScreen") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        EXITEDFULLSCREEN("media.viewer.exitedFullScreen") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        OPENEDPOPOUT("media.viewer.openedPopout") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new MediaEventValidator());
+                return validator.validate(event);
+            }
+        },
+        UNRECOGNIZED("action.unrecognized") {
+            @Override
+            ValidatorResult validate(MediaEvent event) {
+                ValidatorResult result = new ValidatorResult();
+                result.errorMessage().appendText("Caliper Media profile conformance: "
+                    + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
+                result.errorMessage().endSentence();
+                return result;
+            }
+        };
 
         private final String key;
-        private static final Map<String, MediaActions> lookup = new HashMap<String, MediaActions>();
+        private static Map<String, Actions> lookup;
 
         /**
          * Create reverse lookup hash map
          */
         static {
-            for (MediaActions constants : MediaActions.values())
-                lookup.put(constants.key(), constants);
+            Map<String, Actions> map = new HashMap<String, Actions>();
+            for (Actions constants : Actions.values()) {
+                map.put(constants.key(), constants);
+            }
+            lookup = ImmutableMap.copyOf(map);
         }
 
         /**
-         * Constructor
-         *
+         * Private constructor
          * @param key
          */
-        private MediaActions(String key) {
+        private Actions(final String key) {
             this.key = key;
         }
 
         /**
-         * @return ResourceBundle key for internationalized action strings.
+         * Resource bundle key
+         * @return key
          */
         public String key() {
             return key;
@@ -71,11 +216,49 @@ public class MediaProfile extends org.imsglobal.caliper.profiles.Profile {
         }
 
         /**
-         * @param key
-         * @return enum constant by reverse lookup
+         * Lookup key by comparing localized action string against matching bundle value.
+         * @param action
+         * @return
          */
-        public static MediaActions lookupConstant(String key) {
-            return lookup.get(key);
+        public static String lookupKey(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getKey();
+                }
+            }
+            return Actions.UNRECOGNIZED.key();
+        }
+
+        /**
+         * Validate method implemented by each enum constant.
+         * @param event
+         */
+        abstract ValidatorResult validate(MediaEvent event);
+
+        /**
+         * Match action to enum constant and then validate event.
+         * @param event
+         * @return error message if validation errors are encountered.
+         */
+        protected static ValidatorResult validateEvent(MediaEvent event) {
+            return Actions.matchConstant(event.getAction()).validate(event);
+        }
+
+        /**
+         * Match the event action string against the bundle value and return
+         * the corresponding constant.
+         * @param action
+         * @return constant
+         */
+        private static Actions matchConstant(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getValue();
+                }
+            }
+            return Actions.UNRECOGNIZED;
         }
     }
 
@@ -87,46 +270,11 @@ public class MediaProfile extends org.imsglobal.caliper.profiles.Profile {
     }
 
     /**
-     * @param key
-     * @return localized action string.
+     * Validate AssessmentItemEvent.
+     * @param event
+     * @return ValidatorResult
      */
-    public static String getActionFromBundle(String key) {
-        if (MediaActions.hasKey(key) || Actions.hasKey(key)) {
-            return ResourceBundle.getBundle("actions").getString(key);
-        } else {
-            throw new IllegalArgumentException("Unrecognized key: " + key);
-        }
-    }
-
-    /**
-     * @param object
-     * @return activityContext object.
-     */
-    public static MediaObject validateObject(Object object) {
-        if (object instanceof AudioObject) {
-            // TODO CHECK REQUIRED PROPS
-            return (AudioObject) object;
-        } else if (object instanceof ImageObject) {
-            // TODO CHECK REQUIRED PROPS
-            return (ImageObject) object;
-        } else if (object instanceof VideoObject) {
-            // TODO CHECK REQUIRED PROPS
-            return (VideoObject) object;
-        } else {
-            throw new ClassCastException("Object must be of type MediaObject.");
-        }
-    }
-
-    /**
-     * @param target
-     * @return target MediaLocation.
-     */
-    public static MediaLocation validateTarget(Targetable target) {
-        if (target instanceof MediaLocation) {
-            // TODO add additional checks
-            return (MediaLocation) target;
-        } else {
-            throw new ClassCastException("Target must be of type MediaLocation.");
-        }
+    public static ValidatorResult validateEvent(MediaEvent event) {
+        return Actions.validateEvent(event);
     }
 }
