@@ -3,9 +3,9 @@ package org.imsglobal.caliper.entities.assignable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.lis.Person;
 
 /**
  * Representation of an Attempt. Attempts are generated as part of or
@@ -29,7 +29,7 @@ public class Attempt extends Entity implements Generatable {
     private final Assignable assignable;
 
     @JsonIgnore
-    private final Agent actor;
+    private final Person actor;
 
     @JsonProperty("count")
     private int count;
@@ -83,7 +83,7 @@ public class Attempt extends Entity implements Generatable {
     /**
      * @return the actor
      */
-    public Agent getActor() {
+    public Person getActor() {
         return actor;
     }
 
@@ -122,7 +122,7 @@ public class Attempt extends Entity implements Generatable {
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
         private Assignable assignable;
-        private Agent actor;
+        private Person actor;
         private int count;
         private long startedAtTime;
         private long endedAtTime;
@@ -157,7 +157,7 @@ public class Attempt extends Entity implements Generatable {
          * @param actor
          * @return builder
          */
-        public T actor(Agent actor) {
+        public T actor(Person actor) {
             this.actor = actor;
             return self();
         }

@@ -22,7 +22,7 @@ public class ViewEventTest {
     private EpubVolume epub;
     private String key;
     private EpubSubChapter target;
-    private ViewEvent event;
+    private ReadingEvent event;
     private static final Logger LOG = LoggerFactory.getLogger(ViewEventTest.class);
 
     /**
@@ -32,7 +32,7 @@ public class ViewEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumLearningContext();
+        learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         // Build epub
         epub = TestUtils.buildEpubVolume43();
@@ -41,7 +41,7 @@ public class ViewEventTest {
         target = TestUtils.buildEpubSubChap431();
 
         // Action
-       key = ReadingProfile.ReadingActions.VIEWED.key();
+       key = ReadingProfile.Actions.VIEWED.key();
 
         // Build event
         event = TestUtils.buildEpubViewEvent(learningContext, epub, key, target);

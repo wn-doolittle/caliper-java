@@ -3,14 +3,15 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.lis.Organization;
 import org.imsglobal.caliper.entities.lis.Person;
-import org.imsglobal.caliper.entities.qti.Assessment;
+import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
-import org.imsglobal.caliper.profiles.AssessmentProfile;
 import org.imsglobal.caliper.profiles.ProfileUtils;
+import org.imsglobal.caliper.profiles.ReadingProfile;
 import org.imsglobal.caliper.validators.EventValidator.Conformance;
 import org.imsglobal.caliper.validators.ValidatorResult;
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ import org.slf4j.LoggerFactory;
     "duration",
     "edApp",
     "group" })
-public class AssessmentEvent implements Event {
+public class ReadingEvent implements Event {
 
     @JsonProperty("@context")
     private final String context;
@@ -50,13 +51,13 @@ public class AssessmentEvent implements Event {
     private final String action;
 
     @JsonProperty("object")
-    private final Assessment object;
+    private final CreativeWork object;
 
     @JsonProperty("target")
     private final Targetable target;
 
     @JsonProperty("generated")
-    private final Attempt generated;
+    private final Generatable generated;
 
     @JsonProperty("startedAtTime")
     private final long startedAtTime;
@@ -68,18 +69,18 @@ public class AssessmentEvent implements Event {
     private final String duration;
 
     @JsonIgnore
-    private static final Logger log = LoggerFactory.getLogger(AssessmentEvent.class);
+    private static final Logger log = LoggerFactory.getLogger(ReadingEvent.class);
 
     /**
-     * Utilize builder to construct AssessmentEvent.  Validate Assessment object copy rather than the
-     * Assessment builder.  This approach protects the class against parameter changes from another
+     * Utilize builder to construct ReadingEvent.  Validate Reading object copy rather than the
+     * Reading builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
      * until when they are copied.  Validate properties of builder copy and if conformance violations
      * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
      *
      * @param builder
      */
-    protected AssessmentEvent(Builder builder) {
+    protected ReadingEvent(Builder builder) {
         this.context = builder.context;
         this.type = builder.type;
         this.edApp = builder.edApp;
@@ -93,7 +94,7 @@ public class AssessmentEvent implements Event {
         this.endedAtTime = builder.endedAtTime;
         this.duration = builder.duration;
 
-        ValidatorResult result = AssessmentProfile.validateEvent(this);
+        ValidatorResult result = ReadingProfile.validateEvent(this);
         if (!result.isValid()) {
             throw new IllegalStateException(result.errorMessage().toString());
         }
@@ -149,11 +150,11 @@ public class AssessmentEvent implements Event {
     }
 
     /**
-     * Required.  Override with a covariant return type (Assessment).
+     * Required.  Override with a covariant return type (CreativeWork).
      * @return the object
      */
     @Override
-    public Assessment getObject() {
+    public CreativeWork getObject() {
         return object;
     }
 
@@ -166,11 +167,10 @@ public class AssessmentEvent implements Event {
     }
 
     /**
-     * Required.  Override with a covariant return type (Attempt).
+     * Optional.
      * @return generated
      */
-    @Override
-    public Attempt getGenerated() {
+    public Generatable getGenerated() {
         return generated;
     }
 
@@ -207,23 +207,26 @@ public class AssessmentEvent implements Event {
      * Builder class provides a fluid interface for setting object properties.
      */
     public static class Builder  {
-        private final String event = "AssessmentEvent ";
+        private String event = "ReadingEvent ";
         private String context;
         private String type;
         private SoftwareApplication edApp;
         private Organization lisOrganization;
         private Person actor;
         private String action;
-        private Assessment object;
+        private CreativeWork object;
         private Targetable target;
-        private Attempt generated;
+        private Generatable generated;
         private long startedAtTime;
         private long endedAtTime;
         private String duration;
 
-        private Builder() {
-            this.context(Event.Context.ASSESSMENT.uri());
-            this.type(Event.Type.ASSESSMENT.uri());
+        /**
+         * Initialize type with default values.  Required if .builder() properties are not set by user.
+         */
+        public Builder() {
+            context(Event.Context.READING.uri());
+            type(Event.Type.READING.uri());
         }
 
         /**
@@ -232,7 +235,7 @@ public class AssessmentEvent implements Event {
          */
         private Builder context(String context) {
             this.context = context;
-            return this;
+            return this ;
         }
 
         /**
@@ -241,7 +244,7 @@ public class AssessmentEvent implements Event {
          */
         private Builder type(String type) {
             this.type = type;
-            return this;
+            return this ;
         }
 
         /**
@@ -250,7 +253,7 @@ public class AssessmentEvent implements Event {
          */
         public Builder edApp(SoftwareApplication edApp) {
             this.edApp = edApp;
-            return this;
+            return this ;
         }
 
         /**
@@ -259,7 +262,7 @@ public class AssessmentEvent implements Event {
          */
         public Builder lisOrganization(Organization lisOrganization) {
             this.lisOrganization = lisOrganization;
-            return this;
+            return this ;
         }
 
         /**
@@ -268,7 +271,7 @@ public class AssessmentEvent implements Event {
          */
         public Builder actor(Person actor) {
             this.actor = actor;
-            return this;
+            return this ;
         }
 
         /**
@@ -276,21 +279,21 @@ public class AssessmentEvent implements Event {
          * @return builder.
          */
         public Builder action(String actionKey) {
-            if (AssessmentProfile.Actions.hasKey(actionKey)) {
+            if (ReadingProfile.Actions.hasKey(actionKey)) {
                 this.action = ProfileUtils.getLocalizedAction(actionKey);
             } else {
                 throw new IllegalArgumentException(event + Conformance.ACTION_UNRECOGNIZED.violation());
             }
-            return this;
+            return this ;
         }
 
         /**
          * @param object
          * @return builder.
          */
-        public Builder object(Assessment object) {
+        public Builder object(CreativeWork object) {
             this.object = object;
-            return this;
+            return this ;
         }
 
         /**
@@ -299,7 +302,7 @@ public class AssessmentEvent implements Event {
          */
         public Builder target(Targetable target) {
             this.target = target;
-            return this;
+            return this ;
         }
 
         /**
@@ -308,7 +311,7 @@ public class AssessmentEvent implements Event {
          */
         public Builder generated(Attempt generated) {
             this.generated = generated;
-            return this;
+            return this ;
         }
 
         /**
@@ -317,7 +320,7 @@ public class AssessmentEvent implements Event {
          */
         public Builder startedAtTime(long startedAtTime) {
             this.startedAtTime = startedAtTime;
-            return this;
+            return this ;
         }
 
         /**
@@ -326,7 +329,7 @@ public class AssessmentEvent implements Event {
          */
         public Builder endedAtTime(long endedAtTime) {
             this.endedAtTime = endedAtTime;
-            return this;
+            return this ;
         }
 
         /**
@@ -335,18 +338,18 @@ public class AssessmentEvent implements Event {
          */
         public Builder duration(String duration) {
             this.duration = duration;
-            return this;
+            return this ;
         }
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of AssessmentEvent.
+         * @return a new instance of ReadingEvent.
          */
-        public AssessmentEvent build() {
-            return new AssessmentEvent(this);
+        public ReadingEvent build() {
+            return new ReadingEvent(this);
         }
     }
-
+    
     /**
      * Static factory method.
      * @return a new instance of the builder.

@@ -5,7 +5,7 @@ import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.events.NavigationEvent;
-import org.imsglobal.caliper.profiles.ReadingProfile;
+import org.imsglobal.caliper.profiles.NavigationProfile;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -14,7 +14,7 @@ public class EventTest {
 
     private LearningContext learningContext;
     private EpubVolume epub;
-    private String action;
+    private String key;
     private DigitalResource fromResource;
     private EpubSubChapter target;
     private NavigationEvent event;
@@ -25,7 +25,7 @@ public class EventTest {
         Sensor.initialize(TestUtils.getTestingOptions());
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumLearningContext();
+        learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         // Build epub
         epub = TestUtils.buildEpubVolume43();
@@ -37,12 +37,12 @@ public class EventTest {
         target = TestUtils.buildEpubSubChap431();
 
         // Action
-        action = ReadingProfile.getActionFromBundle(ReadingProfile.Actions.NAVIGATED_TO.key());
+        key = NavigationProfile.Actions.NAVIGATED_TO.key();
 
 
         // Fire event test - Send 50 events
         for (int i = 0 ; i < 50 ; i++) {
-            Sensor.send(TestUtils.buildEpubNavigationEvent(learningContext, epub, action, fromResource, target));
+            Sensor.send(TestUtils.buildEpubNavigationEvent(learningContext, epub, key, fromResource, target));
         }
 
         // There should be two caliperEvents queued

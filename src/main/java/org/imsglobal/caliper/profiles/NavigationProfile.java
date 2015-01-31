@@ -1,48 +1,32 @@
 package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.ImmutableMap;
-import org.imsglobal.caliper.events.SessionEvent;
+import org.imsglobal.caliper.events.NavigationEvent;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.imsglobal.caliper.validators.EventValidatorContext;
-import org.imsglobal.caliper.validators.SessionEventValidator;
+import org.imsglobal.caliper.validators.NavigationEventValidator;
 import org.imsglobal.caliper.validators.ValidatorResult;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class SessionProfile {
+public class NavigationProfile {
 
     public enum Actions {
-        LOGGEDIN("session.loggedIn") {
+        NAVIGATED_TO("navigation.navigatedTo") {
             @Override
-            ValidatorResult validate(SessionEvent event) {
+            ValidatorResult validate(NavigationEvent event) {
                 EventValidatorContext validator;
-                validator = new EventValidatorContext(new SessionEventValidator(Actions.LOGGEDIN.key()));
-                return validator.validate(event);
-            }
-        },
-        LOGGEDOUT("session.loggedOut") {
-            @Override
-            ValidatorResult validate(SessionEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new SessionEventValidator(Actions.LOGGEDOUT.key()));
-                return validator.validate(event);
-            }
-        },
-        TIMEDOUT("session.timedOut") {
-            @Override
-            ValidatorResult validate(SessionEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new SessionEventValidator(Actions.TIMEDOUT.key()));
+                validator = new EventValidatorContext(new NavigationEventValidator());
                 return validator.validate(event);
             }
         },
         UNRECOGNIZED("action.unrecognized") {
             @Override
-            ValidatorResult validate(SessionEvent event) {
+            ValidatorResult validate(NavigationEvent event) {
                 ValidatorResult result = new ValidatorResult();
-                result.errorMessage().appendText("Caliper Session profile conformance: "
+                result.errorMessage().appendText("Caliper Navigation profile conformance: "
                     + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
                 result.errorMessage().endSentence();
                 return result;
@@ -106,20 +90,20 @@ public class SessionProfile {
          * Validate method implemented by each enum constant.
          * @param event
          */
-        abstract ValidatorResult validate(SessionEvent event);
+        abstract ValidatorResult validate(NavigationEvent event);
 
         /**
          * Match action to enum constant and then validate event.
          * @param event
          * @return error message if validation errors are encountered.
          */
-        protected static ValidatorResult validateEvent(SessionEvent event) {
+        protected static ValidatorResult validateEvent(NavigationEvent event) {
             return Actions.matchConstant(event.getAction()).validate(event);
         }
 
         /**
-         * Match the event action string against the bundle value
-         * and return the corresponding constant.
+         * Match the event action string against the bundle value and return
+         * the corresponding constant.
          * @param action
          * @return constant
          */
@@ -137,7 +121,7 @@ public class SessionProfile {
     /**
      * Constructor
      */
-    public SessionProfile() {
+    public NavigationProfile() {
 
     }
 
@@ -146,7 +130,7 @@ public class SessionProfile {
      * @param event
      * @return ValidatorResult
      */
-    public static ValidatorResult validateEvent(SessionEvent event) {
+    public static ValidatorResult validateEvent(NavigationEvent event) {
         return Actions.validateEvent(event);
     }
 }

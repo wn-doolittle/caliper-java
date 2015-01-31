@@ -5,7 +5,7 @@ import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
-import org.imsglobal.caliper.profiles.ReadingProfile;
+import org.imsglobal.caliper.profiles.NavigationProfile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -34,7 +34,7 @@ public class NavigationEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumLearningContext();
+        learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         // Build epub
         epub = TestUtils.buildEpubVolume43();
@@ -46,7 +46,7 @@ public class NavigationEventTest {
         target = TestUtils.buildEpubSubChap431();
 
         // Action
-        key = ReadingProfile.Actions.NAVIGATED_TO.key();
+        key = NavigationProfile.Actions.NAVIGATED_TO.key();
 
         // Build event
         event = TestUtils.buildEpubNavigationEvent(learningContext, epub, key, fromResource, target);

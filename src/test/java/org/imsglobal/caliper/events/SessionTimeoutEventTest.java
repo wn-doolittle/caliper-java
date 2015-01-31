@@ -31,10 +31,7 @@ public class SessionTimeoutEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumLearningContext();
-
-        // edApp object
-        edApp = learningContext.getEdApp();
+        learningContext = TestUtils.buildReadiumAppLearningContext();
 
         // Action
         key = SessionProfile.Actions.TIMEDOUT.key();
@@ -43,7 +40,7 @@ public class SessionTimeoutEventTest {
         target = TestUtils.buildSessionEnd();
 
         // Build event
-        event = TestUtils.buildEpubTimeoutEvent(learningContext, edApp, key, target);
+        event = TestUtils.buildEpubTimeoutEvent(learningContext, key, target);
     }
 
     @Test

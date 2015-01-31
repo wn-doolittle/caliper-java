@@ -17,7 +17,7 @@ public class EventValidatorContext {
      * Do the validation.
      * @param event
      */
-    public String validate(Event event) {
+    public ValidatorResult validate(Event event) {
         return this.validator.validate(event);
     }
 }

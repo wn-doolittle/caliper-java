@@ -32,7 +32,7 @@ public class TagAnnotationEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumLearningContext();
+        learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         //Build target reading
         target = TestUtils.buildEpubSubChap434();
@@ -41,7 +41,7 @@ public class TagAnnotationEventTest {
         tags = TestUtils.buildTagAnnotation(target);
 
         // Add action
-       key = AnnotationProfile.AnnotationActions.TAGGED.key();
+       key = AnnotationProfile.Actions.TAGGED.key();
 
         // Build event
         event = TestUtils.buildAnnotationEvent(learningContext, tags, key, target, 4);

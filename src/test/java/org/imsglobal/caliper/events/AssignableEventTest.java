@@ -29,13 +29,13 @@ public class AssignableEventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildAssessmentToolLearningContext();
+        learningContext = TestUtils.buildAssessmentStudentLearningContext();
 
         // Build assessment
         assessment = TestUtils.buildAssessment();
 
         // Action
-        key = AssignableProfile.AssignableActions.ACTIVATED.key();
+        key = AssignableProfile.Actions.ACTIVATED.key();
 
         // Build event
         event = TestUtils.buildAssessmentAssignableEvent(learningContext, assessment, key);
