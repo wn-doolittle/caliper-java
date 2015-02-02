@@ -16,6 +16,8 @@ import org.imsglobal.caliper.validators.ValidatorResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+
 @JsonPropertyOrder({
     "@context",
     "@type",
@@ -59,10 +61,10 @@ public class MediaEvent implements Event {
     private final Generatable generated;
 
     @JsonProperty("startedAtTime")
-    private final long startedAtTime;
+    private final Date startedAtTime;
 
     @JsonProperty("endedAtTime")
-    private final long endedAtTime;
+    private final Date endedAtTime;
 
     @JsonProperty("duration")
     private final String duration;
@@ -177,7 +179,7 @@ public class MediaEvent implements Event {
      * Required.
      * @return the startedAt time
      */
-    public long getStartedAtTime() {
+    public Date getStartedAtTime() {
         return startedAtTime;
     }
 
@@ -185,7 +187,7 @@ public class MediaEvent implements Event {
      * Optional.
      * @return endedAt time
      */
-    public long getEndedAtTime() {
+    public Date getEndedAtTime() {
         return endedAtTime;
     }
 
@@ -216,8 +218,8 @@ public class MediaEvent implements Event {
         private MediaObject object;
         private Targetable target;
         private Generatable generated;
-        private long startedAtTime;
-        private long endedAtTime;
+        private Date startedAtTime;
+        private Date endedAtTime;
         private String duration;
 
         /**
@@ -317,7 +319,7 @@ public class MediaEvent implements Event {
          * @param startedAtTime
          * @return builder.
          */
-        public Builder startedAtTime(long startedAtTime) {
+        public Builder startedAtTime(Date startedAtTime) {
             this.startedAtTime = startedAtTime;
             return this;
         }
@@ -326,7 +328,7 @@ public class MediaEvent implements Event {
          * @param endedAtTime
          * @return builder.
          */
-        public Builder endedAtTime(long endedAtTime) {
+        public Builder endedAtTime(Date endedAtTime) {
             this.endedAtTime = endedAtTime;
             return this;
         }
