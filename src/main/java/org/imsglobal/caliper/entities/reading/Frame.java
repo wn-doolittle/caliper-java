@@ -11,7 +11,7 @@ import org.imsglobal.caliper.entities.Targetable;
     "name",
     "objectType",
     "alignedLearningObjective",
-    "keyword",
+    "keywords",
     "isPartOf",
     "dateModified",
     "index" })

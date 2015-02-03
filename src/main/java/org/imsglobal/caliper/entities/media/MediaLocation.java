@@ -17,7 +17,7 @@ import java.util.UUID;
     "name",
     "objectType",
     "alignedLearningObjective",
-    "keyword",
+    "keywords",
     "isPartOf",
     "dateModified",
     "currentTime" })

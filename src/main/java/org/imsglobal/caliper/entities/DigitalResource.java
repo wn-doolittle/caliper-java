@@ -31,7 +31,7 @@ import java.util.List;
     "name",
     "objectType",
     "alignedLearningObjective",
-    "keyword",
+    "keywords",
     "isPartOf",
     "dateModified" })
 public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork,
@@ -76,7 +76,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     @JsonProperty("alignedLearningObjective")
     private final ImmutableList<LearningObjective> learningObjectives;
 
-    @JsonProperty("keyword")
+    @JsonProperty("keywords")
     private final ImmutableList<String> keywords;
 
     @JsonProperty("isPartOf")

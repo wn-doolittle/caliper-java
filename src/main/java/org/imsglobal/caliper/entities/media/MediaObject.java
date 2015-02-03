@@ -13,7 +13,7 @@ import org.imsglobal.caliper.entities.DigitalResource;
     "name",
     "objectType",
     "alignedLearningObjective",
-    "keyword",
+    "keywords",
     "isPartOf",
     "dateModified",
     "duration" })
