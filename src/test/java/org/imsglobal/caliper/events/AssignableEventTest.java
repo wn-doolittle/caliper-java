@@ -10,12 +10,11 @@ import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.yammer.dropwizard.testing.JsonHelpers.asJson;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssignableEventTest extends AbstractBaseEventTest {
+public class AssignableEventTest extends EventTest {
     private LearningContext learningContext;
     private Assessment assessment;
     private String key;

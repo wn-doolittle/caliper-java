@@ -11,12 +11,11 @@ import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.yammer.dropwizard.testing.JsonHelpers.asJson;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class SessionTimeoutEventTest extends AbstractBaseEventTest {
+public class SessionTimeoutEventTest extends EventTest {
     private LearningContext learningContext;
     private SoftwareApplication edApp;
     private String key;
