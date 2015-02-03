@@ -3,7 +3,7 @@ package org.imsglobal.caliper.entities.lis;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "@id", "@type", "semester", "courseNumber", "label", "name", "parentOrg", "dateModified" })
+@JsonPropertyOrder({ "@id", "@type", "semester", "courseNumber", "label", "name", "parentOrg", "dateCreated", "dateModified" })
 public class CourseSection extends org.imsglobal.caliper.entities.lis.Organization {
 
     @JsonProperty("@type")

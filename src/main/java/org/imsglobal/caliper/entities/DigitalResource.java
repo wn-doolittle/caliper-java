@@ -34,6 +34,7 @@ import java.util.List;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
+    "dateCreated",
     "dateModified",
     "datePublished" })
 public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork,

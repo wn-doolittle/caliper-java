@@ -5,6 +5,7 @@
         "@id": "https://some-university.edu/user/554433",
         "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
         "name": null,
+        "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": "2015-02-02T11:30:00Z"
     },
     "action": "shared",
@@ -12,16 +13,19 @@
         "@id": "https://someEduApp.edu/shared/9999",
         "@type": "http://purl.imsglobal.org/caliper/v1/SharedAnnotation",
         "name": null,
+        "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": "2015-02-02T11:30:00Z",
         "withAgents": [{
             "@id": "https://some-university.edu/students/657585",
             "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
             "name": null,
+            "dateCreated": "2015-01-01T06:00:00Z",
             "dateModified": "2015-02-02T11:30:00Z"
         },{
             "@id": "https://some-university.edu/students/667788",
             "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
             "name": null,
+            "dateCreated": "2015-01-01T06:00:00Z",
             "dateModified": "2015-02-02T11:30:00Z"
         }]
     },
@@ -40,9 +44,11 @@
             "alignedLearningObjective": [],
             "keywords": [],
             "isPartOf": null,
+            "dateCreated": "2015-01-01T06:00:00Z",
             "dateModified": "2015-02-02T11:30:00Z",
             "datePublished": null
         },
+        "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": "2015-02-02T11:30:00Z",
         "datePublished": null,
         "index": 3
@@ -55,6 +61,7 @@
         "@id": "https://github.com/readium/readium-js-viewer",
         "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Readium",
+        "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": "2015-02-02T11:30:00Z"
     },
     "group": {
@@ -65,6 +72,7 @@
         "label": "Am Rev 101",
         "name": "American Revolution 101",
         "parentOrg": null,
+        "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": "2015-02-02T11:30:00Z"
     }
 }

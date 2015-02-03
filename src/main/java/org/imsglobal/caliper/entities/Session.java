@@ -10,6 +10,7 @@ import java.util.Date;
     "@id",
     "@type",
     "name",
+    "dateCreated",
     "dateModified",
     "actor",
     "startedAtTime",

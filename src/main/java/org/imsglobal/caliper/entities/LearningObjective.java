@@ -3,7 +3,7 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "@id", "@type", "name", "dateModified" })
+@JsonPropertyOrder({ "@id", "@type", "name", "dateCreated", "dateModified" })
 public class LearningObjective extends org.imsglobal.caliper.entities.Entity {
 
     @JsonProperty("@type")

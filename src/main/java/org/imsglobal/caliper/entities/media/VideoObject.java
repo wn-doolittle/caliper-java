@@ -1,10 +1,23 @@
 package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * A Video object embedded in a web page.
  */
+@JsonPropertyOrder({
+    "@id",
+    "@type",
+    "name",
+    "objectType",
+    "alignedLearningObjective",
+    "keywords",
+    "isPartOf",
+    "dateCreated",
+    "dateModified",
+    "datePublished",
+    "duration" })
 public class VideoObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.VideoObject {
 
     @JsonProperty("@type")

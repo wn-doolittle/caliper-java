@@ -5,6 +5,7 @@
     "@id": "https://some-university.edu/user/554433",
     "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
     "name": null,
+    "dateCreated": "2015-01-01T06:00:00Z",
     "dateModified": "2015-02-02T11:30:00Z"
   },
   "action": "logged in",
@@ -12,6 +13,7 @@
     "@id": "https://github.com/readium/readium-js-viewer",
     "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
     "name": "Readium",
+    "dateCreated": "2015-01-01T06:00:00Z",
     "dateModified": "2015-02-02T11:30:00Z"
   },
   "target": {
@@ -29,9 +31,11 @@
       "alignedLearningObjective": [],
       "keywords": [],
       "isPartOf": null,
+      "dateCreated": "2015-01-01T06:00:00Z",
       "dateModified": "2015-02-02T11:30:00Z",
       "datePublished": null
     },
+    "dateCreated": "2015-01-01T06:00:00Z",
     "dateModified": "2015-02-02T11:30:00Z",
     "datePublished": null,
     "index": 1
@@ -40,11 +44,13 @@
     "@id": "https://github.com/readium/session-123456789",
     "@type":"http://purl.imsglobal.org/caliper/v1/Session",
     "name": "session-123456789",
+    "dateCreated": "2015-01-01T06:00:00Z",
     "dateModified": "2015-02-02T11:30:00Z",
     "actor": {
       "@id": "https://some-university.edu/user/554433",
       "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
       "name": null,
+      "dateCreated": "2015-01-01T06:00:00Z",
       "dateModified": "2015-02-02T11:30:00Z"
     },
     "startedAtTime": "2015-02-02T11:30:00Z",
@@ -58,6 +64,7 @@
     "@id": "https://github.com/readium/readium-js-viewer",
     "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
     "name": "Readium",
+    "dateCreated": "2015-01-01T06:00:00Z",
     "dateModified": "2015-02-02T11:30:00Z"
   },
   "group": {
@@ -68,6 +75,7 @@
     "label": "Am Rev 101",
     "name": "American Revolution 101",
     "parentOrg": null,
+    "dateCreated": "2015-01-01T06:00:00Z",
     "dateModified": "2015-02-02T11:30:00Z"
   }
 }

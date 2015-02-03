@@ -13,6 +13,7 @@ import org.imsglobal.caliper.entities.Targetable;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
+    "dateCreated",
     "dateModified",
     "datePublished",
     "index" })

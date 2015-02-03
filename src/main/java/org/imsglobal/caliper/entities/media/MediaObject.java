@@ -15,6 +15,7 @@ import org.imsglobal.caliper.entities.DigitalResource;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
+    "dateCreated",
     "dateModified",
     "datePublished",
     "duration" })
