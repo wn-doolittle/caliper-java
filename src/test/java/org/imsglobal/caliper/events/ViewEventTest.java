@@ -15,7 +15,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class ViewEventTest extends AbstractBaseEventTest {
+public class ViewEventTest extends EventTest {
 
     private LearningContext learningContext;
     private EpubVolume epub;
