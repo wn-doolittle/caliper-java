@@ -1,21 +1,23 @@
 package org.imsglobal.caliper.entities.assignable;
 
+import java.util.Date;
+
 /**
  * Representation of Assignable from corresponding metric profile
  */
 public interface Assignable {
 
-	long getDateCreated();
+    Date getDateCreated();
 
-	long getDatePublished();
+    Date getDatePublished();
 
-	long getDateToStartOn();
+    Date getDateToStartOn();
 
-	long getDateToActivate();
+    Date getDateToActivate();
 
-	long getDateToShow();
+    Date getDateToShow();
 
-	long getDateToSubmit();
+    Date getDateToSubmit();
 
 	int getMaxAttempts();
 

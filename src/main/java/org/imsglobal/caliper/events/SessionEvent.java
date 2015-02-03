@@ -15,6 +15,8 @@ import org.imsglobal.caliper.validators.ValidatorResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+
 @JsonPropertyOrder({
     "@context",
     "@type",
@@ -58,10 +60,10 @@ public class SessionEvent implements Event {
     private final Session generated;
 
     @JsonProperty("startedAtTime")
-    private final long startedAtTime;
+    private final Date startedAtTime;
 
     @JsonProperty("endedAtTime")
-    private final long endedAtTime;
+    private final Date endedAtTime;
 
     @JsonProperty("duration")
     private final String duration;
@@ -176,7 +178,7 @@ public class SessionEvent implements Event {
      * Required.
      * @return the startedAtTime
      */
-    public long getStartedAtTime() {
+    public Date getStartedAtTime() {
         return startedAtTime;
     }
 
@@ -184,7 +186,7 @@ public class SessionEvent implements Event {
      * Required for session.loggedOut and session.timedOut events; otherwise optional.
      * @return endedAtTime
      */
-    public long getEndedAtTime() {
+    public Date getEndedAtTime() {
         return endedAtTime;
     }
 
@@ -218,8 +220,8 @@ public class SessionEvent implements Event {
         private SoftwareApplication object;
         private Targetable target;
         private Session generated;
-        private long startedAtTime;
-        private long endedAtTime;
+        private Date startedAtTime;
+        private Date endedAtTime;
         private String duration;
 
         public Builder() {
@@ -316,7 +318,7 @@ public class SessionEvent implements Event {
          * @param startedAtTime
          * @return builder.
          */
-        public Builder startedAtTime(long startedAtTime) {
+        public Builder startedAtTime(Date startedAtTime) {
             this.startedAtTime = startedAtTime;
             return this;
         }
@@ -325,7 +327,7 @@ public class SessionEvent implements Event {
          * @param endedAtTime
          * @return builder.
          */
-        public Builder endedAtTime(long endedAtTime) {
+        public Builder endedAtTime(Date endedAtTime) {
             this.endedAtTime = endedAtTime;
             return this;
         }

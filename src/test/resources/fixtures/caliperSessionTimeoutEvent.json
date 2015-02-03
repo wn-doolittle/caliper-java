@@ -5,39 +5,39 @@
     "@id": "https://github.com/readium/readium-js-viewer",
     "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
     "name": "Readium",
-    "lastModifiedTime": 1402965614516
+    "lastModifiedTime": "2015-02-02T11:30:00Z"
   },
   "action": "timed out",
   "object": {
     "@id": "https://github.com/readium/readium-js-viewer",
     "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
     "name": "Readium",
-    "lastModifiedTime": 1402965614516
+    "lastModifiedTime": "2015-02-02T11:30:00Z"
   },
   "target": {
     "@id": "https://github.com/readium/session-123456789",
     "@type":"http://purl.imsglobal.org/caliper/v1/Session",
     "name": "session-123456789",
-    "lastModifiedTime": 1402965614516,
+    "lastModifiedTime": "2015-02-02T11:30:00Z",
     "actor": {
       "@id": "https://some-university.edu/user/554433",
       "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
       "name": null,
-      "lastModifiedTime": 1402965614516
+      "lastModifiedTime": "2015-02-02T11:30:00Z"
     },
-    "startedAtTime": 1402965614516,
-    "endedAtTime": 1402965614999,
+    "startedAtTime": "2015-02-02T11:30:00Z",
+    "endedAtTime": "2015-02-02T11:30:00Z",
     "duration": null
   },
   "generated": null,
-  "startedAtTime": 1402965614516,
-  "endedAtTime": 1402965614999,
+  "startedAtTime": "2015-02-02T11:30:00Z",
+  "endedAtTime": "2015-02-02T11:30:00Z",
   "duration": null,
   "edApp": {
     "@id": "https://github.com/readium/readium-js-viewer",
     "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
     "name": "Readium",
-    "lastModifiedTime": 1402965614516
+    "lastModifiedTime": "2015-02-02T11:30:00Z"
   },
   "group": {
     "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101",
@@ -47,6 +47,6 @@
     "label": "Am Rev 101",
     "name": "American Revolution 101",
     "parentOrg": null,
-    "lastModifiedTime": 1402965614516
+    "lastModifiedTime": "2015-02-02T11:30:00Z"
   }
 }

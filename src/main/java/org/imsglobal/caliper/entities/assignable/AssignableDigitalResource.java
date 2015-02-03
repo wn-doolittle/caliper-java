@@ -7,6 +7,8 @@ import org.imsglobal.caliper.entities.DigitalResource;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import java.util.Date;
+
 /**
  * Assignable Digital Resource
  */
@@ -57,22 +59,22 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     private final String type;
 
     @JsonProperty("dateCreated")
-    private long dateCreated;
+    private Date dateCreated;
 
     @JsonProperty("datePublished")
-    private long datePublished;
+    private Date datePublished;
 
     @JsonProperty("dateToActivate")
-    private long dateToActivate;
+    private Date dateToActivate;
 
     @JsonProperty("dateToShow")
-    private long dateToShow;
+    private Date dateToShow;
 
     @JsonProperty("dateToStartOn")
-    private long dateToStartOn;
+    private Date dateToStartOn;
 
     @JsonProperty("dateToSubmit")
-    private long dateToSubmit;
+    private Date dateToSubmit;
 
     @JsonProperty("maxAttempts")
     private int maxAttempts;
@@ -111,42 +113,42 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateCreated
      */
-    public long getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
     /**
      * @return the datePublished
      */
-    public long getDatePublished() {
+    public Date getDatePublished() {
         return datePublished;
     }
 
     /**
      * @return the dateToActivate
      */
-    public long getDateToActivate() {
+    public Date getDateToActivate() {
         return dateToActivate;
     }
 
     /**
      * @return the dateToShow
      */
-    public long getDateToShow() {
+    public Date getDateToShow() {
         return dateToShow;
     }
 
     /**
      * @return the dateToStartOn
      */
-    public long getDateToStartOn() {
+    public Date getDateToStartOn() {
         return dateToStartOn;
     }
 
     /**
      * @return the dateToSubmit
      */
-    public long getDateToSubmit() {
+    public Date getDateToSubmit() {
         return dateToSubmit;
     }
 
@@ -177,7 +179,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
-        private long dateCreated, datePublished, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
+        private Date dateCreated, datePublished, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
         private int maxAttempts, maxSubmits;
         private double maxScore;
 
@@ -201,7 +203,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param dateCreated
          * @return builder
          */
-        public T dateCreated(long dateCreated) {
+        public T dateCreated(Date dateCreated) {
             this.dateCreated = dateCreated;
             return self();
         }
@@ -210,7 +212,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param datePublished
          * @return builder
          */
-        public T datePublished(long datePublished) {
+        public T datePublished(Date datePublished) {
             this.datePublished = datePublished;
             return self();
         }
@@ -219,7 +221,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param dateToActivate
          * @return builder
          */
-        public T dateToActivate(long dateToActivate) {
+        public T dateToActivate(Date dateToActivate) {
             this.dateToActivate = dateToActivate;
             return self();
         }
@@ -228,7 +230,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param dateToShow
          * @return builder
          */
-        public T dateToShow(long dateToShow) {
+        public T dateToShow(Date dateToShow) {
             this.dateToShow = dateToShow;
             return self();
         }
@@ -237,7 +239,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param dateToStartOn
          * @return builder
          */
-        public T dateToStartOn(long dateToStartOn) {
+        public T dateToStartOn(Date dateToStartOn) {
             this.dateToStartOn = dateToStartOn;
             return self();
         }
@@ -246,7 +248,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param dateToSubmit
          * @return builder
          */
-        public T dateToSubmit(long dateToSubmit) {
+        public T dateToSubmit(Date dateToSubmit) {
             this.dateToSubmit = dateToSubmit;
             return self();
         }

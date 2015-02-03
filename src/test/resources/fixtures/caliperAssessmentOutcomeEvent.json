@@ -5,17 +5,17 @@
         "@id": "https://some-university.edu/user/554433",
         "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
         "name": null,
-        "lastModifiedTime": 1402965614516
+        "lastModifiedTime": "2015-02-02T11:30:00Z"
     },
     "action": "graded",
     "object": {
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/attempt1",
         "@type": "http://purl.imsglobal.org/caliper/v1/Attempt",
         "name": null,
-        "lastModifiedTime": 0,
+        "lastModifiedTime": null,
         "count": 1,
-        "startedAtTime": 1402965614516,
-        "endedAtTime": 0,
+        "startedAtTime": "2015-02-02T11:30:00Z",
+        "endedAtTime": null,
         "duration": null
     },
     "target": null,
@@ -23,7 +23,7 @@
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/attempt1/result",
         "@type": "http://purl.imsglobal.org/caliper/v1/Result",
         "name": null,
-        "lastModifiedTime": 1402965614516,
+        "lastModifiedTime": "2015-02-02T11:30:00Z",
         "normalScore": 3.0,
         "penaltyScore": 0.0,
         "extraCreditScore": 0.0,
@@ -32,20 +32,20 @@
         "curveFactor": 0.0,
         "comment":"Well done.",
         "scoredBy": {
-          "@id": "https://com.sat/super-assessment-tool",
-          "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
-          "name": "Super Assessment Tool",
-          "lastModifiedTime": 1402965614516
+            "@id": "https://com.sat/super-assessment-tool",
+            "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+            "name": "Super Assessment Tool",
+            "lastModifiedTime": "2015-02-02T11:30:00Z"
         }
     },
-    "startedAtTime": 1402965614516,
-    "endedAtTime": 0,
+    "startedAtTime": "2015-02-02T11:30:00Z",
+    "endedAtTime": null,
     "duration": null,
     "edApp": {
         "@id": "https://com.sat/super-assessment-tool",
         "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Super Assessment Tool",
-        "lastModifiedTime": 1402965614516
+        "lastModifiedTime": "2015-02-02T11:30:00Z"
     },
     "group": {
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101",
@@ -55,6 +55,6 @@
         "label": "Am Rev 101",
         "name": "American Revolution 101",
         "parentOrg": null,
-        "lastModifiedTime": 1402965614516
+        "lastModifiedTime": "2015-02-02T11:30:00Z"
     }
 }

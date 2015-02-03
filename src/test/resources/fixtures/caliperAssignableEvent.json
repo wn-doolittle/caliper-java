@@ -5,7 +5,7 @@
         "@id": "https://some-university.edu/user/554433",
         "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
         "name": null,
-        "lastModifiedTime": 1402965614516
+        "lastModifiedTime": "2015-02-02T11:30:00Z"
     },
     "action": "activated",
     "object": {
@@ -16,88 +16,70 @@
         "alignedLearningObjective": [],
         "keyword": [],
         "partOf": "https://some-university.edu/politicalScience/2014/american-revolution-101",
-        "lastModifiedTime": 1402965614516,
-        "dateCreated": 1402965614516,
-        "datePublished": 1402965614516,
-        "dateToActivate": 1402965614516,
-        "dateToShow": 1402965614516,
-        "dateToStartOn": 1402965614516,
-        "dateToSubmit": 1402965614516,
+        "lastModifiedTime": "2015-02-02T11:30:00Z",
+        "dateCreated": "2015-02-02T11:30:00Z",
+        "datePublished": "2015-02-02T11:30:00Z",
+        "dateToActivate": "2015-02-02T11:30:00Z",
+        "dateToShow": "2015-02-02T11:30:00Z",
+        "dateToStartOn": "2015-02-02T11:30:00Z",
+        "dateToSubmit": "2015-02-02T11:30:00Z",
         "maxAttempts": 2,
         "maxSubmits": 2,
         "maxScore": 3.0,
-        "assessmentItems": [
-            { "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1",
+        "assessmentItems": [{
+            "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1",
             "@type": "http://purl.imsglobal.org/caliper/v1/AssessmentItem",
             "name": "Assessment Item 1",
             "objectType": [],
             "alignedLearningObjective": [],
             "keyword": [],
             "partOf": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1",
-            "lastModifiedTime": 0,
-            "dateCreated": 0,
-            "datePublished": 0,
-            "dateToActivate": 0,
-            "dateToShow": 0,
-            "dateToStartOn": 0,
-            "dateToSubmit": 0,
             "maxAttempts": 2,
             "maxSubmits": 2,
-            "maxScore": 1.0 },
-            { "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2",
+            "maxScore": 1.0
+        },{
+            "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2",
             "@type": "http://purl.imsglobal.org/caliper/v1/AssessmentItem",
             "name": "Assessment Item 2",
             "objectType": [],
             "alignedLearningObjective": [],
             "keyword": [],
             "partOf": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1",
-            "lastModifiedTime": 0,
-            "dateCreated": 0,
-            "datePublished": 0,
-            "dateToActivate": 0,
-            "dateToShow": 0,
-            "dateToStartOn": 0,
-            "dateToSubmit": 0,
             "maxAttempts": 2,
             "maxSubmits": 2,
-            "maxScore": 1.0 },
-            { "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3",
+            "maxScore": 1.0
+        },{
+            "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3",
             "@type": "http://purl.imsglobal.org/caliper/v1/AssessmentItem",
             "name": "Assessment Item 3",
             "objectType": [],
             "alignedLearningObjective": [],
             "keyword": [],
             "partOf": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1",
-            "lastModifiedTime": 0,
-            "dateCreated": 0,
-            "datePublished": 0,
-            "dateToActivate": 0,
-            "dateToShow": 0,
-            "dateToStartOn": 0,
-            "dateToSubmit": 0,
             "maxAttempts": 2,
             "maxSubmits": 2,
-            "maxScore": 1.0 }]
+            "maxScore": 1.0
+        }]
     },
     "target": null,
     "generated": {
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/attempt1",
         "@type": "http://purl.imsglobal.org/caliper/v1/Attempt",
         "name": null,
-        "lastModifiedTime": 0,
+        "lastModifiedTime": null,
         "count": 1,
-        "startedAtTime": 1402965614516,
-        "endedAtTime": 0,
+        "startedAtTime": "2015-02-02T11:30:00Z",
+        "endedAtTime": null,
         "duration": null
     },
-    "startedAtTime": 1402965614516,
-    "endedAtTime": 0,
+    "startedAtTime": "2015-02-02T11:30:00Z",
+    "endedAtTime": null,
     "duration": null,
     "edApp": {
         "@id": "https://com.sat/super-assessment-tool",
         "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Super Assessment Tool",
-        "lastModifiedTime": 1402965614516
+        "lastModifiedTime": "2015-02-02T11:30:00Z"
     },
     "group": {
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101",
@@ -107,6 +89,6 @@
         "label": "Am Rev 101",
         "name": "American Revolution 101",
         "parentOrg": null,
-        "lastModifiedTime": 1402965614516
+        "lastModifiedTime": "2015-02-02T11:30:00Z"
     }
 }

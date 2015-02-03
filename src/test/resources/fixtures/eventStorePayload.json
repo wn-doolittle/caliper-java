@@ -9,7 +9,7 @@
             "@id": "https://some-university.edu/user/554433",
             "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
             "name": null,
-            "lastModifiedTime": 1402965614516
+            "lastModifiedTime": "2015-02-02T11:30:00Z"
         },
         "action": "navigated to",
         "object": {
@@ -20,7 +20,7 @@
             "alignedLearningObjective": [],
             "keyword": [],
             "partOf": null,
-            "lastModifiedTime": 1402965614516
+            "lastModifiedTime": "2015-02-02T11:30:00Z"
         },
         "target": {
             "@id": "https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)",
@@ -37,20 +37,20 @@
                 "alignedLearningObjective": [],
                 "keyword": [],
                 "partOf": null,
-                "lastModifiedTime": 1402965614516
+                "lastModifiedTime": "2015-02-02T11:30:00Z"
             },
-            "lastModifiedTime": 1402965614516,
+            "lastModifiedTime": "2015-02-02T11:30:00Z",
             "index": 1
         },
         "generated": null,
-        "startedAtTime": 1402965614516,
-        "endedAtTime": 0,
+        "startedAtTime": "2015-02-02T11:30:00Z",
+        "endedAtTime": null,
         "duration": null,
         "edApp": {
             "@id": "https://github.com/readium/readium-js-viewer",
             "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
             "name": "Readium",
-            "lastModifiedTime": 1402965614516
+            "lastModifiedTime": "2015-02-02T11:30:00Z"
         },
         "group": {
             "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101",
@@ -60,7 +60,7 @@
             "label": "Am Rev 101",
             "name": "American Revolution 101",
             "parentOrg": null,
-            "lastModifiedTime": 1402965614516
+            "lastModifiedTime": "2015-02-02T11:30:00Z"
         },
         "navigatedFrom": {
             "@id": "AmRev-101-landingPage",
@@ -77,9 +77,9 @@
                 "label": "Am Rev 101",
                 "name": "American Revolution 101",
                 "parentOrg": null,
-                "lastModifiedTime": 1402965614516
+                "lastModifiedTime": "2015-02-02T11:30:00Z"
             },
-            "lastModifiedTime": 1402965614516
+            "lastModifiedTime": "2015-02-02T11:30:00Z"
         }
     }
 }]

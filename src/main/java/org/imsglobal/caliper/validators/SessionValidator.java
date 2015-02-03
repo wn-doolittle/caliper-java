@@ -57,23 +57,23 @@ public class SessionValidator {
             if (!ValidatorUtils.checkStartedAtTime(session.getStartedAtTime())) {
                 result.errorMessage().appendText(context + Conformance.STARTEDATTIME_IS_NULL.violation());
             } else {
-                if (session.getEndedAtTime() > 0) {
-                    if (!ValidatorUtils.checkStartEndTimes(session.getStartedAtTime(), session.getEndedAtTime())) {
-                        result.errorMessage().appendText(context + Conformance.TIME_ERROR.violation());
-                    }
-                } else {
-                    result.errorMessage().appendText(context + Conformance.ENDEDATTIME_IS_NULL.violation());
-                }
+//                if (session.getEndedAtTime() > 0) {
+//                    if (!ValidatorUtils.checkStartEndTimes(session.getStartedAtTime(), session.getEndedAtTime())) {
+//                        result.errorMessage().appendText(context + Conformance.TIME_ERROR.violation());
+//                    }
+//                } else {
+//                    result.errorMessage().appendText(context + Conformance.ENDEDATTIME_IS_NULL.violation());
+//                }
             }
         } else {
             if (!ValidatorUtils.checkStartedAtTime(session.getStartedAtTime())) {
                 result.errorMessage().appendText(context + Conformance.STARTEDATTIME_IS_NULL.violation());
             } else {
-                if (session.getEndedAtTime() > 0) {
-                    if (!ValidatorUtils.checkStartEndTimes(session.getStartedAtTime(), session.getEndedAtTime())) {
-                        result.errorMessage().appendText(context + Conformance.TIME_ERROR.violation());
-                    }
-                }
+//                if (session.getEndedAtTime() > 0) {
+//                    if (!ValidatorUtils.checkStartEndTimes(session.getStartedAtTime(), session.getEndedAtTime())) {
+//                        result.errorMessage().appendText(context + Conformance.TIME_ERROR.violation());
+//                    }
+//                }
             }
         }
 

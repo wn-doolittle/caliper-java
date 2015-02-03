@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
+import java.util.Date;
+
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
@@ -55,7 +57,7 @@ public abstract class Entity implements Thing {
     private final String name;
 
     @JsonProperty("lastModifiedTime")
-    private final long lastModifiedTime;
+    private final Date lastModifiedTime;
 
     /**
      * @param builder apply builder object properties to the Entity object.
@@ -91,7 +93,7 @@ public abstract class Entity implements Thing {
     /**
      * @return the lastModifiedTime.
      */
-    public long getLastModifiedTime() {
+    public Date getLastModifiedTime() {
         return lastModifiedTime;
     }
 
@@ -103,7 +105,7 @@ public abstract class Entity implements Thing {
         private String id;
         private String type;
         private String name;
-        private long lastModifiedTime;
+        private Date lastModifiedTime;
 
         protected abstract T self();
 
@@ -145,7 +147,7 @@ public abstract class Entity implements Thing {
          * @param lastModifiedTime
          * @return builder.
          */
-        public T lastModifiedTime(long lastModifiedTime) {
+        public T lastModifiedTime(Date lastModifiedTime) {
             this.lastModifiedTime = lastModifiedTime;
             return self();
         }
