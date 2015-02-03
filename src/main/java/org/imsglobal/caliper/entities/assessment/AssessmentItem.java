@@ -16,7 +16,7 @@ import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
     "objectType",
     "alignedLearningObjective",
     "keyword",
-    "partOf",
+    "isPartOf",
     "dateModified",
     "dateCreated",
     "datePublished",

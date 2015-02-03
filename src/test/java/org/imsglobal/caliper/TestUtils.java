@@ -62,7 +62,7 @@ public class TestUtils {
         return WebPage.builder()
             .id("AmRev-101-landingPage")
             .name("American Revolution 101 Landing Page")
-            .partOf(buildAmRev101CourseSection())
+            .isPartOf(buildAmRev101CourseSection())
             .dateModified(getDefaultDate())
             .build();
     }
@@ -88,7 +88,7 @@ public class TestUtils {
             .target(Frame.builder()
                     .id(target.getId())
                     .name(target.getName())
-                    .partOf(target.getPartOf())
+                    .isPartOf(target.getIsPartOf())
                     .dateModified(getDefaultDate())
                     .index(index)
                     .build())
@@ -104,7 +104,7 @@ public class TestUtils {
         return Assessment.builder()
             .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
             .name("American Revolution - Key Figures Assessment")
-            .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101")
+            .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101")
             .dateCreated(getDefaultDate())
             .datePublished(getDefaultDate())
             .dateToActivate(getDefaultDate())
@@ -211,7 +211,7 @@ public class TestUtils {
             .add(AssessmentItem.builder()
                 .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1")
                 .name("Assessment Item 1")
-                .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
                 .maxAttempts(2)
                 .maxSubmits(2)
                 .maxScore(1)
@@ -219,7 +219,7 @@ public class TestUtils {
             .add(AssessmentItem.builder()
                 .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2")
                 .name("Assessment Item 2")
-                .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
                 .maxAttempts(2)
                 .maxSubmits(2)
                 .maxScore(1)
@@ -227,7 +227,7 @@ public class TestUtils {
             .add(AssessmentItem.builder()
                 .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3")
                 .name("Assessment Item 3")
-                .partOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
                 .maxAttempts(2)
                 .maxSubmits(2)
                 .maxScore(1)
@@ -344,7 +344,7 @@ public class TestUtils {
             .target(Frame.builder()
                 .id(target.getId())
                 .name(target.getName())
-                .partOf(target.getPartOf())
+                .isPartOf(target.getIsPartOf())
                 .dateModified(getDefaultDate())
                 .index(1)
                 .build())
@@ -417,7 +417,7 @@ public class TestUtils {
             .target(Frame.builder()
                 .id(target.getId())
                 .name(target.getName())
-                .partOf(epub)
+                .isPartOf(epub)
                 .dateModified(getDefaultDate())
                 .index(1)
                 .build())
@@ -446,7 +446,7 @@ public class TestUtils {
         return EpubSubChapter.builder()
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
             .name("Key Figures: George Washington")
-            .partOf(buildEpubVolume43())
+            .isPartOf(buildEpubVolume43())
             .dateModified(getDefaultDate())
             .build();
     }
@@ -460,7 +460,7 @@ public class TestUtils {
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/2)")
             .name("Key Figures: Lord North")
             .dateModified(getDefaultDate())
-            .partOf(buildEpubVolume43())
+            .isPartOf(buildEpubVolume43())
             .build();
     }
 
@@ -473,7 +473,7 @@ public class TestUtils {
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)")
             .name("Key Figures: John Adams")
             .dateModified(getDefaultDate())
-            .partOf(buildEpubVolume43())
+            .isPartOf(buildEpubVolume43())
             .build();
     }
 
@@ -485,7 +485,7 @@ public class TestUtils {
         return EpubSubChapter.builder()
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/4)")
             .name("The Stamp Act Crisis")
-            .partOf(buildEpubVolume43())
+            .isPartOf(buildEpubVolume43())
             .dateModified(getDefaultDate())
             .build();
     }
@@ -510,7 +510,7 @@ public class TestUtils {
             .target(Frame.builder()
                 .id(target.getId())
                 .name(target.getName())
-                .partOf(epub)
+                .isPartOf(epub)
                 .dateModified(getDefaultDate())
                 .index(1)
                 .build())

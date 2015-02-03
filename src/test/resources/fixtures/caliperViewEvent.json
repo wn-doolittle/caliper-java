@@ -15,7 +15,7 @@
         "objectType": [],
         "alignedLearningObjective": [],
         "keyword": [],
-        "partOf": null,
+        "isPartOf": null,
         "dateModified": "2015-02-02T11:30:00Z"
     },
     "target": {
@@ -25,14 +25,14 @@
         "objectType": [],
         "alignedLearningObjective": [],
         "keyword": [],
-        "partOf": {
+        "isPartOf": {
             "@id": "https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)",
             "@type": "http://www.idpf.org/epub/vocab/structure/#volume",
             "name": "The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)",
             "objectType": [],
             "alignedLearningObjective": [],
             "keyword": [],
-            "partOf": null,
+            "isPartOf": null,
             "dateModified": "2015-02-02T11:30:00Z"
         },
         "dateModified": "2015-02-02T11:30:00Z",

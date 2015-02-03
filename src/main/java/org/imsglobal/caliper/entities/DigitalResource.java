@@ -32,7 +32,7 @@ import java.util.List;
     "objectType",
     "alignedLearningObjective",
     "keyword",
-    "partOf",
+    "isPartOf",
     "dateModified" })
 public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork,
                                                        org.imsglobal.caliper.entities.Targetable {
@@ -79,8 +79,8 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     @JsonProperty("keyword")
     private final ImmutableList<String> keywords;
 
-    @JsonProperty("partOf")
-    private final Object partOf;
+    @JsonProperty("isPartOf")
+    private final Object isPartOf;
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -94,7 +94,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         //this.learningObjectives = ImmutableList.<LearningObjective>builder().addAll(learningObjectives).build();
         this.keywords = ImmutableList.copyOf(builder.keywords);
         //this.keywords = ImmutableList.<String>builder().addAll(keywords).build();
-        this.partOf = builder.partOf;
+        this.isPartOf = builder.isPartOf;
     }
 
     /**
@@ -132,8 +132,8 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     /**
      * @return the parent reference.
      */
-    public Object getPartOf() {
-        return partOf;
+    public Object getIsPartOf() {
+        return isPartOf;
     }
 
     /**
@@ -145,7 +145,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         private List<String> objectTypes = Lists.newArrayList();
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
-        private Object partOf;
+        private Object isPartOf;
 
         /*
          * Constructor
@@ -218,11 +218,11 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         }
 
         /**
-         * @param partOf
+         * @param isPartOf
          * @return builder.
          */
-        public T partOf(Object partOf) {
-            this.partOf = partOf;
+        public T isPartOf(Object isPartOf) {
+            this.isPartOf = isPartOf;
             return self();
         }
 

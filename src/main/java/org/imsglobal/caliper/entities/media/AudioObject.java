@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "objectType",
     "alignedLearningObjective",
     "keyword",
-    "partOf",
+    "isPartOf",
     "dateModified",
     "duration",
     "volumeMin",

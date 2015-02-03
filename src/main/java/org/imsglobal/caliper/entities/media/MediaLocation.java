@@ -18,7 +18,7 @@ import java.util.UUID;
     "objectType",
     "alignedLearningObjective",
     "keyword",
-    "partOf",
+    "isPartOf",
     "dateModified",
     "currentTime" })
 public class MediaLocation extends DigitalResource implements Targetable {

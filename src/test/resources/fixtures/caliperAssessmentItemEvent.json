@@ -15,7 +15,7 @@
         "objectType": [],
         "alignedLearningObjective": [],
         "keyword": [],
-        "partOf": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1",
+        "isPartOf": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1",
         "maxAttempts": 2,
         "maxSubmits": 2,
         "maxScore": 1.0

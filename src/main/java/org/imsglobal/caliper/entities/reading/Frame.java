@@ -12,7 +12,7 @@ import org.imsglobal.caliper.entities.Targetable;
     "objectType",
     "alignedLearningObjective",
     "keyword",
-    "partOf",
+    "isPartOf",
     "dateModified",
     "index" })
 public class Frame extends DigitalResource implements Targetable {

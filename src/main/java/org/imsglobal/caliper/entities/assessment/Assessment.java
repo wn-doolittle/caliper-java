@@ -18,7 +18,7 @@ import java.util.List;
     "objectType",
     "alignedLearningObjective",
     "keyword",
-    "partOf",
+    "isPartOf",
     "dateModified",
     "dateCreated",
     "datePublished",

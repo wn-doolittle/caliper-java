@@ -20,7 +20,7 @@ import java.util.Date;
     "objectType",
     "alignedLearningObjective",
     "keyword",
-    "partOf",
+    "isPartOf",
     "dateModified",
     "dateCreated",
     "datePublished",
