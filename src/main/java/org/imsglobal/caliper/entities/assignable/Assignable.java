@@ -7,8 +7,6 @@ import java.util.Date;
  */
 public interface Assignable {
 
-    Date getDateCreated();
-
     Date getDateToStartOn();
 
     Date getDateToActivate();

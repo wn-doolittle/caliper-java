@@ -5,9 +5,7 @@ package org.imsglobal.caliper.entities.schemadotorg;
  * creative work may have many media objects associated with it on the
  * same web page. For example, a page about a single song (MusicRecording)
  * may have a music video (VideoObject), and a high and low bandwidth audio
- * stream (2 AudioObject's).
- *
- * From https://schema.org/MediaObject
+ * stream (https://schema.org/MediaObject).
  */
 public interface MediaObject extends CreativeWork {
 
