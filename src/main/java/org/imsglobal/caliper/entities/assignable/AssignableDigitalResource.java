@@ -61,9 +61,6 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     @JsonProperty("dateCreated")
     private Date dateCreated;
 
-    @JsonProperty("datePublished")
-    private Date datePublished;
-
     @JsonProperty("dateToActivate")
     private Date dateToActivate;
 
@@ -92,7 +89,6 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
         super(builder);
         this.type = builder.type;
         this.dateCreated = builder.dateCreated;
-        this.datePublished = builder.datePublished;
         this.dateToActivate = builder.dateToActivate;
         this.dateToShow = builder.dateToShow;
         this.dateToStartOn = builder.dateToStartOn;
@@ -115,13 +111,6 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      */
     public Date getDateCreated() {
         return dateCreated;
-    }
-
-    /**
-     * @return the datePublished
-     */
-    public Date getDatePublished() {
-        return datePublished;
     }
 
     /**
@@ -179,7 +168,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
-        private Date dateCreated, datePublished, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
+        private Date dateCreated, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
         private int maxAttempts, maxSubmits;
         private double maxScore;
 
@@ -205,15 +194,6 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          */
         public T dateCreated(Date dateCreated) {
             this.dateCreated = dateCreated;
-            return self();
-        }
-
-        /**
-         * @param datePublished
-         * @return builder
-         */
-        public T datePublished(Date datePublished) {
-            this.datePublished = datePublished;
             return self();
         }
 

@@ -14,6 +14,7 @@ import org.imsglobal.caliper.entities.Targetable;
     "keywords",
     "isPartOf",
     "dateModified",
+    "datePublished",
     "index" })
 public class Frame extends DigitalResource implements Targetable {
 

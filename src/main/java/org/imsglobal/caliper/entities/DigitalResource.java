@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,7 +34,8 @@ import java.util.List;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
-    "dateModified" })
+    "dateModified",
+    "datePublished" })
 public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork,
                                                        org.imsglobal.caliper.entities.Targetable {
 
@@ -82,6 +84,9 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     @JsonProperty("isPartOf")
     private final Object isPartOf;
 
+    @JsonProperty("datePublished")
+    private final Date datePublished;
+
     /**
      * @param builder apply builder object properties to the profile object.
      */
@@ -95,6 +100,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         this.keywords = ImmutableList.copyOf(builder.keywords);
         //this.keywords = ImmutableList.<String>builder().addAll(keywords).build();
         this.isPartOf = builder.isPartOf;
+        this.datePublished = builder.datePublished;
     }
 
     /**
@@ -146,6 +152,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
         private Object isPartOf;
+        private Date datePublished;
 
         /*
          * Constructor
@@ -223,6 +230,15 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
          */
         public T isPartOf(Object isPartOf) {
             this.isPartOf = isPartOf;
+            return self();
+        }
+
+        /**
+         * @param datePublished
+         * @return builder.
+         */
+        public T datePublished(Date datePublished) {
+            this.datePublished = datePublished;
             return self();
         }
 

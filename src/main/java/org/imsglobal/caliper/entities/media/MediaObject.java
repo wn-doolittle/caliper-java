@@ -16,6 +16,7 @@ import org.imsglobal.caliper.entities.DigitalResource;
     "keywords",
     "isPartOf",
     "dateModified",
+    "datePublished",
     "duration" })
 public abstract class MediaObject extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.MediaObject {
 

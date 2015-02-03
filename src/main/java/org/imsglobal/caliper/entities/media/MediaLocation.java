@@ -20,6 +20,7 @@ import java.util.UUID;
     "keywords",
     "isPartOf",
     "dateModified",
+    "datePublished",
     "currentTime" })
 public class MediaLocation extends DigitalResource implements Targetable {
 
