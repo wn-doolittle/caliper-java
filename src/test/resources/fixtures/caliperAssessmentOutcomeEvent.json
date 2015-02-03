@@ -12,10 +12,10 @@
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/attempt1",
         "@type": "http://purl.imsglobal.org/caliper/v1/Attempt",
         "name": null,
-        "lastModifiedTime": 0,
+        "lastModifiedTime": null,
         "count": 1,
         "startedAtTime": "2015-02-02T11:30:00Z",
-        "endedAtTime": 0,
+        "endedAtTime": null,
         "duration": null
     },
     "target": null,
@@ -32,14 +32,14 @@
         "curveFactor": 0.0,
         "comment":"Well done.",
         "scoredBy": {
-          "@id": "https://com.sat/super-assessment-tool",
-          "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
-          "name": "Super Assessment Tool",
-          "lastModifiedTime": "2015-02-02T11:30:00Z"
+            "@id": "https://com.sat/super-assessment-tool",
+            "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+            "name": "Super Assessment Tool",
+            "lastModifiedTime": "2015-02-02T11:30:00Z"
         }
     },
     "startedAtTime": "2015-02-02T11:30:00Z",
-    "endedAtTime": 0,
+    "endedAtTime": null,
     "duration": null,
     "edApp": {
         "@id": "https://com.sat/super-assessment-tool",

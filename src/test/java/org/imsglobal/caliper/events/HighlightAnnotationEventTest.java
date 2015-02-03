@@ -16,7 +16,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class HighlightAnnotationEventTest {
+public class HighlightAnnotationEventTest extends AbstractBaseEventTest {
 
     private LearningContext learningContext;
     private EpubSubChapter epub;
@@ -50,6 +50,6 @@ public class HighlightAnnotationEventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Highlight Annotation event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperHighlightAnnotationEvent.json"), asJson(event));
+                jsonFixture("fixtures/caliperHighlightAnnotationEvent.json"), serialize(event));
     }
 }

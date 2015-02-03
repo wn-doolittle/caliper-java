@@ -18,7 +18,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssessmentOutcomeEventTest {
+public class AssessmentOutcomeEventTest extends AbstractBaseEventTest {
 
     private LearningContext learningContext;
     private SoftwareApplication scoredBy;
@@ -63,6 +63,6 @@ public class AssessmentOutcomeEventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Outcome event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperAssessmentOutcomeEvent.json"), asJson(event));
+                jsonFixture("fixtures/caliperAssessmentOutcomeEvent.json"), serialize(event));
     }
 }

@@ -13,15 +13,17 @@
         "@type": "http://purl.imsglobal.org/caliper/v1/SharedAnnotation",
         "name": null,
         "lastModifiedTime": "2015-02-02T11:30:00Z",
-        "withAgents": [
-            {"@id": "https://some-university.edu/students/657585",
+        "withAgents": [{
+            "@id": "https://some-university.edu/students/657585",
             "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
             "name": null,
-            "lastModifiedTime": "2015-02-02T11:30:00Z"},
-            {"@id": "https://some-university.edu/students/667788",
+            "lastModifiedTime": "2015-02-02T11:30:00Z"
+        },{
+            "@id": "https://some-university.edu/students/667788",
             "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
             "name": null,
-            "lastModifiedTime": "2015-02-02T11:30:00Z"}]
+            "lastModifiedTime": "2015-02-02T11:30:00Z"
+        }]
     },
     "target": {
         "@id": "https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)",
@@ -45,7 +47,7 @@
     },
     "generated": null,
     "startedAtTime": "2015-02-02T11:30:00Z",
-    "endedAtTime": 0,
+    "endedAtTime": null,
     "duration": null,
     "edApp": {
         "@id": "https://github.com/readium/readium-js-viewer",

@@ -41,7 +41,7 @@
     },
     "generated": null,
     "startedAtTime": "2015-02-02T11:30:00Z",
-    "endedAtTime": 0,
+    "endedAtTime": null,
     "duration": null,
     "edApp": {
         "@id": "https://github.com/readium/readium-js-viewer",

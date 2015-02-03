@@ -17,7 +17,7 @@
             "@id": "http://americanrevolution.com/personalities/learn",
             "@type": "http://purl.imsglobal.org/caliper/v1/LearningObjective",
             "name": null,
-            "lastModifiedTime": 0
+            "lastModifiedTime": null
         }],
         "keyword": [],
         "partOf": null,
@@ -32,12 +32,12 @@
         "alignedLearningObjective": [],
         "keyword": [],
         "partOf": null,
-        "lastModifiedTime": 0,
+        "lastModifiedTime": null,
         "currentTime": 710
     },
     "generated": null,
     "startedAtTime": "2015-02-02T11:30:00Z",
-    "endedAtTime": 0,
+    "endedAtTime": null,
     "duration": null,
     "edApp": {
         "@id": "https://com.sat/super-media-tool",

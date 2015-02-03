@@ -16,7 +16,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class SessionLogoutEventTest {
+public class SessionLogoutEventTest extends AbstractBaseEventTest {
     private LearningContext learningContext;
     private SoftwareApplication edApp;
     private String key;
@@ -46,6 +46,6 @@ public class SessionLogoutEventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if loggedOut event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperSessionLogoutEvent.json"), asJson(event));
+                jsonFixture("fixtures/caliperSessionLogoutEvent.json"), serialize(event));
     }
 }

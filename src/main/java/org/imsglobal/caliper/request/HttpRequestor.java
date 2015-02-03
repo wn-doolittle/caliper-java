@@ -16,8 +16,7 @@ import java.io.IOException;
 
 public class HttpRequestor extends EventStoreRequestor {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(HttpRequestor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HttpRequestor.class);
 
     private static CloseableHttpClient httpClient;
     private static CloseableHttpResponse response = null;

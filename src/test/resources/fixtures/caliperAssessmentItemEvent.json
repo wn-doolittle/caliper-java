@@ -16,13 +16,6 @@
         "alignedLearningObjective": [],
         "keyword": [],
         "partOf": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1",
-        "lastModifiedTime": "2015-02-02T11:30:00Z",
-        "dateCreated": "2015-02-02T11:30:00Z",
-        "datePublished": "2015-02-02T11:30:00Z",
-        "dateToActivate": "2015-02-02T11:30:00Z",
-        "dateToShow": "2015-02-02T11:30:00Z",
-        "dateToStartOn": "2015-02-02T11:30:00Z",
-        "dateToSubmit": "2015-02-02T11:30:00Z",
         "maxAttempts": 2,
         "maxSubmits": 2,
         "maxScore": 1.0
@@ -30,7 +23,7 @@
     "target": null,
     "generated": null,
     "startedAtTime": "2015-02-02T11:30:00Z",
-    "endedAtTime": 0,
+    "endedAtTime": null,
     "duration": null,
     "edApp": {
         "@id": "https://com.sat/super-assessment-tool",
