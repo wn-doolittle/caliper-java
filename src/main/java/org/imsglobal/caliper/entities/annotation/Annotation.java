@@ -12,7 +12,7 @@ import org.imsglobal.caliper.entities.schemadotorg.Thing;
  * Direct sub-types can include - Highlight, Attachment, etc. - all of
  * which are specified in the Caliper Annotation Metric Profile
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "lastModifiedTime" })
+@JsonPropertyOrder({ "@id", "@type", "name", "dateModified" })
 public abstract class Annotation extends Entity implements Thing {
 
     public enum Type {

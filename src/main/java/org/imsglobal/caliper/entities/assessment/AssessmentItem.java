@@ -17,7 +17,7 @@ import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
     "alignedLearningObjective",
     "keyword",
     "partOf",
-    "lastModifiedTime",
+    "dateModified",
     "dateCreated",
     "datePublished",
     "dateToActivate",

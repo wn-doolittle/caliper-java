@@ -50,7 +50,7 @@ public class TestUtils {
             //.sectionNumber("001") TODO add section number property?
             .label("Am Rev 101")
             .name("American Revolution 101")
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -63,7 +63,7 @@ public class TestUtils {
             .id("AmRev-101-landingPage")
             .name("American Revolution 101 Landing Page")
             .partOf(buildAmRev101CourseSection())
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -89,7 +89,7 @@ public class TestUtils {
                     .id(target.getId())
                     .name(target.getName())
                     .partOf(target.getPartOf())
-                    .lastModifiedTime(getDefaultDate())
+                    .dateModified(getDefaultDate())
                     .index(index)
                     .build())
             .startedAtTime(getDefaultDate())
@@ -115,7 +115,7 @@ public class TestUtils {
             .maxSubmits(2)
             .maxScore(3) // WARN original value "5.0d"
             .assessmentItems(buildAssessmentItems())
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -264,7 +264,7 @@ public class TestUtils {
     public static Result buildAssessmentResult(Attempt attempt, Agent scoredBy) {
         return Result.builder()
             .id(attempt.getId() + "/result")
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .normalScore(3.0d)
             .penaltyScore(0.0d)
             .extraCreditScore(0.0d)
@@ -283,7 +283,7 @@ public class TestUtils {
         return SoftwareApplication.builder()
             .id("https://com.sat/super-assessment-tool")
             .name("Super Assessment Tool")
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -319,7 +319,7 @@ public class TestUtils {
         return BookmarkAnnotation.builder()
             .id("https://someEduApp.edu/bookmarks/00001")
             .bookmarkNotes("The Intolerable Acts (1774)--bad idea Lord North")
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .target(target)
             .build();
     }
@@ -345,7 +345,7 @@ public class TestUtils {
                 .id(target.getId())
                 .name(target.getName())
                 .partOf(target.getPartOf())
-                .lastModifiedTime(getDefaultDate())
+                .dateModified(getDefaultDate())
                 .index(1)
                 .build())
             .generated(generated)
@@ -418,7 +418,7 @@ public class TestUtils {
                 .id(target.getId())
                 .name(target.getName())
                 .partOf(epub)
-                .lastModifiedTime(getDefaultDate())
+                .dateModified(getDefaultDate())
                 .index(1)
                 .build())
             .fromResource(fromResource)
@@ -434,7 +434,7 @@ public class TestUtils {
         return EpubVolume.builder()
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
             .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -447,7 +447,7 @@ public class TestUtils {
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
             .name("Key Figures: George Washington")
             .partOf(buildEpubVolume43())
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -459,7 +459,7 @@ public class TestUtils {
         return EpubSubChapter.builder()
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/2)")
             .name("Key Figures: Lord North")
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .partOf(buildEpubVolume43())
             .build();
     }
@@ -472,7 +472,7 @@ public class TestUtils {
         return EpubSubChapter.builder()
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)")
             .name("Key Figures: John Adams")
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .partOf(buildEpubVolume43())
             .build();
     }
@@ -486,7 +486,7 @@ public class TestUtils {
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/4)")
             .name("The Stamp Act Crisis")
             .partOf(buildEpubVolume43())
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -511,7 +511,7 @@ public class TestUtils {
                 .id(target.getId())
                 .name(target.getName())
                 .partOf(epub)
-                .lastModifiedTime(getDefaultDate())
+                .dateModified(getDefaultDate())
                 .index(1)
                 .build())
             .startedAtTime(getDefaultDate())
@@ -529,7 +529,7 @@ public class TestUtils {
             .selectionEnd(Integer.toString(489))
             .selectionText("Life, Liberty and the pursuit of Happiness")
             .target(target)
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -541,7 +541,7 @@ public class TestUtils {
         return SoftwareApplication.builder()
             .id("https://github.com/readium/readium-js-viewer")
             .name("Readium")
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -577,7 +577,7 @@ public class TestUtils {
             .id("https://github.com/readium/session-123456789")
             .name("session-123456789")
             .actor(buildStudent554433())
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .startedAtTime(getDefaultDate())
             .build();
     }
@@ -590,7 +590,7 @@ public class TestUtils {
             .id("https://github.com/readium/session-123456789")
             .name("session-123456789")
             .actor(buildStudent554433())
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .startedAtTime(getDefaultDate())
             .endedAtTime(getDefaultDate())
             .build();
@@ -606,13 +606,13 @@ public class TestUtils {
             .withAgents(Lists.<Agent>newArrayList(
                 Person.builder()
                     .id("https://some-university.edu/students/657585")
-                    .lastModifiedTime(getDefaultDate())
+                    .dateModified(getDefaultDate())
                     .build(),
                 Person.builder()
                     .id("https://some-university.edu/students/667788")
-                    .lastModifiedTime(getDefaultDate())
+                    .dateModified(getDefaultDate())
                     .build()))
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -623,7 +623,7 @@ public class TestUtils {
     public static final Agent buildStudent554433() {
         return Person.builder()
             .id("https://some-university.edu/user/554433")
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -636,7 +636,7 @@ public class TestUtils {
             .edApp(SoftwareApplication.builder()
                 .id("https://com.sat/super-media-tool")
                 .name("Super Media Tool")
-                .lastModifiedTime(getDefaultDate())
+                .dateModified(getDefaultDate())
                 .build())
             .lisOrganization(buildAmRev101CourseSection())
             .agent(buildStudent554433())
@@ -652,7 +652,7 @@ public class TestUtils {
             .id("https://someEduApp.edu/tags/7654")
             .tags(Lists.newArrayList("to-read", "1765", "shared-with-project-team"))
             .target(target)
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 
@@ -700,7 +700,7 @@ public class TestUtils {
                 .id("http://americanrevolution.com/personalities/learn")
                 .build())
             .duration(1420)
-            .lastModifiedTime(getDefaultDate())
+            .dateModified(getDefaultDate())
             .build();
     }
 

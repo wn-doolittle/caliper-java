@@ -5,7 +5,7 @@
         "@id": "https://some-university.edu/user/554433",
         "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
         "name": null,
-        "lastModifiedTime": "2015-02-02T11:30:00Z"
+        "dateModified": "2015-02-02T11:30:00Z"
     },
     "action": "started",
     "object": {
@@ -29,7 +29,7 @@
         "@id": "https://com.sat/super-assessment-tool",
         "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Super Assessment Tool",
-        "lastModifiedTime": "2015-02-02T11:30:00Z"
+        "dateModified": "2015-02-02T11:30:00Z"
     },
     "group": {
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101",
@@ -39,6 +39,6 @@
         "label": "Am Rev 101",
         "name": "American Revolution 101",
         "parentOrg": null,
-        "lastModifiedTime": "2015-02-02T11:30:00Z"
+        "dateModified": "2015-02-02T11:30:00Z"
     }
 }

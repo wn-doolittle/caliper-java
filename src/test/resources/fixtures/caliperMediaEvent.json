@@ -5,7 +5,7 @@
         "@id": "https://some-university.edu/user/554433",
         "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
         "name": null,
-        "lastModifiedTime": "2015-02-02T11:30:00Z"
+        "dateModified": "2015-02-02T11:30:00Z"
     },
     "action": "paused",
     "object": {
@@ -17,11 +17,11 @@
             "@id": "http://americanrevolution.com/personalities/learn",
             "@type": "http://purl.imsglobal.org/caliper/v1/LearningObjective",
             "name": null,
-            "lastModifiedTime": null
+            "dateModified": null
         }],
         "keyword": [],
         "partOf": null,
-        "lastModifiedTime": "2015-02-02T11:30:00Z",
+        "dateModified": "2015-02-02T11:30:00Z",
         "duration": 1420
     },
     "target": {
@@ -32,7 +32,7 @@
         "alignedLearningObjective": [],
         "keyword": [],
         "partOf": null,
-        "lastModifiedTime": null,
+        "dateModified": null,
         "currentTime": 710
     },
     "generated": null,
@@ -43,7 +43,7 @@
         "@id": "https://com.sat/super-media-tool",
         "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Super Media Tool",
-        "lastModifiedTime": "2015-02-02T11:30:00Z"
+        "dateModified": "2015-02-02T11:30:00Z"
     },
     "group": {
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101",
@@ -53,6 +53,6 @@
         "label": "Am Rev 101",
         "name": "American Revolution 101",
         "parentOrg": null,
-        "lastModifiedTime": "2015-02-02T11:30:00Z"
+        "dateModified": "2015-02-02T11:30:00Z"
     }
 }

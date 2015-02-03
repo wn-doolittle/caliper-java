@@ -15,7 +15,7 @@ import org.imsglobal.caliper.entities.DigitalResource;
     "alignedLearningObjective",
     "keyword",
     "partOf",
-    "lastModifiedTime",
+    "dateModified",
     "duration" })
 public abstract class MediaObject extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.MediaObject {
 

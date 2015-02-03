@@ -33,7 +33,7 @@ import java.util.List;
     "alignedLearningObjective",
     "keyword",
     "partOf",
-    "lastModifiedTime" })
+    "dateModified" })
 public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork,
                                                        org.imsglobal.caliper.entities.Targetable {
 

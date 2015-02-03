@@ -14,7 +14,7 @@ import org.imsglobal.caliper.entities.Generatable;
     "@id",
     "@type",
     "name",
-    "lastModifiedTime",
+    "dateModified",
     "normalScore",
     "penaltyScore",
     "extraCreditScore",

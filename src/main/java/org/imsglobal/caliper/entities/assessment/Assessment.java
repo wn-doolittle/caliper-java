@@ -19,7 +19,7 @@ import java.util.List;
     "alignedLearningObjective",
     "keyword",
     "partOf",
-    "lastModifiedTime",
+    "dateModified",
     "dateCreated",
     "datePublished",
     "dateToActivate",

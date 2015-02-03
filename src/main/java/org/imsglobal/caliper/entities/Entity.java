@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "lastModifiedTime" })
+@JsonPropertyOrder({ "@id", "@type", "name", "dateModified" })
 public abstract class Entity implements Thing {
 
     public enum Type {
@@ -56,8 +56,8 @@ public abstract class Entity implements Thing {
     @JsonProperty("name")
     private final String name;
 
-    @JsonProperty("lastModifiedTime")
-    private final Date lastModifiedTime;
+    @JsonProperty("dateModified")
+    private final Date dateModified;
 
     /**
      * @param builder apply builder object properties to the Entity object.
@@ -66,7 +66,7 @@ public abstract class Entity implements Thing {
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
-        this.lastModifiedTime = builder.lastModifiedTime;
+        this.dateModified = builder.dateModified;
     }
 
     /**
@@ -91,10 +91,10 @@ public abstract class Entity implements Thing {
     }
 
     /**
-     * @return the lastModifiedTime.
+     * @return the dateModified.
      */
-    public Date getLastModifiedTime() {
-        return lastModifiedTime;
+    public Date getDateModified() {
+        return dateModified;
     }
 
     /**
@@ -105,7 +105,7 @@ public abstract class Entity implements Thing {
         private String id;
         private String type;
         private String name;
-        private Date lastModifiedTime;
+        private Date dateModified;
 
         protected abstract T self();
 
@@ -144,11 +144,11 @@ public abstract class Entity implements Thing {
         }
 
         /**
-         * @param lastModifiedTime
+         * @param dateModified
          * @return builder.
          */
-        public T lastModifiedTime(Date lastModifiedTime) {
-            this.lastModifiedTime = lastModifiedTime;
+        public T dateModified(Date dateModified) {
+            this.dateModified = dateModified;
             return self();
         }
     }
