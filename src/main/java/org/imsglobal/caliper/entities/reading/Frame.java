@@ -9,6 +9,7 @@ import org.imsglobal.caliper.entities.Targetable;
     "@id",
     "@type",
     "name",
+    "description",
     "objectType",
     "alignedLearningObjective",
     "keywords",

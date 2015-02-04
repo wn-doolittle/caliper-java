@@ -5,6 +5,7 @@
         "@id": "https://some-university.edu/user/554433",
         "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
         "name": null,
+        "description": null,
         "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": "2015-02-02T11:30:00Z"
     },
@@ -13,11 +14,13 @@
         "@id": "https://com.sat/super-media-tool/video/video1",
         "@type": "http://purl.imsglobal.org/caliper/v1/VideoObject",
         "name": "American Revolution - Key Figures Video",
+        "description": null,
         "objectType": [],
         "alignedLearningObjective": [{
             "@id": "http://americanrevolution.com/personalities/learn",
             "@type": "http://purl.imsglobal.org/caliper/v1/LearningObjective",
             "name": null,
+            "description": null,
             "dateCreated": "2015-01-01T06:00:00Z",
             "dateModified": null
         }],
@@ -32,6 +35,7 @@
         "@id": "https://com.sat/super-media-tool/video/video1",
         "@type": "http://purl.imsglobal.org/caliper/v1/MediaLocation",
         "name": null,
+        "description": null,
         "objectType": [],
         "alignedLearningObjective": [],
         "keywords": [],
@@ -49,6 +53,7 @@
         "@id": "https://com.sat/super-media-tool",
         "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Super Media Tool",
+        "description": null,
         "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": "2015-02-02T11:30:00Z"
     },
@@ -59,6 +64,7 @@
         "courseNumber": "AmRev-101",
         "label": "Am Rev 101",
         "name": "American Revolution 101",
+        "description": null,
         "parentOrg": null,
         "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": "2015-02-02T11:30:00Z"

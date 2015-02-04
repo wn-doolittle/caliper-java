@@ -11,6 +11,7 @@ import org.imsglobal.caliper.entities.DigitalResource;
     "@id",
     "@type",
     "name",
+    "description",
     "objectType",
     "alignedLearningObjective",
     "keywords",

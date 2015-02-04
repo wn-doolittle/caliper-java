@@ -4,19 +4,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import java.util.Date;
 
 /**
  * Assignable Digital Resource
  */
-@JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({
     "@id",
     "@type",
     "name",
+    "description",
     "objectType",
     "alignedLearningObjective",
     "keywords",

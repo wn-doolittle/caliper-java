@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "dateCreated", "dateModified" })
+@JsonPropertyOrder({ "@id", "@type", "name", "description", "dateCreated", "dateModified" })
 public abstract class Entity implements Thing {
 
     public enum Type {
@@ -56,6 +56,9 @@ public abstract class Entity implements Thing {
     @JsonProperty("name")
     private final String name;
 
+    @JsonProperty("description")
+    private final String description;
+
     @JsonProperty("dateCreated")
     private final Date dateCreated;
 
@@ -69,6 +72,7 @@ public abstract class Entity implements Thing {
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
+        this.description = builder.description;
         this.dateCreated = builder.dateCreated;
         this.dateModified = builder.dateModified;
     }
@@ -88,10 +92,17 @@ public abstract class Entity implements Thing {
     }
 
     /**
-     * @return human readable identifier.
+     * @return name.
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * @return description.
+     */
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -116,6 +127,7 @@ public abstract class Entity implements Thing {
         private String id;
         private String type;
         private String name;
+        private String description;
         private Date dateCreated;
         private Date dateModified;
 
@@ -152,6 +164,15 @@ public abstract class Entity implements Thing {
          */
         public T name(String name) {
             this.name = name;
+            return self();
+        }
+
+        /**
+         * @param description
+         * @return builder.
+         */
+        public T description(String description) {
+            this.description = description;
             return self();
         }
 

@@ -8,7 +8,14 @@ import org.imsglobal.caliper.entities.foaf.Agent;
 
 import java.util.List;
 
-@JsonPropertyOrder({ "@id", "@type", "name", "dateCreated", "dateModified", "withAgents" })
+@JsonPropertyOrder({
+    "@id",
+    "@type",
+    "name",
+    "description",
+    "dateCreated",
+    "dateModified",
+    "withAgents" })
 public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")

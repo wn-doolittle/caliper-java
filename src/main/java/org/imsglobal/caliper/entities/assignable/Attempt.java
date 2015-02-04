@@ -17,6 +17,7 @@ import java.util.Date;
     "@id",
     "@type",
     "name",
+    "description",
     "dateCreated",
     "dateModified",
     "count",

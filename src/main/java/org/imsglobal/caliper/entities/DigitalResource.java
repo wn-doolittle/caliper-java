@@ -30,6 +30,7 @@ import java.util.List;
     "@id",
     "@type",
     "name",
+    "description",
     "objectType",
     "alignedLearningObjective",
     "keywords",
