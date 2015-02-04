@@ -4,11 +4,7 @@
 package org.imsglobal.caliper.entities.schemadotorg;
 
 /**
- * @author pnayak
- * 
- *         From https://schema.org/VideoObject
- * 
- *         A video object embedded in a web page.
+ * A video object embedded in a web page (https://schema.org/VideoObject).
  */
 public interface VideoObject extends MediaObject {
 

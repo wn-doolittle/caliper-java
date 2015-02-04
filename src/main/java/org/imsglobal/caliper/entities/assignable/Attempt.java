@@ -17,7 +17,9 @@ import java.util.Date;
     "@id",
     "@type",
     "name",
-    "lastModifiedTime", //TODO: does it make sense to do this here? this will just make the generated json: {"lastModifiedTime": null}
+    "description",
+    "dateCreated",
+    "dateModified",
     "count",
     "startedAtTime",
     "endedAtTime",

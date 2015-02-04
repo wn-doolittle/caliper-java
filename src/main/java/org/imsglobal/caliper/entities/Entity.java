@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "lastModifiedTime" })
+@JsonPropertyOrder({ "@id", "@type", "name", "description", "dateCreated", "dateModified" })
 public abstract class Entity implements Thing {
 
     public enum Type {
@@ -56,8 +56,14 @@ public abstract class Entity implements Thing {
     @JsonProperty("name")
     private final String name;
 
-    @JsonProperty("lastModifiedTime")
-    private final Date lastModifiedTime;
+    @JsonProperty("description")
+    private final String description;
+
+    @JsonProperty("dateCreated")
+    private final Date dateCreated;
+
+    @JsonProperty("dateModified")
+    private final Date dateModified;
 
     /**
      * @param builder apply builder object properties to the Entity object.
@@ -66,7 +72,9 @@ public abstract class Entity implements Thing {
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
-        this.lastModifiedTime = builder.lastModifiedTime;
+        this.description = builder.description;
+        this.dateCreated = builder.dateCreated;
+        this.dateModified = builder.dateModified;
     }
 
     /**
@@ -84,17 +92,31 @@ public abstract class Entity implements Thing {
     }
 
     /**
-     * @return human readable identifier.
+     * @return name.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * @return the lastModifiedTime.
+     * @return description.
      */
-    public Date getLastModifiedTime() {
-        return lastModifiedTime;
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @return date created.
+     */
+    public Date getDateCreated()
+    {
+        return dateCreated;
+    }
+    /**
+     * @return the date modified.
+     */
+    public Date getDateModified() {
+        return dateModified;
     }
 
     /**
@@ -105,7 +127,9 @@ public abstract class Entity implements Thing {
         private String id;
         private String type;
         private String name;
-        private Date lastModifiedTime;
+        private String description;
+        private Date dateCreated;
+        private Date dateModified;
 
         protected abstract T self();
 
@@ -144,11 +168,29 @@ public abstract class Entity implements Thing {
         }
 
         /**
-         * @param lastModifiedTime
+         * @param description
          * @return builder.
          */
-        public T lastModifiedTime(Date lastModifiedTime) {
-            this.lastModifiedTime = lastModifiedTime;
+        public T description(String description) {
+            this.description = description;
+            return self();
+        }
+
+        /**
+         * @param dateCreated
+         * @return builder.
+         */
+        public T dateCreated(Date dateCreated) {
+            this.dateCreated = dateCreated;
+            return self();
+        }
+
+        /**
+         * @param dateModified
+         * @return builder.
+         */
+        public T dateModified(Date dateModified) {
+            this.dateModified = dateModified;
             return self();
         }
     }

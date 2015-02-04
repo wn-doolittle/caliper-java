@@ -7,10 +7,6 @@ import java.util.Date;
  */
 public interface Assignable {
 
-    Date getDateCreated();
-
-    Date getDatePublished();
-
     Date getDateToStartOn();
 
     Date getDateToActivate();
@@ -19,7 +15,7 @@ public interface Assignable {
 
     Date getDateToSubmit();
 
-	int getMaxAttempts();
+    int getMaxAttempts();
 
-	int getMaxSubmits();
+    int getMaxSubmits();
 }

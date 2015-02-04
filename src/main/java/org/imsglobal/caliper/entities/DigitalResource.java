@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,11 +30,14 @@ import java.util.List;
     "@id",
     "@type",
     "name",
+    "description",
     "objectType",
     "alignedLearningObjective",
-    "keyword",
-    "partOf",
-    "lastModifiedTime" })
+    "keywords",
+    "isPartOf",
+    "dateCreated",
+    "dateModified",
+    "datePublished" })
 public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork,
                                                        org.imsglobal.caliper.entities.Targetable {
 
@@ -76,11 +80,14 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     @JsonProperty("alignedLearningObjective")
     private final ImmutableList<LearningObjective> learningObjectives;
 
-    @JsonProperty("keyword")
+    @JsonProperty("keywords")
     private final ImmutableList<String> keywords;
 
-    @JsonProperty("partOf")
-    private final Object partOf;
+    @JsonProperty("isPartOf")
+    private final Object isPartOf;
+
+    @JsonProperty("datePublished")
+    private final Date datePublished;
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -94,7 +101,8 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         //this.learningObjectives = ImmutableList.<LearningObjective>builder().addAll(learningObjectives).build();
         this.keywords = ImmutableList.copyOf(builder.keywords);
         //this.keywords = ImmutableList.<String>builder().addAll(keywords).build();
-        this.partOf = builder.partOf;
+        this.isPartOf = builder.isPartOf;
+        this.datePublished = builder.datePublished;
     }
 
     /**
@@ -132,8 +140,8 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     /**
      * @return the parent reference.
      */
-    public Object getPartOf() {
-        return partOf;
+    public Object getIsPartOf() {
+        return isPartOf;
     }
 
     /**
@@ -145,7 +153,8 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         private List<String> objectTypes = Lists.newArrayList();
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
-        private Object partOf;
+        private Object isPartOf;
+        private Date datePublished;
 
         /*
          * Constructor
@@ -218,11 +227,20 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         }
 
         /**
-         * @param partOf
+         * @param isPartOf
          * @return builder.
          */
-        public T partOf(Object partOf) {
-            this.partOf = partOf;
+        public T isPartOf(Object isPartOf) {
+            this.isPartOf = isPartOf;
+            return self();
+        }
+
+        /**
+         * @param datePublished
+         * @return builder.
+         */
+        public T datePublished(Date datePublished) {
+            this.datePublished = datePublished;
             return self();
         }
 

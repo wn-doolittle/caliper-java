@@ -4,11 +4,7 @@
 package org.imsglobal.caliper.entities.schemadotorg;
 
 /**
- * @author pnayak
- * 
- *         From https://schema.org/ImageObject
- * 
- *         An image object embedded in a web page.
+ * An image object embedded in a web page (https://schema.org/ImageObject).
  */
 public interface ImageObject extends MediaObject {
 

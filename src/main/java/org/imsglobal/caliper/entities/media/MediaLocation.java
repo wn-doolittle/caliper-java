@@ -15,11 +15,14 @@ import java.util.UUID;
     "@id",
     "@type",
     "name",
+    "description",
     "objectType",
     "alignedLearningObjective",
-    "keyword",
-    "partOf",
-    "lastModifiedTime",
+    "keywords",
+    "isPartOf",
+    "dateCreated",
+    "dateModified",
+    "datePublished",
     "currentTime" })
 public class MediaLocation extends DigitalResource implements Targetable {
 
