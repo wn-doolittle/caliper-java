@@ -3,7 +3,7 @@
   "@type": "http://purl.imsglobal.org/caliper/v1/SessionEvent",
   "actor": {
     "@id": "https://github.com/readium/readium-js-viewer",
-    "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+    "@type": "http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
     "name": "Readium",
     "description": null,
     "properties": {},
@@ -13,7 +13,7 @@
   "action": "timed out",
   "object": {
     "@id": "https://github.com/readium/readium-js-viewer",
-    "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+    "@type": "http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
     "name": "Readium",
     "description": null,
     "properties": {},
@@ -22,7 +22,7 @@
   },
   "target": {
     "@id": "https://github.com/readium/session-123456789",
-    "@type":"http://purl.imsglobal.org/caliper/v1/Session",
+    "@type": "http://purl.imsglobal.org/caliper/v1/Session",
     "name": "session-123456789",
     "description": null,
     "properties": {},
@@ -47,7 +47,7 @@
   "duration": null,
   "edApp": {
     "@id": "https://github.com/readium/readium-js-viewer",
-    "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+    "@type": "http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
     "name": "Readium",
     "description": null,
     "properties": {},

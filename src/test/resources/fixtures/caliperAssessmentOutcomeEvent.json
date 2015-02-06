@@ -39,10 +39,10 @@
         "totalScore": 3.0,
         "curvedTotalScore": 3.0,
         "curveFactor": 0.0,
-        "comment":"Well done.",
+        "comment": "Well done.",
         "scoredBy": {
             "@id": "https://com.sat/super-assessment-tool",
-            "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+            "@type": "http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
             "name": "Super Assessment Tool",
             "description": null,
             "properties": {},
@@ -55,7 +55,7 @@
     "duration": null,
     "edApp": {
         "@id": "https://com.sat/super-assessment-tool",
-        "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+        "@type": "http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Super Assessment Tool",
         "description": null,
         "properties": {},

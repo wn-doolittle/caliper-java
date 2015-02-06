@@ -39,7 +39,7 @@
     "duration": null,
     "edApp": {
         "@id": "https://com.sat/super-assessment-tool",
-        "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+        "@type": "http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Super Assessment Tool",
         "description": null,
         "properties": {},

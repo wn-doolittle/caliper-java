@@ -13,7 +13,7 @@
   "action": "logged in",
   "object": {
     "@id": "https://github.com/readium/readium-js-viewer",
-    "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+    "@type": "http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
     "name": "Readium",
     "description": null,
     "properties": {},
@@ -50,7 +50,7 @@
   },
   "generated": {
     "@id": "https://github.com/readium/session-123456789",
-    "@type":"http://purl.imsglobal.org/caliper/v1/Session",
+    "@type": "http://purl.imsglobal.org/caliper/v1/Session",
     "name": "session-123456789",
     "description": null,
     "properties": {},
@@ -74,7 +74,7 @@
   "duration": null,
   "edApp": {
     "@id": "https://github.com/readium/readium-js-viewer",
-    "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
+    "@type": "http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
     "name": "Readium",
     "description": null,
     "properties": {},
