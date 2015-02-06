@@ -2,14 +2,17 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "description", "dateCreated", "dateModified" })
+@JsonPropertyOrder({ "@id", "@type", "name", "description", "properties", "dateCreated", "dateModified" })
 public abstract class Entity implements Thing {
 
     public enum Type {
@@ -59,6 +62,9 @@ public abstract class Entity implements Thing {
     @JsonProperty("description")
     private final String description;
 
+    @JsonProperty("properties")
+    private final Map<String, String> properties;
+
     @JsonProperty("dateCreated")
     private final Date dateCreated;
 
@@ -72,6 +78,7 @@ public abstract class Entity implements Thing {
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
+        this.properties = ImmutableMap.copyOf(builder.properties);
         this.description = builder.description;
         this.dateCreated = builder.dateCreated;
         this.dateModified = builder.dateModified;
@@ -106,12 +113,20 @@ public abstract class Entity implements Thing {
     }
 
     /**
+     * @return custom properties
+     */
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    /**
      * @return date created.
      */
     public Date getDateCreated()
     {
         return dateCreated;
     }
+
     /**
      * @return the date modified.
      */
@@ -128,6 +143,7 @@ public abstract class Entity implements Thing {
         private String type;
         private String name;
         private String description;
+        private Map<String, String> properties = Maps.newHashMap();
         private Date dateCreated;
         private Date dateModified;
 
@@ -173,6 +189,25 @@ public abstract class Entity implements Thing {
          */
         public T description(String description) {
             this.description = description;
+            return self();
+        }
+
+        /**
+         * @param key
+         * @param value
+         * @return builder
+         */
+        public T property(String key, String value) {
+            this.properties.put(key, value);
+            return self();
+        }
+
+        /**
+         * @param properties
+         * @return builder
+         */
+        public T properties(Map<String, String> properties) {
+            this.properties.putAll(properties);
             return self();
         }
 

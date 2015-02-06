@@ -20,6 +20,7 @@ import java.util.UUID;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
+    "properties",
     "dateCreated",
     "dateModified",
     "datePublished",
@@ -32,10 +33,6 @@ public class MediaLocation extends DigitalResource implements Targetable {
     @JsonProperty("@type")
     private final String type;
 
-    /**
-     * The time value (from beginning of media) that indicates the current
-     * location
-     */
     @JsonProperty("currentTime")
     private long currentTime;
 

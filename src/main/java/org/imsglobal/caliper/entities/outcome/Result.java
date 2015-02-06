@@ -15,6 +15,7 @@ import org.imsglobal.caliper.entities.Generatable;
     "@type",
     "name",
     "description",
+    "properties",
     "dateCreated",
     "dateModified",
     "normalScore",
