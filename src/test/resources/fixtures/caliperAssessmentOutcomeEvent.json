@@ -6,6 +6,7 @@
         "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
         "name": null,
         "description": null,
+        "properties": {},
         "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": "2015-02-02T11:30:00Z"
     },
@@ -15,6 +16,7 @@
         "@type": "http://purl.imsglobal.org/caliper/v1/Attempt",
         "name": null,
         "description": null,
+        "properties": {},
         "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": null,
         "count": 1,
@@ -28,6 +30,7 @@
         "@type": "http://purl.imsglobal.org/caliper/v1/Result",
         "name": null,
         "description": null,
+        "properties": {},
         "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": null,
         "normalScore": 3.0,
@@ -42,6 +45,7 @@
             "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
             "name": "Super Assessment Tool",
             "description": null,
+            "properties": {},
             "dateCreated": "2015-01-01T06:00:00Z",
             "dateModified": null
         }
@@ -54,6 +58,7 @@
         "@type":"http://purl.imsglobal.org/caliper/v1/SoftwareApplication",
         "name": "Super Assessment Tool",
         "description": null,
+        "properties": {},
         "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": null
     },
@@ -66,6 +71,7 @@
         "name": "American Revolution 101",
         "description": null,
         "parentOrg": null,
+        "properties": {},
         "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": "2015-02-02T11:30:00Z"
     }

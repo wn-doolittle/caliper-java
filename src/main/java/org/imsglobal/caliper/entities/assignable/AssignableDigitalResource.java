@@ -18,6 +18,7 @@ import java.util.Date;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
+    "properties",
     "dateCreated",
     "dateModified",
     "datePublished",

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "@type",
     "name",
     "description",
+    "properties",
     "dateCreated",
     "dateModified",
     "bookmarkNotes" })
