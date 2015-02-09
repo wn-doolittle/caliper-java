@@ -11,12 +11,11 @@ import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.yammer.dropwizard.testing.JsonHelpers.asJson;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class ViewEventTest {
+public class ViewEventTest extends EventTest {
 
     private LearningContext learningContext;
     private EpubVolume epub;
@@ -41,7 +40,7 @@ public class ViewEventTest {
         target = TestUtils.buildEpubSubChap431();
 
         // Action
-       key = ReadingProfile.Actions.VIEWED.key();
+        key = ReadingProfile.Actions.VIEWED.key();
 
         // Build event
         event = TestUtils.buildEpubViewEvent(learningContext, epub, key, target);
@@ -49,7 +48,8 @@ public class ViewEventTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
+
         assertEquals("Test if View event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperViewEvent.json"), asJson(event));
+                jsonFixture("fixtures/caliperViewEvent.json"), serialize(event));
     }
 }

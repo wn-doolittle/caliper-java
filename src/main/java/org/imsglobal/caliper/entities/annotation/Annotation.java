@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
 /**
@@ -12,7 +13,7 @@ import org.imsglobal.caliper.entities.schemadotorg.Thing;
  * Direct sub-types can include - Highlight, Attachment, etc. - all of
  * which are specified in the Caliper Annotation Metric Profile
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "lastModifiedTime" })
+@JsonPropertyOrder({ "@id", "@type", "name", "description", "properties", "dateCreated", "dateModified" })
 public abstract class Annotation extends Entity implements Thing {
 
     public enum Type {
@@ -45,7 +46,7 @@ public abstract class Annotation extends Entity implements Thing {
 
     //@JsonProperty("target")
     @JsonIgnore
-    private Object target;
+    private CreativeWork target;
 
     /**
      * @param builder apply builder object properties to the Annotation object.
@@ -67,7 +68,7 @@ public abstract class Annotation extends Entity implements Thing {
     /**
      * @return the target
      */
-    public Object getTarget() {
+    public CreativeWork getTarget() {
         return target;
     }
 
@@ -78,7 +79,7 @@ public abstract class Annotation extends Entity implements Thing {
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
-        private Object target;
+        private CreativeWork target;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
@@ -100,7 +101,7 @@ public abstract class Annotation extends Entity implements Thing {
          * @param target
          * @return annotation target.
          */
-        public T target(Object target) {
+        public T target(CreativeWork target) {
             this.target = target;
             return self();
         }

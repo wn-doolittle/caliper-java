@@ -15,11 +15,15 @@ import java.util.UUID;
     "@id",
     "@type",
     "name",
+    "description",
     "objectType",
     "alignedLearningObjective",
-    "keyword",
-    "partOf",
-    "lastModifiedTime",
+    "keywords",
+    "isPartOf",
+    "properties",
+    "dateCreated",
+    "dateModified",
+    "datePublished",
     "currentTime" })
 public class MediaLocation extends DigitalResource implements Targetable {
 
@@ -29,10 +33,6 @@ public class MediaLocation extends DigitalResource implements Targetable {
     @JsonProperty("@type")
     private final String type;
 
-    /**
-     * The time value (from beginning of media) that indicates the current
-     * location
-     */
     @JsonProperty("currentTime")
     private long currentTime;
 

@@ -145,9 +145,9 @@ public class SessionEventValidator implements EventValidator {
         }
 
         if (key.equals(SessionProfile.Actions.LOGGEDIN.key())) {
-            if (event.getEndedAtTime() > 0) {
-                result.errorMessage().appendText(context + Conformance.ENDEDATTIME_SET.violation());
-            }
+//            if (event.getEndedAtTime() > 0) {
+//                result.errorMessage().appendText(context + Conformance.ENDEDATTIME_SET.violation());
+//            }
         } else {
             if (ValidatorUtils.checkEndedAtTime(event.getEndedAtTime())) {
                 if (!ValidatorUtils.checkStartEndTimes(event.getStartedAtTime(), event.getEndedAtTime())) {

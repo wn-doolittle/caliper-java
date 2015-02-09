@@ -11,12 +11,11 @@ import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.yammer.dropwizard.testing.JsonHelpers.asJson;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class TagAnnotationEventTest {
+public class TagAnnotationEventTest extends EventTest {
 
     private LearningContext learningContext;
     private EpubSubChapter target;
@@ -50,6 +49,6 @@ public class TagAnnotationEventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Tag Annotation event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperTagAnnotationEvent.json"), asJson(event));
+                jsonFixture("fixtures/caliperTagAnnotationEvent.json"), serialize(event));
     }
 }

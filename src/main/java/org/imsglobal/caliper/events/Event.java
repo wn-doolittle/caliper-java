@@ -6,6 +6,8 @@ import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Organization;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
 
+import java.util.Date;
+
 public interface Event {
 
     public enum Context {
@@ -119,12 +121,12 @@ public interface Event {
     /**
      * @return the startedAt time
      */
-    long getStartedAtTime();
+    Date getStartedAtTime();
 
     /**
      * @return endedAt time
      */
-    long getEndedAtTime();
+    Date getEndedAtTime();
 
     /*;
      * @return the duration

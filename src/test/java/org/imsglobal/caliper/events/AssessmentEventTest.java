@@ -11,12 +11,11 @@ import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.yammer.dropwizard.testing.JsonHelpers.asJson;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssessmentEventTest {
+public class AssessmentEventTest extends EventTest {
 
     private LearningContext learningContext;
     private Assessment assessment;
@@ -50,6 +49,6 @@ public class AssessmentEventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Assessment event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperAssessmentEvent.json"), asJson(event));
+                jsonFixture("fixtures/caliperAssessmentEvent.json"), serialize(event));
     }
 }

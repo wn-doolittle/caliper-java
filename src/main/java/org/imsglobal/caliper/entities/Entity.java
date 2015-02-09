@@ -2,12 +2,17 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
+
+import java.util.Date;
+import java.util.Map;
 
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "lastModifiedTime" })
+@JsonPropertyOrder({ "@id", "@type", "name", "description", "properties", "dateCreated", "dateModified" })
 public abstract class Entity implements Thing {
 
     public enum Type {
@@ -54,8 +59,17 @@ public abstract class Entity implements Thing {
     @JsonProperty("name")
     private final String name;
 
-    @JsonProperty("lastModifiedTime")
-    private final long lastModifiedTime;
+    @JsonProperty("description")
+    private final String description;
+
+    @JsonProperty("properties")
+    private final Map<String, String> properties;
+
+    @JsonProperty("dateCreated")
+    private final Date dateCreated;
+
+    @JsonProperty("dateModified")
+    private final Date dateModified;
 
     /**
      * @param builder apply builder object properties to the Entity object.
@@ -64,7 +78,10 @@ public abstract class Entity implements Thing {
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
-        this.lastModifiedTime = builder.lastModifiedTime;
+        this.properties = ImmutableMap.copyOf(builder.properties);
+        this.description = builder.description;
+        this.dateCreated = builder.dateCreated;
+        this.dateModified = builder.dateModified;
     }
 
     /**
@@ -82,17 +99,39 @@ public abstract class Entity implements Thing {
     }
 
     /**
-     * @return human readable identifier.
+     * @return name.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * @return the lastModifiedTime.
+     * @return description.
      */
-    public long getLastModifiedTime() {
-        return lastModifiedTime;
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @return custom properties
+     */
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    /**
+     * @return date created.
+     */
+    public Date getDateCreated()
+    {
+        return dateCreated;
+    }
+
+    /**
+     * @return the date modified.
+     */
+    public Date getDateModified() {
+        return dateModified;
     }
 
     /**
@@ -103,7 +142,10 @@ public abstract class Entity implements Thing {
         private String id;
         private String type;
         private String name;
-        private long lastModifiedTime;
+        private String description;
+        private Map<String, String> properties = Maps.newHashMap();
+        private Date dateCreated;
+        private Date dateModified;
 
         protected abstract T self();
 
@@ -142,11 +184,48 @@ public abstract class Entity implements Thing {
         }
 
         /**
-         * @param lastModifiedTime
+         * @param description
          * @return builder.
          */
-        public T lastModifiedTime(long lastModifiedTime) {
-            this.lastModifiedTime = lastModifiedTime;
+        public T description(String description) {
+            this.description = description;
+            return self();
+        }
+
+        /**
+         * @param key
+         * @param value
+         * @return builder
+         */
+        public T property(String key, String value) {
+            this.properties.put(key, value);
+            return self();
+        }
+
+        /**
+         * @param properties
+         * @return builder
+         */
+        public T properties(Map<String, String> properties) {
+            this.properties.putAll(properties);
+            return self();
+        }
+
+        /**
+         * @param dateCreated
+         * @return builder.
+         */
+        public T dateCreated(Date dateCreated) {
+            this.dateCreated = dateCreated;
+            return self();
+        }
+
+        /**
+         * @param dateModified
+         * @return builder.
+         */
+        public T dateModified(Date dateModified) {
+            this.dateModified = dateModified;
             return self();
         }
     }
