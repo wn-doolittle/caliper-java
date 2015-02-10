@@ -2,9 +2,9 @@ package org.imsglobal.caliper.entities.outcome;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.foaf.Agent;
 
 /**
  * Representation of a Result. Result's are generated as
@@ -18,6 +18,8 @@ import org.imsglobal.caliper.entities.Generatable;
     "properties",
     "dateCreated",
     "dateModified",
+    "assignable",
+    "actor",
     "normalScore",
     "penaltyScore",
     "extraCreditScore",
@@ -30,6 +32,12 @@ public class Result extends Entity implements Generatable {
 
     @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("assignable")
+    private final String assignableId;
+
+    @JsonProperty("actor")
+    private final String actorId;
 
     @JsonProperty("normalScore")
     private double normalScore;
@@ -63,6 +71,8 @@ public class Result extends Entity implements Generatable {
     protected Result(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
+        this.assignableId = builder.assignableId;
+        this.actorId = builder.actorId;
         this.normalScore = builder.normalScore;
         this.penaltyScore = builder.penaltyScore;
         this.extraCreditScore = builder.extraCreditScore;
@@ -79,6 +89,20 @@ public class Result extends Entity implements Generatable {
     @Override
     public String getType() {
         return type;
+    }
+
+    /**
+     * @return the assignable identifier
+     */
+    public String getAssignableId() {
+        return assignableId;
+    }
+
+    /**
+     * @return the actor identifier
+     */
+    public String getActorId() {
+        return actorId;
     }
 
     /**
@@ -143,8 +167,16 @@ public class Result extends Entity implements Generatable {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private double normalScore, penaltyScore, extraCreditScore, totalScore, curvedTotalScore, curveFactor;
-        private String type, comment;
+        private String type;
+        private String assignableId;
+        private String actorId;
+        private double normalScore;
+        private double penaltyScore;
+        private double extraCreditScore;
+        private double totalScore;
+        private double curvedTotalScore;
+        private double curveFactor;
+        private String comment;
         private Agent scoredBy;
 
         /**
@@ -160,6 +192,24 @@ public class Result extends Entity implements Generatable {
          */
         private T type(String type) {
             this.type = type;
+            return self();
+        }
+
+        /**
+         * @param assignableId
+         * @return builder.
+         */
+        public T assignableId(String assignableId) {
+            this.assignableId = assignableId;
+            return self();
+        }
+
+        /**
+         * @param actorId
+         * @return builder.
+         */
+        public T actorId(String actorId) {
+            this.actorId = actorId;
             return self();
         }
 

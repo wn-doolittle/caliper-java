@@ -19,8 +19,10 @@
         "properties": {},
         "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": null,
+        "assignable": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1",
+        "actor": "https://some-university.edu/user/554433",
         "count": 1,
-        "startedAtTime": "2015-02-02T11:30:00Z",
+        "startedAtTime": "2015-02-15T10:15:00Z",
         "endedAtTime": null,
         "duration": null
     },
@@ -33,6 +35,8 @@
         "properties": {},
         "dateCreated": "2015-01-01T06:00:00Z",
         "dateModified": null,
+        "assignable": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1",
+        "actor": "https://some-university.edu/user/554433",
         "normalScore": 3.0,
         "penaltyScore": 0.0,
         "extraCreditScore": 0.0,
@@ -50,7 +54,7 @@
             "dateModified": null
         }
     },
-    "startedAtTime": "2015-02-02T11:30:00Z",
+    "startedAtTime": "2015-02-15T10:15:00Z",
     "endedAtTime": null,
     "duration": null,
     "edApp": {

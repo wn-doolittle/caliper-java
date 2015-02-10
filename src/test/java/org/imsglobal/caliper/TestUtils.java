@@ -2,8 +2,17 @@ package org.imsglobal.caliper;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.*;
-import org.imsglobal.caliper.entities.annotation.*;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.LearningObjective;
+import org.imsglobal.caliper.entities.Session;
+import org.imsglobal.caliper.entities.SoftwareApplication;
+import org.imsglobal.caliper.entities.WebPage;
+import org.imsglobal.caliper.entities.annotation.Annotation;
+import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
+import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
+import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
+import org.imsglobal.caliper.entities.annotation.TagAnnotation;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
@@ -16,7 +25,15 @@ import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
-import org.imsglobal.caliper.events.*;
+import org.imsglobal.caliper.events.AnnotationEvent;
+import org.imsglobal.caliper.events.AssessmentEvent;
+import org.imsglobal.caliper.events.AssessmentItemEvent;
+import org.imsglobal.caliper.events.AssignableEvent;
+import org.imsglobal.caliper.events.MediaEvent;
+import org.imsglobal.caliper.events.NavigationEvent;
+import org.imsglobal.caliper.events.OutcomeEvent;
+import org.imsglobal.caliper.events.ReadingEvent;
+import org.imsglobal.caliper.events.SessionEvent;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -95,7 +112,7 @@ public class TestUtils {
                 .dateModified(getDefaultDateModified())
                 .index(index)
                 .build())
-            .startedAtTime(getDefaultDateModified())
+            .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -109,11 +126,11 @@ public class TestUtils {
             .name("American Revolution - Key Figures Assessment")
             .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101")
             .dateCreated(getDefaultDateModified())
-            .datePublished(getDefaultDateModified())
-            .dateToActivate(getDefaultDateModified())
-            .dateToShow(getDefaultDateModified())
-            .dateToStartOn(getDefaultDateModified())
-            .dateToSubmit(getDefaultDateModified())
+            .datePublished(getDefaultDatePublished())
+            .dateToActivate(getDefaultDateToActivate())
+            .dateToShow(getDefaultDateToShow())
+            .dateToStartOn(getDefaultDateToStartOn())
+            .dateToSubmit(getDefaultDateToSubmit())
             .maxAttempts(2)
             .maxSubmits(2)
             .maxScore(3) // WARN original value "5.0d"
@@ -140,13 +157,13 @@ public class TestUtils {
             .object(assessment)
             .generated(Attempt.builder()
                 .id(assessment.getId() + "/attempt1")
-                .assignable(assessment)
-                .actor((Person) learningContext.getAgent())
+                .assignableId(assessment.getId())
+                .actorId(((Person) learningContext.getAgent()).getId())
                 .count(1)
                 .dateCreated(getDefaultDateCreated())
-                .startedAtTime(getDefaultDateModified())
+                .startedAtTime(getDefaultStartedAtTime())
                 .build())
-            .startedAtTime(getDefaultDateModified())
+            .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -158,11 +175,11 @@ public class TestUtils {
     public static Attempt buildAssessmentAttempt(LearningContext learningContext, Assessment assessment) {
         return Attempt.builder()
             .id(assessment.getId() + "/attempt1")
-            .assignable(assessment)
-            .actor((Person) learningContext.getAgent())
+            .assignableId(assessment.getId())
+            .actorId(((Person) learningContext.getAgent()).getId())
             .count(1)
             .dateCreated(getDefaultDateCreated())
-            .startedAtTime(getDefaultDateModified())
+            .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -184,7 +201,7 @@ public class TestUtils {
             .action(actionKey)
             .object(assessment)
             .generated(attempt)
-                .startedAtTime(getDefaultDateModified())
+            .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -204,7 +221,7 @@ public class TestUtils {
             .action(actionKey)
             .object(item)
             //.generated(Response.builder() . . .) TODO:Add item response
-                .startedAtTime(getDefaultDateModified())
+            .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -259,7 +276,7 @@ public class TestUtils {
             .action(actionKey)
             .object(attempt)
             .generated(result)
-                .startedAtTime(getDefaultDateModified())
+            .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -270,6 +287,8 @@ public class TestUtils {
     public static Result buildAssessmentResult(Attempt attempt, Agent scoredBy) {
         return Result.builder()
             .id(attempt.getId() + "/result")
+            .assignableId(attempt.getAssignableId())
+            .actorId(attempt.getActorId())
             .dateCreated(getDefaultDateCreated())
             .normalScore(3.0d)
             .penaltyScore(0.0d)
@@ -325,8 +344,8 @@ public class TestUtils {
         return BookmarkAnnotation.builder()
             .id("https://someEduApp.edu/bookmarks/00001")
             .bookmarkNotes("The Intolerable Acts (1774)--bad idea Lord North")
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
             .target(target)
             .build();
     }
@@ -352,12 +371,12 @@ public class TestUtils {
                 .id(target.getId())
                 .name(target.getName())
                 .isPartOf(target.getIsPartOf())
-                    .dateCreated(getDefaultDateCreated())
-                    .dateModified(getDefaultDateModified())
+                .dateCreated(getDefaultDateCreated())
+                .dateModified(getDefaultDateModified())
                 .index(1)
                 .build())
             .generated(generated)
-                .startedAtTime(getDefaultDateModified())
+            .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -377,8 +396,8 @@ public class TestUtils {
             .action(actionKey)
             .object(learningContext.getEdApp())
             .target(target)
-                .startedAtTime(getDefaultDateModified())
-                .endedAtTime(getDefaultDateModified())
+            .startedAtTime(getDefaultStartedAtTime())
+            .endedAtTime(getDefaultEndedAtTime())
             .build();
     }
 
@@ -398,8 +417,8 @@ public class TestUtils {
             .action(actionKey)
             .object(learningContext.getEdApp())
             .target(target)
-                .startedAtTime(getDefaultDateModified())
-                .endedAtTime(getDefaultDateModified())
+                .startedAtTime(getDefaultStartedAtTime())
+                .endedAtTime(getDefaultEndedAtTime())
             .build();
     }
 
@@ -426,12 +445,12 @@ public class TestUtils {
                 .id(target.getId())
                 .name(target.getName())
                 .isPartOf(epub)
-                    .dateCreated(getDefaultDateCreated())
-                    .dateModified(getDefaultDateModified())
+                .dateCreated(getDefaultDateCreated())
+                .dateModified(getDefaultDateModified())
                 .index(1)
                 .build())
             .fromResource(fromResource)
-                .startedAtTime(getDefaultDateModified())
+                .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -443,8 +462,8 @@ public class TestUtils {
         return EpubVolume.builder()
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3)")
             .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
             .build();
     }
 
@@ -457,8 +476,8 @@ public class TestUtils {
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)")
             .name("Key Figures: George Washington")
             .isPartOf(buildEpubVolume43())
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
             .build();
     }
 
@@ -470,8 +489,8 @@ public class TestUtils {
         return EpubSubChapter.builder()
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/2)")
             .name("Key Figures: Lord North")
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
             .isPartOf(buildEpubVolume43())
             .build();
     }
@@ -484,8 +503,8 @@ public class TestUtils {
         return EpubSubChapter.builder()
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/3)")
             .name("Key Figures: John Adams")
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
             .isPartOf(buildEpubVolume43())
             .build();
     }
@@ -499,8 +518,8 @@ public class TestUtils {
             .id("https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/4)")
             .name("The Stamp Act Crisis")
             .isPartOf(buildEpubVolume43())
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
             .build();
     }
 
@@ -525,11 +544,11 @@ public class TestUtils {
                 .id(target.getId())
                 .name(target.getName())
                 .isPartOf(epub)
-                    .dateCreated(getDefaultDateCreated())
-                    .dateModified(getDefaultDateModified())
+                .dateCreated(getDefaultDateCreated())
+                .dateModified(getDefaultDateModified())
                 .index(1)
                 .build())
-                .startedAtTime(getDefaultDateModified())
+                .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -544,8 +563,8 @@ public class TestUtils {
             .selectionEnd(Integer.toString(489))
             .selectionText("Life, Liberty and the pursuit of Happiness")
             .target(target)
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
             .build();
     }
 
@@ -557,8 +576,8 @@ public class TestUtils {
         return SoftwareApplication.builder()
             .id("https://github.com/readium/readium-js-viewer")
             .name("Readium")
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
             .build();
     }
 
@@ -594,9 +613,9 @@ public class TestUtils {
             .id("https://github.com/readium/session-123456789")
             .name("session-123456789")
             .actor(buildStudent554433())
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
-                .startedAtTime(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
+            .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -610,8 +629,8 @@ public class TestUtils {
             .actor(buildStudent554433())
                 .dateCreated(getDefaultDateCreated())
                 .dateModified(getDefaultDateModified())
-                .startedAtTime(getDefaultDateModified())
-                .endedAtTime(getDefaultDateModified())
+                .startedAtTime(getDefaultStartedAtTime())
+                .endedAtTime(getDefaultEndedAtTime())
             .build();
     }
 
@@ -625,13 +644,13 @@ public class TestUtils {
             .withAgents(Lists.<Agent>newArrayList(
                 Person.builder()
                     .id("https://some-university.edu/students/657585")
-                        .dateCreated(getDefaultDateCreated())
-                        .dateModified(getDefaultDateModified())
+                    .dateCreated(getDefaultDateCreated())
+                    .dateModified(getDefaultDateModified())
                     .build(),
                 Person.builder()
                     .id("https://some-university.edu/students/667788")
-                        .dateCreated(getDefaultDateCreated())
-                        .dateModified(getDefaultDateModified())
+                    .dateCreated(getDefaultDateCreated())
+                    .dateModified(getDefaultDateModified())
                     .build()))
                 .dateCreated(getDefaultDateCreated())
                 .dateModified(getDefaultDateModified())
@@ -645,8 +664,8 @@ public class TestUtils {
     public static final Agent buildStudent554433() {
         return Person.builder()
             .id("https://some-university.edu/user/554433")
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
             .build();
     }
 
@@ -659,8 +678,8 @@ public class TestUtils {
             .edApp(SoftwareApplication.builder()
                 .id("https://com.sat/super-media-tool")
                 .name("Super Media Tool")
-                    .dateCreated(getDefaultDateCreated())
-                    .dateModified(getDefaultDateModified())
+                .dateCreated(getDefaultDateCreated())
+                .dateModified(getDefaultDateModified())
                 .build())
             .lisOrganization(buildAmRev101CourseSection())
             .agent(buildStudent554433())
@@ -676,8 +695,8 @@ public class TestUtils {
             .id("https://someEduApp.edu/tags/7654")
             .tags(Lists.newArrayList("to-read", "1765", "shared-with-project-team"))
             .target(target)
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
             .build();
     }
 
@@ -699,7 +718,7 @@ public class TestUtils {
             .object(video)
             .action(actionKey)
             .target(location)
-                .startedAtTime(getDefaultDateModified())
+            .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -757,6 +776,112 @@ public class TestUtils {
         cal.set(Calendar.MINUTE,30);
         cal.set(Calendar.SECOND,0);
         cal.set(Calendar.MILLISECOND,0);
+        return cal.getTime();
+    }
+
+    /**
+     * Generate published date.
+     * @return ISO-8601 date
+     */
+    public static Date getDefaultDatePublished(){
+        //January 15, 2015, 09:30:00.000 GMT
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+        cal.set(Calendar.YEAR, 2015);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DATE, 15);
+        cal.set(Calendar.HOUR_OF_DAY, 9);
+        cal.set(Calendar.MINUTE, 30);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    /**
+     * Generate activated date
+     * @return ISO-8601 date
+     */
+    public static Date getDefaultDateToActivate(){
+        //January 16, 2015, 05:00:00.000 GMT
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+        cal.set(Calendar.YEAR, 2015);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DATE, 16);
+        cal.set(Calendar.HOUR_OF_DAY, 5);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    /**
+     * Generate shown date
+     * @return ISO-8601 date
+     */
+    public static Date getDefaultDateToShow() {
+        return getDefaultDateToActivate();
+    }
+
+    /**
+     * Generate date to start on
+     * @return
+     */
+    public static Date getDefaultDateToStartOn() {
+        return getDefaultDateToActivate();
+    }
+
+    /**
+     * Generate submit date
+     * @return ISO-8601 date
+     */
+    public static Date getDefaultDateToSubmit() {
+        //February 28, 2015, 11:59:59.000 GMT
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+        cal.set(Calendar.YEAR, 2015);
+        cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+        cal.set(Calendar.DATE, 28);
+        cal.set(Calendar.HOUR_OF_DAY, 11);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    /**
+     * Generate started at time.
+     * @return ISO-8601 date
+     */
+    public static Date getDefaultStartedAtTime() {
+        //February 15, 2015, 10:15:00.000 GMT
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+        cal.set(Calendar.YEAR, 2015);
+        cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+        cal.set(Calendar.DATE, 15);
+        cal.set(Calendar.HOUR_OF_DAY, 10);
+        cal.set(Calendar.MINUTE, 15);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    /**
+     * Generate ended at time.
+     * @return ISO-8601 date
+     */
+    public static Date getDefaultEndedAtTime() {
+        //February 15, 2015, 11:05:00.000 GMT
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+        cal.set(Calendar.YEAR, 2015);
+        cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+        cal.set(Calendar.DATE, 15);
+        cal.set(Calendar.HOUR_OF_DAY, 11);
+        cal.set(Calendar.MINUTE, 05);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
     }
 }
