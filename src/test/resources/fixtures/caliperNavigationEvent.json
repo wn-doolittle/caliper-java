@@ -80,7 +80,7 @@
         "dateModified": "2015-02-02T11:30:00Z"
     },
     "navigatedFrom": {
-        "@id": "AmRev-101-landingPage",
+        "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/index.html",
         "@type": "http://purl.imsglobal.org/caliper/v1/WebPage",
         "name": "American Revolution 101 Landing Page",
         "description": null,

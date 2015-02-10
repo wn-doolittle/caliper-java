@@ -78,7 +78,7 @@ public class TestUtils {
      */
     public static final WebPage buildAmRev101LandingPage() {
         return WebPage.builder()
-            .id("AmRev-101-landingPage")
+            .id("https://some-university.edu/politicalScience/2014/american-revolution-101/index.html")
             .name("American Revolution 101 Landing Page")
             .isPartOf(buildAmRev101CourseSection())
             .dateCreated(getDefaultDateCreated())
@@ -155,11 +155,11 @@ public class TestUtils {
             .actor((Person) learningContext.getAgent())
             .action(actionKey)
             .object(assessment)
-            .generated(Attempt.builder()
+                .generated(Attempt.builder()
                 .id(assessment.getId() + "/attempt1")
-                .assignableId(assessment.getId())
-                .actorId(((Person) learningContext.getAgent()).getId())
-                .count(1)
+                        .assignableId(assessment.getId())
+                        .actorId(((Person) learningContext.getAgent()).getId())
+                        .count(1)
                 .dateCreated(getDefaultDateCreated())
                 .startedAtTime(getDefaultStartedAtTime())
                 .build())
@@ -175,8 +175,8 @@ public class TestUtils {
     public static Attempt buildAssessmentAttempt(LearningContext learningContext, Assessment assessment) {
         return Attempt.builder()
             .id(assessment.getId() + "/attempt1")
-            .assignableId(assessment.getId())
-            .actorId(((Person) learningContext.getAgent()).getId())
+                .assignableId(assessment.getId())
+                .actorId(((Person) learningContext.getAgent()).getId())
             .count(1)
             .dateCreated(getDefaultDateCreated())
             .startedAtTime(getDefaultStartedAtTime())
@@ -286,8 +286,8 @@ public class TestUtils {
      */
     public static Result buildAssessmentResult(Attempt attempt, Agent scoredBy) {
         return Result.builder()
-            .id(attempt.getId() + "/result")
-            .assignableId(attempt.getAssignableId())
+                .id(attempt.getId() + "/result")
+                .assignableId(attempt.getAssignableId())
             .actorId(attempt.getActorId())
             .dateCreated(getDefaultDateCreated())
             .normalScore(3.0d)
