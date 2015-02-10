@@ -1,11 +1,9 @@
 package org.imsglobal.caliper.entities.assignable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.lis.Person;
 
 import java.util.Date;
 
@@ -21,6 +19,8 @@ import java.util.Date;
     "properties",
     "dateCreated",
     "dateModified",
+    "assignable",
+    "actor",
     "count",
     "startedAtTime",
     "endedAtTime",
@@ -30,11 +30,11 @@ public class Attempt extends Entity implements Generatable {
     @JsonProperty("@type")
     private final String type;
 
-    @JsonIgnore
-    private final Assignable assignable;
+    @JsonProperty("assignable")
+    private final String assignableId;
 
-    @JsonIgnore
-    private final Person actor;
+    @JsonProperty("actor")
+    private final String actorId;
 
     @JsonProperty("count")
     private int count;
@@ -62,8 +62,8 @@ public class Attempt extends Entity implements Generatable {
     protected Attempt(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.assignable = builder.assignable;
-        this.actor = builder.actor;
+        this.assignableId = builder.assignableId;
+        this.actorId = builder.actorId;
         this.count = builder.count;
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
@@ -79,17 +79,17 @@ public class Attempt extends Entity implements Generatable {
     }
 
     /**
-     * @return the assignable
+     * @return the assignable identifier
      */
-    public Assignable getAssignable() {
-        return assignable;
+    public String getAssignableId() {
+        return assignableId;
     }
 
     /**
-     * @return the actor
+     * @return the actor identifier
      */
-    public Person getActor() {
-        return actor;
+    public String getActorId() {
+        return actorId;
     }
 
     /**
@@ -126,8 +126,8 @@ public class Attempt extends Entity implements Generatable {
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
-        private Assignable assignable;
-        private Person actor;
+        private String assignableId;
+        private String actorId;
         private int count;
         private Date startedAtTime;
         private Date endedAtTime;
@@ -150,20 +150,20 @@ public class Attempt extends Entity implements Generatable {
         }
 
         /**
-         * @param assignable
-         * @return builder
+         * @param assignableId
+         * @return builder.
          */
-        public T assignable(Assignable assignable) {
-            this.assignable = assignable;
+        public T assignableId(String assignableId) {
+            this.assignableId = assignableId;
             return self();
         }
 
         /**
-         * @param actor
-         * @return builder
+         * @param actorId
+         * @return builder.
          */
-        public T actor(Person actor) {
-            this.actor = actor;
+        public T actorId(String actorId) {
+            this.actorId = actorId;
             return self();
         }
 
