@@ -2,11 +2,13 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
+import org.imsglobal.caliper.json.DateTimeSerializer;
+import org.joda.time.DateTime;
 
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -66,10 +68,10 @@ public abstract class Entity implements Thing {
     private final Map<String, String> properties;
 
     @JsonProperty("dateCreated")
-    private final Date dateCreated;
+    private final DateTime dateCreated;
 
     @JsonProperty("dateModified")
-    private final Date dateModified;
+    private final DateTime dateModified;
 
     /**
      * @param builder apply builder object properties to the Entity object.
@@ -122,7 +124,8 @@ public abstract class Entity implements Thing {
     /**
      * @return date created.
      */
-    public Date getDateCreated()
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getDateCreated()
     {
         return dateCreated;
     }
@@ -130,7 +133,8 @@ public abstract class Entity implements Thing {
     /**
      * @return the date modified.
      */
-    public Date getDateModified() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getDateModified() {
         return dateModified;
     }
 
@@ -144,8 +148,8 @@ public abstract class Entity implements Thing {
         private String name;
         private String description;
         private Map<String, String> properties = Maps.newHashMap();
-        private Date dateCreated;
-        private Date dateModified;
+        private DateTime dateCreated;
+        private DateTime dateModified;
 
         protected abstract T self();
 
@@ -215,7 +219,7 @@ public abstract class Entity implements Thing {
          * @param dateCreated
          * @return builder.
          */
-        public T dateCreated(Date dateCreated) {
+        public T dateCreated(DateTime dateCreated) {
             this.dateCreated = dateCreated;
             return self();
         }
@@ -224,7 +228,7 @@ public abstract class Entity implements Thing {
          * @param dateModified
          * @return builder.
          */
-        public T dateModified(Date dateModified) {
+        public T dateModified(DateTime dateModified) {
             this.dateModified = dateModified;
             return self();
         }

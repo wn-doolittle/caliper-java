@@ -7,8 +7,8 @@
     "name": null,
     "description": null,
     "properties": {},
-    "dateCreated": "2015-01-01T06:00:00Z",
-    "dateModified": "2015-02-02T11:30:00Z"
+    "dateCreated": "2015-01-01T06:00:00.000Z",
+    "dateModified": "2015-02-02T11:30:00.000Z"
   },
   "action": "logged in",
   "object": {
@@ -17,8 +17,8 @@
     "name": "Readium",
     "description": null,
     "properties": {},
-    "dateCreated": "2015-01-01T06:00:00Z",
-    "dateModified": "2015-02-02T11:30:00Z"
+    "dateCreated": "2015-01-01T06:00:00.000Z",
+    "dateModified": "2015-02-02T11:30:00.000Z"
   },
   "target": {
     "@id": "https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/1)",
@@ -38,13 +38,13 @@
       "keywords": [],
       "isPartOf": null,
       "properties": {},
-      "dateCreated": "2015-01-01T06:00:00Z",
-      "dateModified": "2015-02-02T11:30:00Z",
+      "dateCreated": "2015-01-01T06:00:00.000Z",
+      "dateModified": "2015-02-02T11:30:00.000Z",
       "datePublished": null
     },
     "properties": {},
-    "dateCreated": "2015-01-01T06:00:00Z",
-    "dateModified": "2015-02-02T11:30:00Z",
+    "dateCreated": "2015-01-01T06:00:00.000Z",
+    "dateModified": "2015-02-02T11:30:00.000Z",
     "datePublished": null,
     "index": 1
   },
@@ -54,22 +54,22 @@
     "name": "session-123456789",
     "description": null,
     "properties": {},
-    "dateCreated": "2015-01-01T06:00:00Z",
-    "dateModified": "2015-02-02T11:30:00Z",
+    "dateCreated": "2015-01-01T06:00:00.000Z",
+    "dateModified": "2015-02-02T11:30:00.000Z",
     "actor": {
       "@id": "https://some-university.edu/user/554433",
       "@type": "http://purl.imsglobal.org/caliper/v1/lis/Person",
       "name": null,
       "description": null,
       "properties": {},
-      "dateCreated": "2015-01-01T06:00:00Z",
-      "dateModified": "2015-02-02T11:30:00Z"
+      "dateCreated": "2015-01-01T06:00:00.000Z",
+      "dateModified": "2015-02-02T11:30:00.000Z"
     },
-    "startedAtTime": "2015-02-15T10:15:00Z",
+    "startedAtTime": "2015-02-15T10:15:00.000Z",
     "endedAtTime": null,
     "duration": null
   },
-  "startedAtTime": "2015-02-15T10:15:00Z",
+  "startedAtTime": "2015-02-15T10:15:00.000Z",
   "endedAtTime": null,
   "duration": null,
   "edApp": {
@@ -78,8 +78,8 @@
     "name": "Readium",
     "description": null,
     "properties": {},
-    "dateCreated": "2015-01-01T06:00:00Z",
-    "dateModified": "2015-02-02T11:30:00Z"
+    "dateCreated": "2015-01-01T06:00:00.000Z",
+    "dateModified": "2015-02-02T11:30:00.000Z"
   },
   "group": {
     "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101",
@@ -91,7 +91,7 @@
     "description": null,
     "parentOrg": null,
     "properties": {},
-    "dateCreated": "2015-01-01T06:00:00Z",
-    "dateModified": "2015-02-02T11:30:00Z"
+    "dateCreated": "2015-01-01T06:00:00.000Z",
+    "dateModified": "2015-02-02T11:30:00.000Z"
   }
 }

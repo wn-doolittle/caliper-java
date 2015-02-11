@@ -5,8 +5,7 @@ import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Organization;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
-
-import java.util.Date;
+import org.joda.time.DateTime;
 
 public interface Event {
 
@@ -121,12 +120,12 @@ public interface Event {
     /**
      * @return the startedAt time
      */
-    Date getStartedAtTime();
+    DateTime getStartedAtTime();
 
     /**
      * @return endedAt time
      */
-    Date getEndedAtTime();
+    DateTime getEndedAtTime();
 
     /*;
      * @return the duration

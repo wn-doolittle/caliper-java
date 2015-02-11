@@ -2,9 +2,10 @@ package org.imsglobal.caliper.entities.assignable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.DigitalResource;
-
-import java.util.Date;
+import org.imsglobal.caliper.json.DateTimeSerializer;
+import org.joda.time.DateTime;
 
 /**
  * Assignable Digital Resource
@@ -57,19 +58,19 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     private final String type;
 
     @JsonProperty("dateCreated")
-    private Date dateCreated;
+    private DateTime dateCreated;
 
     @JsonProperty("dateToActivate")
-    private Date dateToActivate;
+    private DateTime dateToActivate;
 
     @JsonProperty("dateToShow")
-    private Date dateToShow;
+    private DateTime dateToShow;
 
     @JsonProperty("dateToStartOn")
-    private Date dateToStartOn;
+    private DateTime dateToStartOn;
 
     @JsonProperty("dateToSubmit")
-    private Date dateToSubmit;
+    private DateTime dateToSubmit;
 
     @JsonProperty("maxAttempts")
     private int maxAttempts;
@@ -107,35 +108,40 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateCreated
      */
-    public Date getDateCreated() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getDateCreated() {
         return dateCreated;
     }
 
     /**
      * @return the dateToActivate
      */
-    public Date getDateToActivate() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getDateToActivate() {
         return dateToActivate;
     }
 
     /**
      * @return the dateToShow
      */
-    public Date getDateToShow() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getDateToShow() {
         return dateToShow;
     }
 
     /**
      * @return the dateToStartOn
      */
-    public Date getDateToStartOn() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getDateToStartOn() {
         return dateToStartOn;
     }
 
     /**
      * @return the dateToSubmit
      */
-    public Date getDateToSubmit() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getDateToSubmit() {
         return dateToSubmit;
     }
 
@@ -166,7 +172,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
-        private Date dateCreated, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
+        private DateTime dateCreated, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
         private int maxAttempts, maxSubmits;
         private double maxScore;
 
@@ -190,7 +196,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param dateCreated
          * @return builder
          */
-        public T dateCreated(Date dateCreated) {
+        public T dateCreated(DateTime dateCreated) {
             this.dateCreated = dateCreated;
             return self();
         }
@@ -199,7 +205,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param dateToActivate
          * @return builder
          */
-        public T dateToActivate(Date dateToActivate) {
+        public T dateToActivate(DateTime dateToActivate) {
             this.dateToActivate = dateToActivate;
             return self();
         }
@@ -208,7 +214,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param dateToShow
          * @return builder
          */
-        public T dateToShow(Date dateToShow) {
+        public T dateToShow(DateTime dateToShow) {
             this.dateToShow = dateToShow;
             return self();
         }
@@ -217,7 +223,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param dateToStartOn
          * @return builder
          */
-        public T dateToStartOn(Date dateToStartOn) {
+        public T dateToStartOn(DateTime dateToStartOn) {
             this.dateToStartOn = dateToStartOn;
             return self();
         }
@@ -226,7 +232,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param dateToSubmit
          * @return builder
          */
-        public T dateToSubmit(Date dateToSubmit) {
+        public T dateToSubmit(DateTime dateToSubmit) {
             this.dateToSubmit = dateToSubmit;
             return self();
         }
