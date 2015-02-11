@@ -79,4 +79,10 @@ public abstract class EventStoreRequestor {
 
         return jsonPayload;
     }
+
+    protected String marshalEvent(Event caliperEvent) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(new ISO8601DateFormat());
+        return mapper.writeValueAsString(caliperEvent);
+    }
 }
