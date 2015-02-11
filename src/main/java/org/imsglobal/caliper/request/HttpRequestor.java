@@ -3,6 +3,7 @@ package org.imsglobal.caliper.request;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -61,9 +62,11 @@ public class HttpRequestor extends EventStoreRequestor {
 
             checkInitialized();
 
+            //TODO: make a way for the requester to be configurable by the client.
             HttpPost httpPost = new HttpPost(this.getOptions().getHost());
-            httpPost.setEntity(generatePayload(caliperEvent, null, null));
+            httpPost.setEntity(new StringEntity(marshalEvent(caliperEvent)));
             httpPost.setHeader("Authorization", this.getOptions().getApiKey());
+            httpPost.setHeader("Content-type", "application/json");
             response = httpClient.execute(httpPost);
 
             if (response.getStatusLine().getStatusCode() != 200) {
