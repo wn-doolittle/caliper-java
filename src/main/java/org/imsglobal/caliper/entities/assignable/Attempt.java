@@ -2,10 +2,11 @@ package org.imsglobal.caliper.entities.assignable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
-
-import java.util.Date;
+import org.imsglobal.caliper.json.DateTimeSerializer;
+import org.joda.time.DateTime;
 
 /**
  * Representation of an Attempt. Attempts are generated as part of or
@@ -40,10 +41,10 @@ public class Attempt extends Entity implements Generatable {
     private int count;
 
     @JsonProperty("startedAtTime")
-    private Date startedAtTime;
+    private DateTime startedAtTime;
 
     @JsonProperty("endedAtTime")
-    private Date endedAtTime;
+    private DateTime endedAtTime;
 
     /**
      * An xsd:duration (http://books.xmlschemata.org/relaxng/ch19-77073.html)
@@ -102,20 +103,23 @@ public class Attempt extends Entity implements Generatable {
     /**
      * @return started at time
      */
-    public Date getStartedAtTime() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getStartedAtTime() {
         return startedAtTime;
     }
 
     /**
      * @return ended at time
      */
-    public Date getEndedAtTime() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getEndedAtTime() {
         return endedAtTime;
     }
 
     /**
      * @return duration of event
      */
+    @JsonSerialize(using = DateTimeSerializer.class)
     public String getDuration() {
         return duration;
     }
@@ -129,8 +133,8 @@ public class Attempt extends Entity implements Generatable {
         private String assignableId;
         private String actorId;
         private int count;
-        private Date startedAtTime;
-        private Date endedAtTime;
+        private DateTime startedAtTime;
+        private DateTime endedAtTime;
         private String duration;
 
         /**
@@ -180,7 +184,7 @@ public class Attempt extends Entity implements Generatable {
          * @param startedAtTime
          * @return
          */
-        public T startedAtTime(Date startedAtTime) {
+        public T startedAtTime(DateTime startedAtTime) {
             this.startedAtTime = startedAtTime;
             return self();
         }
@@ -189,7 +193,7 @@ public class Attempt extends Entity implements Generatable {
          * @param endedAtTime
          * @return builder
          */
-        public T endedAtTime(Date endedAtTime) {
+        public T endedAtTime(DateTime endedAtTime) {
             this.endedAtTime = endedAtTime;
             return self();
         }

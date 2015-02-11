@@ -2,10 +2,12 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.json.DateTimeSerializer;
+import org.joda.time.DateTime;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -88,7 +90,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     private final Object isPartOf;
 
     @JsonProperty("datePublished")
-    private final Date datePublished;
+    private final DateTime datePublished;
 
     /**
      * @param builder apply builder object properties to the profile object.
@@ -146,6 +148,14 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     }
 
     /**
+     * @return date published
+     */
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getDatePublished() {
+        return datePublished;
+    }
+
+    /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
@@ -155,7 +165,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
         private Object isPartOf;
-        private Date datePublished;
+        private DateTime datePublished;
 
         /*
          * Constructor
@@ -240,7 +250,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
          * @param datePublished
          * @return builder.
          */
-        public T datePublished(Date datePublished) {
+        public T datePublished(DateTime datePublished) {
             this.datePublished = datePublished;
             return self();
         }

@@ -7,8 +7,8 @@
         "name": null,
         "description": null,
         "properties": {},
-        "dateCreated": "2015-01-01T06:00:00Z",
-        "dateModified": "2015-02-02T11:30:00Z"
+        "dateCreated": "2015-01-01T06:00:00.000Z",
+        "dateModified": "2015-02-02T11:30:00.000Z"
     },
     "action": "paused",
     "object": {
@@ -23,14 +23,14 @@
             "name": null,
             "description": null,
             "properties": {},
-            "dateCreated": "2015-01-01T06:00:00Z",
+            "dateCreated": "2015-01-01T06:00:00.000Z",
             "dateModified": null
         }],
         "keywords": [],
         "isPartOf": null,
         "properties": {},
-        "dateCreated": "2015-01-01T06:00:00Z",
-        "dateModified": "2015-02-02T11:30:00Z",
+        "dateCreated": "2015-01-01T06:00:00.000Z",
+        "dateModified": "2015-02-02T11:30:00.000Z",
         "datePublished": null,
         "duration": 1420
     },
@@ -44,13 +44,13 @@
         "keywords": [],
         "isPartOf": null,
         "properties": {},
-        "dateCreated": "2015-01-01T06:00:00Z",
+        "dateCreated": "2015-01-01T06:00:00.000Z",
         "dateModified": null,
         "datePublished": null,
         "currentTime": 710
     },
     "generated": null,
-    "startedAtTime": "2015-02-15T10:15:00Z",
+    "startedAtTime": "2015-02-15T10:15:00.000Z",
     "endedAtTime": null,
     "duration": null,
     "edApp": {
@@ -59,8 +59,8 @@
         "name": "Super Media Tool",
         "description": null,
         "properties": {},
-        "dateCreated": "2015-01-01T06:00:00Z",
-        "dateModified": "2015-02-02T11:30:00Z"
+        "dateCreated": "2015-01-01T06:00:00.000Z",
+        "dateModified": "2015-02-02T11:30:00.000Z"
     },
     "group": {
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101",
@@ -72,7 +72,7 @@
         "description": null,
         "parentOrg": null,
         "properties": {},
-        "dateCreated": "2015-01-01T06:00:00Z",
-        "dateModified": "2015-02-02T11:30:00Z"
+        "dateCreated": "2015-01-01T06:00:00.000Z",
+        "dateModified": "2015-02-02T11:30:00.000Z"
     }
 }

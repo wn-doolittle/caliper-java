@@ -2,9 +2,10 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.foaf.Agent;
-
-import java.util.Date;
+import org.imsglobal.caliper.json.DateTimeSerializer;
+import org.joda.time.DateTime;
 
 @JsonPropertyOrder({
     "@id",
@@ -27,10 +28,10 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
     private final Agent actor;
 
     @JsonProperty("startedAtTime")
-    private Date startedAtTime;
+    private DateTime startedAtTime;
 
     @JsonProperty("endedAtTime")
-    private Date endedAtTime;
+    private DateTime endedAtTime;
 
     @JsonProperty("duration")
     private String duration;
@@ -65,20 +66,23 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
     /**
      * @return session start time
      */
-    public Date getStartedAtTime() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getStartedAtTime() {
         return startedAtTime;
     }
 
     /**
      * @return session end time
      */
-    public Date getEndedAtTime() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getEndedAtTime() {
         return endedAtTime;
     }
 
     /**
      * @return session duration
      */
+    @JsonSerialize(using = DateTimeSerializer.class)
     public String getDuration() {
         return duration;
     }
@@ -90,8 +94,8 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
         private Agent actor;
-        private Date startedAtTime;
-        private Date endedAtTime;
+        private DateTime startedAtTime;
+        private DateTime endedAtTime;
         private String duration;
 
         /**
@@ -123,7 +127,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
          * @param startedAtTime
          * @return builder.
          */
-        public T startedAtTime(Date startedAtTime) {
+        public T startedAtTime(DateTime startedAtTime) {
             this.startedAtTime = startedAtTime;
             return self();
         }
@@ -132,7 +136,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
          * @param endedAtTime
          * @return builder.
          */
-        public T endedAtTime(Date endedAtTime) {
+        public T endedAtTime(DateTime endedAtTime) {
             this.endedAtTime = endedAtTime;
             return self();
         }

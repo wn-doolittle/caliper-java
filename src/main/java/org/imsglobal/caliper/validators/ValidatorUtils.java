@@ -1,6 +1,6 @@
 package org.imsglobal.caliper.validators;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 public class ValidatorUtils {
 
@@ -24,7 +24,7 @@ public class ValidatorUtils {
      * @param startedAtTime
      * @return boolean true/false
      */
-    public static boolean checkStartedAtTime(Date startedAtTime) {
+    public static boolean checkStartedAtTime(DateTime startedAtTime) {
         //TODO refactor if times are changed to ISO-8601 format.
         return true;
     }
@@ -34,7 +34,7 @@ public class ValidatorUtils {
      * @param endedAtTime
      * @return boolean true/false
      */
-    public static boolean checkEndedAtTime(Date endedAtTime) {
+    public static boolean checkEndedAtTime(DateTime endedAtTime) {
         //TODO refactor if times are changed to ISO-8601 format.
         return true;
     }
@@ -46,7 +46,7 @@ public class ValidatorUtils {
      * @param endedAtTime
      * @return boolean true/false.
      */
-    public static boolean checkStartEndTimes(Date startedAtTime, Date endedAtTime) {
+    public static boolean checkStartEndTimes(DateTime startedAtTime, DateTime endedAtTime) {
         return true;
     }
 

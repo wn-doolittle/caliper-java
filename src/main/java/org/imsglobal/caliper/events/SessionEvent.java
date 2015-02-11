@@ -3,19 +3,20 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.Session;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Organization;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
+import org.imsglobal.caliper.json.DateTimeSerializer;
 import org.imsglobal.caliper.profiles.ProfileUtils;
 import org.imsglobal.caliper.profiles.SessionProfile;
 import org.imsglobal.caliper.validators.EventValidator.Conformance;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Date;
 
 @JsonPropertyOrder({
     "@context",
@@ -60,10 +61,10 @@ public class SessionEvent implements Event {
     private final Session generated;
 
     @JsonProperty("startedAtTime")
-    private final Date startedAtTime;
+    private final DateTime startedAtTime;
 
     @JsonProperty("endedAtTime")
-    private final Date endedAtTime;
+    private final DateTime endedAtTime;
 
     @JsonProperty("duration")
     private final String duration;
@@ -178,7 +179,8 @@ public class SessionEvent implements Event {
      * Required.
      * @return the startedAtTime
      */
-    public Date getStartedAtTime() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getStartedAtTime() {
         return startedAtTime;
     }
 
@@ -186,7 +188,8 @@ public class SessionEvent implements Event {
      * Required for session.loggedOut and session.timedOut events; otherwise optional.
      * @return endedAtTime
      */
-    public Date getEndedAtTime() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getEndedAtTime() {
         return endedAtTime;
     }
 
@@ -220,8 +223,8 @@ public class SessionEvent implements Event {
         private SoftwareApplication object;
         private Targetable target;
         private Session generated;
-        private Date startedAtTime;
-        private Date endedAtTime;
+        private DateTime startedAtTime;
+        private DateTime endedAtTime;
         private String duration;
 
         public Builder() {
@@ -318,7 +321,7 @@ public class SessionEvent implements Event {
          * @param startedAtTime
          * @return builder.
          */
-        public Builder startedAtTime(Date startedAtTime) {
+        public Builder startedAtTime(DateTime startedAtTime) {
             this.startedAtTime = startedAtTime;
             return this;
         }
@@ -327,7 +330,7 @@ public class SessionEvent implements Event {
          * @param endedAtTime
          * @return builder.
          */
-        public Builder endedAtTime(Date endedAtTime) {
+        public Builder endedAtTime(DateTime endedAtTime) {
             this.endedAtTime = endedAtTime;
             return this;
         }

@@ -3,19 +3,20 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.lis.Organization;
 import org.imsglobal.caliper.entities.lis.Person;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
+import org.imsglobal.caliper.json.DateTimeSerializer;
 import org.imsglobal.caliper.profiles.NavigationProfile;
 import org.imsglobal.caliper.profiles.ProfileUtils;
 import org.imsglobal.caliper.validators.EventValidator.Conformance;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Date;
 
 @JsonPropertyOrder({
     "@context",
@@ -64,10 +65,10 @@ public class NavigationEvent implements Event {
     private final Generatable generated;
 
     @JsonProperty("startedAtTime")
-    private final Date startedAtTime;
+    private final DateTime startedAtTime;
 
     @JsonProperty("endedAtTime")
-    private final Date endedAtTime;
+    private final DateTime endedAtTime;
 
     @JsonProperty("duration")
     private final String duration;
@@ -192,7 +193,8 @@ public class NavigationEvent implements Event {
      * Required.
      * @return the startedAt time
      */
-    public Date getStartedAtTime() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getStartedAtTime() {
         return startedAtTime;
     }
 
@@ -200,7 +202,8 @@ public class NavigationEvent implements Event {
      * Optional.
      * @return endedAt time
      */
-    public Date getEndedAtTime() {
+    @JsonSerialize(using = DateTimeSerializer.class)
+    public DateTime getEndedAtTime() {
         return endedAtTime;
     }
 
@@ -232,8 +235,8 @@ public class NavigationEvent implements Event {
         private DigitalResource fromResource;
         private DigitalResource target;
         private Generatable generated;
-        private Date startedAtTime;
-        private Date endedAtTime;
+        private DateTime startedAtTime;
+        private DateTime endedAtTime;
         private String duration;
 
         /**
@@ -342,7 +345,7 @@ public class NavigationEvent implements Event {
          * @param startedAtTime
          * @return builder.
          */
-        public Builder startedAtTime(Date startedAtTime) {
+        public Builder startedAtTime(DateTime startedAtTime) {
             this.startedAtTime = startedAtTime;
             return this;
         }
@@ -351,7 +354,7 @@ public class NavigationEvent implements Event {
          * @param endedAtTime
          * @return builder.
          */
-        public Builder endedAtTime(Date endedAtTime) {
+        public Builder endedAtTime(DateTime endedAtTime) {
             this.endedAtTime = endedAtTime;
             return this;
         }

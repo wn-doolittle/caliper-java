@@ -7,8 +7,8 @@
         "name": null,
         "description": null,
         "properties": {},
-        "dateCreated": "2015-01-01T06:00:00Z",
-        "dateModified": "2015-02-02T11:30:00Z"
+        "dateCreated": "2015-01-01T06:00:00.000Z",
+        "dateModified": "2015-02-02T11:30:00.000Z"
     },
     "action": "tagged",
     "object": {
@@ -17,8 +17,8 @@
         "name": null,
         "description": null,
         "properties": {},
-        "dateCreated": "2015-01-01T06:00:00Z",
-        "dateModified": "2015-02-02T11:30:00Z",
+        "dateCreated": "2015-01-01T06:00:00.000Z",
+        "dateModified": "2015-02-02T11:30:00.000Z",
         "tags": ["to-read", "1765", "shared-with-project-team"]
     },
     "target": {
@@ -39,18 +39,18 @@
             "keywords": [],
             "isPartOf": null,
             "properties": {},
-            "dateCreated": "2015-01-01T06:00:00Z",
-            "dateModified": "2015-02-02T11:30:00Z",
+            "dateCreated": "2015-01-01T06:00:00.000Z",
+            "dateModified": "2015-02-02T11:30:00.000Z",
             "datePublished": null
         },
         "properties": {},
-        "dateCreated": "2015-01-01T06:00:00Z",
-        "dateModified": "2015-02-02T11:30:00Z",
+        "dateCreated": "2015-01-01T06:00:00.000Z",
+        "dateModified": "2015-02-02T11:30:00.000Z",
         "datePublished": null,
         "index": 4
     },
     "generated": null,
-    "startedAtTime": "2015-02-15T10:15:00Z",
+    "startedAtTime": "2015-02-15T10:15:00.000Z",
     "endedAtTime": null,
     "duration": null,
     "edApp": {
@@ -59,8 +59,8 @@
         "name": "Readium",
         "description": null,
         "properties": {},
-        "dateCreated": "2015-01-01T06:00:00Z",
-        "dateModified": "2015-02-02T11:30:00Z"
+        "dateCreated": "2015-01-01T06:00:00.000Z",
+        "dateModified": "2015-02-02T11:30:00.000Z"
     },
     "group": {
         "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101",
@@ -72,7 +72,7 @@
         "description": null,
         "parentOrg": null,
         "properties": {},
-        "dateCreated": "2015-01-01T06:00:00Z",
-        "dateModified": "2015-02-02T11:30:00Z"
+        "dateCreated": "2015-01-01T06:00:00.000Z",
+        "dateModified": "2015-02-02T11:30:00.000Z"
     }
 }
