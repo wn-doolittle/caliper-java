@@ -10,7 +10,6 @@ import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Organization;
 import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
-import org.imsglobal.caliper.json.DateTimeSerializer;
 import org.imsglobal.caliper.profiles.OutcomeProfile;
 import org.imsglobal.caliper.profiles.ProfileUtils;
 import org.imsglobal.caliper.validators.EventValidator.Conformance;
@@ -181,7 +180,7 @@ public class OutcomeEvent implements Event {
      * Required.
      * @return the startedAt time
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
@@ -190,7 +189,7 @@ public class OutcomeEvent implements Event {
      * Optional.
      * @return endedAt time
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getEndedAtTime() {
         return endedAtTime;
     }

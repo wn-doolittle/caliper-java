@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
-import org.imsglobal.caliper.json.DateTimeSerializer;
 import org.joda.time.DateTime;
 
 import java.util.Map;
@@ -124,7 +123,7 @@ public abstract class Entity implements Thing {
     /**
      * @return date created.
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getDateCreated()
     {
         return dateCreated;
@@ -133,7 +132,7 @@ public abstract class Entity implements Thing {
     /**
      * @return the date modified.
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getDateModified() {
         return dateModified;
     }

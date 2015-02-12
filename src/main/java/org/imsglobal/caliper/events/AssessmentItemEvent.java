@@ -10,7 +10,6 @@ import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.lis.Organization;
 import org.imsglobal.caliper.entities.lis.Person;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
-import org.imsglobal.caliper.json.DateTimeSerializer;
 import org.imsglobal.caliper.profiles.AssessmentItemProfile;
 import org.imsglobal.caliper.profiles.ProfileUtils;
 import org.imsglobal.caliper.validators.EventValidator.Conformance;
@@ -182,7 +181,7 @@ public class AssessmentItemEvent implements Event {
      * Required.
      * @return the startedAt time
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
@@ -191,7 +190,7 @@ public class AssessmentItemEvent implements Event {
      * Optional.
      * @return endedAt time
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getEndedAtTime() {
         return endedAtTime;
     }

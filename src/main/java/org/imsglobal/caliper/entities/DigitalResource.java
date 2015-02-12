@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.json.DateTimeSerializer;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -150,7 +149,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     /**
      * @return date published
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getDatePublished() {
         return datePublished;
     }

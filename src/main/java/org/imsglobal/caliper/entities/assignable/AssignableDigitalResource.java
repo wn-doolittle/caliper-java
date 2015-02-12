@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.json.DateTimeSerializer;
 import org.joda.time.DateTime;
 
 /**
@@ -108,7 +107,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateCreated
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getDateCreated() {
         return dateCreated;
     }
@@ -116,7 +115,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateToActivate
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getDateToActivate() {
         return dateToActivate;
     }
@@ -124,7 +123,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateToShow
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getDateToShow() {
         return dateToShow;
     }
@@ -132,7 +131,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateToStartOn
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getDateToStartOn() {
         return dateToStartOn;
     }
@@ -140,7 +139,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateToSubmit
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getDateToSubmit() {
         return dateToSubmit;
     }

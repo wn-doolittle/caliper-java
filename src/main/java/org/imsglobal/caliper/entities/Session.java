@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.json.DateTimeSerializer;
 import org.joda.time.DateTime;
 
 @JsonPropertyOrder({
@@ -66,7 +65,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
     /**
      * @return session start time
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
@@ -74,7 +73,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
     /**
      * @return session end time
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getEndedAtTime() {
         return endedAtTime;
     }
@@ -82,7 +81,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
     /**
      * @return session duration
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public String getDuration() {
         return duration;
     }

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.json.DateTimeSerializer;
 import org.joda.time.DateTime;
 
 /**
@@ -103,7 +102,7 @@ public class Attempt extends Entity implements Generatable {
     /**
      * @return started at time
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
@@ -111,7 +110,7 @@ public class Attempt extends Entity implements Generatable {
     /**
      * @return ended at time
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getEndedAtTime() {
         return endedAtTime;
     }
@@ -119,7 +118,7 @@ public class Attempt extends Entity implements Generatable {
     /**
      * @return duration of event
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public String getDuration() {
         return duration;
     }
