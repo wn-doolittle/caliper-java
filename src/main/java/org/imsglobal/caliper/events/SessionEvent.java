@@ -9,7 +9,6 @@ import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Organization;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
-import org.imsglobal.caliper.json.DateTimeSerializer;
 import org.imsglobal.caliper.profiles.ProfileUtils;
 import org.imsglobal.caliper.profiles.SessionProfile;
 import org.imsglobal.caliper.validators.EventValidator.Conformance;
@@ -179,7 +178,7 @@ public class SessionEvent implements Event {
      * Required.
      * @return the startedAtTime
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
@@ -188,7 +187,7 @@ public class SessionEvent implements Event {
      * Required for session.loggedOut and session.timedOut events; otherwise optional.
      * @return endedAtTime
      */
-    @JsonSerialize(using = DateTimeSerializer.class)
+
     public DateTime getEndedAtTime() {
         return endedAtTime;
     }

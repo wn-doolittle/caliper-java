@@ -3,6 +3,7 @@ package org.imsglobal.caliper.request;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.google.common.collect.Lists;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.entities.Entity;
@@ -67,6 +68,7 @@ public abstract class EventStoreRequestor {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(new ISO8601DateFormat());
+        mapper.registerModule(new JodaModule());
         String jsonPayload = null;
         try {
             jsonPayload = mapper.writeValueAsString(listPayload);
@@ -83,6 +85,7 @@ public abstract class EventStoreRequestor {
     protected String marshalEvent(Event caliperEvent) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(new ISO8601DateFormat());
+        mapper.registerModule(new JodaModule());
         return mapper.writeValueAsString(caliperEvent);
     }
 }
