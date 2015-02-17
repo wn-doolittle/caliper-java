@@ -7,6 +7,7 @@ import org.imsglobal.caliper.entities.annotation.*;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.entities.assignable.Response;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.CourseSection;
 import org.imsglobal.caliper.entities.lis.Person;
@@ -163,8 +164,8 @@ public class TestUtils {
     public static Attempt buildAssessmentAttempt(LearningContext learningContext, Assessment assessment) {
         return Attempt.builder()
             .id(assessment.getId() + "/attempt1")
-                .assignableId(assessment.getId())
-                .actorId(((Person) learningContext.getAgent()).getId())
+            .assignableId(assessment.getId())
+            .actorId(((Person) learningContext.getAgent()).getId())
             .count(1)
             .dateCreated(getDefaultDateCreated())
             .startedAtTime(getDefaultStartedAtTime())
@@ -195,21 +196,76 @@ public class TestUtils {
 
     /**
      * @param learningContext
+     * @param assessment
+     * @return assessment attempt.
+     */
+    public static Attempt buildAssessmentItemAttempt(LearningContext learningContext, Assessment assessment) {
+        return Attempt.builder()
+            .id(assessment.getId() + "/item1/attempt1")
+            .assignableId(assessment.getId())
+            .actorId(((Person) learningContext.getAgent()).getId())
+            .count(1)
+            .dateCreated(getDefaultDateCreated())
+            .startedAtTime(getDefaultStartedAtTime())
+            .build();
+    }
+
+    /**
+     * @param learningContext
+     * @param item
+     * @param actionKey
+     * @param response
+     * @retur item event
+     */
+    public static AssessmentItemEvent buildAssessmentItemCompletedEvent(LearningContext learningContext,
+                                                                      AssessmentItem item,
+                                                                      String actionKey,
+                                                                      Response response) {
+        return AssessmentItemEvent.builder()
+                .edApp(learningContext.getEdApp())
+                .lisOrganization(learningContext.getLisOrganization())
+                .actor((Person) learningContext.getAgent())
+                .action(actionKey)
+                .object(item)
+                .generated(response)
+                .startedAtTime(getDefaultStartedAtTime())
+                .build();
+    }
+
+    /**
+     * @param learningContext
      * @param item
      * @param actionKey
      * @return assessment item event
      */
-    public static AssessmentItemEvent buildAssessmentItemEvent(LearningContext learningContext,
+    public static AssessmentItemEvent buildAssessmentItemStartedEvent(LearningContext learningContext,
                                                                AssessmentItem item,
-                                                               String actionKey) {
+                                                               String actionKey,
+                                                               Attempt attempt) {
         return AssessmentItemEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())
             .action(actionKey)
             .object(item)
-            //.generated(Response.builder() . . .) TODO:Add item response
+            .generated(attempt)
             .startedAtTime(getDefaultStartedAtTime())
+            .build();
+    }
+
+    /**
+     * @param attempt
+     * @return response
+     */
+    public static Response buildAssessmentItemResponse(Attempt attempt, String value) {
+        return Response.builder()
+            .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1/response1")
+            .actorId(attempt.getActorId())
+            .assignableId(attempt.getAssignableId())
+            .attempt(attempt)
+            .dateCreated(getDefaultDateCreated())
+            .startedAtTime(getDefaultStartedAtTime())
+            .value(value)
             .build();
     }
 
@@ -226,6 +282,8 @@ public class TestUtils {
                     .maxAttempts(2)
                     .maxSubmits(2)
                     .maxScore(1)
+                    .cardinality("single")
+                    .isTimeDependent(false)
                     .build())
             .add(AssessmentItem.builder()
                     .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2")
@@ -234,6 +292,8 @@ public class TestUtils {
                     .maxAttempts(2)
                     .maxSubmits(2)
                     .maxScore(1)
+                    .cardinality("single")
+                    .isTimeDependent(false)
                     .build())
             .add(AssessmentItem.builder()
                     .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3")
@@ -242,6 +302,8 @@ public class TestUtils {
                     .maxAttempts(2)
                     .maxSubmits(2)
                     .maxScore(1)
+                    .cardinality("single")
+                    .isTimeDependent(false)
                     .build())
             .build();
     }

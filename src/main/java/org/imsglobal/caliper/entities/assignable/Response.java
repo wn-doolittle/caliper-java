@@ -2,17 +2,16 @@ package org.imsglobal.caliper.entities.assignable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
-/**
- * Representation of an Attempt. Attempts are generated as part of or
- * are the object of an interaction represented by an AssignableEvent.
- */
 @JsonPropertyOrder({
     "@id",
     "@type",
@@ -23,23 +22,27 @@ import javax.annotation.Nullable;
     "dateModified",
     "assignable",
     "actor",
-    "count",
+    "attempt",
+    "values",
     "startedAtTime",
     "endedAtTime",
     "duration" })
-public class Attempt extends Entity implements Generatable {
+public class Response extends Entity implements Generatable {
 
     @JsonProperty("@type")
     private final String type;
 
     @JsonProperty("assignable")
-    private final String assignableId;
+    private final String assignableId; // retain? can retrieve from attempt
 
     @JsonProperty("actor")
-    private final String actorId;
+    private final String actorId; // retain? can retrieve from attempt
 
-    @JsonProperty("count")
-    private int count;
+    @JsonProperty("attempt")
+    private Attempt attempt;
+
+    @JsonProperty("values")
+    private ImmutableList<Object> values;
 
     @JsonProperty("startedAtTime")
     private DateTime startedAtTime;
@@ -53,12 +56,13 @@ public class Attempt extends Entity implements Generatable {
     /**
      * @param builder apply builder object properties to the Attempt object.
      */
-    protected Attempt(Builder<?> builder) {
+    protected Response(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.assignableId = builder.assignableId;
         this.actorId = builder.actorId;
-        this.count = builder.count;
+        this.attempt = builder.attempt;
+        this.values = ImmutableList.copyOf(builder.values);
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
         this.duration = builder.duration;
@@ -90,17 +94,25 @@ public class Attempt extends Entity implements Generatable {
     }
 
     /**
-     * @return the count
+     * @return attempt associated with the response;
      */
     @Nonnull
-    public int getCount() {
-        return count;
+    public Attempt getAttempt() {
+        return attempt;
+    }
+
+    /**
+     * @return response values
+     */
+    @Nullable
+    public List<Object> getValues() {
+        return values;
     }
 
     /**
      * @return started at time
      */
-    @Nonnull
+    @Nullable
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
@@ -135,7 +147,8 @@ public class Attempt extends Entity implements Generatable {
         private String type;
         private String assignableId;
         private String actorId;
-        private int count;
+        private Attempt attempt;
+        private List<Object> values = Lists.newArrayList();;
         private DateTime startedAtTime;
         private DateTime endedAtTime;
         private String duration;
@@ -144,7 +157,7 @@ public class Attempt extends Entity implements Generatable {
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(Entity.Type.ATTEMPT.uri());
+            type(Entity.Type.RESPONSE.uri());
         }
 
         /**
@@ -175,17 +188,35 @@ public class Attempt extends Entity implements Generatable {
         }
 
         /**
-         * @param count
-         * @return builder
+         * @param attempt
+         * @return builder.
          */
-        public T count(int count) {
-            this.count = count;
+        public T attempt(Attempt attempt) {
+            this.attempt = attempt;
+            return self();
+        }
+
+        /**
+         * @param values
+         * @return builder.
+         */
+        public T values(List<Object> values) {
+            this.values = values;
+            return self();
+        }
+
+        /**
+         * @param value
+         * @return builder.
+         */
+        public T value(Object value) {
+            this.values.add(value);
             return self();
         }
 
         /**
          * @param startedAtTime
-         * @return
+         * @return builder.
          */
         public T startedAtTime(DateTime startedAtTime) {
             this.startedAtTime = startedAtTime;
@@ -194,7 +225,7 @@ public class Attempt extends Entity implements Generatable {
 
         /**
          * @param endedAtTime
-         * @return builder
+         * @return builder.
          */
         public T endedAtTime(DateTime endedAtTime) {
             this.endedAtTime = endedAtTime;
@@ -203,7 +234,7 @@ public class Attempt extends Entity implements Generatable {
 
         /**
          * @param duration
-         * @return
+         * @return builder.
          */
         public T duration(String duration) {
             this.duration = duration;
@@ -212,10 +243,10 @@ public class Attempt extends Entity implements Generatable {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of Attempt.
+         * @return a new instance of Response.
          */
-        public Attempt build() {
-            return new Attempt(this);
+        public Response build() {
+            return new Response(this);
         }
     }
 

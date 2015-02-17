@@ -3,7 +3,6 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
@@ -168,8 +167,7 @@ public class AssessmentItemEvent implements Event {
     }
 
     /**
-     * //TODO return response.
-     * Required.  Override with a covariant return type (Response)
+     * Required.
      * @return generated
      */
     @Override
@@ -314,7 +312,6 @@ public class AssessmentItemEvent implements Event {
          * @param generated
          * @return builder.
          */
-        // TODO change type to Response
         public Builder generated(Generatable generated) {
             this.generated = generated;
             return this;

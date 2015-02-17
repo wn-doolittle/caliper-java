@@ -2,7 +2,6 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
@@ -25,7 +24,7 @@ public abstract class Entity implements Thing {
         LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
         LIS_PERSON("http://purl.imsglobal.org/caliper/v1/lis/Person"),
         LIS_ORGANIZATION("http://purl.imsglobal.org/caliper/v1/lis/Organization"),
-        //RESPONSE("http://purl.imsglobal.org/caliper/v1/Response"),
+        RESPONSE("http://purl.imsglobal.org/caliper/v1/Response"),
         RESULT("http://purl.imsglobal.org/caliper/v1/Result"),
         SESSION("http://purl.imsglobal.org/caliper/v1/Session"),
         SOFTWARE_APPLICATION("http://purl.imsglobal.org/caliper/v1/SoftwareApplication"),
