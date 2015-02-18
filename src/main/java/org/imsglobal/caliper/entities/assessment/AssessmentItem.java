@@ -31,16 +31,12 @@ import javax.annotation.Nullable;
     "maxAttempts",
     "maxSubmits",
     "maxScore",
-    "cardinality",
     "correctResponse",
     "isTimeDependent" })
 public class AssessmentItem extends AssignableDigitalResource implements org.imsglobal.caliper.entities.qti.AssessmentItem {
 
     @JsonProperty("@type")
     private final String type;
-
-    @JsonProperty("cardinality")
-    private final String cardinality;
 
     @JsonProperty("correctResponse")
     private final Response correctResponse;
@@ -54,11 +50,8 @@ public class AssessmentItem extends AssignableDigitalResource implements org.ims
     protected AssessmentItem(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.cardinality = builder.cardinality;
         this.correctResponse = builder.correctResponse;
         this.isTimeDependent = builder.isTimeDependent;
-
-        //TODO validation: check cardinality, times
     }
 
     /**
@@ -68,19 +61,6 @@ public class AssessmentItem extends AssignableDigitalResource implements org.ims
     @Nonnull
     public String getType() {
         return type;
-    }
-
-    /**
-     * The number of sub-actions required of an actor in order to generate a response.
-     * Single: a single actor response with each item consisting of a single response-type.
-     * Multiple: one or more actor responses with each item consisting of a single response-type.
-     * Ordered: One or more actor responses with each item consisting of a single response-type,
-     * and the order of selection being significant.
-     * @return the cardinality of the response (single, multiple, ordered)
-     */
-    @Nullable
-    public String getCardinality() {
-        return cardinality;
     }
 
     /**
@@ -110,7 +90,6 @@ public class AssessmentItem extends AssignableDigitalResource implements org.ims
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
         private String type = AssignableDigitalResource.Type.ASSESSMENT_ITEM.uri();
-        private String cardinality;
         private Response correctResponse;
         private boolean isTimeDependent = false;
 
@@ -127,15 +106,6 @@ public class AssessmentItem extends AssignableDigitalResource implements org.ims
          */
         public T type(String type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param cardinality
-         * @return builder.
-         */
-        public T cardinality(String cardinality) {
-            this.cardinality = cardinality;
             return self();
         }
 

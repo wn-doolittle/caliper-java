@@ -31,7 +31,6 @@
     "maxAttempts": 2,
     "maxSubmits": 2,
     "maxScore": 1.0,
-    "cardinality": "single",
     "correctResponse": null,
     "isTimeDependent": false
   },
