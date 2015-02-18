@@ -51,7 +51,6 @@
             "maxAttempts": 2,
             "maxSubmits": 2,
             "maxScore": 1.0,
-            "correctResponse": null,
             "isTimeDependent": false
         },{
             "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2",
@@ -73,7 +72,6 @@
             "maxAttempts": 2,
             "maxSubmits": 2,
             "maxScore": 1.0,
-            "correctResponse": null,
             "isTimeDependent": false
         },{
             "@id": "https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3",
@@ -95,7 +93,6 @@
             "maxAttempts": 2,
             "maxSubmits": 2,
             "maxScore": 1.0,
-            "correctResponse": null,
             "isTimeDependent": false
         }]
     },

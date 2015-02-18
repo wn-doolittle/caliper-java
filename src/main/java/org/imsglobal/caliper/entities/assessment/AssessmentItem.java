@@ -3,10 +3,8 @@ package org.imsglobal.caliper.entities.assessment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
-import org.imsglobal.caliper.entities.assignable.Response;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Caliper representation of an Assessment Item.  Part of the Assessment Metric Profile.
@@ -31,15 +29,11 @@ import javax.annotation.Nullable;
     "maxAttempts",
     "maxSubmits",
     "maxScore",
-    "correctResponse",
     "isTimeDependent" })
 public class AssessmentItem extends AssignableDigitalResource implements org.imsglobal.caliper.entities.qti.AssessmentItem {
 
     @JsonProperty("@type")
     private final String type;
-
-    @JsonProperty("correctResponse")
-    private final Response correctResponse;
 
     @JsonProperty("isTimeDependent")
     private final boolean isTimeDependent;
@@ -50,7 +44,6 @@ public class AssessmentItem extends AssignableDigitalResource implements org.ims
     protected AssessmentItem(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.correctResponse = builder.correctResponse;
         this.isTimeDependent = builder.isTimeDependent;
     }
 
@@ -61,14 +54,6 @@ public class AssessmentItem extends AssignableDigitalResource implements org.ims
     @Nonnull
     public String getType() {
         return type;
-    }
-
-    /**
-     * @return the correct response
-     */
-    @Nullable
-    public Response getCorrectResponse() {
-        return correctResponse;
     }
 
     /**
@@ -90,7 +75,6 @@ public class AssessmentItem extends AssignableDigitalResource implements org.ims
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
         private String type = AssignableDigitalResource.Type.ASSESSMENT_ITEM.uri();
-        private Response correctResponse;
         private boolean isTimeDependent = false;
 
         /**
@@ -106,15 +90,6 @@ public class AssessmentItem extends AssignableDigitalResource implements org.ims
          */
         public T type(String type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param correctResponse
-         * @return builder
-         */
-        public T correctResponse(Response correctResponse) {
-            this.correctResponse = correctResponse;
             return self();
         }
 
