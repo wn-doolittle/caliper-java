@@ -578,11 +578,11 @@ public class TestUtils {
      * @param target
      * @return EPUB view event
      */
-    public static ReadingEvent buildEpubViewEvent(LearningContext learningContext,
+    public static ViewEvent buildEpubViewEvent(LearningContext learningContext,
                                                DigitalResource epub,
                                                String actionKey,
                                                DigitalResource target) {
-        return ReadingEvent.builder()
+        return ViewEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())

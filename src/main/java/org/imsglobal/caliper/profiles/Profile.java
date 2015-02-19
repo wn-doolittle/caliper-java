@@ -1,32 +1,37 @@
 package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.ImmutableMap;
-import org.imsglobal.caliper.events.NavigationEvent;
-import org.imsglobal.caliper.validators.EventValidator;
-import org.imsglobal.caliper.validators.EventValidatorContext;
-import org.imsglobal.caliper.validators.NavigationEventValidator;
-import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.validators.*;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class NavigationProfile {
+public class Profile {
 
     public enum Actions {
         NAVIGATED_TO("navigation.navigatedTo") {
             @Override
-            ValidatorResult validate(NavigationEvent event) {
+            ValidatorResult validate(Event event) {
                 EventValidatorContext validator;
                 validator = new EventValidatorContext(new NavigationEventValidator());
                 return validator.validate(event);
             }
         },
+        VIEWED("reading.viewed") {
+            @Override
+            ValidatorResult validate(Event event) {
+                EventValidatorContext validator;
+                validator = new EventValidatorContext(new ViewEventValidator());
+                return validator.validate(event);
+            }
+        },
         UNRECOGNIZED("action.unrecognized") {
             @Override
-            ValidatorResult validate(NavigationEvent event) {
+            ValidatorResult validate(Event event) {
                 ValidatorResult result = new ValidatorResult();
-                result.errorMessage().appendText("Caliper Navigation profile conformance: "
+                result.errorMessage().appendText("Caliper metric profile conformance: "
                     + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
                 result.errorMessage().endSentence();
                 return result;
@@ -90,14 +95,14 @@ public class NavigationProfile {
          * Validate method implemented by each enum constant.
          * @param event
          */
-        abstract ValidatorResult validate(NavigationEvent event);
+        abstract ValidatorResult validate(Event event);
 
         /**
          * Match action to enum constant and then validate event.
          * @param event
          * @return error message if validation errors are encountered.
          */
-        protected static ValidatorResult validateEvent(NavigationEvent event) {
+        protected static ValidatorResult validateEvent(Event event) {
             return Actions.matchConstant(event.getAction()).validate(event);
         }
 
@@ -121,7 +126,7 @@ public class NavigationProfile {
     /**
      * Constructor
      */
-    public NavigationProfile() {
+    public Profile() {
 
     }
 
@@ -130,7 +135,7 @@ public class NavigationProfile {
      * @param event
      * @return ValidatorResult
      */
-    public static ValidatorResult validateEvent(NavigationEvent event) {
+    public static ValidatorResult validateEvent(Event event) {
         return Actions.validateEvent(event);
     }
 }

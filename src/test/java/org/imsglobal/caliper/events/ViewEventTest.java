@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
-import org.imsglobal.caliper.profiles.ReadingProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -21,7 +21,7 @@ public class ViewEventTest extends EventTest {
     private EpubVolume epub;
     private String key;
     private EpubSubChapter target;
-    private ReadingEvent event;
+    private ViewEvent event;
     private static final Logger LOG = LoggerFactory.getLogger(ViewEventTest.class);
 
     /**
@@ -40,7 +40,7 @@ public class ViewEventTest extends EventTest {
         target = TestUtils.buildEpubSubChap431();
 
         // Action
-        key = ReadingProfile.Actions.VIEWED.key();
+        key = Profile.Actions.VIEWED.key();
 
         // Build event
         event = TestUtils.buildEpubViewEvent(learningContext, epub, key, target);
