@@ -2,7 +2,6 @@ package org.imsglobal.caliper.entities.assignable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.joda.time.DateTime;
 

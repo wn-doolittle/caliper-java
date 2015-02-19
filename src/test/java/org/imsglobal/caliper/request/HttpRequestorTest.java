@@ -35,7 +35,7 @@ public class HttpRequestorTest {
     private DateTime timestamp;
     private String expectedContentType;
 
-    private static final Logger LOG = LoggerFactory.getLogger(HttpRequestorTest.class);
+    private static final Logger log = LoggerFactory.getLogger(HttpRequestorTest.class);
 
     @Before
     public void setup() {
@@ -70,7 +70,7 @@ public class HttpRequestorTest {
         String jsonPayload;
         jsonPayload = httpRequestor.getPayloadJson(event, id, timestamp);
 
-        LOG.debug("JSON payload: " + jsonPayload);
+        // log.debug("JSON payload: " + jsonPayload);
 
         assertEquals("Test HTTP Requestor payload JSON",
             jsonFixture("fixtures/eventStorePayload.json"), jsonPayload);

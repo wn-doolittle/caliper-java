@@ -18,6 +18,7 @@ public interface EventValidator {
         EVENT_ILLEGAL_STATE("event constructed in an illegal state."),
         GENERATED_NOT_ATTEMPT("generated object must be of type Attempt"),
         GENERATED_NOT_NULL("a generated object is not required"),
+        GENERATED_NOT_RESPONSE("generated object must be of type Response"),
         GENERATED_NOT_SESSION("generated object must be of type Session"),
         OBJECT_NOT_ASSESSMENT("object must be of type Assessment"),
         OBJECT_NOT_SOFTWAREAPP("object must be of type SoftwareApplication"),
