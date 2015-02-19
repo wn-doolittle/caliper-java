@@ -1,13 +1,19 @@
 package org.imsglobal.caliper.validators;
 
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.profiles.AssessmentItemProfile;
+import org.imsglobal.caliper.response.Response;
 
 public class AssessmentItemEventValidator implements EventValidator {
+
+    private String key;
+
     /**
      * Constructor
      */
-    public AssessmentItemEventValidator() {
-
+    public AssessmentItemEventValidator(String key) {
+        this.key = key;
     }
 
     /**
@@ -58,6 +64,18 @@ public class AssessmentItemEventValidator implements EventValidator {
 
         if (event.getTarget() != null) {
             result.errorMessage().appendText(context + Conformance.TARGET_NOT_NULL.violation());
+        }
+
+        if (key.equals(AssessmentItemProfile.Actions.COMPLETED.key())) {
+            ValidatorResult generatedResult = ResponseValidator.validate((Response) event.getGenerated());
+            if (!generatedResult.isValid()) {
+                result.errorMessage().appendText(generatedResult.errorMessage().toString());
+            }
+        } else {
+            ValidatorResult generatedResult = AttemptValidator.validate((Attempt) event.getGenerated());
+            if (!generatedResult.isValid()) {
+                result.errorMessage().appendText(generatedResult.errorMessage().toString());
+            }
         }
 
         if (ValidatorUtils.checkStartedAtTime(event.getStartedAtTime())) {

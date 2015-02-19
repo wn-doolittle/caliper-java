@@ -5,8 +5,8 @@ import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.entities.assignable.Response;
 import org.imsglobal.caliper.profiles.AssessmentItemProfile;
+import org.imsglobal.caliper.response.FillinBlankResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -22,7 +22,7 @@ public class AssessmentItemCompletedEventTest extends EventTest {
     private Assessment assessment;
     private AssessmentItem item;
     private Attempt attempt;
-    private Response response;
+    private FillinBlankResponse response;
     private String key;
     private AssessmentItemEvent event;
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentItemCompletedEventTest.class);
@@ -46,18 +46,18 @@ public class AssessmentItemCompletedEventTest extends EventTest {
         item = TestUtils.buildAssessment().getAssessmentItems().get(0);
 
         // Action
-        key = AssessmentItemProfile.Actions.STARTED.key();
+        key = AssessmentItemProfile.Actions.COMPLETED.key();
 
         // Response
-        response = TestUtils.buildAssessmentItemResponse(attempt, "2 July 1776");
+        response = TestUtils.buildFillinBlankResponse(attempt, "2 July 1776");
 
         // Build event
-        event = TestUtils.buildAssessmentItemCompletedEvent(learningContext, item, key, response);
+        event = TestUtils.buildFillinBlankCompletedEvent(learningContext, item, key, response);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        assertEquals("Test if Assessment Item Completed event is serialized to JSON with expected values",
+        assertEquals("Test if AssessmentItem Completed event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperAssessmentItemCompletedEvent.json"), serialize(event));
     }
 }

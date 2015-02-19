@@ -18,7 +18,7 @@ public class AssessmentItemProfile {
             @Override
             ValidatorResult validate(AssessmentItemEvent event) {
                 EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssessmentItemEventValidator());
+                validator = new EventValidatorContext(new AssessmentItemEventValidator(Actions.STARTED.key()));
                 return validator.validate(event);
             }
         },
@@ -26,7 +26,7 @@ public class AssessmentItemProfile {
             @Override
             ValidatorResult validate(AssessmentItemEvent event) {
                 EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssessmentItemEventValidator());
+                validator = new EventValidatorContext(new AssessmentItemEventValidator(Actions.COMPLETED.key()));
                 return validator.validate(event);
             }
         },
@@ -34,7 +34,7 @@ public class AssessmentItemProfile {
             @Override
             ValidatorResult validate(AssessmentItemEvent event) {
                 EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssessmentItemEventValidator());
+                validator = new EventValidatorContext(new AssessmentItemEventValidator(Actions.SKIPPED.key()));
                 return validator.validate(event);
             }
         },
@@ -42,7 +42,7 @@ public class AssessmentItemProfile {
             @Override
             ValidatorResult validate(AssessmentItemEvent event) {
                 EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssessmentItemEventValidator());
+                validator = new EventValidatorContext(new AssessmentItemEventValidator(Actions.REVIEWED.key()));
                 return validator.validate(event);
             }
         },
@@ -50,7 +50,7 @@ public class AssessmentItemProfile {
             @Override
             ValidatorResult validate(AssessmentItemEvent event) {
                 EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssessmentItemEventValidator());
+                validator = new EventValidatorContext(new AssessmentItemEventValidator(Actions.VIEWED.key()));
                 return validator.validate(event);
             }
         },

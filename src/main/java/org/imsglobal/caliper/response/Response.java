@@ -1,16 +1,17 @@
-package org.imsglobal.caliper.entities.assignable;
+package org.imsglobal.caliper.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonPropertyOrder({
     "@id",
@@ -23,11 +24,74 @@ import java.util.List;
     "assignable",
     "actor",
     "attempt",
-    "values",
     "startedAtTime",
     "endedAtTime",
     "duration" })
-public class Response extends Entity implements Generatable {
+public abstract class Response extends Entity implements Generatable {
+
+    public enum Type {
+        // DRAGOBJECT("http://purl.imsglobal.org/caliper/v1/Response/DragObject"),
+        // ESSAY("http://purl.imsglobal.org/caliper/v1/Response/Essay"),
+        // HOTSPOT("http://purl.imsglobal.org/caliper/v1/Response/HotSpot"),
+        FILLINBLANK("http://purl.imsglobal.org/caliper/v1/Response/FillinBlank"),
+        MULTIPLECHOICE("http://purl.imsglobal.org/caliper/v1/Response/MultipleChoice"),
+        MULTIPLERESPONSE("http://purl.imsglobal.org/caliper/v1/Response/MultipleResponse"),
+        SELECTTEXT("http://purl.imsglobal.org/caliper/v1/Response/SelectText"),
+        // SHORTANSWER("http://purl.imsglobal.org/caliper/v1/Response/ShortAnswer"),
+        // SLIDER("http://purl.imsglobal.org/caliper/v1/Response/Slider"),
+        TRUEFALSE("http://purl.imsglobal.org/caliper/v1/Response/TrueFalse");
+
+        private final String uri;
+        private static Map<String, Type> lookup;
+
+        /**
+         * Create reverse lookup hash map
+         */
+        static {
+            Map<String, Type> map = new HashMap<String, Type>();
+            for (Type constants : Type.values()) {
+                map.put(constants.uri(), constants);
+            }
+            lookup = ImmutableMap.copyOf(map);
+        }
+
+        /**
+         * Private constructor
+         * @param uri
+         */
+        private Type(final String uri) {
+            this.uri = uri;
+        }
+
+        /**
+         * @param key
+         * @return true if lookup returns a key match; false otherwise.
+         */
+        public static boolean hasKey(String key) {
+            return lookup.containsKey(key);
+        }
+
+        /**
+         * @return URI string
+         */
+        public String uri() {
+            return uri;
+        }
+
+        /**
+         * Based on reverse lookup map
+         * @param uri
+         * @return true/false
+         */
+        public static boolean matchTypeURI(String uri) {
+            for (Map.Entry<String, Type> entry: lookup.entrySet()) {
+                if (entry.getKey().equals(uri)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 
     @JsonProperty("@type")
     private final String type;
@@ -40,9 +104,6 @@ public class Response extends Entity implements Generatable {
 
     @JsonProperty("attempt")
     private Attempt attempt;
-
-    @JsonProperty("values")
-    private ImmutableList<Object> values;
 
     @JsonProperty("startedAtTime")
     private DateTime startedAtTime;
@@ -62,7 +123,6 @@ public class Response extends Entity implements Generatable {
         this.assignableId = builder.assignableId;
         this.actorId = builder.actorId;
         this.attempt = builder.attempt;
-        this.values = ImmutableList.copyOf(builder.values);
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
         this.duration = builder.duration;
@@ -99,14 +159,6 @@ public class Response extends Entity implements Generatable {
     @Nonnull
     public Attempt getAttempt() {
         return attempt;
-    }
-
-    /**
-     * @return response values
-     */
-    @Nullable
-    public List<Object> getValues() {
-        return values;
     }
 
     /**
@@ -148,7 +200,6 @@ public class Response extends Entity implements Generatable {
         private String assignableId;
         private String actorId;
         private Attempt attempt;
-        private List<Object> values = Lists.newArrayList();;
         private DateTime startedAtTime;
         private DateTime endedAtTime;
         private String duration;
@@ -197,24 +248,6 @@ public class Response extends Entity implements Generatable {
         }
 
         /**
-         * @param values
-         * @return builder.
-         */
-        public T values(List<Object> values) {
-            this.values = values;
-            return self();
-        }
-
-        /**
-         * @param value
-         * @return builder.
-         */
-        public T value(Object value) {
-            this.values.add(value);
-            return self();
-        }
-
-        /**
          * @param startedAtTime
          * @return builder.
          */
@@ -240,14 +273,6 @@ public class Response extends Entity implements Generatable {
             this.duration = duration;
             return self();
         }
-
-        /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of Response.
-         */
-        public Response build() {
-            return new Response(this);
-        }
     }
 
     /**
@@ -258,13 +283,5 @@ public class Response extends Entity implements Generatable {
         protected Builder2 self() {
             return this;
         }
-    }
-
-    /**
-     * Static factory method.
-     * @return a new instance of the builder.
-     */
-    public static Builder<?> builder() {
-        return new Builder2();
     }
 }

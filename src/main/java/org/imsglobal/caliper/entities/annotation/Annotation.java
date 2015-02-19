@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
-import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
 /**
  * The super-class of all Annotation types.
@@ -14,7 +13,7 @@ import org.imsglobal.caliper.entities.schemadotorg.Thing;
  * which are specified in the Caliper Annotation Metric Profile
  */
 @JsonPropertyOrder({ "@id", "@type", "name", "description", "properties", "dateCreated", "dateModified" })
-public abstract class Annotation extends Entity implements Thing {
+public abstract class Annotation extends Entity {
 
     public enum Type {
         ANNOTATION("http://purl.imsglobal.org/caliper/v1/Annotation"),

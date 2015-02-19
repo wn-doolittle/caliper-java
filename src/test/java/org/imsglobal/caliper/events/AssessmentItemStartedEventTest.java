@@ -52,7 +52,7 @@ public class AssessmentItemStartedEventTest extends EventTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        assertEquals("Test if Assessment Item Start event is serialized to JSON with expected values",
+        assertEquals("Test if AssessmentItem Start event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperAssessmentItemStartedEvent.json"), serialize(event));
     }
 }

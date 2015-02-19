@@ -26,10 +26,10 @@ public class AttemptValidator {
      * <dd>optional</dd>
      * <dt>lastModifiedDate</dt>
      * <dd>optional</dd>
-     * <dt>assignable</dt>
+     * <dt>assignableId</dt>
      * <dd>required</dd>
-     * <dt>actor</dt>
-     * <dd>required: Person</dd>
+     * <dt>actorId</dt>
+     * <dd>required</dd>
      * <dt>count</dt>
      * <dd>required</dd>
      * <dt>startedAtTime</dt>
