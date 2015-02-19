@@ -7,6 +7,8 @@ import org.imsglobal.caliper.entities.lis.Person;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.profiles.SessionProfile;
 
+import javax.annotation.Nonnull;
+
 public class SessionEventValidator implements EventValidator {
 
     private String key;
@@ -107,7 +109,7 @@ public class SessionEventValidator implements EventValidator {
      * @param event
      * @return conformance violations message.
      */
-    public ValidatorResult validate(Event event) {
+    public ValidatorResult validate(@Nonnull Event event) {
         String context = "SessionLoginEvent ";
         ValidatorResult result = new ValidatorResult();
 

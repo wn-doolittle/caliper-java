@@ -3,6 +3,9 @@ package org.imsglobal.caliper.entities.media;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * An audio object embedded in a web page.
  */
@@ -56,6 +59,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -63,6 +67,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
     /**
      * @return minimum volume
      */
+    @Nullable
     public String getVolumeMin() {
         return volumeMin;
     }
@@ -70,6 +75,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
     /**
      * @return maximum volume
      */
+    @Nullable
     public String getVolumeMax() {
         return volumeMax;
     }
@@ -77,6 +83,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
     /**
      * @return volume level
      */
+    @Nullable
     public String getVolumeLevel() {
         return volumeLevel;
     }
@@ -84,6 +91,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
     /**
      * @return muted status (true/false)
      */
+    @Nullable
     public boolean getMuted() {
         return muted;
     }

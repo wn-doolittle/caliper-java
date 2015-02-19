@@ -3,6 +3,9 @@ package org.imsglobal.caliper.entities.annotation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @JsonPropertyOrder({
     "@id",
     "@type",
@@ -33,6 +36,7 @@ public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotatio
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -40,6 +44,7 @@ public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotatio
     /**
      * @return the bookmarkNotes
      */
+    @Nullable
     public String getBookmarkNotes() {
         return bookmarkNotes;
     }

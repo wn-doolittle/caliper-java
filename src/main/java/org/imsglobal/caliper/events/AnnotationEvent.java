@@ -3,7 +3,6 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.annotation.Annotation;
@@ -17,6 +16,9 @@ import org.imsglobal.caliper.validators.ValidatorResult;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @JsonPropertyOrder({
     "@context",
@@ -105,6 +107,7 @@ public class AnnotationEvent implements Event {
      * Required.
      * @return the context
      */
+    @Nonnull
     public String getContext() {
         return context;
     }
@@ -113,6 +116,7 @@ public class AnnotationEvent implements Event {
      * Required.
      * @return the type
      */
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -121,6 +125,7 @@ public class AnnotationEvent implements Event {
      * Optional.
      * @return the edApp
      */
+    @Nullable
     public SoftwareApplication getEdApp() {
         return edApp;
     }
@@ -129,6 +134,7 @@ public class AnnotationEvent implements Event {
      * Optional.
      * @return the lisOrganization
      */
+    @Nullable
     public Organization getLisOrganization() {
         return lisOrganization;
     }
@@ -138,6 +144,7 @@ public class AnnotationEvent implements Event {
      * @return the actor
      */
     @Override
+    @Nonnull
     public Person getActor() {
         return actor;
     }
@@ -146,6 +153,7 @@ public class AnnotationEvent implements Event {
      * Required.
      * @return the action
      */
+    @Nonnull
     public String getAction() {
         return action;
     }
@@ -155,6 +163,7 @@ public class AnnotationEvent implements Event {
      * @return the object
      */
     @Override
+    @Nonnull
     public Annotation getObject() {
         return object;
     }
@@ -164,6 +173,7 @@ public class AnnotationEvent implements Event {
      * @return the target
      */
     @Override
+    @Nonnull
     public DigitalResource getTarget() {
         return target;
     }
@@ -172,6 +182,7 @@ public class AnnotationEvent implements Event {
      * Optional
      * @return generated
      */
+    @Nullable
     public Generatable getGenerated() {
         return generated;
     }
@@ -180,7 +191,7 @@ public class AnnotationEvent implements Event {
      * Required.
      * @return the startedAt time
      */
-
+    @Nonnull
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
@@ -189,7 +200,7 @@ public class AnnotationEvent implements Event {
      * Optional.
      * @return endedAt time
      */
-
+    @Nullable
     public DateTime getEndedAtTime() {
         return endedAtTime;
     }
@@ -203,6 +214,7 @@ public class AnnotationEvent implements Event {
      * or P1Y-1M (all parts must be positive).
      * @return the duration
      */
+    @Nullable
     public String getDuration() {
         return duration;
     }

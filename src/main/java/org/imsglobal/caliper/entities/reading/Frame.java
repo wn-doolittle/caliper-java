@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Targetable;
 
+import javax.annotation.Nonnull;
+
 @JsonPropertyOrder({
     "@id",
     "@type",
@@ -40,6 +42,7 @@ public class Frame extends DigitalResource implements Targetable {
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -47,6 +50,7 @@ public class Frame extends DigitalResource implements Targetable {
     /**
      * @return numeric index of the location relative to sibling locations in the content
      */
+    @Nonnull
     public int getIndex() {
         return index;
     }

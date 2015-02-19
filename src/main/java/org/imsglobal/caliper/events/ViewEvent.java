@@ -18,6 +18,9 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @JsonPropertyOrder({
     "@context",
     "@type",
@@ -105,6 +108,7 @@ public class ViewEvent implements Event {
      * Required.
      * @return the context
      */
+    @Nonnull
     public String getContext() {
         return context;
     }
@@ -113,6 +117,7 @@ public class ViewEvent implements Event {
      * Required.
      * @return the type
      */
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -121,6 +126,7 @@ public class ViewEvent implements Event {
      * Optional.
      * @return the edApp
      */
+    @Nullable
     public SoftwareApplication getEdApp() {
         return edApp;
     }
@@ -129,6 +135,7 @@ public class ViewEvent implements Event {
      * Optional.
      * @return the lisOrganization
      */
+    @Nullable
     public Organization getLisOrganization() {
         return lisOrganization;
     }
@@ -138,6 +145,7 @@ public class ViewEvent implements Event {
      * @return the actor
      */
     @Override
+    @Nonnull
     public Person getActor() {
         return actor;
     }
@@ -146,6 +154,7 @@ public class ViewEvent implements Event {
      * Required.
      * @return the action
      */
+    @Nonnull
     public String getAction() {
         return action;
     }
@@ -155,6 +164,7 @@ public class ViewEvent implements Event {
      * @return the object
      */
     @Override
+    @Nonnull
     public CreativeWork getObject() {
         return object;
     }
@@ -163,6 +173,7 @@ public class ViewEvent implements Event {
      * Optional.
      * @return the target
      */
+    @Nullable
     public Targetable getTarget() {
         return target;
     }
@@ -171,6 +182,7 @@ public class ViewEvent implements Event {
      * Optional.
      * @return generated
      */
+    @Nullable
     public Generatable getGenerated() {
         return generated;
     }
@@ -179,7 +191,7 @@ public class ViewEvent implements Event {
      * Required.
      * @return the startedAt time
      */
-
+    @Nonnull
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
@@ -188,7 +200,7 @@ public class ViewEvent implements Event {
      * Optional.
      * @return endedAt time
      */
-
+    @Nullable
     public DateTime getEndedAtTime() {
         return endedAtTime;
     }
@@ -202,6 +214,7 @@ public class ViewEvent implements Event {
      * or P1Y-1M (all parts must be positive).
      * @return the duration
      */
+    @Nullable
     public String getDuration() {
         return duration;
     }

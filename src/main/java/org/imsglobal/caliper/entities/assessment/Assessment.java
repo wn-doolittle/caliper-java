@@ -6,6 +6,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -55,6 +57,7 @@ public class Assessment extends AssignableDigitalResource implements org.imsglob
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -63,6 +66,7 @@ public class Assessment extends AssignableDigitalResource implements org.imsglob
      * Return an immutable view of the assessmentItems list.
      * @return assessment items
      */
+    @Nullable
     public ImmutableList<AssessmentItem> getAssessmentItems() {
         return assessmentItems;
     }

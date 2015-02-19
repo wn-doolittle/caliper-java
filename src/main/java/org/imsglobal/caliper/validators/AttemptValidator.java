@@ -4,6 +4,8 @@ import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.validators.EventValidator.Conformance;
 
+import javax.annotation.Nonnull;
+
 public class AttemptValidator {
 
     /**
@@ -43,7 +45,7 @@ public class AttemptValidator {
      * @param attempt
      * @return conformance violations message.
      */
-    public static ValidatorResult validate(Attempt attempt) {
+    public static ValidatorResult validate(@Nonnull Attempt attempt) {
         String context = "Attempt ";
         ValidatorResult result = new ValidatorResult();
 

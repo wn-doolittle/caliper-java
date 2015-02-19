@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Organization;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @JsonPropertyOrder({ "edApp", "lisOrganization", "agent"})
 public class LearningContext {
 
@@ -30,6 +33,7 @@ public class LearningContext {
     /**
      * @return the educational app.
      */
+    @Nullable
     public SoftwareApplication getEdApp() {
         return edApp;
     }
@@ -37,6 +41,7 @@ public class LearningContext {
     /**
      * @return the LIS Organization.
      */
+    @Nullable
     public Organization getLisOrganization() {
         return lisOrganization;
     }
@@ -44,6 +49,7 @@ public class LearningContext {
     /**
      * @return the agent.
      */
+    @Nonnull
     public Agent getAgent() {
         return agent;
     }

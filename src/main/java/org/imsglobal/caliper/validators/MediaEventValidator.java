@@ -2,6 +2,8 @@ package org.imsglobal.caliper.validators;
 
 import org.imsglobal.caliper.events.Event;
 
+import javax.annotation.Nonnull;
+
 public class MediaEventValidator implements EventValidator {
     /**
      * Constructor
@@ -44,7 +46,7 @@ public class MediaEventValidator implements EventValidator {
      * @param event
      * @return conformance violations message.
      */
-    public ValidatorResult validate(Event event) {
+    public ValidatorResult validate(@Nonnull Event event) {
         String context = "MediaEvent ";
         ValidatorResult result = new ValidatorResult();
 

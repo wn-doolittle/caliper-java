@@ -2,6 +2,8 @@ package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.annotation.Nonnull;
+
 /**
  * An image object embedded in a web page.
  */
@@ -22,6 +24,7 @@ public class ImageObject extends MediaObject implements org.imsglobal.caliper.en
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }

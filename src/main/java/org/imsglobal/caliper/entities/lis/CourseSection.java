@@ -3,6 +3,9 @@ package org.imsglobal.caliper.entities.lis;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @JsonPropertyOrder({
     "@id",
     "@type",
@@ -44,6 +47,7 @@ public class CourseSection extends org.imsglobal.caliper.entities.lis.Organizati
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -51,6 +55,7 @@ public class CourseSection extends org.imsglobal.caliper.entities.lis.Organizati
     /**
      * @return the semester
      */
+    @Nullable
     public String getSemester() {
         return semester;
     }
@@ -58,6 +63,7 @@ public class CourseSection extends org.imsglobal.caliper.entities.lis.Organizati
     /**
      * @return the courseNumber
      */
+    @Nullable
     public String getCourseNumber() {
         return courseNumber;
     }
@@ -65,6 +71,7 @@ public class CourseSection extends org.imsglobal.caliper.entities.lis.Organizati
     /**
      * @return the label
      */
+    @Nullable
     public String getLabel() {
         return label;
     }

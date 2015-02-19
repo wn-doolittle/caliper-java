@@ -5,6 +5,8 @@ import org.imsglobal.caliper.entities.schemadotorg.Thing;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.profiles.ReadingProfile;
 
+import javax.annotation.Nonnull;
+
 public class ReadingEventValidator implements EventValidator {
 
     private String key;
@@ -50,7 +52,7 @@ public class ReadingEventValidator implements EventValidator {
      * @param event
      * @return conformance violations message.
      */
-    public ValidatorResult validate(Event event) {
+    public ValidatorResult validate(@Nonnull Event event) {
         String context = "ReadingEvent ";
         ValidatorResult result = new ValidatorResult();
 

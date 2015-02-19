@@ -2,6 +2,8 @@ package org.imsglobal.caliper.validators;
 
 import org.imsglobal.caliper.events.Event;
 
+import javax.annotation.Nonnull;
+
 public class AssignableEventValidator implements EventValidator {
 
     /**
@@ -45,7 +47,7 @@ public class AssignableEventValidator implements EventValidator {
      * @param event
      * @return conformance violations message.
      */
-    public ValidatorResult validate(Event event) {
+    public ValidatorResult validate(@Nonnull Event event) {
         String context = "AssessmentEvent ";
         ValidatorResult result = new ValidatorResult();
 

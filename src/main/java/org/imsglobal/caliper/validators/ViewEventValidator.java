@@ -3,6 +3,8 @@ package org.imsglobal.caliper.validators;
 import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 import org.imsglobal.caliper.events.Event;
 
+import javax.annotation.Nonnull;
+
 public class ViewEventValidator implements EventValidator {
 
     /**
@@ -46,7 +48,7 @@ public class ViewEventValidator implements EventValidator {
      * @param event
      * @return conformance violations message.
      */
-    public ValidatorResult validate(Event event) {
+    public ValidatorResult validate(@Nonnull Event event) {
         String context = "ReadingEvent ";
         ValidatorResult result = new ValidatorResult();
 

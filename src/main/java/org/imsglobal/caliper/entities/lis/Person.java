@@ -3,6 +3,8 @@ package org.imsglobal.caliper.entities.lis;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.Entity;
 
+import javax.annotation.Nonnull;
+
 public class Person extends Entity implements org.imsglobal.caliper.entities.foaf.Agent {
 
     @JsonProperty("@type")
@@ -20,6 +22,7 @@ public class Person extends Entity implements org.imsglobal.caliper.entities.foa
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
