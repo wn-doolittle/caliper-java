@@ -3,6 +3,9 @@ package org.imsglobal.caliper.entities.reading;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class Reading extends org.imsglobal.caliper.entities.DigitalResource {
 
     @JsonProperty("@type")
@@ -36,6 +39,7 @@ public class Reading extends org.imsglobal.caliper.entities.DigitalResource {
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -44,6 +48,7 @@ public class Reading extends org.imsglobal.caliper.entities.DigitalResource {
      * @return the predominant type or kind characterizing the learning
      * resource, e.g. 'article', 'handout', 'presentation'.
      */
+    @Nullable
     public String getLearningResourceType() {
         return learningResourceType;
     }
@@ -51,6 +56,7 @@ public class Reading extends org.imsglobal.caliper.entities.DigitalResource {
     /**
      * @return the purpose of a work in its educational context; e.g. 'assignment', 'group work'.
      */
+    @Nullable
     public String getEducationalUse() {
         return educationalUse;
     }
@@ -59,6 +65,7 @@ public class Reading extends org.imsglobal.caliper.entities.DigitalResource {
      * @return Approximate or typical time it takes to work with or through this learning resource
      * for the typical intended target audience, e.g. 'P30M', 'P1H25M' (ISO 8601 duration format).
      */
+    @Nullable
     public String getTimeRequired() {
         return timeRequired;
     }
@@ -66,6 +73,7 @@ public class Reading extends org.imsglobal.caliper.entities.DigitalResource {
     /**
      * @return the version of the CreativeWork embodied by a specified resource.
      */
+    @Nullable
     public String getVersion() {
         return version;
     }

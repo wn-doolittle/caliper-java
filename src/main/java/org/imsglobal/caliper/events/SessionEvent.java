@@ -3,7 +3,6 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.Session;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
@@ -16,6 +15,9 @@ import org.imsglobal.caliper.validators.ValidatorResult;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @JsonPropertyOrder({
     "@context",
@@ -104,6 +106,7 @@ public class SessionEvent implements Event {
      * Required.
      * @return the context
      */
+    @Nonnull
     public String getContext() {
         return context;
     }
@@ -112,6 +115,7 @@ public class SessionEvent implements Event {
      * Required.
      * @return the type
      */
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -120,6 +124,7 @@ public class SessionEvent implements Event {
      * Optional.
      * @return the edApp
      */
+    @Nullable
     public SoftwareApplication getEdApp() {
         return edApp;
     }
@@ -128,6 +133,7 @@ public class SessionEvent implements Event {
      * Optional.
      * @return the lisOrganization
      */
+    @Nullable
     public Organization getLisOrganization() {
         return lisOrganization;
     }
@@ -136,6 +142,7 @@ public class SessionEvent implements Event {
      * Required.
      * @return the actor
      */
+    @Nonnull
     public Agent getActor() {
         return actor;
     }
@@ -144,6 +151,7 @@ public class SessionEvent implements Event {
      * Required.
      * @return the action
      */
+    @Nonnull
     public String getAction() {
         return action;
     }
@@ -153,6 +161,7 @@ public class SessionEvent implements Event {
      * @return the object
      */
     @Override
+    @Nonnull
     public SoftwareApplication getObject() {
         return object;
     }
@@ -161,6 +170,7 @@ public class SessionEvent implements Event {
      * Optional.
      * @return the target
      */
+    @Nullable
     public Targetable getTarget() {
         return target;
     }
@@ -170,6 +180,7 @@ public class SessionEvent implements Event {
      * @return generated
      */
     @Override
+    @Nonnull
     public Session getGenerated() {
         return generated;
     }
@@ -178,7 +189,7 @@ public class SessionEvent implements Event {
      * Required.
      * @return the startedAtTime
      */
-
+    @Nonnull
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
@@ -187,7 +198,7 @@ public class SessionEvent implements Event {
      * Required for session.loggedOut and session.timedOut events; otherwise optional.
      * @return endedAtTime
      */
-
+    @Nullable
     public DateTime getEndedAtTime() {
         return endedAtTime;
     }
@@ -201,6 +212,7 @@ public class SessionEvent implements Event {
      * or P1Y-1M (all parts must be positive).
      * @return the duration
      */
+    @Nullable
     public String getDuration() {
         return duration;
     }
@@ -208,8 +220,6 @@ public class SessionEvent implements Event {
     /**
      * Builder class provides a fluid interface for setting object properties.  Will throw an
      * IllegalArgumentException if supplied action is not keyed to a localized action string.
-     *
-     * @param <T> builder
      */
     public static class Builder {
         private final String event = "SessionEvent ";

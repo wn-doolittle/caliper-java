@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.validators.*;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -135,7 +136,7 @@ public class Profile {
      * @param event
      * @return ValidatorResult
      */
-    public static ValidatorResult validateEvent(Event event) {
+    public static ValidatorResult validateEvent(@Nonnull Event event) {
         return Actions.validateEvent(event);
     }
 }

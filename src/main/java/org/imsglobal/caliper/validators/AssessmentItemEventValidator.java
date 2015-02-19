@@ -5,6 +5,8 @@ import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.profiles.AssessmentItemProfile;
 import org.imsglobal.caliper.response.Response;
 
+import javax.annotation.Nonnull;
+
 public class AssessmentItemEventValidator implements EventValidator {
 
     private String key;
@@ -50,7 +52,7 @@ public class AssessmentItemEventValidator implements EventValidator {
      * @param event
      * @return conformance violations message.
      */
-    public ValidatorResult validate(Event event) {
+    public ValidatorResult validate(@Nonnull Event event) {
         String context = "AssessmentItemEvent ";
         ValidatorResult result = new ValidatorResult();
 

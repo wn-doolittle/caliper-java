@@ -7,6 +7,8 @@ import com.google.common.collect.Maps;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
 import org.joda.time.DateTime;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Map;
 
 /**
@@ -87,6 +89,7 @@ public abstract class Entity implements Thing {
     /**
      * @return the id.
      */
+    @Nonnull
     public String getId() {
         return id;
     }
@@ -94,6 +97,7 @@ public abstract class Entity implements Thing {
     /**
      * @return the type.
      */
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -101,6 +105,7 @@ public abstract class Entity implements Thing {
     /**
      * @return name.
      */
+    @Nullable
     public String getName() {
         return name;
     }
@@ -108,6 +113,7 @@ public abstract class Entity implements Thing {
     /**
      * @return description.
      */
+    @Nullable
     public String getDescription() {
         return description;
     }
@@ -115,6 +121,7 @@ public abstract class Entity implements Thing {
     /**
      * @return custom properties
      */
+    @Nullable
     public Map<String, String> getProperties() {
         return properties;
     }
@@ -122,7 +129,7 @@ public abstract class Entity implements Thing {
     /**
      * @return date created.
      */
-
+    @Nullable
     public DateTime getDateCreated()
     {
         return dateCreated;
@@ -131,7 +138,7 @@ public abstract class Entity implements Thing {
     /**
      * @return the date modified.
      */
-
+    @Nullable
     public DateTime getDateModified() {
         return dateModified;
     }

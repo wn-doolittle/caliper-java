@@ -3,6 +3,8 @@ package org.imsglobal.caliper.validators;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.events.Event;
 
+import javax.annotation.Nonnull;
+
 public class OutcomeEventValidator implements EventValidator {
 
     /**
@@ -46,7 +48,7 @@ public class OutcomeEventValidator implements EventValidator {
      * @param event
      * @return conformance violations message.
      */
-    public ValidatorResult validate(Event event) {
+    public ValidatorResult validate(@Nonnull Event event) {
         String context = "AssessmentEvent ";
         ValidatorResult result = new ValidatorResult();
 

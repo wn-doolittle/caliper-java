@@ -3,6 +3,9 @@ package org.imsglobal.caliper.entities.annotation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @JsonPropertyOrder({
     "@id",
     "@type",
@@ -38,6 +41,7 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -45,6 +49,7 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
     /**
      * @return the selection
      */
+    @Nullable
     public TextPositionSelector getSelection() {
         return selection;
     }
@@ -52,6 +57,7 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
     /**
      * @return the selectionText
      */
+    @Nullable
     public String getSelectionText() {
         return selectionText;
     }

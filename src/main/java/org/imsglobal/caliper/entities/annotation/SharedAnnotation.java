@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.foaf.Agent;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 @JsonPropertyOrder({
@@ -48,6 +49,7 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
      * Return an immutable view of the withAgents list.
      * @return the users
      */
+    @Nullable
     public ImmutableList<Agent> getWithAgents() {
         return withAgents;
     }

@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @JsonPropertyOrder({
     "@id",
     "@type",
@@ -55,6 +58,7 @@ public class Organization extends Entity implements org.imsglobal.caliper.entiti
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -62,6 +66,7 @@ public class Organization extends Entity implements org.imsglobal.caliper.entiti
     /**
      * @return parent organization.
      */
+    @Nullable
     public Organization getParentOrg() {
         return parentOrg;
     }

@@ -3,6 +3,8 @@ package org.imsglobal.caliper.entities.reading;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
 
+import javax.annotation.Nonnull;
+
 /**
  * Representation of an EPUB 3 Volume
  * 
@@ -27,6 +29,7 @@ public class EpubPart extends DigitalResource {
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }

@@ -2,6 +2,8 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.annotation.Nonnull;
+
 public class LearningObjective extends org.imsglobal.caliper.entities.Entity {
 
     @JsonProperty("@type")
@@ -19,6 +21,7 @@ public class LearningObjective extends org.imsglobal.caliper.entities.Entity {
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }

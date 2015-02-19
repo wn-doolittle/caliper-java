@@ -2,9 +2,11 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.joda.time.DateTime;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @JsonPropertyOrder({
     "@id",
@@ -51,6 +53,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -58,6 +61,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
     /**
      * @return the actor
      */
+    @Nonnull
     public Agent getActor() {
         return actor;
     }
@@ -65,7 +69,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
     /**
      * @return session start time
      */
-
+    @Nullable
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
@@ -73,7 +77,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
     /**
      * @return session end time
      */
-
+    @Nullable
     public DateTime getEndedAtTime() {
         return endedAtTime;
     }
@@ -81,7 +85,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
     /**
      * @return session duration
      */
-
+    @Nullable
     public String getDuration() {
         return duration;
     }

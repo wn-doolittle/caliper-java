@@ -6,6 +6,8 @@ import org.imsglobal.caliper.entities.lis.Person;
 import org.imsglobal.caliper.profiles.SessionProfile;
 import org.imsglobal.caliper.validators.EventValidator.Conformance;
 
+import javax.annotation.Nonnull;
+
 public class SessionValidator {
 
     /**
@@ -41,7 +43,7 @@ public class SessionValidator {
      * @param session
      * @return conformance violations message.
      */
-    public static ValidatorResult validate(Session session, String key) {
+    public static ValidatorResult validate(@Nonnull Session session, @Nonnull String key) {
         String context = "Session ";
         ValidatorResult result = new ValidatorResult();
 

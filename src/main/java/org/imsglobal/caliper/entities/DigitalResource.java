@@ -2,11 +2,12 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -111,6 +112,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -119,6 +121,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      * Return an immutable view of the objectTypes list.
      * @return the objectTypes
      */
+    @Nullable
     public ImmutableList<String> getObjectTypes() {
         return objectTypes;
     }
@@ -127,6 +130,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      * Return an immutable view of the learningObjectives list.
      * @return the learning objectives
      */
+    @Nullable
     public ImmutableList<LearningObjective> getLearningObjectives() {
         return learningObjectives;
     }
@@ -135,6 +139,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      * Return an immutable view of the keywords list.
      * @return the keywords
      */
+    @Nullable
     public ImmutableList<String> getKeywords() {
         return keywords;
     }
@@ -142,6 +147,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     /**
      * @return the parent reference.
      */
+    @Nullable
     public Object getIsPartOf() {
         return isPartOf;
     }
@@ -149,7 +155,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     /**
      * @return date published
      */
-
+    @Nullable
     public DateTime getDatePublished() {
         return datePublished;
     }

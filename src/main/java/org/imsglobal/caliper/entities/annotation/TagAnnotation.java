@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 @JsonPropertyOrder({
@@ -39,6 +41,7 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -47,6 +50,7 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
      * Return an immutable view of the tags list.
      * @return the tags
      */
+    @Nullable
     public ImmutableList<String> getTags() {
         return tags;
     }

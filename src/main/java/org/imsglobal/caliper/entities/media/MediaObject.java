@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * An image, video, or audio object embedded in a web page.
  */
@@ -65,6 +68,7 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -72,6 +76,7 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
     /**
      * @return duration
      */
+    @Nullable
     public long getDuration() {
         return duration;
     }

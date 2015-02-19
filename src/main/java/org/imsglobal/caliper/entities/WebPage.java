@@ -2,6 +2,8 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.annotation.Nonnull;
+
 public class WebPage extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.WebPage {
 
     @JsonProperty("@type")
@@ -19,6 +21,7 @@ public class WebPage extends DigitalResource implements org.imsglobal.caliper.en
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }

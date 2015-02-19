@@ -6,6 +6,9 @@ import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * Representation of a Result. Result's are generated as
  * part of an interaction represented by an OutcomeEvent.
@@ -87,6 +90,7 @@ public class Result extends Entity implements Generatable {
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -94,6 +98,7 @@ public class Result extends Entity implements Generatable {
     /**
      * @return the assignable identifier
      */
+    @Nonnull
     public String getAssignableId() {
         return assignableId;
     }
@@ -101,6 +106,7 @@ public class Result extends Entity implements Generatable {
     /**
      * @return the actor identifier
      */
+    @Nonnull
     public String getActorId() {
         return actorId;
     }
@@ -108,6 +114,7 @@ public class Result extends Entity implements Generatable {
     /**
      * @return the normalScore
      */
+    @Nullable
     public double getNormalScore() {
         return normalScore;
     }
@@ -115,6 +122,7 @@ public class Result extends Entity implements Generatable {
     /**
      * @return the penaltyScore
      */
+    @Nullable
     public double getPenaltyScore() {
         return penaltyScore;
     }
@@ -122,6 +130,7 @@ public class Result extends Entity implements Generatable {
     /**
      * @return the extraCreditScore
      */
+    @Nullable
     public double getExtraCreditScore() {
         return extraCreditScore;
     }
@@ -129,6 +138,7 @@ public class Result extends Entity implements Generatable {
     /**
      * @return the totalScore
      */
+    @Nullable
     public double getTotalScore() {
         return totalScore;
     }
@@ -136,6 +146,7 @@ public class Result extends Entity implements Generatable {
     /**
      * @return the curvedTotalScore
      */
+    @Nullable
     public double getCurvedTotalScore() {
         return curvedTotalScore;
     }
@@ -143,6 +154,7 @@ public class Result extends Entity implements Generatable {
     /**
      * @return the curveFactor
      */
+    @Nullable
     public double getCurveFactor() {
         return curveFactor;
     }
@@ -150,6 +162,7 @@ public class Result extends Entity implements Generatable {
     /**
      * @return the comment
      */
+    @Nullable
     public String getComment() {
         return comment;
     }
@@ -157,6 +170,7 @@ public class Result extends Entity implements Generatable {
     /**
      * @return the agent who scored the result
      */
+    @Nullable
     public Agent getScoredBy() {
         return scoredBy;
     }

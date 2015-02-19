@@ -2,6 +2,8 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.annotation.Nonnull;
+
 @Context
 public class SoftwareApplication extends Entity implements org.imsglobal.caliper.entities.foaf.Agent,
                                                            org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication {
@@ -21,6 +23,7 @@ public class SoftwareApplication extends Entity implements org.imsglobal.caliper
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }

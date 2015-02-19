@@ -5,7 +5,7 @@ import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.events.NavigationEvent;
-import org.imsglobal.caliper.profiles.NavigationProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -37,7 +37,7 @@ public class SensorSendEventsTest {
         target = TestUtils.buildEpubSubChap431();
 
         // Action
-        key = NavigationProfile.Actions.NAVIGATED_TO.key();
+        key = Profile.Actions.NAVIGATED_TO.key();
 
 
         // Fire event test - Send 50 events

@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.joda.time.DateTime;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * Assignable Digital Resource
  */
@@ -99,6 +102,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -106,7 +110,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateCreated
      */
-
+    @Nullable
     public DateTime getDateCreated() {
         return dateCreated;
     }
@@ -114,7 +118,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateToActivate
      */
-
+    @Nullable
     public DateTime getDateToActivate() {
         return dateToActivate;
     }
@@ -122,7 +126,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateToShow
      */
-
+    @Nullable
     public DateTime getDateToShow() {
         return dateToShow;
     }
@@ -130,7 +134,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateToStartOn
      */
-
+    @Nullable
     public DateTime getDateToStartOn() {
         return dateToStartOn;
     }
@@ -138,7 +142,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the dateToSubmit
      */
-
+    @Nullable
     public DateTime getDateToSubmit() {
         return dateToSubmit;
     }
@@ -146,6 +150,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the maxAttempts
      */
+    @Nullable
     public int getMaxAttempts() {
         return maxAttempts;
     }
@@ -153,6 +158,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the maxSubmits
      */
+    @Nullable
     public int getMaxSubmits() {
         return maxSubmits;
     }
@@ -160,6 +166,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     /**
      * @return the maxScore
      */
+    @Nullable
     public double getMaxScore() {
         return maxScore;
     }

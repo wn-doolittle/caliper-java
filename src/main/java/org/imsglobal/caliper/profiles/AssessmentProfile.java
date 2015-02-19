@@ -7,6 +7,7 @@ import org.imsglobal.caliper.validators.EventValidator;
 import org.imsglobal.caliper.validators.EventValidatorContext;
 import org.imsglobal.caliper.validators.ValidatorResult;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -154,7 +155,7 @@ public class AssessmentProfile {
      * @param event
      * @return ValidatorResult
      */
-    public static ValidatorResult validateEvent(AssessmentEvent event) {
+    public static ValidatorResult validateEvent(@Nonnull AssessmentEvent event) {
         return Actions.validateEvent(event);
     }
 }

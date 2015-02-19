@@ -2,6 +2,8 @@ package org.imsglobal.caliper.validators;
 
 import org.imsglobal.caliper.response.Response;
 
+import javax.annotation.Nonnull;
+
 public class ResponseValidator {
 
 
@@ -42,7 +44,7 @@ public class ResponseValidator {
      * @param response
      * @return conformance violations message.
      */
-    public static ValidatorResult validate(Response response) {
+    public static ValidatorResult validate(@Nonnull Response response) {
         String context = "Response ";
         ValidatorResult result = new ValidatorResult();
 

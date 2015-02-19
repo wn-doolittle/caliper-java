@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 
+import javax.annotation.Nonnull;
+
 /**
  * The super-class of all Annotation types.
  * 
@@ -60,6 +62,7 @@ public abstract class Annotation extends Entity {
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
     }
@@ -67,6 +70,7 @@ public abstract class Annotation extends Entity {
     /**
      * @return the target
      */
+    @Nonnull
     public CreativeWork getTarget() {
         return target;
     }

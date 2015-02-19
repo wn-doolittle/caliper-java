@@ -1,7 +1,9 @@
 package org.imsglobal.caliper.entities.annotation;
 
+import javax.annotation.Nonnull;
+
 /**
- * An Selector which describes a range of text based on its start and end positions
+ * A Selector which describes a range of text based on its start and end positions
  * Defined by: http://www.w3.org/ns/oa#d4e667
  */
 public class TextPositionSelector {
@@ -12,6 +14,7 @@ public class TextPositionSelector {
 	/**
 	 * @return the start
 	 */
+    @Nonnull
 	public String getStart() {
 		return start;
 	}
@@ -20,13 +23,14 @@ public class TextPositionSelector {
 	 * @param start
 	 * the start to set
 	 */
-	public void setStart(String start) {
+	public void setStart(@Nonnull String start) {
 		this.start = start;
 	}
 
 	/**
 	 * @return the end
 	 */
+    @Nonnull
 	public String getEnd() {
 		return end;
 	}
@@ -35,7 +39,7 @@ public class TextPositionSelector {
 	 * @param end
 	 * the end to set
 	 */
-	public void setEnd(String end) {
+	public void setEnd(@Nonnull String end) {
 		this.end = end;
 	}
 }

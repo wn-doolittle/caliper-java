@@ -7,6 +7,7 @@ import org.imsglobal.caliper.validators.EventValidatorContext;
 import org.imsglobal.caliper.validators.MediaEventValidator;
 import org.imsglobal.caliper.validators.ValidatorResult;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -274,7 +275,7 @@ public class MediaProfile {
      * @param event
      * @return ValidatorResult
      */
-    public static ValidatorResult validateEvent(MediaEvent event) {
+    public static ValidatorResult validateEvent(@Nonnull MediaEvent event) {
         return Actions.validateEvent(event);
     }
 }
