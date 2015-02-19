@@ -3,10 +3,12 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.lis.Organization;
 import org.imsglobal.caliper.entities.lis.Person;
+import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
 import org.imsglobal.caliper.profiles.Profile;
 import org.imsglobal.caliper.profiles.ProfileUtils;
@@ -28,9 +30,8 @@ import org.slf4j.LoggerFactory;
     "endedAtTime",
     "duration",
     "edApp",
-    "group",
-    "navigatedFrom"})
-public class NavigationEvent implements Event {
+    "group" })
+public class ViewEvent implements Event {
 
     @JsonProperty("@context")
     private final String context;
@@ -51,13 +52,10 @@ public class NavigationEvent implements Event {
     private final String action;
 
     @JsonProperty("object")
-    private final DigitalResource object;
-
-    @JsonProperty("navigatedFrom")
-    private final DigitalResource fromResource;
+    private final CreativeWork object;
 
     @JsonProperty("target")
-    private final DigitalResource target;
+    private final Targetable target;
 
     @JsonProperty("generated")
     private final Generatable generated;
@@ -72,18 +70,18 @@ public class NavigationEvent implements Event {
     private final String duration;
 
     @JsonIgnore
-    private static final Logger log = LoggerFactory.getLogger(NavigationEvent.class);
+    private static final Logger log = LoggerFactory.getLogger(ViewEvent.class);
 
     /**
-     * Utilize builder to construct NavigationEvent.  Validate Navigation object copy rather than the
-     * Navigation builder.  This approach protects the class against parameter changes from another
+     * Utilize builder to construct ViewEvent.  Validate ViewEvent object copy rather than the
+     * ViewEvent builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
      * until when they are copied.  Validate properties of builder copy and if conformance violations
      * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
      *
      * @param builder
      */
-    protected NavigationEvent(Builder builder) {
+    protected ViewEvent(Builder builder) {
         this.context = builder.context;
         this.type = builder.type;
         this.edApp = builder.edApp;
@@ -91,7 +89,6 @@ public class NavigationEvent implements Event {
         this.actor = builder.actor;
         this.action = builder.action;
         this.object = builder.object;
-        this.fromResource = builder.fromResource;
         this.target = builder.target;
         this.generated = builder.generated;
         this.startedAtTime = builder.startedAtTime;
@@ -154,28 +151,19 @@ public class NavigationEvent implements Event {
     }
 
     /**
-     * Required.
-     * @return the object.  Override with a covariant return type (DigitalResource).
+     * Required.  Override with a covariant return type (CreativeWork).
+     * @return the object
      */
     @Override
-    public DigitalResource getObject() {
+    public CreativeWork getObject() {
         return object;
     }
 
     /**
      * Optional.
-     * @return the fromResource
-     */
-    public DigitalResource getFromResource() {
-        return fromResource;
-    }
-
-    /**
-     * Optional.  Override with a covariant return type (DigitalResource).
      * @return the target
      */
-    @Override
-    public DigitalResource getTarget() {
+    public Targetable getTarget() {
         return target;
     }
 
@@ -221,17 +209,16 @@ public class NavigationEvent implements Event {
     /**
      * Builder class provides a fluid interface for setting object properties.
      */
-    public static class Builder {
-        private final String event = "NavigationEvent ";
+    public static class Builder  {
+        private String event = "ViewEvent ";
         private String context;
         private String type;
         private SoftwareApplication edApp;
         private Organization lisOrganization;
         private Person actor;
         private String action;
-        private DigitalResource object;
-        private DigitalResource fromResource;
-        private DigitalResource target;
+        private CreativeWork object;
+        private Targetable target;
         private Generatable generated;
         private DateTime startedAtTime;
         private DateTime endedAtTime;
@@ -241,8 +228,8 @@ public class NavigationEvent implements Event {
          * Initialize type with default values.
          */
         public Builder() {
-            context(Event.Context.NAVIGATION.uri());
-            type(Event.Type.NAVIGATION.uri());
+            context(Event.Context.VIEW.uri());
+            type(Event.Type.VIEW.uri());
         }
 
         /**
@@ -295,7 +282,7 @@ public class NavigationEvent implements Event {
          * @return builder.
          */
         public Builder action(String actionKey) {
-            if (actionKey.equals(Profile.Actions.NAVIGATED_TO.key())) {
+            if (actionKey.equals(Profile.Actions.VIEWED.key())) {
                 this.action = ProfileUtils.getLocalizedAction(actionKey);
             } else {
                 throw new IllegalArgumentException(event + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
@@ -307,17 +294,8 @@ public class NavigationEvent implements Event {
          * @param object
          * @return builder.
          */
-        public Builder object(DigitalResource object) {
+        public Builder object(CreativeWork object) {
             this.object = object;
-            return this;
-        }
-
-        /**
-         * @param fromResource
-         * @return builder.
-         */
-        public Builder fromResource(DigitalResource fromResource) {
-            this.fromResource = fromResource;
             return this;
         }
 
@@ -325,7 +303,7 @@ public class NavigationEvent implements Event {
          * @param target
          * @return builder.
          */
-        public Builder target(DigitalResource target) {
+        public Builder target(Targetable target) {
             this.target = target;
             return this;
         }
@@ -334,7 +312,7 @@ public class NavigationEvent implements Event {
          * @param generated
          * @return builder.
          */
-        public Builder generated(Generatable generated) {
+        public Builder generated(Attempt generated) {
             this.generated = generated;
             return this;
         }
@@ -368,13 +346,13 @@ public class NavigationEvent implements Event {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of NavigationEvent.
+         * @return a new instance of ViewEvent.
          */
-        public NavigationEvent build() {
-            return new NavigationEvent(this);
+        public ViewEvent build() {
+            return new ViewEvent(this);
         }
     }
-    
+
     /**
      * Static factory method.
      * @return a new instance of the builder.
