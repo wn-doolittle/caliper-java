@@ -57,12 +57,16 @@ public class AttemptValidator {
             result.errorMessage().appendText(context + Conformance.COUNT_NOT_ZERO.violation());
         }
 
-        if (ValidatorUtils.checkStartedAtTime(attempt.getStartedAtTime())) {
-            if (!ValidatorUtils.checkStartEndTimes(attempt.getStartedAtTime(), attempt.getEndedAtTime())) {
-                result.errorMessage().appendText(context + Conformance.TIME_ERROR.violation());
-            }
-        } else {
-            result.errorMessage().appendText(context + Conformance.STARTEDATTIME_IS_NULL.violation());
+        ValidatorResult startTimeValidator;
+        startTimeValidator = StartTimeValidator.validate(attempt.getStartedAtTime(), attempt.getEndedAtTime(), context);
+        if (!startTimeValidator.isValid()) {
+            result.errorMessage().appendText(startTimeValidator.errorMessage().toString());
+        }
+
+        ValidatorResult durationValidator = DurationValidator.validate(attempt.getStartedAtTime(),
+                attempt.getEndedAtTime(), attempt.getDuration(), context);
+        if (!durationValidator.isValid()) {
+            result.errorMessage().appendText(durationValidator.errorMessage().toString());
         }
 
         if (result.errorMessage().length() == 0) {

@@ -56,27 +56,23 @@ public class SessionValidator {
         }
 
         if (key.equals(SessionProfile.Actions.LOGGEDOUT.key()) || key.equals(SessionProfile.Actions.TIMEDOUT.key())) {
-            if (!ValidatorUtils.checkStartedAtTime(session.getStartedAtTime())) {
-                result.errorMessage().appendText(context + Conformance.STARTEDATTIME_IS_NULL.violation());
-            } else {
-//                if (session.getEndedAtTime() > 0) {
-//                    if (!ValidatorUtils.checkStartEndTimes(session.getStartedAtTime(), session.getEndedAtTime())) {
-//                        result.errorMessage().appendText(context + Conformance.TIME_ERROR.violation());
-//                    }
-//                } else {
-//                    result.errorMessage().appendText(context + Conformance.ENDEDATTIME_IS_NULL.violation());
-//                }
+            ValidatorResult endTimeValidator;
+            endTimeValidator = EndTimeValidator.validate(session.getStartedAtTime(), session.getEndedAtTime(), context);
+            if (!endTimeValidator.isValid()) {
+                result.errorMessage().appendText(endTimeValidator.errorMessage().toString());
             }
         } else {
-            if (!ValidatorUtils.checkStartedAtTime(session.getStartedAtTime())) {
-                result.errorMessage().appendText(context + Conformance.STARTEDATTIME_IS_NULL.violation());
-            } else {
-//                if (session.getEndedAtTime() > 0) {
-//                    if (!ValidatorUtils.checkStartEndTimes(session.getStartedAtTime(), session.getEndedAtTime())) {
-//                        result.errorMessage().appendText(context + Conformance.TIME_ERROR.violation());
-//                    }
-//                }
+            ValidatorResult startTimeValidator;
+            startTimeValidator = StartTimeValidator.validate(session.getStartedAtTime(), session.getEndedAtTime(), context);
+            if (!startTimeValidator.isValid()) {
+                result.errorMessage().appendText(startTimeValidator.errorMessage().toString());
             }
+        }
+
+        ValidatorResult durationValidator = DurationValidator.validate(session.getStartedAtTime(),
+                session.getEndedAtTime(), session.getDuration(), context);
+        if (!durationValidator.isValid()) {
+            result.errorMessage().appendText(durationValidator.errorMessage().toString());
         }
 
         if (result.errorMessage().length() == 0) {
