@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.validators;
 
 import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.events.Event;
 
 import javax.annotation.Nonnull;
@@ -49,7 +50,7 @@ public class OutcomeEventValidator implements EventValidator {
      * @return conformance violations message.
      */
     public ValidatorResult validate(@Nonnull Event event) {
-        String context = "AssessmentEvent ";
+        String context = "OutcomeEvent ";
         ValidatorResult result = new ValidatorResult();
 
         if (!event.getContext().equals(Event.Context.OUTCOME.uri())) {
@@ -60,27 +61,35 @@ public class OutcomeEventValidator implements EventValidator {
             result.errorMessage().appendText(context + Conformance.TYPE_ERROR.violation());
         }
 
-        ValidatorResult attemptValidatorResult = AttemptValidator.validate((Attempt) event.getObject());
-        if (!attemptValidatorResult.isValid()) {
-            result.errorMessage().appendText(attemptValidatorResult.errorMessage().toString());
+        if (!ValidatorUtils.isOfType(event.getObject(), Attempt.class)) {
+            result.errorMessage().appendText(context + Conformance.OBJECT_NOT_ATTEMPT.violation());
+        } else {
+            ValidatorResult attemptValidatorResult = AttemptValidator.validate((Attempt) event.getObject());
+            if (!attemptValidatorResult.isValid()) {
+                result.errorMessage().appendText(attemptValidatorResult.errorMessage().toString());
+            }
         }
 
         if (event.getTarget() != null) {
             result.errorMessage().appendText(context + Conformance.TARGET_NOT_NULL.violation());
         }
 
-        //TODO may need to validate event.getGenerated (Result) properties (e.g., normalScore, totalScore)
+        if (!ValidatorUtils.isOfType(event.getGenerated(), Result.class)) {
+            result.errorMessage().appendText(context + Conformance.GENERATED_NOT_RESULT.violation());
 
-        if (ValidatorUtils.checkStartedAtTime(event.getStartedAtTime())) {
-            if (!ValidatorUtils.checkStartEndTimes(event.getStartedAtTime(), event.getEndedAtTime())) {
-                result.errorMessage().appendText(context + Conformance.TIME_ERROR.violation());
-            }
-        } else {
-            result.errorMessage().appendText(context + Conformance.STARTEDATTIME_IS_NULL.violation());
+            //TODO may need to validate Result properties (e.g., normalScore, totalScore)
         }
 
-        if (!ValidatorUtils.checkDuration(event.getDuration())) {
-            result.errorMessage().appendText(context + Conformance.DURATION_INVALID.violation());
+        ValidatorResult startTimeValidator;
+        startTimeValidator = StartTimeValidator.validate(event.getStartedAtTime(), event.getEndedAtTime(), context);
+        if (!startTimeValidator.isValid()) {
+            result.errorMessage().appendText(startTimeValidator.errorMessage().toString());
+        }
+
+        ValidatorResult durationValidator = DurationValidator.validate(event.getStartedAtTime(),
+                event.getEndedAtTime(), event.getDuration(), context);
+        if (!durationValidator.isValid()) {
+            result.errorMessage().appendText(durationValidator.errorMessage().toString());
         }
 
         if (result.errorMessage().length() == 0) {

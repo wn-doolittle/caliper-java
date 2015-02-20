@@ -94,13 +94,13 @@ public class TestUtils {
             .action(actionKey)
             .object(annotation)
             .target(Frame.builder()
-                    .id(target.getId())
-                    .name(target.getName())
-                    .isPartOf(target.getIsPartOf())
-                    .dateCreated(getDefaultDateCreated())
-                    .dateModified(getDefaultDateModified())
-                    .index(index)
-                    .build())
+                .id(target.getId())
+                .name(target.getName())
+                .isPartOf(target.getIsPartOf())
+                .dateCreated(getDefaultDateCreated())
+                .dateModified(getDefaultDateModified())
+                .index(index)
+                .build())
             .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
@@ -446,6 +446,7 @@ public class TestUtils {
             .target(target)
             .startedAtTime(getDefaultStartedAtTime())
             .endedAtTime(getDefaultEndedAtTime())
+            .duration("PT3000S")
             .build();
     }
 
@@ -465,8 +466,9 @@ public class TestUtils {
             .action(actionKey)
             .object(learningContext.getEdApp())
             .target(target)
-                .startedAtTime(getDefaultStartedAtTime())
-                .endedAtTime(getDefaultEndedAtTime())
+            .startedAtTime(getDefaultStartedAtTime())
+            .endedAtTime(getDefaultEndedAtTime())
+            .duration("PT3000S")
             .build();
     }
 
@@ -675,10 +677,11 @@ public class TestUtils {
             .id("https://github.com/readium/session-123456789")
             .name("session-123456789")
             .actor(buildStudent554433())
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
-                .startedAtTime(getDefaultStartedAtTime())
-                .endedAtTime(getDefaultEndedAtTime())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
+            .startedAtTime(getDefaultStartedAtTime())
+            .endedAtTime(getDefaultEndedAtTime())
+            .duration("PT3000S")
             .build();
     }
 

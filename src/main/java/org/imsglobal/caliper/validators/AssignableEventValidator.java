@@ -1,5 +1,7 @@
 package org.imsglobal.caliper.validators;
 
+import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.events.Event;
 
 import javax.annotation.Nonnull;
@@ -59,16 +61,29 @@ public class AssignableEventValidator implements EventValidator {
             result.errorMessage().appendText(context + Conformance.TYPE_ERROR.violation());
         }
 
-        if (ValidatorUtils.checkStartedAtTime(event.getStartedAtTime())) {
-            if (!ValidatorUtils.checkStartEndTimes(event.getStartedAtTime(), event.getEndedAtTime())) {
-                result.errorMessage().appendText(context + Conformance.TIME_ERROR.violation());
-            }
-        } else {
-            result.errorMessage().appendText(context + Conformance.STARTEDATTIME_IS_NULL.violation());
+        if (!ValidatorUtils.isOfType(event.getObject(), AssignableDigitalResource.class)) {
+            result.errorMessage().appendText(context + Conformance.OBJECT_NOT_ASSIGNABLE.violation());
         }
 
-        if (!ValidatorUtils.checkDuration(event.getDuration())) {
-            result.errorMessage().appendText(context + Conformance.DURATION_INVALID.violation());
+        if (!ValidatorUtils.isOfType(event.getGenerated(), Attempt.class)) {
+            result.errorMessage().appendText(context + Conformance.GENERATED_NOT_ATTEMPT.violation());
+        } else {
+            ValidatorResult attemptValidatorResult = AttemptValidator.validate((Attempt) event.getGenerated());
+            if (!attemptValidatorResult.isValid()) {
+                result.errorMessage().appendText(attemptValidatorResult.errorMessage().toString());
+            }
+        }
+
+        ValidatorResult startTimeValidator;
+        startTimeValidator = StartTimeValidator.validate(event.getStartedAtTime(), event.getEndedAtTime(), context);
+        if (!startTimeValidator.isValid()) {
+            result.errorMessage().appendText(startTimeValidator.errorMessage().toString());
+        }
+
+        ValidatorResult durationValidator = DurationValidator.validate(event.getStartedAtTime(),
+                event.getEndedAtTime(), event.getDuration(), context);
+        if (!durationValidator.isValid()) {
+            result.errorMessage().appendText(durationValidator.errorMessage().toString());
         }
 
         if (result.errorMessage().length() == 0) {

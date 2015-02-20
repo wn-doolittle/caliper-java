@@ -2,74 +2,25 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.entities.lis.Organization;
-import org.imsglobal.caliper.entities.lis.Person;
-import org.imsglobal.caliper.entities.qti.Assessment;
-import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
 import org.imsglobal.caliper.profiles.AssessmentProfile;
 import org.imsglobal.caliper.profiles.ProfileUtils;
-import org.imsglobal.caliper.validators.EventValidator.Conformance;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.imsglobal.caliper.validators.ValidatorResult;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-@JsonPropertyOrder({
-    "@context",
-    "@type",
-    "actor",
-    "action",
-    "object",
-    "target",
-    "generated",
-    "startedAtTime",
-    "endedAtTime",
-    "duration",
-    "edApp",
-    "group" })
-public class AssessmentEvent implements Event {
-
+public class AssessmentEvent extends Event {
+    
     @JsonProperty("@context")
     private final String context;
 
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("edApp")
-    private final SoftwareApplication edApp;
-
-    @JsonProperty("group")
-    private final Organization lisOrganization;
-
-    @JsonProperty("actor")
-    private final Person actor;
-
     @JsonProperty("action")
     private final String action;
-
-    @JsonProperty("object")
-    private final Assessment object;
-
-    @JsonProperty("target")
-    private final Targetable target;
-
-    @JsonProperty("generated")
-    private final Attempt generated;
-
-    @JsonProperty("startedAtTime")
-    private final DateTime startedAtTime;
-
-    @JsonProperty("endedAtTime")
-    private final DateTime endedAtTime;
-
-    @JsonProperty("duration")
-    private final String duration;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssessmentEvent.class);
@@ -83,19 +34,11 @@ public class AssessmentEvent implements Event {
      *
      * @param builder
      */
-    protected AssessmentEvent(Builder builder) {
+    protected AssessmentEvent(Builder<?> builder) {
+        super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.edApp = builder.edApp;
-        this.lisOrganization = builder.lisOrganization;
-        this.actor = builder.actor;
         this.action = builder.action;
-        this.object = builder.object;
-        this.target = builder.target;
-        this.generated = builder.generated;
-        this.startedAtTime = builder.startedAtTime;
-        this.endedAtTime = builder.endedAtTime;
-        this.duration = builder.duration;
 
         ValidatorResult result = AssessmentProfile.validateEvent(this);
         if (!result.isValid()) {
@@ -107,6 +50,7 @@ public class AssessmentEvent implements Event {
      * Required.
      * @return the context
      */
+    @Override
     @Nonnull
     public String getContext() {
         return context;
@@ -116,247 +60,75 @@ public class AssessmentEvent implements Event {
      * Required.
      * @return the type
      */
+    @Override
     @Nonnull
     public String getType() {
         return type;
     }
 
     /**
-     * Optional.
-     * @return the edApp
-     */
-    @Nullable
-    public SoftwareApplication getEdApp() {
-        return edApp;
-    }
-
-    /**
-     * Optional.
-     * @return the lisOrganization
-     */
-    @Nullable
-    public Organization getLisOrganization() {
-        return lisOrganization;
-    }
-
-    /**
-     * Required.  Override with a covariant return type (Person).
-     * @return the actor
-     */
-    @Override
-    @Nonnull
-    public Person getActor() {
-        return actor;
-    }
-
-    /**
      * Required.
      * @return the action
      */
+    @Override
     @Nonnull
     public String getAction() {
         return action;
     }
 
     /**
-     * Required.  Override with a covariant return type (Assessment).
-     * @return the object
+     * Initialize default parameter values in the builder.
+     * @param <T> builder
      */
-    @Override
-    @Nonnull
-    public Assessment getObject() {
-        return object;
-    }
-
-    /**
-     * Optional.
-     * @return the target
-     */
-    @Nullable
-    public Targetable getTarget() {
-        return target;
-    }
-
-    /**
-     * Required.  Override with a covariant return type (Attempt).
-     * @return generated
-     */
-    @Override
-    @Nonnull
-    public Attempt getGenerated() {
-        return generated;
-    }
-
-    /**
-     * Required.
-     * @return the startedAt time
-     */
-    @Nonnull
-    public DateTime getStartedAtTime() {
-        return startedAtTime;
-    }
-
-    /**
-     * Optional.
-     * @return endedAt time
-     */
-    @Nullable
-    public DateTime getEndedAtTime() {
-        return endedAtTime;
-    }
-
-    /**
-     * Optional. An xsd:duration (http://books.xmlschemata.org/relaxng/ch19-77073.html)
-     * The format is expected to be PnYnMnDTnHnMnS
-     * Valid values include PT1004199059S, PT130S, PT2M10S, P1DT2S, -P1Y, or P1Y2M3DT5H20M30.123S.
-     * The following values are invalid: 1Y (leading P is missing), P1S (T separator is missing),
-     * P-1Y (all parts must be positive), P1M2Y (parts order is significant and Y must precede M),
-     * or P1Y-1M (all parts must be positive).
-     * @return the duration
-     */
-    @Nullable
-    public String getDuration() {
-        return duration;
-    }
-
-    /**
-     * Builder class provides a fluid interface for setting object properties.
-     */
-    public static class Builder  {
-        private final String event = "AssessmentEvent ";
+    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
+        private String event = "AssessmentEvent";
         private String context;
         private String type;
-        private SoftwareApplication edApp;
-        private Organization lisOrganization;
-        private Person actor;
         private String action;
-        private Assessment object;
-        private Targetable target;
-        private Attempt generated;
-        private DateTime startedAtTime;
-        private DateTime endedAtTime;
-        private String duration;
 
-        private Builder() {
-            this.context(Event.Context.ASSESSMENT.uri());
-            this.type(Event.Type.ASSESSMENT.uri());
+        /*
+         * Constructor
+         */
+        public Builder() {
+            context(Context.ASSESSMENT.uri());
+            type(Type.ASSESSMENT.uri());
         }
 
         /**
          * @param context
          * @return builder.
          */
-        private Builder context(String context) {
+        private T context(String context) {
             this.context = context;
-            return this;
+            return self();
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private Builder type(String type) {
+        private T type(String type) {
             this.type = type;
-            return this;
+            return self();
         }
 
         /**
-         * @param edApp
+         * @param key
          * @return builder.
          */
-        public Builder edApp(SoftwareApplication edApp) {
-            this.edApp = edApp;
-            return this;
-        }
-
-        /**
-         * @param lisOrganization
-         * @return builder.
-         */
-        public Builder lisOrganization(Organization lisOrganization) {
-            this.lisOrganization = lisOrganization;
-            return this;
-        }
-
-        /**
-         * @param actor
-         * @return builder.
-         */
-        public Builder actor(Person actor) {
-            this.actor = actor;
-            return this;
-        }
-
-        /**
-         * @param actionKey
-         * @return builder.
-         */
-        public Builder action(String actionKey) {
-            if (AssessmentProfile.Actions.hasKey(actionKey)) {
-                this.action = ProfileUtils.getLocalizedAction(actionKey);
+        @Override
+        public T action(String key) {
+            if (AssessmentProfile.Actions.hasKey(key)) {
+                this.action = ProfileUtils.getLocalizedAction(key);
             } else {
-                throw new IllegalArgumentException(event + Conformance.ACTION_UNRECOGNIZED.violation());
+                throw new IllegalArgumentException(event + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
             }
-            return this;
+            return self();
         }
 
         /**
-         * @param object
-         * @return builder.
-         */
-        public Builder object(Assessment object) {
-            this.object = object;
-            return this;
-        }
-
-        /**
-         * @param target
-         * @return builder.
-         */
-        public Builder target(Targetable target) {
-            this.target = target;
-            return this;
-        }
-
-        /**
-         * @param generated
-         * @return builder.
-         */
-        public Builder generated(Attempt generated) {
-            this.generated = generated;
-            return this;
-        }
-
-        /**
-         * @param startedAtTime
-         * @return builder.
-         */
-        public Builder startedAtTime(DateTime startedAtTime) {
-            this.startedAtTime = startedAtTime;
-            return this;
-        }
-
-        /**
-         * @param endedAtTime
-         * @return builder.
-         */
-        public Builder endedAtTime(DateTime endedAtTime) {
-            this.endedAtTime = endedAtTime;
-            return this;
-        }
-
-        /**
-         * @param duration
-         * @return builder.
-         */
-        public Builder duration(String duration) {
-            this.duration = duration;
-            return this;
-        }
-
-        /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of AssessmentEvent.
+         * Client invokes build method in order to create an immutable profile object.
+         * @return a new AssessmentEvent instance.
          */
         public AssessmentEvent build() {
             return new AssessmentEvent(this);
@@ -364,10 +136,20 @@ public class AssessmentEvent implements Event {
     }
 
     /**
+     * Self-reference that permits sub-classing of builder.
+     */
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
+
+    /**
      * Static factory method.
      * @return a new instance of the builder.
      */
-    public static Builder builder() {
-        return new Builder();
+    public static Builder<?> builder() {
+        return new Builder2();
     }
 }

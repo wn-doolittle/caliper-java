@@ -2,8 +2,8 @@ package org.imsglobal.caliper.validators;
 
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Session;
-import org.imsglobal.caliper.entities.SoftwareApplication;
 import org.imsglobal.caliper.entities.lis.Person;
+import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.profiles.SessionProfile;
 
@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
 public class SessionEventValidator implements EventValidator {
 
     private String key;
+
     /**
      * Constructor
      */
@@ -131,37 +132,50 @@ public class SessionEventValidator implements EventValidator {
             }
         }
 
+        if (!ValidatorUtils.isOfType(event.getObject(), SoftwareApplication.class)) {
+            result.errorMessage().appendText(context + Conformance.OBJECT_NOT_SOFTWAREAPP.violation());
+        }
+
         if (key.equals(SessionProfile.Actions.LOGGEDIN.key())) {
             if (!ValidatorUtils.isOfType(event.getTarget(), DigitalResource.class)) {
                 result.errorMessage().appendText(context + Conformance.TARGET_NOT_DIGITALRESOURCE.violation());
             }
-        } else {
-            ValidatorResult sessionValidatorResult = SessionValidator.validate(((Session) event.getTarget()), key);
-            if (!sessionValidatorResult.isValid()) {
-                result.errorMessage().appendText(sessionValidatorResult.errorMessage().toString());
-            }
-        }
 
-        if (!ValidatorUtils.checkStartedAtTime(event.getStartedAtTime())) {
-            result.errorMessage().appendText(context + Conformance.STARTEDATTIME_IS_NULL.violation());
-        }
-
-        if (key.equals(SessionProfile.Actions.LOGGEDIN.key())) {
-//            if (event.getEndedAtTime() > 0) {
-//                result.errorMessage().appendText(context + Conformance.ENDEDATTIME_SET.violation());
-//            }
-        } else {
-            if (ValidatorUtils.checkEndedAtTime(event.getEndedAtTime())) {
-                if (!ValidatorUtils.checkStartEndTimes(event.getStartedAtTime(), event.getEndedAtTime())) {
-                    result.errorMessage().appendText(context + Conformance.TIME_ERROR.violation());
-                }
+            if (!ValidatorUtils.isOfType(event.getGenerated(), Session.class)) {
+                result.errorMessage().appendText(context + Conformance.GENERATED_NOT_SESSION.violation());
             } else {
-                result.errorMessage().appendText(context + Conformance.ENDEDATTIME_IS_NULL.violation());
+                ValidatorResult sessionValidatorResult = SessionValidator.validate(((Session) event.getGenerated()), key);
+                if (!sessionValidatorResult.isValid()) {
+                    result.errorMessage().appendText(sessionValidatorResult.errorMessage().toString());
+                }
+            }
+
+            ValidatorResult startTimeValidator;
+            startTimeValidator = StartTimeValidator.validate(event.getStartedAtTime(), event.getEndedAtTime(), context);
+            if (!startTimeValidator.isValid()) {
+                result.errorMessage().appendText(startTimeValidator.errorMessage().toString());
+            }
+        } else {
+            if (!ValidatorUtils.isOfType(event.getTarget(), Session.class)) {
+                result.errorMessage().appendText(context + Conformance.TARGET_NOT_SESSION.violation());
+            } else {
+                ValidatorResult sessionValidatorResult = SessionValidator.validate(((Session) event.getTarget()), key);
+                if (!sessionValidatorResult.isValid()) {
+                    result.errorMessage().appendText(sessionValidatorResult.errorMessage().toString());
+                }
+            }
+
+            ValidatorResult endTimeValidator;
+            endTimeValidator = EndTimeValidator.validate(event.getStartedAtTime(), event.getEndedAtTime(), context);
+            if (!endTimeValidator.isValid()) {
+                result.errorMessage().appendText(endTimeValidator.errorMessage().toString());
             }
         }
 
-        if (!ValidatorUtils.checkDuration(event.getDuration())) {
-            result.errorMessage().appendText(context + Conformance.DURATION_INVALID.violation());
+        ValidatorResult durationValidator = DurationValidator.validate(event.getStartedAtTime(),
+                event.getEndedAtTime(), event.getDuration(), context);
+        if (!durationValidator.isValid()) {
+            result.errorMessage().appendText(durationValidator.errorMessage().toString());
         }
 
         if (result.errorMessage().length() == 0) {

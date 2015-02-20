@@ -20,46 +20,13 @@ public class ValidatorUtils {
     }
 
     /**
-     * Validate startedAtTime
-     * @param startedAtTime
-     * @return boolean true/false
-     */
-    public static boolean checkStartedAtTime(DateTime startedAtTime) {
-        //TODO refactor if times are changed to ISO-8601 format.
-        return true;
-    }
-
-    /**
-     * Validate endedAtTime
-     * @param endedAtTime
-     * @return boolean true/false
-     */
-    public static boolean checkEndedAtTime(DateTime endedAtTime) {
-        //TODO refactor if times are changed to ISO-8601 format.
-        return true;
-    }
-
-    /**
-     * Event endedAtTime is an optional setting.  If both a startedAtTime and endedAtTime are specified
-     * check that startedAtTime precedes endedAtTime.  If not return false.
+     * Event endedAtTime is most cases an optional setting.  However if both a startedAtTime and endedAtTime
+     * are specified check that startedAtTime precedes endedAtTime.
      * @param startedAtTime
      * @param endedAtTime
      * @return boolean true/false.
      */
     public static boolean checkStartEndTimes(DateTime startedAtTime, DateTime endedAtTime) {
-        return true;
-    }
-
-    /**
-     * Validate duration.
-     * @param duration
-     * @return boolean true/false
-     */
-    public static boolean checkDuration(String duration) {
-        if (duration != null && !(duration.isEmpty())) {
-            return true; //TODO add ISO-8601 validation routine to this stubbed out method
-        } else {
-            return true;
-        }
+        return startedAtTime.isBefore(endedAtTime);
     }
 }

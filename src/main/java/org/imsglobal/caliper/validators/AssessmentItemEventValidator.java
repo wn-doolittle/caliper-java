@@ -1,6 +1,8 @@
 package org.imsglobal.caliper.validators;
 
+import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.entities.lis.Person;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.profiles.AssessmentItemProfile;
 import org.imsglobal.caliper.response.Response;
@@ -64,32 +66,48 @@ public class AssessmentItemEventValidator implements EventValidator {
             result.errorMessage().appendText(context + Conformance.TYPE_ERROR.violation());
         }
 
+        if (!ValidatorUtils.isOfType(event.getActor(), Person.class)) {
+            result.errorMessage().appendText(context + Conformance.ACTOR_NOT_PERSON.violation());
+        }
+
+        if (!ValidatorUtils.isOfType(event.getObject(), AssessmentItem.class)) {
+            result.errorMessage().appendText(context + Conformance.OBJECT_NOT_ASSESSMENTITEM.violation());
+        }
+
         if (event.getTarget() != null) {
             result.errorMessage().appendText(context + Conformance.TARGET_NOT_NULL.violation());
         }
 
         if (key.equals(AssessmentItemProfile.Actions.COMPLETED.key())) {
-            ValidatorResult generatedResult = ResponseValidator.validate((Response) event.getGenerated());
-            if (!generatedResult.isValid()) {
-                result.errorMessage().appendText(generatedResult.errorMessage().toString());
+            if (!ValidatorUtils.isOfType(event.getGenerated(), Response.class)) {
+                result.errorMessage().appendText(context + Conformance.GENERATED_NOT_RESPONSE.violation());
+            } else {
+                ValidatorResult generatedResult = ResponseValidator.validate((Response) event.getGenerated());
+                if (!generatedResult.isValid()) {
+                    result.errorMessage().appendText(generatedResult.errorMessage().toString());
+                }
             }
         } else {
-            ValidatorResult generatedResult = AttemptValidator.validate((Attempt) event.getGenerated());
-            if (!generatedResult.isValid()) {
-                result.errorMessage().appendText(generatedResult.errorMessage().toString());
+            if (!ValidatorUtils.isOfType(event.getGenerated(), Attempt.class)) {
+                result.errorMessage().appendText(context + Conformance.GENERATED_NOT_ATTEMPT.violation());
+            } else {
+                ValidatorResult generatedResult = AttemptValidator.validate((Attempt) event.getGenerated());
+                if (!generatedResult.isValid()) {
+                    result.errorMessage().appendText(generatedResult.errorMessage().toString());
+                }
             }
         }
 
-        if (ValidatorUtils.checkStartedAtTime(event.getStartedAtTime())) {
-            if (!ValidatorUtils.checkStartEndTimes(event.getStartedAtTime(), event.getEndedAtTime())) {
-                result.errorMessage().appendText(context + Conformance.TIME_ERROR.violation());
-            }
-        } else {
-            result.errorMessage().appendText(context + Conformance.STARTEDATTIME_IS_NULL.violation());
+        ValidatorResult startTimeValidator = StartTimeValidator.validate(event.getStartedAtTime(),
+                event.getEndedAtTime(), context);
+        if (!startTimeValidator.isValid()) {
+            result.errorMessage().appendText(startTimeValidator.errorMessage().toString());
         }
 
-        if (!ValidatorUtils.checkDuration(event.getDuration())) {
-            result.errorMessage().appendText(context + Conformance.DURATION_INVALID.violation());
+        ValidatorResult durationValidator = DurationValidator.validate(event.getStartedAtTime(),
+                event.getEndedAtTime(), event.getDuration(), context);
+        if (!durationValidator.isValid()) {
+            result.errorMessage().appendText(durationValidator.errorMessage().toString());
         }
 
         if (result.errorMessage().length() == 0) {
