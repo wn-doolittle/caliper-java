@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.profiles.Profile;
-import org.imsglobal.caliper.profiles.ProfileUtils;
-import org.imsglobal.caliper.validators.EventValidator;
 import org.imsglobal.caliper.validators.ValidatorResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +56,7 @@ public class NavigationEvent extends Event {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.action = builder.action;
+        this.action = Profile.getLocalizedAction(builder.action);
         this.fromResource = builder.fromResource;
 
         ValidatorResult result = Profile.validateEvent(this);
@@ -111,7 +109,6 @@ public class NavigationEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private String event = "NavigationEvent";
         private String context;
         private String type;
         private String action;
@@ -150,11 +147,7 @@ public class NavigationEvent extends Event {
          */
         @Override
         public T action(String key) {
-            if (key.equals(Profile.Actions.NAVIGATED_TO.key())) {
-                this.action = ProfileUtils.getLocalizedAction(key);
-            } else {
-                throw new IllegalArgumentException(event + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
-            }
+            this.action = key;
             return self();
         }
 

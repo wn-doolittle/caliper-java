@@ -3,6 +3,8 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.validators.entities.SessionValidator;
+import org.imsglobal.caliper.validators.ValidatorResult;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
@@ -47,6 +49,11 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
         this.duration = builder.duration;
+
+        ValidatorResult result = new SessionValidator().validate(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**

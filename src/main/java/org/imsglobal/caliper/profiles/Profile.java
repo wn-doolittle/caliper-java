@@ -2,38 +2,45 @@ package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.events.Event;
-import org.imsglobal.caliper.validators.*;
+import org.imsglobal.caliper.events.NavigationEvent;
+import org.imsglobal.caliper.events.ViewEvent;
+import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.EventValidatorContext;
+import org.imsglobal.caliper.validators.events.NavigationEventValidator;
+import org.imsglobal.caliper.validators.events.ViewEventValidator;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class Profile {
+public abstract class Profile {
 
     public enum Actions {
         NAVIGATED_TO("navigation.navigatedTo") {
             @Override
             ValidatorResult validate(Event event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new NavigationEventValidator());
-                return validator.validate(event);
+                NavigationEvent navigationEvent = (NavigationEvent) event;
+                EventValidatorContext<NavigationEvent> validator;
+                validator = new EventValidatorContext<>(NavigationEventValidator.action(Actions.NAVIGATED_TO.key()));
+                return validator.validate(navigationEvent);
             }
         },
         VIEWED("reading.viewed") {
             @Override
             ValidatorResult validate(Event event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new ViewEventValidator());
-                return validator.validate(event);
+                ViewEvent viewEvent = (ViewEvent) event;
+                EventValidatorContext<ViewEvent> validator;
+                validator = new EventValidatorContext<>(ViewEventValidator.action(Actions.VIEWED.key()));
+                return validator.validate(viewEvent);
             }
         },
         UNRECOGNIZED("action.unrecognized") {
             @Override
             ValidatorResult validate(Event event) {
                 ValidatorResult result = new ValidatorResult();
-                result.errorMessage().appendText("Caliper metric profile conformance: "
-                    + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
+                String violation = "Caliper profile conformance: unrecognized action";
+                result.errorMessage().appendViolation(violation);
                 result.errorMessage().endSentence();
                 return result;
             }
@@ -78,11 +85,11 @@ public class Profile {
         }
 
         /**
-         * Lookup key by comparing localized action string against matching bundle value.
+         * Retrieve bundle key from reverse lookup map with matching localized action value.
          * @param action
-         * @return
+         * @return action bundle key
          */
-        public static String lookupKey(String action) {
+        public static String lookupBundleKeyWithLocalizedAction(String action) {
             ResourceBundle bundle = ResourceBundle.getBundle("actions");
             for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
                 if (action.equals(bundle.getString(entry.getKey()))) {
@@ -90,6 +97,30 @@ public class Profile {
                 }
             }
             return Actions.UNRECOGNIZED.key();
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching on the action bundle key.
+         * @param key
+         * @return constant
+         */
+        public static Profile.Actions lookupConstantWithActionKey(String key) {
+            return lookup.get(key);
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching the localized action value against its bundle key.
+         * @param action
+         * @return constant
+         */
+        public static Profile.Actions lookupConstantWithLocalizedAction(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getValue();
+                }
+            }
+            return Actions.UNRECOGNIZED;
         }
 
         /**
@@ -104,23 +135,7 @@ public class Profile {
          * @return error message if validation errors are encountered.
          */
         protected static ValidatorResult validateEvent(Event event) {
-            return Actions.matchConstant(event.getAction()).validate(event);
-        }
-
-        /**
-         * Match the event action string against the bundle value and return
-         * the corresponding constant.
-         * @param action
-         * @return constant
-         */
-        private static Actions matchConstant(String action) {
-            ResourceBundle bundle = ResourceBundle.getBundle("actions");
-            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
-                if (action.equals(bundle.getString(entry.getKey()))) {
-                    return entry.getValue();
-                }
-            }
-            return Actions.UNRECOGNIZED;
+            return Actions.lookupConstantWithLocalizedAction(event.getAction()).validate(event);
         }
     }
 
@@ -132,7 +147,20 @@ public class Profile {
     }
 
     /**
-     * Validate AssessmentItemEvent.
+     * Get localized action string.
+     * @param key
+     * @return
+     */
+    public static String getLocalizedAction(String key) {
+        if (Profile.Actions.hasKey(key)) {
+            return ProfileUtils.getLocalizedAction(key);
+        } else {
+            throw new IllegalArgumentException("Event action is unrecognized (" + key + ")");
+        }
+    }
+
+    /**
+     * Validate Event.
      * @param event
      * @return ValidatorResult
      */

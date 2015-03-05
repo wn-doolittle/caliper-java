@@ -2,10 +2,9 @@ package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.events.OutcomeEvent;
-import org.imsglobal.caliper.validators.EventValidator;
-import org.imsglobal.caliper.validators.EventValidatorContext;
-import org.imsglobal.caliper.validators.OutcomeEventValidator;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.EventValidatorContext;
+import org.imsglobal.caliper.validators.events.OutcomeEventValidator;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -18,8 +17,8 @@ public class OutcomeProfile {
         GRADED("outcome.graded") {
             @Override
             ValidatorResult validate(OutcomeEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new OutcomeEventValidator());
+                EventValidatorContext<OutcomeEvent> validator;
+                validator = new EventValidatorContext<>(OutcomeEventValidator.action(Actions.GRADED.key()));
                 return validator.validate(event);
             }
         },
@@ -27,8 +26,8 @@ public class OutcomeProfile {
             @Override
             ValidatorResult validate(OutcomeEvent event) {
                 ValidatorResult result = new ValidatorResult();
-                result.errorMessage().appendText("Caliper Outcome profile conformance: "
-                    + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
+                String violation = "Caliper Outcome profile conformance: unrecognized action";
+                result.errorMessage().appendViolation(violation);
                 result.errorMessage().endSentence();
                 return result;
             }
@@ -73,11 +72,11 @@ public class OutcomeProfile {
         }
 
         /**
-         * Lookup key by comparing localized action string against matching bundle value.
+         * Retrieve bundle key from reverse lookup map with matching localized action value.
          * @param action
-         * @return
+         * @return action bundle key
          */
-        public static String lookupKey(String action) {
+        public static String lookupBundleKeyWithLocalizedAction(String action) {
             ResourceBundle bundle = ResourceBundle.getBundle("actions");
             for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
                 if (action.equals(bundle.getString(entry.getKey()))) {
@@ -85,6 +84,30 @@ public class OutcomeProfile {
                 }
             }
             return Actions.UNRECOGNIZED.key();
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching on the action bundle key.
+         * @param key
+         * @return constant
+         */
+        public static OutcomeProfile.Actions lookupConstantWithActionKey(String key) {
+            return lookup.get(key);
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching the localized action value against its bundle key.
+         * @param action
+         * @return constant
+         */
+        public static OutcomeProfile.Actions lookupConstantWithLocalizedAction(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getValue();
+                }
+            }
+            return Actions.UNRECOGNIZED;
         }
 
         /**
@@ -99,23 +122,7 @@ public class OutcomeProfile {
          * @return error message if validation errors are encountered.
          */
         protected static ValidatorResult validateEvent(OutcomeEvent event) {
-            return Actions.matchConstant(event.getAction()).validate(event);
-        }
-
-        /**
-         * Match the event action string against the bundle value and return
-         * the corresponding constant.
-         * @param action
-         * @return constant
-         */
-        private static Actions matchConstant(String action) {
-            ResourceBundle bundle = ResourceBundle.getBundle("actions");
-            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
-                if (action.equals(bundle.getString(entry.getKey()))) {
-                    return entry.getValue();
-                }
-            }
-            return Actions.UNRECOGNIZED;
+            return Actions.lookupConstantWithLocalizedAction(event.getAction()).validate(event);
         }
     }
 
@@ -127,7 +134,20 @@ public class OutcomeProfile {
     }
 
     /**
-     * Validate AssessmentItemEvent.
+     * Get localized action string.
+     * @param key
+     * @return
+     */
+    public static String getLocalizedAction(String key) {
+        if (OutcomeProfile.Actions.hasKey(key)) {
+            return ProfileUtils.getLocalizedAction(key);
+        } else {
+            throw new IllegalArgumentException("OutcomeEvent action is unrecognized (" + key + ")");
+        }
+    }
+
+    /**
+     * Validate OutcomeEvent.
      * @param event
      * @return ValidatorResult
      */

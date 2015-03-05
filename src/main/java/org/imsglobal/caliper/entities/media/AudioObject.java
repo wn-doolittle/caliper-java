@@ -2,6 +2,8 @@ package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.entities.MediaObjectValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -53,6 +55,11 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
         this.volumeMax = builder.volumeMax;
         this.volumeLevel = builder.volumeLevel;
         this.muted = builder.muted;
+
+        ValidatorResult result = new MediaObjectValidator<AudioObject>().validate(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**

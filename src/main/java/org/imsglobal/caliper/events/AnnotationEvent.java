@@ -3,8 +3,6 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.profiles.AnnotationProfile;
-import org.imsglobal.caliper.profiles.ProfileUtils;
-import org.imsglobal.caliper.validators.EventValidator;
 import org.imsglobal.caliper.validators.ValidatorResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +36,7 @@ public class AnnotationEvent extends Event {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.action = builder.action;
+        this.action = AnnotationProfile.getLocalizedAction(builder.action);
 
         ValidatorResult result = AnnotationProfile.validateEvent(this);
         if (!result.isValid()) {
@@ -81,7 +79,6 @@ public class AnnotationEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private String event = "AnnotationEvent";
         private String context;
         private String type;
         private String action;
@@ -118,11 +115,7 @@ public class AnnotationEvent extends Event {
          */
         @Override
         public T action(String key) {
-            if (AnnotationProfile.Actions.hasKey(key)) {
-                this.action = ProfileUtils.getLocalizedAction(key);
-            } else {
-                throw new IllegalArgumentException(event + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
-            }
+            this.action = key;
             return self();
         }
 

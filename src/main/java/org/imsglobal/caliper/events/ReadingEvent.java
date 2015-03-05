@@ -2,9 +2,7 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.profiles.ProfileUtils;
 import org.imsglobal.caliper.profiles.ReadingProfile;
-import org.imsglobal.caliper.validators.EventValidator;
 import org.imsglobal.caliper.validators.ValidatorResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +36,7 @@ public class ReadingEvent extends Event {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.action = builder.action;
+        this.action = ReadingProfile.getLocalizedAction(builder.action);
 
         ValidatorResult result = ReadingProfile.validateEvent(this);
         if (!result.isValid()) {
@@ -81,7 +79,6 @@ public class ReadingEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private String event = "ReadingEvent";
         private String context;
         private String type;
         private String action;
@@ -118,11 +115,7 @@ public class ReadingEvent extends Event {
          */
         @Override
         public T action(String key) {
-            if (ReadingProfile.Actions.hasKey(key)) {
-                this.action = ProfileUtils.getLocalizedAction(key);
-            } else {
-                throw new IllegalArgumentException(event + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
-            }
+            this.action = key;
             return self();
         }
 

@@ -1,6 +1,8 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.entities.DigitalResourceValidator;
 
 import javax.annotation.Nonnull;
 
@@ -15,6 +17,11 @@ public class WebPage extends DigitalResource implements org.imsglobal.caliper.en
     protected WebPage(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
+
+        ValidatorResult result = new DigitalResourceValidator<WebPage>().validate(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**

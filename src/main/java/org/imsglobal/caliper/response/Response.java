@@ -79,17 +79,12 @@ public abstract class Response extends Entity implements Generatable {
         }
 
         /**
-         * Based on reverse lookup map
+         * Retrieve enum type from reverse lookup map.
          * @param uri
-         * @return true/false
+         * @return Response.Type enum
          */
-        public static boolean matchTypeURI(String uri) {
-            for (Map.Entry<String, Type> entry: lookup.entrySet()) {
-                if (entry.getKey().equals(uri)) {
-                    return true;
-                }
-            }
-            return false;
+        public static Response.Type lookupConstantWithTypeURI(String uri) {
+            return lookup.get(uri);
         }
     }
 
@@ -205,7 +200,7 @@ public abstract class Response extends Entity implements Generatable {
         private String duration;
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
             type(Entity.Type.RESPONSE.uri());

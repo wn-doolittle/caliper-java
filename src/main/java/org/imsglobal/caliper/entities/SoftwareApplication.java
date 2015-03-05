@@ -1,6 +1,8 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.entities.EntityValidator;
 
 import javax.annotation.Nonnull;
 
@@ -17,6 +19,11 @@ public class SoftwareApplication extends Entity implements org.imsglobal.caliper
     protected SoftwareApplication(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
+
+        ValidatorResult result = new EntityValidator<SoftwareApplication>().validate(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**

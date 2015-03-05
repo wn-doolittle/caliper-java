@@ -3,12 +3,15 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Caliper representation of a CreativeWork (https://schema.org/CreativeWork)
@@ -57,6 +60,18 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         WEB_PAGE("http://purl.imsglobal.org/caliper/v1/WebPage");
 
         private final String uri;
+        private static Map<String, Type> lookup;
+
+        /**
+         * Create reverse lookup hash map
+         */
+        static {
+            Map<String, Type> map = new HashMap<String, Type>();
+            for (Type constants : Type.values()) {
+                map.put(constants.uri(), constants);
+            }
+            lookup = ImmutableMap.copyOf(map);
+        }
 
         /**
          * Private constructor
@@ -71,6 +86,15 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
          */
         public String uri() {
             return uri;
+        }
+
+        /**
+         * Retrieve enum type from reverse lookup map.
+         * @param uri
+         * @return DigitalResource.Type enum
+         */
+        public static DigitalResource.Type lookupConstantWithTypeURI(String uri) {
+            return lookup.get(uri);
         }
     }
 

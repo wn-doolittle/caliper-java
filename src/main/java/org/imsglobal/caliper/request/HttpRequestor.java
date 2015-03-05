@@ -103,8 +103,7 @@ public class HttpRequestor extends EventStoreRequestor {
      * (non-Javadoc)
      *
      * @see
-     * org.imsglobal.caliper.request.EventStoreRequestor#send(org.imsglobal.
-     * caliper.entities.DigitalResource)
+     * org.imsglobal.caliper.request.EventStoreRequestor#send(org.imsglobal.caliper.entities.DigitalResource)
      */
     @Override
     public boolean send(Entity caliperEntity) {

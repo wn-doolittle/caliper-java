@@ -3,8 +3,6 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.profiles.Profile;
-import org.imsglobal.caliper.profiles.ProfileUtils;
-import org.imsglobal.caliper.validators.EventValidator;
 import org.imsglobal.caliper.validators.ValidatorResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +36,7 @@ public class ViewEvent extends Event {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.action = builder.action;
+        this.action = Profile.getLocalizedAction(builder.action);
 
         ValidatorResult result = Profile.validateEvent(this);
         if (!result.isValid()) {
@@ -119,11 +117,7 @@ public class ViewEvent extends Event {
          */
         @Override
         public T action(String key) {
-            if (key.equals(Profile.Actions.VIEWED.key())) {
-                this.action = ProfileUtils.getLocalizedAction(key);
-            } else {
-                throw new IllegalArgumentException(event + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
-            }
+            this.action = key;
             return self();
         }
 
