@@ -25,7 +25,7 @@ public class AssessmentItemCompletedEventTest extends EventTest {
     private FillinBlankResponse response;
     private String key;
     private AssessmentItemEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(AssessmentItemCompletedEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(AssessmentItemCompletedEventTest.class);
 
     /**
      * @throws java.lang.Exception

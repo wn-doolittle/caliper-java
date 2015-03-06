@@ -78,31 +78,31 @@ public class TestUtils {
 
     /**
      * @param learningContext
-     * @param annotation
+     * @param object
      * @param actionKey
-     * @param target
+     * @param generated
      * @return annotation event.
      */
     public static AnnotationEvent buildAnnotationEvent(LearningContext learningContext,
-                                                       Annotation annotation,
+                                                       DigitalResource object,
                                                        String actionKey,
-                                                       DigitalResource target,
+                                                       Annotation generated,
                                                        int index) {
         return AnnotationEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())
             .action(actionKey)
-            .object(annotation)
-            .target(Frame.builder()
-                .id(target.getId())
-                .name(target.getName())
-                .isPartOf(target.getIsPartOf())
+            .object(Frame.builder()
+                .id(object.getId())
+                .name(object.getName())
+                .isPartOf(object.getIsPartOf())
                 .dateCreated(getDefaultDateCreated())
                 .dateModified(getDefaultDateModified())
                 .version("2nd ed.")
                 .index(index)
                 .build())
+            .generated(generated)
             .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
@@ -422,13 +422,13 @@ public class TestUtils {
             .action(actionKey)
             .object(learningContext.getEdApp())
             .target(Frame.builder()
-                .id(target.getId())
-                .name(target.getName())
-                .isPartOf(target.getIsPartOf())
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
-                .version("2nd ed.")
-                .index(1)
+                    .id(target.getId())
+                    .name(target.getName())
+                    .isPartOf(target.getIsPartOf())
+                    .dateCreated(getDefaultDateCreated())
+                    .dateModified(getDefaultDateModified())
+                    .version("2nd ed.")
+                    .index(1)
                 .build())
             .generated(generated)
             .startedAtTime(getDefaultStartedAtTime())
@@ -493,23 +493,23 @@ public class TestUtils {
                                                            DigitalResource fromResource,
                                                            EpubSubChapter target) {
         return NavigationEvent.builder()
-            .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
-            .actor((Person) learningContext.getAgent())
-            .action(actionKey)
-            .object(epub)
-            .target(Frame.builder()
-                .id(target.getId())
-                .name(target.getName())
-                .isPartOf(epub)
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
-                .version("2nd ed.")
-                .index(1)
-                .build())
-            .fromResource(fromResource)
-            .startedAtTime(getDefaultStartedAtTime())
-            .build();
+                .edApp(learningContext.getEdApp())
+                .lisOrganization(learningContext.getLisOrganization())
+                .actor((Person) learningContext.getAgent())
+                .action(actionKey)
+                .object(epub)
+                .target(Frame.builder()
+                        .id(target.getId())
+                        .name(target.getName())
+                        .isPartOf(epub)
+                        .dateCreated(getDefaultDateCreated())
+                        .dateModified(getDefaultDateModified())
+                        .version("2nd ed.")
+                        .index(1)
+                        .build())
+                .fromResource(fromResource)
+                .startedAtTime(getDefaultStartedAtTime())
+                .build();
     }
 
     /**
@@ -538,7 +538,7 @@ public class TestUtils {
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
             .version("2nd ed.")
-            .build();
+                .build();
     }
 
     /**
@@ -551,8 +551,8 @@ public class TestUtils {
             .name("Key Figures: Lord North")
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
-            .version("2nd ed.")
-            .isPartOf(buildEpubVolume43())
+                .version("2nd ed.")
+                .isPartOf(buildEpubVolume43())
             .build();
     }
 
@@ -566,8 +566,8 @@ public class TestUtils {
             .name("Key Figures: John Adams")
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
-            .version("2nd ed.")
-            .isPartOf(buildEpubVolume43())
+                .version("2nd ed.")
+                .isPartOf(buildEpubVolume43())
             .build();
     }
 
@@ -582,8 +582,8 @@ public class TestUtils {
             .isPartOf(buildEpubVolume43())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
-            .version("2nd ed.")
-            .build();
+                .version("2nd ed.")
+                .build();
     }
 
     /**
@@ -609,11 +609,11 @@ public class TestUtils {
                 .isPartOf(epub)
                 .dateCreated(getDefaultDateCreated())
                 .dateModified(getDefaultDateModified())
-                .version("2nd ed.")
-                .index(1)
+                    .version("2nd ed.")
+                    .index(1)
                 .build())
                 .startedAtTime(getDefaultStartedAtTime())
-            .build();
+                .build();
     }
 
     /**
@@ -794,8 +794,8 @@ public class TestUtils {
         return MediaLocation.builder()
             .id(buildVideoWithLearningObjective().getId())
             .dateCreated(getDefaultDateCreated())
-            .version("1.0")
-            .currentTime(710)
+                .version("1.0")
+                .currentTime(710)
             .build();
     }
 
@@ -813,8 +813,8 @@ public class TestUtils {
                 .build())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
-            .version("1.0")
-            .duration(1420)
+                .version("1.0")
+                .duration(1420)
             .build();
     }
 

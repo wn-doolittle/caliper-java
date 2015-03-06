@@ -22,7 +22,7 @@ public class AssessmentEventTest extends EventTest {
     private Attempt attempt;
     private String key;
     private AssessmentEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(AssessmentEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(AssessmentEventTest.class);
 
     /**
      * @throws java.lang.Exception

@@ -18,11 +18,11 @@ import static org.junit.Assert.assertEquals;
 public class SharedAnnotationEventTest extends EventTest {
 
     private LearningContext learningContext;
-    private EpubSubChapter epub;
-    private SharedAnnotation shared;
+    private EpubSubChapter object;
     private String key;
+    private SharedAnnotation generated;
     private AnnotationEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(SharedAnnotationEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(SharedAnnotationEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -34,16 +34,16 @@ public class SharedAnnotationEventTest extends EventTest {
         learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         //Build target reading
-        epub = (EpubSubChapter) TestUtils.buildEpubSubChap433();
-
-        // Build Bookmark Annotation
-        shared = TestUtils.buildSharedAnnotation(epub);
+        object = (EpubSubChapter) TestUtils.buildEpubSubChap433();
 
         // Add action
         key = AnnotationProfile.Actions.SHARED.key();
 
+        // Build Bookmark Annotation
+        generated = TestUtils.buildSharedAnnotation(object);
+
         // Build event
-        event = TestUtils.buildAnnotationEvent(learningContext, shared, key, epub, 3);
+        event = TestUtils.buildAnnotationEvent(learningContext, object, key, generated, 3);
     }
 
     @Test
