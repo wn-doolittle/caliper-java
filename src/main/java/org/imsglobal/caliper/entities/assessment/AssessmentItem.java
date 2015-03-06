@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
     "dateCreated",
     "dateModified",
     "datePublished",
+    "version",
     "dateToActivate",
     "dateToShow",
     "dateToStartOn",

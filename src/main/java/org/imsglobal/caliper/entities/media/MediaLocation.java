@@ -24,6 +24,7 @@ import java.util.UUID;
     "dateCreated",
     "dateModified",
     "datePublished",
+    "version",
     "currentTime" })
 public class MediaLocation extends DigitalResource implements Targetable {
 

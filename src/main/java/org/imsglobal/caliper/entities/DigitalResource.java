@@ -43,7 +43,8 @@ import java.util.Map;
     "properties",
     "dateCreated",
     "dateModified",
-    "datePublished" })
+    "datePublished",
+    "version" })
 public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork,
                                                        org.imsglobal.caliper.entities.Targetable {
 
@@ -116,6 +117,9 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     @JsonProperty("datePublished")
     private final DateTime datePublished;
 
+    @JsonProperty("version")
+    private final String version;
+
     /**
      * @param builder apply builder object properties to the profile object.
      */
@@ -123,13 +127,11 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         super(builder);
         this.type = builder.type;
         this.objectTypes = ImmutableList.copyOf(builder.objectTypes);
-        //this.objectTypes = ImmutableList.<String>builder().addAll(objectTypes).build();
         this.learningObjectives = ImmutableList.copyOf(builder.learningObjectives);
-        //this.learningObjectives = ImmutableList.<LearningObjective>builder().addAll(learningObjectives).build();
         this.keywords = ImmutableList.copyOf(builder.keywords);
-        //this.keywords = ImmutableList.<String>builder().addAll(keywords).build();
         this.isPartOf = builder.isPartOf;
         this.datePublished = builder.datePublished;
+        this.version = builder.version;
     }
 
     /**
@@ -185,6 +187,14 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     }
 
     /**
+     * @return the version
+     */
+    @Nullable
+    public String getVersion() {
+        return version;
+    }
+
+    /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
@@ -195,6 +205,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         private List<String> keywords = Lists.newArrayList();
         private Object isPartOf;
         private DateTime datePublished;
+        private String version;
 
         /*
          * Constructor
@@ -281,6 +292,15 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
          */
         public T datePublished(DateTime datePublished) {
             this.datePublished = datePublished;
+            return self();
+        }
+
+        /**
+         * @param version
+         * @return builder.
+         */
+        public T version(String version) {
+            this.version = version;
             return self();
         }
 

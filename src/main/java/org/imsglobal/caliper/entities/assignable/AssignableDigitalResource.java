@@ -27,6 +27,7 @@ import java.util.Map;
     "dateCreated",
     "dateModified",
     "datePublished",
+    "version",
     "dateToActivate",
     "dateToShow",
     "dateToStartOn",
@@ -82,9 +83,6 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("dateCreated")
-    private DateTime dateCreated;
-
     @JsonProperty("dateToActivate")
     private DateTime dateToActivate;
 
@@ -112,7 +110,6 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     protected AssignableDigitalResource(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.dateCreated = builder.dateCreated;
         this.dateToActivate = builder.dateToActivate;
         this.dateToShow = builder.dateToShow;
         this.dateToStartOn = builder.dateToStartOn;
@@ -129,14 +126,6 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     @Nonnull
     public String getType() {
         return type;
-    }
-
-    /**
-     * @return the dateCreated
-     */
-    @Nullable
-    public DateTime getDateCreated() {
-        return dateCreated;
     }
 
     /**
@@ -201,7 +190,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
-        private DateTime dateCreated, dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
+        private DateTime dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
         private int maxAttempts, maxSubmits;
         private double maxScore;
 
@@ -218,15 +207,6 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          */
         private T type(String type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param dateCreated
-         * @return builder
-         */
-        public T dateCreated(DateTime dateCreated) {
-            this.dateCreated = dateCreated;
             return self();
         }
 

@@ -26,6 +26,7 @@ import java.util.Map;
     "dateCreated",
     "dateModified",
     "datePublished",
+    "version",
     "duration" })
 public abstract class MediaObject extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.MediaObject {
 
