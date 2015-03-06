@@ -19,6 +19,7 @@ import java.util.List;
     "properties",
     "dateCreated",
     "dateModified",
+    "annotatedId",
     "tags" })
 public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 

@@ -391,16 +391,16 @@ public class TestUtils {
     }
 
     /**
-     * @param target
+     * @param annotated
      * @return bookmark annotation.
      */
-    public static BookmarkAnnotation buildBookmarkAnnotation(DigitalResource target)  {
+    public static BookmarkAnnotation buildBookmarkAnnotation(DigitalResource annotated)  {
         return BookmarkAnnotation.builder()
             .id("https://someEduApp.edu/bookmarks/00001")
             .bookmarkNotes("The Intolerable Acts (1774)--bad idea Lord North")
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
-            .target(target)
+            .annotatedId(annotated.getId())
             .build();
     }
 
@@ -617,16 +617,16 @@ public class TestUtils {
     }
 
     /**
-     * @param target
+     * @param annotated
      * @return highlight annotation.
      */
-    public static HighlightAnnotation buildHighlightAnnotation(DigitalResource target) {
+    public static HighlightAnnotation buildHighlightAnnotation(DigitalResource annotated) {
         return HighlightAnnotation.builder()
             .id("https://someEduApp.edu/highlights/12345")
+            .annotatedId(annotated.getId())
             .selectionStart(Integer.toString(455))
             .selectionEnd(Integer.toString(489))
             .selectionText("Life, Liberty and the pursuit of Happiness")
-            .target(target)
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
             .build();
@@ -700,23 +700,24 @@ public class TestUtils {
     }
 
     /**
-     * @param target
+     * @param annotated
      * @return shared annotation.
      */
-    public static SharedAnnotation buildSharedAnnotation(DigitalResource target) {
+    public static SharedAnnotation buildSharedAnnotation(DigitalResource annotated) {
         return SharedAnnotation.builder()
             .id("https://someEduApp.edu/shared/9999")
+            .annotatedId(annotated.getId())
             .withAgents(Lists.<Agent>newArrayList(
-                    Person.builder()
-                        .id("https://some-university.edu/students/657585")
-                        .dateCreated(getDefaultDateCreated())
-                        .dateModified(getDefaultDateModified())
-                        .build(),
-                    Person.builder()
-                        .id("https://some-university.edu/students/667788")
-                        .dateCreated(getDefaultDateCreated())
-                        .dateModified(getDefaultDateModified())
-                        .build()))
+                Person.builder()
+                    .id("https://some-university.edu/students/657585")
+                    .dateCreated(getDefaultDateCreated())
+                    .dateModified(getDefaultDateModified())
+                    .build(),
+                Person.builder()
+                    .id("https://some-university.edu/students/667788")
+                    .dateCreated(getDefaultDateCreated())
+                    .dateModified(getDefaultDateModified())
+                    .build()))
                 .dateCreated(getDefaultDateCreated())
                 .dateModified(getDefaultDateModified())
             .build();
@@ -752,14 +753,14 @@ public class TestUtils {
     }
 
     /**
-     * @param target
+     * @param annotated
      * @return tag annotation.
      */
-    public static TagAnnotation buildTagAnnotation(DigitalResource target) {
+    public static TagAnnotation buildTagAnnotation(DigitalResource annotated) {
         return TagAnnotation.builder()
             .id("https://someEduApp.edu/tags/7654")
+            .annotatedId(annotated.getId())
             .tags(Lists.newArrayList("to-read", "1765", "shared-with-project-team"))
-            .target(target)
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
             .build();

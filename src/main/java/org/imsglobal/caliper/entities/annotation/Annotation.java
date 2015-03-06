@@ -1,11 +1,9 @@
 package org.imsglobal.caliper.entities.annotation;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -17,7 +15,15 @@ import java.util.Map;
  * Direct sub-types can include - Highlight, Attachment, etc. - all of
  * which are specified in the Caliper Annotation Metric Profile
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "description", "properties", "dateCreated", "dateModified" })
+@JsonPropertyOrder({
+    "@id",
+    "@type",
+    "name",
+    "description",
+    "properties",
+    "dateCreated",
+    "dateModified",
+    "annotatedId" })
 public abstract class Annotation extends Entity implements org.imsglobal.caliper.entities.Generatable {
 
     public enum Type {
@@ -69,9 +75,8 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
     @JsonProperty("@type")
     private final String type;
 
-    //@JsonProperty("target")
-    @JsonIgnore
-    private CreativeWork target;
+    @JsonProperty("annotatedId")
+    private String annotatedId;
 
     /**
      * @param builder apply builder object properties to the Annotation object.
@@ -79,7 +84,7 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
     protected Annotation(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.target = builder.target;
+        this.annotatedId = builder.annotatedId;
     }
 
     /**
@@ -92,11 +97,11 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
     }
 
     /**
-     * @return the target
+     * @return the annotated object's identifier
      */
     @Nonnull
-    public CreativeWork getTarget() {
-        return target;
+    public String getAnnotatedId() {
+        return annotatedId;
     }
 
 
@@ -106,7 +111,7 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private String type;
-        private CreativeWork target;
+        private String annotatedId;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
@@ -125,11 +130,11 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
         }
 
         /**
-         * @param target
-         * @return annotation target.
+         * @param annotatedId
+         * @return builder.
          */
-        public T target(CreativeWork target) {
-            this.target = target;
+        public T annotatedId(String annotatedId) {
+            this.annotatedId = annotatedId;
             return self();
         }
     }

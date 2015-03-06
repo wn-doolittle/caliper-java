@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
     "properties",
     "dateCreated",
     "dateModified",
+    "annotatedId",
     "selection",
     "selectionText" })
 public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {

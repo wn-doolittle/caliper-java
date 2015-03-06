@@ -19,6 +19,7 @@ import java.util.List;
     "properties",
     "dateCreated",
     "dateModified",
+    "annotatedId",
     "withAgents" })
 public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
