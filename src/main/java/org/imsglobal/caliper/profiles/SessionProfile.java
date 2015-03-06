@@ -2,10 +2,9 @@ package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.events.SessionEvent;
-import org.imsglobal.caliper.validators.EventValidator;
-import org.imsglobal.caliper.validators.EventValidatorContext;
-import org.imsglobal.caliper.validators.SessionEventValidator;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.EventValidatorContext;
+import org.imsglobal.caliper.validators.events.SessionEventValidator;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -18,24 +17,24 @@ public class SessionProfile {
         LOGGEDIN("session.loggedIn") {
             @Override
             ValidatorResult validate(SessionEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new SessionEventValidator(Actions.LOGGEDIN.key()));
+                EventValidatorContext<SessionEvent> validator;
+                validator = new EventValidatorContext<>(SessionEventValidator.action(Actions.LOGGEDIN.key()));
                 return validator.validate(event);
             }
         },
         LOGGEDOUT("session.loggedOut") {
             @Override
             ValidatorResult validate(SessionEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new SessionEventValidator(Actions.LOGGEDOUT.key()));
+                EventValidatorContext<SessionEvent> validator;
+                validator = new EventValidatorContext<>(SessionEventValidator.action(Actions.LOGGEDOUT.key()));
                 return validator.validate(event);
             }
         },
         TIMEDOUT("session.timedOut") {
             @Override
             ValidatorResult validate(SessionEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new SessionEventValidator(Actions.TIMEDOUT.key()));
+                EventValidatorContext<SessionEvent> validator;
+                validator = new EventValidatorContext<>(SessionEventValidator.action(Actions.TIMEDOUT.key()));
                 return validator.validate(event);
             }
         },
@@ -43,8 +42,8 @@ public class SessionProfile {
             @Override
             ValidatorResult validate(SessionEvent event) {
                 ValidatorResult result = new ValidatorResult();
-                result.errorMessage().appendText("Caliper Session profile conformance: "
-                    + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
+                String violation = "Caliper Session profile conformance: unrecognized action";
+                result.errorMessage().appendViolation(violation);
                 result.errorMessage().endSentence();
                 return result;
             }
@@ -89,11 +88,11 @@ public class SessionProfile {
         }
 
         /**
-         * Lookup key by comparing localized action string against matching bundle value.
+         * Retrieve bundle key from reverse lookup map with matching localized action value.
          * @param action
-         * @return
+         * @return action bundle key
          */
-        public static String lookupKey(String action) {
+        public static String lookupBundleKeyWithLocalizedAction(String action) {
             ResourceBundle bundle = ResourceBundle.getBundle("actions");
             for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
                 if (action.equals(bundle.getString(entry.getKey()))) {
@@ -101,6 +100,30 @@ public class SessionProfile {
                 }
             }
             return Actions.UNRECOGNIZED.key();
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching on the action bundle key.
+         * @param key
+         * @return constant
+         */
+        public static SessionProfile.Actions lookupConstantWithActionKey(String key) {
+            return lookup.get(key);
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching the localized action value against its bundle key.
+         * @param action
+         * @return constant
+         */
+        public static SessionProfile.Actions lookupConstantWithLocalizedAction(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getValue();
+                }
+            }
+            return Actions.UNRECOGNIZED;
         }
 
         /**
@@ -115,23 +138,7 @@ public class SessionProfile {
          * @return error message if validation errors are encountered.
          */
         protected static ValidatorResult validateEvent(SessionEvent event) {
-            return Actions.matchConstant(event.getAction()).validate(event);
-        }
-
-        /**
-         * Match the event action string against the bundle value
-         * and return the corresponding constant.
-         * @param action
-         * @return constant
-         */
-        private static Actions matchConstant(String action) {
-            ResourceBundle bundle = ResourceBundle.getBundle("actions");
-            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
-                if (action.equals(bundle.getString(entry.getKey()))) {
-                    return entry.getValue();
-                }
-            }
-            return Actions.UNRECOGNIZED;
+            return Actions.lookupConstantWithLocalizedAction(event.getAction()).validate(event);
         }
     }
 
@@ -143,7 +150,20 @@ public class SessionProfile {
     }
 
     /**
-     * Validate AssessmentItemEvent.
+     * Get localized action string.
+     * @param key
+     * @return
+     */
+    public static String getLocalizedAction(String key) {
+        if (SessionProfile.Actions.hasKey(key)) {
+            return ProfileUtils.getLocalizedAction(key);
+        } else {
+            throw new IllegalArgumentException("SessionEvent action is unrecognized (" + key + ")");
+        }
+    }
+
+    /**
+     * Validate SessionEvent.
      * @param event
      * @return ValidatorResult
      */

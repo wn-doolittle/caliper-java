@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
+import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.entities.AssignableValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -49,8 +51,11 @@ public class Assessment extends AssignableDigitalResource implements org.imsglob
         super(builder);
         this.type = builder.type;
         this.assessmentItems = ImmutableList.copyOf(builder.assessmentItems);
-        //this.assessmentItems = ImmutableList.<AssessmentItem>builder().addAll(assessmentItems).build();
-        //this.assessmentItems = Collections.unmodifiableList(assessmentItems);
+
+        ValidatorResult result = new AssignableValidator<Assessment>().validate(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**

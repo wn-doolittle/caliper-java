@@ -2,10 +2,9 @@ package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.events.AssignableEvent;
-import org.imsglobal.caliper.validators.AssignableEventValidator;
-import org.imsglobal.caliper.validators.EventValidator;
-import org.imsglobal.caliper.validators.EventValidatorContext;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.AssignableEventValidator;
+import org.imsglobal.caliper.validators.events.EventValidatorContext;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -18,64 +17,64 @@ public class AssignableProfile {
         ABANDONED("assignable.abandoned") {
             @Override
             ValidatorResult validate(AssignableEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssignableEventValidator());
+                EventValidatorContext<AssignableEvent> validator;
+                validator = new EventValidatorContext<>(AssignableEventValidator.action(Actions.ABANDONED.key()));
                 return validator.validate(event);
             }
         },
         ACTIVATED("assignable.activated") {
             @Override
             ValidatorResult validate(AssignableEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssignableEventValidator());
+                EventValidatorContext<AssignableEvent> validator;
+                validator = new EventValidatorContext<>(AssignableEventValidator.action(Actions.ACTIVATED.key()));
                 return validator.validate(event);
             }
         },
         COMPLETED("assignable.completed") {
             @Override
             ValidatorResult validate(AssignableEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssignableEventValidator());
+                EventValidatorContext<AssignableEvent> validator;
+                validator = new EventValidatorContext<>(AssignableEventValidator.action(Actions.COMPLETED.key()));
                 return validator.validate(event);
             }
         },
         DEACTIVATED("assignable.deactivated") {
             @Override
             ValidatorResult validate(AssignableEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssignableEventValidator());
+                EventValidatorContext<AssignableEvent> validator;
+                validator = new EventValidatorContext<>(AssignableEventValidator.action(Actions.DEACTIVATED.key()));
                 return validator.validate(event);
             }
         },
         HID("assignable.hid") {
             @Override
             ValidatorResult validate(AssignableEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssignableEventValidator());
+                EventValidatorContext<AssignableEvent> validator;
+                validator = new EventValidatorContext<>(AssignableEventValidator.action(Actions.HID.key()));
                 return validator.validate(event);
             }
         },
         REVIEWED("assignable.reviewed") {
             @Override
             ValidatorResult validate(AssignableEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssignableEventValidator());
+                EventValidatorContext<AssignableEvent> validator;
+                validator = new EventValidatorContext<>(AssignableEventValidator.action(Actions.REVIEWED.key()));
                 return validator.validate(event);
             }
         },
         SHOWED("assignable.showed") {
             @Override
             ValidatorResult validate(AssignableEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssignableEventValidator());
+                EventValidatorContext<AssignableEvent> validator;
+                validator = new EventValidatorContext<>(AssignableEventValidator.action(Actions.SHOWED.key()));
                 return validator.validate(event);
             }
         },
         STARTED("assignable.started") {
             @Override
             ValidatorResult validate(AssignableEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssignableEventValidator());
+                EventValidatorContext<AssignableEvent> validator;
+                validator = new EventValidatorContext<>(AssignableEventValidator.action(Actions.STARTED.key()));
                 return validator.validate(event);
             }
         },
@@ -83,8 +82,8 @@ public class AssignableProfile {
             @Override
             ValidatorResult validate(AssignableEvent event) {
                 ValidatorResult result = new ValidatorResult();
-                result.errorMessage().appendText("Caliper Assessment profile conformance: "
-                    + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
+                String violation = "Caliper Assignable profile conformance: unrecognized action";
+                result.errorMessage().appendViolation(violation);
                 result.errorMessage().endSentence();
                 return result;
             }
@@ -129,11 +128,11 @@ public class AssignableProfile {
         }
 
         /**
-         * Lookup key by comparing localized action string against matching bundle value.
+         * Retrieve bundle key from reverse lookup map with matching localized action value.
          * @param action
-         * @return
+         * @return action bundle key
          */
-        public static String lookupKey(String action) {
+        public static String lookupBundleKeyWithLocalizedAction(String action) {
             ResourceBundle bundle = ResourceBundle.getBundle("actions");
             for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
                 if (action.equals(bundle.getString(entry.getKey()))) {
@@ -141,6 +140,30 @@ public class AssignableProfile {
                 }
             }
             return Actions.UNRECOGNIZED.key();
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching on the action bundle key.
+         * @param key
+         * @return constant
+         */
+        public static AssignableProfile.Actions lookupConstantWithActionKey(String key) {
+            return lookup.get(key);
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching the localized action value against its bundle key.
+         * @param action
+         * @return constant
+         */
+        public static AssignableProfile.Actions lookupConstantWithLocalizedAction(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getValue();
+                }
+            }
+            return Actions.UNRECOGNIZED;
         }
 
         /**
@@ -155,23 +178,7 @@ public class AssignableProfile {
          * @return error message if validation errors are encountered.
          */
         protected static ValidatorResult validateEvent(AssignableEvent event) {
-            return Actions.matchConstant(event.getAction()).validate(event);
-        }
-
-        /**
-         * Match the event action string against the bundle value and return
-         * the corresponding constant.
-         * @param action
-         * @return constant
-         */
-        private static Actions matchConstant(String action) {
-            ResourceBundle bundle = ResourceBundle.getBundle("actions");
-            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
-                if (action.equals(bundle.getString(entry.getKey()))) {
-                    return entry.getValue();
-                }
-            }
-            return Actions.UNRECOGNIZED;
+            return Actions.lookupConstantWithLocalizedAction(event.getAction()).validate(event);
         }
     }
 
@@ -183,7 +190,20 @@ public class AssignableProfile {
     }
 
     /**
-     * Validate AssessmentItemEvent.
+     * Get localized action string.
+     * @param key
+     * @return
+     */
+    public static String getLocalizedAction(String key) {
+        if (AssignableProfile.Actions.hasKey(key)) {
+            return ProfileUtils.getLocalizedAction(key);
+        } else {
+            throw new IllegalArgumentException("AssignableEvent action is unrecognized (" + key + ")");
+        }
+    }
+
+    /**
+     * Validate AssignableEvent.
      * @param event
      * @return ValidatorResult
      */

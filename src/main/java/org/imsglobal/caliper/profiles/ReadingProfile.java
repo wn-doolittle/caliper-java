@@ -2,10 +2,9 @@ package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.events.ReadingEvent;
-import org.imsglobal.caliper.validators.EventValidator;
-import org.imsglobal.caliper.validators.EventValidatorContext;
-import org.imsglobal.caliper.validators.ReadingEventValidator;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.EventValidatorContext;
+import org.imsglobal.caliper.validators.events.ReadingEventValidator;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -18,16 +17,16 @@ public class ReadingProfile {
         SEARCHED("reading.searched") {
             @Override
             ValidatorResult validate(ReadingEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new ReadingEventValidator(Actions.SEARCHED.key()));
+                EventValidatorContext<ReadingEvent> validator;
+                validator = new EventValidatorContext<>(ReadingEventValidator.action(Actions.SEARCHED.key()));
                 return validator.validate(event);
             }
         },
         VIEWED("reading.viewed") {
             @Override
             ValidatorResult validate(ReadingEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new ReadingEventValidator(Actions.VIEWED.key()));
+                EventValidatorContext<ReadingEvent> validator;
+                validator = new EventValidatorContext<>(ReadingEventValidator.action(Actions.VIEWED.key()));
                 return validator.validate(event);
             }
         },
@@ -35,8 +34,8 @@ public class ReadingProfile {
             @Override
             ValidatorResult validate(ReadingEvent event) {
                 ValidatorResult result = new ValidatorResult();
-                result.errorMessage().appendText("Caliper Reading profile conformance: "
-                    + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
+                String violation = "Caliper Reading profile conformance: unrecognized action";
+                result.errorMessage().appendViolation(violation);
                 result.errorMessage().endSentence();
                 return result;
             }
@@ -81,11 +80,11 @@ public class ReadingProfile {
         }
 
         /**
-         * Lookup key by comparing localized action string against matching bundle value.
+         * Retrieve bundle key from reverse lookup map with matching localized action value.
          * @param action
-         * @return
+         * @return action bundle key
          */
-        public static String lookupKey(String action) {
+        public static String lookupBundleKeyWithLocalizedAction(String action) {
             ResourceBundle bundle = ResourceBundle.getBundle("actions");
             for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
                 if (action.equals(bundle.getString(entry.getKey()))) {
@@ -93,6 +92,30 @@ public class ReadingProfile {
                 }
             }
             return Actions.UNRECOGNIZED.key();
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching on the action bundle key.
+         * @param key
+         * @return constant
+         */
+        public static ReadingProfile.Actions lookupConstantWithActionKey(String key) {
+            return lookup.get(key);
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching the localized action value against its bundle key.
+         * @param action
+         * @return constant
+         */
+        public static ReadingProfile.Actions lookupConstantWithLocalizedAction(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getValue();
+                }
+            }
+            return Actions.UNRECOGNIZED;
         }
 
         /**
@@ -107,23 +130,7 @@ public class ReadingProfile {
          * @return error message if validation errors are encountered.
          */
         protected static ValidatorResult validateEvent(ReadingEvent event) {
-            return Actions.matchConstant(event.getAction()).validate(event);
-        }
-
-        /**
-         * Match the event action string against the bundle value and return
-         * the corresponding constant.
-         * @param action
-         * @return constant
-         */
-        private static Actions matchConstant(String action) {
-            ResourceBundle bundle = ResourceBundle.getBundle("actions");
-            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
-                if (action.equals(bundle.getString(entry.getKey()))) {
-                    return entry.getValue();
-                }
-            }
-            return Actions.UNRECOGNIZED;
+            return Actions.lookupConstantWithLocalizedAction(event.getAction()).validate(event);
         }
     }
 
@@ -135,7 +142,20 @@ public class ReadingProfile {
     }
 
     /**
-     * Validate AssessmentItemEvent.
+     * Get localized action string.
+     * @param key
+     * @return
+     */
+    public static String getLocalizedAction(String key) {
+        if (ReadingProfile.Actions.hasKey(key)) {
+            return ProfileUtils.getLocalizedAction(key);
+        } else {
+            throw new IllegalArgumentException("ReadingEvent action is unrecognized (" + key + ")");
+        }
+    }
+
+    /**
+     * Validate ReadingEvent.
      * @param event
      * @return ValidatorResult
      */

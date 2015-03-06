@@ -2,6 +2,8 @@ package org.imsglobal.caliper.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.validators.entities.ResponseValidator;
+import org.imsglobal.caliper.validators.ValidatorResult;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,6 +41,11 @@ public class MultipleChoiceResponse extends Response {
         super(builder);
         this.type = builder.type;
         this.value = builder.value;
+
+        ValidatorResult result = new ResponseValidator<MultipleChoiceResponse>().validate(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**

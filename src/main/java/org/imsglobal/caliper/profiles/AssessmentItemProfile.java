@@ -2,10 +2,9 @@ package org.imsglobal.caliper.profiles;
 
 import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.events.AssessmentItemEvent;
-import org.imsglobal.caliper.validators.AssessmentItemEventValidator;
-import org.imsglobal.caliper.validators.EventValidator;
-import org.imsglobal.caliper.validators.EventValidatorContext;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.AssessmentItemEventValidator;
+import org.imsglobal.caliper.validators.events.EventValidatorContext;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -18,40 +17,40 @@ public class AssessmentItemProfile {
         STARTED("assessment.item.started") {
             @Override
             ValidatorResult validate(AssessmentItemEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssessmentItemEventValidator(Actions.STARTED.key()));
+                EventValidatorContext<AssessmentItemEvent> validator;
+                validator = new EventValidatorContext<>(AssessmentItemEventValidator.action(Actions.STARTED.key()));
                 return validator.validate(event);
             }
         },
         COMPLETED("assessment.item.completed") {
             @Override
             ValidatorResult validate(AssessmentItemEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssessmentItemEventValidator(Actions.COMPLETED.key()));
+                EventValidatorContext<AssessmentItemEvent> validator;
+                validator = new EventValidatorContext<>(AssessmentItemEventValidator.action(Actions.COMPLETED.key()));
                 return validator.validate(event);
             }
         },
         SKIPPED("assessment.item.skipped") {
             @Override
             ValidatorResult validate(AssessmentItemEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssessmentItemEventValidator(Actions.SKIPPED.key()));
+                EventValidatorContext<AssessmentItemEvent> validator;
+                validator = new EventValidatorContext<>(AssessmentItemEventValidator.action(Actions.SKIPPED.key()));
                 return validator.validate(event);
             }
         },
         REVIEWED("assessment.item.reviewed") {
             @Override
             ValidatorResult validate(AssessmentItemEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssessmentItemEventValidator(Actions.REVIEWED.key()));
+                EventValidatorContext<AssessmentItemEvent> validator;
+                validator = new EventValidatorContext<>(AssessmentItemEventValidator.action(Actions.REVIEWED.key()));
                 return validator.validate(event);
             }
         },
         VIEWED("assessment.item.viewed") {
             @Override
             ValidatorResult validate(AssessmentItemEvent event) {
-                EventValidatorContext validator;
-                validator = new EventValidatorContext(new AssessmentItemEventValidator(Actions.VIEWED.key()));
+                EventValidatorContext<AssessmentItemEvent> validator;
+                validator = new EventValidatorContext<>(AssessmentItemEventValidator.action(Actions.VIEWED.key()));
                 return validator.validate(event);
             }
         },
@@ -59,8 +58,8 @@ public class AssessmentItemProfile {
             @Override
             ValidatorResult validate(AssessmentItemEvent event) {
                 ValidatorResult result = new ValidatorResult();
-                result.errorMessage().appendText("Caliper AssessmentItem profile conformance: "
-                    + EventValidator.Conformance.ACTION_UNRECOGNIZED.violation());
+                String violation = "Caliper AssessmentItem profile conformance: unrecognized action";
+                result.errorMessage().appendViolation(violation);
                 result.errorMessage().endSentence();
                 return result;
             }
@@ -105,11 +104,11 @@ public class AssessmentItemProfile {
         }
 
         /**
-         * Lookup key by comparing localized action string against matching bundle value.
+         * Retrieve bundle key from reverse lookup map with matching localized action value.
          * @param action
-         * @return
+         * @return action bundle key
          */
-        public static String lookupKey(String action) {
+        public static String lookupBundleKeyWithLocalizedAction(String action) {
             ResourceBundle bundle = ResourceBundle.getBundle("actions");
             for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
                 if (action.equals(bundle.getString(entry.getKey()))) {
@@ -117,6 +116,30 @@ public class AssessmentItemProfile {
                 }
             }
             return Actions.UNRECOGNIZED.key();
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching on the action bundle key.
+         * @param key
+         * @return constant
+         */
+        public static AssessmentItemProfile.Actions lookupConstantWithActionKey(String key) {
+            return lookup.get(key);
+        }
+
+        /**
+         * Retrieve constant from reverse lookup map after matching the localized action value against its bundle key.
+         * @param action
+         * @return constant
+         */
+        public static AssessmentItemProfile.Actions lookupConstantWithLocalizedAction(String action) {
+            ResourceBundle bundle = ResourceBundle.getBundle("actions");
+            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
+                if (action.equals(bundle.getString(entry.getKey()))) {
+                    return entry.getValue();
+                }
+            }
+            return Actions.UNRECOGNIZED;
         }
 
         /**
@@ -131,23 +154,7 @@ public class AssessmentItemProfile {
          * @return error message if validation errors are encountered.
          */
         protected static ValidatorResult validateEvent(AssessmentItemEvent event) {
-            return Actions.matchConstant(event.getAction()).validate(event);
-        }
-
-        /**
-         * Match the event action string against the bundle value and return
-         * the corresponding constant.
-         * @param action
-         * @return constant
-         */
-        private static Actions matchConstant(String action) {
-            ResourceBundle bundle = ResourceBundle.getBundle("actions");
-            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
-                if (action.equals(bundle.getString(entry.getKey()))) {
-                    return entry.getValue();
-                }
-            }
-            return Actions.UNRECOGNIZED;
+            return Actions.lookupConstantWithLocalizedAction(event.getAction()).validate(event);
         }
     }
 
@@ -156,6 +163,19 @@ public class AssessmentItemProfile {
      */
     public AssessmentItemProfile() {
 
+    }
+
+    /**
+     * Get localized action string.
+     * @param key
+     * @return
+     */
+    public static String getLocalizedAction(String key) {
+        if (AssessmentItemProfile.Actions.hasKey(key)) {
+            return ProfileUtils.getLocalizedAction(key);
+        } else {
+            throw new IllegalArgumentException("AssessmentItemEvent action is unrecognized (" + key + ")");
+        }
     }
 
     /**

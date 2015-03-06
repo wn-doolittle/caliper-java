@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.entities.DigitalResourceValidator;
 
 import javax.annotation.Nonnull;
 
@@ -36,6 +38,11 @@ public class Frame extends DigitalResource implements Targetable {
         super(builder);
         this.type = builder.type;
         this.index = builder.index;
+
+        ValidatorResult result = new DigitalResourceValidator<Frame>().validate(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**

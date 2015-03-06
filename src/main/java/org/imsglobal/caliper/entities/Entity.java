@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,6 +35,18 @@ public abstract class Entity implements Thing {
         VIEW("http://purl.imsglobal.org/caliper/v1/View");
 
         private final String uri;
+        private static Map<String, Type> lookup;
+
+        /**
+         * Create reverse lookup hash map
+         */
+        static {
+            Map<String, Type> map = new HashMap<String, Type>();
+            for (Type constants : Type.values()) {
+                map.put(constants.uri(), constants);
+            }
+            lookup = ImmutableMap.copyOf(map);
+        }
 
         /**
          * Private constructor
@@ -48,6 +61,15 @@ public abstract class Entity implements Thing {
          */
         public String uri() {
             return uri;
+        }
+
+        /**
+         * Retrieve enum type from reverse lookup map.
+         * @param uri
+         * @return Entity.Type enum
+         */
+        public static Entity.Type lookupConstantWithTypeURI(String uri) {
+            return lookup.get(uri);
         }
     }
 

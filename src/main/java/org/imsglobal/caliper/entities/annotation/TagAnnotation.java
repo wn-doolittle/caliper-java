@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.entities.AnnotationValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -33,8 +35,11 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
         super(builder);
         this.type = builder.type;
         this.tags = ImmutableList.copyOf(builder.tags);
-        //this.tags = ImmutableList.<String>builder().addAll(tags).build();
-        //this.tags = Collections.unmodifiableList(builder.tags);
+
+        ValidatorResult result = new AnnotationValidator<TagAnnotation>().validate(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**

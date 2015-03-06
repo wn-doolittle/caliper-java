@@ -2,7 +2,7 @@ package org.imsglobal.caliper.validators;
 
 public class ValidatorResult {
     private boolean isValid = false;
-    private ErrorMessage message = new ErrorMessage();
+    private ValidatorErrorMessage message = new ValidatorErrorMessage();
 
     /**
      * Constructor
@@ -15,7 +15,7 @@ public class ValidatorResult {
      * Retrieve the error message.
      * @return the error message
      */
-    public ErrorMessage errorMessage() {
+    public ValidatorErrorMessage errorMessage() {
         return message;
     }
 

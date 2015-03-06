@@ -3,6 +3,8 @@ package org.imsglobal.caliper.entities.assessment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
+import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.entities.AssignableValidator;
 
 import javax.annotation.Nonnull;
 
@@ -45,6 +47,11 @@ public class AssessmentItem extends AssignableDigitalResource implements org.ims
         super(builder);
         this.type = builder.type;
         this.isTimeDependent = builder.isTimeDependent;
+
+        ValidatorResult result = new AssignableValidator<AssessmentItem>().validate(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**
@@ -74,21 +81,21 @@ public class AssessmentItem extends AssignableDigitalResource implements org.ims
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
-        private String type = AssignableDigitalResource.Type.ASSESSMENT_ITEM.uri();
+        private String type;
         private boolean isTimeDependent = false;
 
         /**
          * Constructor
          */
         public Builder() {
+            type(AssignableDigitalResource.Type.ASSESSMENT_ITEM.uri());
         }
 
         /**
-         * The user may override the default AssessmentItem type with a more specific Caliper conformant type URI.
          * @param type
          * @return builder.
          */
-        public T type(String type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

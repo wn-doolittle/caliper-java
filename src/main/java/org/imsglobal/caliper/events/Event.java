@@ -3,6 +3,7 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
@@ -14,6 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonPropertyOrder({
     "@context",
@@ -44,6 +47,18 @@ public abstract class Event {
         VIEW("http://purl.imsglobal.org/ctx/caliper/v1/ViewEvent");
 
         private final String uri;
+        private static Map<String, Context> lookup;
+
+        /**
+         * Create reverse lookup hash map
+         */
+        static {
+            Map<String, Context> map = new HashMap<String, Context>();
+            for (Context constants : Context.values()) {
+                map.put(constants.uri(), constants);
+            }
+            lookup = ImmutableMap.copyOf(map);
+        }
 
         /**
          * Private constructor
@@ -58,6 +73,15 @@ public abstract class Event {
          */
         public String uri() {
             return uri;
+        }
+
+        /**
+         * Retrieve enum type from reverse lookup map.
+         * @param uri
+         * @return Event.Context enum
+         */
+        public static Event.Context lookupConstantWithContextURI(String uri) {
+            return lookup.get(uri);
         }
     }
 
@@ -75,6 +99,18 @@ public abstract class Event {
         VIEW("http://purl.imsglobal.org/caliper/v1/ViewEvent");
 
         private final String uri;
+        private static Map<String, Type> lookup;
+
+        /**
+         * Create reverse lookup hash map
+         */
+        static {
+            Map<String, Type> map = new HashMap<String, Type>();
+            for (Type constants : Type.values()) {
+                map.put(constants.uri(), constants);
+            }
+            lookup = ImmutableMap.copyOf(map);
+        }
 
         /**
          * Private constructor
@@ -89,6 +125,15 @@ public abstract class Event {
          */
         public String uri() {
             return uri;
+        }
+
+        /**
+         * Retrieve enum type from reverse lookup map.
+         * @param uri
+         * @return Event.Type enum
+         */
+        public static Event.Type lookupConstantWithTypeURI(String uri) {
+            return lookup.get(uri);
         }
     }
 

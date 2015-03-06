@@ -7,39 +7,39 @@ import javax.annotation.Nonnull;
  * Defined by: http://www.w3.org/ns/oa#d4e667
  */
 public class TextPositionSelector {
-	
-	private String start;
-	private String end;
 
-	/**
-	 * @return the start
-	 */
+    private String start;
+    private String end;
+
+    /**
+     * @return the start
+     */
     @Nonnull
-	public String getStart() {
-		return start;
-	}
+    public String getStart() {
+        return start;
+    }
 
-	/**
-	 * @param start
-	 * the start to set
-	 */
-	public void setStart(@Nonnull String start) {
-		this.start = start;
-	}
+    /**
+     * @param start
+     * the start to set
+     */
+    public void setStart(@Nonnull String start) {
+        this.start = start;
+    }
 
-	/**
-	 * @return the end
-	 */
+    /**
+     * @return the end
+     */
     @Nonnull
-	public String getEnd() {
-		return end;
-	}
+    public String getEnd() {
+        return end;
+    }
 
-	/**
-	 * @param end
-	 * the end to set
-	 */
-	public void setEnd(@Nonnull String end) {
-		this.end = end;
-	}
+    /**
+     * @param end
+     * the end to set
+     */
+    public void setEnd(@Nonnull String end) {
+        this.end = end;
+    }
 }

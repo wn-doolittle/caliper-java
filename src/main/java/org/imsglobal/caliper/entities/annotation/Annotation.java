@@ -3,10 +3,13 @@ package org.imsglobal.caliper.entities.annotation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The super-class of all Annotation types.
@@ -25,6 +28,18 @@ public abstract class Annotation extends Entity {
         TAG_ANNOTATION("http://purl.imsglobal.org/caliper/v1/TagAnnotation");
 
         private final String uri;
+        private static Map<String, Type> lookup;
+
+        /**
+         * Create reverse lookup hash map
+         */
+        static {
+            Map<String, Type> map = new HashMap<String, Type>();
+            for (Type constants : Type.values()) {
+                map.put(constants.uri(), constants);
+            }
+            lookup = ImmutableMap.copyOf(map);
+        }
 
         /**
          * Private constructor
@@ -39,6 +54,15 @@ public abstract class Annotation extends Entity {
          */
         public String uri() {
             return uri;
+        }
+
+        /**
+         * Retrieve enum type from reverse lookup map.
+         * @param uri
+         * @return Event.Type enum
+         */
+        public static Annotation.Type lookupConstantWithTypeURI(String uri) {
+            return lookup.get(uri);
         }
     }
 

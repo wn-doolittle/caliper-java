@@ -1,33 +1,21 @@
 package org.imsglobal.caliper.validators;
 
-public class ErrorMessage {
+public class ValidatorErrorMessage {
     private StringBuilder builder;
-    // private String context;
     private String newline = "\n";
 
     /**
      * Constructor
      */
-    public ErrorMessage() {
+    public ValidatorErrorMessage() {
         this.builder = new StringBuilder();
     }
 
     /**
-     * Set event context for message construction (i.e., "Assessment", "Session", etc.)
-     * @param context
-     */
-    /**
-    public Message(String context) {
-        this.context = context;
-        this.builder = new StringBuilder();
-    }
-     */
-
-    /**
-     * Append comma if appropriate when building conformance violation message.
+     * Append violation and add comma if appropriate when building conformance violation message.
      * @param text
      */
-    public void appendText(String text) {
+    public void appendViolation(String text) {
         if (this.builder.length() > 0) {
             this.builder.append("," + this.newline);
             this.builder.append(text + this.newline);
@@ -40,7 +28,7 @@ public class ErrorMessage {
      * Prepend text, typically a Caliper conformance clause that prefixes a string of one or more violations.
      * @param text
      */
-    public void prependText(String text) {
+    public void prependViolation(String text) {
         this.builder.insert(0, text + this.newline);
     }
 
@@ -49,7 +37,7 @@ public class ErrorMessage {
      * @param text
      */
     public void endMessage(String text) {
-        this.prependText(text);
+        this.prependViolation(text);
         this.endSentence();
     }
 

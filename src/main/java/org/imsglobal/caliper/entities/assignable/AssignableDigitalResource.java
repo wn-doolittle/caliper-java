@@ -2,11 +2,14 @@ package org.imsglobal.caliper.entities.assignable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Assignable Digital Resource
@@ -38,6 +41,18 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
         ASSESSMENT_ITEM("http://purl.imsglobal.org/caliper/v1/AssessmentItem");
 
         private final String uri;
+        private static Map<String, Type> lookup;
+
+        /**
+         * Create reverse lookup hash map
+         */
+        static {
+            Map<String, Type> map = new HashMap<String, Type>();
+            for (Type constants : Type.values()) {
+                map.put(constants.uri(), constants);
+            }
+            lookup = ImmutableMap.copyOf(map);
+        }
 
         /**
          * Private constructor
@@ -52,6 +67,15 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          */
         public String uri() {
             return uri;
+        }
+
+        /**
+         * Retrieve enum type from reverse lookup map.
+         * @param uri
+         * @return Event.Type enum
+         */
+        public static AssignableDigitalResource.Type lookupConstantWithTypeURI(String uri) {
+            return lookup.get(uri);
         }
     }
 

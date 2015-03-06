@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.validators.entities.AttemptValidator;
+import org.imsglobal.caliper.validators.ValidatorResult;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
@@ -62,6 +64,11 @@ public class Attempt extends Entity implements Generatable {
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
         this.duration = builder.duration;
+
+        ValidatorResult result = new AttemptValidator().validate(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**

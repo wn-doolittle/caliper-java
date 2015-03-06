@@ -2,10 +2,13 @@ package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.DigitalResource;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An image, video, or audio object embedded in a web page.
@@ -32,6 +35,18 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
         VIDEO_OBJECT("http://purl.imsglobal.org/caliper/v1/VideoObject");
 
         private final String uri;
+        private static Map<String, Type> lookup;
+
+        /**
+         * Create reverse lookup hash map
+         */
+        static {
+            Map<String, Type> map = new HashMap<String, Type>();
+            for (Type constants : Type.values()) {
+                map.put(constants.uri(), constants);
+            }
+            lookup = ImmutableMap.copyOf(map);
+        }
 
         /**
          * Private constructor
@@ -46,6 +61,15 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
          */
         public String uri() {
             return uri;
+        }
+
+        /**
+         * Retrieve enum type from reverse lookup map.
+         * @param uri
+         * @return Media.Type enum
+         */
+        public static MediaObject.Type lookupConstantWithTypeURI(String uri) {
+            return lookup.get(uri);
         }
     }
 
