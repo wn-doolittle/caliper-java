@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
     "properties",
     "dateCreated",
     "dateModified",
+    "annotatedId",
     "bookmarkNotes" })
 public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
