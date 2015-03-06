@@ -28,6 +28,7 @@ import java.util.List;
     "dateCreated",
     "dateModified",
     "datePublished",
+    "version",
     "dateToActivate",
     "dateToShow",
     "dateToStartOn",

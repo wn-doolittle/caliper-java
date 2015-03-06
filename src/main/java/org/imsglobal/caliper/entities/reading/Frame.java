@@ -22,6 +22,7 @@ import javax.annotation.Nonnull;
     "dateCreated",
     "dateModified",
     "datePublished",
+    "version",
     "index" })
 public class Frame extends DigitalResource implements Targetable {
 
