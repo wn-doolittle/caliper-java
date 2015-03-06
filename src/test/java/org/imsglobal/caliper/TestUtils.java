@@ -72,6 +72,7 @@ public class TestUtils {
             .isPartOf(buildAmRev101CourseSection())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
+            .version("1.0")
             .build();
     }
 
@@ -99,6 +100,7 @@ public class TestUtils {
                 .isPartOf(target.getIsPartOf())
                 .dateCreated(getDefaultDateCreated())
                 .dateModified(getDefaultDateModified())
+                .version("2nd ed.")
                 .index(index)
                 .build())
             .startedAtTime(getDefaultStartedAtTime())
@@ -116,6 +118,7 @@ public class TestUtils {
             .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101")
             .dateCreated(getDefaultDateModified())
             .datePublished(getDefaultDatePublished())
+            .version("1.0")
             .dateToActivate(getDefaultDateToActivate())
             .dateToShow(getDefaultDateToShow())
             .dateToStartOn(getDefaultDateToStartOn())
@@ -145,13 +148,13 @@ public class TestUtils {
             .action(actionKey)
             .object(assessment)
             .generated(Attempt.builder()
-                    .id(assessment.getId() + "/attempt1")
-                    .assignableId(assessment.getId())
-                    .actorId(((Person) learningContext.getAgent()).getId())
-                    .count(1)
-                    .dateCreated(getDefaultDateCreated())
-                    .startedAtTime(getDefaultStartedAtTime())
-                    .build())
+                .id(assessment.getId() + "/attempt1")
+                .assignableId(assessment.getId())
+                .actorId(((Person) learningContext.getAgent()).getId())
+                .count(1)
+                .dateCreated(getDefaultDateCreated())
+                .startedAtTime(getDefaultStartedAtTime())
+                .build())
             .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
@@ -277,32 +280,35 @@ public class TestUtils {
     public static final ImmutableList<AssessmentItem> buildAssessmentItems() {
         return ImmutableList.<AssessmentItem>builder()
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1")
-                .name("Assessment Item 1")
-                .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
-                .maxAttempts(2)
-                .maxSubmits(2)
-                .maxScore(1)
-                .isTimeDependent(false)
-                .build())
+                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1")
+                    .name("Assessment Item 1")
+                    .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                    .version("1.0")
+                    .maxAttempts(2)
+                    .maxSubmits(2)
+                    .maxScore(1)
+                    .isTimeDependent(false)
+                    .build())
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2")
-                .name("Assessment Item 2")
-                .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
-                .maxAttempts(2)
-                .maxSubmits(2)
-                .maxScore(1)
-                .isTimeDependent(false)
-                .build())
+                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2")
+                    .name("Assessment Item 2")
+                    .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                    .version("1.0")
+                    .maxAttempts(2)
+                    .maxSubmits(2)
+                    .maxScore(1)
+                    .isTimeDependent(false)
+                    .build())
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3")
-                .name("Assessment Item 3")
-                .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
-                .maxAttempts(2)
-                .maxSubmits(2)
-                .maxScore(1)
-                .isTimeDependent(false)
-                .build())
+                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3")
+                    .name("Assessment Item 3")
+                    .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                    .version("1.0")
+                    .maxAttempts(2)
+                    .maxSubmits(2)
+                    .maxScore(1)
+                    .isTimeDependent(false)
+                    .build())
             .build();
     }
 
@@ -421,6 +427,7 @@ public class TestUtils {
                 .isPartOf(target.getIsPartOf())
                 .dateCreated(getDefaultDateCreated())
                 .dateModified(getDefaultDateModified())
+                .version("2nd ed.")
                 .index(1)
                 .build())
             .generated(generated)
@@ -497,10 +504,11 @@ public class TestUtils {
                 .isPartOf(epub)
                 .dateCreated(getDefaultDateCreated())
                 .dateModified(getDefaultDateModified())
+                .version("2nd ed.")
                 .index(1)
                 .build())
             .fromResource(fromResource)
-                .startedAtTime(getDefaultStartedAtTime())
+            .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
 
@@ -514,6 +522,7 @@ public class TestUtils {
             .name("The Glorious Cause: The American Revolution, 1763-1789 (Oxford History of the United States)")
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
+            .version("2nd ed.")
             .build();
     }
 
@@ -528,6 +537,7 @@ public class TestUtils {
             .isPartOf(buildEpubVolume43())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
+            .version("2nd ed.")
             .build();
     }
 
@@ -541,6 +551,7 @@ public class TestUtils {
             .name("Key Figures: Lord North")
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
+            .version("2nd ed.")
             .isPartOf(buildEpubVolume43())
             .build();
     }
@@ -555,6 +566,7 @@ public class TestUtils {
             .name("Key Figures: John Adams")
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
+            .version("2nd ed.")
             .isPartOf(buildEpubVolume43())
             .build();
     }
@@ -570,6 +582,7 @@ public class TestUtils {
             .isPartOf(buildEpubVolume43())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
+            .version("2nd ed.")
             .build();
     }
 
@@ -596,6 +609,7 @@ public class TestUtils {
                 .isPartOf(epub)
                 .dateCreated(getDefaultDateCreated())
                 .dateModified(getDefaultDateModified())
+                .version("2nd ed.")
                 .index(1)
                 .build())
                 .startedAtTime(getDefaultStartedAtTime())
@@ -780,6 +794,7 @@ public class TestUtils {
         return MediaLocation.builder()
             .id(buildVideoWithLearningObjective().getId())
             .dateCreated(getDefaultDateCreated())
+            .version("1.0")
             .currentTime(710)
             .build();
     }
@@ -798,6 +813,7 @@ public class TestUtils {
                 .build())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
+            .version("1.0")
             .duration(1420)
             .build();
     }
