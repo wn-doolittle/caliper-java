@@ -12,16 +12,6 @@
     },
     "action": "tagged",
     "object": {
-        "@id": "https://someEduApp.edu/tags/7654",
-        "@type": "http://purl.imsglobal.org/caliper/v1/TagAnnotation",
-        "name": null,
-        "description": null,
-        "properties": {},
-        "dateCreated": "2015-01-01T06:00:00.000Z",
-        "dateModified": "2015-02-02T11:30:00.000Z",
-        "tags": ["to-read", "1765", "shared-with-project-team"]
-    },
-    "target": {
         "@id": "https://github.com/readium/readium-js-viewer/book/34843#epubcfi(/4/3/4)",
         "@type": "http://purl.imsglobal.org/caliper/v1/Frame",
         "name": "The Stamp Act Crisis",
@@ -51,7 +41,17 @@
         "version": "2nd ed.",
         "index": 4
     },
-    "generated": null,
+    "target": null,
+    "generated": {
+        "@id": "https://someEduApp.edu/tags/7654",
+        "@type": "http://purl.imsglobal.org/caliper/v1/TagAnnotation",
+        "name": null,
+        "description": null,
+        "properties": {},
+        "dateCreated": "2015-01-01T06:00:00.000Z",
+        "dateModified": "2015-02-02T11:30:00.000Z",
+        "tags": ["to-read", "1765", "shared-with-project-team"]
+        },
     "startedAtTime": "2015-02-15T10:15:00.000Z",
     "endedAtTime": null,
     "duration": null,

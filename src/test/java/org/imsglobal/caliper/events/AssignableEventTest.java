@@ -19,7 +19,7 @@ public class AssignableEventTest extends EventTest {
     private Assessment assessment;
     private String key;
     private AssignableEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(AssignableEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(AssignableEventTest.class);
 
     /**
      * @throws java.lang.Exception

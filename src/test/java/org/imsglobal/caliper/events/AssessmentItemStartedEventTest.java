@@ -23,7 +23,7 @@ public class AssessmentItemStartedEventTest extends EventTest {
     private Attempt attempt;
     private String key;
     private AssessmentItemEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(AssessmentItemStartedEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(AssessmentItemStartedEventTest.class);
 
     /**
      * @throws java.lang.Exception

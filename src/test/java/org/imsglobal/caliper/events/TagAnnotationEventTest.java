@@ -18,11 +18,11 @@ import static org.junit.Assert.assertEquals;
 public class TagAnnotationEventTest extends EventTest {
 
     private LearningContext learningContext;
-    private EpubSubChapter target;
-    private TagAnnotation tags;
+    private EpubSubChapter object;
     private String key;
+    private TagAnnotation generated;
     private AnnotationEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(TagAnnotationEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(TagAnnotationEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -34,16 +34,16 @@ public class TagAnnotationEventTest extends EventTest {
         learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         //Build target reading
-        target = TestUtils.buildEpubSubChap434();
-
-        // Build Bookmark Annotation
-        tags = TestUtils.buildTagAnnotation(target);
+        object = TestUtils.buildEpubSubChap434();
 
         // Add action
-       key = AnnotationProfile.Actions.TAGGED.key();
+        key = AnnotationProfile.Actions.TAGGED.key();
+
+        // Build Bookmark Annotation
+        generated = TestUtils.buildTagAnnotation(object);
 
         // Build event
-        event = TestUtils.buildAnnotationEvent(learningContext, tags, key, target, 4);
+        event = TestUtils.buildAnnotationEvent(learningContext, object, key, generated, 4);
     }
 
     @Test

@@ -26,7 +26,7 @@ public class AssessmentOutcomeEventTest extends EventTest {
     private Attempt attempt;
     private Result result;
     private OutcomeEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(AssessmentOutcomeEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(AssessmentOutcomeEventTest.class);
 
     /**
      * @throws java.lang.Exception

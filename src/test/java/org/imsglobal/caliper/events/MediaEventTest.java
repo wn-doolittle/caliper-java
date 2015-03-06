@@ -22,7 +22,7 @@ public class MediaEventTest extends EventTest {
     private VideoObject video;
     private String key;
     private MediaEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(MediaEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(MediaEventTest.class);
 
     /**
      * @throws java.lang.Exception

@@ -22,7 +22,7 @@ public class ViewEventTest extends EventTest {
     private String key;
     private EpubSubChapter target;
     private ViewEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(ViewEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(ViewEventTest.class);
 
     /**
      * @throws java.lang.Exception

@@ -24,7 +24,7 @@ public class NavigationEventTest extends EventTest {
     private DigitalResource fromResource;
     private EpubSubChapter target;
     private NavigationEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(NavigationEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(NavigationEventTest.class);
 
     /**
      * @throws java.lang.Exception

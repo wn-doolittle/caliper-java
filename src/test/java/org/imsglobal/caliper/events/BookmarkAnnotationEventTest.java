@@ -18,11 +18,11 @@ import static org.junit.Assert.assertEquals;
 public class BookmarkAnnotationEventTest extends EventTest {
 
     private LearningContext learningContext;
-    private BookmarkAnnotation bookmark;
+    private EpubSubChapter object;
     private String key;
-    private EpubSubChapter target;
+    private BookmarkAnnotation generated;
     private AnnotationEvent event;
-    private static final Logger LOG = LoggerFactory.getLogger(BookmarkAnnotationEventTest.class);
+    private static final Logger log = LoggerFactory.getLogger(BookmarkAnnotationEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -33,17 +33,17 @@ public class BookmarkAnnotationEventTest extends EventTest {
         // Build the Learning Context
         learningContext = TestUtils.buildReadiumStudentLearningContext();
 
-        //Build target reading
-        target = (EpubSubChapter) TestUtils.buildEpubSubChap432();
-
-        // Build Bookmark Annotation
-        bookmark = TestUtils.buildBookmarkAnnotation(target);
+        //Build Reading
+        object = (EpubSubChapter) TestUtils.buildEpubSubChap432();
 
         // Add action
         key = AnnotationProfile.Actions.BOOKMARKED.key();
 
+        // Build Bookmark Annotation
+        generated = TestUtils.buildBookmarkAnnotation(object);
+
         // Build event
-        event = TestUtils.buildAnnotationEvent(learningContext, bookmark, key, target, 2);
+        event = TestUtils.buildAnnotationEvent(learningContext, object, key, generated, 2);
     }
 
     @Test

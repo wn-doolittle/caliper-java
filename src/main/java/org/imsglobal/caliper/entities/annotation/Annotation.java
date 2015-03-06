@@ -18,7 +18,7 @@ import java.util.Map;
  * which are specified in the Caliper Annotation Metric Profile
  */
 @JsonPropertyOrder({ "@id", "@type", "name", "description", "properties", "dateCreated", "dateModified" })
-public abstract class Annotation extends Entity {
+public abstract class Annotation extends Entity implements org.imsglobal.caliper.entities.Generatable {
 
     public enum Type {
         ANNOTATION("http://purl.imsglobal.org/caliper/v1/Annotation"),

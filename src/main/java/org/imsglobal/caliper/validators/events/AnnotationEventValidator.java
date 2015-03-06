@@ -2,7 +2,6 @@ package org.imsglobal.caliper.validators.events;
 
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.annotation.Annotation;
 import org.imsglobal.caliper.events.AnnotationEvent;
 import org.imsglobal.caliper.validators.ValidatorResult;
@@ -51,24 +50,15 @@ public class AnnotationEventValidator extends EventValidator<AnnotationEvent> {
             result.errorMessage().appendViolation(actor.errorMessage().toString());
         }
 
-        ValidatorResult object = validateObjectIsAnnotation(context, event.getObject());
-        if (!object.isValid()) {
-            result.errorMessage().appendViolation(object.errorMessage().toString());
-        }
-
-        // TODO drop when annotation is switched to generatable
-        ValidatorResult target = validateTargetIsDigitalResource(context, event.getTarget());
+        ValidatorResult target = validateObjectIsDigitalResource(context, event.getObject());
         if (!target.isValid()) {
             result.errorMessage().appendViolation(target.errorMessage().toString());
         }
 
-        // TODO activate when annotation is switched to generatable
-        /**
         ValidatorResult generated = validateGeneratedIsAnnotation(context, event.getGenerated());
         if (!generated.isValid()) {
             result.errorMessage().appendViolation(generated.errorMessage().toString());
         }
-         */
 
         ValidatorResult start = validateStartTime(context, event.getStartedAtTime(), event.getEndedAtTime());
         if (!start.isValid()) {
@@ -89,28 +79,14 @@ public class AnnotationEventValidator extends EventValidator<AnnotationEvent> {
         return result;
     }
 
-    // TODO switch object to generatable
-
     /**
-     * Validate that the object is an annotation
+     * Validate that the object is a digital resource.
      * @param context
      * @param object
      * @return Validator result
      */
-    public ValidatorResult validateObjectIsAnnotation(@Nonnull String context, @Nonnull Object object) {
-       return EventValidatorUtils.context(context).validateType(object, Annotation.class);
-    }
-
-    // TODO switch target to object; don't validate target
-
-    /**
-     * Validate that the target is a digital resource.
-     * @param context
-     * @param target
-     * @return Validation result
-     */
-    public ValidatorResult validateTargetIsDigitalResource(@Nonnull String context, @Nonnull Targetable target) {
-        return EventValidatorUtils.context(context).validateType(target, DigitalResource.class);
+    public ValidatorResult validateObjectIsDigitalResource(@Nonnull String context, @Nonnull Object object) {
+        return EventValidatorUtils.context(context).validateType(object, DigitalResource.class);
     }
 
     /**
