@@ -79,7 +79,6 @@ public class MediaEventValidator extends EventValidator<MediaEvent> {
      * @return
      */
     public ValidatorResult validateObjectIsMedia(@Nonnull String context, @Nonnull Object object) {
-        EventValidatorUtils utils = EventValidatorUtils.context(context);
-        return utils.validateType(object, MediaObject.class);
+        return EventValidatorUtils.context(context).validateType(object, MediaObject.class);
     }
 }

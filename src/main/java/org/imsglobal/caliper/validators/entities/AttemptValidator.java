@@ -1,6 +1,5 @@
 package org.imsglobal.caliper.validators.entities;
 
-import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Person;
@@ -39,18 +38,15 @@ public class AttemptValidator extends EntityValidator<Attempt> {
             result.errorMessage().appendViolation(typeURI.errorMessage().toString());
         }
 
-        /**
-        ValidatorResult assignable = validateAssignable(context, attempt.getAssignable());
-        if (!assignable.isValid()) {
-            result.errorMessage().appendViolation(assignable.errorMessage().toString());
+        ValidatorResult actorId = validateActorId(context, attempt.getActorId());
+        if (!actorId.isValid()) {
+            result.errorMessage().appendViolation(actorId.errorMessage().toString());
         }
 
-        // TODO refactor if groups are introduced as agents.
-        ValidatorResult actor = validateActorIsPerson(context, attempt.getActor());
-        if (!actor.isValid()) {
-            result.errorMessage().appendViolation(actor.errorMessage().toString());
+        ValidatorResult assignableId = validateAssignableId(context, attempt.getAssignableId());
+        if (!assignableId.isValid()) {
+            result.errorMessage().appendViolation(assignableId.errorMessage().toString());
         }
-         */
 
         ValidatorResult count = validateCount(context, attempt.getCount());
         if (!count.isValid()) {
@@ -88,13 +84,23 @@ public class AttemptValidator extends EntityValidator<Attempt> {
     }
 
     /**
-     * Validate assignable is of type DigitalResource.
+     * Validate actor id.
      * @param context
-     * @param assignable
-     * @return Validation result
+     * @param id
+     * @return
      */
-    public ValidatorResult validateAssignable(@Nonnull String context, @Nonnull AssignableDigitalResource assignable) {
-        return new AssignableValidator<>().validate(assignable);
+    public ValidatorResult validateActorId(String context, String id) {
+        return validateId(context, id);
+    }
+
+    /**
+     * Validate assignable id.
+     * @param context
+     * @param id
+     * @return
+     */
+    public ValidatorResult validateAssignableId(String context, String id) {
+        return validateId(context, id);
     }
 
     /**

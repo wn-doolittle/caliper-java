@@ -56,7 +56,7 @@ public class EntityValidatorUtils {
     protected static ValidatorResult validateId(String id) {
         ValidatorResult result = new ValidatorResult();
 
-        if (id != null) {
+        if (checkId(id)) {
             result.setIsValid(true);
         } else {
             String violation = buildMessage(context, "id must be specified");
@@ -79,6 +79,25 @@ public class EntityValidatorUtils {
             result.setIsValid(true);
         } else {
             String violation = buildMessage(context, "actor must be of type " + type.getSimpleName());
+            result.errorMessage().appendViolation(violation);
+        }
+
+        return result;
+    }
+
+    /**
+     * Check assignable
+     * @param assignable
+     * @param type
+     * @return Validation result
+     */
+    public static ValidatorResult validateType(AssignableDigitalResource assignable, Class<?> type) {
+        ValidatorResult result = new ValidatorResult();
+
+        if (isOfType(assignable, type)) {
+            result.setIsValid(true);
+        } else {
+            String violation = buildMessage(context, "assignable must be of type " + type.getSimpleName());
             result.errorMessage().appendViolation(violation);
         }
 
@@ -365,6 +384,15 @@ public class EntityValidatorUtils {
         } catch (IllegalFormatException ex) {
             return false;
         }
+    }
+
+    /**
+     * Check that the id is not null or blank.
+     * @param id
+     * @return Validation result
+     */
+    protected static boolean checkId(String id) {
+        return id != null && !id.isEmpty();
     }
 
     /**

@@ -86,8 +86,7 @@ public class AssessmentEventValidator extends EventValidator<AssessmentEvent> {
      * @return Validator result
      */
     public ValidatorResult validateObjectIsAssessment(@Nonnull String context, @Nonnull Object object) {
-        EventValidatorUtils utils = EventValidatorUtils.context(context);
-        return utils.validateType(object, Assessment.class);
+        return EventValidatorUtils.context(context).validateType(object, Assessment.class);
     }
 
     /**
