@@ -18,7 +18,7 @@ import java.util.Map;
     "@type",
     "name",
     "description",
-    "properties",
+    "extensions",
     "dateCreated",
     "dateModified",
     "assignable",

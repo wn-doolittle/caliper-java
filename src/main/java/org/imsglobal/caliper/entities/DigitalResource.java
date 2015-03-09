@@ -40,7 +40,7 @@ import java.util.Map;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
-    "properties",
+    "extensions",
     "dateCreated",
     "dateModified",
     "datePublished",
