@@ -86,25 +86,6 @@ public class EntityValidatorUtils {
     }
 
     /**
-     * Check assignable
-     * @param assignable
-     * @param type
-     * @return Validation result
-     */
-    public static ValidatorResult validateType(AssignableDigitalResource assignable, Class<?> type) {
-        ValidatorResult result = new ValidatorResult();
-
-        if (isOfType(assignable, type)) {
-            result.setIsValid(true);
-        } else {
-            String violation = buildMessage(context, "assignable must be of type " + type.getSimpleName());
-            result.errorMessage().appendViolation(violation);
-        }
-
-        return result;
-    }
-
-    /**
      * Check the Entity type URI.
      * @param uri
      * @param constant
