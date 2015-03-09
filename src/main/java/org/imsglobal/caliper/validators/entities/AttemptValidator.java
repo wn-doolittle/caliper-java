@@ -90,7 +90,7 @@ public class AttemptValidator extends EntityValidator<Attempt> {
      * @return
      */
     public ValidatorResult validateActorId(String context, String id) {
-        return validateId(context, id);
+        return EntityValidatorUtils.context(context).validateId(id);
     }
 
     /**
@@ -100,7 +100,7 @@ public class AttemptValidator extends EntityValidator<Attempt> {
      * @return
      */
     public ValidatorResult validateAssignableId(String context, String id) {
-        return validateId(context, id);
+        return EntityValidatorUtils.context(context).validateId(id);
     }
 
     /**
