@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
     "@type",
     "name",
     "description",
-    "properties",
+    "extensions",
     "dateCreated",
     "dateModified",
     "annotatedId",

@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
     "name",
     "description",
     "parentOrg",
-    "properties",
+    "extensions",
     "dateCreated",
     "dateModified" })
 public class CourseSection extends org.imsglobal.caliper.entities.lis.Organization {

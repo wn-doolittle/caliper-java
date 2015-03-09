@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
-    "properties",
+    "extensions",
     "dateCreated",
     "dateModified",
     "datePublished",

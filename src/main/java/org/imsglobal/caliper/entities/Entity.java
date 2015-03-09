@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "description", "properties", "dateCreated", "dateModified" })
+@JsonPropertyOrder({ "@id", "@type", "name", "description", "extensions", "dateCreated", "dateModified" })
 public abstract class Entity implements Thing {
 
     public enum Type {
@@ -86,8 +86,8 @@ public abstract class Entity implements Thing {
     @JsonProperty("description")
     private final String description;
 
-    @JsonProperty("properties")
-    private final Map<String, String> properties;
+    @JsonProperty("extensions")
+    private final Map<String, String> extensions;
 
     @JsonProperty("dateCreated")
     private final DateTime dateCreated;
@@ -102,7 +102,7 @@ public abstract class Entity implements Thing {
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
-        this.properties = ImmutableMap.copyOf(builder.properties);
+        this.extensions = ImmutableMap.copyOf(builder.extensions);
         this.description = builder.description;
         this.dateCreated = builder.dateCreated;
         this.dateModified = builder.dateModified;
@@ -141,11 +141,11 @@ public abstract class Entity implements Thing {
     }
 
     /**
-     * @return custom properties
+     * @return custom extensions (key/value pairs).
      */
     @Nullable
-    public Map<String, String> getProperties() {
-        return properties;
+    public Map<String, String> getExtensions() {
+        return extensions;
     }
 
     /**
@@ -174,7 +174,7 @@ public abstract class Entity implements Thing {
         private String type;
         private String name;
         private String description;
-        private Map<String, String> properties = Maps.newHashMap();
+        private Map<String, String> extensions = Maps.newHashMap();
         private DateTime dateCreated;
         private DateTime dateModified;
 
@@ -228,17 +228,17 @@ public abstract class Entity implements Thing {
          * @param value
          * @return builder
          */
-        public T property(String key, String value) {
-            this.properties.put(key, value);
+        public T extension(String key, String value) {
+            this.extensions.put(key, value);
             return self();
         }
 
         /**
-         * @param properties
+         * @param extensions
          * @return builder
          */
-        public T properties(Map<String, String> properties) {
-            this.properties.putAll(properties);
+        public T extensions(Map<String, String> extensions) {
+            this.extensions.putAll(extensions);
             return self();
         }
 

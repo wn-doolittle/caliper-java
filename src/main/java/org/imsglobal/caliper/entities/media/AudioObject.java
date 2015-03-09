@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
-    "properties",
+    "extensions",
     "dateCreated",
     "dateModified",
     "duration",

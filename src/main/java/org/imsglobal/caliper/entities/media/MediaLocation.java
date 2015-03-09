@@ -20,7 +20,7 @@ import java.util.UUID;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
-    "properties",
+    "extensions",
     "dateCreated",
     "dateModified",
     "datePublished",

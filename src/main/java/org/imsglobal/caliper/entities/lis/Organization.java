@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
     "name",
     "description",
     "parentOrg",
-    "properties",
+    "extensions",
     "dateCreated",
     "dateModified" })
 public class Organization extends Entity implements org.imsglobal.caliper.entities.foaf.Agent {

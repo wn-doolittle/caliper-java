@@ -24,7 +24,7 @@ import java.util.List;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
-    "properties",
+    "extensions",
     "dateCreated",
     "dateModified",
     "datePublished",
