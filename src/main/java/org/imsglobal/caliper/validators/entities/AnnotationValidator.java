@@ -34,6 +34,11 @@ public class AnnotationValidator<T extends Annotation> extends EntityValidator<T
             result.errorMessage().appendViolation(typeURI.errorMessage().toString());
         }
 
+        ValidatorResult annotatedId = validateAnnotatedId(context, annotation.getAnnotatedId());
+        if (!annotatedId.isValid()) {
+            result.errorMessage().appendViolation(annotatedId.errorMessage().toString());
+        }
+
         if (result.errorMessage().length() == 0) {
             result.setIsValid(true);
         } else {
@@ -52,6 +57,16 @@ public class AnnotationValidator<T extends Annotation> extends EntityValidator<T
     @Override
     public ValidatorResult validateTypeURI(@Nonnull String context, @Nonnull String typeURI) {
         return EntityValidatorUtils.context(context).validateTypeURI(typeURI, Annotation.Type.lookupConstantWithTypeURI(typeURI));
+    }
+
+    /**
+     * Validate annotatedId.
+     * @param context
+     * @param id
+     * @return
+     */
+    public ValidatorResult validateAnnotatedId(String context, String id) {
+        return EntityValidatorUtils.context(context).validateId(id);
     }
 
     //TODO check annotations that specify a selector

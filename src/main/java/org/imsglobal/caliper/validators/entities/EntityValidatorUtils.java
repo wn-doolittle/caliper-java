@@ -56,7 +56,7 @@ public class EntityValidatorUtils {
     protected static ValidatorResult validateId(String id) {
         ValidatorResult result = new ValidatorResult();
 
-        if (id != null) {
+        if (checkId(id)) {
             result.setIsValid(true);
         } else {
             String violation = buildMessage(context, "id must be specified");
@@ -365,6 +365,15 @@ public class EntityValidatorUtils {
         } catch (IllegalFormatException ex) {
             return false;
         }
+    }
+
+    /**
+     * Check that the id is not null or blank.
+     * @param id
+     * @return Validation result
+     */
+    protected static boolean checkId(String id) {
+        return id != null && !id.isEmpty();
     }
 
     /**
