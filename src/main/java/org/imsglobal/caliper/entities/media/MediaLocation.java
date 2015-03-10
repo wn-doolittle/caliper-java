@@ -2,11 +2,10 @@ package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.base.Strings;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Targetable;
-
-import java.util.UUID;
+import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.entities.DigitalResourceValidator;
 
 /**
  * Media Location
@@ -45,6 +44,11 @@ public class MediaLocation extends DigitalResource implements Targetable {
         this.type = builder.type;
         this.id = builder.id;
         this.currentTime = builder.currentTime;
+
+        ValidatorResult result = new DigitalResourceValidator<MediaLocation>().validate(this);
+        if (!result.isValid()) {
+            throw new IllegalStateException(result.errorMessage().toString());
+        }
     }
 
     /**
@@ -78,7 +82,6 @@ public class MediaLocation extends DigitalResource implements Targetable {
         private String id;
         private String type;
         private long currentTime;
-        private UUID uuid = new UUID(1000l, 500l);
 
         protected abstract T self();
 
@@ -86,7 +89,6 @@ public class MediaLocation extends DigitalResource implements Targetable {
          * Initialize type with default values.
          */
         public Builder() {
-            id(DigitalResource.Type.MEDIA_LOCATION.uri() + "/" + uuid);
             type(DigitalResource.Type.MEDIA_LOCATION.uri());
         }
 
@@ -96,11 +98,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
          */
         @Override
         public T id(String id) {
-            if (Strings.isNullOrEmpty(id)) {
-                this.id = DigitalResource.Type.MEDIA_LOCATION.uri() + "/" + uuid;
-            } else {
-                this.id = id;
-            }
+            this.id = id;
             return self();
         }
 
