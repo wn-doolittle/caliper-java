@@ -101,7 +101,6 @@ public class Client {
         } else {
             stats.updateFailed(1);
         }
-
     }
 
     /**

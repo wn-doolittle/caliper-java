@@ -1,78 +1,59 @@
 package org.imsglobal.caliper;
 
-import org.imsglobal.caliper.entities.Entity;
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.stats.Statistics;
 
-public class Sensor {
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
-    private static Client defaultClient;
+public class Sensor<T> {
+
+    private Map<T, Client> clients = new HashMap<>();
 
     /**
-     * Creates a new Caliper client.  This method is thread-safe.
-     * @param options
- *              Options to configure the behavior of the Caliper client.
+     * Register a client that will get invoked whenever an event is sent through this sensor
+     * @param key the identifier of this client
+     * @param client the client object
      */
-    public static synchronized void initialize(Options options) {
-
-        if (defaultClient == null)
-            defaultClient = new Client(options);
+    public void registerClient(T key, Client client){
+        this.clients.put(key, client);
     }
 
     /**
-     * Client initialization check
+     * Unregister a client. unregistered clients will be removed from the client map & no longer be referenceable
+     * @param key
+     * @return
      */
-    private static void isInitialized() {
+    public Client unRegisterClient(T key){
+        return this.clients.remove(key);
+    }
 
-        if (defaultClient == null) {
-            throw new IllegalStateException("Caliper client is "
-                    + "not initialized. Please call Caliper.initialize(..); "
-                    + "before calling measure or describe");
+    /**
+     * Send an event to all configured clients
+     * @param event the event object to be sent
+     */
+    public void send(Event event){
+        for(Client client: clients.values()){
+            client.send(event);
         }
     }
 
     /**
-     * Sensor API
-     *
-     * Describe a {@link org.imsglobal.caliper.entities.DigitalResource} that is part of the learning graph.
-     *
-     * @param entity
+     * Returns
+     * @return a map where the keys are the indentifying objects and the values are the corresponding statistics
+     * for that key's Client.
      */
-    public static void describe(Entity entity) {
-        isInitialized();
-        defaultClient.describe(entity);
-    }
-
-    /**
-     * Sensor API
-     *
-     * Emit a Caliper event to a target event store.
-     *
-     * @param event
-     *            the Caliper Event
-     *
-     */
-    public static void send(Event event) {
-
-        isInitialized();
-        defaultClient.send(event);
-    }
-
-    /**
-     * Returns statistics for the Caliper client
-     */
-    public static Statistics getStatistics() {
-        isInitialized();
-        return defaultClient.getStatistics();
-    }
-
-    /**
-     * Fetches the default Caliper client singleton
-     *
-     * @return
-     */
-    public static Client getDefaultClient() {
-        return defaultClient;
+    public Map<T, Statistics> getStatistics(){
+        return Maps.transformValues(clients, new Function<Client, Statistics>() {
+            @Nullable
+            @Override
+            public Statistics apply(@Nullable Client client) {
+                return client.getStatistics();
+            }
+        });
     }
 
 }
