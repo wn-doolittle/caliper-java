@@ -22,7 +22,7 @@ public class SensorSendEventsTest {
     @Test
     public void test() {
 
-        Sensor<String> sensor = new Sensor();
+        Sensor<String> sensor = new Sensor<>();
         sensor.registerClient("default", new Client(TestUtils.getTestingOptions()));
 
         // Build the Learning Context
