@@ -33,7 +33,7 @@ import javax.annotation.Nonnull;
     "maxSubmits",
     "maxScore",
     "isTimeDependent" })
-public class AssessmentItem extends AssignableDigitalResource implements org.imsglobal.caliper.entities.qti.AssessmentItem {
+public class AssessmentItem extends AssignableDigitalResource {
 
     @JsonProperty("@type")
     private final String type;

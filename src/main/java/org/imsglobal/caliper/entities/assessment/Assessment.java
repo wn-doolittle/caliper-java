@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * Caliper representation of an QTI Assessment.  Part of the Assessment Metric Profile
+ * Caliper representation of an Assessment.  Part of the Assessment Metric Profile
  */
 @JsonPropertyOrder({
     "@id",
@@ -24,7 +24,7 @@ import java.util.List;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
-    "extensions",
+        "extensions",
     "dateCreated",
     "dateModified",
     "datePublished",
@@ -37,7 +37,7 @@ import java.util.List;
     "maxSubmits",
     "maxScore",
     "assessmentItems" })
-public class Assessment extends AssignableDigitalResource implements org.imsglobal.caliper.entities.qti.Assessment {
+public class Assessment extends AssignableDigitalResource {
 
     @JsonProperty("@type")
     private final String type;
