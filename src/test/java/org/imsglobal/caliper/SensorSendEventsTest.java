@@ -22,7 +22,8 @@ public class SensorSendEventsTest {
     @Test
     public void test() {
 
-        Sensor.initialize(TestUtils.getTestingOptions());
+        Sensor<String> sensor = new Sensor<>();
+        sensor.registerClient("default", new Client(TestUtils.getTestingOptions()));
 
         // Build the Learning Context
         learningContext = TestUtils.buildReadiumStudentLearningContext();
@@ -42,12 +43,12 @@ public class SensorSendEventsTest {
 
         // Fire event test - Send 50 events
         for (int i = 0 ; i < 50 ; i++) {
-            Sensor.send(TestUtils.buildEpubNavigationEvent(learningContext, epub, key, fromResource, target));
+            sensor.send(TestUtils.buildEpubNavigationEvent(learningContext, epub, key, fromResource, target));
         }
 
         // There should be two caliperEvents queued
         assertEquals("Expect fifty Caliper events to be sent", 50,
-            Sensor.getStatistics().getMeasures().getCount());
+                sensor.getStatistics().get("default").getMeasures().getCount());
 
         // TODO - Describes test - Send five describes
 
@@ -55,11 +56,11 @@ public class SensorSendEventsTest {
         // Caliper.getStatistics().getDescribes().getCount());
 
         // There should be two message successfully sent
-        int successes = Sensor.getStatistics().getSuccessful().getCount();
+        int successes = sensor.getStatistics().get("default").getSuccessful().getCount();
         assertEquals("Expect fifty messages to be sent successfully", 50, successes);
 
         // There should be zero failures
-        int failures = Sensor.getStatistics().getFailed().getCount();
+        int failures = sensor.getStatistics().get("default").getFailed().getCount();
         assertEquals("Expect zero message failures to be sent", 0, failures);
     }
 }
