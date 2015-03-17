@@ -11,21 +11,6 @@ import javax.annotation.Nonnull;
 public class AnnotationEventValidator extends EventValidator<AnnotationEvent> {
 
     /**
-     * Constructor
-     */
-    private AnnotationEventValidator(String actionKey) {
-        super(actionKey);
-    }
-
-    /**
-     * Static factory method that sets the action key for validator comparison checks.
-     * @return a new instance of AnnotationEventValidator.
-     */
-    public static AnnotationEventValidator action(String actionKey) {
-        return new AnnotationEventValidator(actionKey);
-    }
-
-    /**
      * Convenience method that provides a rollup of AnnotationEvent property validators.
      * @param event
      * @return

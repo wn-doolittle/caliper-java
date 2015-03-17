@@ -8,7 +8,6 @@ import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.events.NavigationEvent;
 import org.imsglobal.caliper.profiles.Profile;
-import org.imsglobal.caliper.profiles.ReadingProfile;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
@@ -26,11 +25,9 @@ public class HttpRequestorTest {
     private HttpRequestor httpRequestor;
     private LearningContext learningContext;
     private EpubVolume epub;
-    private String action;
     private DigitalResource fromResource;
     private EpubSubChapter target;
     private NavigationEvent event;
-    private ReadingProfile profile;
     private String id;
     private DateTime timestamp;
     private String expectedContentType;
@@ -57,11 +54,8 @@ public class HttpRequestorTest {
         // Build target
         target = TestUtils.buildEpubSubChap431();
 
-        // Action
-        action = Profile.Actions.NAVIGATED_TO.key();
-
         // Build event
-        event = TestUtils.buildEpubNavigationEvent(learningContext, epub, action, fromResource, target);
+        event = TestUtils.buildEpubNavigationEvent(learningContext, epub, Profile.Action.NAVIGATED_TO, fromResource, target);
     }
 
     @Test

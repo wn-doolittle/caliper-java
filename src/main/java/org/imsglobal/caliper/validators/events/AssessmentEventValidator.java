@@ -11,21 +11,6 @@ import javax.annotation.Nonnull;
 public class AssessmentEventValidator extends EventValidator<AssessmentEvent> {
 
     /**
-     * Constructor
-     */
-     private AssessmentEventValidator(String actionKey) {
-        super(actionKey);
-     }
-
-    /**
-     * Static factory method that sets the action key for validator comparison checks.
-     * @return a new instance of AssessmentEventValidator.
-     */
-     public static AssessmentEventValidator action(String actionKey) {
-        return new AssessmentEventValidator(actionKey);
-     }
-
-    /**
      * Convenience method that provides a rollup of AssessmentEvent property validators.
      * @param event
      * @return

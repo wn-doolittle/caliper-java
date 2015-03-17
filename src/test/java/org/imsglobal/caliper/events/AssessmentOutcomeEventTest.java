@@ -2,11 +2,11 @@ package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.SoftwareApplication;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
-import org.imsglobal.caliper.entities.SoftwareApplication;
-import org.imsglobal.caliper.profiles.OutcomeProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -22,7 +22,6 @@ public class AssessmentOutcomeEventTest extends EventTest {
     private LearningContext learningContext;
     private SoftwareApplication scoredBy;
     private Assessment assessment;
-    private String key;
     private Attempt attempt;
     private Result result;
     private OutcomeEvent event;
@@ -46,9 +45,6 @@ public class AssessmentOutcomeEventTest extends EventTest {
         // Build attempt
         attempt = TestUtils.buildAssessmentAttempt(learningContext, assessment);
 
-        // Build action
-        key = OutcomeProfile.Actions.GRADED.key();
-
         // Build scoredBy (edApp)
         scoredBy = TestUtils.buildAssessmentTool();
 
@@ -56,7 +52,7 @@ public class AssessmentOutcomeEventTest extends EventTest {
         result = TestUtils.buildAssessmentResult(attempt, scoredBy);
 
         // Build Outcome Event
-        event = TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, key, result);
+        event = TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, Profile.Action.GRADED, result);
     }
 
     @Test

@@ -3,28 +3,13 @@ package org.imsglobal.caliper.validators.events;
 import org.imsglobal.caliper.entities.*;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.events.SessionEvent;
-import org.imsglobal.caliper.profiles.SessionProfile;
 import org.imsglobal.caliper.validators.ValidatorResult;
 import org.joda.time.DateTime;
+import org.imsglobal.caliper.profiles.Profile.Action;
 
 import javax.annotation.Nonnull;
 
 public class SessionEventValidator extends EventValidator<SessionEvent> {
-
-    /**
-     * Constructor
-     */
-     private SessionEventValidator(String actionKey) {
-        super(actionKey);
-     }
-
-    /**
-     * Static factory method that sets the action key for validator comparison checks.
-     * @return a new instance of SessionEventValidator.
-     */
-     public static SessionEventValidator action(String actionKey) {
-        return new SessionEventValidator(actionKey);
-     }
 
     /**
      * Convenience method that provides a rollup of SessionEvent property validators.
@@ -46,7 +31,7 @@ public class SessionEventValidator extends EventValidator<SessionEvent> {
             result.errorMessage().appendViolation(typeURI.errorMessage().toString());
         }
 
-        if (actionKey.equals(SessionProfile.Actions.TIMEDOUT.key())) {
+        if (event.getAction().equals(Action.TIMED_OUT)) {
             ValidatorResult actor = validateActorIsSoftwareApplication(context, event.getActor());
             if (!actor.isValid()) {
                 result.errorMessage().appendViolation(actor.errorMessage().toString());
@@ -63,7 +48,7 @@ public class SessionEventValidator extends EventValidator<SessionEvent> {
             result.errorMessage().appendViolation(object.errorMessage().toString());
         }
 
-        if (actionKey.equals(SessionProfile.Actions.LOGGEDIN.key())) {
+        if (event.getAction().equals(Action.LOGGED_IN)) {
             ValidatorResult target = validateTargetIsDigitalResource(context, event.getTarget());
             if (!target.isValid()) {
                 result.errorMessage().appendViolation(target.errorMessage().toString());
@@ -85,8 +70,8 @@ public class SessionEventValidator extends EventValidator<SessionEvent> {
             result.errorMessage().appendViolation(start.errorMessage().toString());
         }
 
-        if (actionKey.equals(SessionProfile.Actions.LOGGEDOUT.key()) ||
-            actionKey.equals(SessionProfile.Actions.TIMEDOUT.key())) {
+        if (event.getAction().equals(Action.LOGGED_OUT) ||
+                event.getAction().equals(Action.TIMED_OUT)) {
             ValidatorResult end = validateEndTime(context, event.getStartedAtTime(), event.getEndedAtTime());
             if (!end.isValid()) {
                 result.errorMessage().appendViolation(end.errorMessage().toString());

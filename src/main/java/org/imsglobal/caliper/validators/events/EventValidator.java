@@ -12,23 +12,6 @@ import javax.annotation.Nullable;
 
 public class EventValidator<T extends Event> implements CaliperEventValidator<T> {
 
-    protected String actionKey;
-
-    /**
-     * Constructor
-     */
-    protected EventValidator(String actionKey) {
-        this.actionKey = actionKey;
-    }
-
-    /**
-     * Static factory method that sets the action key for validator comparison checks.
-     * @return a new instance of EventValidator.
-     */
-    public static EventValidator action(String actionKey) {
-        return new EventValidator(actionKey);
-    }
-
     /**
      * Convenience method that provides a rollup of Event property validators.
      * @param event

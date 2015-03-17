@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.Session;
 import org.imsglobal.caliper.entities.SoftwareApplication;
-import org.imsglobal.caliper.profiles.SessionProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -18,7 +18,6 @@ import static org.junit.Assert.assertEquals;
 public class SessionTimeoutEventTest extends EventTest {
     private LearningContext learningContext;
     private SoftwareApplication edApp;
-    private String key;
     private Session target;
     private SessionEvent event;
     private static final Logger log = LoggerFactory.getLogger(SessionLogoutEventTest.class);
@@ -32,14 +31,11 @@ public class SessionTimeoutEventTest extends EventTest {
         // Build the Learning Context
         learningContext = TestUtils.buildReadiumAppLearningContext();
 
-        // Action
-        key = SessionProfile.Actions.TIMEDOUT.key();
-
         // Build target
         target = TestUtils.buildSessionEnd();
 
         // Build event
-        event = TestUtils.buildEpubTimeoutEvent(learningContext, key, target);
+        event = TestUtils.buildEpubTimeoutEvent(learningContext, Profile.Action.TIMED_OUT, target);
     }
 
     @Test

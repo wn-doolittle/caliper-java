@@ -5,7 +5,7 @@ import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.profiles.AssessmentItemProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.imsglobal.caliper.response.FillinBlankResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,6 @@ public class AssessmentItemCompletedEventTest extends EventTest {
     private AssessmentItem item;
     private Attempt attempt;
     private FillinBlankResponse response;
-    private String key;
     private AssessmentItemEvent event;
     private static final Logger log = LoggerFactory.getLogger(AssessmentItemCompletedEventTest.class);
 
@@ -45,14 +44,11 @@ public class AssessmentItemCompletedEventTest extends EventTest {
         // Build assessment and get assessment item 1
         item = TestUtils.buildAssessment().getAssessmentItems().get(0);
 
-        // Action
-        key = AssessmentItemProfile.Actions.COMPLETED.key();
-
         // Response
         response = TestUtils.buildFillinBlankResponse(attempt, "2 July 1776");
 
         // Build event
-        event = TestUtils.buildFillinBlankCompletedEvent(learningContext, item, key, response);
+        event = TestUtils.buildFillinBlankCompletedEvent(learningContext, item, Profile.Action.COMPLETED, response);
     }
 
     @Test

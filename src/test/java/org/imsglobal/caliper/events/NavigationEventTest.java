@@ -20,7 +20,6 @@ public class NavigationEventTest extends EventTest {
 
     private LearningContext learningContext;
     private EpubVolume epub;
-    private String key;
     private DigitalResource fromResource;
     private EpubSubChapter target;
     private NavigationEvent event;
@@ -44,11 +43,8 @@ public class NavigationEventTest extends EventTest {
         // Build target
         target = TestUtils.buildEpubSubChap431();
 
-        // Action
-        key = Profile.Actions.NAVIGATED_TO.key();
-
         // Build event
-        event = TestUtils.buildEpubNavigationEvent(learningContext, epub, key, fromResource, target);
+        event = TestUtils.buildEpubNavigationEvent(learningContext, epub, Profile.Action.NAVIGATED_TO, fromResource, target);
     }
 
     @Test

@@ -10,21 +10,6 @@ import javax.annotation.Nonnull;
 public class ViewEventValidator extends EventValidator<ViewEvent> {
 
     /**
-     * Constructor
-     */
-     private ViewEventValidator(String actionKey) {
-        super(actionKey);
-     }
-
-    /**
-     * Static factory method that sets the action key for validator comparison checks.
-     * @return a new instance of ViewEventValidator.
-     */
-     public static ViewEventValidator action(String actionKey) {
-        return new ViewEventValidator(actionKey);
-     }
-
-    /**
      * Convenience method that provides a rollup of ViewEvent property validators.
      * @param event
      * @return

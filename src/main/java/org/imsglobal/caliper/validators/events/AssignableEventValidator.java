@@ -11,21 +11,6 @@ import javax.annotation.Nonnull;
 public class AssignableEventValidator extends EventValidator<AssignableEvent> {
 
     /**
-     * Constructor
-     */
-     private AssignableEventValidator(String actionKey) {
-        super(actionKey);
-     }
-
-    /**
-     * Static factory method that sets the action key for validator comparison checks.
-     * @return a new instance of AssignableEventValidator.
-     */
-     public static AssignableEventValidator action(String actionKey) {
-         return new AssignableEventValidator(actionKey);
-     }
-
-    /**
      * Convenience method that provides a rollup of AssignableEvent property validators.
      * @param event
      * @return

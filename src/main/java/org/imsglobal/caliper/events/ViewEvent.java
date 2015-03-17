@@ -2,8 +2,9 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.ViewEventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +19,7 @@ public class ViewEvent extends Event {
     private final String type;
 
     @JsonProperty("action")
-    private final String action;
+    private final Action action;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(ViewEvent.class);
@@ -36,9 +37,10 @@ public class ViewEvent extends Event {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.action = Profile.getLocalizedAction(builder.action);
+        this.action = builder.action;
 
-        ValidatorResult result = Profile.validateEvent(this);
+
+        ValidatorResult result = new ViewEventValidator().validate(this);
         if (!result.isValid()) {
             throw new IllegalStateException(result.errorMessage().toString());
         }
@@ -70,7 +72,7 @@ public class ViewEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getAction() {
+    public Action getAction() {
         return action;
     }
 
@@ -82,7 +84,7 @@ public class ViewEvent extends Event {
         private String event = "ViewEvent";
         private String context;
         private String type;
-        private String action;
+        private Action action;
 
         /*
          * Constructor
@@ -90,7 +92,7 @@ public class ViewEvent extends Event {
         public Builder() {
             context(Context.VIEW.uri());
             type(Type.VIEW.uri());
-            action(Profile.Actions.VIEWED.key());
+            action(Action.VIEWED);
         }
 
         /**
@@ -116,7 +118,7 @@ public class ViewEvent extends Event {
          * @return builder.
          */
         @Override
-        public T action(String key) {
+        public T action(Action key) {
             this.action = key;
             return self();
         }

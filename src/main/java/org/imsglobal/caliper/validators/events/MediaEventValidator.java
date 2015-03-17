@@ -9,21 +9,6 @@ import javax.annotation.Nonnull;
 public class MediaEventValidator extends EventValidator<MediaEvent> {
 
     /**
-     * Constructor
-     */
-     private MediaEventValidator(String actionKey) {
-        super(actionKey);
-     }
-
-    /**
-     * Static factory method that sets the action key for validator comparison checks.
-     * @return a new instance of MediaEventValidator.
-     */
-     public static MediaEventValidator action(String actionKey) {
-        return new MediaEventValidator(actionKey);
-     }
-
-    /**
      * Convenience method that provides a rollup of MediaEvent property validators.
      * @param event
      * @return

@@ -5,7 +5,7 @@ import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.profiles.AssessmentItemProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -21,7 +21,6 @@ public class AssessmentItemStartedEventTest extends EventTest {
     private Assessment assessment;
     private AssessmentItem item;
     private Attempt attempt;
-    private String key;
     private AssessmentItemEvent event;
     private static final Logger log = LoggerFactory.getLogger(AssessmentItemStartedEventTest.class);
 
@@ -43,11 +42,8 @@ public class AssessmentItemStartedEventTest extends EventTest {
         // Build assessment and get assessment item 1
         item = TestUtils.buildAssessment().getAssessmentItems().get(0);
 
-        // Action
-        key = AssessmentItemProfile.Actions.STARTED.key();
-
         // Build event
-        event = TestUtils.buildAssessmentItemStartedEvent(learningContext, item, key, attempt);
+        event = TestUtils.buildAssessmentItemStartedEvent(learningContext, item, Profile.Action.STARTED, attempt);
     }
 
     @Test

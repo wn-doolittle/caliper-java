@@ -9,6 +9,7 @@ import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Organization;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -153,7 +154,7 @@ public abstract class Event {
     private final Agent actor;
 
     @JsonProperty("action")
-    private final String action;
+    protected final Action action;
 
     @JsonProperty("object")
     private final Object object;
@@ -252,7 +253,7 @@ public abstract class Event {
      * @return the action
      */
     @Nonnull
-    public String getAction() {
+    public Action getAction() {
         return action;
     }
 
@@ -325,7 +326,7 @@ public abstract class Event {
         private SoftwareApplication edApp;
         private Organization lisOrganization;
         private Agent actor;
-        private String action;
+        private Action action;
         private Object object;
         private Targetable target;
         private Generatable generated;
@@ -392,7 +393,7 @@ public abstract class Event {
          * @param action
          * @return builder.
          */
-        public T action(String action) {
+        public T action(Action action) {
             this.action = action;
             return self();
         }
