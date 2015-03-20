@@ -16,8 +16,7 @@ public class AnnotationEventValidator extends EventValidator<AnnotationEvent> {
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull AnnotationEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull AnnotationEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

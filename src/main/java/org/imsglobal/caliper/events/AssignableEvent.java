@@ -10,6 +10,16 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
+@SupportedActions({
+        Action.ABANDONED,
+        Action.ACTIVATED,
+        Action.COMPLETED,
+        Action.DEACTIVATED,
+        Action.HID,
+        Action.REVIEWED,
+        Action.SHOWED,
+        Action.STARTED
+})
 public class AssignableEvent extends Event {
 
     @JsonProperty("@context")

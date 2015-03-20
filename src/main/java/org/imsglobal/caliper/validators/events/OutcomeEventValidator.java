@@ -16,8 +16,7 @@ public class OutcomeEventValidator extends EventValidator<OutcomeEvent> {
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull OutcomeEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull OutcomeEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

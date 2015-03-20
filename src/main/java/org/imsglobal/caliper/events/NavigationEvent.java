@@ -27,6 +27,7 @@ import javax.annotation.Nullable;
     "edApp",
     "group",
     "navigatedFrom" })
+@SupportedActions({Action.NAVIGATED_TO})
 public class NavigationEvent extends Event {
     
     @JsonProperty("@context")

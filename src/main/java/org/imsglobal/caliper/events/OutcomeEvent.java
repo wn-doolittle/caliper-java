@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
+@SupportedActions({
+        Action.GRADED
+})
 public class OutcomeEvent extends Event {
 
     @JsonProperty("@context")

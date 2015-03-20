@@ -16,8 +16,7 @@ public class AssignableEventValidator extends EventValidator<AssignableEvent> {
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull AssignableEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull AssignableEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

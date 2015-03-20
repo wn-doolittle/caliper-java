@@ -10,6 +10,25 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
+
+@SupportedActions({
+        Action.ATTACHED,
+        Action.BOOKMARKED,
+        Action.CLASSIFIED,
+        Action.COMMENTED,
+        Action.DESCRIBED,
+        Action.HIGHLIGHTED,
+        Action.IDENTIFIED,
+        Action.LIKED,
+        Action.LINKED,
+        Action.RANKED,
+        Action.QUESTIONED,
+        Action.RECOMMENDED,
+        Action.REPLIED,
+        Action.SHARED,
+        Action.SUBSCRIBED,
+        Action.TAGGED
+})
 public class AnnotationEvent extends Event {
 
     @JsonProperty("@context")

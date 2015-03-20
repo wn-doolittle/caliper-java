@@ -3,6 +3,8 @@ package org.imsglobal.caliper.validators.events;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Person;
 import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.events.SupportedActions;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.imsglobal.caliper.validators.CaliperEventValidator;
 import org.imsglobal.caliper.validators.ValidatorResult;
 import org.joda.time.DateTime;
@@ -10,7 +12,7 @@ import org.joda.time.DateTime;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class EventValidator<T extends Event> implements CaliperEventValidator<T> {
+public abstract class EventValidator<T extends Event> implements CaliperEventValidator<T> {
 
     /**
      * Convenience method that provides a rollup of Event property validators.
@@ -20,6 +22,8 @@ public class EventValidator<T extends Event> implements CaliperEventValidator<T>
     public ValidatorResult validate(@Nonnull T event) {
         ValidatorResult result = new ValidatorResult();
         String context = event.getClass().getSimpleName();
+
+        result = validateActions(event, result);
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());
         if (!contextURI.isValid()) {
@@ -48,8 +52,10 @@ public class EventValidator<T extends Event> implements CaliperEventValidator<T>
             result.errorMessage().endMessage("Caliper Event conformance:");
         }
 
-        return result;
+        return validateEvent(event, result);
     }
+
+    public abstract ValidatorResult validateEvent(@Nonnull T event, ValidatorResult result);
 
     /**
      * Check the context.
@@ -102,5 +108,28 @@ public class EventValidator<T extends Event> implements CaliperEventValidator<T>
      */
     public ValidatorResult validateDuration(@Nonnull String context, @Nonnull DateTime start, @Nullable DateTime end, @Nullable String duration) {
         return EventValidatorUtils.context(context).validateDuration(start, end, duration);
+    }
+
+
+    private ValidatorResult validateActions(T event, ValidatorResult result){
+        if(event.getAction() == null){
+            result.errorMessage().appendViolation("action cannot be null");
+            return result;
+        }
+        SupportedActions actions = event.getClass().getAnnotation(SupportedActions.class);
+        if(actions == null){
+            return result;
+        }
+        Boolean actionIsSupported = false;
+        for (Action action : actions.value()){
+            if(action.equals(event.getAction())){
+                actionIsSupported = true;
+                break;
+            }
+        }
+        if(!actionIsSupported){
+            result.errorMessage().appendViolation("Action for instance of " + event.getClass().getName() + " does not support action: " + event.getAction().getValue());
+        }
+        return result;
     }
 }

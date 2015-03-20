@@ -41,4 +41,9 @@ public class AssignableEventTest extends EventTest {
         assertEquals("Test if Assignable event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperAssignableEvent.json"), serialize(event));
     }
+
+    @Test(expected=IllegalStateException.class)
+    public void assignableEventRejectsSearchedAction(){
+        TestUtils.buildAssessmentAssignableEvent(learningContext, assessment, Profile.Action.SEARCHED);
+    }
 }

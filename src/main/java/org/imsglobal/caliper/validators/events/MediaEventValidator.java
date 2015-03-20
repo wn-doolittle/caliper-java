@@ -14,8 +14,7 @@ public class MediaEventValidator extends EventValidator<MediaEvent> {
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull MediaEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull MediaEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

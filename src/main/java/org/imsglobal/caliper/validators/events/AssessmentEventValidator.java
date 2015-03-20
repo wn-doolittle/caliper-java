@@ -16,8 +16,7 @@ public class AssessmentEventValidator extends EventValidator<AssessmentEvent> {
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull AssessmentEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull AssessmentEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

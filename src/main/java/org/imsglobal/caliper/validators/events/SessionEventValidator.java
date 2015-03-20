@@ -17,8 +17,7 @@ public class SessionEventValidator extends EventValidator<SessionEvent> {
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull SessionEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull SessionEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

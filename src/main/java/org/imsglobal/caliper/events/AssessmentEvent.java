@@ -10,6 +10,12 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
+@SupportedActions({
+        Action.STARTED,
+        Action.PAUSED,
+        Action.RESTARTED,
+        Action.SUBMITTED
+})
 public class AssessmentEvent extends Event {
     
     @JsonProperty("@context")

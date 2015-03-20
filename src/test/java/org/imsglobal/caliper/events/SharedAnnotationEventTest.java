@@ -47,4 +47,9 @@ public class SharedAnnotationEventTest extends EventTest {
         assertEquals("Test if Shared Annotation event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperSharedAnnotationEvent.json"), serialize(event));
     }
+
+    @Test(expected=IllegalStateException.class)
+    public void assessmentItemEventRejectsSearchedAction(){
+        TestUtils.buildAnnotationEvent(learningContext, object, Profile.Action.SEARCHED, generated, 3);
+    }
 }

@@ -10,6 +10,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
+@SupportedActions({
+        Action.LOGGED_IN,
+        Action.LOGGED_OUT,
+        Action.TIMED_OUT
+})
 public class SessionEvent extends Event {
 
     @JsonProperty("@context")

@@ -15,8 +15,7 @@ public class NavigationEventValidator extends EventValidator<NavigationEvent> {
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull NavigationEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull NavigationEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

@@ -15,8 +15,7 @@ public class ReadingEventValidator extends EventValidator<ReadingEvent> {
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull ReadingEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull ReadingEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

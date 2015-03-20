@@ -46,4 +46,10 @@ public class MediaEventTest extends EventTest {
         assertEquals("Test if Media event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperMediaEvent.json"), serialize(event));
     }
+
+    @Test(expected=IllegalStateException.class)
+    public void mediaEventRejectsSearchedAction(){
+        TestUtils.buildVideoMediaEvent(learningContext, video, location, Profile.Action.SEARCHED);
+    }
+
 }

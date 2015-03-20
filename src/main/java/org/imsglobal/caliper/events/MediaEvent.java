@@ -10,6 +10,27 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
+@SupportedActions({
+        Action.OPENED_POPOUT,
+        Action.CLOSED_POPOUT,
+        Action.EXITED_FULLSCREEN,
+        Action.ENTERED_FULLSCREEN,
+        Action.CHANGED_SIZE,
+        Action.CHANGED_RESOLUTION,
+        Action.STARTED,
+        Action.REWINDED,
+        Action.RESUMED,
+        Action.FORWARDED_TO,
+        Action.PAUSED,
+        Action.JUMPED_TO,
+        Action.ENDED,
+        Action.CHANGED_SPEED,
+        Action.UNMUTED,
+        Action.MUTED,
+        Action.CHANGED_VOLUME,
+        Action.DISABLED_CLOSED_CAPTIONING,
+        Action.ENABLED_CLOSED_CAPTIONING
+})
 public class MediaEvent extends Event {
 
     @JsonProperty("@context")

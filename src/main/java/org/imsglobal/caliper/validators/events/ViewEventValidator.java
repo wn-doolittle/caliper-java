@@ -15,8 +15,7 @@ public class ViewEventValidator extends EventValidator<ViewEvent> {
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull ViewEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull ViewEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

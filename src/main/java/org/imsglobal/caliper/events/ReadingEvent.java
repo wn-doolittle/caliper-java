@@ -3,7 +3,6 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.events.OutcomeEventValidator;
 import org.imsglobal.caliper.validators.events.ReadingEventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +10,10 @@ import org.imsglobal.caliper.profiles.Profile.Action;
 
 import javax.annotation.Nonnull;
 
+@SupportedActions({
+        Action.SEARCHED,
+        Action.VIEWED
+})
 public class ReadingEvent extends Event {
 
     @JsonProperty("@context")

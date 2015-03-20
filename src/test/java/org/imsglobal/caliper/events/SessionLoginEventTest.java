@@ -52,4 +52,10 @@ public class SessionLoginEventTest extends EventTest {
         assertEquals("Test if loggedIn event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperSessionLoginEvent.json"), serialize(event));
     }
+
+    @Test(expected=IllegalStateException.class)
+    public void sessionEventRejectsSearchedAction(){
+        TestUtils.buildEpubLoginEvent(learningContext, Action.SEARCHED, target, generated);
+    }
+
 }

@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
+@SupportedActions({
+        Action.VIEWED
+})
 public class ViewEvent extends Event {
 
     @JsonProperty("@context")

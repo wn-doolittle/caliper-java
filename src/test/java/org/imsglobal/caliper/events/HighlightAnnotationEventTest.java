@@ -47,4 +47,9 @@ public class HighlightAnnotationEventTest extends EventTest {
         assertEquals("Test if Highlight Annotation event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperHighlightAnnotationEvent.json"), serialize(event));
     }
+
+    @Test(expected=IllegalStateException.class)
+    public void annotationEventRejectsSearchedAction(){
+        TestUtils.buildAnnotationEvent(learningContext, object, Profile.Action.SEARCHED, generated, 1);
+    }
 }
