@@ -2,13 +2,24 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.profiles.AssignableProfile;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.AssignableEventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
+@SupportedActions({
+        Action.ABANDONED,
+        Action.ACTIVATED,
+        Action.COMPLETED,
+        Action.DEACTIVATED,
+        Action.HID,
+        Action.REVIEWED,
+        Action.SHOWED,
+        Action.STARTED
+})
 public class AssignableEvent extends Event {
 
     @JsonProperty("@context")
@@ -18,7 +29,7 @@ public class AssignableEvent extends Event {
     private final String type;
 
     @JsonProperty("action")
-    private final String action;
+    private final Action action;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssignableEvent.class);
@@ -36,9 +47,9 @@ public class AssignableEvent extends Event {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.action = AssignableProfile.getLocalizedAction(builder.action);
+        this.action = builder.action;
 
-        ValidatorResult result = AssignableProfile.validateEvent(this);
+        ValidatorResult result = new AssignableEventValidator().validate(this);
         if (!result.isValid()) {
             throw new IllegalStateException(result.errorMessage().toString());
         }
@@ -70,7 +81,7 @@ public class AssignableEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getAction() {
+    public Action getAction() {
         return action;
     }
 
@@ -81,7 +92,7 @@ public class AssignableEvent extends Event {
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private String context;
         private String type;
-        private String action;
+        private Action action;
 
         /*
          * Constructor
@@ -110,12 +121,12 @@ public class AssignableEvent extends Event {
         }
 
         /**
-         * @param key
+         * @param action
          * @return builder.
          */
         @Override
-        public T action(String key) {
-            this.action = key;
+        public T action(Action action) {
+            this.action = action;
             return self();
         }
 

@@ -10,28 +10,12 @@ import javax.annotation.Nonnull;
 public class NavigationEventValidator extends EventValidator<NavigationEvent> {
 
     /**
-     * Constructor
-     */
-     private NavigationEventValidator(String actionKey) {
-        super(actionKey);
-     }
-
-    /**
-     * Static factory method that sets the action key for validator comparison checks.
-     * @return a new instance of NavigationEventValidator.
-     */
-     public static NavigationEventValidator action(String actionKey) {
-        return new NavigationEventValidator(actionKey);
-     }
-
-    /**
      * Convenience method that provides a rollup of NavigationEvent property validators.
      * @param event
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull NavigationEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull NavigationEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.profiles.AnnotationProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -36,14 +36,11 @@ public class BookmarkAnnotationEventTest extends EventTest {
         //Build Reading
         object = (EpubSubChapter) TestUtils.buildEpubSubChap432();
 
-        // Add action
-        key = AnnotationProfile.Actions.BOOKMARKED.key();
-
         // Build Bookmark Annotation
         generated = TestUtils.buildBookmarkAnnotation(object);
 
         // Build event
-        event = TestUtils.buildAnnotationEvent(learningContext, object, key, generated, 2);
+        event = TestUtils.buildAnnotationEvent(learningContext, object, Profile.Action.BOOKMARKED, generated, 2);
     }
 
     @Test

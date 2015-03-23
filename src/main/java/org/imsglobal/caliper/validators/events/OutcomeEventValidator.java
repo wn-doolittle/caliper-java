@@ -11,28 +11,12 @@ import javax.annotation.Nonnull;
 public class OutcomeEventValidator extends EventValidator<OutcomeEvent> {
 
     /**
-     * Constructor
-     */
-     private OutcomeEventValidator(String actionKey) {
-        super(actionKey);
-     }
-
-    /**
-     * Static factory method that sets the action key for validator comparison checks.
-     * @return a new instance of OutcomeEventValidator.
-     */
-     public static OutcomeEventValidator action(String actionKey) {
-     return new OutcomeEventValidator(actionKey);
-     }
-
-    /**
      * Convenience method that provides a rollup of OutcomeEvent property validators.
      * @param event
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull OutcomeEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull OutcomeEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

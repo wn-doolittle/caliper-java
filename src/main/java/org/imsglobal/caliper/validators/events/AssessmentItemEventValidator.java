@@ -4,7 +4,7 @@ import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.events.AssessmentItemEvent;
-import org.imsglobal.caliper.profiles.AssessmentItemProfile;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.imsglobal.caliper.response.Response;
 import org.imsglobal.caliper.validators.ValidatorResult;
 
@@ -13,28 +13,12 @@ import javax.annotation.Nonnull;
 public class AssessmentItemEventValidator extends EventValidator<AssessmentItemEvent> {
 
     /**
-     * Constructor
-     */
-     private AssessmentItemEventValidator(String actionKey) {
-        super(actionKey);
-     }
-
-    /**
-     * Static factory method that sets the action key for validator comparison checks.
-     * @return a new instance of AssessmentEventValidator.
-     */
-     public static AssessmentItemEventValidator action(String actionKey) {
-        return new AssessmentItemEventValidator(actionKey);
-     }
-
-    /**
      * Convenience method that provides a rollup of AssessmentEvent property validators.
      * @param event
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull AssessmentItemEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull AssessmentItemEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());
@@ -57,7 +41,7 @@ public class AssessmentItemEventValidator extends EventValidator<AssessmentItemE
             result.errorMessage().appendViolation(object.errorMessage().toString());
         }
 
-        if (actionKey.equals(AssessmentItemProfile.Actions.COMPLETED.key())) {
+        if (event.getAction().equals(Action.COMPLETED)) {
             ValidatorResult generated = validateGeneratedIsResponse(context, event.getGenerated());
             if (!generated.isValid()) {
                 result.errorMessage().appendViolation(generated.errorMessage().toString());

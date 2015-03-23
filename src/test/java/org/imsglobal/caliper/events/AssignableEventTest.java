@@ -3,7 +3,7 @@ package org.imsglobal.caliper.events;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
-import org.imsglobal.caliper.profiles.AssignableProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -17,7 +17,6 @@ import static org.junit.Assert.assertEquals;
 public class AssignableEventTest extends EventTest {
     private LearningContext learningContext;
     private Assessment assessment;
-    private String key;
     private AssignableEvent event;
     private static final Logger log = LoggerFactory.getLogger(AssignableEventTest.class);
 
@@ -33,16 +32,18 @@ public class AssignableEventTest extends EventTest {
         // Build assessment
         assessment = TestUtils.buildAssessment();
 
-        // Action
-        key = AssignableProfile.Actions.ACTIVATED.key();
-
         // Build event
-        event = TestUtils.buildAssessmentAssignableEvent(learningContext, assessment, key);
+        event = TestUtils.buildAssessmentAssignableEvent(learningContext, assessment, Profile.Action.ACTIVATED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Assignable event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperAssignableEvent.json"), serialize(event));
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void assignableEventRejectsSearchedAction(){
+        TestUtils.buildAssessmentAssignableEvent(learningContext, assessment, Profile.Action.SEARCHED);
     }
 }

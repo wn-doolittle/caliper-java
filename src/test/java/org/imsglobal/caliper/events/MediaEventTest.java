@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.media.MediaLocation;
 import org.imsglobal.caliper.entities.media.VideoObject;
-import org.imsglobal.caliper.profiles.MediaProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -20,7 +20,6 @@ public class MediaEventTest extends EventTest {
     private LearningContext learningContext;
     private MediaLocation location;
     private VideoObject video;
-    private String key;
     private MediaEvent event;
     private static final Logger log = LoggerFactory.getLogger(MediaEventTest.class);
 
@@ -38,12 +37,8 @@ public class MediaEventTest extends EventTest {
 
         // Build media location
         location = TestUtils.buildVideoMediaLocation();
-
-        // Action
-        key = MediaProfile.Actions.PAUSED.key();
-
         // Build event
-        event = TestUtils.buildVideoMediaEvent(learningContext, video, location, key);
+        event = TestUtils.buildVideoMediaEvent(learningContext, video, location, Profile.Action.PAUSED);
     }
 
     @Test
@@ -51,4 +46,10 @@ public class MediaEventTest extends EventTest {
         assertEquals("Test if Media event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperMediaEvent.json"), serialize(event));
     }
+
+    @Test(expected=IllegalStateException.class)
+    public void mediaEventRejectsSearchedAction(){
+        TestUtils.buildVideoMediaEvent(learningContext, video, location, Profile.Action.SEARCHED);
+    }
+
 }

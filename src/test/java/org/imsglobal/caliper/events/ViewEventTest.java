@@ -5,6 +5,7 @@ import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -19,7 +20,6 @@ public class ViewEventTest extends EventTest {
 
     private LearningContext learningContext;
     private EpubVolume epub;
-    private String key;
     private EpubSubChapter target;
     private ViewEvent event;
     private static final Logger log = LoggerFactory.getLogger(ViewEventTest.class);
@@ -39,11 +39,8 @@ public class ViewEventTest extends EventTest {
         // Build target
         target = TestUtils.buildEpubSubChap431();
 
-        // Action
-        key = Profile.Actions.VIEWED.key();
-
         // Build event
-        event = TestUtils.buildEpubViewEvent(learningContext, epub, key, target);
+        event = TestUtils.buildEpubViewEvent(learningContext, epub, Action.VIEWED, target);
     }
 
     @Test
@@ -51,5 +48,10 @@ public class ViewEventTest extends EventTest {
 
         assertEquals("Test if View event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperViewEvent.json"), serialize(event));
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void viewEventRejectsSearchedAction(){
+        TestUtils.buildEpubViewEvent(learningContext, epub, Action.SEARCHED, target);
     }
 }

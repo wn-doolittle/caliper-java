@@ -11,28 +11,12 @@ import javax.annotation.Nonnull;
 public class AssignableEventValidator extends EventValidator<AssignableEvent> {
 
     /**
-     * Constructor
-     */
-     private AssignableEventValidator(String actionKey) {
-        super(actionKey);
-     }
-
-    /**
-     * Static factory method that sets the action key for validator comparison checks.
-     * @return a new instance of AssignableEventValidator.
-     */
-     public static AssignableEventValidator action(String actionKey) {
-         return new AssignableEventValidator(actionKey);
-     }
-
-    /**
      * Convenience method that provides a rollup of AssignableEvent property validators.
      * @param event
      * @return
      */
     @Override
-    public ValidatorResult validate(@Nonnull AssignableEvent event) {
-        ValidatorResult result = new ValidatorResult();
+    public ValidatorResult validateEvent(@Nonnull AssignableEvent event, ValidatorResult result) {
         String context = event.getClass().getSimpleName();
 
         ValidatorResult contextURI = validateContextURI(context, event.getContext());

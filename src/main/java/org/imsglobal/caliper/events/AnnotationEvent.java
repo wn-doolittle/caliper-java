@@ -2,13 +2,33 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.profiles.AnnotationProfile;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.AnnotationEventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
+
+@SupportedActions({
+        Action.ATTACHED,
+        Action.BOOKMARKED,
+        Action.CLASSIFIED,
+        Action.COMMENTED,
+        Action.DESCRIBED,
+        Action.HIGHLIGHTED,
+        Action.IDENTIFIED,
+        Action.LIKED,
+        Action.LINKED,
+        Action.RANKED,
+        Action.QUESTIONED,
+        Action.RECOMMENDED,
+        Action.REPLIED,
+        Action.SHARED,
+        Action.SUBSCRIBED,
+        Action.TAGGED
+})
 public class AnnotationEvent extends Event {
 
     @JsonProperty("@context")
@@ -18,7 +38,7 @@ public class AnnotationEvent extends Event {
     private final String type;
 
     @JsonProperty("action")
-    private final String action;
+    private final Action action;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AnnotationEvent.class);
@@ -36,9 +56,9 @@ public class AnnotationEvent extends Event {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.action = AnnotationProfile.getLocalizedAction(builder.action);
+        this.action = builder.action;
 
-        ValidatorResult result = AnnotationProfile.validateEvent(this);
+        ValidatorResult result = new AnnotationEventValidator().validate(this);
         if (!result.isValid()) {
             throw new IllegalStateException(result.errorMessage().toString());
         }
@@ -70,7 +90,7 @@ public class AnnotationEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getAction() {
+    public Action getAction() {
         return action;
     }
 
@@ -81,7 +101,7 @@ public class AnnotationEvent extends Event {
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private String context;
         private String type;
-        private String action;
+        private Action action;
 
         /*
          * Constructor
@@ -110,12 +130,12 @@ public class AnnotationEvent extends Event {
         }
 
         /**
-         * @param key
+         * @param action
          * @return builder.
          */
         @Override
-        public T action(String key) {
-            this.action = key;
+        public T action(Action action) {
+            this.action = action;
             return self();
         }
 

@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.NavigationEventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +27,7 @@ import javax.annotation.Nullable;
     "edApp",
     "group",
     "navigatedFrom" })
+@SupportedActions({Action.NAVIGATED_TO})
 public class NavigationEvent extends Event {
     
     @JsonProperty("@context")
@@ -35,7 +37,7 @@ public class NavigationEvent extends Event {
     private final String type;
 
     @JsonProperty("action")
-    private final String action;
+    private final Action action;
 
     @JsonProperty("navigatedFrom")
     private final DigitalResource fromResource;
@@ -56,10 +58,10 @@ public class NavigationEvent extends Event {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.action = Profile.getLocalizedAction(builder.action);
+        this.action = builder.action;
         this.fromResource = builder.fromResource;
 
-        ValidatorResult result = Profile.validateEvent(this);
+        ValidatorResult result = new NavigationEventValidator().validate(this);
         if (!result.isValid()) {
             throw new IllegalStateException(result.errorMessage().toString());
         }
@@ -91,7 +93,7 @@ public class NavigationEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getAction() {
+    public Action getAction() {
         return action;
     }
 
@@ -111,7 +113,7 @@ public class NavigationEvent extends Event {
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private String context;
         private String type;
-        private String action;
+        private Action action;
         private DigitalResource fromResource;
 
         /*
@@ -120,7 +122,7 @@ public class NavigationEvent extends Event {
         public Builder() {
             context(Context.NAVIGATION.uri());
             type(Type.NAVIGATION.uri());
-            action(Profile.Actions.NAVIGATED_TO.key());
+            action(Action.NAVIGATED_TO);
         }
 
         /**
@@ -142,12 +144,12 @@ public class NavigationEvent extends Event {
         }
 
         /**
-         * @param key
+         * @param action
          * @return builder.
          */
         @Override
-        public T action(String key) {
-            this.action = key;
+        public T action(Action action) {
+            this.action = action;
             return self();
         }
 

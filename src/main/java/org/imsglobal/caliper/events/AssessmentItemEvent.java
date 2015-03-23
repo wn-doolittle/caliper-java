@@ -2,13 +2,21 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.profiles.AssessmentItemProfile;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.AssessmentItemEventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
+@SupportedActions({
+        Action.STARTED,
+        Action.COMPLETED,
+        Action.SKIPPED,
+        Action.REVIEWED,
+        Action.VIEWED
+})
 public class AssessmentItemEvent extends Event {
 
     @JsonProperty("@context")
@@ -18,7 +26,7 @@ public class AssessmentItemEvent extends Event {
     private final String type;
 
     @JsonProperty("action")
-    private final String action;
+    private final Action action;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssessmentItemEvent.class);
@@ -36,9 +44,9 @@ public class AssessmentItemEvent extends Event {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.action = AssessmentItemProfile.getLocalizedAction(builder.action);
+        this.action = builder.action;
 
-        ValidatorResult result = AssessmentItemProfile.validateEvent(this);
+        ValidatorResult result = new AssessmentItemEventValidator().validate(this);
         if (!result.isValid()) {
             throw new IllegalStateException(result.errorMessage().toString());
         }
@@ -70,7 +78,7 @@ public class AssessmentItemEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getAction() {
+    public Action getAction() {
         return action;
     }
 
@@ -81,7 +89,7 @@ public class AssessmentItemEvent extends Event {
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private String context;
         private String type;
-        private String action;
+        private Action action;
 
         /*
          * Constructor
@@ -110,12 +118,12 @@ public class AssessmentItemEvent extends Event {
         }
 
         /**
-         * @param key
+         * @param action
          * @return builder.
          */
         @Override
-        public T action(String key) {
-            this.action = key;
+        public T action(Action action) {
+            this.action = action;
             return self();
         }
 

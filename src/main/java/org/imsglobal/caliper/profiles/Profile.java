@@ -1,170 +1,72 @@
 package org.imsglobal.caliper.profiles;
 
-import com.google.common.collect.ImmutableMap;
-import org.imsglobal.caliper.events.Event;
-import org.imsglobal.caliper.events.NavigationEvent;
-import org.imsglobal.caliper.events.ViewEvent;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.events.EventValidatorContext;
-import org.imsglobal.caliper.validators.events.NavigationEventValidator;
-import org.imsglobal.caliper.validators.events.ViewEventValidator;
-
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public abstract class Profile {
 
-    public enum Actions {
-        NAVIGATED_TO("navigation.navigatedTo") {
-            @Override
-            ValidatorResult validate(Event event) {
-                NavigationEvent navigationEvent = (NavigationEvent) event;
-                EventValidatorContext<NavigationEvent> validator;
-                validator = new EventValidatorContext<>(NavigationEventValidator.action(Actions.NAVIGATED_TO.key()));
-                return validator.validate(navigationEvent);
-            }
-        },
-        VIEWED("reading.viewed") {
-            @Override
-            ValidatorResult validate(Event event) {
-                ViewEvent viewEvent = (ViewEvent) event;
-                EventValidatorContext<ViewEvent> validator;
-                validator = new EventValidatorContext<>(ViewEventValidator.action(Actions.VIEWED.key()));
-                return validator.validate(viewEvent);
-            }
-        },
-        UNRECOGNIZED("action.unrecognized") {
-            @Override
-            ValidatorResult validate(Event event) {
-                ValidatorResult result = new ValidatorResult();
-                String violation = "Caliper profile conformance: unrecognized action";
-                result.errorMessage().appendViolation(violation);
-                result.errorMessage().endSentence();
-                return result;
-            }
-        };
+    public enum Action {
+        ABANDONED("http://purl.imsglobal.org/caliper/v1/Action/Abandoned"),
+        ACTIVATED("http://purl.imsglobal.org/caliper/v1/Action/Activated"),
+        ATTACHED("http://purl.imsglobal.org/caliper/v1/Action/Attached"),
+        BOOKMARKED("http://purl.imsglobal.org/caliper/v1/Action/Bookmarked"),
+        CHANGED_RESOLUTION("http://purl.imsglobal.org/caliper/v1/Action/ChangedResolution"),
+        CHANGED_SIZE("http://purl.imsglobal.org/caliper/v1/Action/ChangedSize"),
+        CHANGED_SPEED("http://purl.imsglobal.org/caliper/v1/Action/ChangedSpeed"),
+        CHANGED_VOLUME("http://purl.imsglobal.org/caliper/v1/Action/ChangedVolume"),
+        CLASSIFIED("http://purl.imsglobal.org/caliper/v1/Action/Classified"),
+        CLOSED_POPOUT("http://purl.imsglobal.org/caliper/v1/Action/ClosedPopout"),
+        COMMENTED("http://purl.imsglobal.org/caliper/v1/Action/Commented"),
+        COMPLETED("http://purl.imsglobal.org/caliper/v1/Action/Completed"),
+        DEACTIVATED("http://purl.imsglobal.org/caliper/v1/Action/Deactivated"),
+        DESCRIBED("http://purl.imsglobal.org/caliper/v1/Action/Described"),
+        DISABLED_CLOSED_CAPTIONING("http://purl.imsglobal.org/caliper/v1/Action/DisabledClosedCaptioning"),
+        ENABLED_CLOSED_CAPTIONING("http://purl.imsglobal.org/caliper/v1/Action/EnabledClosedCaptioning"),
+        ENDED("http://purl.imsglobal.org/caliper/v1/Action/Ended"),
+        ENTERED_FULLSCREEN("http://purl.imsglobal.org/caliper/v1/Action/EnteredFullscreen"),
+        EXITED_FULLSCREEN("http://purl.imsglobal.org/caliper/v1/Action/ExitedFullscreen"),
+        FORWARDED_TO("http://purl.imsglobal.org/caliper/v1/Action/ForwardedTo"),
+        GRADED("http://purl.imsglobal.org/caliper/v1/Action/Graded"),
+        HID("http://purl.imsglobal.org/caliper/v1/Action/Hid"),
+        HIGHLIGHTED("http://purl.imsglobal.org/caliper/v1/Action/Highlighted"),
+        JUMPED_TO("http://purl.imsglobal.org/caliper/v1/Action/JumpedTo"),
+        IDENTIFIED("http://purl.imsglobal.org/caliper/v1/Action/Identified"),
+        LIKED("http://purl.imsglobal.org/caliper/v1/Action/Liked"),
+        LINKED("http://purl.imsglobal.org/caliper/v1/Action/Linked"),
+        LOGGED_IN("http://purl.imsglobal.org/caliper/v1/Action/LoggedIn"),
+        LOGGED_OUT("http://purl.imsglobal.org/caliper/v1/Action/LoggedOut"),
+        MUTED("http://purl.imsglobal.org/caliper/v1/Action/Muted"),
+        NAVIGATED_TO("http://purl.imsglobal.org/caliper/v1/Action/NavigatedTo"),
+        OPENED_POPOUT("http://purl.imsglobal.org/caliper/v1/Action/OpenedPopout"),
+        PAUSED("http://purl.imsglobal.org/caliper/v1/Action/Paused"),
+        RANKED("http://purl.imsglobal.org/caliper/v1/Action/Ranked"),
+        QUESTIONED("http://purl.imsglobal.org/caliper/v1/Action/Questioned"),
+        RECOMMENDED("http://purl.imsglobal.org/caliper/v1/Action/Recommended"),
+        REPLIED("http://purl.imsglobal.org/caliper/v1/Action/Replied"),
+        RESTARTED("http://purl.imsglobal.org/caliper/v1/Action/Restarted"),
+        RESUMED("http://purl.imsglobal.org/caliper/v1/Action/Resumed"),
+        REVIEWED("http://purl.imsglobal.org/caliper/v1/Action/Reviewed"),
+        REWINDED("http://purl.imsglobal.org/caliper/v1/Action/Rewinded"),
+        SEARCHED("http://purl.imsglobal.org/caliper/v1/Action/Searched"),
+        SHARED("http://purl.imsglobal.org/caliper/v1/Action/Shared"),
+        SHOWED("http://purl.imsglobal.org/caliper/v1/Action/Showed"),
+        SKIPPED("http://purl.imsglobal.org/caliper/v1/Action/Skipped"),
+        STARTED("http://purl.imsglobal.org/caliper/v1/Action/Started"),
+        SUBMITTED("http://purl.imsglobal.org/caliper/v1/Action/Submitted"),
+        SUBSCRIBED("http://purl.imsglobal.org/caliper/v1/Action/Subscribed"),
+        TAGGED("http://purl.imsglobal.org/caliper/v1/Action/Tagged"),
+        TIMED_OUT("http://purl.imsglobal.org/caliper/v1/Action/TimedOut"),
+        VIEWED("http://purl.imsglobal.org/caliper/v1/Action/Viewed"),
+        UNMUTED("http://purl.imsglobal.org/caliper/v1/Action/Unmuted");
 
-        private final String key;
-        private static Map<String, Actions> lookup;
+        private String value;
 
-        /**
-         * Create reverse lookup hash map
-         */
-        static {
-            Map<String, Actions> map = new HashMap<String, Actions>();
-            for (Actions constants : Actions.values()) {
-                map.put(constants.key(), constants);
-            }
-            lookup = ImmutableMap.copyOf(map);
+        @JsonValue
+        public String getValue() {
+            return value;
         }
 
-        /**
-         * Private constructor
-         * @param key
-         */
-        private Actions(final String key) {
-            this.key = key;
+        private Action(String value){
+            this.value = value;
         }
-
-        /**
-         * Resource bundle key
-         * @return key
-         */
-        public String key() {
-            return key;
-        }
-
-        /**
-         * @param key
-         * @return true if lookup returns a key match; false otherwise.
-         */
-        public static boolean hasKey(String key) {
-            return lookup.containsKey(key);
-        }
-
-        /**
-         * Retrieve bundle key from reverse lookup map with matching localized action value.
-         * @param action
-         * @return action bundle key
-         */
-        public static String lookupBundleKeyWithLocalizedAction(String action) {
-            ResourceBundle bundle = ResourceBundle.getBundle("actions");
-            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
-                if (action.equals(bundle.getString(entry.getKey()))) {
-                    return entry.getKey();
-                }
-            }
-            return Actions.UNRECOGNIZED.key();
-        }
-
-        /**
-         * Retrieve constant from reverse lookup map after matching on the action bundle key.
-         * @param key
-         * @return constant
-         */
-        public static Profile.Actions lookupConstantWithActionKey(String key) {
-            return lookup.get(key);
-        }
-
-        /**
-         * Retrieve constant from reverse lookup map after matching the localized action value against its bundle key.
-         * @param action
-         * @return constant
-         */
-        public static Profile.Actions lookupConstantWithLocalizedAction(String action) {
-            ResourceBundle bundle = ResourceBundle.getBundle("actions");
-            for (Map.Entry<String, Actions> entry: lookup.entrySet()) {
-                if (action.equals(bundle.getString(entry.getKey()))) {
-                    return entry.getValue();
-                }
-            }
-            return Actions.UNRECOGNIZED;
-        }
-
-        /**
-         * Validate method implemented by each enum constant.
-         * @param event
-         */
-        abstract ValidatorResult validate(Event event);
-
-        /**
-         * Match action to enum constant and then validate event.
-         * @param event
-         * @return error message if validation errors are encountered.
-         */
-        protected static ValidatorResult validateEvent(Event event) {
-            return Actions.lookupConstantWithLocalizedAction(event.getAction()).validate(event);
-        }
-    }
-
-    /**
-     * Constructor
-     */
-    public Profile() {
-
-    }
-
-    /**
-     * Get localized action string.
-     * @param key
-     * @return
-     */
-    public static String getLocalizedAction(String key) {
-        if (Profile.Actions.hasKey(key)) {
-            return ProfileUtils.getLocalizedAction(key);
-        } else {
-            throw new IllegalArgumentException("Event action is unrecognized (" + key + ")");
-        }
-    }
-
-    /**
-     * Validate Event.
-     * @param event
-     * @return ValidatorResult
-     */
-    public static ValidatorResult validateEvent(@Nonnull Event event) {
-        return Actions.validateEvent(event);
     }
 }

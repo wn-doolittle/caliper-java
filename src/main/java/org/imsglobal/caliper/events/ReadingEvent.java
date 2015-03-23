@@ -2,13 +2,18 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.profiles.ReadingProfile;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.ReadingEventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.imsglobal.caliper.profiles.Profile.Action;
 
 import javax.annotation.Nonnull;
 
+@SupportedActions({
+        Action.SEARCHED,
+        Action.VIEWED
+})
 public class ReadingEvent extends Event {
 
     @JsonProperty("@context")
@@ -18,7 +23,7 @@ public class ReadingEvent extends Event {
     private final String type;
 
     @JsonProperty("action")
-    private final String action;
+    private final Action action;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(ReadingEvent.class);
@@ -36,9 +41,9 @@ public class ReadingEvent extends Event {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.action = ReadingProfile.getLocalizedAction(builder.action);
+        this.action = builder.action;
 
-        ValidatorResult result = ReadingProfile.validateEvent(this);
+        ValidatorResult result = new ReadingEventValidator().validate(this);
         if (!result.isValid()) {
             throw new IllegalStateException(result.errorMessage().toString());
         }
@@ -70,7 +75,7 @@ public class ReadingEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getAction() {
+    public Action getAction() {
         return action;
     }
 
@@ -81,7 +86,7 @@ public class ReadingEvent extends Event {
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private String context;
         private String type;
-        private String action;
+        private Action action;
 
         /*
          * Constructor
@@ -110,12 +115,12 @@ public class ReadingEvent extends Event {
         }
 
         /**
-         * @param key
+         * @param action
          * @return builder.
          */
         @Override
-        public T action(String key) {
-            this.action = key;
+        public T action(Action action) {
+            this.action = action;
             return self();
         }
 

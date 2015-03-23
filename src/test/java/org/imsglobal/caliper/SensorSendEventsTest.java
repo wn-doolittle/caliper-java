@@ -14,7 +14,6 @@ public class SensorSendEventsTest {
 
     private LearningContext learningContext;
     private EpubVolume epub;
-    private String key;
     private DigitalResource fromResource;
     private EpubSubChapter target;
     private NavigationEvent event;
@@ -37,13 +36,9 @@ public class SensorSendEventsTest {
         // Build target
         target = TestUtils.buildEpubSubChap431();
 
-        // Action
-        key = Profile.Actions.NAVIGATED_TO.key();
-
-
         // Fire event test - Send 50 events
         for (int i = 0 ; i < 50 ; i++) {
-            sensor.send(TestUtils.buildEpubNavigationEvent(learningContext, epub, key, fromResource, target));
+            sensor.send(TestUtils.buildEpubNavigationEvent(learningContext, epub, Profile.Action.NAVIGATED_TO, fromResource, target));
         }
 
         // There should be two caliperEvents queued

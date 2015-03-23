@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.profiles.AssessmentProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -20,7 +20,6 @@ public class AssessmentEventTest extends EventTest {
     private LearningContext learningContext;
     private Assessment assessment;
     private Attempt attempt;
-    private String key;
     private AssessmentEvent event;
     private static final Logger log = LoggerFactory.getLogger(AssessmentEventTest.class);
 
@@ -39,16 +38,18 @@ public class AssessmentEventTest extends EventTest {
         // Generate attempt
         attempt = TestUtils.buildAssessmentAttempt(learningContext, assessment);
 
-        // Action
-        key = AssessmentProfile.Actions.STARTED.key();
-
         // Build event
-        event = TestUtils.buildAssessmentEvent(learningContext, assessment, key, attempt);
+        event = TestUtils.buildAssessmentEvent(learningContext, assessment, Profile.Action.STARTED, attempt);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Assessment event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperAssessmentEvent.json"), serialize(event));
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void assessmentEventRejectsSearchedAction(){
+        TestUtils.buildAssessmentEvent(learningContext, assessment, Profile.Action.SEARCHED, attempt);
     }
 }

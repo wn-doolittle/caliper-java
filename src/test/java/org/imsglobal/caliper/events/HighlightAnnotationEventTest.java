@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.profiles.AnnotationProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -19,7 +19,6 @@ public class HighlightAnnotationEventTest extends EventTest {
 
     private LearningContext learningContext;
     private EpubSubChapter object;
-    private String key;
     private HighlightAnnotation generated;
     private AnnotationEvent event;
     private static final Logger log = LoggerFactory.getLogger(HighlightAnnotationEventTest.class);
@@ -36,19 +35,21 @@ public class HighlightAnnotationEventTest extends EventTest {
         //Build target reading
         object = (EpubSubChapter) TestUtils.buildEpubSubChap431();
 
-        // Add action
-        key = AnnotationProfile.Actions.HIGHLIGHTED.key();
-
         // Build Bookmark Annotation
         generated = TestUtils.buildHighlightAnnotation(object);
 
         // Build event
-        event = TestUtils.buildAnnotationEvent(learningContext, object, key, generated, 1);
+        event = TestUtils.buildAnnotationEvent(learningContext, object, Profile.Action.HIGHLIGHTED, generated, 1);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Highlight Annotation event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperHighlightAnnotationEvent.json"), serialize(event));
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void annotationEventRejectsSearchedAction(){
+        TestUtils.buildAnnotationEvent(learningContext, object, Profile.Action.SEARCHED, generated, 1);
     }
 }

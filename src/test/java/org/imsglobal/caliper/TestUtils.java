@@ -20,6 +20,7 @@ import org.imsglobal.caliper.events.*;
 import org.imsglobal.caliper.response.FillinBlankResponse;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.imsglobal.caliper.profiles.Profile.Action;
 
 public class TestUtils {
 
@@ -79,20 +80,20 @@ public class TestUtils {
     /**
      * @param learningContext
      * @param object
-     * @param actionKey
+     * @param action
      * @param generated
      * @return annotation event.
      */
     public static AnnotationEvent buildAnnotationEvent(LearningContext learningContext,
                                                        DigitalResource object,
-                                                       String actionKey,
+                                                       Action action,
                                                        Annotation generated,
                                                        int index) {
         return AnnotationEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())
-            .action(actionKey)
+            .action(action)
             .object(Frame.builder()
                 .id(object.getId())
                 .name(object.getName())
@@ -135,17 +136,17 @@ public class TestUtils {
     /**
      * @param learningContext
      * @param assessment
-     * @param actionKey
+     * @param action
      * @return assignable event
      */
     public static AssignableEvent buildAssessmentAssignableEvent(LearningContext learningContext,
                                                                  Assessment assessment,
-                                                                 String actionKey) {
+                                                                 Action action) {
         return AssignableEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())
-            .action(actionKey)
+            .action(action)
             .object(assessment)
             .generated(Attempt.builder()
                 .id(assessment.getId() + "/attempt1")
@@ -178,19 +179,19 @@ public class TestUtils {
     /**
      * @param learningContext
      * @param assessment
-     * @param actionKey
+     * @param action
      * @param attempt
      * @return assessment event
      */
     public static AssessmentEvent buildAssessmentEvent(LearningContext learningContext,
                                                        Assessment assessment,
-                                                       String actionKey,
+                                                       Action action,
                                                        Attempt attempt) {
         return AssessmentEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())
-            .action(actionKey)
+            .action(action)
             .object(assessment)
             .generated(attempt)
             .startedAtTime(getDefaultStartedAtTime())
@@ -216,18 +217,18 @@ public class TestUtils {
     /**
      * @param learningContext
      * @param item
-     * @param actionKey
+     * @param action
      * @return assessment item event
      */
     public static AssessmentItemEvent buildAssessmentItemStartedEvent(LearningContext learningContext,
                                                                AssessmentItem item,
-                                                               String actionKey,
+                                                               Action action,
                                                                Attempt attempt) {
         return AssessmentItemEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())
-            .action(actionKey)
+            .action(action)
             .object(item)
             .generated(attempt)
             .startedAtTime(getDefaultStartedAtTime())
@@ -237,19 +238,19 @@ public class TestUtils {
     /**
      * @param learningContext
      * @param item
-     * @param actionKey
+     * @param action
      * @param response
      * @retur item event
      */
     public static AssessmentItemEvent buildFillinBlankCompletedEvent(LearningContext learningContext,
                                                                      AssessmentItem item,
-                                                                     String actionKey,
+                                                                     Action action,
                                                                      FillinBlankResponse response) {
         return AssessmentItemEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())
-            .action(actionKey)
+            .action(action)
             .object(item)
             .generated(response)
             .startedAtTime(getDefaultStartedAtTime())
@@ -315,19 +316,19 @@ public class TestUtils {
     /**
      * @param learningContext
      * @param attempt
-     * @param actionKey
+     * @param action
      * @param result
      * @return outcome event.
      */
     public static OutcomeEvent buildAssessmentOutcomeEvent(LearningContext learningContext,
                                                            Attempt attempt,
-                                                           String actionKey,
+                                                           Action action,
                                                            Result result) {
         return OutcomeEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor(learningContext.getAgent())
-            .action(actionKey)
+            .action(action)
             .object(attempt)
             .generated(result)
             .startedAtTime(getDefaultStartedAtTime())
@@ -406,20 +407,20 @@ public class TestUtils {
 
     /**
      * @param learningContext
-     * @param actionKey
+     * @param action
      * @param target
      * @param generated
      * @return session event
      */
     public static SessionEvent buildEpubLoginEvent(LearningContext learningContext,
-                                                           String actionKey,
+                                                           Action action,
                                                            EpubSubChapter target,
                                                            Session generated) {
         return SessionEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())
-            .action(actionKey)
+            .action(action)
             .object(learningContext.getEdApp())
             .target(Frame.builder()
                     .id(target.getId())
@@ -437,18 +438,18 @@ public class TestUtils {
 
     /**
      * @param learningContext
-     * @param actionKey
+     * @param action
      * @param target
      * @return session event
      */
     public static SessionEvent buildEpubLogoutEvent(LearningContext learningContext,
-                                                   String actionKey,
+                                                   Action action,
                                                    Session target) {
         return SessionEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())
-            .action(actionKey)
+            .action(action)
             .object(learningContext.getEdApp())
             .target(target)
             .startedAtTime(getDefaultStartedAtTime())
@@ -459,18 +460,18 @@ public class TestUtils {
 
     /**
      * @param learningContext
-     * @param actionKey
+     * @param action
      * @param target
      * @return session event
      */
     public static SessionEvent buildEpubTimeoutEvent(LearningContext learningContext,
-                                                    String actionKey,
+                                                    Action action,
                                                     Session target) {
         return SessionEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((SoftwareApplication) learningContext.getEdApp())
-            .action(actionKey)
+            .action(action)
             .object(learningContext.getEdApp())
             .target(target)
             .startedAtTime(getDefaultStartedAtTime())
@@ -482,21 +483,21 @@ public class TestUtils {
     /**
      * @param learningContext
      * @param epub
-     * @param actionKey
+     * @param action
      * @param fromResource
      * @param target
      * @return navigation event
      */
     public static NavigationEvent buildEpubNavigationEvent(LearningContext learningContext,
                                                            DigitalResource epub,
-                                                           String actionKey,
+                                                           Action action,
                                                            DigitalResource fromResource,
                                                            EpubSubChapter target) {
         return NavigationEvent.builder()
                 .edApp(learningContext.getEdApp())
                 .lisOrganization(learningContext.getLisOrganization())
                 .actor((Person) learningContext.getAgent())
-                .action(actionKey)
+                .action(action)
                 .object(epub)
                 .target(Frame.builder()
                         .id(target.getId())
@@ -589,19 +590,19 @@ public class TestUtils {
     /**
      * @param learningContext
      * @param epub
-     * @param actionKey
+     * @param action
      * @param target
      * @return EPUB view event
      */
     public static ViewEvent buildEpubViewEvent(LearningContext learningContext,
                                                DigitalResource epub,
-                                               String actionKey,
+                                               Action action,
                                                DigitalResource target) {
         return ViewEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())
-            .action(actionKey)
+            .action(action)
             .object(epub)
             .target(Frame.builder()
                 .id(target.getId())
@@ -770,19 +771,19 @@ public class TestUtils {
      * @param learningContext
      * @param video
      * @param location
-     * @param actionKey
+     * @param action
      * @return Video media event
      */
     public static MediaEvent buildVideoMediaEvent(LearningContext learningContext,
                                                   VideoObject video,
                                                   MediaLocation location,
-                                                  String actionKey) {
+                                                  Action action) {
         return MediaEvent.builder()
             .edApp(learningContext.getEdApp())
             .lisOrganization(learningContext.getLisOrganization())
             .actor((Person) learningContext.getAgent())
             .object(video)
-            .action(actionKey)
+            .action(action)
             .target(location)
             .startedAtTime(getDefaultStartedAtTime())
             .build();

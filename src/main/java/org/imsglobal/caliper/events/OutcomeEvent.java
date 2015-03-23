@@ -2,13 +2,17 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.profiles.OutcomeProfile;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.events.OutcomeEventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
+@SupportedActions({
+        Action.GRADED
+})
 public class OutcomeEvent extends Event {
 
     @JsonProperty("@context")
@@ -18,7 +22,7 @@ public class OutcomeEvent extends Event {
     private final String type;
 
     @JsonProperty("action")
-    private final String action;
+    private final Action action;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(OutcomeEvent.class);
@@ -36,9 +40,9 @@ public class OutcomeEvent extends Event {
         super(builder);
         this.context = builder.context;
         this.type = builder.type;
-        this.action = OutcomeProfile.getLocalizedAction(builder.action);
+        this.action = builder.action;
 
-        ValidatorResult result = OutcomeProfile.validateEvent(this);
+        ValidatorResult result = new OutcomeEventValidator().validate(this);
         if (!result.isValid()) {
             throw new IllegalStateException(result.errorMessage().toString());
         }
@@ -70,7 +74,7 @@ public class OutcomeEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getAction() {
+    public Action getAction() {
         return action;
     }
 
@@ -81,7 +85,7 @@ public class OutcomeEvent extends Event {
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private String context;
         private String type;
-        private String action;
+        private Action action;
 
         /*
          * Constructor
@@ -110,12 +114,12 @@ public class OutcomeEvent extends Event {
         }
 
         /**
-         * @param key
+         * @param action
          * @return builder.
          */
         @Override
-        public T action(String key) {
-            this.action = key;
+        public T action(Action action) {
+            this.action = action;
             return self();
         }
 

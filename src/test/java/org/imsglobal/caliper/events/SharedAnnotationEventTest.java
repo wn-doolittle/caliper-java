@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.profiles.AnnotationProfile;
+import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -19,7 +19,6 @@ public class SharedAnnotationEventTest extends EventTest {
 
     private LearningContext learningContext;
     private EpubSubChapter object;
-    private String key;
     private SharedAnnotation generated;
     private AnnotationEvent event;
     private static final Logger log = LoggerFactory.getLogger(SharedAnnotationEventTest.class);
@@ -36,19 +35,21 @@ public class SharedAnnotationEventTest extends EventTest {
         //Build target reading
         object = (EpubSubChapter) TestUtils.buildEpubSubChap433();
 
-        // Add action
-        key = AnnotationProfile.Actions.SHARED.key();
-
         // Build Bookmark Annotation
         generated = TestUtils.buildSharedAnnotation(object);
 
         // Build event
-        event = TestUtils.buildAnnotationEvent(learningContext, object, key, generated, 3);
+        event = TestUtils.buildAnnotationEvent(learningContext, object, Profile.Action.SHARED, generated, 3);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Shared Annotation event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperSharedAnnotationEvent.json"), serialize(event));
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void assessmentItemEventRejectsSearchedAction(){
+        TestUtils.buildAnnotationEvent(learningContext, object, Profile.Action.SEARCHED, generated, 3);
     }
 }

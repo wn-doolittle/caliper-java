@@ -5,7 +5,7 @@ import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.SoftwareApplication;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.Session;
-import org.imsglobal.caliper.profiles.SessionProfile;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 public class SessionLoginEventTest extends EventTest {
     private LearningContext learningContext;
     private SoftwareApplication edApp;
-    private String key;
+    private Action key;
     private EpubSubChapter target;
     private Session generated;
     private SessionEvent event;
@@ -35,7 +35,7 @@ public class SessionLoginEventTest extends EventTest {
         learningContext = TestUtils.buildReadiumStudentLearningContext();
 
         // Action
-        key = SessionProfile.Actions.LOGGEDIN.key();
+        key = Action.LOGGED_IN;
 
         // Build target
         target = TestUtils.buildEpubSubChap431();
@@ -52,4 +52,10 @@ public class SessionLoginEventTest extends EventTest {
         assertEquals("Test if loggedIn event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperSessionLoginEvent.json"), serialize(event));
     }
+
+    @Test(expected=IllegalStateException.class)
+    public void sessionEventRejectsSearchedAction(){
+        TestUtils.buildEpubLoginEvent(learningContext, Action.SEARCHED, target, generated);
+    }
+
 }
