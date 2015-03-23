@@ -110,24 +110,32 @@ public abstract class EventValidator<T extends Event> implements CaliperEventVal
         return EventValidatorUtils.context(context).validateDuration(start, end, duration);
     }
 
-
-    private ValidatorResult validateActions(T event, ValidatorResult result){
-        if(event.getAction() == null){
+    /**
+     * Validate submitted action against event's controlled vocabulary.
+     * @param event
+     * @param result
+     * @return Validation result
+     */
+    private ValidatorResult validateActions(T event, ValidatorResult result) {
+        if (event.getAction() == null) {
             result.errorMessage().appendViolation("action cannot be null");
             return result;
         }
+
         SupportedActions actions = event.getClass().getAnnotation(SupportedActions.class);
-        if(actions == null){
+        if (actions == null) {
             return result;
         }
+
         Boolean actionIsSupported = false;
-        for (Action action : actions.value()){
-            if(action.equals(event.getAction())){
+        for (Action action : actions.value()) {
+            if(action.equals(event.getAction())) {
                 actionIsSupported = true;
                 break;
             }
         }
-        if(!actionIsSupported){
+
+        if (!actionIsSupported) {
             result.errorMessage().appendViolation("Action for instance of " + event.getClass().getName() + " does not support action: " + event.getAction().getValue());
         }
         return result;
