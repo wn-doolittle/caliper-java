@@ -45,7 +45,7 @@ public abstract class Profile {
         RESTARTED("http://purl.imsglobal.org/caliper/v1/Action/Restarted"),
         RESUMED("http://purl.imsglobal.org/caliper/v1/Action/Resumed"),
         REVIEWED("http://purl.imsglobal.org/caliper/v1/Action/Reviewed"),
-        REWOUND("http://purl.imsglobal.org/caliper/v1/Action/Rewound"),
+        REWINDED("http://purl.imsglobal.org/caliper/v1/Action/Rewinded"),
         SEARCHED("http://purl.imsglobal.org/caliper/v1/Action/Searched"),
         SHARED("http://purl.imsglobal.org/caliper/v1/Action/Shared"),
         SHOWED("http://purl.imsglobal.org/caliper/v1/Action/Showed"),
