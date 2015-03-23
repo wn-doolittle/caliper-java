@@ -121,12 +121,12 @@ public class AssignableEvent extends Event {
         }
 
         /**
-         * @param key
+         * @param action
          * @return builder.
          */
         @Override
-        public T action(Action key) {
-            this.action = key;
+        public T action(Action action) {
+            this.action = action;
             return self();
         }
 
