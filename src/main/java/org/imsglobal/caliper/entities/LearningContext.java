@@ -2,20 +2,21 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.entities.lis.Organization;
+import org.imsglobal.caliper.entities.w3c.Organization;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-@JsonPropertyOrder({ "edApp", "lisOrganization", "agent"})
+@JsonPropertyOrder({ "edApp", "group", "agent"})
 public class LearningContext {
 
     @JsonProperty("edApp")
     private SoftwareApplication edApp;
 
-    @JsonProperty("lisOrganization")
-    private Organization lisOrganization;
+    @JsonProperty("group")
+    private Organization group;
 
     @JsonProperty("agent")
     private Agent agent;
@@ -24,9 +25,8 @@ public class LearningContext {
      * @param builder apply builder object properties to the LearningContext object.
      */
     protected LearningContext(Builder<?> builder) {
-        //super(builder);
         this.edApp = builder.edApp;
-        this.lisOrganization = builder.lisOrganization;
+        this.group = builder.group;
         this.agent = builder.agent;
     }
 
@@ -39,11 +39,11 @@ public class LearningContext {
     }
 
     /**
-     * @return the LIS Organization.
+     * @return organizational group.
      */
     @Nullable
-    public Organization getLisOrganization() {
-        return lisOrganization;
+    public Organization getGroup() {
+        return group;
     }
 
     /**
@@ -60,7 +60,7 @@ public class LearningContext {
      */
     public static abstract class Builder<T extends Builder<T>> {
         private SoftwareApplication edApp;
-        private Organization lisOrganization;
+        private Organization group;
         private Agent agent;
 
         protected abstract T self();
@@ -75,11 +75,11 @@ public class LearningContext {
         }
 
         /**
-         * @param lisOrganization
+         * @param group
          * @return builder.
          */
-        public T lisOrganization(Organization lisOrganization) {
-            this.lisOrganization = lisOrganization;
+        public T group(Organization group) {
+            this.group = group;
             return self();
         }
 

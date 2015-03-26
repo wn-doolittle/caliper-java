@@ -48,8 +48,8 @@ public class SharedAnnotationEventTest extends EventTest {
                 jsonFixture("fixtures/caliperSharedAnnotationEvent.json"), serialize(event));
     }
 
-    @Test(expected=IllegalStateException.class)
-    public void assessmentItemEventRejectsSearchedAction(){
+    @Test(expected=IllegalArgumentException.class)
+    public void assessmentItemEventRejectsSearchedAction() {
         TestUtils.buildAnnotationEvent(learningContext, object, Profile.Action.SEARCHED, generated, 3);
     }
 }

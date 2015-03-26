@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
@@ -109,6 +110,9 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      */
     protected AssignableDigitalResource(Builder<?> builder) {
         super(builder);
+
+        EntityValidator.checkTypeUri(builder.type, DigitalResource.Type.ASSIGNABLE_DIGITAL_RESOURCE);
+
         this.type = builder.type;
         this.dateToActivate = builder.dateToActivate;
         this.dateToShow = builder.dateToShow;

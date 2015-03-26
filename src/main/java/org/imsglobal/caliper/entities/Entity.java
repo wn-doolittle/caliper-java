@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
+import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
@@ -15,18 +16,31 @@ import java.util.Map;
 /**
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
-@JsonPropertyOrder({ "@id", "@type", "name", "description", "extensions", "dateCreated", "dateModified" })
+@JsonPropertyOrder({
+    "@id",
+    "@type",
+    "name",
+    "description",
+    "extensions",
+    "dateCreated",
+    "dateModified" })
 public abstract class Entity implements Thing {
 
     public enum Type {
         AGENT("http://purl.imsglobal.org/caliper/v1/Agent"),
+        ANNOTATION("http://purl.imsglobal.org/caliper/v1/Annotation"),
         ATTEMPT("http://purl.imsglobal.org/caliper/v1/Attempt"),
+        COURSE_OFFERING("http://purl.imsglobal.org/caliper/v1/lis/CourseOffering"),
+        COURSE_SECTION("http://purl.imsglobal.org/caliper/v1/lis/CourseSection"),
+        DEPARTMENT("http://purl.imsglobal.org/caliper/v1/w3c/OrganizationalUnit"),
         DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/DigitalResource"),
         ENTITY("http://purl.imsglobal.org/caliper/v1/Entity"),
         GENERATED("http://purl.imsglobal.org/caliper/v1/Generated"),
+        GROUP("http://purl.imsglobal.org/caliper/v1/lis/Group"),
         LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
-        LIS_PERSON("http://purl.imsglobal.org/caliper/v1/lis/Person"),
-        LIS_ORGANIZATION("http://purl.imsglobal.org/caliper/v1/lis/Organization"),
+        MEMBERSHIP("http://purl.imsglobal.org/caliper/v1/lis/Membership"),
+        PERSON("http://purl.imsglobal.org/caliper/v1/lis/Person"),
+        ORGANIZATION("http://purl.imsglobal.org/caliper/v1/w3c/Organization"),
         RESPONSE("http://purl.imsglobal.org/caliper/v1/Response"),
         RESULT("http://purl.imsglobal.org/caliper/v1/Result"),
         SESSION("http://purl.imsglobal.org/caliper/v1/Session"),
@@ -99,6 +113,10 @@ public abstract class Entity implements Thing {
      * @param builder apply builder object properties to the Entity object.
      */
     protected Entity(Builder<?> builder) {
+
+        EntityValidator.checkId("id", builder.id);
+        EntityValidator.checkTypeUri(builder.type, Type.ENTITY);
+
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;

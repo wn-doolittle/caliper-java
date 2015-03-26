@@ -2,8 +2,7 @@ package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.entities.AnnotationValidator;
+import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,14 +34,12 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
      */
     protected HighlightAnnotation(Builder<?> builder) {
         super(builder);
+
+        EntityValidator.checkTypeUri(builder.type, Type.HIGHLIGHT_ANNOTATION);
+
         this.type = builder.type;
         this.selection = builder.selection;
         this.selectionText = builder.selectionText;
-
-        ValidatorResult result = new AnnotationValidator<HighlightAnnotation>().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**

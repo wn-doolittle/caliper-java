@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.validators.entities.ResultValidator;
-import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -75,6 +74,11 @@ public class Result extends Entity implements Generatable {
      */
     protected Result(Builder<?> builder) {
         super(builder);
+
+        EntityValidator.checkTypeUri(builder.type, Entity.Type.RESULT);
+        EntityValidator.checkId("assignableId", builder.assignableId);
+        EntityValidator.checkId("actorId", builder.actorId);
+
         this.type = builder.type;
         this.assignableId = builder.assignableId;
         this.actorId = builder.actorId;
@@ -86,11 +90,6 @@ public class Result extends Entity implements Generatable {
         this.curveFactor = builder.curveFactor;
         this.comment = builder.comment;
         this.scoredBy = builder.scoredBy;
-
-        ValidatorResult result = new ResultValidator().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**

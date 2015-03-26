@@ -2,11 +2,12 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.events.ReadingEventValidator;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.profiles.Profile.Action;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.imsglobal.caliper.profiles.Profile.Action;
 
 import javax.annotation.Nonnull;
 
@@ -32,21 +33,23 @@ public class ReadingEvent extends Event {
      * Utilize builder to construct ReadingEvent.  Validate Reading object copy rather than the
      * Reading builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
-     * until when they are copied.  Validate properties of builder copy and if conformance violations
-     * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
+     * until when they are copied.
      *
      * @param builder
      */
     protected ReadingEvent(Builder<?> builder) {
         super(builder);
+
+        EventValidator.checkContextUri(builder.context, Context.READING);
+        EventValidator.checkTypeUri(builder.type, Type.READING);
+        EventValidator.checkActorType(getActor(), Person.class);
+        EventValidator.checkAction(builder.action, ReadingEvent.class);
+        EventValidator.checkObjectType(getObject(), DigitalResource.class);
+        EventValidator.checkTargetType(getTarget(), DigitalResource.class);
+
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-
-        ValidatorResult result = new ReadingEventValidator().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**

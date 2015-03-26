@@ -1,9 +1,9 @@
 package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.TestUtils;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.LearningContext;
-import org.imsglobal.caliper.entities.Session;
-import org.imsglobal.caliper.entities.SoftwareApplication;
+import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.profiles.Profile;
 import org.junit.Before;
 import org.junit.Test;

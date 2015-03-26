@@ -1,8 +1,7 @@
 package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.entities.MediaObjectValidator;
+import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
@@ -19,12 +18,10 @@ public class VideoObject extends MediaObject implements org.imsglobal.caliper.en
      */
     protected VideoObject(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
 
-        ValidatorResult result = new MediaObjectValidator<VideoObject>().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
+        EntityValidator.checkTypeUri(builder.type, Type.VIDEO_OBJECT);
+
+        this.type = builder.type;
     }
 
     /**

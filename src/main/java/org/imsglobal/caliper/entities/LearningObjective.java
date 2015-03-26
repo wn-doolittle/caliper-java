@@ -1,8 +1,7 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.entities.EntityValidator;
+import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
@@ -16,12 +15,10 @@ public class LearningObjective extends org.imsglobal.caliper.entities.Entity {
      */
     protected LearningObjective(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
 
-        ValidatorResult result = new EntityValidator<LearningObjective>().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
+        EntityValidator.checkTypeUri(builder.type, Type.LEARNING_OBJECTIVE);
+
+        this.type = builder.type;
     }
 
     /**

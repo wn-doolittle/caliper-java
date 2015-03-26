@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.entities.DigitalResourceValidator;
+import org.imsglobal.caliper.validators.EntityValidator;
 
 /**
  * Media Location
@@ -27,9 +26,6 @@ import org.imsglobal.caliper.validators.entities.DigitalResourceValidator;
     "currentTime" })
 public class MediaLocation extends DigitalResource implements Targetable {
 
-    @JsonProperty("@id")
-    private final String id;
-
     @JsonProperty("@type")
     private final String type;
 
@@ -41,22 +37,11 @@ public class MediaLocation extends DigitalResource implements Targetable {
      */
     protected MediaLocation(Builder<?> builder) {
         super(builder);
+
+        EntityValidator.checkTypeUri(builder.type, Type.MEDIA_LOCATION);
+
         this.type = builder.type;
-        this.id = builder.id;
         this.currentTime = builder.currentTime;
-
-        ValidatorResult result = new DigitalResourceValidator<MediaLocation>().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
-    }
-
-    /**
-     * @return the id
-     */
-    @Override
-    public String getId() {
-        return id;
     }
 
     /**
@@ -79,27 +64,14 @@ public class MediaLocation extends DigitalResource implements Targetable {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private String id;
         private String type;
         private long currentTime;
-
-        protected abstract T self();
 
         /**
          * Initialize type with default values.
          */
         public Builder() {
             type(DigitalResource.Type.MEDIA_LOCATION.uri());
-        }
-
-        /**
-         * @param id
-         * @return builder
-         */
-        @Override
-        public T id(String id) {
-            this.id = id;
-            return self();
         }
 
         /**

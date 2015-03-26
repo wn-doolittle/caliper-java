@@ -39,7 +39,7 @@ public class HttpRequestorTest {
 
         httpRequestor = new HttpRequestor(TestUtils.getTestingOptions());
         id = "caliper-java_fccffd9b-68d5-4183-b563-e22136aafaa3";
-        timestamp = DateTime.parse("2014-07-01T14:29:29.858-04:00");
+        timestamp = DateTime.parse("2019-09-15T10:15:29.858-04:00");
         expectedContentType = "Content-Type: application/json";
 
         // Build the Learning Context

@@ -2,9 +2,12 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
+import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.profiles.Profile.Action;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.events.SessionEventValidator;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,21 +36,39 @@ public class SessionEvent extends Event {
      * Utilize builder to construct SessionEvent.  Validate Session object copy rather than the
      * Session builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
-     * until when they are copied.  Validate properties of builder copy and if conformance violations
-     * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
+     * until when they are copied.
      *
      * @param builder
      */
     protected SessionEvent(Builder<?> builder) {
         super(builder);
+
+        EventValidator.checkContextUri(builder.context, Context.SESSION);
+        EventValidator.checkTypeUri(builder.type, Type.SESSION);
+        EventValidator.checkAction(builder.action, SessionEvent.class);
+
+        if (builder.action == Action.TIMED_OUT) {
+            EventValidator.checkActorType(getActor(), SoftwareApplication.class);
+        } else {
+            EventValidator.checkActorType(getActor(), Person.class);
+        }
+
+        EventValidator.checkObjectType(getObject(), SoftwareApplication.class);
+
+        if (builder.action == Action.LOGGED_IN) {
+            EventValidator.checkTargetType(getTarget(), DigitalResource.class);
+            EventValidator.checkGeneratedType(getGenerated(), Session.class);
+        } else {
+            EventValidator.checkTargetType(getTarget(), Session.class);
+        }
+
+        if (builder.action == Action.LOGGED_OUT || builder.action == Action.TIMED_OUT) {
+            EventValidator.checkEndTime(getStartedAtTime(), getEndedAtTime());
+        }
+
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-
-        ValidatorResult result = new SessionEventValidator().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**

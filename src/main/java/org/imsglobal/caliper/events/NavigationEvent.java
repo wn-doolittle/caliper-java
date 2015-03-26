@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.profiles.Profile.Action;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.events.NavigationEventValidator;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,22 +49,24 @@ public class NavigationEvent extends Event {
      * Utilize builder to construct NavigationEvent.  Validate Navigation object copy rather than the
      * Navigation builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
-     * until when they are copied.  Validate properties of builder copy and if conformance violations
-     * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
+     * until when they are copied.
      *
      * @param builder
      */
     protected NavigationEvent(Builder<?> builder) {
         super(builder);
+
+        EventValidator.checkContextUri(builder.context, Context.NAVIGATION);
+        EventValidator.checkTypeUri(builder.type, Type.NAVIGATION);
+        EventValidator.checkActorType(getActor(), Person.class);
+        EventValidator.checkAction(builder.action, NavigationEvent.class);
+        EventValidator.checkObjectType(getObject(), DigitalResource.class);
+        EventValidator.checkTargetType(getTarget(), DigitalResource.class);
+
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
         this.fromResource = builder.fromResource;
-
-        ValidatorResult result = new NavigationEventValidator().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**

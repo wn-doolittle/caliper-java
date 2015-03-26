@@ -44,4 +44,4 @@ Documentation is available at [http://imsglobal.org/caliper/java](https://imsglo
 
 ..
 
-©2014 IMS Global Learning Consortium, Inc. All Rights Reserved.  Trademark Information - http://www.imsglobal.org/copyright.html
+©2015 IMS Global Learning Consortium, Inc. All Rights Reserved.  Trademark Information - http://www.imsglobal.org/copyright.html

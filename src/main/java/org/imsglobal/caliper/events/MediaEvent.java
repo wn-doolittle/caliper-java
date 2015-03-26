@@ -2,34 +2,35 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.media.MediaObject;
 import org.imsglobal.caliper.profiles.Profile.Action;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.events.MediaEventValidator;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
 @SupportedActions({
-        Action.OPENED_POPOUT,
-        Action.CLOSED_POPOUT,
-        Action.EXITED_FULLSCREEN,
-        Action.ENTERED_FULLSCREEN,
-        Action.CHANGED_SIZE,
-        Action.CHANGED_RESOLUTION,
-        Action.STARTED,
-        Action.REWOUND,
-        Action.RESUMED,
-        Action.FORWARDED_TO,
-        Action.PAUSED,
-        Action.JUMPED_TO,
-        Action.ENDED,
-        Action.CHANGED_SPEED,
-        Action.UNMUTED,
-        Action.MUTED,
-        Action.CHANGED_VOLUME,
-        Action.DISABLED_CLOSED_CAPTIONING,
-        Action.ENABLED_CLOSED_CAPTIONING
+    Action.OPENED_POPOUT,
+    Action.CLOSED_POPOUT,
+    Action.EXITED_FULLSCREEN,
+    Action.ENTERED_FULLSCREEN,
+    Action.CHANGED_SIZE,
+    Action.CHANGED_RESOLUTION,
+    Action.STARTED,
+    Action.REWOUND,
+    Action.RESUMED,
+    Action.FORWARDED_TO,
+    Action.PAUSED,
+    Action.JUMPED_TO,
+    Action.ENDED,
+    Action.CHANGED_SPEED,
+    Action.UNMUTED,
+    Action.MUTED,
+    Action.CHANGED_VOLUME,
+    Action.DISABLED_CLOSED_CAPTIONING,
+    Action.ENABLED_CLOSED_CAPTIONING
 })
 public class MediaEvent extends Event {
 
@@ -49,21 +50,22 @@ public class MediaEvent extends Event {
      * Utilize builder to construct MediaEvent.  Validate Media object copy rather than the
      * Media builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
-     * until when they are copied.  Validate properties of builder copy and if conformance violations
-     * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
+     * until when they are copied.
      *
      * @param builder
      */
     protected MediaEvent(Builder<?> builder) {
         super(builder);
+
+        EventValidator.checkContextUri(builder.context, Context.MEDIA);
+        EventValidator.checkTypeUri(builder.type, Type.MEDIA);
+        EventValidator.checkActorType(getActor(), Person.class);
+        EventValidator.checkAction(builder.action, MediaEvent.class);
+        EventValidator.checkObjectType(getObject(), MediaObject.class);
+
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-
-        ValidatorResult result = new MediaEventValidator().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**

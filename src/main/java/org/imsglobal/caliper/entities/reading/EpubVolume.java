@@ -2,8 +2,7 @@ package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.entities.DigitalResourceValidator;
+import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
@@ -23,12 +22,10 @@ public class EpubVolume extends DigitalResource {
      */
     protected EpubVolume(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
 
-        ValidatorResult result = new DigitalResourceValidator<EpubVolume>().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
+        EntityValidator.checkTypeUri(builder.type, Type.EPUB_VOLUME);
+
+        this.type = builder.type;
     }
 
     /**

@@ -2,9 +2,9 @@ package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
-import org.imsglobal.caliper.entities.SoftwareApplication;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.Session;
+import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.profiles.Profile.Action;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,8 +53,8 @@ public class SessionLoginEventTest extends EventTest {
                 jsonFixture("fixtures/caliperSessionLoginEvent.json"), serialize(event));
     }
 
-    @Test(expected=IllegalStateException.class)
-    public void sessionEventRejectsSearchedAction(){
+    @Test(expected=IllegalArgumentException.class)
+    public void sessionEventRejectsSearchedAction() {
         TestUtils.buildEpubLoginEvent(learningContext, Action.SEARCHED, target, generated);
     }
 

@@ -2,12 +2,11 @@ package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.entities.DigitalResourceValidator;
+import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
-public class Reading extends org.imsglobal.caliper.entities.DigitalResource {
+public class Reading extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
@@ -17,12 +16,10 @@ public class Reading extends org.imsglobal.caliper.entities.DigitalResource {
      */
     protected Reading(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
 
-        ValidatorResult result = new DigitalResourceValidator<Reading>().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
+        EntityValidator.checkTypeUri(builder.type, Type.READING);
+
+        this.type = builder.type;
     }
 
     /**
