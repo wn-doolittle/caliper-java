@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
         Action.CHANGED_SIZE,
         Action.CHANGED_RESOLUTION,
         Action.STARTED,
-        Action.REWINDED,
+        Action.REWOUND,
         Action.RESUMED,
         Action.FORWARDED_TO,
         Action.PAUSED,

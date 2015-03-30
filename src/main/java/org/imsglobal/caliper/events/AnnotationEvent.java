@@ -17,6 +17,7 @@ import javax.annotation.Nonnull;
         Action.CLASSIFIED,
         Action.COMMENTED,
         Action.DESCRIBED,
+        Action.DISLIKED,
         Action.HIGHLIGHTED,
         Action.IDENTIFIED,
         Action.LIKED,
