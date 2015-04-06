@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -83,6 +84,10 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
      */
     protected Annotation(Builder<?> builder) {
         super(builder);
+
+        EntityValidator.checkTypeUri(builder.type, Entity.Type.ANNOTATION);
+        EntityValidator.checkId("annotatedId", builder.annotatedId);
+
         this.type = builder.type;
         this.annotatedId = builder.annotatedId;
     }

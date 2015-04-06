@@ -2,16 +2,16 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.profiles.Profile.Action;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.events.ViewEventValidator;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
 @SupportedActions({
-        Action.VIEWED
+    Action.VIEWED
 })
 public class ViewEvent extends Event {
 
@@ -31,22 +31,22 @@ public class ViewEvent extends Event {
      * Utilize builder to construct ViewEvent.  Validate View object copy rather than the
      * View builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
-     * until when they are copied.  Validate properties of builder copy and if conformance violations
-     * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
+     * until when they are copied.
      *
      * @param builder
      */
     protected ViewEvent(Builder<?> builder) {
         super(builder);
+
+        EventValidator.checkContextUri(builder.context, Context.VIEW);
+        EventValidator.checkTypeUri(builder.type, Type.VIEW);
+        EventValidator.checkAction(builder.action, ViewEvent.class);
+        EventValidator.checkObjectType(getObject(), DigitalResource.class);
+        EventValidator.checkTargetType(getTarget(), DigitalResource.class);
+
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-
-
-        ValidatorResult result = new ViewEventValidator().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**
@@ -84,7 +84,6 @@ public class ViewEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private String event = "ViewEvent";
         private String context;
         private String type;
         private Action action;

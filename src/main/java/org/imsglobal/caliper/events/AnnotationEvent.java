@@ -2,9 +2,11 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.annotation.Annotation;
 import org.imsglobal.caliper.profiles.Profile.Action;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.events.AnnotationEventValidator;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,23 +14,23 @@ import javax.annotation.Nonnull;
 
 
 @SupportedActions({
-        Action.ATTACHED,
-        Action.BOOKMARKED,
-        Action.CLASSIFIED,
-        Action.COMMENTED,
-        Action.DESCRIBED,
-        Action.DISLIKED,
-        Action.HIGHLIGHTED,
-        Action.IDENTIFIED,
-        Action.LIKED,
-        Action.LINKED,
-        Action.RANKED,
-        Action.QUESTIONED,
-        Action.RECOMMENDED,
-        Action.REPLIED,
-        Action.SHARED,
-        Action.SUBSCRIBED,
-        Action.TAGGED
+    Action.ATTACHED,
+    Action.BOOKMARKED,
+    Action.CLASSIFIED,
+    Action.COMMENTED,
+    Action.DESCRIBED,
+    Action.DISLIKED,
+    Action.HIGHLIGHTED,
+    Action.IDENTIFIED,
+    Action.LIKED,
+    Action.LINKED,
+    Action.RANKED,
+    Action.QUESTIONED,
+    Action.RECOMMENDED,
+    Action.REPLIED,
+    Action.SHARED,
+    Action.SUBSCRIBED,
+    Action.TAGGED
 })
 public class AnnotationEvent extends Event {
 
@@ -48,21 +50,23 @@ public class AnnotationEvent extends Event {
      * Utilize builder to construct AnnotationEvent.  Validate Annotation object copy rather than the
      * Annotation builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
-     * until when they are copied.  Validate properties of builder copy and if conformance violations
-     * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
+     * until when they are copied.
      *
      * @param builder
      */
     protected AnnotationEvent(Builder<?> builder) {
         super(builder);
+
+        EventValidator.checkContextUri(builder.context, Context.ANNOTATION);
+        EventValidator.checkTypeUri(builder.type, Type.ANNOTATION);
+        EventValidator.checkActorType(getActor(), Person.class);
+        EventValidator.checkAction(builder.action, AnnotationEvent.class);
+        EventValidator.checkObjectType(getObject(), DigitalResource.class);
+        EventValidator.checkGeneratedType(getGenerated(), Annotation.class);
+
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-
-        ValidatorResult result = new AnnotationEventValidator().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**

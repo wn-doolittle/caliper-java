@@ -1,8 +1,8 @@
 package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.TestUtils;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.LearningContext;
-import org.imsglobal.caliper.entities.SoftwareApplication;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
@@ -61,8 +61,8 @@ public class AssessmentOutcomeEventTest extends EventTest {
                 jsonFixture("fixtures/caliperAssessmentOutcomeEvent.json"), serialize(event));
     }
 
-    @Test(expected=IllegalStateException.class)
-    public void outcomeEventRejectsSearchedAction(){
+    @Test(expected=IllegalArgumentException.class)
+    public void outcomeEventRejectsSearchedAction() {
         TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, Profile.Action.SEARCHED, result);
     }
 }

@@ -47,8 +47,8 @@ public class MediaEventTest extends EventTest {
                 jsonFixture("fixtures/caliperMediaEvent.json"), serialize(event));
     }
 
-    @Test(expected=IllegalStateException.class)
-    public void mediaEventRejectsSearchedAction(){
+    @Test(expected=IllegalArgumentException.class)
+    public void mediaEventRejectsSearchedAction() {
         TestUtils.buildVideoMediaEvent(learningContext, video, location, Profile.Action.SEARCHED);
     }
 

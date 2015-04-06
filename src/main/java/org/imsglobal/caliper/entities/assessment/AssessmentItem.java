@@ -3,8 +3,7 @@ package org.imsglobal.caliper.entities.assessment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.entities.AssignableValidator;
+import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
@@ -46,13 +45,11 @@ public class AssessmentItem extends AssignableDigitalResource {
      */
     protected AssessmentItem(Builder<?> builder) {
         super(builder);
+
+        EntityValidator.checkTypeUri(builder.type, Type.ASSESSMENT_ITEM);
+
         this.type = builder.type;
         this.isTimeDependent = builder.isTimeDependent;
-
-        ValidatorResult result = new AssignableValidator<AssessmentItem>().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**

@@ -2,27 +2,36 @@ package org.imsglobal.caliper;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.*;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.LearningObjective;
+import org.imsglobal.caliper.entities.reading.WebPage;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.annotation.*;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.entities.lis.CourseSection;
-import org.imsglobal.caliper.entities.lis.Person;
+import org.imsglobal.caliper.entities.lis.*;
 import org.imsglobal.caliper.entities.media.MediaLocation;
 import org.imsglobal.caliper.entities.media.VideoObject;
 import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.entities.response.FillinBlankResponse;
+import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.*;
-import org.imsglobal.caliper.response.FillinBlankResponse;
+import org.imsglobal.caliper.profiles.Profile.Action;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.imsglobal.caliper.profiles.Profile.Action;
+
+import java.util.List;
 
 public class TestUtils {
+
+    public Group group;
 
     /**
      * Constructor
@@ -46,19 +55,86 @@ public class TestUtils {
         return options;
     }
 
+    public static final CourseOffering buildAmRev101CourseOffering() {
+        return CourseOffering.builder()
+            .id("https://some-university.edu/politicalScience/2015/american-revolution-101")
+            .courseNumber("POL101")
+            .name("Political Science 101: The American Revolution")
+            .academicSession("Fall-2015")
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
+            .build();
+    }
+
     /**
      * @return Am Rev 101 course section.
      */
     public static final CourseSection buildAmRev101CourseSection() {
         return CourseSection.builder()
-            .id("https://some-university.edu/politicalScience/2014/american-revolution-101")
-            .semester("Spring-2014")
-            .courseNumber("AmRev-101")
-            //.sectionNumber("001") TODO add section number property?
-            .label("Am Rev 101")
+            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001")
+            .courseNumber("POL101")
             .name("American Revolution 101")
+            .academicSession("Fall-2015")
+            .membership(buildAmRev101Section001Membership())
+            .subOrganizationOf(buildAmRev101CourseOffering())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
+            .build();
+    }
+
+
+    /**
+     * @return Am Rev 101 course section 101, membership 001
+     */
+    public static final Group buildAmRev101Group001() {
+        return Group.builder()
+            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001/group/001")
+            .name("Discussion Group 001")
+            .membership(buildAmRev101Group001Membership())
+            .subOrganizationOf(buildAmRev101CourseSection())
+            .dateCreated(getDefaultDateCreated())
+            .build();
+    }
+
+    /**
+     * @return membership in Am Rev 101, section 001, group 001
+     */
+    public static final Membership buildAmRev101Membership() {
+        return Membership.builder()
+            .id("https://some-university.edu/membership/001")
+            .memberId("https://some-university.edu/user/554433")
+            .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101")
+            .role(Role.LEARNER.uri())
+            .status(Status.ACTIVE.value())
+            .dateCreated(getDefaultDateCreated())
+            .build();
+    }
+
+    /**
+     * @return membership in Am Rev 101, section 001, group 001
+     */
+    public static final Membership buildAmRev101Group001Membership() {
+        return Membership.builder()
+            .id("https://some-university.edu/membership/003")
+            .memberId("https://some-university.edu/user/554433")
+            .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001/group/001")
+            .role(Role.LEARNER.uri())
+            .status(Status.ACTIVE.value())
+            .dateCreated(getDefaultDateCreated())
+            .build();
+    }
+
+    /**
+     * @return membership in Am Rev 101, section 001
+     */
+    public static final Membership buildAmRev101Section001Membership() {
+        return Membership.builder()
+            .id("https://some-university.edu/membership/002")
+            .memberId("https://some-university.edu/user/554433")
+            .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001")
+            .role(Role.LEARNER.uri())
+            .status(Status.ACTIVE.value())
+            .dateCreated(getDefaultDateCreated())
             .build();
     }
 
@@ -68,9 +144,9 @@ public class TestUtils {
      */
     public static final WebPage buildAmRev101LandingPage() {
         return WebPage.builder()
-            .id("https://some-university.edu/politicalScience/2014/american-revolution-101/index.html")
+            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/index.html")
             .name("American Revolution 101 Landing Page")
-            .isPartOf(buildAmRev101CourseSection())
+            .isPartOf(buildAmRev101CourseOffering())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
             .version("1.0")
@@ -91,7 +167,7 @@ public class TestUtils {
                                                        int index) {
         return AnnotationEvent.builder()
             .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
+            .group(learningContext.getGroup())
             .actor((Person) learningContext.getAgent())
             .action(action)
             .object(Frame.builder()
@@ -114,9 +190,9 @@ public class TestUtils {
      */
     public static final Assessment buildAssessment() {
         return Assessment.builder()
-            .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
             .name("American Revolution - Key Figures Assessment")
-            .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101")
+            .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101")
             .dateCreated(getDefaultDateModified())
             .datePublished(getDefaultDatePublished())
             .version("1.0")
@@ -144,7 +220,7 @@ public class TestUtils {
                                                                  Action action) {
         return AssignableEvent.builder()
             .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
+            .group(learningContext.getGroup())
             .actor((Person) learningContext.getAgent())
             .action(action)
             .object(assessment)
@@ -189,7 +265,7 @@ public class TestUtils {
                                                        Attempt attempt) {
         return AssessmentEvent.builder()
             .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
+            .group(learningContext.getGroup())
             .actor((Person) learningContext.getAgent())
             .action(action)
             .object(assessment)
@@ -226,7 +302,7 @@ public class TestUtils {
                                                                Attempt attempt) {
         return AssessmentItemEvent.builder()
             .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
+            .group(learningContext.getGroup())
             .actor((Person) learningContext.getAgent())
             .action(action)
             .object(item)
@@ -248,7 +324,7 @@ public class TestUtils {
                                                                      FillinBlankResponse response) {
         return AssessmentItemEvent.builder()
             .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
+            .group(learningContext.getGroup())
             .actor((Person) learningContext.getAgent())
             .action(action)
             .object(item)
@@ -264,7 +340,7 @@ public class TestUtils {
      */
     public static FillinBlankResponse buildFillinBlankResponse(Attempt attempt, String value) {
         return FillinBlankResponse.builder()
-            .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1/response1")
+            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1/response1")
             .actorId(attempt.getActorId())
             .assignableId(attempt.getAssignableId())
             .attempt(attempt)
@@ -281,9 +357,9 @@ public class TestUtils {
     public static final ImmutableList<AssessmentItem> buildAssessmentItems() {
         return ImmutableList.<AssessmentItem>builder()
             .add(AssessmentItem.builder()
-                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item1")
+                    .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1")
                     .name("Assessment Item 1")
-                    .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                    .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
                     .version("1.0")
                     .maxAttempts(2)
                     .maxSubmits(2)
@@ -291,9 +367,9 @@ public class TestUtils {
                     .isTimeDependent(false)
                     .build())
             .add(AssessmentItem.builder()
-                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item2")
+                    .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item2")
                     .name("Assessment Item 2")
-                    .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                    .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
                     .version("1.0")
                     .maxAttempts(2)
                     .maxSubmits(2)
@@ -301,9 +377,9 @@ public class TestUtils {
                     .isTimeDependent(false)
                     .build())
             .add(AssessmentItem.builder()
-                    .id("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1/item3")
+                    .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item3")
                     .name("Assessment Item 3")
-                    .isPartOf("https://some-university.edu/politicalScience/2014/american-revolution-101/assessment1")
+                    .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
                     .version("1.0")
                     .maxAttempts(2)
                     .maxSubmits(2)
@@ -326,7 +402,7 @@ public class TestUtils {
                                                            Result result) {
         return OutcomeEvent.builder()
             .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
+            .group(learningContext.getGroup())
             .actor(learningContext.getAgent())
             .action(action)
             .object(attempt)
@@ -374,7 +450,7 @@ public class TestUtils {
     public static final LearningContext buildAssessmentStudentLearningContext() {
         return LearningContext.builder()
             .edApp(buildAssessmentTool())
-            .lisOrganization(buildAmRev101CourseSection())
+            .group(buildAmRev101Group001())
             .agent(buildStudent554433())
             .build();
     }
@@ -386,7 +462,7 @@ public class TestUtils {
     public static final LearningContext buildAssessmentToolLearningContext() {
         return LearningContext.builder()
             .edApp(buildAssessmentTool())
-            .lisOrganization(buildAmRev101CourseSection())
+            .group(buildAmRev101Group001())
             .agent(buildAssessmentTool())
             .build();
     }
@@ -418,7 +494,7 @@ public class TestUtils {
                                                            Session generated) {
         return SessionEvent.builder()
             .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
+            .group(learningContext.getGroup())
             .actor((Person) learningContext.getAgent())
             .action(action)
             .object(learningContext.getEdApp())
@@ -447,7 +523,7 @@ public class TestUtils {
                                                    Session target) {
         return SessionEvent.builder()
             .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
+            .group(learningContext.getGroup())
             .actor((Person) learningContext.getAgent())
             .action(action)
             .object(learningContext.getEdApp())
@@ -469,7 +545,7 @@ public class TestUtils {
                                                     Session target) {
         return SessionEvent.builder()
             .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
+            .group(learningContext.getGroup())
             .actor((SoftwareApplication) learningContext.getEdApp())
             .action(action)
             .object(learningContext.getEdApp())
@@ -495,7 +571,7 @@ public class TestUtils {
                                                            EpubSubChapter target) {
         return NavigationEvent.builder()
                 .edApp(learningContext.getEdApp())
-                .lisOrganization(learningContext.getLisOrganization())
+                .group(learningContext.getGroup())
                 .actor((Person) learningContext.getAgent())
                 .action(action)
                 .object(epub)
@@ -600,7 +676,7 @@ public class TestUtils {
                                                DigitalResource target) {
         return ViewEvent.builder()
             .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
+            .group(learningContext.getGroup())
             .actor((Person) learningContext.getAgent())
             .action(action)
             .object(epub)
@@ -653,7 +729,7 @@ public class TestUtils {
     public static LearningContext buildReadiumAppLearningContext() {
         return LearningContext.builder()
             .edApp(buildReadiumApp())
-            .lisOrganization(buildAmRev101CourseSection())
+            .group(buildAmRev101Group001())
             .agent(buildReadiumApp())
             .build();
     }
@@ -665,7 +741,7 @@ public class TestUtils {
 
         return LearningContext.builder()
             .edApp(buildReadiumApp())
-            .lisOrganization(buildAmRev101CourseSection())
+            .group(buildAmRev101Group001())
             .agent(buildStudent554433())
             .build();
     }
@@ -708,15 +784,15 @@ public class TestUtils {
         return SharedAnnotation.builder()
             .id("https://someEduApp.edu/shared/9999")
             .annotatedId(annotated.getId())
-            .withAgents(Lists.<Agent>newArrayList(
-                Person.builder()
-                    .id("https://some-university.edu/students/657585")
-                    .dateCreated(getDefaultDateCreated())
+                .withAgents(Lists.<Agent>newArrayList(
+                        Person.builder()
+                                .id("https://some-university.edu/students/657585")
+                                .dateCreated(getDefaultDateCreated())
                     .dateModified(getDefaultDateModified())
-                    .build(),
-                Person.builder()
-                    .id("https://some-university.edu/students/667788")
-                    .dateCreated(getDefaultDateCreated())
+                                .build(),
+                        Person.builder()
+                                .id("https://some-university.edu/students/667788")
+                                .dateCreated(getDefaultDateCreated())
                     .dateModified(getDefaultDateModified())
                     .build()))
                 .dateCreated(getDefaultDateCreated())
@@ -728,16 +804,22 @@ public class TestUtils {
      * Sample student.
      * @return agent
      */
-    public static final Agent buildStudent554433() {
+    public static final Person buildStudent554433() {
+        List<org.imsglobal.caliper.entities.w3c.Membership> membership = Lists.newArrayList();
+        membership.add(buildAmRev101Membership());
+        membership.add(buildAmRev101Section001Membership());
+        membership.add(buildAmRev101Group001Membership());
+
         return Person.builder()
             .id("https://some-university.edu/user/554433")
+            .hasMemberships(membership)
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
             .build();
     }
 
     /**
-     * Sample Media Tool learning context composed of an edApp (Media Tool), organization (AmRev-101) and agent
+     * Sample Media Tool learning context composed of an edApp (Media Tool), membership (AmRev-101) and agent
      * @return learning context
      */
     public static final LearningContext buildSuperMediaToolLearningContext() {
@@ -748,8 +830,8 @@ public class TestUtils {
                 .dateCreated(getDefaultDateCreated())
                 .dateModified(getDefaultDateModified())
                 .build())
-            .lisOrganization(buildAmRev101CourseSection())
-            .agent(buildStudent554433())
+                .group(buildAmRev101Group001())
+                .agent(buildStudent554433())
             .build();
     }
 
@@ -780,7 +862,7 @@ public class TestUtils {
                                                   Action action) {
         return MediaEvent.builder()
             .edApp(learningContext.getEdApp())
-            .lisOrganization(learningContext.getLisOrganization())
+            .group(learningContext.getGroup())
             .actor((Person) learningContext.getAgent())
             .object(video)
             .action(action)
@@ -821,35 +903,35 @@ public class TestUtils {
     }
 
     /**
-     * January 1, 2015, 06:00:00.000 GMT
+     * August 1, 2015, 06:00:00.000 GMT
      * @return return date created
      */
     public static DateTime getDefaultDateCreated() {
-        return new DateTime(2015, 1, 1, 6, 0, 0, 0, DateTimeZone.UTC);
+        return new DateTime(2015, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC);
     }
 
     /**
-     * February 2, 2015, 11:30:00.000 GMT
+     * September 2, 2015, 11:30:00.000 GMT
      * @return return date modified
      */
     public static DateTime getDefaultDateModified() {
-        return new DateTime(2015, 2, 2, 11, 30, 0, 0, DateTimeZone.UTC);
+        return new DateTime(2015, 9, 2, 11, 30, 0, 0, DateTimeZone.UTC);
     }
 
     /**
-     * January 15, 2015, 09:30:00.000 GMT
+     * August 15, 2015, 09:30:00.000 GMT
      * @return return date published
      */
     public static DateTime getDefaultDatePublished(){
-        return new DateTime(2015, 1, 15, 9, 30, 0, 0, DateTimeZone.UTC);
+        return new DateTime(2015, 8, 15, 9, 30, 0, 0, DateTimeZone.UTC);
     }
 
     /**
-     * January 16, 2015, 05:00:00.000 GMT
+     * September 16, 2015, 05:00:00.000 GMT
      * @return date to activate
      */
     public static DateTime getDefaultDateToActivate(){
-        return new DateTime(2015, 1, 16, 5, 0, 0, 0, DateTimeZone.UTC);
+        return new DateTime(2015, 8, 16, 5, 0, 0, 0, DateTimeZone.UTC);
     }
 
     /**
@@ -869,26 +951,26 @@ public class TestUtils {
     }
 
     /**
-     * February 28, 2015, 11:59:59.000 GMT
+     * August 28, 2015, 11:59:59.000 GMT
      * @return date to submit
      */
     public static DateTime getDefaultDateToSubmit() {
-        return new DateTime(2015, 2, 28, 11, 59, 59, 0, DateTimeZone.UTC);
+        return new DateTime(2015, 9, 28, 11, 59, 59, 0, DateTimeZone.UTC);
     }
 
     /**
-     * February 15, 2015, 10:15:00.000 GMT
+     * September 15, 2015, 10:15:00.000 GMT
      * @return started at time
      */
     public static DateTime getDefaultStartedAtTime() {
-        return new DateTime(2015, 2, 15, 10, 15, 0, 0, DateTimeZone.UTC);
+        return new DateTime(2015, 9, 15, 10, 15, 0, 0, DateTimeZone.UTC);
     }
 
     /**
-     * February 15, 2015, 11:05:00.000 GMT
+     * September 15, 2015, 11:05:00.000 GMT
      * @return ended at time
      */
     public static DateTime getDefaultEndedAtTime() {
-        return new DateTime(2015, 2, 15, 11, 05, 0, 0, DateTimeZone.UTC);
+        return new DateTime(2015, 9, 15, 11, 05, 0, 0, DateTimeZone.UTC);
     }
 }

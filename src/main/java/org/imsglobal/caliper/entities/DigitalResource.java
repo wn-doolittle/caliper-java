@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
@@ -125,6 +126,9 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      */
     protected DigitalResource(Builder<?> builder) {
         super(builder);
+
+        EntityValidator.checkTypeUri(builder.type, Entity.Type.DIGITAL_RESOURCE);
+
         this.type = builder.type;
         this.objectTypes = ImmutableList.copyOf(builder.objectTypes);
         this.learningObjectives = ImmutableList.copyOf(builder.learningObjectives);

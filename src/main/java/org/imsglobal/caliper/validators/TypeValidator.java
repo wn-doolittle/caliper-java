@@ -1,0 +1,81 @@
+package org.imsglobal.caliper.validators;
+
+import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.entities.foaf.Agent;
+
+import static com.google.common.base.Preconditions.checkArgument;
+
+public class TypeValidator {
+
+    /**
+     * Check actor type
+     * @param actor
+     * @param type
+     * @throws IllegalArgumentException
+     */
+    protected static void checkActorType(Agent actor, Class<?> type) throws IllegalArgumentException {
+        checkArgument(actor != null, "actor must be specified");
+        checkArgument(isOfType(actor, type),
+            "expected actor %s but was %s",
+            type.getCanonicalName(),
+            actor.getClass().getCanonicalName());
+    }
+
+    /**
+     * Check object type.
+     * @param object
+     * @param type
+     * @return Validation result
+     */
+    protected static void checkObjectType(Object object, Class<?> type) throws IllegalArgumentException {
+        checkArgument(object != null, "object must be specified");
+        checkArgument(isOfType(object, type),
+            "expected event object %s but was %s",
+            type.getCanonicalName(),
+            object.getClass().getCanonicalName());
+    }
+
+    /**
+     * Check target type.
+     * @param target
+     * @param type
+     * @return Validation result
+     */
+    protected static void checkTargetType(Targetable target, Class<?> type) throws IllegalArgumentException {
+        checkArgument(target != null, "target must be specified");
+        checkArgument(isOfType(target, type),
+            "expected event targetable %s but was %s",
+            type.getCanonicalName(),
+            target.getClass().getCanonicalName());
+    }
+
+    /**
+     * Check generated type.
+     * @param generated
+     * @param type
+     * @return Validation result
+     */
+    protected static void checkGeneratedType(Generatable generated, Class<?> type) throws IllegalArgumentException {
+        checkArgument(generated != null, "generated object must be specified");
+        checkArgument(isOfType(generated, type),
+                "expected event generatable %s but was %s",
+                type.getCanonicalName(),
+                generated.getClass().getCanonicalName());
+    }
+
+    /**
+     * Validate object type equality against a provided class.  Determines if the specified
+     * Object is assignment-compatible with the object represented by this Class. This method
+     * is the dynamic equivalent of the Java language instanceof operator. The method returns
+     * true if the specified Object argument is non-null and can be cast to the reference type
+     * represented by this Class object without raising a ClassCastException. It returns false
+     * otherwise.
+     * @param object
+     * @param type
+     * @return boolean true/false
+     */
+    private static boolean isOfType(Object object, Class<?> type) {
+        return type.isInstance(object);
+    }
+}

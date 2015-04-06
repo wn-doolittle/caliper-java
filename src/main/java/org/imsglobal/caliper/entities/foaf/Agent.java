@@ -1,12 +1,13 @@
-/**
- * 
- */
 package org.imsglobal.caliper.entities.foaf;
 
+import com.google.common.collect.ImmutableList;
+import org.imsglobal.caliper.entities.w3c.Membership;
+
 /**
- * From http://xmlns.com/foaf/spec/#term_Agent An agent (eg. person,
- * group, software or physical artifact)
+ * An entity that can do things. Typical kinds of agents include people, organizations and software systems.
+ * See http://xmlns.com/foaf/spec/#term_Agent
  */
 public interface Agent {
 
+    ImmutableList<Membership> hasMembership();
 }

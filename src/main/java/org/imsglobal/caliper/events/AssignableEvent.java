@@ -2,23 +2,25 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.profiles.Profile.Action;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.events.AssignableEventValidator;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
 @SupportedActions({
-        Action.ABANDONED,
-        Action.ACTIVATED,
-        Action.COMPLETED,
-        Action.DEACTIVATED,
-        Action.HID,
-        Action.REVIEWED,
-        Action.SHOWED,
-        Action.STARTED
+    Action.ABANDONED,
+    Action.ACTIVATED,
+    Action.COMPLETED,
+    Action.DEACTIVATED,
+    Action.HID,
+    Action.REVIEWED,
+    Action.SHOWED,
+    Action.STARTED
 })
 public class AssignableEvent extends Event {
 
@@ -38,21 +40,23 @@ public class AssignableEvent extends Event {
      * Utilize builder to construct AssignableEvent.  Validate Assignable object copy rather than the
      * Assignable builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
-     * until when they are copied.  Validate properties of builder copy and if conformance violations
-     * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
+     * until when they are copied.
      *
      * @param builder
      */
     protected AssignableEvent(Builder<?> builder) {
         super(builder);
+
+        EventValidator.checkContextUri(builder.context, Context.ASSIGNABLE);
+        EventValidator.checkTypeUri(builder.type, Type.ASSIGNABLE);
+        EventValidator.checkActorType(getActor(), Person.class);
+        EventValidator.checkAction(builder.action, AssignableEvent.class);
+        EventValidator.checkObjectType(getObject(), AssignableDigitalResource.class);
+        EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-
-        ValidatorResult result = new AssignableEventValidator().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**

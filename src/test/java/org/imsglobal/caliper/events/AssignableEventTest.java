@@ -42,8 +42,8 @@ public class AssignableEventTest extends EventTest {
                 jsonFixture("fixtures/caliperAssignableEvent.json"), serialize(event));
     }
 
-    @Test(expected=IllegalStateException.class)
-    public void assignableEventRejectsSearchedAction(){
+    @Test(expected=IllegalArgumentException.class)
+    public void assignableEventRejectsSearchedAction() {
         TestUtils.buildAssessmentAssignableEvent(learningContext, assessment, Profile.Action.SEARCHED);
     }
 }

@@ -2,19 +2,21 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.assessment.Assessment;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.profiles.Profile.Action;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.events.AssessmentEventValidator;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
 @SupportedActions({
-        Action.STARTED,
-        Action.PAUSED,
-        Action.RESTARTED,
-        Action.SUBMITTED
+    Action.STARTED,
+    Action.PAUSED,
+    Action.RESTARTED,
+    Action.SUBMITTED
 })
 public class AssessmentEvent extends Event {
     
@@ -34,25 +36,26 @@ public class AssessmentEvent extends Event {
      * Utilize builder to construct AssessmentEvent.  Validate Assessment object copy rather than the
      * Assessment builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
-     * until when they are copied.  Validate properties of builder copy and if conformance violations
-     * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
+     * until when they are copied.
      *
      * @param builder
      */
     protected AssessmentEvent(Builder<?> builder) {
         super(builder);
+
+        EventValidator.checkContextUri(builder.context, Context.ASSESSMENT);
+        EventValidator.checkTypeUri(builder.type, Type.ASSESSMENT);
+        EventValidator.checkActorType(getActor(), Person.class);
+        EventValidator.checkAction(builder.action, AssessmentEvent.class);
+        EventValidator.checkObjectType(getObject(), Assessment.class);
+        EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-
-        ValidatorResult result = new AssessmentEventValidator().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**
-     * Required.
      * @return the context
      */
     @Override
@@ -62,7 +65,6 @@ public class AssessmentEvent extends Event {
     }
 
     /**
-     * Required.
      * @return the type
      */
     @Override
@@ -72,7 +74,6 @@ public class AssessmentEvent extends Event {
     }
 
     /**
-     * Required.
      * @return the action
      */
     @Override
@@ -89,7 +90,6 @@ public class AssessmentEvent extends Event {
         private String context;
         private String type;
         private Action action;
-
         /*
          * Constructor
          */

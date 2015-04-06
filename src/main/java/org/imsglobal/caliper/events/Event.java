@@ -7,9 +7,10 @@ import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.entities.lis.Organization;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
+import org.imsglobal.caliper.entities.w3c.Organization;
 import org.imsglobal.caliper.profiles.Profile.Action;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -148,7 +149,7 @@ public abstract class Event {
     private final SoftwareApplication edApp;
 
     @JsonProperty("group")
-    private final Organization lisOrganization;
+    private final Organization group;
 
     @JsonProperty("actor")
     private final Agent actor;
@@ -178,13 +179,25 @@ public abstract class Event {
     private static final Logger log = LoggerFactory.getLogger(Event.class);
 
     /**
-     * @param builder apply builder object properties to the Entity object.
+     * Utilize builder to construct Event.  Validate object copy rather than the
+     * builder.  This approach protects the class against parameter changes from another
+     * thread during the "window of vulnerability" between the time the parameters are checked
+     * until when they are copied.
+     *
+     * @param builder
      */
     protected Event(Builder<?> builder) {
+
+        // Validator.checkContextUri(builder.context, Context.EVENT);
+        // Validator.checkTypeUri(builder.type, Type.EVENT);
+        // Validator.checkAction(builder.action, Event.class);
+        EventValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
+        EventValidator.checkDuration(builder.startedAtTime, builder.endedAtTime, builder.duration);
+
         this.context = builder.context;
         this.type = builder.type;
         this.edApp = builder.edApp;
-        this.lisOrganization = builder.lisOrganization;
+        this.group = builder.group;
         this.actor = builder.actor;
         this.action = builder.action;
         this.object = builder.object;
@@ -193,14 +206,6 @@ public abstract class Event {
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
         this.duration = builder.duration;
-
-        // TODO consider letting the Sensor calculate the duration (make duration setter private)
-        // TODO also consider changing the duration type from String to Duration (Jackson can serialize duration)
-        /**
-        if (startedAtTime != null && endedAtTime != null) {
-            System.out.println(ProfileUtils.getDuration(startedAtTime, endedAtTime).toString());
-        }
-        */
     }
 
     /**
@@ -232,11 +237,11 @@ public abstract class Event {
 
     /**
      * Optional.
-     * @return the lisOrganization
+     * @return the group
      */
     @Nullable
-    public Organization getLisOrganization() {
-        return lisOrganization;
+    public Organization getGroup() {
+        return group;
     }
 
     /**
@@ -324,7 +329,7 @@ public abstract class Event {
         private String context;
         private String type;
         private SoftwareApplication edApp;
-        private Organization lisOrganization;
+        private Organization group;
         private Agent actor;
         private Action action;
         private Object object;
@@ -372,11 +377,11 @@ public abstract class Event {
         }
 
         /**
-         * @param lisOrganization
+         * @param group
          * @return builder.
          */
-        public T lisOrganization(Organization lisOrganization) {
-            this.lisOrganization = lisOrganization;
+        public T group(Organization group) {
+            this.group = group;
             return self();
         }
 

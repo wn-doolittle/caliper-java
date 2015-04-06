@@ -52,8 +52,8 @@ public class AssessmentItemStartedEventTest extends EventTest {
                 jsonFixture("fixtures/caliperAssessmentItemStartedEvent.json"), serialize(event));
     }
 
-    @Test(expected=IllegalStateException.class)
-    public void assessmentItemEventRejectsSearchedAction(){
+    @Test(expected=IllegalArgumentException.class)
+    public void assessmentItemEventRejectsSearchedAction() {
         TestUtils.buildAssessmentItemStartedEvent(learningContext, item, Profile.Action.SEARCHED, attempt);
     }
 }

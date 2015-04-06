@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.validators.entities.AttemptValidator;
-import org.imsglobal.caliper.validators.ValidatorResult;
+import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
@@ -57,6 +56,14 @@ public class Attempt extends Entity implements Generatable {
      */
     protected Attempt(Builder<?> builder) {
         super(builder);
+
+        EntityValidator.checkTypeUri(builder.type, Type.ATTEMPT);
+        EntityValidator.checkId("assignableId", builder.assignableId);
+        EntityValidator.checkId("actorId", builder.actorId);
+        EntityValidator.checkCount(builder.count);
+        EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
+        EntityValidator.checkDuration(builder.startedAtTime, builder.endedAtTime, builder.duration);
+
         this.type = builder.type;
         this.assignableId = builder.assignableId;
         this.actorId = builder.actorId;
@@ -64,11 +71,6 @@ public class Attempt extends Entity implements Generatable {
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
         this.duration = builder.duration;
-
-        ValidatorResult result = new AttemptValidator().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**
@@ -151,7 +153,7 @@ public class Attempt extends Entity implements Generatable {
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(Entity.Type.ATTEMPT.uri());
+            type(Type.ATTEMPT.uri());
         }
 
         /**

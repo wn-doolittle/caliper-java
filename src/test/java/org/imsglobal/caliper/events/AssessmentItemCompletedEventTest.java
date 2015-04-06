@@ -6,7 +6,7 @@ import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.profiles.Profile;
-import org.imsglobal.caliper.response.FillinBlankResponse;
+import org.imsglobal.caliper.entities.response.FillinBlankResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;

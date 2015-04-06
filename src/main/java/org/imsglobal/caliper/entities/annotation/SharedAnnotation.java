@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.entities.AnnotationValidator;
+import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -34,13 +33,11 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
      */
     protected SharedAnnotation(Builder<?> builder) {
         super(builder);
+
+        EntityValidator.checkTypeUri(builder.type, Type.SHARED_ANNOTATION);
+
         this.type = builder.type;
         this.withAgents = ImmutableList.copyOf(builder.withAgents);
-
-        ValidatorResult result = new AnnotationValidator<SharedAnnotation>().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**

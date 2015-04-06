@@ -2,20 +2,23 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.assessment.AssessmentItem;
+import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.entities.response.Response;
 import org.imsglobal.caliper.profiles.Profile.Action;
-import org.imsglobal.caliper.validators.ValidatorResult;
-import org.imsglobal.caliper.validators.events.AssessmentItemEventValidator;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
 @SupportedActions({
-        Action.STARTED,
-        Action.COMPLETED,
-        Action.SKIPPED,
-        Action.REVIEWED,
-        Action.VIEWED
+    Action.STARTED,
+    Action.COMPLETED,
+    Action.SKIPPED,
+    Action.REVIEWED,
+    Action.VIEWED
 })
 public class AssessmentItemEvent extends Event {
 
@@ -35,21 +38,28 @@ public class AssessmentItemEvent extends Event {
      * Utilize builder to construct AssessmentItemEvent.  Validate AssessmentItem object copy rather than the
      * AssessmentItem builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
-     * until when they are copied.  Validate properties of builder copy and if conformance violations
-     * are found throw an IllegalStateException (Bloch, Effective Java, 2nd ed., items 2, 39, 60, 63).
+     * until when they are copied.
      *
      * @param builder
      */
     protected AssessmentItemEvent(Builder<?> builder) {
         super(builder);
+
+        EventValidator.checkContextUri(builder.context, Context.ASSESSMENT_ITEM);
+        EventValidator.checkTypeUri(builder.type, Type.ASSESSMENT_ITEM);
+        EventValidator.checkActorType(getActor(), Person.class);
+        EventValidator.checkAction(builder.action, AssessmentItemEvent.class);
+        EventValidator.checkObjectType(getObject(), AssessmentItem.class);
+
+        if (builder.action == Action.COMPLETED) {
+            EventValidator.checkGeneratedType(getGenerated(), Response.class);
+        } else {
+            EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+        }
+
         this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-
-        ValidatorResult result = new AssessmentItemEventValidator().validate(this);
-        if (!result.isValid()) {
-            throw new IllegalStateException(result.errorMessage().toString());
-        }
     }
 
     /**

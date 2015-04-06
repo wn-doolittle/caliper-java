@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -85,6 +86,9 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
      */
     protected MediaObject(Builder<?> builder) {
         super(builder);
+
+        EntityValidator.checkTypeUri(builder.type, DigitalResource.Type.MEDIA_OBJECT);
+
         this.type = builder.type;
         this.duration = builder.duration;
     }

@@ -4,7 +4,6 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
-import org.imsglobal.caliper.profiles.Profile;
 import org.imsglobal.caliper.profiles.Profile.Action;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,8 +49,8 @@ public class ViewEventTest extends EventTest {
                 jsonFixture("fixtures/caliperViewEvent.json"), serialize(event));
     }
 
-    @Test(expected=IllegalStateException.class)
-    public void viewEventRejectsSearchedAction(){
+    @Test(expected=IllegalArgumentException.class)
+    public void viewEventRejectsSearchedAction() {
         TestUtils.buildEpubViewEvent(learningContext, epub, Action.SEARCHED, target);
     }
 }
