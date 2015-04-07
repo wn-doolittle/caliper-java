@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.session.Session;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.actions.Action;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -35,7 +35,7 @@ public class SessionTimeoutEventTest extends EventTest {
         target = TestUtils.buildSessionEnd();
 
         // Build event
-        event = TestUtils.buildEpubTimeoutEvent(learningContext, Profile.Action.TIMED_OUT, target);
+        event = TestUtils.buildEpubTimeoutEvent(learningContext, Action.TIMED_OUT, target);
     }
 
     @Test

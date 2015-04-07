@@ -23,7 +23,7 @@ import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.entities.response.FillinBlankResponse;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.*;
-import org.imsglobal.caliper.profiles.Profile.Action;
+import org.imsglobal.caliper.actions.Action;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 

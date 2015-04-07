@@ -1,11 +1,11 @@
 package org.imsglobal.caliper.validators;
 
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.events.SupportedActions;
-import org.imsglobal.caliper.profiles.Profile;
 import org.joda.time.DateTime;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -54,14 +54,14 @@ public class EventValidator {
      * @param action
      * @throws IllegalArgumentException
      */
-    public static void checkAction(Profile.Action action, Class<? extends Event> clazz) throws IllegalArgumentException {
+    public static void checkAction(Action action, Class<? extends Event> clazz) throws IllegalArgumentException {
         checkArgument(action != null, "an action must be specified");
 
         SupportedActions actions = clazz.getAnnotation(SupportedActions.class);
         checkArgument(actions != null, "supported actions must be specified");
 
         boolean isSupported = false;
-        for (Profile.Action supportedAction : actions.value()) {
+        for (Action supportedAction : actions.value()) {
 
             if (supportedAction.equals(action)) {
                 isSupported = true;

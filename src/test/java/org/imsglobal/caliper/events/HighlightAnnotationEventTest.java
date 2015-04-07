@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.actions.Action;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -39,7 +39,7 @@ public class HighlightAnnotationEventTest extends EventTest {
         generated = TestUtils.buildHighlightAnnotation(object);
 
         // Build event
-        event = TestUtils.buildAnnotationEvent(learningContext, object, Profile.Action.HIGHLIGHTED, generated, 1);
+        event = TestUtils.buildAnnotationEvent(learningContext, object, Action.HIGHLIGHTED, generated, 1);
     }
 
     @Test
@@ -50,6 +50,6 @@ public class HighlightAnnotationEventTest extends EventTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void annotationEventRejectsSearchedAction() {
-        TestUtils.buildAnnotationEvent(learningContext, object, Profile.Action.SEARCHED, generated, 1);
+        TestUtils.buildAnnotationEvent(learningContext, object, Action.SEARCHED, generated, 1);
     }
 }

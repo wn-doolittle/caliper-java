@@ -5,7 +5,7 @@ import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.actions.Action;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -44,7 +44,7 @@ public class NavigationEventTest extends EventTest {
         target = TestUtils.buildEpubSubChap431();
 
         // Build event
-        event = TestUtils.buildEpubNavigationEvent(learningContext, epub, Profile.Action.NAVIGATED_TO, fromResource, target);
+        event = TestUtils.buildEpubNavigationEvent(learningContext, epub, Action.NAVIGATED_TO, fromResource, target);
     }
 
     @Test

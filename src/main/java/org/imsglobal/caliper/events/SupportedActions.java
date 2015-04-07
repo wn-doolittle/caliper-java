@@ -1,6 +1,6 @@
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.profiles.Profile.Action;
+import org.imsglobal.caliper.actions.Action;
 
 import java.lang.annotation.*;
 

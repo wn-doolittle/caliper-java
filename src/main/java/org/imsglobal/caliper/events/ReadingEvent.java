@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.profiles.Profile.Action;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

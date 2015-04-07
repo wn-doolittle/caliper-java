@@ -3,6 +3,7 @@ package org.imsglobal.caliper.validators;
 import com.google.common.base.Strings;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.joda.time.Interval;
 
 import java.util.IllegalFormatException;
 
@@ -84,6 +85,16 @@ public class TimeValidator {
         } catch (IllegalFormatException ex) {
             return false;
         }
+    }
+
+    /**
+     * Calculate the duration given an event's start and end time
+     * @param startedAtTime
+     * @param endedAtTime
+     * @return
+     */
+    private static Duration getDuration(DateTime startedAtTime, DateTime endedAtTime) {
+        return new Interval(startedAtTime, endedAtTime).toDuration();
     }
 
     /**

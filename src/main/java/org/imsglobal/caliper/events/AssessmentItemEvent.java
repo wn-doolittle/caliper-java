@@ -6,7 +6,7 @@ import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.response.Response;
-import org.imsglobal.caliper.profiles.Profile.Action;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
