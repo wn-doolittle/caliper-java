@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.actions.Action;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -39,7 +39,7 @@ public class AssessmentEventTest extends EventTest {
         attempt = TestUtils.buildAssessmentAttempt(learningContext, assessment);
 
         // Build event
-        event = TestUtils.buildAssessmentEvent(learningContext, assessment, Profile.Action.STARTED, attempt);
+        event = TestUtils.buildAssessmentEvent(learningContext, assessment, Action.STARTED, attempt);
     }
 
     @Test
@@ -50,6 +50,6 @@ public class AssessmentEventTest extends EventTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void assessmentEventRejectsSearchedAction() {
-        TestUtils.buildAssessmentEvent(learningContext, assessment, Profile.Action.SEARCHED, attempt);
+        TestUtils.buildAssessmentEvent(learningContext, assessment, Action.SEARCHED, attempt);
     }
 }

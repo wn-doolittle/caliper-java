@@ -5,7 +5,7 @@ import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.response.FillinBlankResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class AssessmentItemCompletedEventTest extends EventTest {
         response = TestUtils.buildFillinBlankResponse(attempt, "2 July 1776");
 
         // Build event
-        event = TestUtils.buildFillinBlankCompletedEvent(learningContext, item, Profile.Action.COMPLETED, response);
+        event = TestUtils.buildFillinBlankCompletedEvent(learningContext, item, Action.COMPLETED, response);
     }
 
     @Test

@@ -9,7 +9,7 @@ import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
 import org.imsglobal.caliper.entities.w3c.Organization;
-import org.imsglobal.caliper.profiles.Profile.Action;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;

@@ -4,7 +4,7 @@ import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.media.MediaLocation;
 import org.imsglobal.caliper.entities.media.VideoObject;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.actions.Action;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -38,7 +38,7 @@ public class MediaEventTest extends EventTest {
         // Build media location
         location = TestUtils.buildVideoMediaLocation();
         // Build event
-        event = TestUtils.buildVideoMediaEvent(learningContext, video, location, Profile.Action.PAUSED);
+        event = TestUtils.buildVideoMediaEvent(learningContext, video, location, Action.PAUSED);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class MediaEventTest extends EventTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void mediaEventRejectsSearchedAction() {
-        TestUtils.buildVideoMediaEvent(learningContext, video, location, Profile.Action.SEARCHED);
+        TestUtils.buildVideoMediaEvent(learningContext, video, location, Action.SEARCHED);
     }
 
 }

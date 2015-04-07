@@ -3,7 +3,7 @@ package org.imsglobal.caliper.events;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.actions.Action;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -33,7 +33,7 @@ public class AssignableEventTest extends EventTest {
         assessment = TestUtils.buildAssessment();
 
         // Build event
-        event = TestUtils.buildAssessmentAssignableEvent(learningContext, assessment, Profile.Action.ACTIVATED);
+        event = TestUtils.buildAssessmentAssignableEvent(learningContext, assessment, Action.ACTIVATED);
     }
 
     @Test
@@ -44,6 +44,6 @@ public class AssignableEventTest extends EventTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void assignableEventRejectsSearchedAction() {
-        TestUtils.buildAssessmentAssignableEvent(learningContext, assessment, Profile.Action.SEARCHED);
+        TestUtils.buildAssessmentAssignableEvent(learningContext, assessment, Action.SEARCHED);
     }
 }

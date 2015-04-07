@@ -5,7 +5,7 @@ import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.events.NavigationEvent;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.actions.Action;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -38,7 +38,7 @@ public class SensorSendEventsTest {
 
         // Fire event test - Send 50 events
         for (int i = 0 ; i < 50 ; i++) {
-            sensor.send(TestUtils.buildEpubNavigationEvent(learningContext, epub, Profile.Action.NAVIGATED_TO, fromResource, target));
+            sensor.send(TestUtils.buildEpubNavigationEvent(learningContext, epub, Action.NAVIGATED_TO, fromResource, target));
         }
 
         // There should be two caliperEvents queued

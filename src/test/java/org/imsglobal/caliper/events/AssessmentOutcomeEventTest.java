@@ -6,7 +6,7 @@ import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
-import org.imsglobal.caliper.profiles.Profile;
+import org.imsglobal.caliper.actions.Action;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -52,7 +52,7 @@ public class AssessmentOutcomeEventTest extends EventTest {
         result = TestUtils.buildAssessmentResult(attempt, scoredBy);
 
         // Build Outcome Event
-        event = TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, Profile.Action.GRADED, result);
+        event = TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, Action.GRADED, result);
     }
 
     @Test
@@ -63,6 +63,6 @@ public class AssessmentOutcomeEventTest extends EventTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void outcomeEventRejectsSearchedAction() {
-        TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, Profile.Action.SEARCHED, result);
+        TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, Action.SEARCHED, result);
     }
 }
