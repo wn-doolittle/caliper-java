@@ -31,5 +31,5 @@ public interface Membership {
     /**
      * @return The current status of a membership which applies to all roles.
      */
-    String getStatus();
+    Status getStatus();
 }

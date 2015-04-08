@@ -85,22 +85,22 @@ public class EntityValidator {
 
     /**
      * Check if Membership status is supported.
-     * @param value
+     * @param status
      * @throws IllegalArgumentException
      */
-    public static void checkMembershipStatus(String value) throws IllegalArgumentException {
-        checkArgument(!(Strings.isNullOrEmpty(value)), "membership status must be specified");
+    public static void checkMembershipStatus(org.imsglobal.caliper.entities.w3c.Status status) throws IllegalArgumentException {
+        checkArgument(status != null, "membership status must be specified");
 
         SupportedStatuses statuses = Membership.class.getAnnotation(SupportedStatuses.class);
         boolean isSupported = false;
 
-        for (Status status : statuses.value()) {
-            if (status.value().equals(value)) {
+        for (Status supportedStatus : statuses.value()) {
+            if (supportedStatus.equals(status)) {
                 isSupported = true;
                 break;
             }
         }
-        checkArgument(isSupported, "membership status %s is not supported", value);
+        checkArgument(isSupported, "membership status %s is not supported", status);
     }
 
     /**

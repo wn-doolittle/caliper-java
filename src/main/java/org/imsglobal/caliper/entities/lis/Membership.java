@@ -52,7 +52,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
     private final ImmutableList<org.imsglobal.caliper.entities.w3c.Role> roles;
 
     @JsonProperty("status")
-    private final String status;
+    private final org.imsglobal.caliper.entities.w3c.Status status;
 
     /**
      * @param builder apply builder object properties to the Membership object.
@@ -109,7 +109,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
      * @return the current status of a membership which applies to all roles.
      */
     @Nonnull
-    public String getStatus() {
+    public org.imsglobal.caliper.entities.w3c.Status getStatus() {
         return status;
     }
 
@@ -124,7 +124,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
         //private Organization organization;
         private String organizationId;
         private List<org.imsglobal.caliper.entities.w3c.Role> roles = Lists.newArrayList();
-        private String status;
+        private org.imsglobal.caliper.entities.w3c.Status status;
 
         /**
          * Default Constructor
@@ -182,7 +182,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
          * @param status
          * @return builder.
          */
-        public T status(String status) {
+        public T status(org.imsglobal.caliper.entities.w3c.Status status) {
             this.status = status;
             return self();
         }

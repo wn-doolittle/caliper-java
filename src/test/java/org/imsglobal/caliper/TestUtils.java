@@ -105,7 +105,7 @@ public class TestUtils {
             .memberId("https://some-university.edu/user/554433")
             .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101")
             .role(Role.LEARNER)
-            .status(Status.ACTIVE.value())
+            .status(Status.ACTIVE)
             .dateCreated(getDefaultDateCreated())
             .build();
     }
@@ -119,7 +119,7 @@ public class TestUtils {
             .memberId("https://some-university.edu/user/554433")
             .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001/group/001")
             .role(Role.LEARNER)
-            .status(Status.ACTIVE.value())
+            .status(Status.ACTIVE)
             .dateCreated(getDefaultDateCreated())
             .build();
     }
@@ -133,7 +133,7 @@ public class TestUtils {
             .memberId("https://some-university.edu/user/554433")
             .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001")
             .role(Role.LEARNER)
-            .status(Status.ACTIVE.value())
+            .status(Status.ACTIVE)
             .dateCreated(getDefaultDateCreated())
             .build();
     }
