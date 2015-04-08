@@ -7,8 +7,4 @@ package org.imsglobal.caliper.entities.w3c;
  */
 public interface Role {
 
-    /**
-     * @return dereferenceable role URI
-     */
-    //String uri();
 }
