@@ -21,22 +21,22 @@ public class EventValidator {
 
     /**
      * Check Event context.
-     * @param value
      * @param context
+     * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkContextUri(String value, Event.Context context) throws IllegalArgumentException {
-        checkArgument(value.equals(context.uri()), "expected context %s but was %s", context.uri(), context);
+    public static void checkContextUri(Event.Context context, Event.Context expected) throws IllegalArgumentException {
+        checkArgument(context == expected, "expected context %s but was %s", expected.getValue(), context.getValue());
     }
 
     /**
      * Check Event type.
-     * @param value
      * @param type
+     * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkTypeUri(String value, Event.Type type) throws IllegalArgumentException {
-        checkArgument(value.equals(type.uri()), "expected type %s but was %s", type.uri(), type);
+    public static void checkTypeUri(Event.Type type, Event.Type expected) throws IllegalArgumentException {
+        checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
     }
 
     /**
@@ -62,7 +62,6 @@ public class EventValidator {
 
         boolean isSupported = false;
         for (Action supportedAction : actions.value()) {
-
             if (supportedAction.equals(action)) {
                 isSupported = true;
                 break;

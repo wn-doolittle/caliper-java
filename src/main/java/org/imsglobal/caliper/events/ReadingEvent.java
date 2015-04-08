@@ -18,10 +18,10 @@ import javax.annotation.Nonnull;
 public class ReadingEvent extends Event {
 
     @JsonProperty("@context")
-    private final String context;
+    private final Context context;
 
     @JsonProperty("@type")
-    private final String type;
+    private final Type type;
 
     @JsonProperty("action")
     private final Action action;
@@ -58,7 +58,7 @@ public class ReadingEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getContext() {
+    public Context getContext() {
         return context;
     }
 
@@ -68,7 +68,7 @@ public class ReadingEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
@@ -87,23 +87,23 @@ public class ReadingEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private String context;
-        private String type;
+        private Context context;
+        private Type type;
         private Action action;
 
         /*
          * Constructor
          */
         public Builder() {
-            context(Context.READING.uri());
-            type(Type.READING.uri());
+            context(Context.READING);
+            type(Type.READING);
         }
 
         /**
          * @param context
          * @return builder.
          */
-        private T context(String context) {
+        private T context(Context context) {
             this.context = context;
             return self();
         }
@@ -112,7 +112,7 @@ public class ReadingEvent extends Event {
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(Type type) {
             this.type = type;
             return self();
         }

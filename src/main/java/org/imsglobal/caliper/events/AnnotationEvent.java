@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
-
 @SupportedActions({
     Action.ATTACHED,
     Action.BOOKMARKED,
@@ -35,10 +34,10 @@ import javax.annotation.Nonnull;
 public class AnnotationEvent extends Event {
 
     @JsonProperty("@context")
-    private final String context;
+    private final Context context;
 
     @JsonProperty("@type")
-    private final String type;
+    private final Type type;
 
     @JsonProperty("action")
     private final Action action;
@@ -75,7 +74,7 @@ public class AnnotationEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getContext() {
+    public Context getContext() {
         return context;
     }
 
@@ -85,7 +84,7 @@ public class AnnotationEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
@@ -104,23 +103,23 @@ public class AnnotationEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private String context;
-        private String type;
+        private Context context;
+        private Type type;
         private Action action;
 
         /*
          * Constructor
          */
         public Builder() {
-            context(Context.ANNOTATION.uri());
-            type(Type.ANNOTATION.uri());
+            context(Context.ANNOTATION);
+            type(Type.ANNOTATION);
         }
 
         /**
          * @param context
          * @return builder.
          */
-        private T context(String context) {
+        private T context(Context context) {
             this.context = context;
             return self();
         }
@@ -129,7 +128,7 @@ public class AnnotationEvent extends Event {
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(Type type) {
             this.type = type;
             return self();
         }

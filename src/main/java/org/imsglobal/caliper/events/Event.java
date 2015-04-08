@@ -3,6 +3,7 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
@@ -48,7 +49,7 @@ public abstract class Event {
         SESSION("http://purl.imsglobal.org/ctx/caliper/v1/SessionEvent"),
         VIEW("http://purl.imsglobal.org/ctx/caliper/v1/ViewEvent");
 
-        private final String uri;
+        private final String value;
         private static Map<String, Context> lookup;
 
         /**
@@ -57,24 +58,25 @@ public abstract class Event {
         static {
             Map<String, Context> map = new HashMap<String, Context>();
             for (Context constants : Context.values()) {
-                map.put(constants.uri(), constants);
+                map.put(constants.getValue(), constants);
             }
             lookup = ImmutableMap.copyOf(map);
         }
 
         /**
          * Private constructor
-         * @param uri
+         * @param value
          */
-        private Context(final String uri) {
-            this.uri = uri;
+        private Context(final String value) {
+            this.value = value;
         }
 
         /**
-         * @return URI string
+         * @return URI value string
          */
-        public String uri() {
-            return uri;
+        @JsonValue
+        public String getValue() {
+            return value;
         }
 
         /**
@@ -100,7 +102,7 @@ public abstract class Event {
         SESSION("http://purl.imsglobal.org/caliper/v1/SessionEvent"),
         VIEW("http://purl.imsglobal.org/caliper/v1/ViewEvent");
 
-        private final String uri;
+        private final String value;
         private static Map<String, Type> lookup;
 
         /**
@@ -109,24 +111,25 @@ public abstract class Event {
         static {
             Map<String, Type> map = new HashMap<String, Type>();
             for (Type constants : Type.values()) {
-                map.put(constants.uri(), constants);
+                map.put(constants.getValue(), constants);
             }
             lookup = ImmutableMap.copyOf(map);
         }
 
         /**
          * Private constructor
-         * @param uri
+         * @param value
          */
-        private Type(final String uri) {
-            this.uri = uri;
+        private Type(final String value) {
+            this.value = value;
         }
 
         /**
          * @return URI string
          */
-        public String uri() {
-            return uri;
+        @JsonValue
+        public String getValue() {
+            return value;
         }
 
         /**
@@ -140,10 +143,10 @@ public abstract class Event {
     }
 
     @JsonProperty("@context")
-    private final String context;
+    private final Context context;
 
     @JsonProperty("@type")
-    private final String type;
+    private final Type type;
 
     @JsonProperty("edApp")
     private final SoftwareApplication edApp;
@@ -213,7 +216,7 @@ public abstract class Event {
      * @return the context
      */
     @Nonnull
-    public String getContext() {
+    public Context getContext() {
         return context;
     }
 
@@ -222,7 +225,7 @@ public abstract class Event {
      * @return the type
      */
     @Nonnull
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
@@ -326,8 +329,8 @@ public abstract class Event {
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
-        private String context;
-        private String type;
+        private Context context;
+        private Type type;
         private SoftwareApplication edApp;
         private Organization group;
         private Agent actor;
@@ -345,15 +348,15 @@ public abstract class Event {
          * Initialize type with default values.
          */
         public Builder() {
-            context(Event.Context.EVENT.uri());
-            type(Event.Type.EVENT.uri());
+            context(Event.Context.EVENT);
+            type(Event.Type.EVENT);
         }
 
         /**
          * @param context
          * @return builder.
          */
-        private T context(String context) {
+        private T context(Context context) {
             this.context = context;
             return self();
         }
@@ -362,7 +365,7 @@ public abstract class Event {
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(Type type) {
             this.type = type;
             return self();
         }
