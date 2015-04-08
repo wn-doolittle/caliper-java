@@ -49,7 +49,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
     private final String organizationId;
 
     @JsonProperty("roles")
-    private final ImmutableList<String> roles;
+    private final ImmutableList<org.imsglobal.caliper.entities.w3c.Role> roles;
 
     @JsonProperty("status")
     private final String status;
@@ -101,7 +101,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
      * @return the roles that the agent plays in a memberIdship relationship with an memberIdship.
      */
     @Nullable
-    public ImmutableList<String> getRoles() {
+    public ImmutableList<org.imsglobal.caliper.entities.w3c.Role> getRoles() {
         return roles;
     }
 
@@ -123,7 +123,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
         private String memberId;
         //private Organization organization;
         private String organizationId;
-        private List<String> roles = Lists.newArrayList();
+        private List<org.imsglobal.caliper.entities.w3c.Role> roles = Lists.newArrayList();
         private String status;
 
         /**
@@ -164,7 +164,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
          * @param roles
          * @return builder.
          */
-        public T roles(List<String> roles) {
+        public T roles(List<org.imsglobal.caliper.entities.w3c.Role> roles) {
             this.roles = roles;
             return self();
         }
@@ -173,7 +173,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
          * @param role
          * @return builder.
          */
-        public T role(String role) {
+        public T role(org.imsglobal.caliper.entities.w3c.Role role) {
             this.roles.add(role);
             return self();
         }

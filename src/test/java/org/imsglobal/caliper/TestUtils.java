@@ -104,7 +104,7 @@ public class TestUtils {
             .id("https://some-university.edu/membership/001")
             .memberId("https://some-university.edu/user/554433")
             .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101")
-            .role(Role.LEARNER.uri())
+            .role(Role.LEARNER)
             .status(Status.ACTIVE.value())
             .dateCreated(getDefaultDateCreated())
             .build();
@@ -118,7 +118,7 @@ public class TestUtils {
             .id("https://some-university.edu/membership/003")
             .memberId("https://some-university.edu/user/554433")
             .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001/group/001")
-            .role(Role.LEARNER.uri())
+            .role(Role.LEARNER)
             .status(Status.ACTIVE.value())
             .dateCreated(getDefaultDateCreated())
             .build();
@@ -132,7 +132,7 @@ public class TestUtils {
             .id("https://some-university.edu/membership/002")
             .memberId("https://some-university.edu/user/554433")
             .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001")
-            .role(Role.LEARNER.uri())
+            .role(Role.LEARNER)
             .status(Status.ACTIVE.value())
             .dateCreated(getDefaultDateCreated())
             .build();

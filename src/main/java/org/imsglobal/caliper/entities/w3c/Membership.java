@@ -26,7 +26,7 @@ public interface Membership {
      * @return the set of roles that the agent plays in a membership relationship with an organization.  Each
      * string is expected to be in the form of a dereferenceable URI.
      */
-    ImmutableList<String> getRoles();
+    ImmutableList<Role> getRoles();
 
     /**
      * @return The current status of a membership which applies to all roles.
