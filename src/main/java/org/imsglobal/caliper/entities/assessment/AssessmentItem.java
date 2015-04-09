@@ -47,7 +47,7 @@ public class AssessmentItem extends AssignableDigitalResource {
     protected AssessmentItem(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, AssignableDigitalResourceType.ASSESSMENT_ITEM);
+        EntityValidator.checkType(builder.type, AssignableDigitalResourceType.ASSESSMENT_ITEM);
 
         this.type = builder.type;
         this.isTimeDependent = builder.isTimeDependent;

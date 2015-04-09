@@ -24,7 +24,7 @@ public class EpubSubChapter extends DigitalResource {
     protected EpubSubChapter(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, DigitalResourceType.EPUB_SUB_CHAPTER);
+        EntityValidator.checkType(builder.type, DigitalResourceType.EPUB_SUB_CHAPTER);
 
         this.type = builder.type;
     }

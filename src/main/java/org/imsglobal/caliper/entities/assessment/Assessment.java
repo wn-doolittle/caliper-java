@@ -51,7 +51,7 @@ public class Assessment extends AssignableDigitalResource {
     protected Assessment(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, AssignableDigitalResourceType.ASSESSMENT);
+        EntityValidator.checkType(builder.type, AssignableDigitalResourceType.ASSESSMENT);
 
         this.type = builder.type;
         this.assessmentItems = ImmutableList.copyOf(builder.assessmentItems);

@@ -53,7 +53,7 @@ public class CourseOffering extends Entity implements Course {
     protected CourseOffering(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.COURSE_OFFERING);
+        EntityValidator.checkType(builder.type, EntityType.COURSE_OFFERING);
 
         this.type = builder.type;
         this.courseNumber = builder.courseNumber;

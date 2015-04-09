@@ -73,7 +73,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     protected DigitalResource(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.DIGITAL_RESOURCE);
+        EntityValidator.checkType(builder.type, EntityType.DIGITAL_RESOURCE);
 
         this.type = builder.type;
         this.objectTypes = ImmutableList.copyOf(builder.objectTypes);

@@ -57,7 +57,7 @@ public class AnnotationEvent extends Event {
         super(builder);
 
         EventValidator.checkContextUri(builder.context, EventContext.ANNOTATION);
-        EventValidator.checkTypeUri(builder.type, EventType.ANNOTATION);
+        EventValidator.checkType(builder.type, EventType.ANNOTATION);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, AnnotationEvent.class);
         EventValidator.checkObjectType(getObject(), DigitalResource.class);

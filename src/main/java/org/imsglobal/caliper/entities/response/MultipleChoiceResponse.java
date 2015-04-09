@@ -39,7 +39,7 @@ public class MultipleChoiceResponse extends Response {
     protected MultipleChoiceResponse(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, ResponseType.MULTIPLECHOICE);
+        EntityValidator.checkType(builder.type, ResponseType.MULTIPLECHOICE);
 
         this.type = builder.type;
         this.value = builder.value;

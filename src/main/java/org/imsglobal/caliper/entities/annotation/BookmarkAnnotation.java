@@ -31,7 +31,7 @@ public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotatio
     protected BookmarkAnnotation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, AnnotationType.BOOKMARK_ANNOTATION);
+        EntityValidator.checkType(builder.type, AnnotationType.BOOKMARK_ANNOTATION);
 
         this.type = builder.type;
         this.bookmarkNotes = builder.bookmarkNotes;

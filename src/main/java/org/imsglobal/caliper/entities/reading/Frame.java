@@ -38,7 +38,7 @@ public class Frame extends DigitalResource implements Targetable {
     protected Frame(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, DigitalResourceType.FRAME);
+        EntityValidator.checkType(builder.type, DigitalResourceType.FRAME);
 
         this.type = builder.type;
         this.index = builder.index;

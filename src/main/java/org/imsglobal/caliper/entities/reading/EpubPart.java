@@ -25,7 +25,7 @@ public class EpubPart extends DigitalResource {
     protected EpubPart(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, DigitalResourceType.EPUB_PART);
+        EntityValidator.checkType(builder.type, DigitalResourceType.EPUB_PART);
 
         this.type = builder.type;
     }

@@ -40,7 +40,7 @@ public class TrueFalseResponse extends Response {
     protected TrueFalseResponse(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, ResponseType.TRUEFALSE);
+        EntityValidator.checkType(builder.type, ResponseType.TRUEFALSE);
 
         this.type = builder.type;
         this.value = builder.value;

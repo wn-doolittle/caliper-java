@@ -19,7 +19,7 @@ public class ImageObject extends MediaObject implements org.imsglobal.caliper.en
     protected ImageObject(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, MediaObjectType.IMAGE_OBJECT);
+        EntityValidator.checkType(builder.type, MediaObjectType.IMAGE_OBJECT);
 
         this.type = builder.type;
     }

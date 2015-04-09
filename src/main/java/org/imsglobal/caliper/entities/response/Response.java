@@ -56,7 +56,7 @@ public abstract class Response extends Entity implements Generatable {
     protected Response(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.RESPONSE);
+        EntityValidator.checkType(builder.type, EntityType.RESPONSE);
         EntityValidator.checkId("assignableId", builder.assignableId);
         EntityValidator.checkId("actorId", builder.actorId);
         EntityValidator.checkAttempt(builder.attempt);

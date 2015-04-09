@@ -35,7 +35,7 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
     protected HighlightAnnotation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, AnnotationType.HIGHLIGHT_ANNOTATION);
+        EntityValidator.checkType(builder.type, AnnotationType.HIGHLIGHT_ANNOTATION);
 
         this.type = builder.type;
         this.selection = builder.selection;

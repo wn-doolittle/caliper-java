@@ -38,7 +38,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
     protected MediaLocation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, MediaObjectType.MEDIA_LOCATION);
+        EntityValidator.checkType(builder.type, MediaObjectType.MEDIA_LOCATION);
 
         this.type = builder.type;
         this.currentTime = builder.currentTime;

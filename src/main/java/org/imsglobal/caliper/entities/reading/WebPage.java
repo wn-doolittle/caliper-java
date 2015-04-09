@@ -18,7 +18,7 @@ public class WebPage extends DigitalResource implements org.imsglobal.caliper.en
     protected WebPage(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, DigitalResourceType.WEB_PAGE);
+        EntityValidator.checkType(builder.type, DigitalResourceType.WEB_PAGE);
 
         this.type = builder.type;
     }

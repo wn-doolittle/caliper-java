@@ -46,7 +46,7 @@ public class Organization extends Entity implements org.imsglobal.caliper.entiti
     protected Organization(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.ORGANIZATION);
+        EntityValidator.checkType(builder.type, EntityType.ORGANIZATION);
 
         this.type = builder.type;
         this.memberships = ImmutableList.copyOf(builder.memberships);

@@ -37,7 +37,7 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkTypeUri(EventType type, EventType expected) throws IllegalArgumentException {
+    public static void checkType(EventType type, EventType expected) throws IllegalArgumentException {
         checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
     }
 

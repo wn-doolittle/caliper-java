@@ -24,7 +24,7 @@ public class EpubVolume extends DigitalResource {
     protected EpubVolume(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, DigitalResourceType.EPUB_VOLUME);
+        EntityValidator.checkType(builder.type, DigitalResourceType.EPUB_VOLUME);
 
         this.type = builder.type;
     }

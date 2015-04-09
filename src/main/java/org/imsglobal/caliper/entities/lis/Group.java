@@ -45,7 +45,7 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
     protected Group(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.GROUP);
+        EntityValidator.checkType(builder.type, EntityType.GROUP);
 
         this.type = builder.type;
         this.memberships = ImmutableList.copyOf(builder.memberships);

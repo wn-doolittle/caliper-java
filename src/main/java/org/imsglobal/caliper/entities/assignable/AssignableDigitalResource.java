@@ -67,7 +67,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     protected AssignableDigitalResource(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, DigitalResourceType.ASSIGNABLE_DIGITAL_RESOURCE);
+        EntityValidator.checkType(builder.type, DigitalResourceType.ASSIGNABLE_DIGITAL_RESOURCE);
 
         this.type = builder.type;
         this.dateToActivate = builder.dateToActivate;

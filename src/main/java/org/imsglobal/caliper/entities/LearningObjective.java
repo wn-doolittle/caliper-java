@@ -16,7 +16,7 @@ public class LearningObjective extends org.imsglobal.caliper.entities.Entity {
     protected LearningObjective(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.LEARNING_OBJECTIVE);
+        EntityValidator.checkType(builder.type, EntityType.LEARNING_OBJECTIVE);
 
         this.type = builder.type;
     }

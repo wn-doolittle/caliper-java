@@ -41,7 +41,7 @@ public class ReadingEvent extends Event {
         super(builder);
 
         EventValidator.checkContextUri(builder.context, EventContext.READING);
-        EventValidator.checkTypeUri(builder.type, EventType.READING);
+        EventValidator.checkType(builder.type, EventType.READING);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, ReadingEvent.class);
         EventValidator.checkObjectType(getObject(), DigitalResource.class);

@@ -37,7 +37,7 @@ public class Person extends Entity implements Agent {
     protected Person(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.PERSON);
+        EntityValidator.checkType(builder.type, EntityType.PERSON);
 
         this.type = builder.type;
         this.hasMemberships = ImmutableList.copyOf(builder.hasMemberships);

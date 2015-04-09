@@ -61,7 +61,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
     protected Membership(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.MEMBERSHIP);
+        EntityValidator.checkType(builder.type, EntityType.MEMBERSHIP);
         EntityValidator.checkId("memberId", builder.memberId);
         EntityValidator.checkId("organizationId", builder.organizationId);
         EntityValidator.checkMembershipStatus(builder.status);

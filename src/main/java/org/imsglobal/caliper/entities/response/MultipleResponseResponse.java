@@ -43,7 +43,7 @@ public class MultipleResponseResponse extends Response {
     protected MultipleResponseResponse(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, ResponseType.MULTIPLERESPONSE);
+        EntityValidator.checkType(builder.type, ResponseType.MULTIPLERESPONSE);
 
         this.type = builder.type;
         this.values = ImmutableList.copyOf(builder.values);

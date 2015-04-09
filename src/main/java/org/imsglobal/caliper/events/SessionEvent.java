@@ -44,7 +44,7 @@ public class SessionEvent extends Event {
         super(builder);
 
         EventValidator.checkContextUri(builder.context, EventContext.SESSION);
-        EventValidator.checkTypeUri(builder.type, EventType.SESSION);
+        EventValidator.checkType(builder.type, EventType.SESSION);
         EventValidator.checkAction(builder.action, SessionEvent.class);
 
         if (builder.action == Action.TIMED_OUT) {

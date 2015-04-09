@@ -37,7 +37,7 @@ public class SoftwareApplication extends Entity implements org.imsglobal.caliper
     protected SoftwareApplication(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.SOFTWARE_APPLICATION);
+        EntityValidator.checkType(builder.type, EntityType.SOFTWARE_APPLICATION);
 
         this.type = builder.type;
         this.memberships = ImmutableList.copyOf(builder.memberships);

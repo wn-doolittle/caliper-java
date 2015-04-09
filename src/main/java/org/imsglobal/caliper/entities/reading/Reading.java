@@ -18,7 +18,7 @@ public class Reading extends DigitalResource {
     protected Reading(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, DigitalResourceType.READING);
+        EntityValidator.checkType(builder.type, DigitalResourceType.READING);
 
         this.type = builder.type;
     }

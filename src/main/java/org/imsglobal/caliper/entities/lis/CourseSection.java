@@ -45,7 +45,7 @@ public class CourseSection extends CourseOffering {
     protected CourseSection(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.COURSE_SECTION);
+        EntityValidator.checkType(builder.type, EntityType.COURSE_SECTION);
 
         this.type = builder.type;
         this.category = builder.category;

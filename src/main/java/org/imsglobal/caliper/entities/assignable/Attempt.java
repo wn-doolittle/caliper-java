@@ -58,7 +58,7 @@ public class Attempt extends Entity implements Generatable {
     protected Attempt(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.ATTEMPT);
+        EntityValidator.checkType(builder.type, EntityType.ATTEMPT);
         EntityValidator.checkId("assignableId", builder.assignableId);
         EntityValidator.checkId("actorId", builder.actorId);
         EntityValidator.checkCount(builder.count);

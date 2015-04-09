@@ -50,7 +50,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
     protected AudioObject(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, MediaObjectType.AUDIO_OBJECT);
+        EntityValidator.checkType(builder.type, MediaObjectType.AUDIO_OBJECT);
 
         this.type = builder.type;
         this.volumeMin = builder.volumeMin;

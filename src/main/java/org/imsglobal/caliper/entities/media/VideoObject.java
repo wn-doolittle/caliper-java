@@ -19,7 +19,7 @@ public class VideoObject extends MediaObject implements org.imsglobal.caliper.en
     protected VideoObject(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, MediaObjectType.VIDEO_OBJECT);
+        EntityValidator.checkType(builder.type, MediaObjectType.VIDEO_OBJECT);
 
         this.type = builder.type;
     }

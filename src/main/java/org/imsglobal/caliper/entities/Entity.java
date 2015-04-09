@@ -53,7 +53,7 @@ public abstract class Entity implements Thing {
     protected Entity(Builder<?> builder) {
 
         EntityValidator.checkId("id", builder.id);
-        EntityValidator.checkTypeUri(builder.type, EntityType.ENTITY);
+        EntityValidator.checkType(builder.type, EntityType.ENTITY);
 
         this.id = builder.id;
         this.type = builder.type;

@@ -43,7 +43,7 @@ public class SelectTextResponse extends Response {
     protected SelectTextResponse(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, ResponseType.SELECTTEXT);
+        EntityValidator.checkType(builder.type, ResponseType.SELECTTEXT);
 
         this.type = builder.type;
         this.values = ImmutableList.copyOf(builder.values);

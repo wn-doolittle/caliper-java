@@ -76,7 +76,7 @@ public class Result extends Entity implements Generatable {
     protected Result(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.RESULT);
+        EntityValidator.checkType(builder.type, EntityType.RESULT);
         EntityValidator.checkId("assignableId", builder.assignableId);
         EntityValidator.checkId("actorId", builder.actorId);
 

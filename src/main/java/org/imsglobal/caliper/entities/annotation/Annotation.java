@@ -39,7 +39,7 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
     protected Annotation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.ANNOTATION);
+        EntityValidator.checkType(builder.type, EntityType.ANNOTATION);
         EntityValidator.checkId("annotatedId", builder.annotatedId);
 
         this.type = builder.type;

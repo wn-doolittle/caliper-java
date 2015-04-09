@@ -34,7 +34,7 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
     protected TagAnnotation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, AnnotationType.TAG_ANNOTATION);
+        EntityValidator.checkType(builder.type, AnnotationType.TAG_ANNOTATION);
 
         this.type = builder.type;
         this.tags = ImmutableList.copyOf(builder.tags);

@@ -42,7 +42,7 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
     protected MediaObject(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.MEDIA_OBJECT);
+        EntityValidator.checkType(builder.type, EntityType.MEDIA_OBJECT);
 
         this.type = builder.type;
         this.duration = builder.duration;

@@ -40,7 +40,7 @@ public class OutcomeEvent extends Event {
         super(builder);
 
         EventValidator.checkContextUri(builder.context, EventContext.OUTCOME);
-        EventValidator.checkTypeUri(builder.type, EventType.OUTCOME);
+        EventValidator.checkType(builder.type, EventType.OUTCOME);
         EventValidator.checkAction(builder.action, OutcomeEvent.class);
         EventValidator.checkObjectType(getObject(), Attempt.class);
         EventValidator.checkGeneratedType(getGenerated(), Result.class);

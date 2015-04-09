@@ -34,7 +34,7 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
     protected SharedAnnotation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, AnnotationType.SHARED_ANNOTATION);
+        EntityValidator.checkType(builder.type, AnnotationType.SHARED_ANNOTATION);
 
         this.type = builder.type;
         this.withAgents = ImmutableList.copyOf(builder.withAgents);

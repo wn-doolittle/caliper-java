@@ -43,7 +43,7 @@ public class FillinBlankResponse extends Response {
     protected FillinBlankResponse(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, ResponseType.FILLINBLANK);
+        EntityValidator.checkType(builder.type, ResponseType.FILLINBLANK);
 
         this.type = builder.type;
         this.values = ImmutableList.copyOf(builder.values);
