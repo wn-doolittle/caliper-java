@@ -1,10 +1,6 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.google.common.collect.ImmutableMap;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public enum EventContext {
     ANNOTATION("http://purl.imsglobal.org/ctx/caliper/v1/AnnotationEvent"),
@@ -20,18 +16,6 @@ public enum EventContext {
     VIEW("http://purl.imsglobal.org/ctx/caliper/v1/ViewEvent");
 
     private final String value;
-    private static Map<String, EventContext> lookup;
-
-    /**
-     * Create reverse lookup hash map
-     */
-    static {
-        Map<String, EventContext> map = new HashMap<String, EventContext>();
-        for (EventContext constants : EventContext.values()) {
-            map.put(constants.getValue(), constants);
-        }
-        lookup = ImmutableMap.copyOf(map);
-    }
 
     /**
      * Private constructor
@@ -47,14 +31,5 @@ public enum EventContext {
     @JsonValue
     public String getValue() {
         return value;
-    }
-
-    /**
-     * Retrieve enum type from reverse lookup map.
-     * @param uri
-     * @return Event.Context enum
-     */
-    public static EventContext lookupConstantWithContextURI(String uri) {
-        return lookup.get(uri);
     }
 }
