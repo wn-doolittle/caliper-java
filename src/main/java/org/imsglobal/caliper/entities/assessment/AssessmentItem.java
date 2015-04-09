@@ -3,6 +3,7 @@ package org.imsglobal.caliper.entities.assessment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
+import org.imsglobal.caliper.entities.assignable.AssignableDigitalResourceType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -35,7 +36,7 @@ import javax.annotation.Nonnull;
 public class AssessmentItem extends AssignableDigitalResource {
 
     @JsonProperty("@type")
-    private final String type;
+    private final AssignableDigitalResourceType type;
 
     @JsonProperty("isTimeDependent")
     private final boolean isTimeDependent;
@@ -46,7 +47,7 @@ public class AssessmentItem extends AssignableDigitalResource {
     protected AssessmentItem(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.ASSESSMENT_ITEM);
+        EntityValidator.checkType(builder.type, AssignableDigitalResourceType.ASSESSMENT_ITEM);
 
         this.type = builder.type;
         this.isTimeDependent = builder.isTimeDependent;
@@ -57,7 +58,7 @@ public class AssessmentItem extends AssignableDigitalResource {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public AssignableDigitalResourceType getType() {
         return type;
     }
 
@@ -79,21 +80,21 @@ public class AssessmentItem extends AssignableDigitalResource {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
-        private String type;
+        private AssignableDigitalResourceType type;
         private boolean isTimeDependent = false;
 
         /**
          * Constructor
          */
         public Builder() {
-            type(AssignableDigitalResource.Type.ASSESSMENT_ITEM.uri());
+            type(AssignableDigitalResourceType.ASSESSMENT_ITEM);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(AssignableDigitalResourceType type) {
             this.type = type;
             return self();
         }

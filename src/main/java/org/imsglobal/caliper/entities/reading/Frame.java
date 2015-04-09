@@ -3,6 +3,7 @@ package org.imsglobal.caliper.entities.reading;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.DigitalResourceType;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.validators.EntityValidator;
 
@@ -26,7 +27,7 @@ import javax.annotation.Nonnull;
 public class Frame extends DigitalResource implements Targetable {
 
     @JsonProperty("@type")
-    private final String type;
+    private final DigitalResourceType type;
 
     @JsonProperty("index")
     private int index;
@@ -37,7 +38,7 @@ public class Frame extends DigitalResource implements Targetable {
     protected Frame(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.FRAME);
+        EntityValidator.checkType(builder.type, DigitalResourceType.FRAME);
 
         this.type = builder.type;
         this.index = builder.index;
@@ -48,7 +49,7 @@ public class Frame extends DigitalResource implements Targetable {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public DigitalResourceType getType() {
         return type;
     }
 
@@ -65,21 +66,21 @@ public class Frame extends DigitalResource implements Targetable {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private String type;
+        private DigitalResourceType type;
         private int index;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResource.Type.FRAME.uri());
+            type(DigitalResourceType.FRAME);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(DigitalResourceType type) {
             this.type = type;
             return self();
         }

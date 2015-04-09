@@ -16,10 +16,10 @@ import javax.annotation.Nonnull;
 public class ViewEvent extends Event {
 
     @JsonProperty("@context")
-    private final String context;
+    private final EventContext context;
 
     @JsonProperty("@type")
-    private final String type;
+    private final EventType type;
 
     @JsonProperty("action")
     private final Action action;
@@ -38,8 +38,8 @@ public class ViewEvent extends Event {
     protected ViewEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, Context.VIEW);
-        EventValidator.checkTypeUri(builder.type, Type.VIEW);
+        EventValidator.checkContext(builder.context, EventContext.VIEW);
+        EventValidator.checkType(builder.type, EventType.VIEW);
         EventValidator.checkAction(builder.action, ViewEvent.class);
         EventValidator.checkObjectType(getObject(), DigitalResource.class);
         EventValidator.checkTargetType(getTarget(), DigitalResource.class);
@@ -55,7 +55,7 @@ public class ViewEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getContext() {
+    public EventContext getContext() {
         return context;
     }
 
@@ -65,7 +65,7 @@ public class ViewEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EventType getType() {
         return type;
     }
 
@@ -84,16 +84,16 @@ public class ViewEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private String context;
-        private String type;
+        private EventContext context;
+        private EventType type;
         private Action action;
 
         /*
          * Constructor
          */
         public Builder() {
-            context(Context.VIEW.uri());
-            type(Type.VIEW.uri());
+            context(EventContext.VIEW);
+            type(EventType.VIEW);
             action(Action.VIEWED);
         }
 
@@ -101,7 +101,7 @@ public class ViewEvent extends Event {
          * @param context
          * @return builder.
          */
-        private T context(String context) {
+        private T context(EventContext context) {
             this.context = context;
             return self();
         }
@@ -110,7 +110,7 @@ public class ViewEvent extends Event {
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EventType type) {
             this.type = type;
             return self();
         }

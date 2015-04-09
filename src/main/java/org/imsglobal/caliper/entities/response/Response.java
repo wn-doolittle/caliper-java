@@ -2,17 +2,16 @@ package org.imsglobal.caliper.entities.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
 @JsonPropertyOrder({
     "@id",
@@ -30,67 +29,8 @@ import java.util.Map;
     "duration" })
 public abstract class Response extends Entity implements Generatable {
 
-    public enum Type {
-        // DRAGOBJECT("http://purl.imsglobal.org/caliper/v1/Response/DragObject"),
-        // ESSAY("http://purl.imsglobal.org/caliper/v1/Response/Essay"),
-        // HOTSPOT("http://purl.imsglobal.org/caliper/v1/Response/HotSpot"),
-        FILLINBLANK("http://purl.imsglobal.org/caliper/v1/Response/FillinBlank"),
-        MULTIPLECHOICE("http://purl.imsglobal.org/caliper/v1/Response/MultipleChoice"),
-        MULTIPLERESPONSE("http://purl.imsglobal.org/caliper/v1/Response/MultipleResponse"),
-        SELECTTEXT("http://purl.imsglobal.org/caliper/v1/Response/SelectText"),
-        // SHORTANSWER("http://purl.imsglobal.org/caliper/v1/Response/ShortAnswer"),
-        // SLIDER("http://purl.imsglobal.org/caliper/v1/Response/Slider"),
-        TRUEFALSE("http://purl.imsglobal.org/caliper/v1/Response/TrueFalse");
-
-        private final String uri;
-        private static Map<String, Type> lookup;
-
-        /**
-         * Create reverse lookup hash map
-         */
-        static {
-            Map<String, Type> map = new HashMap<String, Type>();
-            for (Type constants : Type.values()) {
-                map.put(constants.uri(), constants);
-            }
-            lookup = ImmutableMap.copyOf(map);
-        }
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Type(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @param key
-         * @return true if lookup returns a key match; false otherwise.
-         */
-        public static boolean hasKey(String key) {
-            return lookup.containsKey(key);
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-
-        /**
-         * Retrieve enum type from reverse lookup map.
-         * @param uri
-         * @return Response.Type enum
-         */
-        public static Response.Type lookupConstantWithTypeURI(String uri) {
-            return lookup.get(uri);
-        }
-    }
-
     @JsonProperty("@type")
-    private final String type;
+    private final Type type;
 
     @JsonProperty("assignable")
     private final String assignableId; // retain? can retrieve from attempt
@@ -116,7 +56,7 @@ public abstract class Response extends Entity implements Generatable {
     protected Response(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Entity.Type.RESPONSE);
+        EntityValidator.checkType(builder.type, EntityType.RESPONSE);
         EntityValidator.checkId("assignableId", builder.assignableId);
         EntityValidator.checkId("actorId", builder.actorId);
         EntityValidator.checkAttempt(builder.attempt);
@@ -137,7 +77,7 @@ public abstract class Response extends Entity implements Generatable {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
@@ -200,7 +140,7 @@ public abstract class Response extends Entity implements Generatable {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private String type;
+        private EntityType type;
         private String assignableId;
         private String actorId;
         private Attempt attempt;
@@ -212,14 +152,14 @@ public abstract class Response extends Entity implements Generatable {
          * Initialize type with default value.
          */
         public Builder() {
-            type(Entity.Type.RESPONSE.uri());
+            type(EntityType.RESPONSE);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

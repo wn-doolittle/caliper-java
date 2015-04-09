@@ -27,7 +27,7 @@ import org.imsglobal.caliper.validators.EntityValidator;
 public class MediaLocation extends DigitalResource implements Targetable {
 
     @JsonProperty("@type")
-    private final String type;
+    private final MediaObjectType type;
 
     @JsonProperty("currentTime")
     private long currentTime;
@@ -38,7 +38,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
     protected MediaLocation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.MEDIA_LOCATION);
+        EntityValidator.checkType(builder.type, MediaObjectType.MEDIA_LOCATION);
 
         this.type = builder.type;
         this.currentTime = builder.currentTime;
@@ -48,7 +48,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
      * @return the type
      */
     @Override
-    public String getType() {
+    public MediaObjectType getType() {
         return type;
     }
 
@@ -64,21 +64,21 @@ public class MediaLocation extends DigitalResource implements Targetable {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private String type;
+        private MediaObjectType type;
         private long currentTime;
 
         /**
          * Initialize type with default values.
          */
         public Builder() {
-            type(DigitalResource.Type.MEDIA_LOCATION.uri());
+            type(MediaObjectType.MEDIA_LOCATION);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(MediaObjectType type) {
             this.type = type;
             return self();
         }

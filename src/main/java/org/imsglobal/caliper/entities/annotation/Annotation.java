@@ -2,13 +2,12 @@ package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The super-class of all Annotation types.
@@ -16,6 +15,7 @@ import java.util.Map;
  * Direct sub-types can include - Highlight, Attachment, etc. - all of
  * which are specified in the Caliper Annotation Metric Profile
  */
+
 @JsonPropertyOrder({
     "@id",
     "@type",
@@ -27,54 +27,8 @@ import java.util.Map;
     "annotatedId" })
 public abstract class Annotation extends Entity implements org.imsglobal.caliper.entities.Generatable {
 
-    public enum Type {
-        ANNOTATION("http://purl.imsglobal.org/caliper/v1/Annotation"),
-        BOOKMARK_ANNOTATION("http://purl.imsglobal.org/caliper/v1/BookmarkAnnotation"),
-        HIGHLIGHT_ANNOTATION("http://purl.imsglobal.org/caliper/v1/HighlightAnnotation"),
-        SHARED_ANNOTATION("http://purl.imsglobal.org/caliper/v1/SharedAnnotation"),
-        TAG_ANNOTATION("http://purl.imsglobal.org/caliper/v1/TagAnnotation");
-
-        private final String uri;
-        private static Map<String, Type> lookup;
-
-        /**
-         * Create reverse lookup hash map
-         */
-        static {
-            Map<String, Type> map = new HashMap<String, Type>();
-            for (Type constants : Type.values()) {
-                map.put(constants.uri(), constants);
-            }
-            lookup = ImmutableMap.copyOf(map);
-        }
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Type(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-
-        /**
-         * Retrieve enum type from reverse lookup map.
-         * @param uri
-         * @return Event.Type enum
-         */
-        public static Annotation.Type lookupConstantWithTypeURI(String uri) {
-            return lookup.get(uri);
-        }
-    }
-
     @JsonProperty("@type")
-    private final String type;
+    private final Type type;
 
     @JsonProperty("annotatedId")
     private String annotatedId;
@@ -85,7 +39,7 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
     protected Annotation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Entity.Type.ANNOTATION);
+        EntityValidator.checkType(builder.type, EntityType.ANNOTATION);
         EntityValidator.checkId("annotatedId", builder.annotatedId);
 
         this.type = builder.type;
@@ -97,7 +51,7 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
      */
     @Override
     @Nonnull
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
@@ -115,21 +69,21 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private String type;
+        private Type type;
         private String annotatedId;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(Annotation.Type.ANNOTATION.uri());
+            type(EntityType.ANNOTATION);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(Type type) {
             this.type = type;
             return self();
         }

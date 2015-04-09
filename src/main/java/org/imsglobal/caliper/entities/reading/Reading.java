@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.DigitalResourceType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -9,7 +10,7 @@ import javax.annotation.Nonnull;
 public class Reading extends DigitalResource {
 
     @JsonProperty("@type")
-    private final String type;
+    private final DigitalResourceType type;
 
     /**
      * @param builder apply builder object properties to the CaliperAssessment object.
@@ -17,7 +18,7 @@ public class Reading extends DigitalResource {
     protected Reading(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.READING);
+        EntityValidator.checkType(builder.type, DigitalResourceType.READING);
 
         this.type = builder.type;
     }
@@ -27,7 +28,7 @@ public class Reading extends DigitalResource {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public DigitalResourceType getType() {
         return type;
     }
 
@@ -36,20 +37,20 @@ public class Reading extends DigitalResource {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private String type;
+        private DigitalResourceType type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResource.Type.READING.uri());
+            type(DigitalResourceType.READING);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(DigitalResourceType type) {
             this.type = type;
             return self();
         }

@@ -3,16 +3,13 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Caliper representation of a CreativeWork (https://schema.org/CreativeWork)
@@ -49,59 +46,8 @@ import java.util.Map;
 public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork,
                                                        org.imsglobal.caliper.entities.Targetable {
 
-    public enum Type {
-        ASSIGNABLE_DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/AssignableDigitalResource"),
-        EPUB_CHAPTER("http://www.idpf.org/epub/vocab/structure/#chapter"),
-        EPUB_PART("http://www.idpf.org/epub/vocab/structure/#part"),
-        EPUB_SUB_CHAPTER("http://www.idpf.org/epub/vocab/structure/#subchapter"),
-        EPUB_VOLUME("http://www.idpf.org/epub/vocab/structure/#volume"),
-        FRAME("http://purl.imsglobal.org/caliper/v1/Frame"),
-        MEDIA_LOCATION("http://purl.imsglobal.org/caliper/v1/MediaLocation"),
-        MEDIA_OBJECT("http://purl.imsglobal.org/caliper/v1/MediaObject"),
-        READING("http://www.idpf.org/epub/vocab/structure"),
-        WEB_PAGE("http://purl.imsglobal.org/caliper/v1/WebPage");
-
-        private final String uri;
-        private static Map<String, Type> lookup;
-
-        /**
-         * Create reverse lookup hash map
-         */
-        static {
-            Map<String, Type> map = new HashMap<String, Type>();
-            for (Type constants : Type.values()) {
-                map.put(constants.uri(), constants);
-            }
-            lookup = ImmutableMap.copyOf(map);
-        }
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Type(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-
-        /**
-         * Retrieve enum type from reverse lookup map.
-         * @param uri
-         * @return DigitalResource.Type enum
-         */
-        public static DigitalResource.Type lookupConstantWithTypeURI(String uri) {
-            return lookup.get(uri);
-        }
-    }
-
     @JsonProperty("@type")
-    private final String type;
+    private final Type type;
 
     @JsonProperty("objectType")
     private final ImmutableList<String> objectTypes;
@@ -127,7 +73,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     protected DigitalResource(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Entity.Type.DIGITAL_RESOURCE);
+        EntityValidator.checkType(builder.type, EntityType.DIGITAL_RESOURCE);
 
         this.type = builder.type;
         this.objectTypes = ImmutableList.copyOf(builder.objectTypes);
@@ -143,7 +89,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      */
     @Override
     @Nonnull
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
@@ -203,7 +149,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private String type;
+        private EntityType type;
         private List<String> objectTypes = Lists.newArrayList();
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
@@ -215,14 +161,14 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
          * Constructor
          */
         public Builder() {
-            type(Entity.Type.DIGITAL_RESOURCE.uri());
+            type(EntityType.DIGITAL_RESOURCE);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

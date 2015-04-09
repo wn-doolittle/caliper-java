@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 public class TrueFalseResponse extends Response {
 
     @JsonProperty("@type")
-    private final String type;
+    private final ResponseType type;
 
     @JsonProperty("value")
     private final String value;
@@ -40,7 +40,7 @@ public class TrueFalseResponse extends Response {
     protected TrueFalseResponse(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.TRUEFALSE);
+        EntityValidator.checkType(builder.type, ResponseType.TRUEFALSE);
 
         this.type = builder.type;
         this.value = builder.value;
@@ -51,7 +51,7 @@ public class TrueFalseResponse extends Response {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public ResponseType getType() {
         return type;
     }
 
@@ -68,21 +68,21 @@ public class TrueFalseResponse extends Response {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Response.Builder<T>  {
-        private String type;
+        private ResponseType type;
         private String value;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(Type.TRUEFALSE.uri());
+            type(ResponseType.TRUEFALSE);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(ResponseType type) {
             this.type = type;
             return self();
         }

@@ -25,10 +25,10 @@ import javax.annotation.Nonnull;
 public class AssignableEvent extends Event {
 
     @JsonProperty("@context")
-    private final String context;
+    private final EventContext context;
 
     @JsonProperty("@type")
-    private final String type;
+    private final EventType type;
 
     @JsonProperty("action")
     private final Action action;
@@ -47,8 +47,8 @@ public class AssignableEvent extends Event {
     protected AssignableEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, Context.ASSIGNABLE);
-        EventValidator.checkTypeUri(builder.type, Type.ASSIGNABLE);
+        EventValidator.checkContext(builder.context, EventContext.ASSIGNABLE);
+        EventValidator.checkType(builder.type, EventType.ASSIGNABLE);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, AssignableEvent.class);
         EventValidator.checkObjectType(getObject(), AssignableDigitalResource.class);
@@ -65,7 +65,7 @@ public class AssignableEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getContext() {
+    public EventContext getContext() {
         return context;
     }
 
@@ -75,7 +75,7 @@ public class AssignableEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EventType getType() {
         return type;
     }
 
@@ -94,23 +94,23 @@ public class AssignableEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private String context;
-        private String type;
+        private EventContext context;
+        private EventType type;
         private Action action;
 
         /*
          * Constructor
          */
         public Builder() {
-            context(Context.ASSIGNABLE.uri());
-            type(Type.ASSIGNABLE.uri());
+            context(EventContext.ASSIGNABLE);
+            type(EventType.ASSIGNABLE);
         }
 
         /**
          * @param context
          * @return builder.
          */
-        private T context(String context) {
+        private T context(EventContext context) {
             this.context = context;
             return self();
         }
@@ -119,7 +119,7 @@ public class AssignableEvent extends Event {
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EventType type) {
             this.type = type;
             return self();
         }

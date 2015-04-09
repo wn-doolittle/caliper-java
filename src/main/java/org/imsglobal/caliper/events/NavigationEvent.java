@@ -31,10 +31,10 @@ import javax.annotation.Nullable;
 public class NavigationEvent extends Event {
     
     @JsonProperty("@context")
-    private final String context;
+    private final EventContext context;
 
     @JsonProperty("@type")
-    private final String type;
+    private final EventType type;
 
     @JsonProperty("action")
     private final Action action;
@@ -56,8 +56,8 @@ public class NavigationEvent extends Event {
     protected NavigationEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, Context.NAVIGATION);
-        EventValidator.checkTypeUri(builder.type, Type.NAVIGATION);
+        EventValidator.checkContext(builder.context, EventContext.NAVIGATION);
+        EventValidator.checkType(builder.type, EventType.NAVIGATION);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, NavigationEvent.class);
         EventValidator.checkObjectType(getObject(), DigitalResource.class);
@@ -75,7 +75,7 @@ public class NavigationEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getContext() {
+    public EventContext getContext() {
         return context;
     }
 
@@ -85,7 +85,7 @@ public class NavigationEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EventType getType() {
         return type;
     }
 
@@ -113,8 +113,8 @@ public class NavigationEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private String context;
-        private String type;
+        private EventContext context;
+        private EventType type;
         private Action action;
         private DigitalResource fromResource;
 
@@ -122,8 +122,8 @@ public class NavigationEvent extends Event {
          * Constructor
          */
         public Builder() {
-            context(Context.NAVIGATION.uri());
-            type(Type.NAVIGATION.uri());
+            context(EventContext.NAVIGATION);
+            type(EventType.NAVIGATION);
             action(Action.NAVIGATED_TO);
         }
 
@@ -131,7 +131,7 @@ public class NavigationEvent extends Event {
          * @param context
          * @return builder.
          */
-        private T context(String context) {
+        private T context(EventContext context) {
             this.context = context;
             return self();
         }
@@ -140,7 +140,7 @@ public class NavigationEvent extends Event {
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EventType type) {
             this.type = type;
             return self();
         }

@@ -18,10 +18,10 @@ import javax.annotation.Nonnull;
 public class ReadingEvent extends Event {
 
     @JsonProperty("@context")
-    private final String context;
+    private final EventContext context;
 
     @JsonProperty("@type")
-    private final String type;
+    private final EventType type;
 
     @JsonProperty("action")
     private final Action action;
@@ -40,8 +40,8 @@ public class ReadingEvent extends Event {
     protected ReadingEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, Context.READING);
-        EventValidator.checkTypeUri(builder.type, Type.READING);
+        EventValidator.checkContext(builder.context, EventContext.READING);
+        EventValidator.checkType(builder.type, EventType.READING);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, ReadingEvent.class);
         EventValidator.checkObjectType(getObject(), DigitalResource.class);
@@ -58,7 +58,7 @@ public class ReadingEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getContext() {
+    public EventContext getContext() {
         return context;
     }
 
@@ -68,7 +68,7 @@ public class ReadingEvent extends Event {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EventType getType() {
         return type;
     }
 
@@ -87,23 +87,23 @@ public class ReadingEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private String context;
-        private String type;
+        private EventContext context;
+        private EventType type;
         private Action action;
 
         /*
          * Constructor
          */
         public Builder() {
-            context(Context.READING.uri());
-            type(Type.READING.uri());
+            context(EventContext.READING);
+            type(EventType.READING);
         }
 
         /**
          * @param context
          * @return builder.
          */
-        private T context(String context) {
+        private T context(EventContext context) {
             this.context = context;
             return self();
         }
@@ -112,7 +112,7 @@ public class ReadingEvent extends Event {
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EventType type) {
             this.type = type;
             return self();
         }

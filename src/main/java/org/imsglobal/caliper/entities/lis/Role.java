@@ -72,7 +72,7 @@ public enum Role implements org.imsglobal.caliper.entities.w3c.Role {
     TEACHING_ASSISTANT_TEACHING_ASSISTANT_TEMPLATE("http://purl.imsglobal.org/vocab/lis/v2/membership/TeachingAssistant#TeachingAssistantTemplate"),
     TEACHING_ASSISTANT_TEACHING_ASSISTANT_GROUP("http://purl.imsglobal.org/vocab/lis/v2/membership/TeachingAssistant#TeachingAssistantGroup");
 
-    private final String uri;
+    private final String value;
     private static Map<String, Role> lookup;
 
     /**
@@ -81,17 +81,17 @@ public enum Role implements org.imsglobal.caliper.entities.w3c.Role {
     static {
         Map<String, Role> map = new HashMap<String, Role>();
         for (Role constants : Role.values()) {
-            map.put(constants.uri(), constants);
+            map.put(constants.getValue(), constants);
         }
         lookup = ImmutableMap.copyOf(map);
     }
 
     /**
      * Private constructor
-     * @param uri
+     * @param value
      */
-    private Role(final String uri) {
-        this.uri = uri;
+    private Role(final String value) {
+        this.value = value;
     }
 
     /**
@@ -103,10 +103,10 @@ public enum Role implements org.imsglobal.caliper.entities.w3c.Role {
     }
 
     /**
-     * @return the URI
+     * @return the URI value
      */
     @JsonValue
-    public String uri() {
-        return uri;
+    public String getValue() {
+        return value;
     }
 }

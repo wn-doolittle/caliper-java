@@ -3,13 +3,12 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.collect.ImmutableMap;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
 import org.imsglobal.caliper.entities.w3c.Organization;
-import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -17,8 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
 @JsonPropertyOrder({
     "@context",
@@ -35,115 +32,11 @@ import java.util.Map;
     "group" })
 public abstract class Event {
 
-    public enum Context {
-        ANNOTATION("http://purl.imsglobal.org/ctx/caliper/v1/AnnotationEvent"),
-        ASSESSMENT("http://purl.imsglobal.org/ctx/caliper/v1/AssessmentEvent"),
-        ASSESSMENT_ITEM("http://purl.imsglobal.org/ctx/caliper/v1/AssessmentItemEvent"),
-        ASSIGNABLE("http://purl.imsglobal.org/ctx/caliper/v1/AssignableEvent"),
-        EVENT("http://purl.imsglobal.org/ctx/caliper/v1/Event"),
-        MEDIA("http://purl.imsglobal.org/ctx/caliper/v1/MediaEvent"),
-        NAVIGATION("http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent"),
-        OUTCOME("http://purl.imsglobal.org/ctx/caliper/v1/OutcomeEvent"),
-        READING("http://purl.imsglobal.org/ctx/caliper/v1/ReadingEvent"),
-        SESSION("http://purl.imsglobal.org/ctx/caliper/v1/SessionEvent"),
-        VIEW("http://purl.imsglobal.org/ctx/caliper/v1/ViewEvent");
-
-        private final String uri;
-        private static Map<String, Context> lookup;
-
-        /**
-         * Create reverse lookup hash map
-         */
-        static {
-            Map<String, Context> map = new HashMap<String, Context>();
-            for (Context constants : Context.values()) {
-                map.put(constants.uri(), constants);
-            }
-            lookup = ImmutableMap.copyOf(map);
-        }
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Context(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-
-        /**
-         * Retrieve enum type from reverse lookup map.
-         * @param uri
-         * @return Event.Context enum
-         */
-        public static Event.Context lookupConstantWithContextURI(String uri) {
-            return lookup.get(uri);
-        }
-    }
-
-    public enum Type {
-        ANNOTATION("http://purl.imsglobal.org/caliper/v1/AnnotationEvent"),
-        ASSESSMENT("http://purl.imsglobal.org/caliper/v1/AssessmentEvent"),
-        ASSESSMENT_ITEM("http://purl.imsglobal.org/caliper/v1/AssessmentItemEvent"),
-        ASSIGNABLE("http://purl.imsglobal.org/caliper/v1/AssignableEvent"),
-        EVENT("http://purl.imsglobal.org/caliper/v1/Event"),
-        MEDIA("http://purl.imsglobal.org/caliper/v1/MediaEvent"),
-        NAVIGATION("http://purl.imsglobal.org/caliper/v1/NavigationEvent"),
-        OUTCOME("http://purl.imsglobal.org/caliper/v1/OutcomeEvent"),
-        READING("http://purl.imsglobal.org/caliper/v1/ReadingEvent"),
-        SESSION("http://purl.imsglobal.org/caliper/v1/SessionEvent"),
-        VIEW("http://purl.imsglobal.org/caliper/v1/ViewEvent");
-
-        private final String uri;
-        private static Map<String, Type> lookup;
-
-        /**
-         * Create reverse lookup hash map
-         */
-        static {
-            Map<String, Type> map = new HashMap<String, Type>();
-            for (Type constants : Type.values()) {
-                map.put(constants.uri(), constants);
-            }
-            lookup = ImmutableMap.copyOf(map);
-        }
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Type(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-
-        /**
-         * Retrieve enum type from reverse lookup map.
-         * @param uri
-         * @return Event.Type enum
-         */
-        public static Event.Type lookupConstantWithTypeURI(String uri) {
-            return lookup.get(uri);
-        }
-    }
-
     @JsonProperty("@context")
-    private final String context;
+    private final EventContext context;
 
     @JsonProperty("@type")
-    private final String type;
+    private final EventType type;
 
     @JsonProperty("edApp")
     private final SoftwareApplication edApp;
@@ -188,8 +81,8 @@ public abstract class Event {
      */
     protected Event(Builder<?> builder) {
 
-        // Validator.checkContextUri(builder.context, Context.EVENT);
-        // Validator.checkTypeUri(builder.type, Type.EVENT);
+        // Validator.checkContext(builder.context, Context.EVENT);
+        // Validator.checkType(builder.type, Type.EVENT);
         // Validator.checkAction(builder.action, Event.class);
         EventValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
         EventValidator.checkDuration(builder.startedAtTime, builder.endedAtTime, builder.duration);
@@ -213,7 +106,7 @@ public abstract class Event {
      * @return the context
      */
     @Nonnull
-    public String getContext() {
+    public EventContext getContext() {
         return context;
     }
 
@@ -222,7 +115,7 @@ public abstract class Event {
      * @return the type
      */
     @Nonnull
-    public String getType() {
+    public EventType getType() {
         return type;
     }
 
@@ -326,8 +219,8 @@ public abstract class Event {
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
-        private String context;
-        private String type;
+        private EventContext context;
+        private EventType type;
         private SoftwareApplication edApp;
         private Organization group;
         private Agent actor;
@@ -345,15 +238,15 @@ public abstract class Event {
          * Initialize type with default values.
          */
         public Builder() {
-            context(Event.Context.EVENT.uri());
-            type(Event.Type.EVENT.uri());
+            context(EventContext.EVENT);
+            type(EventType.EVENT);
         }
 
         /**
          * @param context
          * @return builder.
          */
-        private T context(String context) {
+        private T context(EventContext context) {
             this.context = context;
             return self();
         }
@@ -362,7 +255,7 @@ public abstract class Event {
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EventType type) {
             this.type = type;
             return self();
         }

@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 public class AudioObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.AudioObject {
 
     @JsonProperty("@type")
-    private final String type;
+    private final MediaObjectType type;
 
     @JsonProperty("volumeMin")
     private String volumeMin;
@@ -50,7 +50,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
     protected AudioObject(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.AUDIO_OBJECT);
+        EntityValidator.checkType(builder.type, MediaObjectType.AUDIO_OBJECT);
 
         this.type = builder.type;
         this.volumeMin = builder.volumeMin;
@@ -64,7 +64,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
      */
     @Override
     @Nonnull
-    public String getType() {
+    public MediaObjectType getType() {
         return type;
     }
 
@@ -105,7 +105,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
-        private String type;
+        private MediaObjectType type;
         private String volumeMin;
         private String volumeMax;
         private String volumeLevel;
@@ -115,14 +115,14 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(MediaObject.Type.AUDIO_OBJECT.uri());
+            type(MediaObjectType.AUDIO_OBJECT);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(MediaObjectType type) {
             this.type = type;
             return self();
         }

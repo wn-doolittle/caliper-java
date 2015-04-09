@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
 public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")
-    private final String type;
+    private final AnnotationType type;
 
     @JsonProperty("bookmarkNotes")
     private String bookmarkNotes;
@@ -31,7 +31,7 @@ public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotatio
     protected BookmarkAnnotation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.BOOKMARK_ANNOTATION);
+        EntityValidator.checkType(builder.type, AnnotationType.BOOKMARK_ANNOTATION);
 
         this.type = builder.type;
         this.bookmarkNotes = builder.bookmarkNotes;
@@ -42,7 +42,7 @@ public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotatio
      */
     @Override
     @Nonnull
-    public String getType() {
+    public AnnotationType getType() {
         return type;
     }
 
@@ -59,21 +59,21 @@ public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotatio
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
-        private String type;
+        private AnnotationType type;
         private String bookmarkNotes;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(Annotation.Type.BOOKMARK_ANNOTATION.uri());
+            type(AnnotationType.BOOKMARK_ANNOTATION);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(AnnotationType type) {
             this.type = type;
             return self();
         }

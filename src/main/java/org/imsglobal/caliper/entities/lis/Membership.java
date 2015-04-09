@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -38,7 +39,7 @@ import java.util.List;
 public class Membership extends Entity implements org.imsglobal.caliper.entities.w3c.Membership {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("member")
     //private final Person member;
@@ -49,10 +50,10 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
     private final String organizationId;
 
     @JsonProperty("roles")
-    private final ImmutableList<String> roles;
+    private final ImmutableList<org.imsglobal.caliper.entities.w3c.Role> roles;
 
     @JsonProperty("status")
-    private final String status;
+    private final org.imsglobal.caliper.entities.w3c.Status status;
 
     /**
      * @param builder apply builder object properties to the Membership object.
@@ -60,7 +61,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
     protected Membership(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.MEMBERSHIP);
+        EntityValidator.checkType(builder.type, EntityType.MEMBERSHIP);
         EntityValidator.checkId("memberId", builder.memberId);
         EntityValidator.checkId("organizationId", builder.organizationId);
         EntityValidator.checkMembershipStatus(builder.status);
@@ -77,7 +78,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -101,7 +102,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
      * @return the roles that the agent plays in a memberIdship relationship with an memberIdship.
      */
     @Nullable
-    public ImmutableList<String> getRoles() {
+    public ImmutableList<org.imsglobal.caliper.entities.w3c.Role> getRoles() {
         return roles;
     }
 
@@ -109,7 +110,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
      * @return the current status of a membership which applies to all roles.
      */
     @Nonnull
-    public String getStatus() {
+    public org.imsglobal.caliper.entities.w3c.Status getStatus() {
         return status;
     }
 
@@ -118,26 +119,26 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T> {
-        private String type;
+        private EntityType type;
         //private Person member;
         private String memberId;
         //private Organization organization;
         private String organizationId;
-        private List<String> roles = Lists.newArrayList();
-        private String status;
+        private List<org.imsglobal.caliper.entities.w3c.Role> roles = Lists.newArrayList();
+        private org.imsglobal.caliper.entities.w3c.Status status;
 
         /**
          * Default Constructor
          */
         public Builder() {
-            type(Entity.Type.MEMBERSHIP.uri());
+            type(EntityType.MEMBERSHIP);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }
@@ -164,7 +165,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
          * @param roles
          * @return builder.
          */
-        public T roles(List<String> roles) {
+        public T roles(List<org.imsglobal.caliper.entities.w3c.Role> roles) {
             this.roles = roles;
             return self();
         }
@@ -173,7 +174,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
          * @param role
          * @return builder.
          */
-        public T role(String role) {
+        public T role(org.imsglobal.caliper.entities.w3c.Role role) {
             this.roles.add(role);
             return self();
         }
@@ -182,7 +183,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
          * @param status
          * @return builder.
          */
-        public T status(String status) {
+        public T status(org.imsglobal.caliper.entities.w3c.Status status) {
             this.status = status;
             return self();
         }

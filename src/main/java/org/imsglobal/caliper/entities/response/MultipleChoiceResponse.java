@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 public class MultipleChoiceResponse extends Response {
 
     @JsonProperty("@type")
-    private final String type;
+    private final ResponseType type;
 
     @JsonProperty("value")
     private String value;
@@ -39,7 +39,7 @@ public class MultipleChoiceResponse extends Response {
     protected MultipleChoiceResponse(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.MULTIPLECHOICE);
+        EntityValidator.checkType(builder.type, ResponseType.MULTIPLECHOICE);
 
         this.type = builder.type;
         this.value = builder.value;
@@ -50,7 +50,7 @@ public class MultipleChoiceResponse extends Response {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public ResponseType getType() {
         return type;
     }
 
@@ -67,21 +67,21 @@ public class MultipleChoiceResponse extends Response {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Response.Builder<T>  {
-        private String type;
+        private ResponseType type;
         private String value;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(Type.MULTIPLECHOICE.uri());
+            type(ResponseType.MULTIPLECHOICE);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(ResponseType type) {
             this.type = type;
             return self();
         }

@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Status {
+public enum Status implements org.imsglobal.caliper.entities.w3c.Status {
     ACTIVE("http://purl.imsglobal.org/vocab/lis/v2/status#Active"),
     DELETED("http://purl.imsglobal.org/vocab/lis/v2/status#Deleted"),
     INACTIVE("http://purl.imsglobal.org/vocab/lis/v2/status#Inactive");
@@ -20,7 +20,7 @@ public enum Status {
     static {
         Map<String, Status> map = new HashMap<String, Status>();
         for (Status constants : Status.values()) {
-            map.put(constants.value(), constants);
+            map.put(constants.getValue(), constants);
         }
         lookup = ImmutableMap.copyOf(map);
     }
@@ -45,7 +45,7 @@ public enum Status {
      * @return the URI
      */
     @JsonValue
-    public String value() {
+    public String getValue() {
         return value;
     }
 }

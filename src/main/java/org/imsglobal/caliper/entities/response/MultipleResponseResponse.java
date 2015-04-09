@@ -32,7 +32,7 @@ import java.util.List;
 public class MultipleResponseResponse extends Response {
 
     @JsonProperty("@type")
-    private final String type;
+    private final ResponseType type;
 
     @JsonProperty("values")
     private ImmutableList<String> values;
@@ -43,7 +43,7 @@ public class MultipleResponseResponse extends Response {
     protected MultipleResponseResponse(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.MULTIPLERESPONSE);
+        EntityValidator.checkType(builder.type, ResponseType.MULTIPLERESPONSE);
 
         this.type = builder.type;
         this.values = ImmutableList.copyOf(builder.values);
@@ -54,7 +54,7 @@ public class MultipleResponseResponse extends Response {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public ResponseType getType() {
         return type;
     }
 
@@ -71,21 +71,21 @@ public class MultipleResponseResponse extends Response {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Response.Builder<T>  {
-        private String type;
+        private ResponseType type;
         private List<String> values = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(Type.MULTIPLERESPONSE.uri());
+            type(ResponseType.MULTIPLERESPONSE);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(ResponseType type) {
             this.type = type;
             return self();
         }
