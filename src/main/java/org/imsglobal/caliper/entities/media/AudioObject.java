@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -30,7 +31,7 @@ import javax.annotation.Nullable;
 public class AudioObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.AudioObject {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("volumeMin")
     private String volumeMin;
@@ -50,7 +51,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
     protected AudioObject(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.AUDIO_OBJECT);
+        EntityValidator.checkTypeUri(builder.type, EntityType.AUDIO_OBJECT);
 
         this.type = builder.type;
         this.volumeMin = builder.volumeMin;
@@ -64,7 +65,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -105,7 +106,7 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
-        private String type;
+        private EntityType type;
         private String volumeMin;
         private String volumeMax;
         private String volumeLevel;
@@ -115,14 +116,14 @@ public class AudioObject extends MediaObject implements org.imsglobal.caliper.en
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(MediaObject.Type.AUDIO_OBJECT.uri());
+            type(EntityType.AUDIO_OBJECT);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

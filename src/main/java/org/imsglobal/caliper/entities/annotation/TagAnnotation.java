@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -23,7 +24,7 @@ import java.util.List;
 public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("tags")
     private ImmutableList<String> tags;
@@ -34,7 +35,7 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
     protected TagAnnotation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.TAG_ANNOTATION);
+        EntityValidator.checkTypeUri(builder.type, EntityType.TAG_ANNOTATION);
 
         this.type = builder.type;
         this.tags = ImmutableList.copyOf(builder.tags);
@@ -45,7 +46,7 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -63,21 +64,21 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
-        private String type;
+        private EntityType type;
         private List<String> tags = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(Annotation.Type.TAG_ANNOTATION.uri());
+            type(EntityType.TAG_ANNOTATION);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

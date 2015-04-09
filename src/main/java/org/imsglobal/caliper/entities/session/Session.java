@@ -3,6 +3,7 @@ package org.imsglobal.caliper.entities.session;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
@@ -26,7 +27,7 @@ import javax.annotation.Nullable;
 public class Session extends Entity implements org.imsglobal.caliper.entities.Generatable,
                                                org.imsglobal.caliper.entities.Targetable {
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("actor")
     private final Agent actor;
@@ -46,7 +47,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
     protected Session(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.SESSION);
+        EntityValidator.checkTypeUri(builder.type, EntityType.SESSION);
         EntityValidator.checkActorType(builder.actor, Person.class);
         EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
         EntityValidator.checkDuration(builder.startedAtTime, builder.endedAtTime, builder.duration);
@@ -63,7 +64,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -104,7 +105,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private String type;
+        private EntityType type;
         private Agent actor;
         private DateTime startedAtTime;
         private DateTime endedAtTime;
@@ -114,14 +115,14 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
          * Initialize type with default value.
          */
         public Builder() {
-            type(Entity.Type.SESSION.uri());
+            type(EntityType.SESSION);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

@@ -2,7 +2,7 @@ package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 public class CourseSection extends CourseOffering {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("category")
     private final String category;
@@ -45,7 +45,7 @@ public class CourseSection extends CourseOffering {
     protected CourseSection(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.COURSE_SECTION);
+        EntityValidator.checkTypeUri(builder.type, EntityType.COURSE_SECTION);
 
         this.type = builder.type;
         this.category = builder.category;
@@ -56,7 +56,7 @@ public class CourseSection extends CourseOffering {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -73,21 +73,21 @@ public class CourseSection extends CourseOffering {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CourseOffering.Builder<T>  {
-        private String type;
+        private EntityType type;
         private String category;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(Entity.Type.COURSE_SECTION.uri());
+            type(EntityType.COURSE_SECTION);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

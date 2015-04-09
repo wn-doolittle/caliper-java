@@ -16,11 +16,6 @@ public interface Organization {
     String getId();
 
     /**
-     * @return the type.
-     */
-    String getType();
-
-    /**
      * A membership entity that records the role of some Agent within this Organization.
      * @return membership
      */

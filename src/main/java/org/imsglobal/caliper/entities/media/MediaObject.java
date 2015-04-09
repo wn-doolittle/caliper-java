@@ -2,14 +2,12 @@ package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * An image, video, or audio object embedded in a web page.
@@ -31,52 +29,8 @@ import java.util.Map;
     "duration" })
 public abstract class MediaObject extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.MediaObject {
 
-    public enum Type {
-        AUDIO_OBJECT("http://purl.imsglobal.org/caliper/v1/AudioObject"),
-        IMAGE_OBJECT("http://purl.imsglobal.org/caliper/v1/ImageObject"),
-        VIDEO_OBJECT("http://purl.imsglobal.org/caliper/v1/VideoObject");
-
-        private final String uri;
-        private static Map<String, Type> lookup;
-
-        /**
-         * Create reverse lookup hash map
-         */
-        static {
-            Map<String, Type> map = new HashMap<String, Type>();
-            for (Type constants : Type.values()) {
-                map.put(constants.uri(), constants);
-            }
-            lookup = ImmutableMap.copyOf(map);
-        }
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Type(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-
-        /**
-         * Retrieve enum type from reverse lookup map.
-         * @param uri
-         * @return Media.Type enum
-         */
-        public static MediaObject.Type lookupConstantWithTypeURI(String uri) {
-            return lookup.get(uri);
-        }
-    }
-
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("duration")
     private long duration;
@@ -87,7 +41,7 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
     protected MediaObject(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, DigitalResource.Type.MEDIA_OBJECT);
+        EntityValidator.checkTypeUri(builder.type, EntityType.MEDIA_OBJECT);
 
         this.type = builder.type;
         this.duration = builder.duration;
@@ -98,7 +52,7 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -116,7 +70,7 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
-        private String type;
+        private EntityType type;
         private long duration;
 
         protected abstract T self();
@@ -125,14 +79,14 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(DigitalResource.Type.MEDIA_OBJECT.uri());
+            type(EntityType.MEDIA_OBJECT);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

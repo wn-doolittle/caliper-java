@@ -2,15 +2,13 @@ package org.imsglobal.caliper.entities.assignable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.collect.ImmutableMap;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Assignable Digital Resource
@@ -38,51 +36,8 @@ import java.util.Map;
     "maxScore" })
 public class AssignableDigitalResource extends DigitalResource implements org.imsglobal.caliper.entities.assignable.Assignable {
 
-    public enum Type {
-        ASSESSMENT("http://purl.imsglobal.org/caliper/v1/Assessment"),
-        ASSESSMENT_ITEM("http://purl.imsglobal.org/caliper/v1/AssessmentItem");
-
-        private final String uri;
-        private static Map<String, Type> lookup;
-
-        /**
-         * Create reverse lookup hash map
-         */
-        static {
-            Map<String, Type> map = new HashMap<String, Type>();
-            for (Type constants : Type.values()) {
-                map.put(constants.uri(), constants);
-            }
-            lookup = ImmutableMap.copyOf(map);
-        }
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Type(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-
-        /**
-         * Retrieve enum type from reverse lookup map.
-         * @param uri
-         * @return Event.Type enum
-         */
-        public static AssignableDigitalResource.Type lookupConstantWithTypeURI(String uri) {
-            return lookup.get(uri);
-        }
-    }
-
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("dateToActivate")
     private DateTime dateToActivate;
@@ -111,7 +66,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     protected AssignableDigitalResource(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, DigitalResource.Type.ASSIGNABLE_DIGITAL_RESOURCE);
+        EntityValidator.checkTypeUri(builder.type, EntityType.ASSIGNABLE_DIGITAL_RESOURCE);
 
         this.type = builder.type;
         this.dateToActivate = builder.dateToActivate;
@@ -128,7 +83,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -193,7 +148,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private String type;
+        private EntityType type;
         private DateTime dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
         private int maxAttempts, maxSubmits;
         private double maxScore;
@@ -202,14 +157,14 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResource.Type.ASSIGNABLE_DIGITAL_RESOURCE.uri());
+            type(EntityType.ASSIGNABLE_DIGITAL_RESOURCE);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

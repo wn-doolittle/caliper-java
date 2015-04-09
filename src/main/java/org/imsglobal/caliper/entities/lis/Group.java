@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -30,7 +31,7 @@ import java.util.List;
 public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.Organization {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("membership")
     private final ImmutableList<org.imsglobal.caliper.entities.w3c.Membership> memberships;
@@ -44,7 +45,7 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
     protected Group(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.GROUP);
+        EntityValidator.checkTypeUri(builder.type, EntityType.GROUP);
 
         this.type = builder.type;
         this.memberships = ImmutableList.copyOf(builder.memberships);
@@ -56,7 +57,7 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -81,7 +82,7 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private String type;
+        private EntityType type;
         private List<org.imsglobal.caliper.entities.w3c.Membership> memberships = Lists.newArrayList();
         private Course subOrganizationOf;
 
@@ -89,14 +90,14 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
          * Initialize type with default value.  Required if the group type is not specified by the user.
          */
         public Builder() {
-            type(Entity.Type.GROUP.uri());
+            type(EntityType.GROUP);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

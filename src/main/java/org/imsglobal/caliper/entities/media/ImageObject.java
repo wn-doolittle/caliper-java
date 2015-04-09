@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -11,7 +12,7 @@ import javax.annotation.Nonnull;
 public class ImageObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.ImageObject {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     /**
      * @param builder apply builder object properties to the ImageObject object.
@@ -19,7 +20,7 @@ public class ImageObject extends MediaObject implements org.imsglobal.caliper.en
     protected ImageObject(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.IMAGE_OBJECT);
+        EntityValidator.checkTypeUri(builder.type, EntityType.IMAGE_OBJECT);
 
         this.type = builder.type;
     }
@@ -29,7 +30,7 @@ public class ImageObject extends MediaObject implements org.imsglobal.caliper.en
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -38,20 +39,20 @@ public class ImageObject extends MediaObject implements org.imsglobal.caliper.en
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
-        private String type;
+        private EntityType type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(MediaObject.Type.IMAGE_OBJECT.uri());
+            type(EntityType.IMAGE_OBJECT);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

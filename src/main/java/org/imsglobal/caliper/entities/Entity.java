@@ -10,7 +10,6 @@ import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -26,73 +25,12 @@ import java.util.Map;
     "dateModified" })
 public abstract class Entity implements Thing {
 
-    public enum Type {
-        AGENT("http://purl.imsglobal.org/caliper/v1/Agent"),
-        ANNOTATION("http://purl.imsglobal.org/caliper/v1/Annotation"),
-        ATTEMPT("http://purl.imsglobal.org/caliper/v1/Attempt"),
-        COURSE_OFFERING("http://purl.imsglobal.org/caliper/v1/lis/CourseOffering"),
-        COURSE_SECTION("http://purl.imsglobal.org/caliper/v1/lis/CourseSection"),
-        DEPARTMENT("http://purl.imsglobal.org/caliper/v1/w3c/OrganizationalUnit"),
-        DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/DigitalResource"),
-        ENTITY("http://purl.imsglobal.org/caliper/v1/Entity"),
-        GENERATED("http://purl.imsglobal.org/caliper/v1/Generated"),
-        GROUP("http://purl.imsglobal.org/caliper/v1/lis/Group"),
-        LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
-        MEMBERSHIP("http://purl.imsglobal.org/caliper/v1/lis/Membership"),
-        PERSON("http://purl.imsglobal.org/caliper/v1/lis/Person"),
-        ORGANIZATION("http://purl.imsglobal.org/caliper/v1/w3c/Organization"),
-        RESPONSE("http://purl.imsglobal.org/caliper/v1/Response"),
-        RESULT("http://purl.imsglobal.org/caliper/v1/Result"),
-        SESSION("http://purl.imsglobal.org/caliper/v1/Session"),
-        SOFTWARE_APPLICATION("http://purl.imsglobal.org/caliper/v1/SoftwareApplication"),
-        TARGET("http://purl.imsglobal.org/caliper/v1/Target"),
-        VIEW("http://purl.imsglobal.org/caliper/v1/View");
-
-        private final String uri;
-        private static Map<String, Type> lookup;
-
-        /**
-         * Create reverse lookup hash map
-         */
-        static {
-            Map<String, Type> map = new HashMap<String, Type>();
-            for (Type constants : Type.values()) {
-                map.put(constants.uri(), constants);
-            }
-            lookup = ImmutableMap.copyOf(map);
-        }
-
-        /**
-         * Private constructor
-         * @param uri
-         */
-        private Type(final String uri) {
-            this.uri = uri;
-        }
-
-        /**
-         * @return URI string
-         */
-        public String uri() {
-            return uri;
-        }
-
-        /**
-         * Retrieve enum type from reverse lookup map.
-         * @param uri
-         * @return Entity.Type enum
-         */
-        public static Entity.Type lookupConstantWithTypeURI(String uri) {
-            return lookup.get(uri);
-        }
-    }
-
     @Reference
     @JsonProperty("@id")
     protected final String id;
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("name")
     private final String name;
@@ -115,7 +53,7 @@ public abstract class Entity implements Thing {
     protected Entity(Builder<?> builder) {
 
         EntityValidator.checkId("id", builder.id);
-        EntityValidator.checkTypeUri(builder.type, Type.ENTITY);
+        EntityValidator.checkTypeUri(builder.type, EntityType.ENTITY);
 
         this.id = builder.id;
         this.type = builder.type;
@@ -138,7 +76,7 @@ public abstract class Entity implements Thing {
      * @return the type.
      */
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -189,7 +127,7 @@ public abstract class Entity implements Thing {
      */
     public static abstract class Builder<T extends Builder<T>> {
         private String id;
-        private String type;
+        private EntityType type;
         private String name;
         private String description;
         private Map<String, String> extensions = Maps.newHashMap();
@@ -202,7 +140,7 @@ public abstract class Entity implements Thing {
          * Constructor
          */
         public Builder() {
-            type(Type.ENTITY.uri());
+            type(EntityType.ENTITY);
         }
 
         /**
@@ -218,7 +156,7 @@ public abstract class Entity implements Thing {
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

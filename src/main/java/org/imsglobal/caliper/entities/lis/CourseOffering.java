@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.w3c.Organization;
 import org.imsglobal.caliper.validators.EntityValidator;
 
@@ -32,7 +33,7 @@ import java.util.List;
 public class CourseOffering extends Entity implements Course {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("courseNumber")
     private final String courseNumber;
@@ -52,7 +53,7 @@ public class CourseOffering extends Entity implements Course {
     protected CourseOffering(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.COURSE_OFFERING);
+        EntityValidator.checkTypeUri(builder.type, EntityType.COURSE_OFFERING);
 
         this.type = builder.type;
         this.courseNumber = builder.courseNumber;
@@ -66,7 +67,7 @@ public class CourseOffering extends Entity implements Course {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -108,7 +109,7 @@ public class CourseOffering extends Entity implements Course {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private String type;
+        private EntityType type;
         private String courseNumber;
         private String academicSession;
         private List<org.imsglobal.caliper.entities.w3c.Membership> memberships = Lists.newArrayList();
@@ -118,14 +119,14 @@ public class CourseOffering extends Entity implements Course {
          * Initialize type with default value.
          */
         public Builder() {
-            type(Entity.Type.COURSE_OFFERING.uri());
+            type(EntityType.COURSE_OFFERING);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

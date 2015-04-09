@@ -1,17 +1,12 @@
 package org.imsglobal.caliper.validators;
 
 import com.google.common.base.Strings;
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.entities.annotation.Annotation;
-import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.Membership;
 import org.imsglobal.caliper.entities.lis.Status;
 import org.imsglobal.caliper.entities.lis.SupportedStatuses;
-import org.imsglobal.caliper.entities.media.MediaObject;
-import org.imsglobal.caliper.entities.response.Response;
 import org.joda.time.DateTime;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -115,63 +110,73 @@ public class EntityValidator {
 
     /**
      * Check Annotation type URI equality.
-     * @param value
      * @param type
+     * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkTypeUri(String value, Annotation.Type type) throws IllegalArgumentException {
-        checkArgument(value.equals(type.uri()), "expected type %s but was %s", type.uri(), type);
+    /**
+    public static void checkTypeUri(Annotation.Type type, Annotation.Type expected) throws IllegalArgumentException {
+        checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue);
     }
+     */
 
     /**
      * Check AssignableDigitalResource type URI equality.
-     * @param value
      * @param type
+     * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkTypeUri(String value, AssignableDigitalResource.Type type) throws IllegalArgumentException {
-        checkArgument(value.equals(type.uri()), "expected type %s but was %s", type.uri(), type);
+    /**
+    public static void checkTypeUri(AssignableDigitalResource.Type type, AssignableDigitalResource.Type expected) throws IllegalArgumentException {
+        checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
     }
+     */
 
     /**
      * Check DigitalResource type URI equality.
-     * @param value
      * @param type
+     * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkTypeUri(String value, DigitalResource.Type type) throws IllegalArgumentException {
-        checkArgument(value.equals(type.uri()), "expected type %s but was %s", type.uri(), type);
+    /**
+    public static void checkTypeUri(DigitalResource.Type type, DigitalResource.Type expected) throws IllegalArgumentException {
+        checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
     }
+     */
 
     /**
      * Check Entity type URI equality.
-     * @param value
      * @param type
+     * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkTypeUri(String value, Entity.Type type) throws IllegalArgumentException {
-        checkArgument(value.equals(type.uri()), "expected type %s but was %s", type.uri(), type);
+    public static void checkTypeUri(EntityType type, EntityType expected) throws IllegalArgumentException {
+        checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
     }
 
     /**
      * Check MediaObject type URI equality.
-     * @param value
      * @param type
+     * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkTypeUri(String value, MediaObject.Type type) throws IllegalArgumentException {
-        checkArgument(value.equals(type.uri()), "expected type %s but was %s", type.uri(), type);
+    /**
+    public static void checkTypeUri(MediaObject.Type type, MediaObject.Type expected) throws IllegalArgumentException {
+        checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
     }
+     */
 
     /**
      * Check Response type URI equality.
-     * @param value
      * @param type
+     * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkTypeUri(String value, Response.Type type) throws IllegalArgumentException {
-        checkArgument(value.equals(type.uri()), "expected type %s but was %s", type.uri(), type);
+    /**
+    public static void checkTypeUri(Response.Type type, Response.Type expected) throws IllegalArgumentException {
+        checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
     }
+     */
 
     /**
      * Check for equality between String value and a constant.
@@ -186,7 +191,7 @@ public class EntityValidator {
     /**
      * Check if String is null or empty.
      * @param value
-     * @return
+     * @return boolean true/false
      */
     private static boolean isNullorEmpty(String value) {
         return Strings.isNullOrEmpty(value);

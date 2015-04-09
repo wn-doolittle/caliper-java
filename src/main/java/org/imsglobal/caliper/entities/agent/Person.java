@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.w3c.Membership;
 import org.imsglobal.caliper.validators.EntityValidator;
@@ -25,7 +26,7 @@ import java.util.List;
 public class Person extends Entity implements Agent {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("hasMembership")
     private ImmutableList<Membership> hasMemberships;
@@ -36,7 +37,7 @@ public class Person extends Entity implements Agent {
     protected Person(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.PERSON);
+        EntityValidator.checkTypeUri(builder.type, EntityType.PERSON);
 
         this.type = builder.type;
         this.hasMemberships = ImmutableList.copyOf(builder.hasMemberships);
@@ -47,7 +48,7 @@ public class Person extends Entity implements Agent {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -64,21 +65,21 @@ public class Person extends Entity implements Agent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private String type;
+        private EntityType type;
         private List<Membership> hasMemberships = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(Entity.Type.PERSON.uri());
+            type(EntityType.PERSON);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.w3c.Membership;
 import org.imsglobal.caliper.validators.EntityValidator;
 
@@ -31,7 +32,7 @@ import java.util.List;
 public class Organization extends Entity implements org.imsglobal.caliper.entities.w3c.Organization {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("membership")
     private final ImmutableList<Membership> memberships;
@@ -45,7 +46,7 @@ public class Organization extends Entity implements org.imsglobal.caliper.entiti
     protected Organization(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.ORGANIZATION);
+        EntityValidator.checkTypeUri(builder.type, EntityType.ORGANIZATION);
 
         this.type = builder.type;
         this.memberships = ImmutableList.copyOf(builder.memberships);
@@ -57,7 +58,7 @@ public class Organization extends Entity implements org.imsglobal.caliper.entiti
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -82,7 +83,7 @@ public class Organization extends Entity implements org.imsglobal.caliper.entiti
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private String type;
+        private EntityType type;
         private List<Membership> memberships = Lists.newArrayList();
         private org.imsglobal.caliper.entities.w3c.Organization subOrganizationOf;
 
@@ -90,14 +91,14 @@ public class Organization extends Entity implements org.imsglobal.caliper.entiti
          * Initialize type with default value.
          */
         public Builder() {
-            type(Entity.Type.ORGANIZATION.uri());
+            type(EntityType.ORGANIZATION);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

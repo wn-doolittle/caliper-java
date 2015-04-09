@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -9,7 +10,7 @@ import javax.annotation.Nonnull;
 public class WebPage extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.WebPage {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     /**
      * @param builder apply builder object properties to the WebPage object.
@@ -17,7 +18,7 @@ public class WebPage extends DigitalResource implements org.imsglobal.caliper.en
     protected WebPage(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.WEB_PAGE);
+        EntityValidator.checkTypeUri(builder.type, EntityType.WEB_PAGE);
 
         this.type = builder.type;
     }
@@ -27,7 +28,7 @@ public class WebPage extends DigitalResource implements org.imsglobal.caliper.en
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -36,20 +37,20 @@ public class WebPage extends DigitalResource implements org.imsglobal.caliper.en
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private String type;
+        private EntityType type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResource.Type.WEB_PAGE.uri());
+            type(EntityType.WEB_PAGE);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

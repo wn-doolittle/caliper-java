@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -32,7 +33,7 @@ import java.util.List;
 public class FillinBlankResponse extends Response {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("values")
     private ImmutableList<String> values;
@@ -43,7 +44,7 @@ public class FillinBlankResponse extends Response {
     protected FillinBlankResponse(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.FILLINBLANK);
+        EntityValidator.checkTypeUri(builder.type, EntityType.FILLINBLANK);
 
         this.type = builder.type;
         this.values = ImmutableList.copyOf(builder.values);
@@ -54,7 +55,7 @@ public class FillinBlankResponse extends Response {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -71,21 +72,21 @@ public class FillinBlankResponse extends Response {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Response.Builder<T>  {
-        private String type;
+        private EntityType type;
         private List<String> values = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(Type.FILLINBLANK.uri());
+            type(EntityType.FILLINBLANK);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }

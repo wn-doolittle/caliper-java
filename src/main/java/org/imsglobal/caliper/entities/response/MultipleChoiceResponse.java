@@ -2,6 +2,7 @@ package org.imsglobal.caliper.entities.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -28,7 +29,7 @@ import javax.annotation.Nullable;
 public class MultipleChoiceResponse extends Response {
 
     @JsonProperty("@type")
-    private final String type;
+    private final EntityType type;
 
     @JsonProperty("value")
     private String value;
@@ -39,7 +40,7 @@ public class MultipleChoiceResponse extends Response {
     protected MultipleChoiceResponse(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, Type.MULTIPLECHOICE);
+        EntityValidator.checkTypeUri(builder.type, EntityType.MULTIPLECHOICE);
 
         this.type = builder.type;
         this.value = builder.value;
@@ -50,7 +51,7 @@ public class MultipleChoiceResponse extends Response {
      */
     @Override
     @Nonnull
-    public String getType() {
+    public EntityType getType() {
         return type;
     }
 
@@ -67,21 +68,21 @@ public class MultipleChoiceResponse extends Response {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Response.Builder<T>  {
-        private String type;
+        private EntityType type;
         private String value;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(Type.MULTIPLECHOICE.uri());
+            type(EntityType.MULTIPLECHOICE);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(String type) {
+        private T type(EntityType type) {
             this.type = type;
             return self();
         }
