@@ -272,7 +272,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * @param maxScore
          * @return builder
          */
-        public T maxScore(int maxScore) {
+        public T maxScore(double maxScore) {
             this.maxScore = maxScore;
             return self();
         }
