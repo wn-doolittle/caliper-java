@@ -21,6 +21,25 @@ public class EntityValidator {
     }
 
     /**
+     * Check if identifier is null or empty.
+     * @param id
+     * @throws IllegalArgumentException
+     */
+    public static void checkId(String name, String id) throws IllegalArgumentException {
+        checkArgument(!(Strings.isNullOrEmpty(id)), "%s identifier must be specified", name);
+    }
+
+    /**
+     * Check Entity type URI equality.
+     * @param type
+     * @param expected
+     * @throws IllegalArgumentException
+     */
+    public static void checkType(Type type, Type expected) throws IllegalArgumentException {
+        checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
+    }
+
+    /**
      * Check object Type
      * @param actor
      * @param type
@@ -46,36 +65,6 @@ public class EntityValidator {
      */
     public static void checkCount(int count) throws IllegalArgumentException {
         checkArgument(count > 0, "count >= 1 must be specified");
-    }
-
-    /**
-     * Check duration
-     * @param start
-     * @param end
-     * @param duration
-     * @throws IllegalArgumentException
-     */
-    public static void checkDuration(DateTime start, DateTime end, String duration) throws IllegalArgumentException {
-        TimeValidator.checkDuration(start, end, duration);
-    }
-
-    /**
-     * Check end time
-     * @param start
-     * @param end
-     * @throws IllegalArgumentException
-     */
-    public static void checkEndTime(DateTime start, DateTime end) throws IllegalArgumentException {
-        TimeValidator.checkEndTime(start, end);
-    }
-
-    /**
-     * Check if identifier is null or empty.
-     * @param id
-     * @throws IllegalArgumentException
-     */
-    public static void checkId(String name, String id) throws IllegalArgumentException {
-        checkArgument(!(Strings.isNullOrEmpty(id)), "%s identifier must be specified", name);
     }
 
     /**
@@ -109,46 +98,23 @@ public class EntityValidator {
     }
 
     /**
-     * Check Entity type URI equality.
-     * @param type
-     * @param expected
+     * Check end time
+     * @param start
+     * @param end
      * @throws IllegalArgumentException
      */
-    public static void checkType(Type type, Type expected) throws IllegalArgumentException {
-        checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
+    public static void checkEndTime(DateTime start, DateTime end) throws IllegalArgumentException {
+        TimeValidator.checkEndTime(start, end);
     }
 
     /**
-     * Check for equality between String value and a constant.
-     * @param value
-     * @param constant
-     * @return boolean true/false
+     * Check duration
+     * @param start
+     * @param end
+     * @param duration
+     * @throws IllegalArgumentException
      */
-    private static boolean isEqual(String value, String constant) {
-        return value.equals(constant);
-    }
-
-    /**
-     * Check if String is null or empty.
-     * @param value
-     * @return boolean true/false
-     */
-    private static boolean isNullorEmpty(String value) {
-        return Strings.isNullOrEmpty(value);
-    }
-
-    /**
-     * Validate object type equality against a provided class.  Determines if the specified
-     * Object is assignment-compatible with the object represented by this Class. This method
-     * is the dynamic equivalent of the Java language instanceof operator. The method returns
-     * true if the specified Object argument is non-null and can be cast to the reference type
-     * represented by this Class object without raising a ClassCastException. It returns false
-     * otherwise.
-     * @param object
-     * @param type
-     * @return boolean true/false
-     */
-    private static boolean isOfType(Object object, Class<?> type) {
-        return type.isInstance(object);
+    public static void checkDuration(DateTime start, DateTime end, String duration) throws IllegalArgumentException {
+        TimeValidator.checkDuration(start, end, duration);
     }
 }

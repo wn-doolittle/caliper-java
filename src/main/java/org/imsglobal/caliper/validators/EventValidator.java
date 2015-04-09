@@ -27,7 +27,7 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkContextUri(EventContext context, EventContext expected) throws IllegalArgumentException {
+    public static void checkContext(EventContext context, EventContext expected) throws IllegalArgumentException {
         checkArgument(context == expected, "expected context %s but was %s", expected.getValue(), context.getValue());
     }
 
