@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -24,7 +23,7 @@ import java.util.List;
 public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final AnnotationType type;
 
     @JsonProperty("tags")
     private ImmutableList<String> tags;
@@ -35,7 +34,7 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
     protected TagAnnotation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.TAG_ANNOTATION);
+        EntityValidator.checkTypeUri(builder.type, AnnotationType.TAG_ANNOTATION);
 
         this.type = builder.type;
         this.tags = ImmutableList.copyOf(builder.tags);
@@ -46,7 +45,7 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public AnnotationType getType() {
         return type;
     }
 
@@ -64,21 +63,21 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
-        private EntityType type;
+        private AnnotationType type;
         private List<String> tags = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.TAG_ANNOTATION);
+            type(AnnotationType.TAG_ANNOTATION);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(AnnotationType type) {
             this.type = type;
             return self();
         }

@@ -30,7 +30,7 @@ public abstract class Entity implements Thing {
     protected final String id;
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final Type type;
 
     @JsonProperty("name")
     private final String name;
@@ -76,7 +76,7 @@ public abstract class Entity implements Thing {
      * @return the type.
      */
     @Nonnull
-    public EntityType getType() {
+    public Type getType() {
         return type;
     }
 

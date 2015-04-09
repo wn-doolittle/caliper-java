@@ -2,7 +2,6 @@ package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -22,7 +21,7 @@ import javax.annotation.Nullable;
 public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final AnnotationType type;
 
     @JsonProperty("selection")
     private TextPositionSelector selection;
@@ -36,7 +35,7 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
     protected HighlightAnnotation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.HIGHLIGHT_ANNOTATION);
+        EntityValidator.checkTypeUri(builder.type, AnnotationType.HIGHLIGHT_ANNOTATION);
 
         this.type = builder.type;
         this.selection = builder.selection;
@@ -48,7 +47,7 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public AnnotationType getType() {
         return type;
     }
 
@@ -73,7 +72,7 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
-        private EntityType type;
+        private AnnotationType type;
         private TextPositionSelector selection;
         private String selectionText;
 
@@ -81,7 +80,7 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.HIGHLIGHT_ANNOTATION);
+            type(AnnotationType.HIGHLIGHT_ANNOTATION);
             selection = new TextPositionSelector();
         }
 
@@ -89,7 +88,7 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(AnnotationType type) {
             this.type = type;
             return self();
         }

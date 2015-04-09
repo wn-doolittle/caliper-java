@@ -2,7 +2,6 @@ package org.imsglobal.caliper.entities.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -30,7 +29,7 @@ import javax.annotation.Nullable;
 public class TrueFalseResponse extends Response {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final ResponseType type;
 
     @JsonProperty("value")
     private final String value;
@@ -41,7 +40,7 @@ public class TrueFalseResponse extends Response {
     protected TrueFalseResponse(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.TRUEFALSE);
+        EntityValidator.checkTypeUri(builder.type, ResponseType.TRUEFALSE);
 
         this.type = builder.type;
         this.value = builder.value;
@@ -52,7 +51,7 @@ public class TrueFalseResponse extends Response {
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public ResponseType getType() {
         return type;
     }
 
@@ -69,21 +68,21 @@ public class TrueFalseResponse extends Response {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Response.Builder<T>  {
-        private EntityType type;
+        private ResponseType type;
         private String value;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.TRUEFALSE);
+            type(ResponseType.TRUEFALSE);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(ResponseType type) {
             this.type = type;
             return self();
         }

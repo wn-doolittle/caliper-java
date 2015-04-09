@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -30,7 +31,7 @@ import javax.annotation.Nullable;
 public abstract class MediaObject extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.MediaObject {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final Type type;
 
     @JsonProperty("duration")
     private long duration;
@@ -52,7 +53,7 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public Type getType() {
         return type;
     }
 

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
 
@@ -24,7 +23,7 @@ import java.util.List;
 public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final AnnotationType type;
 
     @JsonProperty("withAgents")
     private final ImmutableList<Agent> withAgents;
@@ -35,7 +34,7 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
     protected SharedAnnotation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.SHARED_ANNOTATION);
+        EntityValidator.checkTypeUri(builder.type, AnnotationType.SHARED_ANNOTATION);
 
         this.type = builder.type;
         this.withAgents = ImmutableList.copyOf(builder.withAgents);
@@ -45,7 +44,7 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
      * @return the type
      */
     @Override
-    public EntityType getType() {
+    public AnnotationType getType() {
         return type;
     }
 
@@ -63,21 +62,21 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
-        private EntityType type;
+        private AnnotationType type;
         private List<Agent> withAgents = Lists.newArrayList();
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(EntityType.SHARED_ANNOTATION);
+            type(AnnotationType.SHARED_ANNOTATION);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(AnnotationType type) {
             this.type = type;
             return self();
         }

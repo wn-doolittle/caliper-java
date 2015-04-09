@@ -1,7 +1,6 @@
 package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -12,7 +11,7 @@ import javax.annotation.Nonnull;
 public class VideoObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.VideoObject {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final MediaObjectType type;
 
     /**
      * @param builder apply builder object properties to the VideoObject object.
@@ -20,7 +19,7 @@ public class VideoObject extends MediaObject implements org.imsglobal.caliper.en
     protected VideoObject(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.VIDEO_OBJECT);
+        EntityValidator.checkTypeUri(builder.type, MediaObjectType.VIDEO_OBJECT);
 
         this.type = builder.type;
     }
@@ -30,7 +29,7 @@ public class VideoObject extends MediaObject implements org.imsglobal.caliper.en
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public MediaObjectType getType() {
         return type;
     }
 
@@ -39,20 +38,20 @@ public class VideoObject extends MediaObject implements org.imsglobal.caliper.en
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
-        private EntityType type;
+        private MediaObjectType type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(EntityType.VIDEO_OBJECT);
+            type(MediaObjectType.VIDEO_OBJECT);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(MediaObjectType type) {
             this.type = type;
             return self();
         }

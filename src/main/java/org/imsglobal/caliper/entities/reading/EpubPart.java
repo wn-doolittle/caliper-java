@@ -2,7 +2,7 @@ package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.DigitalResourceType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 public class EpubPart extends DigitalResource {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final DigitalResourceType type;
 
     /**
      * @param builder apply builder object properties to the EpubPart object.
@@ -25,7 +25,7 @@ public class EpubPart extends DigitalResource {
     protected EpubPart(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.EPUB_PART);
+        EntityValidator.checkTypeUri(builder.type, DigitalResourceType.EPUB_PART);
 
         this.type = builder.type;
     }
@@ -35,7 +35,7 @@ public class EpubPart extends DigitalResource {
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public DigitalResourceType getType() {
         return type;
     }
 
@@ -44,20 +44,20 @@ public class EpubPart extends DigitalResource {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private EntityType type;
+        private DigitalResourceType type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.EPUB_PART);
+            type(DigitalResourceType.EPUB_PART);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(DigitalResourceType type) {
             this.type = type;
             return self();
         }

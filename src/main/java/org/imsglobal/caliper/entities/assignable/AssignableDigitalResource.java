@@ -3,7 +3,8 @@ package org.imsglobal.caliper.entities.assignable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.DigitalResourceType;
+import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -37,7 +38,7 @@ import javax.annotation.Nullable;
 public class AssignableDigitalResource extends DigitalResource implements org.imsglobal.caliper.entities.assignable.Assignable {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final Type type;
 
     @JsonProperty("dateToActivate")
     private DateTime dateToActivate;
@@ -66,7 +67,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
     protected AssignableDigitalResource(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.ASSIGNABLE_DIGITAL_RESOURCE);
+        EntityValidator.checkTypeUri(builder.type, DigitalResourceType.ASSIGNABLE_DIGITAL_RESOURCE);
 
         this.type = builder.type;
         this.dateToActivate = builder.dateToActivate;
@@ -83,7 +84,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public Type getType() {
         return type;
     }
 
@@ -148,7 +149,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private EntityType type;
+        private DigitalResourceType type;
         private DateTime dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
         private int maxAttempts, maxSubmits;
         private double maxScore;
@@ -157,14 +158,14 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.ASSIGNABLE_DIGITAL_RESOURCE);
+            type(DigitalResourceType.ASSIGNABLE_DIGITAL_RESOURCE);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(DigitalResourceType type) {
             this.type = type;
             return self();
         }

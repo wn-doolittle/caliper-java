@@ -2,8 +2,8 @@ package org.imsglobal.caliper.entities.assessment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
+import org.imsglobal.caliper.entities.assignable.AssignableDigitalResourceType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -36,7 +36,7 @@ import javax.annotation.Nonnull;
 public class AssessmentItem extends AssignableDigitalResource {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final AssignableDigitalResourceType type;
 
     @JsonProperty("isTimeDependent")
     private final boolean isTimeDependent;
@@ -47,7 +47,7 @@ public class AssessmentItem extends AssignableDigitalResource {
     protected AssessmentItem(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.ASSESSMENT_ITEM);
+        EntityValidator.checkTypeUri(builder.type, AssignableDigitalResourceType.ASSESSMENT_ITEM);
 
         this.type = builder.type;
         this.isTimeDependent = builder.isTimeDependent;
@@ -58,7 +58,7 @@ public class AssessmentItem extends AssignableDigitalResource {
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public AssignableDigitalResourceType getType() {
         return type;
     }
 
@@ -80,21 +80,21 @@ public class AssessmentItem extends AssignableDigitalResource {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
-        private EntityType type;
+        private AssignableDigitalResourceType type;
         private boolean isTimeDependent = false;
 
         /**
          * Constructor
          */
         public Builder() {
-            type(EntityType.ASSESSMENT_ITEM);
+            type(AssignableDigitalResourceType.ASSESSMENT_ITEM);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(AssignableDigitalResourceType type) {
             this.type = type;
             return self();
         }

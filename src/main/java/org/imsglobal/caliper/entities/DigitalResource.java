@@ -47,7 +47,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
                                                        org.imsglobal.caliper.entities.Targetable {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final Type type;
 
     @JsonProperty("objectType")
     private final ImmutableList<String> objectTypes;
@@ -89,7 +89,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public Type getType() {
         return type;
     }
 

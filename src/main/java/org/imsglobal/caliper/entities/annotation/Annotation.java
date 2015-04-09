@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -27,7 +28,7 @@ import javax.annotation.Nonnull;
 public abstract class Annotation extends Entity implements org.imsglobal.caliper.entities.Generatable {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final Type type;
 
     @JsonProperty("annotatedId")
     private String annotatedId;
@@ -50,7 +51,7 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public Type getType() {
         return type;
     }
 
@@ -68,7 +69,7 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private EntityType type;
+        private Type type;
         private String annotatedId;
 
         /**
@@ -82,7 +83,7 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(Type type) {
             this.type = type;
             return self();
         }

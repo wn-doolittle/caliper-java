@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
@@ -29,7 +30,7 @@ import javax.annotation.Nullable;
 public abstract class Response extends Entity implements Generatable {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final Type type;
 
     @JsonProperty("assignable")
     private final String assignableId; // retain? can retrieve from attempt
@@ -76,7 +77,7 @@ public abstract class Response extends Entity implements Generatable {
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public Type getType() {
         return type;
     }
 

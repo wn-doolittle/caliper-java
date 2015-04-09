@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
+import org.imsglobal.caliper.entities.assignable.AssignableDigitalResourceType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -24,7 +24,7 @@ import java.util.List;
     "alignedLearningObjective",
     "keywords",
     "isPartOf",
-        "extensions",
+    "extensions",
     "dateCreated",
     "dateModified",
     "datePublished",
@@ -40,7 +40,7 @@ import java.util.List;
 public class Assessment extends AssignableDigitalResource {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final AssignableDigitalResourceType type;
 
     @JsonProperty("assessmentItems")
     private final ImmutableList<AssessmentItem> assessmentItems;
@@ -51,7 +51,7 @@ public class Assessment extends AssignableDigitalResource {
     protected Assessment(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.ASSESSMENT);
+        EntityValidator.checkTypeUri(builder.type, AssignableDigitalResourceType.ASSESSMENT);
 
         this.type = builder.type;
         this.assessmentItems = ImmutableList.copyOf(builder.assessmentItems);
@@ -62,7 +62,7 @@ public class Assessment extends AssignableDigitalResource {
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public AssignableDigitalResourceType getType() {
         return type;
     }
 
@@ -80,21 +80,21 @@ public class Assessment extends AssignableDigitalResource {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
-        private EntityType type;
+        private AssignableDigitalResourceType type;
         private List<AssessmentItem> assessmentItems = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.ASSESSMENT);
+            type(AssignableDigitalResourceType.ASSESSMENT);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(AssignableDigitalResourceType type) {
             this.type = type;
             return self();
         }

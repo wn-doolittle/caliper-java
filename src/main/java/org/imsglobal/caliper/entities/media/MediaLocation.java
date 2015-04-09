@@ -3,7 +3,6 @@ package org.imsglobal.caliper.entities.media;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.validators.EntityValidator;
 
@@ -28,7 +27,7 @@ import org.imsglobal.caliper.validators.EntityValidator;
 public class MediaLocation extends DigitalResource implements Targetable {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final MediaObjectType type;
 
     @JsonProperty("currentTime")
     private long currentTime;
@@ -39,7 +38,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
     protected MediaLocation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkTypeUri(builder.type, EntityType.MEDIA_LOCATION);
+        EntityValidator.checkTypeUri(builder.type, MediaObjectType.MEDIA_LOCATION);
 
         this.type = builder.type;
         this.currentTime = builder.currentTime;
@@ -49,7 +48,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
      * @return the type
      */
     @Override
-    public EntityType getType() {
+    public MediaObjectType getType() {
         return type;
     }
 
@@ -65,21 +64,21 @@ public class MediaLocation extends DigitalResource implements Targetable {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private EntityType type;
+        private MediaObjectType type;
         private long currentTime;
 
         /**
          * Initialize type with default values.
          */
         public Builder() {
-            type(EntityType.MEDIA_LOCATION);
+            type(MediaObjectType.MEDIA_LOCATION);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(MediaObjectType type) {
             this.type = type;
             return self();
         }
