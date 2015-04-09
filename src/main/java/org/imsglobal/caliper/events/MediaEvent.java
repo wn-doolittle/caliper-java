@@ -57,7 +57,7 @@ public class MediaEvent extends Event {
     protected MediaEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, EventContext.MEDIA);
+        EventValidator.checkContext(builder.context, EventContext.MEDIA);
         EventValidator.checkType(builder.type, EventType.MEDIA);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, MediaEvent.class);

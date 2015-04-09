@@ -81,7 +81,7 @@ public abstract class Event {
      */
     protected Event(Builder<?> builder) {
 
-        // Validator.checkContextUri(builder.context, Context.EVENT);
+        // Validator.checkContext(builder.context, Context.EVENT);
         // Validator.checkType(builder.type, Type.EVENT);
         // Validator.checkAction(builder.action, Event.class);
         EventValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);

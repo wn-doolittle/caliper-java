@@ -39,7 +39,7 @@ public class OutcomeEvent extends Event {
     protected OutcomeEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, EventContext.OUTCOME);
+        EventValidator.checkContext(builder.context, EventContext.OUTCOME);
         EventValidator.checkType(builder.type, EventType.OUTCOME);
         EventValidator.checkAction(builder.action, OutcomeEvent.class);
         EventValidator.checkObjectType(getObject(), Attempt.class);

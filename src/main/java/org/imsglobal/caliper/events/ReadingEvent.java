@@ -40,7 +40,7 @@ public class ReadingEvent extends Event {
     protected ReadingEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, EventContext.READING);
+        EventValidator.checkContext(builder.context, EventContext.READING);
         EventValidator.checkType(builder.type, EventType.READING);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, ReadingEvent.class);

@@ -43,7 +43,7 @@ public class SessionEvent extends Event {
     protected SessionEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, EventContext.SESSION);
+        EventValidator.checkContext(builder.context, EventContext.SESSION);
         EventValidator.checkType(builder.type, EventType.SESSION);
         EventValidator.checkAction(builder.action, SessionEvent.class);
 

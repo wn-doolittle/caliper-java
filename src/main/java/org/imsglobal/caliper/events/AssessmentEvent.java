@@ -43,7 +43,7 @@ public class AssessmentEvent extends Event {
     protected AssessmentEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, EventContext.ASSESSMENT);
+        EventValidator.checkContext(builder.context, EventContext.ASSESSMENT);
         EventValidator.checkType(builder.type, EventType.ASSESSMENT);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, AssessmentEvent.class);

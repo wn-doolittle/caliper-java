@@ -47,7 +47,7 @@ public class AssignableEvent extends Event {
     protected AssignableEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, EventContext.ASSIGNABLE);
+        EventValidator.checkContext(builder.context, EventContext.ASSIGNABLE);
         EventValidator.checkType(builder.type, EventType.ASSIGNABLE);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, AssignableEvent.class);

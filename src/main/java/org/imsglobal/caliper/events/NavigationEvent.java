@@ -56,7 +56,7 @@ public class NavigationEvent extends Event {
     protected NavigationEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, EventContext.NAVIGATION);
+        EventValidator.checkContext(builder.context, EventContext.NAVIGATION);
         EventValidator.checkType(builder.type, EventType.NAVIGATION);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, NavigationEvent.class);

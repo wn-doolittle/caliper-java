@@ -38,7 +38,7 @@ public class ViewEvent extends Event {
     protected ViewEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, EventContext.VIEW);
+        EventValidator.checkContext(builder.context, EventContext.VIEW);
         EventValidator.checkType(builder.type, EventType.VIEW);
         EventValidator.checkAction(builder.action, ViewEvent.class);
         EventValidator.checkObjectType(getObject(), DigitalResource.class);
