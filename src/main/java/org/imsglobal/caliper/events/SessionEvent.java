@@ -21,10 +21,10 @@ import javax.annotation.Nonnull;
 public class SessionEvent extends Event {
 
     @JsonProperty("@context")
-    private final Context context;
+    private final EventContext context;
 
     @JsonProperty("@type")
-    private final Type type;
+    private final EventType type;
 
     @JsonProperty("action")
     private final Action action;
@@ -43,8 +43,8 @@ public class SessionEvent extends Event {
     protected SessionEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, Context.SESSION);
-        EventValidator.checkTypeUri(builder.type, Type.SESSION);
+        EventValidator.checkContextUri(builder.context, EventContext.SESSION);
+        EventValidator.checkTypeUri(builder.type, EventType.SESSION);
         EventValidator.checkAction(builder.action, SessionEvent.class);
 
         if (builder.action == Action.TIMED_OUT) {
@@ -77,7 +77,7 @@ public class SessionEvent extends Event {
      */
     @Override
     @Nonnull
-    public Context getContext() {
+    public EventContext getContext() {
         return context;
     }
 
@@ -87,7 +87,7 @@ public class SessionEvent extends Event {
      */
     @Override
     @Nonnull
-    public Type getType() {
+    public EventType getType() {
         return type;
     }
 
@@ -106,23 +106,23 @@ public class SessionEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private Context context;
-        private Type type;
+        private EventContext context;
+        private EventType type;
         private Action action;
 
         /*
          * Constructor
          */
         public Builder() {
-            context(Context.SESSION);
-            type(Type.SESSION);
+            context(EventContext.SESSION);
+            type(EventType.SESSION);
         }
 
         /**
          * @param context
          * @return builder.
          */
-        private T context(Context context) {
+        private T context(EventContext context) {
             this.context = context;
             return self();
         }
@@ -131,7 +131,7 @@ public class SessionEvent extends Event {
          * @param type
          * @return builder.
          */
-        private T type(Type type) {
+        private T type(EventType type) {
             this.type = type;
             return self();
         }

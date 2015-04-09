@@ -35,10 +35,10 @@ import javax.annotation.Nonnull;
 public class MediaEvent extends Event {
 
     @JsonProperty("@context")
-    private final Context context;
+    private final EventContext context;
 
     @JsonProperty("@type")
-    private final Type type;
+    private final EventType type;
 
     @JsonProperty("action")
     private final Action action;
@@ -57,8 +57,8 @@ public class MediaEvent extends Event {
     protected MediaEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, Context.MEDIA);
-        EventValidator.checkTypeUri(builder.type, Type.MEDIA);
+        EventValidator.checkContextUri(builder.context, EventContext.MEDIA);
+        EventValidator.checkTypeUri(builder.type, EventType.MEDIA);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, MediaEvent.class);
         EventValidator.checkObjectType(getObject(), MediaObject.class);
@@ -74,7 +74,7 @@ public class MediaEvent extends Event {
      */
     @Override
     @Nonnull
-    public Context getContext() {
+    public EventContext getContext() {
         return context;
     }
 
@@ -84,7 +84,7 @@ public class MediaEvent extends Event {
      */
     @Override
     @Nonnull
-    public Type getType() {
+    public EventType getType() {
         return type;
     }
 
@@ -103,23 +103,23 @@ public class MediaEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private Context context;
-        private Type type;
+        private EventContext context;
+        private EventType type;
         private Action action;
 
         /*
          * Constructor
          */
         public Builder() {
-            context(Context.MEDIA);
-            type(Type.MEDIA);
+            context(EventContext.MEDIA);
+            type(EventType.MEDIA);
         }
 
         /**
          * @param context
          * @return builder.
          */
-        private T context(Context context) {
+        private T context(EventContext context) {
             this.context = context;
             return self();
         }
@@ -128,7 +128,7 @@ public class MediaEvent extends Event {
          * @param type
          * @return builder.
          */
-        private T type(Type type) {
+        private T type(EventType type) {
             this.type = type;
             return self();
         }

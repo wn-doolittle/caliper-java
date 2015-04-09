@@ -17,10 +17,10 @@ import javax.annotation.Nonnull;
 public class OutcomeEvent extends Event {
 
     @JsonProperty("@context")
-    private final Context context;
+    private final EventContext context;
 
     @JsonProperty("@type")
-    private final Type type;
+    private final EventType type;
 
     @JsonProperty("action")
     private final Action action;
@@ -39,8 +39,8 @@ public class OutcomeEvent extends Event {
     protected OutcomeEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContextUri(builder.context, Context.OUTCOME);
-        EventValidator.checkTypeUri(builder.type, Type.OUTCOME);
+        EventValidator.checkContextUri(builder.context, EventContext.OUTCOME);
+        EventValidator.checkTypeUri(builder.type, EventType.OUTCOME);
         EventValidator.checkAction(builder.action, OutcomeEvent.class);
         EventValidator.checkObjectType(getObject(), Attempt.class);
         EventValidator.checkGeneratedType(getGenerated(), Result.class);
@@ -56,7 +56,7 @@ public class OutcomeEvent extends Event {
      */
     @Override
     @Nonnull
-    public Context getContext() {
+    public EventContext getContext() {
         return context;
     }
 
@@ -66,7 +66,7 @@ public class OutcomeEvent extends Event {
      */
     @Override
     @Nonnull
-    public Type getType() {
+    public EventType getType() {
         return type;
     }
 
@@ -85,23 +85,23 @@ public class OutcomeEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private Context context;
-        private Type type;
+        private EventContext context;
+        private EventType type;
         private Action action;
 
         /*
          * Constructor
          */
         public Builder() {
-            context(Context.OUTCOME);
-            type(Type.OUTCOME);
+            context(EventContext.OUTCOME);
+            type(EventType.OUTCOME);
         }
 
         /**
          * @param context
          * @return builder.
          */
-        private T context(Context context) {
+        private T context(EventContext context) {
             this.context = context;
             return self();
         }
@@ -110,7 +110,7 @@ public class OutcomeEvent extends Event {
          * @param type
          * @return builder.
          */
-        private T type(Type type) {
+        private T type(EventType type) {
             this.type = type;
             return self();
         }
