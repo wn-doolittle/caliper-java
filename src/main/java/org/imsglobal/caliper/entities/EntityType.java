@@ -1,10 +1,6 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.google.common.collect.ImmutableMap;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public enum EntityType {
     AGENT("http://purl.imsglobal.org/caliper/v1/Agent"),
@@ -58,18 +54,6 @@ public enum EntityType {
     TRUEFALSE("http://purl.imsglobal.org/caliper/v1/Response/TrueFalse");
 
     private final String value;
-    private static Map<String, EntityType> lookup;
-
-    /**
-     * Create reverse lookup hash map
-     */
-    static {
-        Map<String, EntityType> map = new HashMap<String, EntityType>();
-        for (EntityType constants : EntityType.values()) {
-            map.put(constants.getValue(), constants);
-        }
-        lookup = ImmutableMap.copyOf(map);
-    }
 
     /**
      * Private constructor
@@ -85,14 +69,5 @@ public enum EntityType {
     @JsonValue
     public String getValue() {
         return value;
-    }
-
-    /**
-     * Retrieve enum type from reverse lookup map.
-     * @param value
-     * @return Entity.Type enum
-     */
-    public static EntityType lookupConstantWithTypeURI(String value) {
-        return lookup.get(value);
     }
 }
