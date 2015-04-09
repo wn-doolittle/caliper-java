@@ -5,6 +5,8 @@ import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.events.EventContext;
+import org.imsglobal.caliper.events.EventType;
 import org.imsglobal.caliper.events.SupportedActions;
 import org.joda.time.DateTime;
 
@@ -25,7 +27,7 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkContextUri(Event.Context context, Event.Context expected) throws IllegalArgumentException {
+    public static void checkContextUri(EventContext context, EventContext expected) throws IllegalArgumentException {
         checkArgument(context == expected, "expected context %s but was %s", expected.getValue(), context.getValue());
     }
 
@@ -35,7 +37,7 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkTypeUri(Event.Type type, Event.Type expected) throws IllegalArgumentException {
+    public static void checkTypeUri(EventType type, EventType expected) throws IllegalArgumentException {
         checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
     }
 
