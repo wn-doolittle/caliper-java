@@ -49,7 +49,7 @@ public class AssessmentOutcomeEventTest extends EventTest {
         scoredBy = TestUtils.buildAssessmentTool();
 
         // Build result
-        result = TestUtils.buildAssessmentResult(attempt, scoredBy);
+        result = TestUtils.buildAssessmentResult(learningContext, assessment, attempt, scoredBy);
 
         // Build Outcome Event
         event = TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, Action.GRADED, result);

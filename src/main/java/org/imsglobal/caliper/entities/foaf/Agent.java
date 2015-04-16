@@ -1,6 +1,7 @@
 package org.imsglobal.caliper.entities.foaf;
 
 import com.google.common.collect.ImmutableList;
+import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.entities.w3c.Membership;
 
 /**
@@ -8,6 +9,10 @@ import org.imsglobal.caliper.entities.w3c.Membership;
  * See http://xmlns.com/foaf/spec/#term_Agent
  */
 public interface Agent {
+
+    String getId();
+
+    Type getType();
 
     ImmutableList<Membership> hasMembership();
 }

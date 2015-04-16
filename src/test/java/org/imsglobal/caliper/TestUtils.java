@@ -82,7 +82,6 @@ public class TestUtils {
             .build();
     }
 
-
     /**
      * @return Am Rev 101 course section 101, membership 001
      */
@@ -103,7 +102,9 @@ public class TestUtils {
         return Membership.builder()
             .id("https://some-university.edu/membership/001")
             .memberId("https://some-university.edu/user/554433")
+            //.member(buildStudent554433())
             .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101")
+            //.organization(buildAmRev101CourseOffering())
             .role(Role.LEARNER)
             .status(Status.ACTIVE)
             .dateCreated(getDefaultDateCreated())
@@ -117,7 +118,9 @@ public class TestUtils {
         return Membership.builder()
             .id("https://some-university.edu/membership/003")
             .memberId("https://some-university.edu/user/554433")
+            //.member(buildStudent554433())
             .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001/group/001")
+            //.organization(buildAmRev101Group001())
             .role(Role.LEARNER)
             .status(Status.ACTIVE)
             .dateCreated(getDefaultDateCreated())
@@ -131,7 +134,9 @@ public class TestUtils {
         return Membership.builder()
             .id("https://some-university.edu/membership/002")
             .memberId("https://some-university.edu/user/554433")
+            //.member(buildStudent554433())
             .organizationId("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001")
+            //.organization(buildAmRev101CourseSection())
             .role(Role.LEARNER)
             .status(Status.ACTIVE)
             .dateCreated(getDefaultDateCreated())
@@ -225,13 +230,13 @@ public class TestUtils {
             .action(action)
             .object(assessment)
             .generated(Attempt.builder()
-                .id(assessment.getId() + "/attempt1")
-                .assignableId(assessment.getId())
-                .actorId(((Person) learningContext.getAgent()).getId())
-                .count(1)
-                .dateCreated(getDefaultDateCreated())
-                .startedAtTime(getDefaultStartedAtTime())
-                .build())
+                    .id(assessment.getId() + "/attempt1")
+                    .assignable(assessment)
+                    .actor(((Person) learningContext.getAgent()))
+                    .count(1)
+                    .dateCreated(getDefaultDateCreated())
+                    .startedAtTime(getDefaultStartedAtTime())
+                    .build())
             .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
@@ -244,8 +249,8 @@ public class TestUtils {
     public static Attempt buildAssessmentAttempt(LearningContext learningContext, Assessment assessment) {
         return Attempt.builder()
             .id(assessment.getId() + "/attempt1")
-            .assignableId(assessment.getId())
-            .actorId(((Person) learningContext.getAgent()).getId())
+            .assignable(assessment)
+            .actor(((Person) learningContext.getAgent()))
             .count(1)
             .dateCreated(getDefaultDateCreated())
             .startedAtTime(getDefaultStartedAtTime())
@@ -282,8 +287,8 @@ public class TestUtils {
     public static Attempt buildAssessmentItemAttempt(LearningContext learningContext, Assessment assessment) {
         return Attempt.builder()
             .id(assessment.getId() + "/item1/attempt1")
-            .assignableId(assessment.getId())
-            .actorId(((Person) learningContext.getAgent()).getId())
+            .assignable(assessment)
+            .actor(((Person) learningContext.getAgent()))
             .count(1)
             .dateCreated(getDefaultDateCreated())
             .startedAtTime(getDefaultStartedAtTime())
@@ -338,11 +343,11 @@ public class TestUtils {
      * @param value
      * @return response
      */
-    public static FillinBlankResponse buildFillinBlankResponse(Attempt attempt, String value) {
+    public static FillinBlankResponse buildFillinBlankResponse(LearningContext context, Assessment assessment, Attempt attempt, String value) {
         return FillinBlankResponse.builder()
             .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1/response1")
-            .actorId(attempt.getActorId())
-            .assignableId(attempt.getAssignableId())
+            .actor(context.getAgent())
+            .assignable(assessment)
             .attempt(attempt)
             .dateCreated(getDefaultDateCreated())
             .startedAtTime(getDefaultStartedAtTime())
@@ -357,35 +362,35 @@ public class TestUtils {
     public static final ImmutableList<AssessmentItem> buildAssessmentItems() {
         return ImmutableList.<AssessmentItem>builder()
             .add(AssessmentItem.builder()
-                    .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1")
-                    .name("Assessment Item 1")
-                    .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
-                    .version("1.0")
-                    .maxAttempts(2)
-                    .maxSubmits(2)
-                    .maxScore(1)
-                    .isTimeDependent(false)
-                    .build())
+                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1")
+                .name("Assessment Item 1")
+                .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
+                .version("1.0")
+                .maxAttempts(2)
+                .maxSubmits(2)
+                .maxScore(1)
+                .isTimeDependent(false)
+                .build())
             .add(AssessmentItem.builder()
-                    .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item2")
-                    .name("Assessment Item 2")
-                    .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
-                    .version("1.0")
-                    .maxAttempts(2)
-                    .maxSubmits(2)
-                    .maxScore(1)
-                    .isTimeDependent(false)
-                    .build())
+                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item2")
+                .name("Assessment Item 2")
+                .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
+                .version("1.0")
+                .maxAttempts(2)
+                .maxSubmits(2)
+                .maxScore(1)
+                .isTimeDependent(false)
+                .build())
             .add(AssessmentItem.builder()
-                    .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item3")
-                    .name("Assessment Item 3")
-                    .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
-                    .version("1.0")
-                    .maxAttempts(2)
-                    .maxSubmits(2)
-                    .maxScore(1)
-                    .isTimeDependent(false)
-                    .build())
+                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item3")
+                .name("Assessment Item 3")
+                .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
+                .version("1.0")
+                .maxAttempts(2)
+                .maxSubmits(2)
+                .maxScore(1)
+                .isTimeDependent(false)
+                .build())
             .build();
     }
 
@@ -415,11 +420,11 @@ public class TestUtils {
      * @param attempt
      * @return assessment result.
      */
-    public static Result buildAssessmentResult(Attempt attempt, Agent scoredBy) {
+    public static Result buildAssessmentResult(LearningContext context, Assessment assessment, Attempt attempt, Agent scoredBy) {
         return Result.builder()
             .id(attempt.getId() + "/result")
-            .assignableId(attempt.getAssignableId())
-            .actorId(attempt.getActorId())
+            .assignable(assessment)
+            .actor(context.getAgent())
             .dateCreated(getDefaultDateCreated())
             .normalScore(3.0d)
             .penaltyScore(0.0d)
@@ -477,7 +482,7 @@ public class TestUtils {
             .bookmarkNotes("The Intolerable Acts (1774)--bad idea Lord North")
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
-            .annotatedId(annotated.getId())
+            .annotated(annotated)
             .build();
     }
 
@@ -499,13 +504,13 @@ public class TestUtils {
             .action(action)
             .object(learningContext.getEdApp())
             .target(Frame.builder()
-                    .id(target.getId())
-                    .name(target.getName())
-                    .isPartOf(target.getIsPartOf())
-                    .dateCreated(getDefaultDateCreated())
-                    .dateModified(getDefaultDateModified())
-                    .version("2nd ed.")
-                    .index(1)
+                .id(target.getId())
+                .name(target.getName())
+                .isPartOf(target.getIsPartOf())
+                .dateCreated(getDefaultDateCreated())
+                .dateModified(getDefaultDateModified())
+                .version("2nd ed.")
+                .index(1)
                 .build())
             .generated(generated)
             .startedAtTime(getDefaultStartedAtTime())
@@ -570,23 +575,23 @@ public class TestUtils {
                                                            DigitalResource fromResource,
                                                            EpubSubChapter target) {
         return NavigationEvent.builder()
-                .edApp(learningContext.getEdApp())
-                .group(learningContext.getGroup())
-                .actor((Person) learningContext.getAgent())
-                .action(action)
-                .object(epub)
-                .target(Frame.builder()
-                        .id(target.getId())
-                        .name(target.getName())
-                        .isPartOf(epub)
-                        .dateCreated(getDefaultDateCreated())
-                        .dateModified(getDefaultDateModified())
-                        .version("2nd ed.")
-                        .index(1)
-                        .build())
-                .fromResource(fromResource)
-                .startedAtTime(getDefaultStartedAtTime())
-                .build();
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .actor((Person) learningContext.getAgent())
+            .action(action)
+            .object(epub)
+            .target(Frame.builder()
+                .id(target.getId())
+                .name(target.getName())
+                .isPartOf(epub)
+                .dateCreated(getDefaultDateCreated())
+                .dateModified(getDefaultDateModified())
+                .version("2nd ed.")
+                .index(1)
+                .build())
+            .fromResource(fromResource)
+            .startedAtTime(getDefaultStartedAtTime())
+            .build();
     }
 
     /**
@@ -615,7 +620,7 @@ public class TestUtils {
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
             .version("2nd ed.")
-                .build();
+            .build();
     }
 
     /**
@@ -628,8 +633,8 @@ public class TestUtils {
             .name("Key Figures: Lord North")
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
-                .version("2nd ed.")
-                .isPartOf(buildEpubVolume43())
+            .version("2nd ed.")
+            .isPartOf(buildEpubVolume43())
             .build();
     }
 
@@ -643,8 +648,8 @@ public class TestUtils {
             .name("Key Figures: John Adams")
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
-                .version("2nd ed.")
-                .isPartOf(buildEpubVolume43())
+            .version("2nd ed.")
+            .isPartOf(buildEpubVolume43())
             .build();
     }
 
@@ -659,8 +664,8 @@ public class TestUtils {
             .isPartOf(buildEpubVolume43())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
-                .version("2nd ed.")
-                .build();
+            .version("2nd ed.")
+            .build();
     }
 
     /**
@@ -686,11 +691,11 @@ public class TestUtils {
                 .isPartOf(epub)
                 .dateCreated(getDefaultDateCreated())
                 .dateModified(getDefaultDateModified())
-                    .version("2nd ed.")
-                    .index(1)
+                .version("2nd ed.")
+                .index(1)
                 .build())
-                .startedAtTime(getDefaultStartedAtTime())
-                .build();
+            .startedAtTime(getDefaultStartedAtTime())
+            .build();
     }
 
     /**
@@ -700,7 +705,7 @@ public class TestUtils {
     public static HighlightAnnotation buildHighlightAnnotation(DigitalResource annotated) {
         return HighlightAnnotation.builder()
             .id("https://someEduApp.edu/highlights/12345")
-            .annotatedId(annotated.getId())
+            .annotated(annotated)
             .selectionStart(Integer.toString(455))
             .selectionEnd(Integer.toString(489))
             .selectionText("Life, Liberty and the pursuit of Happiness")
@@ -783,20 +788,20 @@ public class TestUtils {
     public static SharedAnnotation buildSharedAnnotation(DigitalResource annotated) {
         return SharedAnnotation.builder()
             .id("https://someEduApp.edu/shared/9999")
-            .annotatedId(annotated.getId())
-                .withAgents(Lists.<Agent>newArrayList(
-                        Person.builder()
-                                .id("https://some-university.edu/students/657585")
-                                .dateCreated(getDefaultDateCreated())
+            .annotated(annotated)
+            .withAgents(Lists.<Agent>newArrayList(
+                Person.builder()
+                    .id("https://some-university.edu/students/657585")
+                    .dateCreated(getDefaultDateCreated())
                     .dateModified(getDefaultDateModified())
-                                .build(),
-                        Person.builder()
-                                .id("https://some-university.edu/students/667788")
-                                .dateCreated(getDefaultDateCreated())
+                    .build(),
+                Person.builder()
+                    .id("https://some-university.edu/students/667788")
+                    .dateCreated(getDefaultDateCreated())
                     .dateModified(getDefaultDateModified())
                     .build()))
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
+            .dateCreated(getDefaultDateCreated())
+            .dateModified(getDefaultDateModified())
             .build();
     }
 
@@ -842,7 +847,7 @@ public class TestUtils {
     public static TagAnnotation buildTagAnnotation(DigitalResource annotated) {
         return TagAnnotation.builder()
             .id("https://someEduApp.edu/tags/7654")
-            .annotatedId(annotated.getId())
+            .annotated(annotated)
             .tags(Lists.newArrayList("to-read", "1765", "shared-with-project-team"))
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
@@ -878,8 +883,8 @@ public class TestUtils {
         return MediaLocation.builder()
             .id(buildVideoWithLearningObjective().getId())
             .dateCreated(getDefaultDateCreated())
-                .version("1.0")
-                .currentTime(710)
+            .version("1.0")
+            .currentTime(710)
             .build();
     }
 
@@ -897,8 +902,8 @@ public class TestUtils {
                 .build())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
-                .version("1.0")
-                .duration(1420)
+            .version("1.0")
+            .duration(1420)
             .build();
     }
 
