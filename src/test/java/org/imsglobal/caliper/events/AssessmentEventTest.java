@@ -32,6 +32,7 @@ public class AssessmentEventTest extends EventTest {
         // Build the Learning Context
         learningContext = TestUtils.buildAssessmentStudentLearningContext();
 
+
         // Build assessment
         assessment = TestUtils.buildAssessment();
 

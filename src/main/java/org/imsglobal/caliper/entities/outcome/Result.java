@@ -1,7 +1,11 @@
 package org.imsglobal.caliper.entities.outcome;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
@@ -39,10 +43,10 @@ public class Result extends Entity implements Generatable {
     private final EntityType type;
 
     @JsonProperty("assignable")
-    private final String assignableId;
+    private final DigitalResource assignable;
 
     @JsonProperty("actor")
-    private final String actorId;
+    private final Agent actor;
 
     @JsonProperty("normalScore")
     private double normalScore;
@@ -68,8 +72,6 @@ public class Result extends Entity implements Generatable {
     @JsonProperty("scoredBy")
     private Agent scoredBy;
 
-    // TODO - need to include target, learningObjective and scoreConstraints from metric profile
-
     /**
      * @param builder apply builder object properties to the Result object.
      */
@@ -77,12 +79,12 @@ public class Result extends Entity implements Generatable {
         super(builder);
 
         EntityValidator.checkType(builder.type, EntityType.RESULT);
-        EntityValidator.checkId("assignableId", builder.assignableId);
-        EntityValidator.checkId("actorId", builder.actorId);
+        EntityValidator.checkId("assignable Id", builder.assignable.getId());
+        EntityValidator.checkId("actor Id", builder.actor.getId());
 
         this.type = builder.type;
-        this.assignableId = builder.assignableId;
-        this.actorId = builder.actorId;
+        this.assignable = builder.assignable;
+        this.actor = builder.actor;
         this.normalScore = builder.normalScore;
         this.penaltyScore = builder.penaltyScore;
         this.extraCreditScore = builder.extraCreditScore;
@@ -103,19 +105,27 @@ public class Result extends Entity implements Generatable {
     }
 
     /**
+     * Serialization of Assignable associated with this Result is limited to
+     * the identifying URI only.
      * @return the assignable identifier
      */
     @Nonnull
-    public String getAssignableId() {
-        return assignableId;
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
+    public DigitalResource getAssignable() {
+        return assignable;
     }
 
     /**
+     * Serialization of Agent associated with this Result is limited to
+     * the identifying URI only.
      * @return the actor identifier
      */
     @Nonnull
-    public String getActorId() {
-        return actorId;
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
+    public Agent getActor() {
+        return actor;
     }
 
     /**
@@ -189,8 +199,8 @@ public class Result extends Entity implements Generatable {
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private EntityType type;
-        private String assignableId;
-        private String actorId;
+        private DigitalResource assignable;
+        private Agent actor;
         private double normalScore;
         private double penaltyScore;
         private double extraCreditScore;
@@ -217,20 +227,20 @@ public class Result extends Entity implements Generatable {
         }
 
         /**
-         * @param assignableId
+         * @param assignable
          * @return builder.
          */
-        public T assignableId(String assignableId) {
-            this.assignableId = assignableId;
+        public T assignable(DigitalResource assignable) {
+            this.assignable = assignable;
             return self();
         }
 
         /**
-         * @param actorId
+         * @param actor
          * @return builder.
          */
-        public T actorId(String actorId) {
-            this.actorId = actorId;
+        public T actor(Agent actor) {
+            this.actor = actor;
             return self();
         }
 

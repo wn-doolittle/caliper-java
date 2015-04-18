@@ -1,12 +1,17 @@
 package org.imsglobal.caliper.entities.response;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -33,10 +38,10 @@ public abstract class Response extends Entity implements Generatable {
     private final Type type;
 
     @JsonProperty("assignable")
-    private final String assignableId; // retain? can retrieve from attempt
+    private final DigitalResource assignable;
 
     @JsonProperty("actor")
-    private final String actorId; // retain? can retrieve from attempt
+    private final Agent actor;
 
     @JsonProperty("attempt")
     private Attempt attempt;
@@ -57,15 +62,15 @@ public abstract class Response extends Entity implements Generatable {
         super(builder);
 
         EntityValidator.checkType(builder.type, EntityType.RESPONSE);
-        EntityValidator.checkId("assignableId", builder.assignableId);
-        EntityValidator.checkId("actorId", builder.actorId);
+        EntityValidator.checkId("assignable Id", builder.assignable.getId());
+        EntityValidator.checkId("actor Id", builder.actor.getId());
         EntityValidator.checkAttempt(builder.attempt);
         EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
         EntityValidator.checkDuration(builder.startedAtTime, builder.endedAtTime, builder.duration);
 
         this.type = builder.type;
-        this.assignableId = builder.assignableId;
-        this.actorId = builder.actorId;
+        this.assignable = builder.assignable;
+        this.actor = builder.actor;
         this.attempt = builder.attempt;
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
@@ -82,19 +87,27 @@ public abstract class Response extends Entity implements Generatable {
     }
 
     /**
-     * @return the assignable identifier
+     * Serialization of Assignable associated with this Response is limited to
+     * the identifying URI only.
+     * @return the assignable
      */
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
     @Nonnull
-    public String getAssignableId() {
-        return assignableId;
+    public DigitalResource getAssignable() {
+        return assignable;
     }
 
     /**
-     * @return the actor identifier
+     * Serialization of Agent associated with this Response is limited to
+     * the identifying URI only.
+     * @return the actor
      */
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
     @Nonnull
-    public String getActorId() {
-        return actorId;
+    public Agent getActor() {
+        return actor;
     }
 
     /**
@@ -141,8 +154,8 @@ public abstract class Response extends Entity implements Generatable {
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private EntityType type;
-        private String assignableId;
-        private String actorId;
+        private DigitalResource assignable;
+        private Agent actor;
         private Attempt attempt;
         private DateTime startedAtTime;
         private DateTime endedAtTime;
@@ -165,20 +178,20 @@ public abstract class Response extends Entity implements Generatable {
         }
 
         /**
-         * @param assignableId
+         * @param assignable
          * @return builder.
          */
-        public T assignableId(String assignableId) {
-            this.assignableId = assignableId;
+        public T assignable(DigitalResource assignable) {
+            this.assignable = assignable;
             return self();
         }
 
         /**
-         * @param actorId
+         * @param actor
          * @return builder.
          */
-        public T actorId(String actorId) {
-            this.actorId = actorId;
+        public T actor(Agent actor) {
+            this.actor = actor;
             return self();
         }
 

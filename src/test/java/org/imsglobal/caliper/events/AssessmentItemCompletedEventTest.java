@@ -45,7 +45,7 @@ public class AssessmentItemCompletedEventTest extends EventTest {
         item = TestUtils.buildAssessment().getAssessmentItems().get(0);
 
         // Response
-        response = TestUtils.buildFillinBlankResponse(attempt, "2 July 1776");
+        response = TestUtils.buildFillinBlankResponse(learningContext, assessment, attempt, "2 July 1776");
 
         // Build event
         event = TestUtils.buildFillinBlankCompletedEvent(learningContext, item, Action.COMPLETED, response);

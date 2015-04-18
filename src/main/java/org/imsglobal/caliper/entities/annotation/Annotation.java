@@ -1,7 +1,7 @@
 package org.imsglobal.caliper.entities.annotation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
+import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Type;
@@ -24,14 +24,14 @@ import javax.annotation.Nonnull;
     "extensions",
     "dateCreated",
     "dateModified",
-    "annotatedId" })
+    "annotated" })
 public abstract class Annotation extends Entity implements org.imsglobal.caliper.entities.Generatable {
 
     @JsonProperty("@type")
     private final Type type;
 
-    @JsonProperty("annotatedId")
-    private String annotatedId;
+    @JsonProperty("annotated")
+    private DigitalResource annotated;
 
     /**
      * @param builder apply builder object properties to the Annotation object.
@@ -40,10 +40,10 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
         super(builder);
 
         EntityValidator.checkType(builder.type, EntityType.ANNOTATION);
-        EntityValidator.checkId("annotatedId", builder.annotatedId);
+        EntityValidator.checkId("annotated Id", builder.annotated.getId());
 
         this.type = builder.type;
-        this.annotatedId = builder.annotatedId;
+        this.annotated = builder.annotated;
     }
 
     /**
@@ -56,11 +56,15 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
     }
 
     /**
+     * Serialization of DigitalResource associated with this Annotation is limited to
+     * the identifying URI only.
      * @return the annotated object's identifier
      */
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
     @Nonnull
-    public String getAnnotatedId() {
-        return annotatedId;
+    public DigitalResource getAnnotated() {
+        return annotated;
     }
 
 
@@ -70,7 +74,7 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private Type type;
-        private String annotatedId;
+        private DigitalResource annotated;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
@@ -89,11 +93,11 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
         }
 
         /**
-         * @param annotatedId
+         * @param annotated
          * @return builder.
          */
-        public T annotatedId(String annotatedId) {
-            this.annotatedId = annotatedId;
+        public T annotated(DigitalResource annotated) {
+            this.annotated = annotated;
             return self();
         }
     }
