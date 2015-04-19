@@ -189,7 +189,8 @@ public class TestUtils {
     }
 
     /**
-     * Sample Assessment.
+     * Sample Assessment.  Pass a slim version of the parent assessment to .assessmentItems(Assessment parent)
+     * in order to avoid generating an infinite loop during instance construction.
      * @return assessment
      */
     public static final Assessment buildAssessment() {
@@ -206,7 +207,9 @@ public class TestUtils {
             .maxAttempts(2)
             .maxSubmits(2)
             .maxScore(3) // WARN original value "5.0d"
-            .assessmentItems(buildAssessmentItems())
+            .assessmentItems(buildAssessmentItems(Assessment.builder()
+                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
+            .build()))
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
             .build();
@@ -228,13 +231,13 @@ public class TestUtils {
             .action(action)
             .object(assessment)
             .generated(Attempt.builder()
-                    .id(assessment.getId() + "/attempt1")
-                    .assignable(assessment)
-                    .actor(((Person) learningContext.getAgent()))
-                    .count(1)
-                    .dateCreated(getDefaultDateCreated())
-                    .startedAtTime(getDefaultStartedAtTime())
-                    .build())
+                .id(assessment.getId() + "/attempt1")
+                .assignable(assessment)
+                .actor(((Person) learningContext.getAgent()))
+                .count(1)
+                .dateCreated(getDefaultDateCreated())
+                .startedAtTime(getDefaultStartedAtTime())
+                .build())
             .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
@@ -358,12 +361,7 @@ public class TestUtils {
      * generating an infinite loop by setting the parent instance's assessmentItems property.
      * @return immutable list
      */
-    public static final ImmutableList<AssessmentItem> buildAssessmentItems() {
-
-        Assessment parent = Assessment.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
-            .build();
-
+    public static final ImmutableList<AssessmentItem> buildAssessmentItems(Assessment parent) {
         return ImmutableList.<AssessmentItem>builder()
             .add(AssessmentItem.builder()
                 .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1")
