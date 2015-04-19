@@ -151,7 +151,6 @@ public class TestUtils {
         return WebPage.builder()
             .id("https://some-university.edu/politicalScience/2015/american-revolution-101/index.html")
             .name("American Revolution 101 Landing Page")
-            .isPartOf(buildAmRev101CourseOffering())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
             .version("1.0")
@@ -197,7 +196,6 @@ public class TestUtils {
         return Assessment.builder()
             .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
             .name("American Revolution - Key Figures Assessment")
-            .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101")
             .dateCreated(getDefaultDateModified())
             .datePublished(getDefaultDatePublished())
             .version("1.0")
@@ -356,15 +354,21 @@ public class TestUtils {
     }
 
     /**
-     * Sample assessment items
+     * Sample assessment items. Build a slim version of the parent assessment in order to avoid
+     * generating an infinite loop by setting the parent instance's assessmentItems property.
      * @return immutable list
      */
     public static final ImmutableList<AssessmentItem> buildAssessmentItems() {
+
+        Assessment parent = Assessment.builder()
+            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
+            .build();
+
         return ImmutableList.<AssessmentItem>builder()
             .add(AssessmentItem.builder()
                 .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1")
                 .name("Assessment Item 1")
-                .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
+                .isPartOf(parent)
                 .version("1.0")
                 .maxAttempts(2)
                 .maxSubmits(2)
@@ -374,7 +378,7 @@ public class TestUtils {
             .add(AssessmentItem.builder()
                 .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item2")
                 .name("Assessment Item 2")
-                .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
+                .isPartOf(parent)
                 .version("1.0")
                 .maxAttempts(2)
                 .maxSubmits(2)
@@ -384,7 +388,7 @@ public class TestUtils {
             .add(AssessmentItem.builder()
                 .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item3")
                 .name("Assessment Item 3")
-                .isPartOf("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
+                .isPartOf(parent)
                 .version("1.0")
                 .maxAttempts(2)
                 .maxSubmits(2)

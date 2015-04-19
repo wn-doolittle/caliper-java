@@ -1,7 +1,6 @@
 package org.imsglobal.caliper.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.validators.EntityValidator;
@@ -59,7 +58,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     private final ImmutableList<String> keywords;
 
     @JsonProperty("isPartOf")
-    private final Object isPartOf;
+    private final DigitalResource isPartOf;
 
     @JsonProperty("datePublished")
     private final DateTime datePublished;
@@ -121,10 +120,13 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     }
 
     /**
+     * Serialization of the DigitalResource parent is limited to the identifying URI only.
      * @return the parent reference.
      */
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
     @Nullable
-    public Object getIsPartOf() {
+    public DigitalResource getIsPartOf() {
         return isPartOf;
     }
 
@@ -153,7 +155,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         private List<String> objectTypes = Lists.newArrayList();
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
-        private Object isPartOf;
+        private DigitalResource isPartOf;
         private DateTime datePublished;
         private String version;
 
@@ -231,7 +233,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
          * @param isPartOf
          * @return builder.
          */
-        public T isPartOf(Object isPartOf) {
+        public T isPartOf(DigitalResource isPartOf) {
             this.isPartOf = isPartOf;
             return self();
         }
