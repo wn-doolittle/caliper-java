@@ -3,6 +3,7 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.*;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -58,7 +59,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     private final ImmutableList<String> keywords;
 
     @JsonProperty("isPartOf")
-    private final DigitalResource isPartOf;
+    private final CreativeWork isPartOf;
 
     @JsonProperty("datePublished")
     private final DateTime datePublished;
@@ -126,7 +127,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
     @JsonIdentityReference(alwaysAsId = true)
     @Nullable
-    public DigitalResource getIsPartOf() {
+    public CreativeWork getIsPartOf() {
         return isPartOf;
     }
 
@@ -155,7 +156,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
         private List<String> objectTypes = Lists.newArrayList();
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
-        private DigitalResource isPartOf;
+        private CreativeWork isPartOf;
         private DateTime datePublished;
         private String version;
 
@@ -233,7 +234,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
          * @param isPartOf
          * @return builder.
          */
-        public T isPartOf(DigitalResource isPartOf) {
+        public T isPartOf(CreativeWork isPartOf) {
             this.isPartOf = isPartOf;
             return self();
         }
