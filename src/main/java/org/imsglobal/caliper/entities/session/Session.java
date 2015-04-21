@@ -50,7 +50,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
         EntityValidator.checkType(builder.type, EntityType.SESSION);
         EntityValidator.checkActorType(builder.actor, Person.class);
         EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
-        EntityValidator.checkDuration(builder.startedAtTime, builder.endedAtTime, builder.duration);
+        EntityValidator.checkDuration(builder.duration);
 
         this.type = builder.type;
         this.actor = builder.actor;

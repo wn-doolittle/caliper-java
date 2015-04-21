@@ -2,10 +2,10 @@ package org.imsglobal.caliper;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.LearningObjective;
-import org.imsglobal.caliper.entities.reading.WebPage;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.annotation.*;
@@ -20,12 +20,14 @@ import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.entities.reading.WebPage;
 import org.imsglobal.caliper.entities.response.FillinBlankResponse;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.*;
-import org.imsglobal.caliper.actions.Action;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Period;
+import org.joda.time.format.ISOPeriodFormat;
 
 import java.util.List;
 
@@ -175,14 +177,14 @@ public class TestUtils {
             .actor((Person) learningContext.getAgent())
             .action(action)
             .object(Frame.builder()
-                .id(object.getId())
-                .name(object.getName())
-                .isPartOf(object.getIsPartOf())
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
-                .version("2nd ed.")
-                .index(index)
-                .build())
+                    .id(object.getId())
+                    .name(object.getName())
+                    .isPartOf(object.getIsPartOf())
+                    .dateCreated(getDefaultDateCreated())
+                    .dateModified(getDefaultDateModified())
+                    .version("2nd ed.")
+                    .index(index)
+                    .build())
             .generated(generated)
             .startedAtTime(getDefaultStartedAtTime())
             .build();
@@ -208,8 +210,8 @@ public class TestUtils {
             .maxSubmits(2)
             .maxScore(3) // WARN original value "5.0d"
             .assessmentItems(buildAssessmentItems(Assessment.builder()
-                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
-            .build()))
+                    .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
+                    .build()))
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
             .build();
@@ -231,13 +233,13 @@ public class TestUtils {
             .action(action)
             .object(assessment)
             .generated(Attempt.builder()
-                .id(assessment.getId() + "/attempt1")
-                .assignable(assessment)
-                .actor(((Person) learningContext.getAgent()))
-                .count(1)
-                .dateCreated(getDefaultDateCreated())
-                .startedAtTime(getDefaultStartedAtTime())
-                .build())
+                    .id(assessment.getId() + "/attempt1")
+                    .assignable(assessment)
+                    .actor(((Person) learningContext.getAgent()))
+                    .count(1)
+                    .dateCreated(getDefaultDateCreated())
+                    .startedAtTime(getDefaultStartedAtTime())
+                    .build())
             .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
@@ -364,35 +366,35 @@ public class TestUtils {
     public static final ImmutableList<AssessmentItem> buildAssessmentItems(Assessment parent) {
         return ImmutableList.<AssessmentItem>builder()
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1")
-                .name("Assessment Item 1")
-                .isPartOf(parent)
-                .version("1.0")
-                .maxAttempts(2)
-                .maxSubmits(2)
-                .maxScore(1)
-                .isTimeDependent(false)
-                .build())
+                    .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1")
+                    .name("Assessment Item 1")
+                    .isPartOf(parent)
+                    .version("1.0")
+                    .maxAttempts(2)
+                    .maxSubmits(2)
+                    .maxScore(1)
+                    .isTimeDependent(false)
+                    .build())
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item2")
-                .name("Assessment Item 2")
-                .isPartOf(parent)
-                .version("1.0")
-                .maxAttempts(2)
-                .maxSubmits(2)
-                .maxScore(1)
-                .isTimeDependent(false)
-                .build())
+                    .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item2")
+                    .name("Assessment Item 2")
+                    .isPartOf(parent)
+                    .version("1.0")
+                    .maxAttempts(2)
+                    .maxSubmits(2)
+                    .maxScore(1)
+                    .isTimeDependent(false)
+                    .build())
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item3")
-                .name("Assessment Item 3")
-                .isPartOf(parent)
-                .version("1.0")
-                .maxAttempts(2)
-                .maxSubmits(2)
-                .maxScore(1)
-                .isTimeDependent(false)
-                .build())
+                    .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item3")
+                    .name("Assessment Item 3")
+                    .isPartOf(parent)
+                    .version("1.0")
+                    .maxAttempts(2)
+                    .maxSubmits(2)
+                    .maxScore(1)
+                    .isTimeDependent(false)
+                    .build())
             .build();
     }
 
@@ -506,14 +508,14 @@ public class TestUtils {
             .action(action)
             .object(learningContext.getEdApp())
             .target(Frame.builder()
-                .id(target.getId())
-                .name(target.getName())
-                .isPartOf(target.getIsPartOf())
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
-                .version("2nd ed.")
-                .index(1)
-                .build())
+                    .id(target.getId())
+                    .name(target.getName())
+                    .isPartOf(target.getIsPartOf())
+                    .dateCreated(getDefaultDateCreated())
+                    .dateModified(getDefaultDateModified())
+                    .version("2nd ed.")
+                    .index(1)
+                    .build())
             .generated(generated)
             .startedAtTime(getDefaultStartedAtTime())
             .build();
@@ -537,7 +539,7 @@ public class TestUtils {
             .target(target)
             .startedAtTime(getDefaultStartedAtTime())
             .endedAtTime(getDefaultEndedAtTime())
-            .duration("PT3000S")
+            .duration(getDefaultPeriod())
             .build();
     }
 
@@ -559,7 +561,7 @@ public class TestUtils {
             .target(target)
             .startedAtTime(getDefaultStartedAtTime())
             .endedAtTime(getDefaultEndedAtTime())
-            .duration("PT3000S")
+            .duration(getDefaultPeriod())
             .build();
     }
 
@@ -583,14 +585,14 @@ public class TestUtils {
             .action(action)
             .object(epub)
             .target(Frame.builder()
-                .id(target.getId())
-                .name(target.getName())
-                .isPartOf(epub)
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
-                .version("2nd ed.")
-                .index(1)
-                .build())
+                    .id(target.getId())
+                    .name(target.getName())
+                    .isPartOf(epub)
+                    .dateCreated(getDefaultDateCreated())
+                    .dateModified(getDefaultDateModified())
+                    .version("2nd ed.")
+                    .index(1)
+                    .build())
             .fromResource(fromResource)
             .startedAtTime(getDefaultStartedAtTime())
             .build();
@@ -688,14 +690,14 @@ public class TestUtils {
             .action(action)
             .object(epub)
             .target(Frame.builder()
-                .id(target.getId())
-                .name(target.getName())
-                .isPartOf(epub)
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
-                .version("2nd ed.")
-                .index(1)
-                .build())
+                    .id(target.getId())
+                    .name(target.getName())
+                    .isPartOf(epub)
+                    .dateCreated(getDefaultDateCreated())
+                    .dateModified(getDefaultDateModified())
+                    .version("2nd ed.")
+                    .index(1)
+                    .build())
             .startedAtTime(getDefaultStartedAtTime())
             .build();
     }
@@ -779,7 +781,7 @@ public class TestUtils {
             .dateModified(getDefaultDateModified())
             .startedAtTime(getDefaultStartedAtTime())
             .endedAtTime(getDefaultEndedAtTime())
-            .duration("PT3000S")
+            .duration(getDefaultPeriod())
             .build();
     }
 
@@ -792,16 +794,16 @@ public class TestUtils {
             .id("https://someEduApp.edu/shared/9999")
             .annotated(annotated)
             .withAgents(Lists.<Agent>newArrayList(
-                Person.builder()
-                    .id("https://some-university.edu/students/657585")
-                    .dateCreated(getDefaultDateCreated())
-                    .dateModified(getDefaultDateModified())
-                    .build(),
-                Person.builder()
-                    .id("https://some-university.edu/students/667788")
-                    .dateCreated(getDefaultDateCreated())
-                    .dateModified(getDefaultDateModified())
-                    .build()))
+                    Person.builder()
+                            .id("https://some-university.edu/students/657585")
+                            .dateCreated(getDefaultDateCreated())
+                            .dateModified(getDefaultDateModified())
+                            .build(),
+                    Person.builder()
+                            .id("https://some-university.edu/students/667788")
+                            .dateCreated(getDefaultDateCreated())
+                            .dateModified(getDefaultDateModified())
+                            .build()))
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
             .build();
@@ -832,11 +834,11 @@ public class TestUtils {
     public static final LearningContext buildSuperMediaToolLearningContext() {
         return LearningContext.builder()
             .edApp(SoftwareApplication.builder()
-                .id("https://com.sat/super-media-tool")
-                .name("Super Media Tool")
-                .dateCreated(getDefaultDateCreated())
-                .dateModified(getDefaultDateModified())
-                .build())
+                    .id("https://com.sat/super-media-tool")
+                    .name("Super Media Tool")
+                    .dateCreated(getDefaultDateCreated())
+                    .dateModified(getDefaultDateModified())
+                    .build())
                 .group(buildAmRev101Group001())
                 .agent(buildStudent554433())
             .build();
@@ -899,9 +901,9 @@ public class TestUtils {
             .id("https://com.sat/super-media-tool/video/video1")
             .name("American Revolution - Key Figures Video")
             .learningObjective(LearningObjective.builder()
-                .id("http://americanrevolution.com/personalities/learn")
-                .dateCreated(getDefaultDateCreated())
-                .build())
+                    .id("http://americanrevolution.com/personalities/learn")
+                    .dateCreated(getDefaultDateCreated())
+                    .build())
             .dateCreated(getDefaultDateCreated())
             .dateModified(getDefaultDateModified())
             .version("1.0")
@@ -979,5 +981,13 @@ public class TestUtils {
      */
     public static DateTime getDefaultEndedAtTime() {
         return new DateTime(2015, 9, 15, 11, 05, 0, 0, DateTimeZone.UTC);
+    }
+
+    /**
+     * PT3000s
+     * @return period
+     */
+    public static String getDefaultPeriod() {
+        return new Period(0, 0, 3000, 0).toString(ISOPeriodFormat.standard());
     }
 }

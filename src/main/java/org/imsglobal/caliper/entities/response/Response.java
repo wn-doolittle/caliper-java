@@ -66,7 +66,7 @@ public abstract class Response extends Entity implements Generatable {
         EntityValidator.checkId("actor Id", builder.actor.getId());
         EntityValidator.checkAttempt(builder.attempt);
         EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
-        EntityValidator.checkDuration(builder.startedAtTime, builder.endedAtTime, builder.duration);
+        EntityValidator.checkDuration(builder.duration);
 
         this.type = builder.type;
         this.assignable = builder.assignable;
