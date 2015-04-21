@@ -2,10 +2,8 @@ package org.imsglobal.caliper.validators;
 
 import com.google.common.base.Strings;
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.Interval;
-
-import java.util.IllegalFormatException;
+import org.joda.time.Period;
+import org.joda.time.format.ISOPeriodFormat;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -19,20 +17,13 @@ public class TimeValidator {
     }
 
     /**
-     * Check duration.
-     * @param start
-     * @param end
+     * Check duration String format
      * @param duration
      * @throws IllegalArgumentException
      */
-    protected static void checkDuration(DateTime start, DateTime end, String duration)
-            throws IllegalArgumentException {
+    public static void checkDuration(String duration) throws IllegalArgumentException {
         if (!(Strings.isNullOrEmpty(duration))) {
-            checkArgument(checkDurationFormat(duration), "%s duration format cannot be parsed");
-            /**
-             checkArgument(duration.equals(new Interval(start, end).toDuration().toString()),
-             "Interval between %s and %s does not equal duration %s ", start, end, duration);
-             */
+            checkArgument(checkPeriodFormat(duration), "%s duration format does not conform to ISO 8601 format P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W");
         }
     }
 
@@ -74,27 +65,18 @@ public class TimeValidator {
     }
 
     /**
-     * Parses the format PTa.bS
-     * @param duration
-     * @return boolean true/false.
+     * Parses duration string against the standard ISO8601 duration format: PyYmMwWdDThHmMsS.
+     * Note that milliseconds precision is not defined as part of the standard duration format.
+     * @param period
+     * @return boolean true/false
      */
-    private static boolean checkDurationFormat(String duration) {
+    private static boolean checkPeriodFormat(String period) {
         try {
-            Duration.parse(duration);
+            Period.parse(period, ISOPeriodFormat.standard());
             return true;
-        } catch (IllegalFormatException ex) {
+        } catch (IllegalArgumentException ex) {
             return false;
         }
-    }
-
-    /**
-     * Calculate the duration given an event's start and end time
-     * @param startedAtTime
-     * @param endedAtTime
-     * @return
-     */
-    private static Duration getDuration(DateTime startedAtTime, DateTime endedAtTime) {
-        return new Interval(startedAtTime, endedAtTime).toDuration();
     }
 
     /**

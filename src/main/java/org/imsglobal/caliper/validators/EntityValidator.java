@@ -108,13 +108,11 @@ public class EntityValidator {
     }
 
     /**
-     * Check duration
-     * @param start
-     * @param end
+     * Check duration format
      * @param duration
      * @throws IllegalArgumentException
      */
-    public static void checkDuration(DateTime start, DateTime end, String duration) throws IllegalArgumentException {
-        TimeValidator.checkDuration(start, end, duration);
+    public static void checkDuration(String duration) throws IllegalArgumentException {
+        TimeValidator.checkDuration(duration);
     }
 }

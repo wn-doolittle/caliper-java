@@ -85,7 +85,7 @@ public abstract class Event {
         // Validator.checkType(builder.type, Type.EVENT);
         // Validator.checkAction(builder.action, Event.class);
         EventValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
-        EventValidator.checkDuration(builder.startedAtTime, builder.endedAtTime, builder.duration);
+        EventValidator.checkDuration(builder.duration);
 
         this.context = builder.context;
         this.type = builder.type;
