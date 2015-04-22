@@ -1,22 +1,30 @@
 package org.imsglobal.caliper;
 
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
+import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.entities.reading.WebPage;
 import org.imsglobal.caliper.events.NavigationEvent;
-import org.imsglobal.caliper.actions.Action;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+// @Category(org.imsglobal.caliper.UnitTest.class)
 public class SensorSendEventsTest {
 
     private LearningContext learningContext;
-    private EpubVolume epub;
+    private EpubVolume object;
     private DigitalResource fromResource;
-    private EpubSubChapter target;
-    private NavigationEvent event;
+    private EpubSubChapter ePub;
+    private Frame target;
+    private DateTime dateCreated = TestDates.getDefaultDateCreated();
+    private DateTime dateModified = TestDates.getDefaultDateModified();
+    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
 
     @Test
     public void test() {
@@ -25,20 +33,39 @@ public class SensorSendEventsTest {
         sensor.registerClient("default", new Client(TestUtils.getTestingOptions()));
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumStudentLearningContext();
+        learningContext = LearningContext.builder()
+            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .group(TestLisEntities.buildGroup())
+            .agent(TestAgentEntities.buildStudent554433())
+            .build();
 
-        // Build epub
-        epub = TestUtils.buildEpubVolume43();
+        // Build object
+        object = TestEpubEntities.buildEpubVolume43();
 
         // Build previous location
-        fromResource = TestUtils.buildAmRev101LandingPage();
+        fromResource = WebPage.builder()
+            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/index.html")
+            .name("American Revolution 101 Landing Page")
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .version("1.0")
+            .build();
 
-        // Build target
-        target = TestUtils.buildEpubSubChap431();
+        // Build target frame
+        ePub = TestEpubEntities.buildEpubSubChap431();
+        target = Frame.builder()
+            .id(ePub.getId())
+            .name(ePub.getName())
+            .isPartOf(ePub.getIsPartOf())
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .version(ePub.getVersion())
+            .index(1)
+            .build();
 
         // Fire event test - Send 50 events
         for (int i = 0 ; i < 50 ; i++) {
-            sensor.send(TestUtils.buildEpubNavigationEvent(learningContext, epub, Action.NAVIGATED_TO, fromResource, target));
+            sensor.send(buildEvent(Action.NAVIGATED_TO));
         }
 
         // There should be two caliperEvents queued
@@ -57,5 +84,23 @@ public class SensorSendEventsTest {
         // There should be zero failures
         int failures = sensor.getStatistics().get("default").getFailed().getCount();
         assertEquals("Expect zero message failures to be sent", 0, failures);
+    }
+
+    /**
+     * Build Navigation event
+     * @param action
+     * @return event
+     */
+    private NavigationEvent buildEvent(Action action) {
+        return NavigationEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .actor((Person) learningContext.getAgent())
+            .action(action)
+            .object(object)
+            .target(target)
+            .fromResource(fromResource)
+            .startedAtTime(dateStarted)
+            .build();
     }
 }

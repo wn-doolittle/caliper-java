@@ -1,15 +1,19 @@
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.TestUtils;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.TestAgentEntities;
+import org.imsglobal.caliper.TestDates;
+import org.imsglobal.caliper.TestEpubEntities;
+import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.reading.Frame;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
@@ -18,11 +22,14 @@ import static org.junit.Assert.assertEquals;
 public class BookmarkAnnotationEventTest extends EventTest {
 
     private LearningContext learningContext;
-    private EpubSubChapter object;
-    private String key;
+    private EpubSubChapter ePub;
+    private Frame object;
     private BookmarkAnnotation generated;
     private AnnotationEvent event;
-    private static final Logger log = LoggerFactory.getLogger(BookmarkAnnotationEventTest.class);
+    private DateTime dateCreated = TestDates.getDefaultDateCreated();
+    private DateTime dateModified = TestDates.getDefaultDateModified();
+    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    // private static final Logger log = LoggerFactory.getLogger(BookmarkAnnotationEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -31,21 +38,62 @@ public class BookmarkAnnotationEventTest extends EventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumStudentLearningContext();
+        learningContext = LearningContext.builder()
+            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .group(TestLisEntities.buildGroup())
+            .agent(TestAgentEntities.buildStudent554433())
+            .build();
 
-        //Build Reading
-        object = (EpubSubChapter) TestUtils.buildEpubSubChap432();
+        // Build Frame
+        ePub = TestEpubEntities.buildEpubSubChap432();
+        object = Frame.builder()
+            .id(ePub.getId())
+            .name(ePub.getName())
+            .isPartOf(ePub.getIsPartOf())
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .version(ePub.getVersion())
+            .index(2)
+            .build();
 
         // Build Bookmark Annotation
-        generated = TestUtils.buildBookmarkAnnotation(object);
+        generated = BookmarkAnnotation.builder()
+            .id("https://someEduApp.edu/bookmarks/00001")
+            .annotated(object)
+            .bookmarkNotes("The Intolerable Acts (1774)--bad idea Lord North")
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .build();
 
         // Build event
-        event = TestUtils.buildAnnotationEvent(learningContext, object, Action.BOOKMARKED, generated, 2);
+        event = buildEvent(Action.BOOKMARKED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Bookmark Annotation event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperBookmarkAnnotationEvent.json"), serialize(event));
+            jsonFixture("fixtures/caliperBookmarkAnnotationEvent.json"), serialize(event));
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void annotationEventRejectsCompletedAction() {
+        buildEvent(Action.COMPLETED);
+    }
+
+    /**
+     * Build Annotation event.
+     * @param action
+     * @return event
+     */
+    private AnnotationEvent buildEvent(Action action) {
+        return AnnotationEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .actor((Person) learningContext.getAgent())
+            .action(action)
+            .object(object)
+            .generated(generated)
+            .startedAtTime(dateStarted)
+            .build();
     }
 }

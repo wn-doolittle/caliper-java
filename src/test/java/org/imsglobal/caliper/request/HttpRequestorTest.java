@@ -2,19 +2,24 @@ package org.imsglobal.caliper.request;
 
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.TestUtils;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.TestAgentEntities;
+import org.imsglobal.caliper.TestDates;
+import org.imsglobal.caliper.TestEpubEntities;
+import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
+import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.entities.reading.WebPage;
 import org.imsglobal.caliper.events.NavigationEvent;
-import org.imsglobal.caliper.actions.Action;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
@@ -24,15 +29,18 @@ public class HttpRequestorTest {
 
     private HttpRequestor httpRequestor;
     private LearningContext learningContext;
-    private EpubVolume epub;
+    private EpubVolume object;
     private DigitalResource fromResource;
-    private EpubSubChapter target;
+    private EpubSubChapter ePub;
+    private Frame target;
     private NavigationEvent event;
     private String id;
     private DateTime timestamp;
     private String expectedContentType;
-
-    private static final Logger log = LoggerFactory.getLogger(HttpRequestorTest.class);
+    private DateTime dateCreated = TestDates.getDefaultDateCreated();
+    private DateTime dateModified = TestDates.getDefaultDateModified();
+    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    // private static final Logger log = LoggerFactory.getLogger(HttpRequestorTest.class);
 
     @Before
     public void setup() {
@@ -43,28 +51,44 @@ public class HttpRequestorTest {
         expectedContentType = "Content-Type: application/json";
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumStudentLearningContext();
+        learningContext = LearningContext.builder()
+            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .group(TestLisEntities.buildGroup())
+            .agent(TestAgentEntities.buildStudent554433())
+            .build();
 
-        // Build epub
-        epub = TestUtils.buildEpubVolume43();
+        // Build object
+        object = TestEpubEntities.buildEpubVolume43();
 
         // Build previous location
-        fromResource = TestUtils.buildAmRev101LandingPage();
+        fromResource = WebPage.builder()
+            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/index.html")
+            .name("American Revolution 101 Landing Page")
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .version("1.0")
+            .build();
 
-        // Build target
-        target = TestUtils.buildEpubSubChap431();
+        // Build target frame
+        ePub = TestEpubEntities.buildEpubSubChap431();
+        target = Frame.builder()
+            .id(ePub.getId())
+            .name(ePub.getName())
+            .isPartOf(ePub.getIsPartOf())
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .version(ePub.getVersion())
+            .index(1)
+            .build();
 
         // Build event
-        event = TestUtils.buildEpubNavigationEvent(learningContext, epub, Action.NAVIGATED_TO, fromResource, target);
+        event = buildEvent(Action.NAVIGATED_TO);
     }
 
     @Test
     public void testGeneratePayloadJson() throws Exception {
-
         String jsonPayload;
         jsonPayload = httpRequestor.getPayloadJson(event, id, timestamp);
-
-        // log.debug("JSON payload: " + jsonPayload);
 
         assertEquals("Test HTTP Requestor payload JSON",
             jsonFixture("fixtures/eventStorePayload.json"), jsonPayload);
@@ -73,7 +97,6 @@ public class HttpRequestorTest {
 
     @Test
     public void testGeneratePayloadContentType() throws Exception {
-
         StringEntity payload;
         payload = httpRequestor.generatePayload(event, id, timestamp);
 
@@ -83,5 +106,23 @@ public class HttpRequestorTest {
     @After
     public void teardown() {
         event = null;
+    }
+
+    /**
+     * Build Navigation event
+     * @param action
+     * @return event
+     */
+    private NavigationEvent buildEvent(Action action) {
+        return NavigationEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .actor((Person) learningContext.getAgent())
+            .action(action)
+            .object(object)
+            .target(target)
+            .fromResource(fromResource)
+            .startedAtTime(dateStarted)
+            .build();
     }
 }

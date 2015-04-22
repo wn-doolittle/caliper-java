@@ -1,15 +1,19 @@
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.TestUtils;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.TestAgentEntities;
+import org.imsglobal.caliper.TestDates;
+import org.imsglobal.caliper.TestEpubEntities;
+import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.reading.Frame;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
@@ -18,10 +22,14 @@ import static org.junit.Assert.assertEquals;
 public class HighlightAnnotationEventTest extends EventTest {
 
     private LearningContext learningContext;
-    private EpubSubChapter object;
+    private EpubSubChapter ePub;
+    private Frame object;
     private HighlightAnnotation generated;
     private AnnotationEvent event;
-    private static final Logger log = LoggerFactory.getLogger(HighlightAnnotationEventTest.class);
+    private DateTime dateCreated = TestDates.getDefaultDateCreated();
+    private DateTime dateModified = TestDates.getDefaultDateModified();
+    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    // private static final Logger log = LoggerFactory.getLogger(HighlightAnnotationEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -30,26 +38,64 @@ public class HighlightAnnotationEventTest extends EventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumStudentLearningContext();
+        learningContext = LearningContext.builder()
+            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .group(TestLisEntities.buildGroup())
+            .agent(TestAgentEntities.buildStudent554433())
+            .build();
 
-        //Build target reading
-        object = (EpubSubChapter) TestUtils.buildEpubSubChap431();
+        // Build object frame
+        ePub = TestEpubEntities.buildEpubSubChap431();
+        object = Frame.builder()
+            .id(ePub.getId())
+            .name(ePub.getName())
+            .isPartOf(ePub.getIsPartOf())
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .version(ePub.getVersion())
+            .index(1)
+            .build();
 
-        // Build Bookmark Annotation
-        generated = TestUtils.buildHighlightAnnotation(object);
+        // Build Highlight Annotation
+        generated = HighlightAnnotation.builder()
+            .id("https://someEduApp.edu/highlights/12345")
+            .annotated(object)
+            .selectionStart(Integer.toString(455))
+            .selectionEnd(Integer.toString(489))
+            .selectionText("Life, Liberty and the pursuit of Happiness")
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .build();
 
         // Build event
-        event = TestUtils.buildAnnotationEvent(learningContext, object, Action.HIGHLIGHTED, generated, 1);
+        event = buildEvent(Action.HIGHLIGHTED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Highlight Annotation event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperHighlightAnnotationEvent.json"), serialize(event));
+            jsonFixture("fixtures/caliperHighlightAnnotationEvent.json"), serialize(event));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void annotationEventRejectsSearchedAction() {
-        TestUtils.buildAnnotationEvent(learningContext, object, Action.SEARCHED, generated, 1);
+        buildEvent(Action.SEARCHED);
+    }
+
+    /**
+     * Build Annotation event.
+     * @param action
+     * @return event
+     */
+    private AnnotationEvent buildEvent(Action action) {
+        return AnnotationEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .actor((Person) learningContext.getAgent())
+            .action(action)
+            .object(object)
+            .generated(generated)
+            .startedAtTime(dateStarted)
+            .build();
     }
 }
