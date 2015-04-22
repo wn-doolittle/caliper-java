@@ -1,17 +1,20 @@
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.TestUtils;
-import org.imsglobal.caliper.entities.agent.SoftwareApplication;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.TestAgentEntities;
+import org.imsglobal.caliper.TestAssessmentEntities;
+import org.imsglobal.caliper.TestDates;
+import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
-import org.imsglobal.caliper.actions.Action;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
@@ -22,10 +25,12 @@ public class AssessmentOutcomeEventTest extends EventTest {
     private LearningContext learningContext;
     private SoftwareApplication scoredBy;
     private Assessment assessment;
-    private Attempt attempt;
-    private Result result;
+    private Attempt object;
+    private Result generated;
     private OutcomeEvent event;
-    private static final Logger log = LoggerFactory.getLogger(AssessmentOutcomeEventTest.class);
+    private DateTime dateCreated = TestDates.getDefaultDateCreated();
+    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    // private static final Logger log = LoggerFactory.getLogger(AssessmentOutcomeEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -33,36 +38,71 @@ public class AssessmentOutcomeEventTest extends EventTest {
     @Before
     public void setUp() throws Exception {
 
-        // Build the student learning context (attempt)
-        learningContext = TestUtils.buildAssessmentStudentLearningContext();
-
-        // Build scoredBy (edApp)
-        scoredBy = TestUtils.buildAssessmentTool();
+        // Build the Learning Context
+        learningContext = LearningContext.builder()
+            .edApp(TestAgentEntities.buildAssessmentApp())
+            .group(TestLisEntities.buildGroup())
+            .agent(TestAgentEntities.buildStudent554433())
+            .build();
 
         // Build assessment
-        assessment = TestUtils.buildAssessment();
+        assessment = TestAssessmentEntities.buildAssessment();
 
         // Build attempt
-        attempt = TestUtils.buildAssessmentAttempt(learningContext, assessment);
-
-        // Build scoredBy (edApp)
-        scoredBy = TestUtils.buildAssessmentTool();
+        object = Attempt.builder()
+            .id(assessment.getId() + "/attempt1")
+            .assignable(assessment)
+            .actor(((Person) learningContext.getAgent()))
+            .count(1)
+            .dateCreated(dateCreated)
+            .startedAtTime(dateStarted)
+            .build();
 
         // Build result
-        result = TestUtils.buildAssessmentResult(learningContext, assessment, attempt, scoredBy);
+        generated = Result.builder()
+            .id(object.getId() + "/result")
+            .assignable(assessment)
+            .actor(learningContext.getAgent())
+            .dateCreated(dateCreated)
+            .normalScore(3.0d)
+            .penaltyScore(0.0d)
+            .extraCreditScore(0.0d)
+            .totalScore(3.0d)
+            .curvedTotalScore(3.0d)
+            .curveFactor(0.0d)
+            .comment("Well done.")
+            .scoredBy((SoftwareApplication) learningContext.getEdApp())
+            .build();
 
         // Build Outcome Event
-        event = TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, Action.GRADED, result);
+        event = buildEvent(Action.GRADED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Outcome event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperAssessmentOutcomeEvent.json"), serialize(event));
+            jsonFixture("fixtures/caliperAssessmentOutcomeEvent.json"), serialize(event));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void outcomeEventRejectsSearchedAction() {
-        TestUtils.buildAssessmentOutcomeEvent(learningContext, attempt, Action.SEARCHED, result);
+    public void outcomeEventRejectsHidAction() {
+        buildEvent(Action.HID);
+    }
+
+    /**
+     * Build Outcome event.
+     * @param action
+     * @return event
+     */
+    private OutcomeEvent buildEvent(Action action) {
+        return OutcomeEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .actor(learningContext.getAgent())
+            .action(action)
+            .object(object)
+            .generated(generated)
+            .startedAtTime(dateStarted)
+            .build();
     }
 }

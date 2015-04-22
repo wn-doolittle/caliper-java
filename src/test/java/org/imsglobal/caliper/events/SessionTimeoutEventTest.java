@@ -1,15 +1,16 @@
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.TestUtils;
-import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.LearningContext;
-import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.TestAgentEntities;
+import org.imsglobal.caliper.TestDates;
+import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
+import org.imsglobal.caliper.entities.session.Session;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
@@ -17,10 +18,15 @@ import static org.junit.Assert.assertEquals;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class SessionTimeoutEventTest extends EventTest {
     private LearningContext learningContext;
-    private SoftwareApplication edApp;
+    private SoftwareApplication object;
     private Session target;
     private SessionEvent event;
-    private static final Logger log = LoggerFactory.getLogger(SessionLogoutEventTest.class);
+    private DateTime dateCreated = TestDates.getDefaultDateCreated();
+    private DateTime dateModified = TestDates.getDefaultDateModified();
+    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    private DateTime dateEnded = TestDates.getDefaultEndedAtTime();
+    private String duration = TestDates.getDefaultPeriod();
+    // private static final Logger log = LoggerFactory.getLogger(SessionLogoutEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -29,18 +35,58 @@ public class SessionTimeoutEventTest extends EventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumAppLearningContext();
+        learningContext = LearningContext.builder()
+            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .group(TestLisEntities.buildGroup())
+            .agent(TestAgentEntities.buildStudent554433())
+            .build();
+
+        // Build object
+        object = learningContext.getEdApp();
 
         // Build target
-        target = TestUtils.buildSessionEnd();
+        target = Session.builder()
+            .id("https://github.com/readium/session-123456789")
+            .name("session-123456789")
+            .actor(learningContext.getAgent())
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .startedAtTime(dateStarted)
+            .endedAtTime(dateEnded)
+            .duration(duration)
+            .build();
 
         // Build event
-        event = TestUtils.buildEpubTimeoutEvent(learningContext, Action.TIMED_OUT, target);
+        event = buildEvent(Action.TIMED_OUT);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if timedOut event is serialized to JSON with expected values",
                 jsonFixture("fixtures/caliperSessionTimeoutEvent.json"), serialize(event));
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void sessionEventRejectsLikedAction() {
+        buildEvent(Action.LIKED);
+    }
+
+    /**
+     * Build Session Timeout event.  Note that the actor is the edApp.
+     * @param action
+     * @return event
+     */
+    private SessionEvent buildEvent(Action action) {
+        return SessionEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .actor((SoftwareApplication) learningContext.getEdApp())
+            .action(action)
+            .object(object)
+            .target(target)
+            .startedAtTime(dateStarted)
+            .endedAtTime(dateEnded)
+            .duration(duration)
+            .build();
     }
 }

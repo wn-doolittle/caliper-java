@@ -1,15 +1,19 @@
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.TestUtils;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.TestAgentEntities;
+import org.imsglobal.caliper.TestDates;
+import org.imsglobal.caliper.TestEpubEntities;
+import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
-import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.reading.Frame;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
@@ -18,10 +22,14 @@ import static org.junit.Assert.assertEquals;
 public class ViewEventTest extends EventTest {
 
     private LearningContext learningContext;
-    private EpubVolume epub;
-    private EpubSubChapter target;
+    private EpubVolume object;
+    private EpubSubChapter ePub;
+    private Frame target;
     private ViewEvent event;
-    private static final Logger log = LoggerFactory.getLogger(ViewEventTest.class);
+    private DateTime dateCreated = TestDates.getDefaultDateCreated();
+    private DateTime dateModified = TestDates.getDefaultDateModified();
+    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    // private static final Logger log = LoggerFactory.getLogger(ViewEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -30,27 +38,56 @@ public class ViewEventTest extends EventTest {
     public void setUp() throws Exception {
 
         // Build the Learning Context
-        learningContext = TestUtils.buildReadiumStudentLearningContext();
+        learningContext = LearningContext.builder()
+            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .group(TestLisEntities.buildGroup())
+            .agent(TestAgentEntities.buildStudent554433())
+            .build();
 
-        // Build epub
-        epub = TestUtils.buildEpubVolume43();
+        // Build object
+        object = TestEpubEntities.buildEpubVolume43();
 
-        // Build target
-        target = TestUtils.buildEpubSubChap431();
+        // Build target frame
+        ePub = TestEpubEntities.buildEpubSubChap431();
+        target = Frame.builder()
+            .id(ePub.getId())
+            .name(ePub.getName())
+            .isPartOf(ePub.getIsPartOf())
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .version(ePub.getVersion())
+            .index(1)
+            .build();
 
         // Build event
-        event = TestUtils.buildEpubViewEvent(learningContext, epub, Action.VIEWED, target);
+        event = buildEvent(Action.VIEWED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-
         assertEquals("Test if View event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperViewEvent.json"), serialize(event));
+            jsonFixture("fixtures/caliperViewEvent.json"), serialize(event));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void viewEventRejectsSearchedAction() {
-        TestUtils.buildEpubViewEvent(learningContext, epub, Action.SEARCHED, target);
+    public void viewEventRejectsNavigatedToAction() {
+        buildEvent(Action.NAVIGATED_TO);
+    }
+
+    /**
+     * Build View event
+     * @param action
+     * @return event
+     */
+    private ViewEvent buildEvent(Action action) {
+        return ViewEvent.builder()
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .actor((Person) learningContext.getAgent())
+            .action(action)
+            .object(object)
+            .target(target)
+            .startedAtTime(dateStarted)
+            .build();
     }
 }
