@@ -34,28 +34,25 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public class HttpRequestor extends EventStoreRequestor {
-
-    private static final Logger LOG = LoggerFactory.getLogger(HttpRequestor.class);
-
     private static CloseableHttpClient httpClient;
     private static CloseableHttpResponse response = null;
     private Options options;
+    private static final Logger LOG = LoggerFactory.getLogger(HttpRequestor.class);
 
     /**
-     * Instantiates a new http requestor. The args options provides the host
+     * Constructor instantiates a new HTTPRequestor. The args options provides the host
      * details to the HttpClient.
-     *
      * @param options
-     *            the options
      */
     public HttpRequestor(Options options) {
-
         super();
-
         this.options = options;
         initialize();
     }
 
+    /**
+     * Init method
+     */
     public static synchronized void initialize() {
         if (httpClient == null) {
             httpClient = HttpClients.createDefault();
@@ -63,14 +60,10 @@ public class HttpRequestor extends EventStoreRequestor {
     }
 
     /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.imsglobal.caliper.request.EventStoreRequestor#send(org.imsglobal.
-     * caliper.events.Event)
+     * @see org.imsglobal.caliper.request.EventStoreRequestor#send(org.imsglobal.caliper.events.Event)
      */
     @Override
-    public boolean send(Event caliperEvent) {
+    public boolean send(Event event) {
 
         boolean status = Boolean.FALSE;
 
@@ -80,9 +73,8 @@ public class HttpRequestor extends EventStoreRequestor {
 
             checkInitialized();
 
-            //TODO: make a way for the requester to be configurable by the client.
             HttpPost httpPost = new HttpPost(this.getOptions().getHost());
-            httpPost.setEntity(new StringEntity(marshalEvent(caliperEvent)));
+            httpPost.setEntity(new StringEntity(marshalEvent(event)));
             httpPost.setHeader("Authorization", this.getOptions().getApiKey());
             httpPost.setHeader("Content-type", "application/json");
             response = httpClient.execute(httpPost);
@@ -100,7 +92,6 @@ public class HttpRequestor extends EventStoreRequestor {
                 LOG.debug(EntityUtils.toString(response.getEntity()));
 
                 response.close();
-
                 status = Boolean.TRUE;
 
                 LOG.debug("Exiting send()...");
@@ -124,15 +115,9 @@ public class HttpRequestor extends EventStoreRequestor {
      * org.imsglobal.caliper.request.EventStoreRequestor#send(DigitalResource)
      */
     @Override
-    public boolean send(Entity caliperEntity) {
+    public boolean send(Entity entity) {
         // TODO Auto-generated method stub
         return Boolean.FALSE;
-    }
-
-    private static void checkInitialized() {
-        if (httpClient == null) {
-            throw new IllegalStateException("Http Client is not initialized.");
-        }
     }
 
     /**
@@ -143,10 +128,16 @@ public class HttpRequestor extends EventStoreRequestor {
     }
 
     /**
+     * Options to set.
      * @param options
-     *            the options to set
      */
     public void setOptions(Options options) {
         this.options = options;
+    }
+
+    private static void checkInitialized() {
+        if (httpClient == null) {
+            throw new IllegalStateException("Http Client is not initialized.");
+        }
     }
 }

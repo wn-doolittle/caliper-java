@@ -107,6 +107,15 @@ public class TestDates {
         return new DateTime(2015, 9, 15, 11, 05, 0, 0, DateTimeZone.UTC);
     }
 
+
+    /**
+     * September 15 2015, 10:15:11:05:01.000 GMT
+     * @return
+     */
+    public static DateTime getDefaultSendTime() {
+        return new DateTime(2015, 9, 15, 11, 05, 1, 0, DateTimeZone.UTC);
+    }
+
     /**
      * PT3000s
      * @return period

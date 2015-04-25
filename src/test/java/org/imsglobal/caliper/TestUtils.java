@@ -23,6 +23,31 @@ package org.imsglobal.caliper;
  */
 public class TestUtils {
 
+    public enum TestDefaults {
+        HOST("http://localhost:1080/1.0/event/put"),
+        API_KEY("6xp7jKrOSOWOgy3acxHFWA"),
+        CONNECTION_REQUEST_TIMEOUT("10000"),
+        CONNECTION_TIMEOUT("10000"),
+        SO_TIMEOUT("10000");
+
+        private final String value;
+
+        /**
+         * Private constructor
+         * @param value
+         */
+        private TestDefaults(final String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return default string
+         */
+        public String getValue() {
+            return value;
+        }
+    }
+
     /**
      * Constructor
      */
@@ -34,12 +59,12 @@ public class TestUtils {
      * @return test options
      */
     public static Options getTestingOptions() {
-        String TESTING_HOST = "http://localhost:1080/1.0/event/put";
-        String API_KEY = "6xp7jKrOSOWOgy3acxHFWA";
-
         Options options = new Options();
-        options.setHost(TESTING_HOST);
-        options.setApiKey(API_KEY);
+        options.setHost(TestDefaults.HOST.getValue());
+        options.setApiKey(TestDefaults.API_KEY.getValue());
+        options.setConnectionRequestTimeout(Integer.parseInt(TestDefaults.CONNECTION_REQUEST_TIMEOUT.getValue()));
+        options.setConnectionTimeout(Integer.parseInt(TestDefaults.CONNECTION_TIMEOUT.getValue()));
+        options.setSoTimeout(Integer.parseInt(TestDefaults.SO_TIMEOUT.getValue()));
 
         return options;
     }

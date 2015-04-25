@@ -35,31 +35,48 @@ import java.util.UUID;
 
 public abstract class EventStoreRequestor {
 
-    public abstract boolean send(Event caliperEvent);
+    /**
+     * Constructor
+     */
+    public EventStoreRequestor() {
 
-    public abstract boolean send(Entity caliperEntity);
+    }
 
     /**
-     * @param caliperEvent
-     * @param id
-     *            - OPTIONAL, unique Id for the event
+     * Send event.
+     * @param event
+     * @return true/false boolean on success/failure
+     */
+    public abstract boolean send(Event event);
+
+    /**
+     * Send describes
+     * @param entity
+     * @return true/false boolean on success/failure
+     */
+    public abstract boolean send(Entity entity);
+
+    /**
+     * Generate the Caliper Event JSON payload.
+     * @param envelopeId
+     * @param clientId
      * @param sendTime
-     *            - OPTIONAL, time to record the send of this event
+     * @param event
      * @return
      * @throws UnsupportedEncodingException
      */
-    protected StringEntity generatePayload(Event caliperEvent,
-            String id, DateTime sendTime) throws UnsupportedEncodingException {
+    protected StringEntity generatePayload(String envelopeId, String clientId, DateTime sendTime, Event event)
+                                           throws UnsupportedEncodingException {
 
-        if (id == null) {
-            id = "caliper-java_" + UUID.randomUUID().toString();
+        if (envelopeId == null || envelopeId.isEmpty()) {
+            envelopeId = "caliper-envelope-" + UUID.randomUUID().toString();
         }
 
         if (sendTime == null) {
             sendTime = DateTime.now();
         }
 
-        String jsonPayload = getPayloadJson(caliperEvent, id, sendTime);
+        String jsonPayload = getPayloadJson(envelopeId, clientId, sendTime, event);
         StringEntity payLoad = new StringEntity(jsonPayload);
         payLoad.setContentType("application/json");
 
@@ -67,20 +84,22 @@ public abstract class EventStoreRequestor {
     }
 
     /**
-     * @param caliperEvent
-     * @param id
+     * Get the Caliper event JSON.
+     * @param envelopeId
+     * @param clientId
      * @param sendTime
+     * @param event
      * @return
      */
-    protected String getPayloadJson(Event caliperEvent, String id, DateTime sendTime) {
+    protected String getPayloadJson(String envelopeId, String clientId, DateTime sendTime, Event event) {
 
         List<EventStoreEnvelope> listPayload = Lists.newArrayList();
 
         EventStoreEnvelope envelope = new EventStoreEnvelope();
-        envelope.setId(id);
-        envelope.setType("caliperEvent");
-        envelope.setTime(sendTime.toString());
-        envelope.setData(caliperEvent);
+        envelope.setId(envelopeId);
+        envelope.setSensorId(clientId);
+        envelope.setSendTime(sendTime);
+        envelope.setData(event);
 
         listPayload.add(envelope);
 
@@ -100,10 +119,16 @@ public abstract class EventStoreRequestor {
         return jsonPayload;
     }
 
-    protected String marshalEvent(Event caliperEvent) throws JsonProcessingException {
+    /**
+     * Write Caliper event as JSON.
+     * @param event
+     * @return mapper
+     * @throws JsonProcessingException
+     */
+    protected String marshalEvent(Event event) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(new ISO8601DateFormat());
         mapper.registerModule(new JodaModule());
-        return mapper.writeValueAsString(caliperEvent);
+        return mapper.writeValueAsString(event);
     }
 }

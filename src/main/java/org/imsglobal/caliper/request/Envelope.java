@@ -16,27 +16,29 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper;
+package org.imsglobal.caliper.request;
 
-public enum Defaults {
-    HOST("http://dev-null.comt"),
-    CONNECTION_REQUEST_TIMEOUT("10000"),
-    CONNECTION_TIMEOUT("10000"),
-    SO_TIMEOUT("10000");
+import com.fasterxml.jackson.annotation.JsonValue;
+
+public enum Envelope {
+    CONTEXT("http://purl.imsglobal.org/caliper/ctx/v1/Envelope"),
+    TYPE("http://purl.imsglobal.org/caliper/v1/Envelope");
 
     private final String value;
 
     /**
      * Private constructor
+     *
      * @param value
      */
-    private Defaults(final String value) {
+    private Envelope(final String value) {
         this.value = value;
     }
 
     /**
-     * @return default string
+     * @return URI string
      */
+    @JsonValue
     public String getValue() {
         return value;
     }

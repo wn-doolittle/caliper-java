@@ -47,14 +47,19 @@ public class HttpRequestorTest {
 
     private HttpRequestor httpRequestor;
     private LearningContext learningContext;
+
+    private String envelopeId;
+    private String context;
+    private String type;
+    private String clientId;
+    private DateTime timestamp;
+    private String expectedContentType;
+
     private EpubVolume object;
     private DigitalResource fromResource;
     private EpubSubChapter ePub;
     private Frame target;
     private NavigationEvent event;
-    private String id;
-    private DateTime timestamp;
-    private String expectedContentType;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
     private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
@@ -64,8 +69,9 @@ public class HttpRequestorTest {
     public void setup() {
 
         httpRequestor = new HttpRequestor(TestUtils.getTestingOptions());
-        id = "caliper-java_fccffd9b-68d5-4183-b563-e22136aafaa3";
-        timestamp = DateTime.parse("2019-09-15T10:15:29.858-04:00");
+        envelopeId = "caliper-envelope_fccffd9b-68d5-4183-b563-e22136aafaa3";
+        clientId = "http://learning-app.some-university.edu/sensor";
+        timestamp = TestDates.getDefaultSendTime();
         expectedContentType = "Content-Type: application/json";
 
         // Build the Learning Context
@@ -106,17 +112,16 @@ public class HttpRequestorTest {
     @Test
     public void testGeneratePayloadJson() throws Exception {
         String jsonPayload;
-        jsonPayload = httpRequestor.getPayloadJson(event, id, timestamp);
+        jsonPayload = httpRequestor.getPayloadJson(envelopeId, clientId, timestamp, event);
 
         assertEquals("Test HTTP Requestor payload JSON",
             jsonFixture("fixtures/eventStorePayload.json"), jsonPayload);
-
     }
 
     @Test
     public void testGeneratePayloadContentType() throws Exception {
         StringEntity payload;
-        payload = httpRequestor.generatePayload(event, id, timestamp);
+        payload = httpRequestor.generatePayload(envelopeId, clientId, timestamp, event);
 
         assertEquals(expectedContentType, payload.getContentType().toString());
     }
