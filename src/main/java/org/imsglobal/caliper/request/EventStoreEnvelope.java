@@ -18,58 +18,59 @@
 
 package org.imsglobal.caliper.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.events.Event;
+import org.joda.time.DateTime;
 
+@JsonPropertyOrder({
+    "@context",
+    "@id",
+    "@type",
+    "sensor",
+    "sendTime",
+    "data" })
 public class EventStoreEnvelope {
 
+    @JsonProperty("@context")
+    private Envelope context;
+
+    @JsonProperty("@id")
     private String id;
-    private String type;
-    private String time;
+
+    @JsonProperty("@type")
+    private Envelope type;
+
+    @JsonProperty("sensor")
+    private String sensorId;
+
+    @JsonProperty("sendTime")
+    private DateTime sendTime;
+
+    @JsonProperty("data")
     private Event data;
 
     /**
-     * @return the type
+     * Constructor
      */
-    public String getType() {
-        return type;
+    public EventStoreEnvelope() {
+        setContext(Envelope.CONTEXT);
+        setType(Envelope.TYPE);
     }
 
     /**
-     * @param type
-     *            the type to set
+     * @return the context
      */
-    public void setType(String type) {
-        this.type = type;
+    public Envelope getContext() {
+        return context;
     }
 
     /**
-     * @return the time
+     * Set the context (private scope).
+     * @param context
      */
-    public String getTime() {
-        return time;
-    }
-
-    /**
-     * @param time
-     *            the time to set
-     */
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    /**
-     * @return the data
-     */
-    public Event getData() {
-        return data;
-    }
-
-    /**
-     * @param data
-     *            the data to set
-     */
-    public void setData(Event data) {
-        this.data = data;
+    private void setContext(Envelope context) {
+        this.context = context;
     }
 
     /**
@@ -80,10 +81,71 @@ public class EventStoreEnvelope {
     }
 
     /**
+     * Set the identifier
      * @param id
-     *            the id to set
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    /**
+     * @return the type
+     */
+    public Envelope getType() {
+        return type;
+    }
+
+    /**
+     * Set the type (private scope).
+     * @param type
+     */
+    private void setType(Envelope type) {
+        this.type = type;
+    }
+
+    /**
+     * Get the sensor
+     * @return sensor identifier
+     */
+    public String getSensorId() {
+        return sensorId;
+    }
+
+    /**
+     * Set the sensor identifier.
+     * @param sensorId
+     */
+    public void setSensorId(String sensorId) {
+        this.sensorId = sensorId;
+    }
+
+    /**
+     * @return the send time.
+     */
+    public DateTime getSendTime() {
+        return sendTime;
+    }
+
+    /**
+     * Set the time.
+     * @param sendTime
+     */
+    public void setSendTime(DateTime sendTime) {
+        this.sendTime = sendTime;
+    }
+
+    /**
+     * @return the data
+     */
+    public Event getData() {
+        return data;
+    }
+
+    /**
+     * Set the data.
+     * @param data
+     */
+    public void setData(Event data) {
+        this.data = data;
     }
 }

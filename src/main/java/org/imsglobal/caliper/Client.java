@@ -33,6 +33,7 @@ import org.imsglobal.caliper.stats.Statistics;
  */
 public class Client {
 
+    private String id;
     private String apiKey;
     private Options options;
     private EventStoreRequestor eventStoreRequestor;
@@ -74,16 +75,32 @@ public class Client {
     }
 
     /**
+     * Get the Sensor client identifier
+     * @return sensor client identifier
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Set the Sensor client identifier
+     * @param id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
      * @return API key
      */
-    public String getapiKey() {
+    public String getApiKey() {
         return apiKey;
     }
 
     /**
      * @param apiKey
      */
-    public void setapiKey(String apiKey) {
+    public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
     }
 
@@ -109,7 +126,6 @@ public class Client {
      * @param entity
      */
     public void describe(Entity entity) {
-
         boolean status = eventStoreRequestor.send(entity);
 
         this.stats.updateDescribes(1);
@@ -125,7 +141,6 @@ public class Client {
      * @param event
      */
     public void send(Event event) {
-
         boolean status = eventStoreRequestor.send(event);
 
         this.stats.updateMeasures(1);
