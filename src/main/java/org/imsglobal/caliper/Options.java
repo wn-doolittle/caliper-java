@@ -34,21 +34,23 @@ public class Options {
      * Constructor.  Set default options other than apiKey.
      */
     public Options() {
-        this(Defaults.HOST.getValue(),
-            Integer.parseInt(Defaults.CONNECTION_REQUEST_TIMEOUT.getValue()),
-            Integer.parseInt(Defaults.CONNECTION_TIMEOUT.getValue()),
-            Integer.parseInt(Defaults.SO_TIMEOUT.getValue()));
+        setHost(Defaults.HOST.getValue());
+        setConnectionRequestTimeout(Integer.parseInt(Defaults.CONNECTION_REQUEST_TIMEOUT.getValue()));
+        setConnectionTimeout(Integer.parseInt(Defaults.CONNECTION_TIMEOUT.getValue()));
+        setSoTimeout(Integer.parseInt(Defaults.SO_TIMEOUT.getValue()));
     }
 
     /**
      * Constructor. Creates an option with the provided settings.
      * @param host
+     * @param apiKey
      * @param connectionRequestTimeout
      * @param connectionTimeout
      * @param soTimeout
      */
-    public Options(String host, int connectionRequestTimeout, int connectionTimeout, int soTimeout) {
+    public Options(String host, String apiKey, int connectionRequestTimeout, int connectionTimeout, int soTimeout) {
         setHost(host);
+        setApiKey(apiKey);
         setConnectionRequestTimeout(connectionRequestTimeout);
         setConnectionTimeout(connectionTimeout);
         setSoTimeout(soTimeout);
