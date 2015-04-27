@@ -22,14 +22,47 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.stats.Statistics;
+import org.imsglobal.caliper.validators.SensorValidator;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Sensor<T> {
-
+    private String id;
     private Map<T, Client> clients = new HashMap<>();
+
+    /**
+     * Default Constructor
+     */
+    public Sensor() {
+
+    }
+
+    /**
+     * Constructor. Initialize Sensor with an identifier.
+     * @param id
+     */
+    public Sensor(String id) {
+        SensorValidator.checkSensorId(id);
+        this.id = id;
+    }
+
+    /**
+     * Get the Sensor identifier
+     * @return identifier
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Set the Sensor Identifier
+     * @param id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * Register a client that will get invoked whenever an event is sent through this sensor
@@ -61,7 +94,7 @@ public class Sensor<T> {
 
     /**
      * Returns
-     * @return a map where the keys are the indentifying objects and the values are the corresponding statistics
+     * @return a map where the keys are the identifying objects and the values are the corresponding statistics
      * for that key's Client.
      */
     public Map<T, Statistics> getStatistics(){

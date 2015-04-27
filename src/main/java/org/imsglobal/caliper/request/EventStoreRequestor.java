@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.google.common.collect.Lists;
 import org.apache.http.entity.StringEntity;
+import org.imsglobal.caliper.Sensor;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.events.Event;
 import org.joda.time.DateTime;
@@ -34,12 +35,13 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class EventStoreRequestor {
+    private String sensorId;
 
     /**
      * Constructor
      */
-    public EventStoreRequestor() {
-
+    public EventStoreRequestor(Sensor sensor) {
+        this.sensorId = sensor.getId();
     }
 
     /**
@@ -59,13 +61,12 @@ public abstract class EventStoreRequestor {
     /**
      * Generate the Caliper Event JSON payload.
      * @param envelopeId
-     * @param clientId
      * @param sendTime
      * @param event
      * @return
      * @throws UnsupportedEncodingException
      */
-    protected StringEntity generatePayload(String envelopeId, String clientId, DateTime sendTime, Event event)
+    protected StringEntity generatePayload(String envelopeId, DateTime sendTime, Event event)
                                            throws UnsupportedEncodingException {
 
         if (envelopeId == null || envelopeId.isEmpty()) {
@@ -76,7 +77,7 @@ public abstract class EventStoreRequestor {
             sendTime = DateTime.now();
         }
 
-        String jsonPayload = getPayloadJson(envelopeId, clientId, sendTime, event);
+        String jsonPayload = getPayloadJson(envelopeId, sendTime, event);
         StringEntity payLoad = new StringEntity(jsonPayload);
         payLoad.setContentType("application/json");
 
@@ -86,18 +87,17 @@ public abstract class EventStoreRequestor {
     /**
      * Get the Caliper event JSON.
      * @param envelopeId
-     * @param clientId
      * @param sendTime
      * @param event
      * @return
      */
-    protected String getPayloadJson(String envelopeId, String clientId, DateTime sendTime, Event event) {
+    protected String getPayloadJson(String envelopeId, DateTime sendTime, Event event) {
 
         List<EventStoreEnvelope> listPayload = Lists.newArrayList();
 
         EventStoreEnvelope envelope = new EventStoreEnvelope();
         envelope.setId(envelopeId);
-        envelope.setSensorId(clientId);
+        envelope.setSensorId(sensorId);
         envelope.setSendTime(sendTime);
         envelope.setData(event);
 

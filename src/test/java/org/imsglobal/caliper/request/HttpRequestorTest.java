@@ -19,14 +19,16 @@
 package org.imsglobal.caliper.request;
 
 import org.apache.http.entity.StringEntity;
-import org.imsglobal.caliper.TestUtils;
-import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.Client;
+import org.imsglobal.caliper.Sensor;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.TestUtils;
+import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
@@ -68,9 +70,16 @@ public class HttpRequestorTest {
     @Before
     public void setup() {
 
-        httpRequestor = new HttpRequestor(TestUtils.getTestingOptions());
+        // Register a Sensor client using the default constructor
+        Sensor<String> sensor = new Sensor<>("http://learning-app.some-university.edu/sensor");
+        Client client = new Client();
+        client.setId(sensor.getId() + "/defaultClient");
+        client.setSensorId(sensor);
+        client.setOptions(TestUtils.getTestingOptions());
+        sensor.registerClient(client.getId(), client);
+
+        httpRequestor = new HttpRequestor(sensor, TestUtils.getTestingOptions());
         envelopeId = "caliper-envelope_fccffd9b-68d5-4183-b563-e22136aafaa3";
-        clientId = "http://learning-app.some-university.edu/sensor";
         timestamp = TestDates.getDefaultSendTime();
         expectedContentType = "Content-Type: application/json";
 
@@ -112,7 +121,7 @@ public class HttpRequestorTest {
     @Test
     public void testGeneratePayloadJson() throws Exception {
         String jsonPayload;
-        jsonPayload = httpRequestor.getPayloadJson(envelopeId, clientId, timestamp, event);
+        jsonPayload = httpRequestor.getPayloadJson(envelopeId, timestamp, event);
 
         assertEquals("Test HTTP Requestor payload JSON",
             jsonFixture("fixtures/eventStorePayload.json"), jsonPayload);
@@ -121,7 +130,7 @@ public class HttpRequestorTest {
     @Test
     public void testGeneratePayloadContentType() throws Exception {
         StringEntity payload;
-        payload = httpRequestor.generatePayload(envelopeId, clientId, timestamp, event);
+        payload = httpRequestor.generatePayload(envelopeId, timestamp, event);
 
         assertEquals(expectedContentType, payload.getContentType().toString());
     }

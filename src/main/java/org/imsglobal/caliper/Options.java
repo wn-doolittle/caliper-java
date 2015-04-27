@@ -18,7 +18,7 @@
 
 package org.imsglobal.caliper;
 
-import org.apache.commons.lang.StringUtils;
+import org.imsglobal.caliper.validators.SensorValidator;
 
 /**
  * Caliper client options
@@ -28,16 +28,16 @@ public class Options {
     private String apiKey;
     private int connectionRequestTimeout;
     private int connectionTimeout;
-    private int soTimeout;
+    private int socketTimeout;
 
     /**
      * Constructor.  Set default options other than apiKey.
      */
     public Options() {
-        setHost(Defaults.HOST.getValue());
-        setConnectionRequestTimeout(Integer.parseInt(Defaults.CONNECTION_REQUEST_TIMEOUT.getValue()));
-        setConnectionTimeout(Integer.parseInt(Defaults.CONNECTION_TIMEOUT.getValue()));
-        setSoTimeout(Integer.parseInt(Defaults.SO_TIMEOUT.getValue()));
+        this.host = Defaults.HOST.getValue();
+        this.connectionRequestTimeout = Integer.parseInt(Defaults.CONNECTION_REQUEST_TIMEOUT.getValue());
+        this.connectionTimeout = Integer.parseInt(Defaults.CONNECTION_TIMEOUT.getValue());
+        this.socketTimeout = Integer.parseInt(Defaults.SOCKET_TIMEOUT.getValue());
     }
 
     /**
@@ -53,7 +53,7 @@ public class Options {
         setApiKey(apiKey);
         setConnectionRequestTimeout(connectionRequestTimeout);
         setConnectionTimeout(connectionTimeout);
-        setSoTimeout(soTimeout);
+        setSocketTimeout(socketTimeout);
     }
 
     /**
@@ -69,9 +69,7 @@ public class Options {
      * @param host
      */
     public Options setHost(String host) {
-        if (StringUtils.isEmpty(host))
-            throw new IllegalArgumentException(
-                "Caliper#option#host must be a valid host, like 'https://api.caliper.org'.");
+        SensorValidator.checkHost(host);
         this.host = host;
         return this;
     }
@@ -89,6 +87,7 @@ public class Options {
      * @param apiKey
      */
     public void setApiKey(String apiKey) {
+        SensorValidator.checkApiKey(apiKey);
         this.apiKey = apiKey;
     }
 
@@ -106,10 +105,7 @@ public class Options {
      * @return connection timeout
      */
     public Options setConnectionTimeout(int connectionTimeout) {
-        if (connectionTimeout < 1000) {
-            throw new IllegalArgumentException("Caliper#option#connectionTimeout must be at least 1000 milliseconds.");
-        }
-
+        SensorValidator.checkConnectionTimeout(connectionTimeout);
         this.connectionTimeout = connectionTimeout;
         return this;
     }
@@ -128,33 +124,27 @@ public class Options {
      * @return connection request timeout
      */
     public Options setConnectionRequestTimeout(int connectionRequestTimeout) {
-        if (connectionRequestTimeout < 1000) {
-            throw new IllegalArgumentException("Caliper#option#connectionRequestTimeout must be at least 1000 milliseconds.");
-        }
-
+        SensorValidator.checkConnectionRequestTimeout(connectionRequestTimeout);
         this.connectionRequestTimeout = connectionRequestTimeout;
         return this;
     }
 
     /**
-     * Get the SO timeout.
-     * @return the SO timeout
+     * Get the Socket timeout.
+     * @return the Socket timeout
      */
-    public int getSoTimeout() {
-        return soTimeout;
+    public int getSocketTimeout() {
+        return socketTimeout;
     }
 
     /**
-     * Sets the SO Connection timeout in milliseconds to wait before a flush is marked as timed out.
-     * @param soTimeout
-     * @return SO timeout
+     * Sets the Socket timeout in milliseconds to wait before a flush is marked as timed out.
+     * @param socketTimeout
+     * @return socket timeout
      */
-    public Options setSoTimeout(int soTimeout) {
-        if (soTimeout < 1000) {
-            throw new IllegalArgumentException("Caliper#option#soTimeout must be at least 1000 milliseconds.");
-        }
-
-        this.soTimeout = soTimeout;
+    public Options setSocketTimeout(int socketTimeout) {
+        SensorValidator.checkSocketTimeout(socketTimeout);
+        this.socketTimeout = socketTimeout;
         return this;
     }
 }

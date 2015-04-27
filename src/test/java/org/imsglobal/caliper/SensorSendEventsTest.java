@@ -47,8 +47,10 @@ public class SensorSendEventsTest {
     @Test
     public void test() {
 
-        Sensor<String> sensor = new Sensor<>();
-        sensor.registerClient("default", new Client(TestUtils.getTestingOptions()));
+        // Create Sensor, create client, register client with sensor.
+        Sensor<String> sensor = new Sensor<>("http://learning-app.some-university.edu/sensor");
+        Client client = new Client(sensor.getId() + "/defaultClient", sensor, TestUtils.getTestingOptions());
+        sensor.registerClient(client.getId(), client);
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
