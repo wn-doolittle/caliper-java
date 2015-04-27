@@ -28,7 +28,7 @@ public class TestUtils {
         API_KEY("6xp7jKrOSOWOgy3acxHFWA"),
         CONNECTION_REQUEST_TIMEOUT("10000"),
         CONNECTION_TIMEOUT("10000"),
-        SO_TIMEOUT("10000");
+        SOCKET_TIMEOUT("10000");
 
         private final String value;
 
@@ -64,7 +64,7 @@ public class TestUtils {
         options.setApiKey(TestDefaults.API_KEY.getValue());
         options.setConnectionRequestTimeout(Integer.parseInt(TestDefaults.CONNECTION_REQUEST_TIMEOUT.getValue()));
         options.setConnectionTimeout(Integer.parseInt(TestDefaults.CONNECTION_TIMEOUT.getValue()));
-        options.setSoTimeout(Integer.parseInt(TestDefaults.SO_TIMEOUT.getValue()));
+        options.setSocketTimeout(Integer.parseInt(TestDefaults.SOCKET_TIMEOUT.getValue()));
 
         return options;
     }

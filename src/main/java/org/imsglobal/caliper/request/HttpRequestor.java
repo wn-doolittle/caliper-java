@@ -26,6 +26,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.imsglobal.caliper.Options;
+import org.imsglobal.caliper.Sensor;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.events.Event;
 import org.slf4j.Logger;
@@ -42,11 +43,13 @@ public class HttpRequestor extends EventStoreRequestor {
     /**
      * Constructor instantiates a new HTTPRequestor. The args options provides the host
      * details to the HttpClient.
+     * @param sensor
      * @param options
      */
-    public HttpRequestor(Options options) {
-        super();
+    public HttpRequestor(Sensor sensor, Options options) {
+        super(sensor);
         this.options = options;
+
         initialize();
     }
 
@@ -121,6 +124,7 @@ public class HttpRequestor extends EventStoreRequestor {
     }
 
     /**
+     * Get the configurable options
      * @return the options
      */
     public Options getOptions() {
@@ -128,13 +132,16 @@ public class HttpRequestor extends EventStoreRequestor {
     }
 
     /**
-     * Options to set.
+     * Set the configurable options.
      * @param options
      */
     public void setOptions(Options options) {
         this.options = options;
     }
 
+    /**
+     * Check initialized instance.
+     */
     private static void checkInitialized() {
         if (httpClient == null) {
             throw new IllegalStateException("Http Client is not initialized.");

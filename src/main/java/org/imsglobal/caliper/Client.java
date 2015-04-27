@@ -18,72 +18,68 @@
 
 package org.imsglobal.caliper;
 
-import org.apache.commons.lang.StringUtils;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.request.EventStoreRequestor;
 import org.imsglobal.caliper.request.HttpRequestor;
 import org.imsglobal.caliper.stats.Statistics;
+import org.imsglobal.caliper.validators.SensorValidator;
 
 /**
  * The Caliper Client - Instantiate this to use the Caliper Sensor API.
  * 
- * The client is an HTTP wrapper over the Caliper REST API. It will allow you to
- * conveniently consume the API without making any HTTP requests yourself.
+ * The client is an HTTP wrapper over the Caliper REST API. It will allow
+ * you to conveniently consume the API without making any HTTP requests
+ * yourself.
+ *
+ * This client is designed to be thread-safe and to not block each call in
+ * order to make a HTTP request.
  */
 public class Client {
 
     private String id;
-    private String apiKey;
+    private String sensorId;
     private Options options;
     private EventStoreRequestor eventStoreRequestor;
     private Statistics stats;
 
     /**
-     * Creates a new Caliper client.
-     *
-     * The client is an HTTP wrapper over the Caliper REST API. It will allow
-     * you to conveniently consume the API without making any HTTP requests
-     * yourself.
-     *
-     * This client is designed to be thread-safe and to not block each call in
-     * order to make a HTTP request.
-     *
-     * @param options
-     *          Options to configure the behavior of the Caliper client
+     * Default constructor
      */
-    public Client(Options options) {
+    public Client() {
 
-        String errorPrefix = "caliper-java client must be initialized with a valid ";
-
-        if (options == null)
-            throw new IllegalArgumentException(errorPrefix + "options.");
-
-        apiKey = options.getApiKey();
-
-        if (StringUtils.isEmpty(apiKey))
-            throw new IllegalArgumentException(errorPrefix + "apiKey.");
-
-        if (StringUtils.isEmpty(options.getHost()))
-            throw new IllegalArgumentException(errorPrefix + "host.");
-
-        this.options = options;
-
-        eventStoreRequestor = new HttpRequestor(options);
-
-        stats = new Statistics();
     }
 
     /**
-     * Get the Sensor client identifier
-     * @return sensor client identifier
+     * Initialize Client with a Client identifier, Sensor Identifier and configurable options.
+     * @param id
+     * @param sensor
+     * @param options
+     */
+    public Client(String id, Sensor sensor, Options options) {
+        SensorValidator.checkClientId(id);
+        // SensorValidator.checkSensorId(sensor.getId());
+        SensorValidator.checkOptions(options);
+        SensorValidator.checkApiKey(options.getApiKey());
+        SensorValidator.checkHost(options.getHost());
+
+        this.id = id;
+        this.sensorId = sensor.getId();
+        this.options = options;
+        this.eventStoreRequestor = new HttpRequestor(sensor, options);
+        this.stats = new Statistics();
+    }
+
+    /**
+     * Get the Client identifier.
+     * @return client identifier
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Set the Sensor client identifier
+     * Set the Client identifier.
      * @param id
      */
     public void setId(String id) {
@@ -91,24 +87,35 @@ public class Client {
     }
 
     /**
-     * @return API key
+     * Get the Sensor identifier.
+     * @return sensor identifier
      */
-    public String getApiKey() {
-        return apiKey;
+    public String getSensorId() {
+        return sensorId;
     }
 
     /**
-     * @param apiKey
+     * Set the sensor identifier.
+     * @param sensor
      */
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
+    public void setSensorId(Sensor sensor) {
+        this.sensorId = sensor.getId();
     }
 
     /**
+     * Get the configuration options.
      * @return options
      */
     public Options getOptions() {
         return options;
+    }
+
+    /**
+     * Set the Configuration options.
+     * @param options
+     */
+    public void setOptions(Options options) {
+        this.options = options;
     }
 
     /**
