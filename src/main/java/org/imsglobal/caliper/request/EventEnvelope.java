@@ -1,4 +1,3 @@
-package org.imsglobal.caliper.request;
 /**
  * This file is part of IMS Caliper Analytics™ and is licensed to
  * IMS Global Learning Consortium, Inc. (http://www.imsglobal.org)
@@ -17,60 +16,48 @@ package org.imsglobal.caliper.request;
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+package org.imsglobal.caliper.request;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.Sensor;
+import org.imsglobal.caliper.events.Event;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 
-@JsonPropertyOrder({
-    "@context",
-    "@id",
-    "@type",
-    "sensor",
-    "sendTime",
-    "data" })
-public abstract class Envelope<T> {
+public class EventEnvelope extends Envelope<Event> {
 
     @JsonProperty("@context")
     private EnvelopeContext context;
 
-    @JsonProperty("@id")
-    private String id;
-
     @JsonProperty("@type")
     private EnvelopeType type;
 
-    @JsonProperty("sensor")
-    private String sensorId;
-
-    @JsonProperty("sendTime")
-    private DateTime sendTime;
-
     @JsonProperty("data")
-    private T data;
+    private Event data;
 
     /**
      * Constructor
      */
-    public Envelope() {
+    public EventEnvelope() {
         this.context = EnvelopeContext.CONTEXT;
+        // this.context = EnvelopeContext.EVENT_CONTEXT;
         this.type = EnvelopeType.ENVELOPE;
+        // this.type = EnvelopeType.EVENT_ENVELOPE;
     }
 
     /**
      * Constructor
      * @param id
-     * @param sensor
      * @param sendTime
      */
-    public Envelope(String id, Sensor sensor, DateTime sendTime) {
-        this.id = id;
+    public EventEnvelope(String id, Sensor sensor, DateTime sendTime, Event data) {
+        super(id, sensor, sendTime);
         this.context = EnvelopeContext.CONTEXT;
+        // this.context = EnvelopeContext.EVENT_CONTEXT;
         this.type = EnvelopeType.ENVELOPE;
-        this.sensorId = sensor.getId();
-        this.sendTime = sendTime;
+        // this.type = EnvelopeType.EVENT_ENVELOPE;
+        this.data = data;
     }
 
     /**
@@ -83,22 +70,6 @@ public abstract class Envelope<T> {
     }
 
     /**
-     * Get the id.
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Set the identifier
-     * @param id
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
      * Get the type.
      * @return the type
      */
@@ -108,52 +79,21 @@ public abstract class Envelope<T> {
     }
 
     /**
-     * Get the sensor
-     * @return sensor identifier
-     */
-    @Nonnull
-    public String getSensorId() {
-        return sensorId;
-    }
-
-    /**
-     * Set the sensor identifier.
-     * @param sensor
-     */
-    public void setSensorId(@Nonnull Sensor sensor) {
-        this.sensorId = sensor.getId();
-    }
-
-    /**
-     * Get the sent time.
-     * @return the sent time.
-     */
-    public DateTime getSendTime() {
-        return sendTime;
-    }
-
-    /**
-     * Set the time.
-     * @param sendTime
-     */
-    public void setSendTime(DateTime sendTime) {
-        this.sendTime = sendTime;
-    }
-
-    /**
-     * Get the data.
+     * Get the Event data.
      * @return the data
      */
+    @Override
     @Nonnull
-    public T getData() {
+    public Event getData() {
         return data;
     }
 
     /**
-     * Set the data.
+     * Set the Event data.
      * @param data
      */
-    public void setData(@Nonnull T data) {
+    @Override
+    public void setData(@Nonnull Event data) {
         this.data = data;
     }
 }

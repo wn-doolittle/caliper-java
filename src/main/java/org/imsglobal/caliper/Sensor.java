@@ -20,10 +20,11 @@ package org.imsglobal.caliper;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
-import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.request.EntityEnvelope;
+import org.imsglobal.caliper.request.EventEnvelope;
 import org.imsglobal.caliper.stats.Statistics;
-import org.imsglobal.caliper.validators.SensorValidator;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +45,6 @@ public class Sensor<T> {
      * @param id
      */
     public Sensor(String id) {
-        SensorValidator.checkSensorId(id);
         this.id = id;
     }
 
@@ -52,6 +52,7 @@ public class Sensor<T> {
      * Get the Sensor identifier
      * @return identifier
      */
+    @Nonnull
     public String getId() {
         return id;
     }
@@ -60,7 +61,7 @@ public class Sensor<T> {
      * Set the Sensor Identifier
      * @param id
      */
-    public void setId(String id) {
+    public void setId(@Nonnull String id) {
         this.id = id;
     }
 
@@ -83,12 +84,22 @@ public class Sensor<T> {
     }
 
     /**
-     * Send an event to all configured clients
-     * @param event the event object to be sent
+     * Send an entity describe to all configured clients
+     * @param envelope the event envelope to be sent
      */
-    public void send(Event event){
+    public void describe(EntityEnvelope envelope){
         for(Client client: clients.values()){
-            client.send(event);
+            client.describe(envelope);
+        }
+    }
+
+    /**
+     * Send an event to all configured clients
+     * @param envelope the event envelope to be sent
+     */
+    public void send(EventEnvelope envelope){
+        for(Client client: clients.values()){
+            client.send(envelope);
         }
     }
 
@@ -106,5 +117,4 @@ public class Sensor<T> {
             }
         });
     }
-
 }

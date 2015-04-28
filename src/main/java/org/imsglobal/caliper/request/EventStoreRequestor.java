@@ -22,11 +22,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.apache.http.entity.StringEntity;
-import org.imsglobal.caliper.Sensor;
-import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.events.Event;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
@@ -35,49 +33,31 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class EventStoreRequestor {
-    private String sensorId;
 
     /**
      * Constructor
      */
-    public EventStoreRequestor(Sensor sensor) {
-        this.sensorId = sensor.getId();
+    public EventStoreRequestor() {
+
     }
 
     /**
-     * Send event.
-     * @param event
-     * @return true/false boolean on success/failure
-     */
-    public abstract boolean send(Event event);
-
-    /**
-     * Send describes
-     * @param entity
-     * @return true/false boolean on success/failure
-     */
-    public abstract boolean send(Entity entity);
-
-    /**
      * Generate the Caliper Event JSON payload.
-     * @param envelopeId
-     * @param sendTime
-     * @param event
+     * @param envelope
      * @return
      * @throws UnsupportedEncodingException
      */
-    protected StringEntity generatePayload(String envelopeId, DateTime sendTime, Event event)
-                                           throws UnsupportedEncodingException {
+    protected StringEntity generatePayload(Envelope envelope) throws UnsupportedEncodingException {
 
-        if (envelopeId == null || envelopeId.isEmpty()) {
-            envelopeId = "caliper-envelope-" + UUID.randomUUID().toString();
+        if (Strings.isNullOrEmpty(envelope.getId())) {
+            envelope.setId("caliper-envelope-" + UUID.randomUUID().toString());
         }
 
-        if (sendTime == null) {
-            sendTime = DateTime.now();
+        if (envelope.getSendTime() == null) {
+            envelope.setSendTime(DateTime.now());
         }
 
-        String jsonPayload = getPayloadJson(envelopeId, sendTime, event);
+        String jsonPayload = getPayloadJson(envelope);
         StringEntity payLoad = new StringEntity(jsonPayload);
         payLoad.setContentType("application/json");
 
@@ -86,21 +66,12 @@ public abstract class EventStoreRequestor {
 
     /**
      * Get the Caliper event JSON.
-     * @param envelopeId
-     * @param sendTime
-     * @param event
+     * @param envelope
      * @return
      */
-    protected String getPayloadJson(String envelopeId, DateTime sendTime, Event event) {
+    protected String getPayloadJson(Envelope envelope) {
 
-        List<EventStoreEnvelope> listPayload = Lists.newArrayList();
-
-        EventStoreEnvelope envelope = new EventStoreEnvelope();
-        envelope.setId(envelopeId);
-        envelope.setSensorId(sensorId);
-        envelope.setSendTime(sendTime);
-        envelope.setData(event);
-
+        List<Envelope> listPayload = Lists.newArrayList();
         listPayload.add(envelope);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -121,14 +92,21 @@ public abstract class EventStoreRequestor {
 
     /**
      * Write Caliper event as JSON.
-     * @param event
+     * @param envelope
      * @return mapper
      * @throws JsonProcessingException
      */
-    protected String marshalEvent(Event event) throws JsonProcessingException {
+    protected String marshalData(Envelope envelope) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(new ISO8601DateFormat());
         mapper.registerModule(new JodaModule());
-        return mapper.writeValueAsString(event);
+        return mapper.writeValueAsString(envelope.getData());
     }
+
+    /**
+     * Send event.
+     * @param envelope
+     * @return true/false boolean on success/failure
+     */
+    public abstract boolean send(Envelope envelope);
 }

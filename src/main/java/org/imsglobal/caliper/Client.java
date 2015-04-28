@@ -18,12 +18,14 @@
 
 package org.imsglobal.caliper;
 
-import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.request.EntityEnvelope;
+import org.imsglobal.caliper.request.EventEnvelope;
 import org.imsglobal.caliper.request.EventStoreRequestor;
 import org.imsglobal.caliper.request.HttpRequestor;
 import org.imsglobal.caliper.stats.Statistics;
 import org.imsglobal.caliper.validators.SensorValidator;
+
+import javax.annotation.Nonnull;
 
 /**
  * The Caliper Client - Instantiate this to use the Caliper Sensor API.
@@ -38,7 +40,6 @@ import org.imsglobal.caliper.validators.SensorValidator;
 public class Client {
 
     private String id;
-    private String sensorId;
     private Options options;
     private EventStoreRequestor eventStoreRequestor;
     private Statistics stats;
@@ -51,22 +52,18 @@ public class Client {
     }
 
     /**
-     * Initialize Client with a Client identifier, Sensor Identifier and configurable options.
-     * @param id
-     * @param sensor
+     * Initialize Client with a Client identifier and configurable options.
      * @param options
      */
-    public Client(String id, Sensor sensor, Options options) {
+    public Client(String id, Options options) {
         SensorValidator.checkClientId(id);
-        // SensorValidator.checkSensorId(sensor.getId());
         SensorValidator.checkOptions(options);
         SensorValidator.checkApiKey(options.getApiKey());
         SensorValidator.checkHost(options.getHost());
 
         this.id = id;
-        this.sensorId = sensor.getId();
         this.options = options;
-        this.eventStoreRequestor = new HttpRequestor(sensor, options);
+        this.eventStoreRequestor = new HttpRequestor(options);
         this.stats = new Statistics();
     }
 
@@ -74,6 +71,7 @@ public class Client {
      * Get the Client identifier.
      * @return client identifier
      */
+    @Nonnull
     public String getId() {
         return id;
     }
@@ -82,30 +80,15 @@ public class Client {
      * Set the Client identifier.
      * @param id
      */
-    public void setId(String id) {
+    public void setId(@Nonnull String id) {
         this.id = id;
-    }
-
-    /**
-     * Get the Sensor identifier.
-     * @return sensor identifier
-     */
-    public String getSensorId() {
-        return sensorId;
-    }
-
-    /**
-     * Set the sensor identifier.
-     * @param sensor
-     */
-    public void setSensorId(Sensor sensor) {
-        this.sensorId = sensor.getId();
     }
 
     /**
      * Get the configuration options.
      * @return options
      */
+    @Nonnull
     public Options getOptions() {
         return options;
     }
@@ -114,26 +97,16 @@ public class Client {
      * Set the Configuration options.
      * @param options
      */
-    public void setOptions(Options options) {
+    public void setOptions(@Nonnull Options options) {
         this.options = options;
     }
 
     /**
-     * @return statistics
+     * Describe API call.
+     * @param envelope
      */
-    public Statistics getStatistics() {
-        return this.stats;
-    }
-
-    /*
-     * API Calls
-     */
-
-    /**
-     * @param entity
-     */
-    public void describe(Entity entity) {
-        boolean status = eventStoreRequestor.send(entity);
+    public void describe(EntityEnvelope envelope) {
+        boolean status = eventStoreRequestor.send(envelope);
 
         this.stats.updateDescribes(1);
 
@@ -145,10 +118,11 @@ public class Client {
     }
 
     /**
-     * @param event
+     * Send API call.
+     * @param envelope
      */
-    public void send(Event event) {
-        boolean status = eventStoreRequestor.send(event);
+    public void send(EventEnvelope envelope) {
+        boolean status = eventStoreRequestor.send(envelope);
 
         this.stats.updateMeasures(1);
 
@@ -157,5 +131,14 @@ public class Client {
         } else {
             stats.updateFailed(1);
         }
+    }
+
+    /**
+     * Get statistics.
+     * @return statistics
+     */
+    @Nonnull
+    public Statistics getStatistics() {
+        return this.stats;
     }
 }

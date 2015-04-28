@@ -27,8 +27,11 @@ import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.entities.reading.WebPage;
 import org.imsglobal.caliper.events.NavigationEvent;
+import org.imsglobal.caliper.request.EventEnvelope;
 import org.joda.time.DateTime;
 import org.junit.Test;
+
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -49,7 +52,7 @@ public class SensorSendEventsTest {
 
         // Create Sensor, create client, register client with sensor.
         Sensor<String> sensor = new Sensor<>("http://learning-app.some-university.edu/sensor");
-        Client client = new Client(sensor.getId() + "/defaultClient", sensor, TestUtils.getTestingOptions());
+        Client client = new Client(sensor.getId() + "/defaultClient", TestUtils.getTestingOptions());
         sensor.registerClient(client.getId(), client);
 
         // Build the Learning Context
@@ -85,7 +88,14 @@ public class SensorSendEventsTest {
 
         // Fire event test - Send 50 events
         for (int i = 0 ; i < 50 ; i++) {
-            sensor.send(buildEvent(Action.NAVIGATED_TO));
+            EventEnvelope envelope = new EventEnvelope();
+            envelope.setId("caliper-envelope-" + UUID.randomUUID().toString());
+            envelope.setSensorId(sensor);
+            envelope.setSendTime(DateTime.now());
+            envelope.setData(buildEvent(Action.NAVIGATED_TO));
+
+            sensor.send(envelope);
+            // sensor.send(buildEvent(Action.NAVIGATED_TO));
         }
 
         // There should be two caliperEvents queued
