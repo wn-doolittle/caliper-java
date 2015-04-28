@@ -48,15 +48,10 @@ import static org.junit.Assert.assertEquals;
 public class HttpRequestorTest {
 
     private HttpRequestor httpRequestor;
+    private EventEnvelope envelope;
+    private String expectedContentType = "Content-Type: application/json";
+
     private LearningContext learningContext;
-
-    private String envelopeId;
-    private String context;
-    private String type;
-    private String clientId;
-    private DateTime timestamp;
-    private String expectedContentType;
-
     private EpubVolume object;
     private DigitalResource fromResource;
     private EpubSubChapter ePub;
@@ -74,14 +69,8 @@ public class HttpRequestorTest {
         Sensor<String> sensor = new Sensor<>("http://learning-app.some-university.edu/sensor");
         Client client = new Client();
         client.setId(sensor.getId() + "/defaultClient");
-        client.setSensorId(sensor);
         client.setOptions(TestUtils.getTestingOptions());
         sensor.registerClient(client.getId(), client);
-
-        httpRequestor = new HttpRequestor(sensor, TestUtils.getTestingOptions());
-        envelopeId = "caliper-envelope_fccffd9b-68d5-4183-b563-e22136aafaa3";
-        timestamp = TestDates.getDefaultSendTime();
-        expectedContentType = "Content-Type: application/json";
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
@@ -116,12 +105,22 @@ public class HttpRequestorTest {
 
         // Build event
         event = buildEvent(Action.NAVIGATED_TO);
+
+        // Build the envelope
+        envelope = new EventEnvelope();
+        envelope.setId("caliper-envelope_fccffd9b-68d5-4183-b563-e22136aafaa3");
+        envelope.setSensorId(sensor);
+        envelope.setSendTime(TestDates.getDefaultSendTime());
+        envelope.setData(event);
+
+        // New Requestor
+        httpRequestor = new HttpRequestor(TestUtils.getTestingOptions());
     }
 
     @Test
     public void testGeneratePayloadJson() throws Exception {
         String jsonPayload;
-        jsonPayload = httpRequestor.getPayloadJson(envelopeId, timestamp, event);
+        jsonPayload = httpRequestor.getPayloadJson(envelope);
 
         assertEquals("Test HTTP Requestor payload JSON",
             jsonFixture("fixtures/eventStorePayload.json"), jsonPayload);
@@ -130,7 +129,7 @@ public class HttpRequestorTest {
     @Test
     public void testGeneratePayloadContentType() throws Exception {
         StringEntity payload;
-        payload = httpRequestor.generatePayload(envelopeId, timestamp, event);
+        payload = httpRequestor.generatePayload(envelope);
 
         assertEquals(expectedContentType, payload.getContentType().toString());
     }
