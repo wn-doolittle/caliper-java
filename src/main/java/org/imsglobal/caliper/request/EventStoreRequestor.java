@@ -22,17 +22,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import org.apache.http.entity.StringEntity;
+import org.imsglobal.caliper.Sensor;
 import org.joda.time.DateTime;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public abstract class EventStoreRequestor {
+public abstract class EventStoreRequestor<T> {
 
     /**
      * Constructor
@@ -42,22 +40,44 @@ public abstract class EventStoreRequestor {
     }
 
     /**
-     * Generate the Caliper Event JSON payload.
-     * @param envelope
-     * @return
+     * Send Caliper data to a target event store.
+     * @param sensor
+     * @param data
+     * @return true/false boolean on success/failure
+     */
+    public abstract boolean send(Sensor sensor, T data);
+
+    /**
+     * Send a collection of Caliper data to a target event store.
+     * @param sensor
+     * @param data
+     * @return true/false boolean on success/failure
+     */
+    public abstract boolean send(Sensor sensor, List<T> data);
+
+    /**
+     * Generate the Caliper data JSON payload.
+     * @param sensor
+     * @param data
+     * @return JSON string
      * @throws UnsupportedEncodingException
      */
-    protected StringEntity generatePayload(Envelope envelope) throws UnsupportedEncodingException {
+    protected StringEntity generatePayload(Sensor sensor, T data) throws UnsupportedEncodingException {
+        List<T> dataList = new ArrayList<>();
+        dataList.add(data);
 
-        if (Strings.isNullOrEmpty(envelope.getId())) {
-            envelope.setId("caliper-envelope-" + UUID.randomUUID().toString());
-        }
+        return generatePayload(sensor, dataList);
+    }
 
-        if (envelope.getSendTime() == null) {
-            envelope.setSendTime(DateTime.now());
-        }
-
-        String jsonPayload = getPayloadJson(envelope);
+    /**
+     * Generate the Caliper data JSON payload.
+     * @param sensor
+     * @param data
+     * @return JSON string
+     * @throws UnsupportedEncodingException
+     */
+    protected StringEntity generatePayload(Sensor sensor, List<T> data) throws UnsupportedEncodingException {
+        String jsonPayload = getPayloadJson(sensor, data);
         StringEntity payLoad = new StringEntity(jsonPayload);
         payLoad.setContentType("application/json");
 
@@ -66,24 +86,32 @@ public abstract class EventStoreRequestor {
 
     /**
      * Get the Caliper event JSON.
-     * @param envelope
-     * @return
+     * @param sensor
+     * @param data
+     * @return jsonPayload;
      */
-    protected String getPayloadJson(Envelope envelope) {
+    protected String getPayloadJson(Sensor sensor, T data) {
+        List<T> dataList = new ArrayList<>();
+        dataList.add(data);
 
-        List<Envelope> listPayload = Lists.newArrayList();
-        listPayload.add(envelope);
+        return getPayloadJson(sensor, dataList);
+    }
 
+    /**
+     * Get the Caliper event JSON.
+     * @param sensor
+     * @param data
+     * @return jsonPayload;
+     */
+    protected String getPayloadJson(Sensor sensor, List<T> data) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(new ISO8601DateFormat());
         mapper.registerModule(new JodaModule());
         String jsonPayload = null;
         try {
-            jsonPayload = mapper.writeValueAsString(listPayload);
+            jsonPayload = mapper.writeValueAsString(createEnvelope(sensor, data));
         } catch (JsonProcessingException e) {
             // LOG.error("Json Parse Exception", e);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -92,21 +120,29 @@ public abstract class EventStoreRequestor {
 
     /**
      * Write Caliper event as JSON.
-     * @param envelope
+     * @param data
      * @return mapper
      * @throws JsonProcessingException
      */
-    protected String marshalData(Envelope envelope) throws JsonProcessingException {
+    protected String marshalData(List<T> data) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(new ISO8601DateFormat());
         mapper.registerModule(new JodaModule());
-        return mapper.writeValueAsString(envelope.getData());
+        return mapper.writeValueAsString(data);
     }
 
     /**
-     * Send event.
-     * @param envelope
-     * @return true/false boolean on success/failure
+     * Create Event envelope
+     * @param sensor
+     * @param data
+     * @return event envelope
      */
-    public abstract boolean send(Envelope envelope);
+    private Envelope createEnvelope(Sensor sensor, List<T> data) {
+        Envelope<T> envelope = new Envelope<>();
+        envelope.setSensorId(sensor);
+        envelope.setSendTime(DateTime.now());
+        envelope.setData(data);
+
+        return envelope;
+    }
 }

@@ -34,6 +34,7 @@ import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.entities.reading.WebPage;
+import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.events.NavigationEvent;
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -41,15 +42,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class HttpRequestorTest {
 
-    private HttpRequestor httpRequestor;
-    private EventEnvelope envelope;
-    private String expectedContentType = "Content-Type: application/json";
+    private Sensor<String> sensor ;
+    private HttpRequestor<Event> httpRequestor = new HttpRequestor<>(TestUtils.getTestingOptions());
 
     private LearningContext learningContext;
     private EpubVolume object;
@@ -66,7 +69,7 @@ public class HttpRequestorTest {
     public void setup() {
 
         // Register a Sensor client using the default constructor
-        Sensor<String> sensor = new Sensor<>("http://learning-app.some-university.edu/sensor");
+        sensor = new Sensor<>("http://learning-app.some-university.edu/sensor");
         Client client = new Client();
         client.setId(sensor.getId() + "/defaultClient");
         client.setOptions(TestUtils.getTestingOptions());
@@ -105,33 +108,25 @@ public class HttpRequestorTest {
 
         // Build event
         event = buildEvent(Action.NAVIGATED_TO);
-
-        // Build the envelope
-        envelope = new EventEnvelope();
-        envelope.setId("caliper-envelope_fccffd9b-68d5-4183-b563-e22136aafaa3");
-        envelope.setSensorId(sensor);
-        envelope.setSendTime(TestDates.getDefaultSendTime());
-        envelope.setData(event);
-
-        // New Requestor
-        httpRequestor = new HttpRequestor(TestUtils.getTestingOptions());
     }
 
     @Test
     public void testGeneratePayloadJson() throws Exception {
-        String jsonPayload;
-        jsonPayload = httpRequestor.getPayloadJson(envelope);
+        String jsonPayload = httpRequestor.getPayloadJson(sensor, event);
 
-        assertEquals("Test HTTP Requestor payload JSON",
-            jsonFixture("fixtures/eventStorePayload.json"), jsonPayload);
+        // Swap out sendTime=DateTime.now() in favor of fixture value (or test will most assuredly fail).
+        Pattern pattern = Pattern.compile("\"sendTime\":\"[^\"]*\"");
+        Matcher matcher = pattern.matcher(jsonPayload);
+        jsonPayload = matcher.replaceFirst("\"sendTime\":\"" + TestDates.getDefaultSendTime() +"\"");
+
+        assertEquals("Test HTTP Requestor payload JSON", jsonFixture("fixtures/eventStorePayload.json"), jsonPayload);
     }
 
     @Test
     public void testGeneratePayloadContentType() throws Exception {
-        StringEntity payload;
-        payload = httpRequestor.generatePayload(envelope);
+        StringEntity payload = httpRequestor.generatePayload(sensor, event);
 
-        assertEquals(expectedContentType, payload.getContentType().toString());
+        assertEquals("Content-Type: application/json", payload.getContentType().toString());
     }
 
     @After
