@@ -1,10 +1,8 @@
-[{
-    "@context" : "http://purl.imsglobal.org/caliper/ctx/v1/Envelope",
-    "@id"  : "caliper-envelope_fccffd9b-68d5-4183-b563-e22136aafaa3",
-    "@type": "http://purl.imsglobal.org/caliper/v1/Envelope",
+{
+    "@context": "http://purl.imsglobal.org/caliper/ctx/v1/Envelope",
     "sensor": "http://learning-app.some-university.edu/sensor",
     "sendTime": "2015-09-15T11:05:01.000Z",
-    "data": {
+    "data": [{
         "@context": "http://purl.imsglobal.org/ctx/caliper/v1/NavigationEvent",
         "@type": "http://purl.imsglobal.org/caliper/v1/NavigationEvent",
         "actor": {
@@ -174,5 +172,5 @@
             "datePublished": null,
             "version": "1.0"
         }
-    }
-}]
+    }]
+}

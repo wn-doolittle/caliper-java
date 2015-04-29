@@ -26,12 +26,10 @@ import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.entities.reading.WebPage;
+import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.events.NavigationEvent;
-import org.imsglobal.caliper.request.EventEnvelope;
 import org.joda.time.DateTime;
 import org.junit.Test;
-
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -88,14 +86,8 @@ public class SensorSendEventsTest {
 
         // Fire event test - Send 50 events
         for (int i = 0 ; i < 50 ; i++) {
-            EventEnvelope envelope = new EventEnvelope();
-            envelope.setId("caliper-envelope-" + UUID.randomUUID().toString());
-            envelope.setSensorId(sensor);
-            envelope.setSendTime(DateTime.now());
-            envelope.setData(buildEvent(Action.NAVIGATED_TO));
-
-            sensor.send(envelope);
-            // sensor.send(buildEvent(Action.NAVIGATED_TO));
+            Event event = buildEvent(Action.NAVIGATED_TO);
+            sensor.send(sensor, event);
         }
 
         // There should be two caliperEvents queued

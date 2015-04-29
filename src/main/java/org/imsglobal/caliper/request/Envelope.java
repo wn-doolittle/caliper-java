@@ -23,24 +23,17 @@ import org.imsglobal.caliper.Sensor;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 @JsonPropertyOrder({
     "@context",
-    "@id",
-    "@type",
     "sensor",
     "sendTime",
     "data" })
-public abstract class Envelope<T> {
+public class Envelope<T> {
 
     @JsonProperty("@context")
     private EnvelopeContext context;
-
-    @JsonProperty("@id")
-    private String id;
-
-    @JsonProperty("@type")
-    private EnvelopeType type;
 
     @JsonProperty("sensor")
     private String sensorId;
@@ -49,26 +42,22 @@ public abstract class Envelope<T> {
     private DateTime sendTime;
 
     @JsonProperty("data")
-    private T data;
+    private List<T> data;
 
     /**
      * Constructor
      */
     public Envelope() {
         this.context = EnvelopeContext.CONTEXT;
-        this.type = EnvelopeType.ENVELOPE;
     }
 
     /**
      * Constructor
-     * @param id
      * @param sensor
      * @param sendTime
      */
-    public Envelope(String id, Sensor sensor, DateTime sendTime) {
-        this.id = id;
+    public Envelope(Sensor sensor, DateTime sendTime) {
         this.context = EnvelopeContext.CONTEXT;
-        this.type = EnvelopeType.ENVELOPE;
         this.sensorId = sensor.getId();
         this.sendTime = sendTime;
     }
@@ -80,31 +69,6 @@ public abstract class Envelope<T> {
     @Nonnull
     public EnvelopeContext getContext() {
         return context;
-    }
-
-    /**
-     * Get the id.
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Set the identifier
-     * @param id
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * Get the type.
-     * @return the type
-     */
-    @Nonnull
-    public EnvelopeType getType() {
-        return type;
     }
 
     /**
@@ -145,7 +109,7 @@ public abstract class Envelope<T> {
      * @return the data
      */
     @Nonnull
-    public T getData() {
+    public List<T> getData() {
         return data;
     }
 
@@ -153,7 +117,7 @@ public abstract class Envelope<T> {
      * Set the data.
      * @param data
      */
-    public void setData(@Nonnull T data) {
+    public void setData(@Nonnull List<T> data) {
         this.data = data;
     }
 }

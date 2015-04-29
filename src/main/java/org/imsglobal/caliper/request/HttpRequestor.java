@@ -26,12 +26,15 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.imsglobal.caliper.Options;
+import org.imsglobal.caliper.Sensor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class HttpRequestor extends EventStoreRequestor {
+public class HttpRequestor<T> extends EventStoreRequestor<T> {
     private static CloseableHttpClient httpClient;
     private static CloseableHttpResponse response = null;
     private Options options;
@@ -68,12 +71,41 @@ public class HttpRequestor extends EventStoreRequestor {
     }
 
     /**
+     * Get the configurable options
+     * @return the options
+     */
+    public Options getOptions() {
+        return options;
+    }
+
+    /**
+     * Set the configurable options.
+     * @param options
+     */
+    public void setOptions(Options options) {
+        this.options = options;
+    }
+
+    /**
      * Post envelope.
-     * @param envelope
-     * @return
+     * @param data
+     * @return status
      */
     @Override
-    public boolean send(Envelope envelope) {
+    public boolean send(Sensor sensor, T data) {
+        List<T> dataList = new ArrayList<>();
+        dataList.add(data);
+
+        return send(sensor, dataList);
+    }
+
+    /**
+     * Post envelope.
+     * @param data
+     * @return status
+     */
+    @Override
+    public boolean send(Sensor sensor, List<T> data) {
         boolean status = Boolean.FALSE;
 
         try {
@@ -84,7 +116,7 @@ public class HttpRequestor extends EventStoreRequestor {
             HttpPost httpPost = new HttpPost(this.getOptions().getHost());
             httpPost.setHeader("Authorization", this.getOptions().getApiKey());
             httpPost.setHeader("Content-type", "application/json");
-            httpPost.setEntity(new StringEntity(marshalData(envelope)));
+            httpPost.setEntity(new StringEntity(marshalData(data)));
             response = httpClient.execute(httpPost);
 
             if (response.getStatusLine().getStatusCode() != 200) {
@@ -109,21 +141,5 @@ public class HttpRequestor extends EventStoreRequestor {
         }
 
         return status;
-    }
-
-    /**
-     * Get the configurable options
-     * @return the options
-     */
-    public Options getOptions() {
-        return options;
-    }
-
-    /**
-     * Set the configurable options.
-     * @param options
-     */
-    public void setOptions(Options options) {
-        this.options = options;
     }
 }

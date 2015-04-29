@@ -20,13 +20,14 @@ package org.imsglobal.caliper;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
-import org.imsglobal.caliper.request.EntityEnvelope;
-import org.imsglobal.caliper.request.EventEnvelope;
+import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.stats.Statistics;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Sensor<T> {
@@ -84,22 +85,46 @@ public class Sensor<T> {
     }
 
     /**
-     * Send an entity describe to all configured clients
-     * @param envelope the event envelope to be sent
+     * Send an entity describe to all configured clients.
+     * @param sensor
+     * @param data
      */
-    public void describe(EntityEnvelope envelope){
+    public void describe(Sensor sensor, Entity data){
         for(Client client: clients.values()){
-            client.describe(envelope);
+            client.describe(sensor, data);
         }
     }
 
     /**
-     * Send an event to all configured clients
-     * @param envelope the event envelope to be sent
+     * Send a collection of entity describes to all configured clients.
+     * @param sensor
+     * @param data
      */
-    public void send(EventEnvelope envelope){
+    public void describe(Sensor sensor, List<Entity> data){
         for(Client client: clients.values()){
-            client.send(envelope);
+            client.describe(sensor, data);
+        }
+    }
+
+    /**
+     * Send an event to all configured clients.
+     * @param sensor
+     * @param data
+     */
+    public void send(Sensor sensor, Event data){
+        for(Client client: clients.values()){
+            client.send(sensor, data);
+        }
+    }
+
+    /**
+     * Send a collection of events to all configured clients.
+     * @param sensor
+     * @param data
+     */
+    public void send(Sensor sensor, List<Event> data){
+        for(Client client: clients.values()){
+            client.send(sensor, data);
         }
     }
 

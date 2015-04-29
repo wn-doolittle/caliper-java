@@ -18,14 +18,16 @@
 
 package org.imsglobal.caliper;
 
-import org.imsglobal.caliper.request.EntityEnvelope;
-import org.imsglobal.caliper.request.EventEnvelope;
+import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.request.EventStoreRequestor;
 import org.imsglobal.caliper.request.HttpRequestor;
 import org.imsglobal.caliper.stats.Statistics;
 import org.imsglobal.caliper.validators.SensorValidator;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Caliper Client - Instantiate this to use the Caliper Sensor API.
@@ -38,10 +40,8 @@ import javax.annotation.Nonnull;
  * order to make a HTTP request.
  */
 public class Client {
-
     private String id;
     private Options options;
-    private EventStoreRequestor eventStoreRequestor;
     private Statistics stats;
 
     /**
@@ -63,7 +63,6 @@ public class Client {
 
         this.id = id;
         this.options = options;
-        this.eventStoreRequestor = new HttpRequestor(options);
         this.stats = new Statistics();
     }
 
@@ -102,35 +101,47 @@ public class Client {
     }
 
     /**
-     * Describe API call.
-     * @param envelope
+     * Send a single Entity describes to a target event store.
+     * @param sensor
+     * @param data
      */
-    public void describe(EntityEnvelope envelope) {
-        boolean status = eventStoreRequestor.send(envelope);
+    public void describe(Sensor sensor, Entity data) {
+        List<Entity> dataList = new ArrayList<>();
+        dataList.add(data);
 
-        this.stats.updateDescribes(1);
-
-        if (status) {
-            stats.updateSuccessful(1);
-        } else {
-            stats.updateFailed(1);
-        }
+        describe(sensor, dataList);
     }
 
     /**
-     * Send API call.
-     * @param envelope
+     * Send a collection of Entity describes to a target event store.
+     * @param sensor
+     * @param data
      */
-    public void send(EventEnvelope envelope) {
-        boolean status = eventStoreRequestor.send(envelope);
+    public void describe(Sensor sensor, List<Entity> data) {
+        EventStoreRequestor<Entity> requestor = new HttpRequestor<>(options);
+        updateStats(requestor.send(sensor, data));
+    }
 
-        this.stats.updateMeasures(1);
+    /**
+     * Send a single event to a target event store.
+     * @param sensor
+     * @param data
+     */
+    public void send(Sensor sensor, Event data) {
+        List<Event> dataList = new ArrayList<>();
+        dataList.add(data);
 
-        if (status) {
-            stats.updateSuccessful(1);
-        } else {
-            stats.updateFailed(1);
-        }
+        send(sensor, dataList);
+    }
+
+    /**
+     * Send a collection of events to a target event store.
+     * @param sensor
+     * @param data
+     */
+    public void send(Sensor sensor, List<Event> data) {
+        EventStoreRequestor<Event> requestor = new HttpRequestor<>(options);
+        updateStats(requestor.send(sensor, data));
     }
 
     /**
@@ -140,5 +151,19 @@ public class Client {
     @Nonnull
     public Statistics getStatistics() {
         return this.stats;
+    }
+
+    /**
+     * Update stats
+     * @param status
+     */
+    private void updateStats(boolean status) {
+        this.stats.updateMeasures(1);
+
+        if (status) {
+            stats.updateSuccessful(1);
+        } else {
+            stats.updateFailed(1);
+        }
     }
 }
