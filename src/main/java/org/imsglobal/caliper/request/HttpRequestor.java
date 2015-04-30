@@ -113,10 +113,15 @@ public class HttpRequestor<T> extends EventStoreRequestor<T> {
 
             checkInitialized();
 
+            // Generate payload
+            StringEntity payload = generatePayload(sensor, data);
+
+            // Do the post
             HttpPost httpPost = new HttpPost(this.getOptions().getHost());
             httpPost.setHeader("Authorization", this.getOptions().getApiKey());
-            httpPost.setHeader("Content-type", "application/json");
-            httpPost.setEntity(new StringEntity(marshalData(data)));
+            httpPost.setHeader(payload.getContentType());
+            //httpPost.setHeader("Content-type", "application/json");
+            httpPost.setEntity(payload);
             response = httpClient.execute(httpPost);
 
             if (response.getStatusLine().getStatusCode() != 200) {

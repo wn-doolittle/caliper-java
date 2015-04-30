@@ -85,7 +85,7 @@ public abstract class EventStoreRequestor<T> {
     }
 
     /**
-     * Get the Caliper event JSON.
+     * Get the Caliper data JSON.
      * @param sensor
      * @param data
      * @return jsonPayload;
@@ -98,7 +98,7 @@ public abstract class EventStoreRequestor<T> {
     }
 
     /**
-     * Get the Caliper event JSON.
+     * Get the Caliper data JSON.
      * @param sensor
      * @param data
      * @return jsonPayload;
@@ -119,17 +119,19 @@ public abstract class EventStoreRequestor<T> {
     }
 
     /**
-     * Write Caliper event as JSON.
+     * Write Caliper data as JSON.
      * @param data
      * @return mapper
      * @throws JsonProcessingException
      */
+    /**
     protected String marshalData(List<T> data) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(new ISO8601DateFormat());
         mapper.registerModule(new JodaModule());
         return mapper.writeValueAsString(data);
     }
+     */
 
     /**
      * Create Event envelope
@@ -137,7 +139,7 @@ public abstract class EventStoreRequestor<T> {
      * @param data
      * @return event envelope
      */
-    private Envelope createEnvelope(Sensor sensor, List<T> data) {
+    protected Envelope createEnvelope(Sensor sensor, List<T> data) {
         Envelope<T> envelope = new Envelope<>();
         envelope.setSensorId(sensor);
         envelope.setSendTime(DateTime.now());
