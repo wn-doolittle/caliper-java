@@ -56,10 +56,11 @@ public class Envelope<T> {
      * @param sensor
      * @param sendTime
      */
-    public Envelope(Sensor sensor, DateTime sendTime) {
+    public Envelope(Sensor sensor, DateTime sendTime, List<T> data) {
         this.context = EnvelopeContext.CONTEXT;
         this.sensorId = sensor.getId();
         this.sendTime = sendTime;
+        this.data = data;
     }
 
     /**
