@@ -20,14 +20,12 @@ package org.imsglobal.caliper.entities.assessment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResourceType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -53,15 +51,11 @@ import java.util.List;
     "dateToSubmit",
     "maxAttempts",
     "maxSubmits",
-    "maxScore",
-    "assessmentItems" })
+    "maxScore"})
 public class Assessment extends AssignableDigitalResource {
 
     @JsonProperty("@type")
     private final AssignableDigitalResourceType type;
-
-    @JsonProperty("assessmentItems")
-    private final ImmutableList<AssessmentItem> assessmentItems;
 
     /**
      * @param builder apply builder object properties to the CaliperAssessment object.
@@ -72,7 +66,6 @@ public class Assessment extends AssignableDigitalResource {
         EntityValidator.checkType(builder.type, AssignableDigitalResourceType.ASSESSMENT);
 
         this.type = builder.type;
-        this.assessmentItems = ImmutableList.copyOf(builder.assessmentItems);
     }
 
     /**
@@ -82,15 +75,6 @@ public class Assessment extends AssignableDigitalResource {
     @Nonnull
     public AssignableDigitalResourceType getType() {
         return type;
-    }
-
-    /**
-     * Return an immutable view of the assessmentItems list.
-     * @return assessment items
-     */
-    @Nullable
-    public ImmutableList<AssessmentItem> getAssessmentItems() {
-        return assessmentItems;
     }
 
     /**
@@ -114,24 +98,6 @@ public class Assessment extends AssignableDigitalResource {
          */
         private T type(AssignableDigitalResourceType type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param assessmentItems
-         * @return builder
-         */
-        public T assessmentItems(List<AssessmentItem> assessmentItems) {
-            this.assessmentItems = assessmentItems;
-            return self();
-        }
-
-        /**
-         * @param assessmentItem
-         * @return builder
-         */
-        public T assessmentItem(AssessmentItem assessmentItem) {
-            this.assessmentItems.add(assessmentItem);
             return self();
         }
 

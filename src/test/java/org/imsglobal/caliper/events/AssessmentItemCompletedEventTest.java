@@ -65,7 +65,7 @@ public class AssessmentItemCompletedEventTest extends EventTest {
         assessment = TestAssessmentEntities.buildAssessment();
 
         // Build assessment and get assessment item 1
-        object = TestAssessmentEntities.buildAssessment().getAssessmentItems().get(0);
+        object = TestAssessmentEntities.buildAssessmentItem01(assessment);
 
         // Build generated response
         generated = FillinBlankResponse.builder()

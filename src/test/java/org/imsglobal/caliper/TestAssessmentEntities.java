@@ -52,12 +52,27 @@ public class TestAssessmentEntities {
             .dateToSubmit(TestDates.getDefaultDateToSubmit())
             .maxAttempts(2)
             .maxSubmits(2)
-            .maxScore(3) // WARN original value "5.0d"
-            .assessmentItems(buildAssessmentItems(Assessment.builder()
-                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
-                .build()))
+            .maxScore(3)
             .dateCreated(TestDates.getDefaultDateCreated())
             .dateModified(TestDates.getDefaultDateModified())
+            .build();
+    }
+
+    /**
+     * Sample assessment item.
+     * @param assessment
+     * @return assessment item
+     */
+    public static final AssessmentItem buildAssessmentItem01(Assessment assessment) {
+        return AssessmentItem.builder()
+            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1")
+            .name("Assessment Item 1")
+            .isPartOf(assessment)
+            .version("1.0")
+            .maxAttempts(2)
+            .maxSubmits(2)
+            .maxScore(1)
+            .isTimeDependent(false)
             .build();
     }
 
