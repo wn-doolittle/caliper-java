@@ -18,9 +18,7 @@
 
 package org.imsglobal.caliper.entities.foaf;
 
-import com.google.common.collect.ImmutableList;
 import org.imsglobal.caliper.entities.Type;
-import org.imsglobal.caliper.entities.w3c.Membership;
 
 /**
  * An entity that can do things. Typical kinds of agents include people, organizations and software systems.
@@ -28,9 +26,17 @@ import org.imsglobal.caliper.entities.w3c.Membership;
  */
 public interface Agent {
 
+    /**
+     * An identifier used to to uniquely identify the organization.  The identifier should be
+     * expressed as a unique IRI in conformance with the JSON-LD specification.
+     * @return the identifier.
+     */
     String getId();
 
+    /**
+     * The type of an Agent (e.g., person, organization, software application).  The type should be
+     * expressed as a unique IRI in conformance with the JSON-LD specification.
+     * @return the identifier.
+     */
     Type getType();
-
-    ImmutableList<Membership> hasMembership();
 }

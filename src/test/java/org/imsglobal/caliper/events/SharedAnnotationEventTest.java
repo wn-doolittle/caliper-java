@@ -28,6 +28,7 @@ import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
 import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.lis.Role;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.joda.time.DateTime;
@@ -82,11 +83,13 @@ public class SharedAnnotationEventTest extends EventTest {
         List<Agent> shared = Lists.newArrayList();
         shared.add(Person.builder()
             .id("https://some-university.edu/students/657585")
+            .role(Role.LEARNER)
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .build());
         shared.add(Person.builder()
             .id("https://some-university.edu/students/667788")
+            .role(Role.LEARNER)
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .build());

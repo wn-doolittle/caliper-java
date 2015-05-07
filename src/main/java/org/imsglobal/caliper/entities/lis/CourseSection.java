@@ -44,7 +44,6 @@ import javax.annotation.Nullable;
     "description",
     "category",
     "academicSession",
-    "membership",
     "subOrganizationOf",
     "extensions",
     "dateCreated",

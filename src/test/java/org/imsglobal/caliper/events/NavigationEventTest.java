@@ -68,15 +68,6 @@ public class NavigationEventTest extends EventTest {
         // Build object
         object = TestEpubEntities.buildEpubVolume43();
 
-        // Build previous location
-        fromResource = WebPage.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/index.html")
-            .name("American Revolution 101 Landing Page")
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version("1.0")
-            .build();
-
         // Build target frame
         ePub = TestEpubEntities.buildEpubSubChap431();
         target = Frame.builder()
@@ -87,6 +78,15 @@ public class NavigationEventTest extends EventTest {
             .dateModified(dateModified)
             .version(ePub.getVersion())
             .index(1)
+            .build();
+
+        // Build previous location
+        fromResource = WebPage.builder()
+            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/index.html")
+            .name("American Revolution 101 Landing Page")
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .version("1.0")
             .build();
 
         // Build event
