@@ -142,8 +142,6 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      * Serialization of the DigitalResource parent is limited to the identifying URI only.
      * @return the parent reference.
      */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
     @Nullable
     public CreativeWork getIsPartOf() {
         return isPartOf;
