@@ -20,8 +20,6 @@ package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.w3c.Organization;
@@ -29,7 +27,6 @@ import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * A CourseOffering is the occurrence of a course in a specific term, semester, etc.  A Caliper
@@ -43,7 +40,6 @@ import java.util.List;
     "name",
     "description",
     "academicSession",
-    "membership",
     "subOrganizationOf",
     "extensions",
     "dateCreated",
@@ -59,9 +55,6 @@ public class CourseOffering extends Entity implements Course {
     @JsonProperty("academicSession")
     private final String academicSession;
 
-    @JsonProperty("membership")
-    private final ImmutableList<org.imsglobal.caliper.entities.w3c.Membership> memberships;
-
     @JsonProperty("subOrganizationOf")
     private final Organization subOrganizationOf;
 
@@ -76,7 +69,6 @@ public class CourseOffering extends Entity implements Course {
         this.type = builder.type;
         this.courseNumber = builder.courseNumber;
         this.academicSession = builder.academicSession;
-        this.memberships = ImmutableList.copyOf(builder.memberships);
         this.subOrganizationOf = builder.subOrganizationOf;
     }
 
@@ -107,15 +99,7 @@ public class CourseOffering extends Entity implements Course {
     }
 
     /**
-     * @return membership
-     */
-    @Nullable
-    public ImmutableList<org.imsglobal.caliper.entities.w3c.Membership> getMembership() {
-        return memberships;
-    }
-
-    /**
-     * @return parent membership
+     * @return parent organization
      */
     @Nullable
     public Organization getSubOrganizationOf() {
@@ -130,7 +114,6 @@ public class CourseOffering extends Entity implements Course {
         private EntityType type;
         private String courseNumber;
         private String academicSession;
-        private List<org.imsglobal.caliper.entities.w3c.Membership> memberships = Lists.newArrayList();
         private Organization subOrganizationOf;
 
         /**
@@ -164,24 +147,6 @@ public class CourseOffering extends Entity implements Course {
          */
         public T academicSession(String academicSession) {
             this.academicSession = academicSession;
-            return self();
-        }
-
-        /**
-         * @param memberships
-         * @return builder.
-         */
-        public T memberships(List<org.imsglobal.caliper.entities.w3c.Membership> memberships) {
-            this.memberships = memberships;
-            return self();
-        }
-
-        /**
-         * @param membership
-         * @return builder.
-         */
-        public T membership(org.imsglobal.caliper.entities.w3c.Membership membership) {
-            this.memberships.add(membership);
             return self();
         }
 

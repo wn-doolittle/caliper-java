@@ -39,12 +39,12 @@ import javax.annotation.Nullable;
     "object",
     "target",
     "generated",
+    "navigatedFrom",
     "startedAtTime",
     "endedAtTime",
     "duration",
     "edApp",
-    "group",
-    "navigatedFrom" })
+    "group" })
 @SupportedActions({Action.NAVIGATED_TO})
 public class NavigationEvent extends Event {
     

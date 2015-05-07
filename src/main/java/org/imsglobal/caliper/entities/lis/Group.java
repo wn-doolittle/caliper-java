@@ -20,15 +20,11 @@ package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * A Caliper LIS Group represents a Course substructure that a Person is able to join as a member.
@@ -41,7 +37,6 @@ import java.util.List;
     "credits",
     "category",
     "academicSession",
-    "membership",
     "subOrganizationOf",
     "extensions",
     "dateCreated",
@@ -50,9 +45,6 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
 
     @JsonProperty("@type")
     private final EntityType type;
-
-    @JsonProperty("membership")
-    private final ImmutableList<org.imsglobal.caliper.entities.w3c.Membership> memberships;
 
     @JsonProperty("subOrganizationOf")
     private final Course subOrganizationOf;
@@ -66,7 +58,6 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
         EntityValidator.checkType(builder.type, EntityType.GROUP);
 
         this.type = builder.type;
-        this.memberships = ImmutableList.copyOf(builder.memberships);
         this.subOrganizationOf = builder.subOrganizationOf;
     }
 
@@ -80,15 +71,7 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
     }
 
     /**
-     * @return membership
-     */
-    @Nullable
-    public ImmutableList<org.imsglobal.caliper.entities.w3c.Membership> getMembership() {
-        return memberships;
-    }
-
-    /**
-     * @return the parent membership
+     * @return the parent organization
      */
     @Nonnull
     public Course getSubOrganizationOf() {
@@ -101,7 +84,6 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
      */
     public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
         private EntityType type;
-        private List<org.imsglobal.caliper.entities.w3c.Membership> memberships = Lists.newArrayList();
         private Course subOrganizationOf;
 
         /**
@@ -117,24 +99,6 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
          */
         private T type(EntityType type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param memberships
-         * @return builder.
-         */
-        public T memberships(List<org.imsglobal.caliper.entities.w3c.Membership> memberships) {
-            this.memberships = memberships;
-            return self();
-        }
-
-        /**
-         * @param membership
-         * @return builder.
-         */
-        public T membership(org.imsglobal.caliper.entities.w3c.Membership membership) {
-            this.memberships.add(membership);
             return self();
         }
 

@@ -20,16 +20,11 @@ package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.w3c.Membership;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * A collection of people organized together into a community or other social, commercial or political structure.
@@ -42,18 +37,16 @@ import java.util.List;
     "@type",
     "name",
     "description",
-    "membership",
+    "roles",
     "subOrganizationOf",
     "extensions",
     "dateCreated",
     "dateModified" })
-public class Organization extends Entity implements org.imsglobal.caliper.entities.w3c.Organization {
+public class Organization extends Agent implements org.imsglobal.caliper.entities.foaf.Agent,
+                                                    org.imsglobal.caliper.entities.w3c.Organization {
 
     @JsonProperty("@type")
     private final EntityType type;
-
-    @JsonProperty("membership")
-    private final ImmutableList<Membership> memberships;
 
     @JsonProperty("subOrganizationOf")
     private final org.imsglobal.caliper.entities.w3c.Organization subOrganizationOf;
@@ -67,7 +60,6 @@ public class Organization extends Entity implements org.imsglobal.caliper.entiti
         EntityValidator.checkType(builder.type, EntityType.ORGANIZATION);
 
         this.type = builder.type;
-        this.memberships = ImmutableList.copyOf(builder.memberships);
         this.subOrganizationOf = builder.subOrganizationOf;
     }
 
@@ -78,14 +70,6 @@ public class Organization extends Entity implements org.imsglobal.caliper.entiti
     @Nonnull
     public EntityType getType() {
         return type;
-    }
-
-    /**
-     * @return membership
-     */
-    @Nullable
-    public ImmutableList<Membership> getMembership() {
-        return memberships;
     }
 
     /**
@@ -100,9 +84,8 @@ public class Organization extends Entity implements org.imsglobal.caliper.entiti
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T>  {
         private EntityType type;
-        private List<Membership> memberships = Lists.newArrayList();
         private org.imsglobal.caliper.entities.w3c.Organization subOrganizationOf;
 
         /**
@@ -118,24 +101,6 @@ public class Organization extends Entity implements org.imsglobal.caliper.entiti
          */
         private T type(EntityType type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param memberships
-         * @return builder.
-         */
-        public T memberships(List<Membership> memberships) {
-            this.memberships = memberships;
-            return self();
-        }
-
-        /**
-         * @param membership
-         * @return builder.
-         */
-        public T membership(Membership membership) {
-            this.memberships.add(membership);
             return self();
         }
 

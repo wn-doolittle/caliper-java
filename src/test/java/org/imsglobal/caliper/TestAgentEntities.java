@@ -20,6 +20,7 @@ package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
+import org.imsglobal.caliper.entities.lis.Role;
 
 /**
  * Agent entities used to construct Event tests.
@@ -78,7 +79,7 @@ public class TestAgentEntities {
     public static final Person buildStudent554433() {
         return Person.builder()
             .id("https://some-university.edu/user/554433")
-            .hasMemberships(TestLisEntities.buildMemberships())
+            .role(Role.LEARNER)
             .dateCreated(TestDates.getDefaultDateCreated())
             .dateModified(TestDates.getDefaultDateModified())
             .build();

@@ -20,34 +20,25 @@ package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.w3c.Membership;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 
 @JsonPropertyOrder({
-        "@id",
-        "@type",
-        "name",
-        "description",
-        "hasMembership",
-        "extensions",
-        "dateCreated",
-        "dateModified" })
-public class SoftwareApplication extends Entity implements org.imsglobal.caliper.entities.foaf.Agent,
+    "@id",
+    "@type",
+    "name",
+    "description",
+    "roles",
+    "extensions",
+    "dateCreated",
+    "dateModified" })
+public class SoftwareApplication extends Agent implements org.imsglobal.caliper.entities.foaf.Agent,
                                                            org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication {
 
     @JsonProperty("@type")
     private final EntityType type;
-
-    @JsonProperty("hasMembership")
-    private ImmutableList<Membership> memberships;
 
     /**
      * @param builder apply builder object properties to the SoftwareApplication object.
@@ -58,7 +49,6 @@ public class SoftwareApplication extends Entity implements org.imsglobal.caliper
         EntityValidator.checkType(builder.type, EntityType.SOFTWARE_APPLICATION);
 
         this.type = builder.type;
-        this.memberships = ImmutableList.copyOf(builder.memberships);
     }
 
     /**
@@ -71,20 +61,11 @@ public class SoftwareApplication extends Entity implements org.imsglobal.caliper
     }
 
     /**
-     * @return memberships
-     */
-    @Nullable
-    public ImmutableList<Membership> hasMembership() {
-        return memberships;
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T>  {
         private EntityType type;
-        private List<Membership> memberships = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
@@ -99,24 +80,6 @@ public class SoftwareApplication extends Entity implements org.imsglobal.caliper
          */
         private T type(EntityType type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param memberships
-         * @return builder.
-         */
-        private T memberships(List<Membership> memberships) {
-            this.memberships = memberships;
-            return self();
-        }
-
-        /**
-         * @param membership
-         * @return builder.
-         */
-        private T membership(Membership membership) {
-            this.memberships.add(membership);
             return self();
         }
 

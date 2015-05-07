@@ -19,6 +19,7 @@
 package org.imsglobal.caliper.entities.w3c;
 
 import com.google.common.collect.ImmutableList;
+import org.imsglobal.caliper.entities.foaf.Agent;
 
 /**
  * Indicates the nature of an Agent's membership in an organization.  A W3C Membership represents
@@ -31,14 +32,12 @@ public interface Membership {
     /**
      * @return the Person (or other Agent including Organization) involved in the Membership relationship.
      */
-    //Agent getMember();
-    String getMemberId();
+    Agent getMember();
 
     /**
      * @return the Organization in which the Agent is a member.
      */
-    //Organization getOrganization();
-    String getOrganizationId();
+    Organization getOrganization();
 
     /**
      * @return the set of roles that the agent plays in a membership relationship with an organization.  Each
