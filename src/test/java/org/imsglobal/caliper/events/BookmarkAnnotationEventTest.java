@@ -40,6 +40,7 @@ import static org.junit.Assert.assertEquals;
 public class BookmarkAnnotationEventTest extends EventTest {
 
     private LearningContext learningContext;
+    private Person actor;
     private EpubSubChapter ePub;
     private Frame object;
     private BookmarkAnnotation generated;
@@ -59,8 +60,10 @@ public class BookmarkAnnotationEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildReadiumViewerApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         // Build Frame
         ePub = TestEpubEntities.buildEpubSubChap432();
@@ -107,7 +110,7 @@ public class BookmarkAnnotationEventTest extends EventTest {
         return AnnotationEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((Person) learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(object)
             .generated(generated)

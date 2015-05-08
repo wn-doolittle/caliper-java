@@ -39,6 +39,7 @@ import static org.junit.Assert.assertEquals;
 public class MediaEventTest extends EventTest {
 
     private LearningContext learningContext;
+    private Person actor;
     private VideoObject object;
     private MediaEvent event;
     private MediaLocation target;
@@ -57,8 +58,10 @@ public class MediaEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildMediaPlayerApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         // Build video
         object = VideoObject.builder()
@@ -106,7 +109,7 @@ public class MediaEventTest extends EventTest {
         return MediaEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((Person) learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(object)
             .target(target)

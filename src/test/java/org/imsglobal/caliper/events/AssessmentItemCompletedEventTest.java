@@ -40,6 +40,7 @@ import static org.junit.Assert.assertEquals;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AssessmentItemCompletedEventTest extends EventTest {
     private LearningContext learningContext;
+    private Person actor;
     private Assessment assessment;
     private AssessmentItem object;
     private FillinBlankResponse generated;
@@ -58,8 +59,10 @@ public class AssessmentItemCompletedEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildAssessmentApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         // Build assessment
         assessment = TestAssessmentEntities.buildAssessment();
@@ -70,12 +73,12 @@ public class AssessmentItemCompletedEventTest extends EventTest {
         // Build generated response
         generated = FillinBlankResponse.builder()
             .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1/response1")
-            .actor(learningContext.getAgent())
+            .actor(actor)
             .assignable(assessment)
             .attempt(Attempt.builder()
                 .id(assessment.getId() + "/item1/attempt1")
                 .assignable(assessment)
-                .actor(((Person) learningContext.getAgent()))
+                .actor(actor)
                 .count(1)
                 .dateCreated(dateCreated)
                 .startedAtTime(dateStarted)
@@ -109,7 +112,7 @@ public class AssessmentItemCompletedEventTest extends EventTest {
         return AssessmentItemEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((Person) learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(object)
             .generated(generated)

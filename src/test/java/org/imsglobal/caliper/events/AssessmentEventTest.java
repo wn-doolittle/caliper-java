@@ -18,12 +18,12 @@
 
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestAssessmentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
@@ -39,6 +39,7 @@ import static org.junit.Assert.assertEquals;
 public class AssessmentEventTest extends EventTest {
 
     private LearningContext learningContext;
+    private Person actor;
     private Assessment object;
     private Attempt generated;
     private AssessmentEvent event;
@@ -56,8 +57,10 @@ public class AssessmentEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildAssessmentApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         // Build assessment
         object = TestAssessmentEntities.buildAssessment();
@@ -66,7 +69,7 @@ public class AssessmentEventTest extends EventTest {
         generated = Attempt.builder()
             .id(object.getId() + "/attempt1")
             .assignable(object)
-            .actor(((Person) learningContext.getAgent()))
+            .actor(actor)
             .count(1)
             .dateCreated(dateCreated)
             .startedAtTime(dateStarted)
@@ -95,7 +98,7 @@ public class AssessmentEventTest extends EventTest {
         return AssessmentEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((Person) learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(object)
             .generated(generated)

@@ -39,7 +39,9 @@ import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class SessionLoginEventTest extends EventTest {
+
     private LearningContext learningContext;
+    private Person actor;
     private SoftwareApplication object;
     private EpubSubChapter ePub;
     private Frame target;
@@ -60,8 +62,10 @@ public class SessionLoginEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildReadiumViewerApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         // Build object
         object = learningContext.getEdApp();
@@ -82,7 +86,7 @@ public class SessionLoginEventTest extends EventTest {
         generated = Session.builder()
             .id("https://github.com/readium/session-123456789")
             .name("session-123456789")
-            .actor(learningContext.getAgent())
+            .actor(actor)
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .startedAtTime(dateStarted)
@@ -112,7 +116,7 @@ public class SessionLoginEventTest extends EventTest {
         return SessionEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((Person)learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(learningContext.getEdApp())
             .target(target)

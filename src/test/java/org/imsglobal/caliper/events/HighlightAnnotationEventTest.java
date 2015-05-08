@@ -40,6 +40,7 @@ import static org.junit.Assert.assertEquals;
 public class HighlightAnnotationEventTest extends EventTest {
 
     private LearningContext learningContext;
+    private Person actor;
     private EpubSubChapter ePub;
     private Frame object;
     private HighlightAnnotation generated;
@@ -59,8 +60,10 @@ public class HighlightAnnotationEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildReadiumViewerApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         // Build object frame
         ePub = TestEpubEntities.buildEpubSubChap431();
@@ -109,7 +112,7 @@ public class HighlightAnnotationEventTest extends EventTest {
         return AnnotationEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((Person) learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(object)
             .generated(generated)
