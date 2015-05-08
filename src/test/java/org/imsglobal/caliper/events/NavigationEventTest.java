@@ -42,6 +42,7 @@ import static org.junit.Assert.assertEquals;
 public class NavigationEventTest extends EventTest {
 
     private LearningContext learningContext;
+    private Person actor;
     private EpubVolume object;
     private Frame target;
     private DigitalResource fromResource;
@@ -62,8 +63,10 @@ public class NavigationEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildReadiumViewerApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         // Build object
         object = TestEpubEntities.buildEpubVolume43();
@@ -113,7 +116,7 @@ public class NavigationEventTest extends EventTest {
         return NavigationEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((Person) learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(object)
             .target(target)

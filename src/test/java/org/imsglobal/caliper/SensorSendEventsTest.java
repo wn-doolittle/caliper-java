@@ -37,6 +37,7 @@ import static org.junit.Assert.assertEquals;
 public class SensorSendEventsTest {
 
     private LearningContext learningContext;
+    private Person actor;
     private EpubVolume object;
     private DigitalResource fromResource;
     private EpubSubChapter ePub;
@@ -57,8 +58,10 @@ public class SensorSendEventsTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildReadiumViewerApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         // Build object
         object = TestEpubEntities.buildEpubVolume43();
@@ -117,7 +120,7 @@ public class SensorSendEventsTest {
         return NavigationEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((Person) learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(object)
             .target(target)

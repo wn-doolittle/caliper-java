@@ -40,6 +40,7 @@ import static org.junit.Assert.assertEquals;
 public class ViewEventTest extends EventTest {
 
     private LearningContext learningContext;
+    private Person actor;
     private EpubVolume object;
     private EpubSubChapter ePub;
     private Frame target;
@@ -59,8 +60,10 @@ public class ViewEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildReadiumViewerApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         // Build object
         object = TestEpubEntities.buildEpubVolume43();
@@ -101,7 +104,7 @@ public class ViewEventTest extends EventTest {
         return ViewEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((Person) learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(object)
             .target(target)

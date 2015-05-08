@@ -38,6 +38,7 @@ import static org.junit.Assert.assertEquals;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AssignableEventTest extends EventTest {
     private LearningContext learningContext;
+    private Person actor;
     private Assessment object;
     private Attempt generated;
     private AssignableEvent event;
@@ -55,8 +56,10 @@ public class AssignableEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildAssessmentApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         // Build assessment
         object = TestAssessmentEntities.buildAssessment();
@@ -65,7 +68,7 @@ public class AssignableEventTest extends EventTest {
         generated = Attempt.builder()
             .id(object.getId() + "/attempt1")
             .assignable(object)
-            .actor(((Person) learningContext.getAgent()))
+            .actor(actor)
             .count(1)
             .dateCreated(dateCreated)
             .startedAtTime(dateStarted)
@@ -95,7 +98,7 @@ public class AssignableEventTest extends EventTest {
         return AssignableEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((Person) learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(object)
             .generated(generated)

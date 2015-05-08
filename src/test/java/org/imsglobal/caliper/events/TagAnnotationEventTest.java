@@ -43,6 +43,7 @@ import static org.junit.Assert.assertEquals;
 public class TagAnnotationEventTest extends EventTest {
 
     private LearningContext learningContext;
+    private Person actor;
     private EpubSubChapter ePub;
     private Frame object;
     private TagAnnotation generated;
@@ -62,8 +63,10 @@ public class TagAnnotationEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildReadiumViewerApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         //Build target reading
         ePub = TestEpubEntities.buildEpubSubChap434();
@@ -95,17 +98,6 @@ public class TagAnnotationEventTest extends EventTest {
             .build();
 
         // Build event
-        event = AnnotationEvent.builder()
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
-            .actor((Person) learningContext.getAgent())
-            .action(Action.TAGGED)
-            .object(object)
-            .generated(generated)
-            .startedAtTime(dateStarted)
-            .build();
-
-        // Build event
         event = buildEvent(Action.TAGGED);
     }
 
@@ -129,7 +121,7 @@ public class TagAnnotationEventTest extends EventTest {
         return AnnotationEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((Person) learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(object)
             .generated(generated)

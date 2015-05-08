@@ -41,7 +41,7 @@ import static org.junit.Assert.assertEquals;
 public class AssessmentOutcomeEventTest extends EventTest {
 
     private LearningContext learningContext;
-    private SoftwareApplication scoredBy;
+    private Person actor;
     private Assessment assessment;
     private Attempt object;
     private Result generated;
@@ -60,8 +60,10 @@ public class AssessmentOutcomeEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildAssessmentApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = TestAgentEntities.buildStudent554433();
 
         // Build assessment
         assessment = TestAssessmentEntities.buildAssessment();
@@ -70,7 +72,7 @@ public class AssessmentOutcomeEventTest extends EventTest {
         object = Attempt.builder()
             .id(assessment.getId() + "/attempt1")
             .assignable(assessment)
-            .actor(((Person) learningContext.getAgent()))
+            .actor(actor)
             .count(1)
             .dateCreated(dateCreated)
             .startedAtTime(dateStarted)
@@ -80,7 +82,7 @@ public class AssessmentOutcomeEventTest extends EventTest {
         generated = Result.builder()
             .id(object.getId() + "/result")
             .assignable(assessment)
-            .actor(learningContext.getAgent())
+            .actor(actor)
             .dateCreated(dateCreated)
             .normalScore(3.0d)
             .penaltyScore(0.0d)
@@ -116,7 +118,7 @@ public class AssessmentOutcomeEventTest extends EventTest {
         return OutcomeEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor(learningContext.getAgent())
+            .actor(actor)
             .action(action)
             .object(object)
             .generated(generated)

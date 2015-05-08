@@ -18,11 +18,11 @@
 
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
@@ -35,7 +35,9 @@ import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class SessionTimeoutEventTest extends EventTest {
+
     private LearningContext learningContext;
+    private SoftwareApplication actor;
     private SoftwareApplication object;
     private Session target;
     private SessionEvent event;
@@ -56,17 +58,19 @@ public class SessionTimeoutEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildReadiumViewerApp())
             .group(TestLisEntities.buildGroup())
-            .agent(TestAgentEntities.buildStudent554433())
             .build();
+
+        // Build actor
+        actor = learningContext.getEdApp();
 
         // Build object
         object = learningContext.getEdApp();
 
-        // Build target
+        // Build session target with student as target actor
         target = Session.builder()
             .id("https://github.com/readium/session-123456789")
             .name("session-123456789")
-            .actor(learningContext.getAgent())
+            .actor(TestAgentEntities.buildStudent554433())
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .startedAtTime(dateStarted)
@@ -98,7 +102,7 @@ public class SessionTimeoutEventTest extends EventTest {
         return SessionEvent.builder()
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .actor((SoftwareApplication) learningContext.getEdApp())
+            .actor(actor)
             .action(action)
             .object(object)
             .target(target)
