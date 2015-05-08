@@ -18,17 +18,9 @@
 
 package org.imsglobal.caliper;
 
-import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.lis.CourseOffering;
 import org.imsglobal.caliper.entities.lis.CourseSection;
 import org.imsglobal.caliper.entities.lis.Group;
-import org.imsglobal.caliper.entities.lis.Role;
-import org.imsglobal.caliper.entities.lis.Status;
-import org.imsglobal.caliper.entities.w3c.Membership;
-import org.imsglobal.caliper.entities.w3c.Organization;
-
-import java.util.List;
 
 /**
  * LIS entities used in construction of Event tests.
@@ -68,39 +60,5 @@ public class TestLisEntities {
                 .build())
             .dateCreated(TestDates.getDefaultDateCreated())
             .build();
-    }
-
-    /**
-     * Build Memberships
-     * @return membership list
-     */
-    public static final List<Membership> buildMemberships(Person person, Organization organization) {
-        List<org.imsglobal.caliper.entities.w3c.Membership> memberships = Lists.newArrayList();
-        memberships.add(org.imsglobal.caliper.entities.lis.Membership.builder()
-            .id("https://some-university.edu/membership/001")
-            .member(person)
-            .organization(organization)
-            .role(Role.LEARNER)
-            .status(Status.ACTIVE)
-            .dateCreated(TestDates.getDefaultDateCreated())
-            .build());
-        memberships.add(org.imsglobal.caliper.entities.lis.Membership.builder()
-            .id("https://some-university.edu/membership/002")
-            .member(person)
-            .organization(organization)
-            .role(Role.LEARNER)
-            .status(Status.ACTIVE)
-            .dateCreated(TestDates.getDefaultDateCreated())
-            .build());
-        memberships.add(org.imsglobal.caliper.entities.lis.Membership.builder()
-            .id("https://some-university.edu/membership/003")
-            .member(person)
-            .organization(organization)
-            .role(Role.LEARNER)
-            .status(Status.ACTIVE)
-            .dateCreated(TestDates.getDefaultDateCreated())
-            .build());
-
-        return memberships;
     }
 }
