@@ -94,14 +94,13 @@ public class SessionTimeoutEventTest extends EventTest {
     }
 
     /**
-     * Build Session Timeout event.  Note that the actor is the edApp.
+     * Build Session Timeout event.  Note that the actor is the edApp and
+     * the membership of the actor is not specified.
      * @param action
      * @return event
      */
     private SessionEvent buildEvent(Action action) {
         return SessionEvent.builder()
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
             .actor(actor)
             .action(action)
             .object(object)
@@ -109,6 +108,8 @@ public class SessionTimeoutEventTest extends EventTest {
             .startedAtTime(dateStarted)
             .endedAtTime(dateEnded)
             .duration(duration)
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
             .build();
     }
 }

@@ -65,6 +65,7 @@ public class SessionLogoutEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildReadiumViewerApp())
             .group(TestLisEntities.buildGroup())
+            .membership(TestLisEntities.buildMembership())
             .build();
 
         // Build actor
@@ -107,8 +108,6 @@ public class SessionLogoutEventTest extends EventTest {
      */
     private SessionEvent buildEvent(Action action) {
         return SessionEvent.builder()
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
             .actor(actor)
             .action(action)
             .object(object)
@@ -116,6 +115,9 @@ public class SessionLogoutEventTest extends EventTest {
             .startedAtTime(dateStarted)
             .endedAtTime(dateEnded)
             .duration(duration)
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .membership(learningContext.getMembership())
             .build();
     }
 }
