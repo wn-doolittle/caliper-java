@@ -58,6 +58,7 @@ public class MediaEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildMediaPlayerApp())
             .group(TestLisEntities.buildGroup())
+            .membership(TestLisEntities.buildMembership())
             .build();
 
         // Build actor
@@ -107,13 +108,14 @@ public class MediaEventTest extends EventTest {
      */
     private MediaEvent buildEvent(Action action) {
         return MediaEvent.builder()
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
             .actor(actor)
             .action(action)
             .object(object)
             .target(target)
             .startedAtTime(dateStarted)
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .membership(learningContext.getMembership())
             .build();
     }
 }

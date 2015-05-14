@@ -19,16 +19,15 @@
 package org.imsglobal.caliper.events;
 
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.entities.lis.Role;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.joda.time.DateTime;
@@ -65,6 +64,7 @@ public class SharedAnnotationEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildReadiumViewerApp())
             .group(TestLisEntities.buildGroup())
+            .membership(TestLisEntities.buildMembership())
             .build();
 
         // Build actor
@@ -86,13 +86,11 @@ public class SharedAnnotationEventTest extends EventTest {
         List<Agent> shared = Lists.newArrayList();
         shared.add(Person.builder()
             .id("https://some-university.edu/students/657585")
-            .role(Role.LEARNER)
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .build());
         shared.add(Person.builder()
             .id("https://some-university.edu/students/667788")
-            .role(Role.LEARNER)
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .build());
@@ -128,13 +126,14 @@ public class SharedAnnotationEventTest extends EventTest {
      */
     private AnnotationEvent buildEvent(Action action) {
         return AnnotationEvent.builder()
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
             .actor(actor)
             .action(action)
             .object(object)
             .generated(generated)
             .startedAtTime(dateStarted)
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .membership(learningContext.getMembership())
             .build();
     }
 }

@@ -57,6 +57,7 @@ public class AssessmentEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildAssessmentApp())
             .group(TestLisEntities.buildGroup())
+            .membership(TestLisEntities.buildMembership())
             .build();
 
         // Build actor
@@ -96,13 +97,14 @@ public class AssessmentEventTest extends EventTest {
      */
     private AssessmentEvent buildEvent(Action action) {
         return AssessmentEvent.builder()
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
             .actor(actor)
             .action(action)
             .object(object)
             .generated(generated)
             .startedAtTime(dateStarted)
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .membership(learningContext.getMembership())
             .build();
     }
 }

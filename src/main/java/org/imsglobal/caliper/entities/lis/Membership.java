@@ -18,8 +18,11 @@
 
 package org.imsglobal.caliper.entities.lis;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Entity;
@@ -101,6 +104,8 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
     /**
      * @return the person involved in the membership relationship.
      */
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
     @Nonnull
     public Person getMember() {
         return member;
@@ -109,6 +114,8 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
     /**
      * @return the membership in which the person is a memberId.
      */
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
     @Nonnull
     public Organization getOrganization() {
         return organization;

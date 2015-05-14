@@ -26,6 +26,7 @@ import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
+import org.imsglobal.caliper.entities.w3c.Membership;
 import org.imsglobal.caliper.entities.w3c.Organization;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.joda.time.DateTime;
@@ -47,7 +48,8 @@ import javax.annotation.Nullable;
     "endedAtTime",
     "duration",
     "edApp",
-    "group" })
+    "group",
+    "membership" })
 public abstract class Event {
 
     @JsonProperty("@context")
@@ -55,12 +57,6 @@ public abstract class Event {
 
     @JsonProperty("@type")
     private final EventType type;
-
-    @JsonProperty("edApp")
-    private final SoftwareApplication edApp;
-
-    @JsonProperty("group")
-    private final Organization group;
 
     @JsonProperty("actor")
     private final Agent actor;
@@ -86,6 +82,15 @@ public abstract class Event {
     @JsonProperty("duration")
     private final String duration;
 
+    @JsonProperty("edApp")
+    private final SoftwareApplication edApp;
+
+    @JsonProperty("group")
+    private final Organization group;
+
+    @JsonProperty("membership")
+    private final Membership membership;
+
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(Event.class);
 
@@ -107,8 +112,6 @@ public abstract class Event {
 
         this.context = builder.context;
         this.type = builder.type;
-        this.edApp = builder.edApp;
-        this.group = builder.group;
         this.actor = builder.actor;
         this.action = builder.action;
         this.object = builder.object;
@@ -117,6 +120,9 @@ public abstract class Event {
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
         this.duration = builder.duration;
+        this.edApp = builder.edApp;
+        this.group = builder.group;
+        this.membership = builder.membership;
     }
 
     /**
@@ -135,24 +141,6 @@ public abstract class Event {
     @Nonnull
     public EventType getType() {
         return type;
-    }
-
-    /**
-     * Optional.
-     * @return the edApp
-     */
-    @Nullable
-    public SoftwareApplication getEdApp() {
-        return edApp;
-    }
-
-    /**
-     * Optional.
-     * @return the group
-     */
-    @Nullable
-    public Organization getGroup() {
-        return group;
     }
 
     /**
@@ -233,14 +221,39 @@ public abstract class Event {
     }
 
     /**
+     * The edApp context, part of the Caliper Learning Context.  Optional.
+     * @return the edApp
+     */
+    @Nullable
+    public SoftwareApplication getEdApp() {
+        return edApp;
+    }
+
+    /**
+     * The Group context, part of the Caliper Learning Context.  Optional.
+     * @return the group
+     */
+    @Nullable
+    public Organization getGroup() {
+        return group;
+    }
+
+    /**
+     * The Membership context, part of the Caliper Learning Context.  Optional.
+     * @return the membership
+     */
+    @Nullable
+    public Membership getMembership() {
+        return membership;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
         private EventContext context;
         private EventType type;
-        private SoftwareApplication edApp;
-        private Organization group;
         private Agent actor;
         private Action action;
         private Object object;
@@ -249,6 +262,9 @@ public abstract class Event {
         private DateTime startedAtTime;
         private DateTime endedAtTime;
         private String duration;
+        private SoftwareApplication edApp;
+        private Organization group;
+        private Membership membership;
 
         protected abstract T self();
 
@@ -275,24 +291,6 @@ public abstract class Event {
          */
         private T type(EventType type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param edApp
-         * @return builder.
-         */
-        public T edApp(SoftwareApplication edApp) {
-            this.edApp = edApp;
-            return self();
-        }
-
-        /**
-         * @param group
-         * @return builder.
-         */
-        public T group(Organization group) {
-            this.group = group;
             return self();
         }
 
@@ -365,6 +363,33 @@ public abstract class Event {
          */
         public T duration(String duration) {
             this.duration = duration;
+            return self();
+        }
+
+        /**
+         * @param edApp
+         * @return builder.
+         */
+        public T edApp(SoftwareApplication edApp) {
+            this.edApp = edApp;
+            return self();
+        }
+
+        /**
+         * @param group
+         * @return builder.
+         */
+        public T group(Organization group) {
+            this.group = group;
+            return self();
+        }
+
+        /**
+         * @param membership
+         * @return builder.
+         */
+        public T membership(Membership membership) {
+            this.membership = membership;
             return self();
         }
     }

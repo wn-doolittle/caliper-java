@@ -60,6 +60,7 @@ public class ViewEventTest extends EventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildReadiumViewerApp())
             .group(TestLisEntities.buildGroup())
+            .membership(TestLisEntities.buildMembership())
             .build();
 
         // Build actor
@@ -102,13 +103,14 @@ public class ViewEventTest extends EventTest {
      */
     private ViewEvent buildEvent(Action action) {
         return ViewEvent.builder()
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
             .actor(actor)
             .action(action)
             .object(object)
             .target(target)
             .startedAtTime(dateStarted)
+            .edApp(learningContext.getEdApp())
+            .group(learningContext.getGroup())
+            .membership(learningContext.getMembership())
             .build();
     }
 }

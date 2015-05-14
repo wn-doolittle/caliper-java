@@ -21,11 +21,12 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
+import org.imsglobal.caliper.entities.w3c.Membership;
 import org.imsglobal.caliper.entities.w3c.Organization;
 
 import javax.annotation.Nullable;
 
-@JsonPropertyOrder({ "edApp", "group"})
+@JsonPropertyOrder({ "edApp", "group", "membership"})
 public class LearningContext {
 
     @JsonProperty("edApp")
@@ -34,15 +35,20 @@ public class LearningContext {
     @JsonProperty("group")
     private Organization group;
 
+    @JsonProperty("membership")
+    private Membership membership;
+
     /**
      * @param builder apply builder object properties to the LearningContext object.
      */
     protected LearningContext(Builder<?> builder) {
         this.edApp = builder.edApp;
         this.group = builder.group;
+        this.membership = builder.membership;
     }
 
     /**
+     * The edApp context.
      * @return the educational app.
      */
     @Nullable
@@ -51,11 +57,21 @@ public class LearningContext {
     }
 
     /**
+     * The Group context.
      * @return organizational group.
      */
     @Nullable
     public Organization getGroup() {
         return group;
+    }
+
+    /**
+     * The Membership context.
+     * @return the membership
+     */
+    @Nullable
+    public Membership getMembership() {
+        return membership;
     }
 
     /**
@@ -65,6 +81,7 @@ public class LearningContext {
     public static abstract class Builder<T extends Builder<T>> {
         private SoftwareApplication edApp;
         private Organization group;
+        private Membership membership;
 
         protected abstract T self();
 
@@ -83,6 +100,15 @@ public class LearningContext {
          */
         public T group(Organization group) {
             this.group = group;
+            return self();
+        }
+
+        /**
+         * @param membership
+         * @return builder.
+         */
+        public T membership(Membership membership) {
+            this.membership = membership;
             return self();
         }
 
