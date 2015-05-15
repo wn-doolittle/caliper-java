@@ -63,25 +63,24 @@ public class SessionEvent extends Event {
 
         EventValidator.checkContext(builder.context, EventContext.SESSION);
         EventValidator.checkType(builder.type, EventType.SESSION);
-        EventValidator.checkAction(builder.action, SessionEvent.class);
-
-        if (builder.action == Action.TIMED_OUT) {
-            EventValidator.checkActorType(getActor(), SoftwareApplication.class);
-        } else {
-            EventValidator.checkActorType(getActor(), Person.class);
-        }
-
-        EventValidator.checkObjectType(getObject(), SoftwareApplication.class);
+        // EventValidator.checkAction(builder.action, SessionEvent.class);
 
         if (builder.action == Action.LOGGED_IN) {
+            EventValidator.checkActorType(getActor(), Person.class);
+            EventValidator.checkObjectType(getObject(), SoftwareApplication.class);
             EventValidator.checkTargetType(getTarget(), DigitalResource.class);
             EventValidator.checkGeneratedType(getGenerated(), Session.class);
-        } else {
+        } else if (builder.action == Action.LOGGED_OUT) {
+            EventValidator.checkActorType(getActor(), Person.class);
+            EventValidator.checkObjectType(getObject(), SoftwareApplication.class);
             EventValidator.checkTargetType(getTarget(), Session.class);
-        }
-
-        if (builder.action == Action.LOGGED_OUT || builder.action == Action.TIMED_OUT) {
             EventValidator.checkEndTime(getStartedAtTime(), getEndedAtTime());
+        } else if (builder.action == Action.TIMED_OUT) {
+            EventValidator.checkActorType(getActor(), SoftwareApplication.class);
+            EventValidator.checkObjectType(getObject(), Session.class);
+            EventValidator.checkEndTime(getStartedAtTime(), getEndedAtTime());
+        } else {
+            EventValidator.checkAction(builder.action, SessionEvent.class);
         }
 
         this.context = builder.context;

@@ -38,8 +38,7 @@ public class SessionTimeoutEventTest extends EventTest {
 
     private LearningContext learningContext;
     private SoftwareApplication actor;
-    private SoftwareApplication object;
-    private Session target;
+    private Session object;
     private SessionEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
@@ -64,10 +63,7 @@ public class SessionTimeoutEventTest extends EventTest {
         actor = learningContext.getEdApp();
 
         // Build object
-        object = learningContext.getEdApp();
-
-        // Build session target with student as target actor
-        target = Session.builder()
+        object = Session.builder()
             .id("https://github.com/readium/session-123456789")
             .name("session-123456789")
             .actor(TestAgentEntities.buildStudent554433())
@@ -104,7 +100,6 @@ public class SessionTimeoutEventTest extends EventTest {
             .actor(actor)
             .action(action)
             .object(object)
-            .target(target)
             .startedAtTime(dateStarted)
             .endedAtTime(dateEnded)
             .duration(duration)
