@@ -37,9 +37,6 @@ import javax.annotation.Nonnull;
     Action.SUBMITTED
 })
 public class AssessmentEvent extends Event {
-    
-    @JsonProperty("@context")
-    private final EventContext context;
 
     @JsonProperty("@type")
     private final EventType type;
@@ -61,25 +58,14 @@ public class AssessmentEvent extends Event {
     protected AssessmentEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContext(builder.context, EventContext.ASSESSMENT);
         EventValidator.checkType(builder.type, EventType.ASSESSMENT);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, AssessmentEvent.class);
         EventValidator.checkObjectType(getObject(), Assessment.class);
         EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
 
-        this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-    }
-
-    /**
-     * @return the context
-     */
-    @Override
-    @Nonnull
-    public EventContext getContext() {
-        return context;
     }
 
     /**
@@ -105,24 +91,14 @@ public class AssessmentEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private EventContext context;
         private EventType type;
         private Action action;
+
         /*
          * Constructor
          */
         public Builder() {
-            context(EventContext.ASSESSMENT);
             type(EventType.ASSESSMENT);
-        }
-
-        /**
-         * @param context
-         * @return builder.
-         */
-        private T context(EventContext context) {
-            this.context = context;
-            return self();
         }
 
         /**

@@ -52,9 +52,6 @@ import javax.annotation.Nonnull;
 })
 public class MediaEvent extends Event {
 
-    @JsonProperty("@context")
-    private final EventContext context;
-
     @JsonProperty("@type")
     private final EventType type;
 
@@ -75,25 +72,13 @@ public class MediaEvent extends Event {
     protected MediaEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContext(builder.context, EventContext.MEDIA);
         EventValidator.checkType(builder.type, EventType.MEDIA);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, MediaEvent.class);
         EventValidator.checkObjectType(getObject(), MediaObject.class);
 
-        this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-    }
-
-    /**
-     * Required.
-     * @return the context
-     */
-    @Override
-    @Nonnull
-    public EventContext getContext() {
-        return context;
     }
 
     /**
@@ -121,7 +106,6 @@ public class MediaEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private EventContext context;
         private EventType type;
         private Action action;
 
@@ -129,17 +113,7 @@ public class MediaEvent extends Event {
          * Constructor
          */
         public Builder() {
-            context(EventContext.MEDIA);
             type(EventType.MEDIA);
-        }
-
-        /**
-         * @param context
-         * @return builder.
-         */
-        private T context(EventContext context) {
-            this.context = context;
-            return self();
         }
 
         /**

@@ -35,9 +35,6 @@ import javax.annotation.Nonnull;
 })
 public class ReadingEvent extends Event {
 
-    @JsonProperty("@context")
-    private final EventContext context;
-
     @JsonProperty("@type")
     private final EventType type;
 
@@ -58,26 +55,14 @@ public class ReadingEvent extends Event {
     protected ReadingEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContext(builder.context, EventContext.READING);
         EventValidator.checkType(builder.type, EventType.READING);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, ReadingEvent.class);
         EventValidator.checkObjectType(getObject(), DigitalResource.class);
         EventValidator.checkTargetType(getTarget(), DigitalResource.class);
 
-        this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-    }
-
-    /**
-     * Required.
-     * @return the context
-     */
-    @Override
-    @Nonnull
-    public EventContext getContext() {
-        return context;
     }
 
     /**
@@ -105,7 +90,6 @@ public class ReadingEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private EventContext context;
         private EventType type;
         private Action action;
 
@@ -113,17 +97,7 @@ public class ReadingEvent extends Event {
          * Constructor
          */
         public Builder() {
-            context(EventContext.READING);
             type(EventType.READING);
-        }
-
-        /**
-         * @param context
-         * @return builder.
-         */
-        private T context(EventContext context) {
-            this.context = context;
-            return self();
         }
 
         /**

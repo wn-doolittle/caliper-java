@@ -38,9 +38,6 @@ import javax.annotation.Nonnull;
 })
 public class SessionEvent extends Event {
 
-    @JsonProperty("@context")
-    private final EventContext context;
-
     @JsonProperty("@type")
     private final EventType type;
 
@@ -61,7 +58,6 @@ public class SessionEvent extends Event {
     protected SessionEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContext(builder.context, EventContext.SESSION);
         EventValidator.checkType(builder.type, EventType.SESSION);
         // EventValidator.checkAction(builder.action, SessionEvent.class);
 
@@ -83,19 +79,8 @@ public class SessionEvent extends Event {
             EventValidator.checkAction(builder.action, SessionEvent.class);
         }
 
-        this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-    }
-
-    /**
-     * Required.
-     * @return the context
-     */
-    @Override
-    @Nonnull
-    public EventContext getContext() {
-        return context;
     }
 
     /**
@@ -123,7 +108,6 @@ public class SessionEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private EventContext context;
         private EventType type;
         private Action action;
 
@@ -131,17 +115,7 @@ public class SessionEvent extends Event {
          * Constructor
          */
         public Builder() {
-            context(EventContext.SESSION);
             type(EventType.SESSION);
-        }
-
-        /**
-         * @param context
-         * @return builder.
-         */
-        private T context(EventContext context) {
-            this.context = context;
-            return self();
         }
 
         /**
