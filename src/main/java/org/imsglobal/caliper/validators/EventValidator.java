@@ -19,11 +19,11 @@
 package org.imsglobal.caliper.validators;
 
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.context.Context;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.events.Event;
-import org.imsglobal.caliper.events.EventContext;
 import org.imsglobal.caliper.events.EventType;
 import org.imsglobal.caliper.events.SupportedActions;
 import org.joda.time.DateTime;
@@ -45,7 +45,7 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkContext(EventContext context, EventContext expected) throws IllegalArgumentException {
+    public static void checkContext(Context context, Context expected) throws IllegalArgumentException {
         checkArgument(context == expected, "expected context %s but was %s", expected.getValue(), context.getValue());
     }
 

@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.context.Context;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.foaf.Agent;
@@ -58,7 +59,7 @@ import javax.annotation.Nullable;
 public abstract class Event {
 
     @JsonProperty("@context")
-    private final EventContext context;
+    private final Context context;
 
     @JsonProperty("@type")
     private final EventType type;
@@ -112,9 +113,9 @@ public abstract class Event {
      */
     protected Event(Builder<?> builder) {
 
-        // Validator.checkContext(builder.context, Context.EVENT);
-        // Validator.checkType(builder.type, Type.EVENT);
-        // Validator.checkAction(builder.action, Event.class);
+        EventValidator.checkContext(builder.context, Context.CONTEXT);
+        // EventValidator.checkType(builder.type, Type.EVENT);
+        // EventValidator.checkAction(builder.action, Event.class);
         EventValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
         EventValidator.checkDuration(builder.duration);
 
@@ -139,7 +140,7 @@ public abstract class Event {
      * @return the context
      */
     @Nonnull
-    public EventContext getContext() {
+    public Context getContext() {
         return context;
     }
 
@@ -272,7 +273,7 @@ public abstract class Event {
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
-        private EventContext context;
+        private Context context;
         private EventType type;
         private Agent actor;
         private Action action;
@@ -293,7 +294,7 @@ public abstract class Event {
          * Initialize type with default values.
          */
         public Builder() {
-            context(EventContext.EVENT);
+            context(Context.CONTEXT);
             type(EventType.EVENT);
         }
 
@@ -301,7 +302,7 @@ public abstract class Event {
          * @param context
          * @return builder.
          */
-        private T context(EventContext context) {
+        private T context(Context context) {
             this.context = context;
             return self();
         }

@@ -51,9 +51,6 @@ import javax.annotation.Nonnull;
 })
 public class AnnotationEvent extends Event {
 
-    @JsonProperty("@context")
-    private final EventContext context;
-
     @JsonProperty("@type")
     private final EventType type;
 
@@ -74,26 +71,14 @@ public class AnnotationEvent extends Event {
     protected AnnotationEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContext(builder.context, EventContext.ANNOTATION);
         EventValidator.checkType(builder.type, EventType.ANNOTATION);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, AnnotationEvent.class);
         EventValidator.checkObjectType(getObject(), DigitalResource.class);
         EventValidator.checkGeneratedType(getGenerated(), Annotation.class);
 
-        this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
-    }
-
-    /**
-     * Required.
-     * @return the context
-     */
-    @Override
-    @Nonnull
-    public EventContext getContext() {
-        return context;
     }
 
     /**
@@ -121,7 +106,6 @@ public class AnnotationEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private EventContext context;
         private EventType type;
         private Action action;
 
@@ -129,17 +113,7 @@ public class AnnotationEvent extends Event {
          * Constructor
          */
         public Builder() {
-            context(EventContext.ANNOTATION);
             type(EventType.ANNOTATION);
-        }
-
-        /**
-         * @param context
-         * @return builder.
-         */
-        private T context(EventContext context) {
-            this.context = context;
-            return self();
         }
 
         /**

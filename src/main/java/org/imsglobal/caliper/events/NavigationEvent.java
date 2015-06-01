@@ -48,9 +48,6 @@ import javax.annotation.Nullable;
     "membership" })
 @SupportedActions({Action.NAVIGATED_TO})
 public class NavigationEvent extends Event {
-    
-    @JsonProperty("@context")
-    private final EventContext context;
 
     @JsonProperty("@type")
     private final EventType type;
@@ -75,27 +72,15 @@ public class NavigationEvent extends Event {
     protected NavigationEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkContext(builder.context, EventContext.NAVIGATION);
         EventValidator.checkType(builder.type, EventType.NAVIGATION);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, NavigationEvent.class);
         EventValidator.checkObjectType(getObject(), DigitalResource.class);
         EventValidator.checkTargetType(getTarget(), DigitalResource.class);
 
-        this.context = builder.context;
         this.type = builder.type;
         this.action = builder.action;
         this.fromResource = builder.fromResource;
-    }
-
-    /**
-     * Required.
-     * @return the context
-     */
-    @Override
-    @Nonnull
-    public EventContext getContext() {
-        return context;
     }
 
     /**
@@ -132,7 +117,6 @@ public class NavigationEvent extends Event {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private EventContext context;
         private EventType type;
         private Action action;
         private DigitalResource fromResource;
@@ -141,18 +125,8 @@ public class NavigationEvent extends Event {
          * Constructor
          */
         public Builder() {
-            context(EventContext.NAVIGATION);
             type(EventType.NAVIGATION);
             action(Action.NAVIGATED_TO);
-        }
-
-        /**
-         * @param context
-         * @return builder.
-         */
-        private T context(EventContext context) {
-            this.context = context;
-            return self();
         }
 
         /**
