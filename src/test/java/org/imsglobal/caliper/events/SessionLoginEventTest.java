@@ -60,7 +60,7 @@ public class SessionLoginEventTest extends EventTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -85,7 +85,7 @@ public class SessionLoginEventTest extends EventTest {
 
         // Build generated
         generated = Session.builder()
-            .id("https://github.com/readium/session-123456789")
+            .id("https://example.com/viewer/session-123456789")
             .name("session-123456789")
             .actor(actor)
             .dateCreated(dateCreated)

@@ -71,7 +71,7 @@ public class AssessmentOutcomeEventTest extends EventTest {
 
         // Build attempt
         object = Attempt.builder()
-            .id(assessment.getId() + "/attempt1")
+            .id(assessment.getId() + "/attempt/5678")
             .assignable(assessment)
             .actor(actor)
             .count(1)

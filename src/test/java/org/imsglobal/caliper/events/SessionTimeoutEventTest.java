@@ -55,7 +55,7 @@ public class SessionTimeoutEventTest extends EventTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .build();
 
@@ -64,7 +64,7 @@ public class SessionTimeoutEventTest extends EventTest {
 
         // Build object
         object = Session.builder()
-            .id("https://github.com/readium/session-123456789")
+            .id("https://example.com/viewer/session-123456789")
             .name("session-123456789")
             .actor(TestAgentEntities.buildStudent554433())
             .dateCreated(dateCreated)

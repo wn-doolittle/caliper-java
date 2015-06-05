@@ -61,7 +61,7 @@ public class NavigationEventTest extends EventTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -86,7 +86,7 @@ public class NavigationEventTest extends EventTest {
 
         // Build previous location
         fromResource = WebPage.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/index.html")
+            .id("https://example.edu/politicalScience/2015/american-revolution-101/index.html")
             .name("American Revolution 101 Landing Page")
             .dateCreated(dateCreated)
             .dateModified(dateModified)

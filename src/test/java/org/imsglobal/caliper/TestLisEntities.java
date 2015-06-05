@@ -43,7 +43,7 @@ public class TestLisEntities {
      */
     public static final CourseOffering buildCourseOffering() {
         return CourseOffering.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101")
+            .id("https://example.edu/politicalScience/2015/american-revolution-101")
             .courseNumber("POL101")
             .name("Political Science 101: The American Revolution")
             .academicSession("Fall-2015")
@@ -58,7 +58,7 @@ public class TestLisEntities {
      */
     public static final CourseSection buildCourseSection() {
         return CourseSection.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001")
+            .id("https://example.edu/politicalScience/2015/american-revolution-101/section/001")
             .courseNumber("POL101")
             .name("American Revolution 101")
             .academicSession("Fall-2015")
@@ -74,7 +74,7 @@ public class TestLisEntities {
      */
     public static final Group buildGroup() {
         return Group.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/section/001/group/001")
+            .id("https://example.edu/politicalScience/2015/american-revolution-101/section/001/group/001")
             .name("Discussion Group 001")
             .subOrganizationOf(buildCourseSection())
             .dateCreated(TestDates.getDefaultDateCreated())
@@ -87,7 +87,7 @@ public class TestLisEntities {
      */
     public static final Membership buildMembership() {
         return Membership.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/roster/554433")
+            .id("https://example.edu/politicalScience/2015/american-revolution-101/roster/554433")
             .name("American Revolution 101")
             .description("Roster entry")
             .member(TestAgentEntities.buildStudent554433())

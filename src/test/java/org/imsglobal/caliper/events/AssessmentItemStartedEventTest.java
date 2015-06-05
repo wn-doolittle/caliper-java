@@ -72,7 +72,7 @@ public class AssessmentItemStartedEventTest extends EventTest {
 
         // Generate attempt
         generated = Attempt.builder()
-            .id(assessment.getId() + "/item1/attempt1")
+            .id(assessment.getId() + "/item/001/attempt/789")
             .assignable(assessment)
             .actor(actor)
             .count(1)

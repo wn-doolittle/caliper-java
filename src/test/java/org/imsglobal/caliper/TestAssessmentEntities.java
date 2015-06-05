@@ -41,7 +41,7 @@ public class TestAssessmentEntities {
      */
     public static final Assessment buildAssessment() {
         return Assessment.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1")
+            .id("https://example.edu/politicalScience/2015/american-revolution-101/assessment/001")
             .name("American Revolution - Key Figures Assessment")
             .dateCreated(TestDates.getDefaultDateModified())
             .datePublished(TestDates.getDefaultDatePublished())
@@ -65,7 +65,7 @@ public class TestAssessmentEntities {
      */
     public static final AssessmentItem buildAssessmentItem01(Assessment assessment) {
         return AssessmentItem.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1")
+            .id("https://example.edu/politicalScience/2015/american-revolution-101/assessment/001/item/001")
             .name("Assessment Item 1")
             .isPartOf(assessment)
             .version("1.0")
@@ -84,7 +84,7 @@ public class TestAssessmentEntities {
     public static final ImmutableList<AssessmentItem> buildAssessmentItems(Assessment parent) {
         return ImmutableList.<AssessmentItem>builder()
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1")
+                .id("https://example.edu/politicalScience/2015/american-revolution-101/assessment/001/item/001")
                 .name("Assessment Item 1")
                 .isPartOf(parent)
                 .version("1.0")
@@ -94,7 +94,7 @@ public class TestAssessmentEntities {
                 .isTimeDependent(false)
                 .build())
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item2")
+                .id("https://example.edu/politicalScience/2015/american-revolution-101/assessment/001/item/002")
                 .name("Assessment Item 2")
                 .isPartOf(parent)
                 .version("1.0")
@@ -104,7 +104,7 @@ public class TestAssessmentEntities {
                 .isTimeDependent(false)
                 .build())
             .add(AssessmentItem.builder()
-                .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item3")
+                .id("https://example.edu/politicalScience/2015/american-revolution-101/assessment/001/item/003")
                 .name("Assessment Item 3")
                 .isPartOf(parent)
                 .version("1.0")

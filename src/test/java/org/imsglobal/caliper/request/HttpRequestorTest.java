@@ -71,7 +71,7 @@ public class HttpRequestorTest {
     public void setup() {
 
         // Register a Sensor client using the default constructor
-        sensor = new Sensor<>("http://learning-app.some-university.edu/sensor");
+        sensor = new Sensor<>("https://example.edu/sensor/001");
         Client client = new Client();
         client.setId(sensor.getId() + "/defaultClient");
         client.setOptions(TestUtils.getTestingOptions());
@@ -82,7 +82,7 @@ public class HttpRequestorTest {
 
         // Create a FederatedSession with URI identifier provided by an LTI Tool Consumer.
         federatedSession = Session.builder()
-            .id("https://learning-platform.some-university.edu/federatedSession/123456789")
+            .id("https://learning-platform.example.edu/federatedSession/123456789")
             .actor(actor)
             .dateCreated(dateCreated)
             .startedAtTime(dateStarted)
@@ -90,7 +90,7 @@ public class HttpRequestorTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -100,7 +100,7 @@ public class HttpRequestorTest {
 
         // Build previous location
         fromResource = WebPage.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/index.html")
+            .id("https://example.edu/politicalScience/2015/american-revolution-101/index.html")
             .name("American Revolution 101 Landing Page")
             .dateCreated(dateCreated)
             .dateModified(dateModified)

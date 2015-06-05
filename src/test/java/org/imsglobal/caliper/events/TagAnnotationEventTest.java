@@ -61,7 +61,7 @@ public class TagAnnotationEventTest extends EventTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -91,7 +91,7 @@ public class TagAnnotationEventTest extends EventTest {
 
         // Build Tag Annotation
         generated = TagAnnotation.builder()
-            .id("https://someEduApp.edu/tags/7654")
+            .id("https://example.edu/tags/7654")
             .annotated(object)
             .tags(tags)
             .dateCreated(dateCreated)
