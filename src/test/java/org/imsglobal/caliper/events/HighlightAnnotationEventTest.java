@@ -58,7 +58,7 @@ public class HighlightAnnotationEventTest extends EventTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -80,7 +80,7 @@ public class HighlightAnnotationEventTest extends EventTest {
 
         // Build Highlight Annotation
         generated = HighlightAnnotation.builder()
-            .id("https://someEduApp.edu/highlights/12345")
+            .id("https://example.edu/highlights/12345")
             .annotated(object)
             .selectionStart(Integer.toString(455))
             .selectionEnd(Integer.toString(489))

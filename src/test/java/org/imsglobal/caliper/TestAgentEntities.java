@@ -39,7 +39,7 @@ public class TestAgentEntities {
      */
     public static SoftwareApplication buildAssessmentApp() {
         return SoftwareApplication.builder()
-            .id("https://com.sat/super-assessment-tool")
+            .id("https://example.com/super-assessment-tool")
             .name("Super Assessment Tool")
             .dateCreated(TestDates.getDefaultDateCreated())
             .build();
@@ -51,7 +51,7 @@ public class TestAgentEntities {
      */
     public static SoftwareApplication buildMediaPlayerApp() {
         return SoftwareApplication.builder()
-            .id("https://com.sat/super-media-tool")
+            .id("https://example.com/super-media-tool")
             .name("Super Media Tool")
             .dateCreated(TestDates.getDefaultDateCreated())
             .dateModified(TestDates.getDefaultDateModified())
@@ -59,13 +59,13 @@ public class TestAgentEntities {
     }
 
     /**
-     * Build Readium app.
+     * Build ePub app.
      * @return edApp
      */
-    public static SoftwareApplication buildReadiumViewerApp() {
+    public static SoftwareApplication buildEpubViewerApp() {
         return SoftwareApplication.builder()
-            .id("https://github.com/readium/readium-js-viewer")
-            .name("Readium")
+            .id("https://example.com/viewer")
+            .name("ePub")
             .dateCreated(TestDates.getDefaultDateCreated())
             .dateModified(TestDates.getDefaultDateModified())
             .build();
@@ -77,7 +77,7 @@ public class TestAgentEntities {
      */
     public static final Person buildStudent554433() {
         return Person.builder()
-            .id("https://some-university.edu/user/554433")
+            .id("https://example.edu/user/554433")
             .dateCreated(TestDates.getDefaultDateCreated())
             .dateModified(TestDates.getDefaultDateModified())
             .build();

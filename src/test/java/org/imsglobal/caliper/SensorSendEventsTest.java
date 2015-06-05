@@ -50,13 +50,13 @@ public class SensorSendEventsTest {
     public void test() {
 
         // Create Sensor, create client, register client with sensor.
-        Sensor<String> sensor = new Sensor<>("http://learning-app.some-university.edu/sensor");
+        Sensor<String> sensor = new Sensor<>("https://example.edu/sensor/001");
         Client client = new Client(sensor.getId() + "/defaultClient", TestUtils.getTestingOptions());
         sensor.registerClient(client.getId(), client);
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -69,7 +69,7 @@ public class SensorSendEventsTest {
 
         // Build previous location
         fromResource = WebPage.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/index.html")
+            .id("https://example.edu/politicalScience/2015/american-revolution-101/index.html")
             .name("American Revolution 101 Landing Page")
             .dateCreated(dateCreated)
             .dateModified(dateModified)

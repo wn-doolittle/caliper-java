@@ -73,11 +73,11 @@ public class AssessmentItemCompletedEventTest extends EventTest {
 
         // Build generated response
         generated = FillinBlankResponse.builder()
-            .id("https://some-university.edu/politicalScience/2015/american-revolution-101/assessment1/item1/response1")
+            .id("https://example.edu/politicalScience/2015/american-revolution-101/assessment/001/item/001/response/001")
             .actor(actor)
             .assignable(assessment)
             .attempt(Attempt.builder()
-                .id(assessment.getId() + "/item1/attempt1")
+                .id(assessment.getId() + "/item/001/attempt/789")
                 .assignable(assessment)
                 .actor(actor)
                 .count(1)

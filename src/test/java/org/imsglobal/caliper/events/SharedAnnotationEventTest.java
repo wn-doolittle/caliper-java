@@ -62,7 +62,7 @@ public class SharedAnnotationEventTest extends EventTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -85,19 +85,19 @@ public class SharedAnnotationEventTest extends EventTest {
         // Add shared with agents
         List<Agent> shared = Lists.newArrayList();
         shared.add(Person.builder()
-            .id("https://some-university.edu/students/657585")
+            .id("https://example.edu/user/657585")
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .build());
         shared.add(Person.builder()
-            .id("https://some-university.edu/students/667788")
+            .id("https://example.edu/user/667788")
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .build());
 
         // Build Shared Annotation
         generated = SharedAnnotation.builder()
-            .id("https://someEduApp.edu/shared/9999")
+            .id("https://example.edu/shared/9999")
             .annotated(object)
             .withAgents(shared)
             .dateCreated(dateCreated)

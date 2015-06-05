@@ -58,7 +58,7 @@ public class BookmarkAnnotationEventTest extends EventTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildReadiumViewerApp())
+            .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -80,7 +80,7 @@ public class BookmarkAnnotationEventTest extends EventTest {
 
         // Build Bookmark Annotation
         generated = BookmarkAnnotation.builder()
-            .id("https://someEduApp.edu/bookmarks/00001")
+            .id("https://example.edu/bookmarks/00001")
             .annotated(object)
             .bookmarkNotes("The Intolerable Acts (1774)--bad idea Lord North")
             .dateCreated(dateCreated)
