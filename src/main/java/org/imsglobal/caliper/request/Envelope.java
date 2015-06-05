@@ -20,21 +20,16 @@ package org.imsglobal.caliper.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.Sensor;
-import org.imsglobal.caliper.context.Context;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
 @JsonPropertyOrder({
-    "@context",
     "sensor",
     "sendTime",
     "data" })
 public class Envelope<T> {
-
-    @JsonProperty("@context")
-    private Context context;
 
     @JsonProperty("sensor")
     private String sensorId;
@@ -49,7 +44,7 @@ public class Envelope<T> {
      * Constructor
      */
     public Envelope() {
-        this.context = Context.CONTEXT;
+
     }
 
     /**
@@ -58,19 +53,9 @@ public class Envelope<T> {
      * @param sendTime
      */
     public Envelope(Sensor sensor, DateTime sendTime, List<T> data) {
-        this.context = Context.CONTEXT;
         this.sensorId = sensor.getId();
         this.sendTime = sendTime;
         this.data = data;
-    }
-
-    /**
-     * Get the context.
-     * @return the context
-     */
-    @Nonnull
-    public Context getContext() {
-        return context;
     }
 
     /**

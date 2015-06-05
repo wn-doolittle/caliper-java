@@ -1,5 +1,4 @@
 {
-  "@context": "http://purl.imsglobal.org/ctx/caliper/v1/Context",
   "sensor": "http://learning-app.some-university.edu/sensor",
   "sendTime": "2015-09-15T11:05:01.000Z",
   "data": [
