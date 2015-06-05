@@ -30,21 +30,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * Caliper representation of a CreativeWork (https://schema.org/CreativeWork)
- *
- * We add learning specific attributes, including a list of
- * {@link LearningObjective} learning objectives and a list of
- * {@link String} keywords
- *
- * In addition, we add the following attributes:
- *
- * name (https://schema.org/name) -the name of the resource,
- *
- * about (https://schema.org/about) - the subject matter of the resource
- *
- * language (https://schema.org/Language) - Natural languages such as
- * Spanish, Tamil, Hindi, English, etc. and programming languages such
- * as Scheme and Lisp.
+ * Caliper representation of a CreativeWork (https://schema.org/CreativeWork).
  */
 
 @JsonPropertyOrder({
