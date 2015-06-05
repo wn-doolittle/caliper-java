@@ -33,6 +33,7 @@ import java.util.List;
  *  The response is the identified string or a mapping to a logical identifier;
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

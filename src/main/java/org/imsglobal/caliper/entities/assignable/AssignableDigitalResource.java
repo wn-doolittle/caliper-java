@@ -33,6 +33,7 @@ import javax.annotation.Nullable;
  * Assignable Digital Resource
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

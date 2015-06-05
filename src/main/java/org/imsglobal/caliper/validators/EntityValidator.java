@@ -19,6 +19,7 @@
 package org.imsglobal.caliper.validators;
 
 import com.google.common.base.Strings;
+import org.imsglobal.caliper.context.Context;
 import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.foaf.Agent;
@@ -39,6 +40,16 @@ public class EntityValidator {
     }
 
     /**
+     * Check Entity context URI equality.
+     * @param context
+     * @param expected
+     * @throws IllegalArgumentException
+     */
+    public static void checkContext(Context context, Context expected) throws IllegalArgumentException {
+        checkArgument(context == expected, "expected @context %s but was %s", expected.getValue(), context.getValue());
+    }
+
+    /**
      * Check if identifier is null or empty.
      * @param id
      * @throws IllegalArgumentException
@@ -54,7 +65,7 @@ public class EntityValidator {
      * @throws IllegalArgumentException
      */
     public static void checkType(Type type, Type expected) throws IllegalArgumentException {
-        checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
+        checkArgument(type == expected, "expected @type %s but was %s", expected.getValue(), type.getValue());
     }
 
     /**

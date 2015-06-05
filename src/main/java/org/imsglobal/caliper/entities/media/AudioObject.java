@@ -29,6 +29,7 @@ import javax.annotation.Nullable;
  * An audio object embedded in a web page.
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

@@ -32,6 +32,7 @@ import java.util.List;
  * Caliper representation of an Assessment.  Part of the Assessment Metric Profile
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

@@ -30,6 +30,7 @@ import javax.annotation.Nullable;
  * 'agree or disagree', etc.
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

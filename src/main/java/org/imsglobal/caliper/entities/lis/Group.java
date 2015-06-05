@@ -30,6 +30,7 @@ import javax.annotation.Nonnull;
  * A Caliper LIS Group represents a Course substructure that a Person is able to join as a member.
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

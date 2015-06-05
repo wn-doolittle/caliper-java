@@ -38,6 +38,7 @@ import javax.annotation.Nullable;
  * part of an interaction represented by an OutcomeEvent.
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

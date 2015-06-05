@@ -28,6 +28,7 @@ import org.imsglobal.caliper.validators.EntityValidator;
  * Media Location
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

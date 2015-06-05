@@ -30,6 +30,7 @@ import javax.annotation.Nonnull;
  * Caliper representation of an Assessment Item.  Part of the Assessment Metric Profile.
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

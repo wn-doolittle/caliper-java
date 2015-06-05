@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import org.imsglobal.caliper.context.Context;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
@@ -34,6 +35,7 @@ import java.util.Map;
  * The base Caliper Entity.  Analogous to a schema.org Thing.
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",
@@ -43,7 +45,9 @@ import java.util.Map;
     "dateModified" })
 public abstract class Entity implements Thing {
 
-    @Reference
+    @JsonProperty("@context")
+    protected final Context context;
+
     @JsonProperty("@id")
     protected final String id;
 
@@ -70,9 +74,11 @@ public abstract class Entity implements Thing {
      */
     protected Entity(Builder<?> builder) {
 
+        EntityValidator.checkContext(builder.context, Context.CONTEXT);
         EntityValidator.checkId("id", builder.id);
         EntityValidator.checkType(builder.type, EntityType.ENTITY);
 
+        this.context = builder.context;
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
@@ -80,6 +86,14 @@ public abstract class Entity implements Thing {
         this.description = builder.description;
         this.dateCreated = builder.dateCreated;
         this.dateModified = builder.dateModified;
+    }
+
+    /**
+     * @return the context.
+     */
+    @Nonnull
+    public Context getContext() {
+        return context;
     }
 
     /**
@@ -144,6 +158,7 @@ public abstract class Entity implements Thing {
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
+        private Context context;
         private String id;
         private EntityType type;
         private String name;
@@ -158,7 +173,17 @@ public abstract class Entity implements Thing {
          * Constructor
          */
         public Builder() {
+            context(Context.CONTEXT);
             type(EntityType.ENTITY);
+        }
+
+        /**
+         * @param context
+         * @return builder.
+         */
+        private T context(Context context) {
+            this.context = context;
+            return self();
         }
 
         /**
