@@ -37,6 +37,7 @@ import javax.annotation.Nullable;
  * IMS LTI 2.0 specification, which in turn, draws inspiration from the IMS LIS 1.0 specification.
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "courseNumber",

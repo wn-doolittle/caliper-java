@@ -33,6 +33,7 @@ import java.util.List;
  * designed with one or more "fill in the blank" option prompts.
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

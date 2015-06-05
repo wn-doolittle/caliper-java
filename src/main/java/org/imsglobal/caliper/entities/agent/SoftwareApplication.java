@@ -27,6 +27,7 @@ import org.imsglobal.caliper.validators.EntityValidator;
 import javax.annotation.Nonnull;
 
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

@@ -32,6 +32,7 @@ import javax.annotation.Nullable;
  * An image, video, or audio object embedded in a web page.
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

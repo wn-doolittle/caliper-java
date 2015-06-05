@@ -37,6 +37,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

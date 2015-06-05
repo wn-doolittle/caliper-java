@@ -33,6 +33,7 @@ import java.util.List;
  * options to be selected.
  */
 @JsonPropertyOrder({
+    "@context",
     "@id",
     "@type",
     "name",

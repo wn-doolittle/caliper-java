@@ -46,7 +46,7 @@ public class EventValidator {
      * @throws IllegalArgumentException
      */
     public static void checkContext(Context context, Context expected) throws IllegalArgumentException {
-        checkArgument(context == expected, "expected context %s but was %s", expected.getValue(), context.getValue());
+        checkArgument(context == expected, "expected @context %s but was %s", expected.getValue(), context.getValue());
     }
 
     /**
@@ -56,7 +56,7 @@ public class EventValidator {
      * @throws IllegalArgumentException
      */
     public static void checkType(EventType type, EventType expected) throws IllegalArgumentException {
-        checkArgument(type == expected, "expected type %s but was %s", expected.getValue(), type.getValue());
+        checkArgument(type == expected, "expected @type %s but was %s", expected.getValue(), type.getValue());
     }
 
     /**
