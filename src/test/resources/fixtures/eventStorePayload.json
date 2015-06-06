@@ -144,7 +144,7 @@
         "dateCreated": "2015-08-01T06:00:00.000Z",
         "dateModified": null
       },
-      "federatedSession": "https://learning-platform.example.edu/federatedSession/123456789"
+      "federatedSession": "https://example.edu/lms/federatedSession/123456789"
     }
   ]
 }
