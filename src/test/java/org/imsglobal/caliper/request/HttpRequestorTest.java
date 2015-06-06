@@ -82,7 +82,7 @@ public class HttpRequestorTest {
 
         // Create a FederatedSession with URI identifier provided by an LTI Tool Consumer.
         federatedSession = Session.builder()
-            .id("https://learning-platform.example.edu/federatedSession/123456789")
+            .id("https://example.edu/federatedSession/123456789")
             .actor(actor)
             .dateCreated(dateCreated)
             .startedAtTime(dateStarted)
