@@ -21,7 +21,7 @@ package org.imsglobal.caliper.entities.media;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.DigitalResourceType;
 import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.validators.EntityValidator;
 
@@ -61,7 +61,7 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
     protected MediaObject(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkType(builder.type, EntityType.MEDIA_OBJECT);
+        EntityValidator.checkType(builder.type, DigitalResourceType.MEDIA_OBJECT);
 
         this.type = builder.type;
         this.duration = builder.duration;
@@ -90,7 +90,7 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
-        private EntityType type;
+        private DigitalResourceType type;
         private long duration;
 
         protected abstract T self();
@@ -99,14 +99,14 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(EntityType.MEDIA_OBJECT);
+            type(DigitalResourceType.MEDIA_OBJECT);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(DigitalResourceType type) {
             this.type = type;
             return self();
         }

@@ -21,6 +21,7 @@ package org.imsglobal.caliper.entities.media;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.DigitalResourceType;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.validators.EntityValidator;
 
@@ -46,7 +47,7 @@ import org.imsglobal.caliper.validators.EntityValidator;
 public class MediaLocation extends DigitalResource implements Targetable {
 
     @JsonProperty("@type")
-    private final MediaObjectType type;
+    private final DigitalResourceType type;
 
     @JsonProperty("currentTime")
     private long currentTime;
@@ -57,7 +58,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
     protected MediaLocation(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkType(builder.type, MediaObjectType.MEDIA_LOCATION);
+        EntityValidator.checkType(builder.type, DigitalResourceType.MEDIA_LOCATION);
 
         this.type = builder.type;
         this.currentTime = builder.currentTime;
@@ -67,7 +68,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
      * @return the type
      */
     @Override
-    public MediaObjectType getType() {
+    public DigitalResourceType getType() {
         return type;
     }
 
@@ -83,21 +84,21 @@ public class MediaLocation extends DigitalResource implements Targetable {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private MediaObjectType type;
+        private DigitalResourceType type;
         private long currentTime;
 
         /**
          * Initialize type with default values.
          */
         public Builder() {
-            type(MediaObjectType.MEDIA_LOCATION);
+            type(DigitalResourceType.MEDIA_LOCATION);
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(MediaObjectType type) {
+        private T type(DigitalResourceType type) {
             this.type = type;
             return self();
         }
