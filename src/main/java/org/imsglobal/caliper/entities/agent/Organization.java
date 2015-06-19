@@ -39,7 +39,6 @@ import javax.annotation.Nullable;
     "@type",
     "name",
     "description",
-    "roles",
     "subOrganizationOf",
     "extensions",
     "dateCreated",
