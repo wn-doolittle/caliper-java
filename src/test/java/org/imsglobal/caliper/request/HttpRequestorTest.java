@@ -25,6 +25,7 @@ import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.TestSessionEntities;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.DigitalResource;
@@ -80,19 +81,12 @@ public class HttpRequestorTest {
         // Build actor
         actor = TestAgentEntities.buildStudent554433();
 
-        // Create a FederatedSession with URI identifier provided by an LTI Tool Consumer.
-        federatedSession = Session.builder()
-            .id("https://example.edu/lms/federatedSession/123456789")
-            .actor(actor)
-            .dateCreated(dateCreated)
-            .startedAtTime(dateStarted)
-            .build();
-
         // Build the Learning Context
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
+            .federatedSession(TestSessionEntities.buildFederatedSession(actor))
             .build();
 
         // Build object
@@ -163,7 +157,7 @@ public class HttpRequestorTest {
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
             .membership(learningContext.getMembership())
-            .federatedSession(federatedSession)
+            .federatedSession(learningContext.getFederatedSession())
             .build();
     }
 }

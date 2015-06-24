@@ -21,6 +21,7 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
+import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.entities.w3c.Membership;
 import org.imsglobal.caliper.entities.w3c.Organization;
 
@@ -38,6 +39,9 @@ public class LearningContext {
     @JsonProperty("membership")
     private Membership membership;
 
+    @JsonProperty("federatedSession")
+    private Session federatedSession;
+
     /**
      * @param builder apply builder object properties to the LearningContext object.
      */
@@ -45,6 +49,7 @@ public class LearningContext {
         this.edApp = builder.edApp;
         this.group = builder.group;
         this.membership = builder.membership;
+        this.federatedSession = builder.federatedSession;
     }
 
     /**
@@ -75,6 +80,14 @@ public class LearningContext {
     }
 
     /**
+     * LTI consumer session provided as part of the launch context.
+     * @return the federated session.
+     */
+    public Session getFederatedSession() {
+        return federatedSession;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
@@ -82,6 +95,7 @@ public class LearningContext {
         private SoftwareApplication edApp;
         private Organization group;
         private Membership membership;
+        private Session federatedSession;
 
         protected abstract T self();
 
@@ -109,6 +123,15 @@ public class LearningContext {
          */
         public T membership(Membership membership) {
             this.membership = membership;
+            return self();
+        }
+
+        /**
+         * @param federatedSession
+         * @return builder.
+         */
+        public T federatedSession(Session federatedSession) {
+            this.federatedSession = federatedSession;
             return self();
         }
 
