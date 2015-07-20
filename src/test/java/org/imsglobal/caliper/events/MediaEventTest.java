@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.LearningObjective;
@@ -27,6 +28,7 @@ import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.media.MediaLocation;
 import org.imsglobal.caliper.entities.media.VideoObject;
+import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +38,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class MediaEventTest extends EventTest {
+public class MediaEventTest {
 
     private LearningContext learningContext;
     private Person actor;
@@ -93,7 +95,7 @@ public class MediaEventTest extends EventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Media event is serialized to JSON with expected values",
-            jsonFixture("fixtures/caliperMediaEvent.json"), serialize(event));
+            jsonFixture("fixtures/caliperMediaEvent.json"), JsonMapper.serialize(event, JsonInclude.Include.ALWAYS));
     }
 
     @Test(expected=IllegalArgumentException.class)

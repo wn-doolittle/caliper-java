@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestEpubEntities;
@@ -30,6 +31,7 @@ import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.entities.reading.WebPage;
+import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +41,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class NavigationEventTest extends EventTest {
+public class NavigationEventTest {
 
     private LearningContext learningContext;
     private Person actor;
@@ -100,7 +102,7 @@ public class NavigationEventTest extends EventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Navigation event is serialized to JSON with expected values",
-            jsonFixture("fixtures/caliperNavigationEvent.json"), serialize(event));
+            jsonFixture("fixtures/caliperNavigationEvent.json"), JsonMapper.serialize(event, JsonInclude.Include.ALWAYS));
     }
 
     @Test(expected=IllegalArgumentException.class)

@@ -18,6 +18,8 @@
 
 package org.imsglobal.caliper.request;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.Client;
 import org.imsglobal.caliper.Sensor;
@@ -38,12 +40,15 @@ import org.imsglobal.caliper.entities.reading.WebPage;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.events.NavigationEvent;
+import org.imsglobal.caliper.payload.Envelope;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,6 +71,7 @@ public class HttpRequestorTest {
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
     private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    private List<Event> data = new ArrayList<>();
     // private static final Logger log = LoggerFactory.getLogger(HttpRequestorTest.class);
 
     @Before
@@ -115,25 +121,43 @@ public class HttpRequestorTest {
 
         // Build event
         event = buildEvent(Action.NAVIGATED_TO);
+
+        // Add event to data array
+        data.add(event);
     }
 
     @Test
-    public void testGeneratePayloadJson() throws Exception {
-        String jsonPayload = httpRequestor.getPayloadJson(sensor, event);
+    public void testSerializedEnvelope() throws Exception {
+
+        // Create envelope; include null properties, empty objects and empty arrays
+        Envelope<Event> envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), data);
+
+        // Serialize envelope, excluding null properties, empty objects and empty arrays
+        String json = httpRequestor.serializeEnvelope(envelope, JsonInclude.Include.ALWAYS);
 
         // Swap out sendTime=DateTime.now() in favor of fixture value (or test will most assuredly fail).
         Pattern pattern = Pattern.compile("\"sendTime\":\"[^\"]*\"");
-        Matcher matcher = pattern.matcher(jsonPayload);
-        jsonPayload = matcher.replaceFirst("\"sendTime\":\"" + TestDates.getDefaultSendTime() +"\"");
+        Matcher matcher = pattern.matcher(json);
+        json = matcher.replaceFirst("\"sendTime\":\"" + TestDates.getDefaultSendTime() +"\"");
 
-        assertEquals("Test HTTP Requestor payload JSON", jsonFixture("fixtures/eventStorePayload.json"), jsonPayload);
+        assertEquals("Test HTTP Requestor payload JSON", jsonFixture("fixtures/eventStorePayload.json"), json);
     }
 
     @Test
     public void testGeneratePayloadContentType() throws Exception {
-        StringEntity payload = httpRequestor.generatePayload(sensor, event);
 
-        assertEquals("Content-Type: application/json", payload.getContentType().toString());
+        // Create envelope
+        Envelope<Event> envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), data);
+
+        // Serialize envelope; include null properties, empty objects and empty arrays
+        String json = httpRequestor.serializeEnvelope(envelope, JsonInclude.Include.ALWAYS);
+
+        // Create an HTTP StringEntity payload with the envelope JSON.
+        StringEntity payload = httpRequestor.generatePayload(json, ContentType.APPLICATION_JSON);
+
+        //System.out.println("CONTENT-TYPE:" + payload.getContentType().toString());
+
+        assertEquals("Content-Type: application/json; charset=UTF-8", payload.getContentType().toString());
     }
 
     @After
