@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestLisEntities;
@@ -25,6 +26,7 @@ import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.Session;
+import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +36,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class SessionTimeoutEventTest extends EventTest {
+public class SessionTimeoutEventTest {
 
     private LearningContext learningContext;
     private SoftwareApplication actor;
@@ -81,7 +83,7 @@ public class SessionTimeoutEventTest extends EventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if timedOut event is serialized to JSON with expected values",
-                jsonFixture("fixtures/caliperSessionTimeoutEvent.json"), serialize(event));
+                jsonFixture("fixtures/caliperSessionTimeoutEvent.json"), JsonMapper.serialize(event, JsonInclude.Include.ALWAYS));
     }
 
     @Test(expected=IllegalArgumentException.class)

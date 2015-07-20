@@ -20,7 +20,7 @@ package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.events.Event;
-import org.imsglobal.caliper.request.EventStoreRequestor;
+import org.imsglobal.caliper.request.Requestor;
 import org.imsglobal.caliper.request.HttpRequestor;
 import org.imsglobal.caliper.stats.Statistics;
 import org.imsglobal.caliper.validators.SensorValidator;
@@ -118,7 +118,7 @@ public class Client {
      * @param data
      */
     public void describe(Sensor sensor, List<Entity> data) {
-        EventStoreRequestor<Entity> requestor = new HttpRequestor<>(options);
+        Requestor<Entity> requestor = new HttpRequestor<>(options);
         updateStats(requestor.send(sensor, data));
     }
 
@@ -140,7 +140,7 @@ public class Client {
      * @param data
      */
     public void send(Sensor sensor, List<Event> data) {
-        EventStoreRequestor<Event> requestor = new HttpRequestor<>(options);
+        Requestor<Event> requestor = new HttpRequestor<>(options);
         updateStats(requestor.send(sensor, data));
     }
 

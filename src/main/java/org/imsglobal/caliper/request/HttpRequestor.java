@@ -21,12 +21,15 @@ package org.imsglobal.caliper.request;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.imsglobal.caliper.Options;
 import org.imsglobal.caliper.Sensor;
+import org.imsglobal.caliper.payload.Envelope;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +37,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HttpRequestor<T> extends EventStoreRequestor<T> {
+public class HttpRequestor<T> extends Requestor<T> {
     private static CloseableHttpClient httpClient;
     private static CloseableHttpResponse response = null;
     private Options options;
@@ -111,16 +114,27 @@ public class HttpRequestor<T> extends EventStoreRequestor<T> {
         try {
             LOG.debug("Entering send()...");
 
+            // Check if HttpClient is initialized.
             checkInitialized();
 
-            // Generate payload
-            StringEntity payload = generatePayload(sensor, data);
+            // Create envelope, serialize it as a JSON string.
+            Envelope<T> envelope = createEnvelope(sensor, DateTime.now(), data);
+            String json = serializeEnvelope(envelope, options.getJsonInclude());
+
+            // Create an HTTP StringEntity payload with the envelope JSON.
+            StringEntity payload = generatePayload(json, ContentType.APPLICATION_JSON);
 
             // Do the post
             HttpPost httpPost = new HttpPost(this.getOptions().getHost());
             httpPost.setHeader("Authorization", this.getOptions().getApiKey());
             httpPost.setHeader(payload.getContentType());
             //httpPost.setHeader("Content-type", "application/json");
+
+            //System.out.println("HEADER: " + httpPost.getHeaders("Content-type"));
+            //System.out.println("PAYLOAD CONTENT-TYPE" + payload.getContentType().toString());
+            //System.out.println("PAYLOAD CONTENT-TYPE.NAME" + payload.getContentType().getName());
+            //System.out.println("PAYLOAD CONTENT-TYPE.VALUE" + payload.getContentType().getValue());
+
             httpPost.setEntity(payload);
             response = httpClient.execute(httpPost);
 
@@ -129,7 +143,6 @@ public class HttpRequestor<T> extends EventStoreRequestor<T> {
                 response.close();
                 throw new RuntimeException("Failed : HTTP error code : " + statusCode);
             } else {
-                LOG.debug("----------------------------------------");
                 LOG.debug(response.getStatusLine().toString());
                 LOG.debug(EntityUtils.toString(response.getEntity()));
 

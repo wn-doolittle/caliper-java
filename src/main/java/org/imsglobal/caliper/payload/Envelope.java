@@ -1,4 +1,4 @@
-package org.imsglobal.caliper.request;
+package org.imsglobal.caliper.payload;
 /**
  * This file is part of IMS Caliper Analytics™ and is licensed to
  * IMS Global Learning Consortium, Inc. (http://www.imsglobal.org)
@@ -51,10 +51,16 @@ public class Envelope<T> {
      * Constructor
      * @param sensor
      * @param sendTime
+     * @param data
      */
     public Envelope(Sensor sensor, DateTime sendTime, List<T> data) {
         this.sensorId = sensor.getId();
-        this.sendTime = sendTime;
+
+        if (sendTime == null) {
+            this.sendTime = DateTime.now();
+        } else {
+            this.sendTime = sendTime;
+        }
         this.data = data;
     }
 

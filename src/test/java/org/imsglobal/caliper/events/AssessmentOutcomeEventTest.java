@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.TestAgentEntities;
@@ -29,6 +30,7 @@ import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
+import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +40,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssessmentOutcomeEventTest extends EventTest {
+public class AssessmentOutcomeEventTest {
 
     private LearningContext learningContext;
     private Person actor;
@@ -102,7 +104,7 @@ public class AssessmentOutcomeEventTest extends EventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Outcome event is serialized to JSON with expected values",
-            jsonFixture("fixtures/caliperAssessmentOutcomeEvent.json"), serialize(event));
+            jsonFixture("fixtures/caliperAssessmentOutcomeEvent.json"), JsonMapper.serialize(event, JsonInclude.Include.ALWAYS));
     }
 
     @Test(expected=IllegalArgumentException.class)

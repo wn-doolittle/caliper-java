@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
@@ -29,6 +30,7 @@ import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.annotation.TagAnnotation;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +42,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class TagAnnotationEventTest extends EventTest {
+public class TagAnnotationEventTest {
 
     private LearningContext learningContext;
     private Person actor;
@@ -105,7 +107,7 @@ public class TagAnnotationEventTest extends EventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if Tag Annotation event is serialized to JSON with expected values",
-            jsonFixture("fixtures/caliperTagAnnotationEvent.json"), serialize(event));
+            jsonFixture("fixtures/caliperTagAnnotationEvent.json"), JsonMapper.serialize(event, JsonInclude.Include.ALWAYS));
     }
 
     @Test(expected=IllegalArgumentException.class)

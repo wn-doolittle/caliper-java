@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.validators.SensorValidator;
 
 /**
@@ -29,6 +30,7 @@ public class Options {
     private int connectionRequestTimeout;
     private int connectionTimeout;
     private int socketTimeout;
+    private JsonInclude.Include jsonInclude;
 
     /**
      * Constructor.  Set default options other than apiKey.
@@ -38,6 +40,7 @@ public class Options {
         this.connectionRequestTimeout = Integer.parseInt(Defaults.CONNECTION_REQUEST_TIMEOUT.getValue());
         this.connectionTimeout = Integer.parseInt(Defaults.CONNECTION_TIMEOUT.getValue());
         this.socketTimeout = Integer.parseInt(Defaults.SOCKET_TIMEOUT.getValue());
+        this.jsonInclude = JsonInclude.Include.valueOf(Defaults.JSON_INCLUDE.getValue());
     }
 
     /**
@@ -48,12 +51,13 @@ public class Options {
      * @param connectionTimeout
      * @param soTimeout
      */
-    public Options(String host, String apiKey, int connectionRequestTimeout, int connectionTimeout, int soTimeout) {
+    public Options(String host, String apiKey, int connectionRequestTimeout, int connectionTimeout, int soTimeout, JsonInclude.Include include) {
         setHost(host);
         setApiKey(apiKey);
         setConnectionRequestTimeout(connectionRequestTimeout);
         setConnectionTimeout(connectionTimeout);
         setSocketTimeout(socketTimeout);
+        setJsonInclude(jsonInclude);
     }
 
     /**
@@ -145,6 +149,25 @@ public class Options {
     public Options setSocketTimeout(int socketTimeout) {
         SensorValidator.checkSocketTimeout(socketTimeout);
         this.socketTimeout = socketTimeout;
+        return this;
+    }
+
+    /**
+     * Get JsonInclude enumeration.
+     * @return JsonInclude enum
+     */
+    public JsonInclude.Include getJsonInclude() {
+        return jsonInclude;
+    }
+
+    /**
+     * Specify enumeration defining which properties should be included/excluded in serialized JSON.
+     * @param jsonInclude
+     * @return
+     */
+    public Options setJsonInclude(JsonInclude.Include jsonInclude) {
+        //SensorValidator.checkJsonInclude(jsonInclude);
+        this.jsonInclude = jsonInclude;
         return this;
     }
 }

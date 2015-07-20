@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.TestAgentEntities;
@@ -29,6 +30,7 @@ import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.response.FillinBlankResponse;
+import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +40,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssessmentItemCompletedEventTest extends EventTest {
+public class AssessmentItemCompletedEventTest {
     private LearningContext learningContext;
     private Person actor;
     private Assessment assessment;
@@ -96,7 +98,7 @@ public class AssessmentItemCompletedEventTest extends EventTest {
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         assertEquals("Test if AssessmentItem Completed event is serialized to JSON with expected values",
-            jsonFixture("fixtures/caliperAssessmentItemCompletedEvent.json"), serialize(event));
+            jsonFixture("fixtures/caliperAssessmentItemCompletedEvent.json"), JsonMapper.serialize(event, JsonInclude.Include.ALWAYS));
     }
 
     @Test(expected=IllegalArgumentException.class)

@@ -19,10 +19,11 @@
 package org.imsglobal.caliper;
 
 public enum Defaults {
-    HOST("http://dev-null.comt"),
+    HOST("http://example.edu"),
     CONNECTION_REQUEST_TIMEOUT("10000"),
     CONNECTION_TIMEOUT("10000"),
-    SOCKET_TIMEOUT("10000");
+    SOCKET_TIMEOUT("10000"),
+    JSON_INCLUDE("ALWAYS");
 
     private final String value;
 
