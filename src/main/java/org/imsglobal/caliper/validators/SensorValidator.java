@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.validators;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.base.Strings;
 import org.imsglobal.caliper.Options;
 
@@ -101,5 +102,21 @@ public class SensorValidator {
      */
     public static void checkSocketTimeout(int socketTimeout) throws IllegalArgumentException {
         checkArgument(socketTimeout >= 1000, "Sensor socket timeout must be at least 1000 milliseconds");
+    }
+
+    /**
+     * Check enum
+     * @param jsonInclude
+     * @throws IllegalArgumentException
+     */
+    public static void checkJsonInclude(String jsonInclude) throws IllegalArgumentException {
+        boolean isMatch = false;
+        for (JsonInclude.Include include: JsonInclude.Include.values())
+            if (include.name().equals(jsonInclude)) {
+                isMatch = true;
+                break;
+            }
+
+        checkArgument(isMatch, "Sensor JSON payload inclusions enum must be specified");
     }
 }
