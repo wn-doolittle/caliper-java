@@ -40,9 +40,7 @@ import javax.annotation.Nullable;
     "target",
     "generated",
     "navigatedFrom",
-    "startedAtTime",
-    "endedAtTime",
-    "duration",
+    "eventTime",
     "edApp",
     "group",
     "membership" })

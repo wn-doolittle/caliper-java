@@ -52,7 +52,7 @@ public class NavigationEventTest {
     private NavigationEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    private DateTime eventTime = TestDates.getDefaultEventTime();
     // private static final Logger log = LoggerFactory.getLogger(NavigationEventTest.class);
 
     /**
@@ -122,7 +122,7 @@ public class NavigationEventTest {
             .object(object)
             .target(target)
             .fromResource(fromResource)
-            .startedAtTime(dateStarted)
+            .eventTime(eventTime)
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
             .membership(learningContext.getMembership())

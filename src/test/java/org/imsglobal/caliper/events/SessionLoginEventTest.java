@@ -52,6 +52,7 @@ public class SessionLoginEventTest {
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
     private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    private DateTime eventTime = TestDates.getDefaultEventTime();
     // private static final Logger log = LoggerFactory.getLogger(SessionLoginEventTest.class);
 
     /**
@@ -122,7 +123,7 @@ public class SessionLoginEventTest {
             .object(learningContext.getEdApp())
             .target(target)
             .generated(generated)
-            .startedAtTime(dateStarted)
+            .eventTime(eventTime)
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
             .membership(learningContext.getMembership())

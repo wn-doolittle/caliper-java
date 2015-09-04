@@ -47,7 +47,7 @@ public class MediaEventTest {
     private MediaLocation target;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    private DateTime eventTime = TestDates.getDefaultEventTime();
     // private static final Logger log = LoggerFactory.getLogger(MediaEventTest.class);
 
     /**
@@ -114,7 +114,7 @@ public class MediaEventTest {
             .action(action)
             .object(object)
             .target(target)
-            .startedAtTime(dateStarted)
+            .eventTime(eventTime)
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
             .membership(learningContext.getMembership())

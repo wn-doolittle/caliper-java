@@ -48,6 +48,7 @@ public class AssessmentItemStartedEventTest {
     private AssessmentItemEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    private DateTime eventTime = TestDates.getDefaultEventTime();
     // private static final Logger log = LoggerFactory.getLogger(AssessmentItemStartedEventTest.class);
 
     /**
@@ -108,7 +109,7 @@ public class AssessmentItemStartedEventTest {
             .action(action)
             .object(object)
             .generated(generated)
-            .startedAtTime(dateStarted)
+            .eventTime(eventTime)
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
             .membership(learningContext.getMembership())
