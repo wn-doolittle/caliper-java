@@ -49,7 +49,7 @@ public class ViewEventTest {
     private ViewEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    private DateTime eventTime = TestDates.getDefaultEventTime();
     // private static final Logger log = LoggerFactory.getLogger(ViewEventTest.class);
 
     /**
@@ -109,7 +109,7 @@ public class ViewEventTest {
             .action(action)
             .object(object)
             .target(target)
-            .startedAtTime(dateStarted)
+            .eventTime(eventTime)
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
             .membership(learningContext.getMembership())

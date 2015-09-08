@@ -48,6 +48,7 @@ public class SessionLogoutEventTest {
     private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
     private DateTime dateEnded = TestDates.getDefaultEndedAtTime();
     private String duration = TestDates.getDefaultPeriod();
+    private DateTime eventTime = TestDates.getDefaultEventTime();
     // private static final Logger log = LoggerFactory.getLogger(SessionLogoutEventTest.class);
 
     /**
@@ -114,9 +115,7 @@ public class SessionLogoutEventTest {
             .action(action)
             .object(object)
             .target(target)
-            .startedAtTime(dateStarted)
-            .endedAtTime(dateEnded)
-            .duration(duration)
+            .eventTime(eventTime)
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
             .membership(learningContext.getMembership())
