@@ -19,12 +19,12 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestAssessmentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
@@ -34,9 +34,10 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
-import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AssessmentItemStartedEventTest {
@@ -89,8 +90,9 @@ public class AssessmentItemStartedEventTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        assertEquals("Test if AssessmentItem Start event is serialized to JSON with expected values",
-            jsonFixture("fixtures/caliperAssessmentItemStartedEvent.json"), JsonMapper.serialize(event, JsonInclude.Include.ALWAYS));
+        String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
+        String fixture = jsonFixture("fixtures/caliperAssessmentItemStartedEvent.json");
+        JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)

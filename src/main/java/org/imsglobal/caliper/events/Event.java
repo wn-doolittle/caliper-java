@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.Context;
@@ -41,19 +40,6 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-@JsonPropertyOrder({
-    "@context",
-    "@type",
-    "actor",
-    "action",
-    "object",
-    "target",
-    "generated",
-    "eventTime",
-    "edApp",
-    "group",
-    "membership",
-    "federatedSession "})
 public abstract class Event {
 
     @JsonProperty("@context")

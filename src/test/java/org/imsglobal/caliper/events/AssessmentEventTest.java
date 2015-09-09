@@ -33,9 +33,10 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
-import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AssessmentEventTest {
@@ -84,8 +85,9 @@ public class AssessmentEventTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        assertEquals("Test if Assessment event is serialized to JSON with expected values",
-            jsonFixture("fixtures/caliperAssessmentEvent.json"), JsonMapper.serialize(event, JsonInclude.Include.ALWAYS));
+        String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
+        String fixture = jsonFixture("fixtures/caliperAssessmentEvent.json");
+        JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)

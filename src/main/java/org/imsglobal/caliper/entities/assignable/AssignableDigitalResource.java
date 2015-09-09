@@ -19,7 +19,6 @@
 package org.imsglobal.caliper.entities.assignable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.DigitalResourceType;
 import org.imsglobal.caliper.entities.Type;
@@ -32,28 +31,6 @@ import javax.annotation.Nullable;
 /**
  * Assignable Digital Resource
  */
-@JsonPropertyOrder({
-    "@context",
-    "@id",
-    "@type",
-    "name",
-    "description",
-    "objectType",
-    "alignedLearningObjective",
-    "keywords",
-    "isPartOf",
-    "extensions",
-    "dateCreated",
-    "dateModified",
-    "datePublished",
-    "version",
-    "dateToActivate",
-    "dateToShow",
-    "dateToStartOn",
-    "dateToSubmit",
-    "maxAttempts",
-    "maxSubmits",
-    "maxScore" })
 public class AssignableDigitalResource extends DigitalResource implements org.imsglobal.caliper.entities.assignable.Assignable {
 
     @JsonProperty("@type")

@@ -37,7 +37,6 @@ import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.entities.reading.WebPage;
-import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.events.NavigationEvent;
 import org.imsglobal.caliper.payload.Envelope;
@@ -46,6 +45,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,6 @@ public class HttpRequestorTest {
     private Sensor<String> sensor ;
     private HttpRequestor<Event> httpRequestor = new HttpRequestor<>(TestUtils.getTestingOptions());
     private Person actor;
-    private Session federatedSession;
     private LearningContext learningContext;
     private EpubVolume object;
     private DigitalResource fromResource;
@@ -140,7 +140,8 @@ public class HttpRequestorTest {
         Matcher matcher = pattern.matcher(json);
         json = matcher.replaceFirst("\"sendTime\":\"" + TestDates.getDefaultSendTime() +"\"");
 
-        assertEquals("Test HTTP Requestor payload JSON", jsonFixture("fixtures/eventStorePayload.json"), json);
+        String fixture = jsonFixture("fixtures/eventStorePayload.json");
+        JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test

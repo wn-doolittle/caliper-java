@@ -34,16 +34,6 @@ import javax.annotation.Nonnull;
  * which are specified in the Caliper Annotation Metric Profile
  */
 
-@JsonPropertyOrder({
-    "@context",
-    "@id",
-    "@type",
-    "name",
-    "description",
-    "extensions",
-    "dateCreated",
-    "dateModified",
-    "annotated" })
 public abstract class Annotation extends Entity implements org.imsglobal.caliper.entities.Generatable {
 
     @JsonProperty("@type")

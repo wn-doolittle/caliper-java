@@ -19,7 +19,6 @@
 package org.imsglobal.caliper.entities.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -28,22 +27,6 @@ import javax.annotation.Nullable;
 /**
  * Represents a response to a multiple choice question that permits a single option to be selected.
  */
-@JsonPropertyOrder({
-    "@context",
-    "@id",
-    "@type",
-    "name",
-    "description",
-    "extensions",
-    "dateCreated",
-    "dateModified",
-    "assignable",
-    "actor",
-    "attempt",
-    "value",
-    "startedAtTime",
-    "endedAtTime",
-    "duration" })
 public class MultipleChoiceResponse extends Response {
 
     @JsonProperty("@type")
