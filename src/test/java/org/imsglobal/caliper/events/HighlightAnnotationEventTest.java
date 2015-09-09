@@ -19,12 +19,12 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
+import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
@@ -34,9 +34,10 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
-import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class HighlightAnnotationEventTest {
@@ -97,8 +98,9 @@ public class HighlightAnnotationEventTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        assertEquals("Test if Highlight Annotation event is serialized to JSON with expected values",
-            jsonFixture("fixtures/caliperHighlightAnnotationEvent.json"), JsonMapper.serialize(event, JsonInclude.Include.ALWAYS));
+        String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
+        String fixture = jsonFixture("fixtures/caliperHighlightAnnotationEvent.json");
+        JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
