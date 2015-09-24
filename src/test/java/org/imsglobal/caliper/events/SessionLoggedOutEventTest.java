@@ -21,14 +21,11 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
@@ -41,20 +38,26 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class SessionLoginEventTest {
-
+public class SessionLoggedOutEventTest {
     private LearningContext learningContext;
     private Person actor;
     private SoftwareApplication object;
-    private EpubSubChapter ePub;
-    private Frame target;
-    private Session generated;
+    private Session target;
     private SessionEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
     private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    private DateTime dateEnded = TestDates.getDefaultEndedAtTime();
+    private String duration = TestDates.getDefaultPeriod();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(SessionLoginEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(SessionLogoutEventTest.class);
+
+    /**
+     * Constructor
+     */
+    public SessionLoggedOutEventTest() {
+
+    }
 
     /**
      * @throws java.lang.Exception
@@ -72,49 +75,39 @@ public class SessionLoginEventTest {
         // Build actor
         actor = TestAgentEntities.buildStudent554433();
 
-        // Build object
+        //Build object
         object = learningContext.getEdApp();
 
         // Build target
-        ePub = TestEpubEntities.buildEpubSubChap431();
-        target = Frame.builder()
-            .id(ePub.getId())
-            .name(ePub.getName())
-            .isPartOf(ePub.getIsPartOf())
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version(ePub.getVersion())
-            .index(1)
-            .build();
-
-        // Build generated
-        generated = Session.builder()
+        target = Session.builder()
             .id("https://example.com/viewer/session-123456789")
             .name("session-123456789")
             .actor(actor)
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .startedAtTime(dateStarted)
+            .endedAtTime(dateEnded)
+            .duration(duration)
             .build();
 
         // Build event
-        event = buildEvent(Action.LOGGED_IN);
+        event = buildEvent(Action.LOGGED_OUT);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
-        String fixture = jsonFixture("fixtures/caliperSessionLoginEvent.json");
+        String fixture = jsonFixture("fixtures/caliperSessionLogoutEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void sessionEventRejectsSearchedAction() {
-        buildEvent(Action.SEARCHED);
+    public void sessionEventRejectsMutedAction() {
+        buildEvent(Action.MUTED);
     }
 
     /**
-     * Build Session login event.
+     * Build Session logout event.
      * @param action
      * @return event
      */
@@ -122,9 +115,8 @@ public class SessionLoginEventTest {
         return SessionEvent.builder()
             .actor(actor)
             .action(action)
-            .object(learningContext.getEdApp())
+            .object(object)
             .target(target)
-            .generated(generated)
             .eventTime(eventTime)
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())

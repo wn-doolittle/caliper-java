@@ -26,8 +26,10 @@ import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -39,16 +41,18 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssignableEventTest {
+public class OutcomeGradedEventTest {
+
     private LearningContext learningContext;
     private Person actor;
-    private Assessment object;
-    private Attempt generated;
-    private AssignableEvent event;
+    private Assessment assessment;
+    private Attempt object;
+    private Result generated;
+    private OutcomeEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(AssignableEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(AssessmentOutcomeEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -67,41 +71,57 @@ public class AssignableEventTest {
         actor = TestAgentEntities.buildStudent554433();
 
         // Build assessment
-        object = TestAssessmentEntities.buildAssessment();
+        assessment = TestAssessmentEntities.buildAssessment();
 
-        // Build generated attempt
-        generated = Attempt.builder()
-            .id(object.getId() + "/attempt/5678")
-            .assignable(object)
+        // Build attempt
+        object = Attempt.builder()
+            .id(assessment.getId() + "/attempt/5678")
+            .assignable(assessment)
             .actor(actor)
             .count(1)
             .dateCreated(dateCreated)
             .startedAtTime(dateStarted)
             .build();
 
-        // Build event
-        event = buildEvent(Action.ACTIVATED);
+        // Build result
+        generated = Result.builder()
+            .id(object.getId() + "/result")
+            .assignable(assessment)
+            .actor(actor)
+            .dateCreated(dateCreated)
+            .normalScore(3.0d)
+            .penaltyScore(0.0d)
+            .extraCreditScore(0.0d)
+            .totalScore(3.0d)
+            .curvedTotalScore(3.0d)
+            .curveFactor(0.0d)
+            .comment("Well done.")
+            .scoredBy((SoftwareApplication) learningContext.getEdApp())
+            .build();
+
+        // Build Outcome Event
+        event = buildEvent(Action.GRADED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
-        String fixture = jsonFixture("fixtures/caliperAssignableEvent.json");
+        String fixture = jsonFixture("fixtures/caliperAssessmentOutcomeEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void assignableEventRejectsSearchedAction() {
-        buildEvent(Action.SEARCHED);
+    public void outcomeEventRejectsHidAction() {
+        buildEvent(Action.HID);
     }
 
     /**
-     * Build Assignable event.
+     * Build Outcome event.
      * @param action
      * @return event
      */
-    private AssignableEvent buildEvent(Action action) {
-        return AssignableEvent.builder()
+    private OutcomeEvent buildEvent(Action action) {
+        return OutcomeEvent.builder()
             .actor(actor)
             .action(action)
             .object(object)

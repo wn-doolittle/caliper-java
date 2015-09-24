@@ -27,8 +27,7 @@ import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.annotation.TagAnnotation;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.payload.JsonMapper;
@@ -44,18 +43,18 @@ import java.util.List;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class SharedAnnotationEventTest {
+public class AnnotationTaggedEventTest {
 
     private LearningContext learningContext;
     private Person actor;
     private EpubSubChapter ePub;
     private Frame object;
-    private SharedAnnotation generated;
+    private TagAnnotation generated;
     private AnnotationEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(SharedAnnotationEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(TagAnnotationEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -73,8 +72,10 @@ public class SharedAnnotationEventTest {
         // Build actor
         actor = TestAgentEntities.buildStudent554433();
 
-        // Build object frame
-        ePub = TestEpubEntities.buildEpubSubChap433();
+        //Build target reading
+        ePub = TestEpubEntities.buildEpubSubChap434();
+
+        // Build Frame
         object = Frame.builder()
             .id(ePub.getId())
             .name(ePub.getName())
@@ -82,45 +83,38 @@ public class SharedAnnotationEventTest {
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .version(ePub.getVersion())
-            .index(3)
+            .index(4)
             .build();
 
-        // Add shared with agents
-        List<Agent> shared = Lists.newArrayList();
-        shared.add(Person.builder()
-            .id("https://example.edu/user/657585")
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .build());
-        shared.add(Person.builder()
-            .id("https://example.edu/user/667788")
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .build());
+        // Add Tags
+        List<String> tags = Lists.newArrayList();
+        tags.add("to-read");
+        tags.add("1765");
+        tags.add("shared-with-project-team");
 
-        // Build Shared Annotation
-        generated = SharedAnnotation.builder()
-            .id("https://example.edu/shared/9999")
+        // Build Tag Annotation
+        generated = TagAnnotation.builder()
+            .id("https://example.edu/tags/7654")
             .annotated(object)
-            .withAgents(shared)
+            .tags(tags)
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .build();
 
         // Build event
-        event = buildEvent(Action.SHARED);
+        event = buildEvent(Action.TAGGED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
-        String fixture = jsonFixture("fixtures/caliperSharedAnnotationEvent.json");
+        String fixture = jsonFixture("fixtures/caliperTagAnnotationEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void annotationEventRejectsGradedAction() {
-        buildEvent(Action.GRADED);
+    public void annotationEventRejectsPausedAction() {
+        buildEvent(Action.PAUSED);
     }
 
     /**

@@ -19,7 +19,6 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.google.common.collect.Lists;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestEpubEntities;
@@ -27,7 +26,7 @@ import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.annotation.TagAnnotation;
+import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.payload.JsonMapper;
@@ -38,23 +37,21 @@ import org.junit.experimental.categories.Category;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import java.util.List;
-
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class TagAnnotationEventTest {
+public class AnnotationBookmarkedEventTest {
 
     private LearningContext learningContext;
     private Person actor;
     private EpubSubChapter ePub;
     private Frame object;
-    private TagAnnotation generated;
+    private BookmarkAnnotation generated;
     private AnnotationEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(TagAnnotationEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(BookmarkAnnotationEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -72,10 +69,8 @@ public class TagAnnotationEventTest {
         // Build actor
         actor = TestAgentEntities.buildStudent554433();
 
-        //Build target reading
-        ePub = TestEpubEntities.buildEpubSubChap434();
-
         // Build Frame
+        ePub = TestEpubEntities.buildEpubSubChap432();
         object = Frame.builder()
             .id(ePub.getId())
             .name(ePub.getName())
@@ -83,38 +78,32 @@ public class TagAnnotationEventTest {
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .version(ePub.getVersion())
-            .index(4)
+            .index(2)
             .build();
 
-        // Add Tags
-        List<String> tags = Lists.newArrayList();
-        tags.add("to-read");
-        tags.add("1765");
-        tags.add("shared-with-project-team");
-
-        // Build Tag Annotation
-        generated = TagAnnotation.builder()
-            .id("https://example.edu/tags/7654")
+        // Build Bookmark Annotation
+        generated = BookmarkAnnotation.builder()
+            .id("https://example.edu/bookmarks/00001")
             .annotated(object)
-            .tags(tags)
+            .bookmarkNotes("The Intolerable Acts (1774)--bad idea Lord North")
             .dateCreated(dateCreated)
             .dateModified(dateModified)
             .build();
 
         // Build event
-        event = buildEvent(Action.TAGGED);
+        event = buildEvent(Action.BOOKMARKED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
-        String fixture = jsonFixture("fixtures/caliperTagAnnotationEvent.json");
+        String fixture = jsonFixture("fixtures/caliperBookmarkAnnotationEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void annotationEventRejectsPausedAction() {
-        buildEvent(Action.PAUSED);
+    public void annotationEventRejectsCompletedAction() {
+        buildEvent(Action.COMPLETED);
     }
 
     /**

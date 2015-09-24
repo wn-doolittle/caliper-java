@@ -20,17 +20,14 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.TestAgentEntities;
+import org.imsglobal.caliper.TestAssessmentEntities;
 import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.reading.EpubVolume;
-import org.imsglobal.caliper.entities.reading.Frame;
-import org.imsglobal.caliper.entities.reading.WebPage;
+import org.imsglobal.caliper.entities.assessment.Assessment;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -42,19 +39,16 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class NavigationEventTest {
-
+public class AssignableActivatedAssessmentEventTest {
     private LearningContext learningContext;
     private Person actor;
-    private EpubVolume object;
-    private Frame target;
-    private DigitalResource fromResource;
-    private EpubSubChapter ePub;
-    private NavigationEvent event;
+    private Assessment object;
+    private Attempt generated;
+    private AssignableEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateModified = TestDates.getDefaultDateModified();
+    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(NavigationEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(AssignableEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -64,7 +58,7 @@ public class NavigationEventTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildEpubViewerApp())
+            .edApp(TestAgentEntities.buildAssessmentApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -72,58 +66,46 @@ public class NavigationEventTest {
         // Build actor
         actor = TestAgentEntities.buildStudent554433();
 
-        // Build object
-        object = TestEpubEntities.buildEpubVolume43();
+        // Build assessment
+        object = TestAssessmentEntities.buildAssessment();
 
-        // Build target frame
-        ePub = TestEpubEntities.buildEpubSubChap431();
-        target = Frame.builder()
-            .id(ePub.getId())
-            .name(ePub.getName())
-            .isPartOf(ePub.getIsPartOf())
+        // Build generated attempt
+        generated = Attempt.builder()
+            .id(object.getId() + "/attempt/5678")
+            .assignable(object)
+            .actor(actor)
+            .count(1)
             .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version(ePub.getVersion())
-            .index(1)
-            .build();
-
-        // Build previous location
-        fromResource = WebPage.builder()
-            .id("https://example.edu/politicalScience/2015/american-revolution-101/index.html")
-            .name("American Revolution 101 Landing Page")
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version("1.0")
+            .startedAtTime(dateStarted)
             .build();
 
         // Build event
-        event = buildEvent(Action.NAVIGATED_TO);
+        event = buildEvent(Action.ACTIVATED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
-        String fixture = jsonFixture("fixtures/caliperNavigationEvent.json");
+        String fixture = jsonFixture("fixtures/caliperAssignableEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void navigationEventRejectsViewedAction() {
-        buildEvent(Action.VIEWED);
+    public void assignableEventRejectsSearchedAction() {
+        buildEvent(Action.SEARCHED);
     }
 
     /**
-     * Build Navigation event
+     * Build Assignable event.
      * @param action
      * @return event
      */
-    private NavigationEvent buildEvent(Action action) {
-        return NavigationEvent.builder()
+    private AssignableEvent buildEvent(Action action) {
+        return AssignableEvent.builder()
             .actor(actor)
             .action(action)
             .object(object)
-            .target(target)
-            .fromResource(fromResource)
+            .generated(generated)
             .eventTime(eventTime)
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
