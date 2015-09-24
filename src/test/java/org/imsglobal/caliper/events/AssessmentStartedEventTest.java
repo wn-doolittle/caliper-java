@@ -20,15 +20,14 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.TestAgentEntities;
+import org.imsglobal.caliper.TestAssessmentEntities;
 import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.entities.assessment.Assessment;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -40,18 +39,17 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class BookmarkAnnotationEventTest {
+public class AssessmentStartedEventTest {
 
     private LearningContext learningContext;
     private Person actor;
-    private EpubSubChapter ePub;
-    private Frame object;
-    private BookmarkAnnotation generated;
-    private AnnotationEvent event;
+    private Assessment object;
+    private Attempt generated;
+    private AssessmentEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateModified = TestDates.getDefaultDateModified();
+    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(BookmarkAnnotationEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(AssessmentEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -61,7 +59,7 @@ public class BookmarkAnnotationEventTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildEpubViewerApp())
+            .edApp(TestAgentEntities.buildAssessmentApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -69,50 +67,41 @@ public class BookmarkAnnotationEventTest {
         // Build actor
         actor = TestAgentEntities.buildStudent554433();
 
-        // Build Frame
-        ePub = TestEpubEntities.buildEpubSubChap432();
-        object = Frame.builder()
-            .id(ePub.getId())
-            .name(ePub.getName())
-            .isPartOf(ePub.getIsPartOf())
+        // Build assessment
+        object = TestAssessmentEntities.buildAssessment();
+
+        // Build generated attempt
+        generated = Attempt.builder()
+            .id(object.getId() + "/attempt/5678")
+            .assignable(object)
+            .actor(actor)
+            .count(1)
             .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version(ePub.getVersion())
-            .index(2)
+            .startedAtTime(dateStarted)
             .build();
 
-        // Build Bookmark Annotation
-        generated = BookmarkAnnotation.builder()
-            .id("https://example.edu/bookmarks/00001")
-            .annotated(object)
-            .bookmarkNotes("The Intolerable Acts (1774)--bad idea Lord North")
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .build();
-
-        // Build event
-        event = buildEvent(Action.BOOKMARKED);
+        event = buildEvent(Action.STARTED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
-        String fixture = jsonFixture("fixtures/caliperBookmarkAnnotationEvent.json");
+        String fixture = jsonFixture("fixtures/caliperAssessmentEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void annotationEventRejectsCompletedAction() {
-        buildEvent(Action.COMPLETED);
+    public void assessmentEventRejectsSearchedAction() {
+        buildEvent(Action.SEARCHED);
     }
 
     /**
-     * Build Annotation event.
+     * Build Assessment event
      * @param action
      * @return event
      */
-    private AnnotationEvent buildEvent(Action action) {
-        return AnnotationEvent.builder()
+    private AssessmentEvent buildEvent(Action action) {
+        return AssessmentEvent.builder()
             .actor(actor)
             .action(action)
             .object(object)

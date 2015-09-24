@@ -21,14 +21,11 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
-import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.reading.EpubVolume;
-import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
+import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -40,18 +37,19 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class ViewEventTest {
+public class SessionTimedOutEventTest {
 
     private LearningContext learningContext;
-    private Person actor;
-    private EpubVolume object;
-    private EpubSubChapter ePub;
-    private Frame target;
-    private ViewEvent event;
+    private SoftwareApplication actor;
+    private Session object;
+    private SessionEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
+    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    private DateTime dateEnded = TestDates.getDefaultEndedAtTime();
+    private String duration = TestDates.getDefaultPeriod();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(ViewEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(SessionLogoutEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -63,58 +61,53 @@ public class ViewEventTest {
         learningContext = LearningContext.builder()
             .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
-            .membership(TestLisEntities.buildMembership())
             .build();
 
         // Build actor
-        actor = TestAgentEntities.buildStudent554433();
+        actor = learningContext.getEdApp();
 
         // Build object
-        object = TestEpubEntities.buildEpubVolume43();
-
-        // Build target frame
-        ePub = TestEpubEntities.buildEpubSubChap431();
-        target = Frame.builder()
-            .id(ePub.getId())
-            .name(ePub.getName())
-            .isPartOf(ePub.getIsPartOf())
+        object = Session.builder()
+            .id("https://example.com/viewer/session-123456789")
+            .name("session-123456789")
+            .actor(TestAgentEntities.buildStudent554433())
             .dateCreated(dateCreated)
             .dateModified(dateModified)
-            .version(ePub.getVersion())
-            .index(1)
+            .startedAtTime(dateStarted)
+            .endedAtTime(dateEnded)
+            .duration(duration)
             .build();
 
         // Build event
-        event = buildEvent(Action.VIEWED);
+        event = buildEvent(Action.TIMED_OUT);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
-        String fixture = jsonFixture("fixtures/caliperViewEvent.json");
+        String fixture = jsonFixture("fixtures/caliperSessionTimeoutEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void viewEventRejectsNavigatedToAction() {
-        buildEvent(Action.NAVIGATED_TO);
+    public void sessionEventRejectsLikedAction() {
+        buildEvent(Action.LIKED);
     }
 
     /**
-     * Build View event
+     * Build Session Timeout event.  Note that the actor is the edApp and
+     * the membership of the actor is not specified.
      * @param action
      * @return event
      */
-    private ViewEvent buildEvent(Action action) {
-        return ViewEvent.builder()
+    private SessionEvent buildEvent(Action action) {
+        return SessionEvent.builder()
             .actor(actor)
             .action(action)
             .object(object)
-            .target(target)
             .eventTime(eventTime)
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
-            .membership(learningContext.getMembership())
             .build();
     }
 }

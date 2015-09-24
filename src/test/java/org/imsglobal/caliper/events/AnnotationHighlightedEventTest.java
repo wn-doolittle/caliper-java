@@ -20,16 +20,15 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.TestAgentEntities;
-import org.imsglobal.caliper.TestAssessmentEntities;
 import org.imsglobal.caliper.TestDates;
+import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.assessment.Assessment;
-import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.entities.outcome.Result;
+import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
+import org.imsglobal.caliper.entities.reading.EpubSubChapter;
+import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -41,18 +40,18 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssessmentOutcomeEventTest {
+public class AnnotationHighlightedEventTest {
 
     private LearningContext learningContext;
     private Person actor;
-    private Assessment assessment;
-    private Attempt object;
-    private Result generated;
-    private OutcomeEvent event;
+    private EpubSubChapter ePub;
+    private Frame object;
+    private HighlightAnnotation generated;
+    private AnnotationEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
+    private DateTime dateModified = TestDates.getDefaultDateModified();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(AssessmentOutcomeEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(HighlightAnnotationEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -62,7 +61,7 @@ public class AssessmentOutcomeEventTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildAssessmentApp())
+            .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -70,58 +69,52 @@ public class AssessmentOutcomeEventTest {
         // Build actor
         actor = TestAgentEntities.buildStudent554433();
 
-        // Build assessment
-        assessment = TestAssessmentEntities.buildAssessment();
-
-        // Build attempt
-        object = Attempt.builder()
-            .id(assessment.getId() + "/attempt/5678")
-            .assignable(assessment)
-            .actor(actor)
-            .count(1)
+        // Build object frame
+        ePub = TestEpubEntities.buildEpubSubChap431();
+        object = Frame.builder()
+            .id(ePub.getId())
+            .name(ePub.getName())
+            .isPartOf(ePub.getIsPartOf())
             .dateCreated(dateCreated)
-            .startedAtTime(dateStarted)
+            .dateModified(dateModified)
+            .version(ePub.getVersion())
+            .index(1)
             .build();
 
-        // Build result
-        generated = Result.builder()
-            .id(object.getId() + "/result")
-            .assignable(assessment)
-            .actor(actor)
+        // Build Highlight Annotation
+        generated = HighlightAnnotation.builder()
+            .id("https://example.edu/highlights/12345")
+            .annotated(object)
+            .selectionStart(Integer.toString(455))
+            .selectionEnd(Integer.toString(489))
+            .selectionText("Life, Liberty and the pursuit of Happiness")
             .dateCreated(dateCreated)
-            .normalScore(3.0d)
-            .penaltyScore(0.0d)
-            .extraCreditScore(0.0d)
-            .totalScore(3.0d)
-            .curvedTotalScore(3.0d)
-            .curveFactor(0.0d)
-            .comment("Well done.")
-            .scoredBy((SoftwareApplication) learningContext.getEdApp())
+            .dateModified(dateModified)
             .build();
 
-        // Build Outcome Event
-        event = buildEvent(Action.GRADED);
+        // Build event
+        event = buildEvent(Action.HIGHLIGHTED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
-        String fixture = jsonFixture("fixtures/caliperAssessmentOutcomeEvent.json");
+        String fixture = jsonFixture("fixtures/caliperHighlightAnnotationEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void outcomeEventRejectsHidAction() {
-        buildEvent(Action.HID);
+    public void annotationEventRejectsSearchedAction() {
+        buildEvent(Action.SEARCHED);
     }
 
     /**
-     * Build Outcome event.
+     * Build Annotation event.
      * @param action
      * @return event
      */
-    private OutcomeEvent buildEvent(Action action) {
-        return OutcomeEvent.builder()
+    private AnnotationEvent buildEvent(Action action) {
+        return AnnotationEvent.builder()
             .actor(actor)
             .action(action)
             .object(object)

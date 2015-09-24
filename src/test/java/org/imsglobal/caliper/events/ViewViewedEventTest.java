@@ -21,13 +21,14 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
+import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
-import org.imsglobal.caliper.entities.LearningObjective;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.media.MediaLocation;
-import org.imsglobal.caliper.entities.media.VideoObject;
+import org.imsglobal.caliper.entities.reading.EpubSubChapter;
+import org.imsglobal.caliper.entities.reading.EpubVolume;
+import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -39,17 +40,18 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class MediaEventTest {
+public class ViewViewedEventTest {
 
     private LearningContext learningContext;
     private Person actor;
-    private VideoObject object;
-    private MediaEvent event;
-    private MediaLocation target;
+    private EpubVolume object;
+    private EpubSubChapter ePub;
+    private Frame target;
+    private ViewEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(MediaEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(ViewEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -59,7 +61,7 @@ public class MediaEventTest {
 
         // Build the Learning Context
         learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildMediaPlayerApp())
+            .edApp(TestAgentEntities.buildEpubViewerApp())
             .group(TestLisEntities.buildGroup())
             .membership(TestLisEntities.buildMembership())
             .build();
@@ -67,51 +69,44 @@ public class MediaEventTest {
         // Build actor
         actor = TestAgentEntities.buildStudent554433();
 
-        // Build video
-        object = VideoObject.builder()
-            .id("https://example.com/super-media-tool/video/1225")
-            .name("American Revolution - Key Figures Video")
-            .learningObjective(LearningObjective.builder()
-                .id("https://example.edu/american-revolution-101/personalities/learn")
-                .dateCreated(dateCreated)
-                .build())
+        // Build object
+        object = TestEpubEntities.buildEpubVolume43();
+
+        // Build target frame
+        ePub = TestEpubEntities.buildEpubSubChap431();
+        target = Frame.builder()
+            .id(ePub.getId())
+            .name(ePub.getName())
+            .isPartOf(ePub.getIsPartOf())
             .dateCreated(dateCreated)
             .dateModified(dateModified)
-            .version("1.0")
-            .duration(1420)
-            .build();
-
-        // Build media location
-        target = MediaLocation.builder()
-            .id(object.getId())
-            .dateCreated(dateCreated)
-            .version(object.getVersion())
-            .currentTime(710)
+            .version(ePub.getVersion())
+            .index(1)
             .build();
 
         // Build event
-        event = buildEvent(Action.PAUSED);
+        event = buildEvent(Action.VIEWED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
-        String fixture = jsonFixture("fixtures/caliperMediaEvent.json");
+        String fixture = jsonFixture("fixtures/caliperViewEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void mediaEventRejectsSubmittedAction() {
-        buildEvent(Action.SUBMITTED);
+    public void viewEventRejectsNavigatedToAction() {
+        buildEvent(Action.NAVIGATED_TO);
     }
 
     /**
-     * Build Media event.
+     * Build View event
      * @param action
      * @return event
      */
-    private MediaEvent buildEvent(Action action) {
-        return MediaEvent.builder()
+    private ViewEvent buildEvent(Action action) {
+        return ViewEvent.builder()
             .actor(actor)
             .action(action)
             .object(object)

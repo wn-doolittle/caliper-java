@@ -19,14 +19,18 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.collect.Lists;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
+import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.session.Session;
+import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
+import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.reading.EpubSubChapter;
+import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -35,29 +39,23 @@ import org.junit.experimental.categories.Category;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
+import java.util.List;
+
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class SessionLogoutEventTest {
+public class AnnotationSharedEventTest {
+
     private LearningContext learningContext;
     private Person actor;
-    private SoftwareApplication object;
-    private Session target;
-    private SessionEvent event;
+    private EpubSubChapter ePub;
+    private Frame object;
+    private SharedAnnotation generated;
+    private AnnotationEvent event;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
-    private DateTime dateEnded = TestDates.getDefaultEndedAtTime();
-    private String duration = TestDates.getDefaultPeriod();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(SessionLogoutEventTest.class);
-
-    /**
-     * Constructor
-     */
-    public SessionLogoutEventTest() {
-
-    }
+    // private static final Logger log = LoggerFactory.getLogger(SharedAnnotationEventTest.class);
 
     /**
      * @throws java.lang.Exception
@@ -75,48 +73,67 @@ public class SessionLogoutEventTest {
         // Build actor
         actor = TestAgentEntities.buildStudent554433();
 
-        //Build object
-        object = learningContext.getEdApp();
-
-        // Build target
-        target = Session.builder()
-            .id("https://example.com/viewer/session-123456789")
-            .name("session-123456789")
-            .actor(actor)
+        // Build object frame
+        ePub = TestEpubEntities.buildEpubSubChap433();
+        object = Frame.builder()
+            .id(ePub.getId())
+            .name(ePub.getName())
+            .isPartOf(ePub.getIsPartOf())
             .dateCreated(dateCreated)
             .dateModified(dateModified)
-            .startedAtTime(dateStarted)
-            .endedAtTime(dateEnded)
-            .duration(duration)
+            .version(ePub.getVersion())
+            .index(3)
+            .build();
+
+        // Add shared with agents
+        List<Agent> shared = Lists.newArrayList();
+        shared.add(Person.builder()
+            .id("https://example.edu/user/657585")
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .build());
+        shared.add(Person.builder()
+            .id("https://example.edu/user/667788")
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
+            .build());
+
+        // Build Shared Annotation
+        generated = SharedAnnotation.builder()
+            .id("https://example.edu/shared/9999")
+            .annotated(object)
+            .withAgents(shared)
+            .dateCreated(dateCreated)
+            .dateModified(dateModified)
             .build();
 
         // Build event
-        event = buildEvent(Action.LOGGED_OUT);
+        event = buildEvent(Action.SHARED);
     }
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
         String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
-        String fixture = jsonFixture("fixtures/caliperSessionLogoutEvent.json");
+        String fixture = jsonFixture("fixtures/caliperSharedAnnotationEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void sessionEventRejectsMutedAction() {
-        buildEvent(Action.MUTED);
+    public void annotationEventRejectsGradedAction() {
+        buildEvent(Action.GRADED);
     }
 
     /**
-     * Build Session logout event.
+     * Build Annotation event.
      * @param action
      * @return event
      */
-    private SessionEvent buildEvent(Action action) {
-        return SessionEvent.builder()
+    private AnnotationEvent buildEvent(Action action) {
+        return AnnotationEvent.builder()
             .actor(actor)
             .action(action)
             .object(object)
-            .target(target)
+            .generated(generated)
             .eventTime(eventTime)
             .edApp(learningContext.getEdApp())
             .group(learningContext.getGroup())
