@@ -16,7 +16,7 @@ Add `caliper-java` as a dependency to your project by adding:
 <dependency>
     <groupId>org.imsglobal.caliper</groupId>
     <artifactId>caliper-java</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -41,7 +41,5 @@ To run "integration" level tests, you will need to
 ## Documentation
 
 Documentation is available at [http://imsglobal.org/caliper/java](https://imsglobal.org/caliper/java).
-
-..
 
 ©2015 IMS Global Learning Consortium, Inc. All Rights Reserved.  Trademark Information - http://www.imsglobal.org/copyright.html
