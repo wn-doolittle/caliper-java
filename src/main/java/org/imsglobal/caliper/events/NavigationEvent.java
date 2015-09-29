@@ -31,13 +31,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @SupportedActions({Action.NAVIGATED_TO})
-public class NavigationEvent extends Event {
+public class NavigationEvent extends EventBase {
 
     @JsonProperty("@type")
-    private final EventType type;
+    private final String type;
 
     @JsonProperty("action")
-    private final Action action;
+    private final String action;
 
     @JsonProperty("navigatedFrom")
     private final DigitalResource fromResource;
@@ -73,7 +73,7 @@ public class NavigationEvent extends Event {
      */
     @Override
     @Nonnull
-    public EventType getType() {
+    public String getType() {
         return type;
     }
 
@@ -83,7 +83,7 @@ public class NavigationEvent extends Event {
      */
     @Override
     @Nonnull
-    public Action getAction() {
+    public String getAction() {
         return action;
     }
 
@@ -100,24 +100,24 @@ public class NavigationEvent extends Event {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private EventType type;
-        private Action action;
+    public static abstract class Builder<T extends Builder<T>> extends EventBase.Builder<T>  {
+        private String type;
+        private String action;
         private DigitalResource fromResource;
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.NAVIGATION);
-            action(Action.NAVIGATED_TO);
+            type(EventType.NAVIGATION.getValue());
+            action(Action.NAVIGATED_TO.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EventType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }
@@ -127,7 +127,7 @@ public class NavigationEvent extends Event {
          * @return builder.
          */
         @Override
-        public T action(Action action) {
+        public T action(String action) {
             this.action = action;
             return self();
         }

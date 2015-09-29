@@ -32,6 +32,7 @@ import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -113,6 +114,11 @@ public class SessionLoggedInEventTest {
         buildEvent(Action.SEARCHED);
     }
 
+    @After
+    public void teardown() {
+        event = null;
+    }
+
     /**
      * Build Session login event.
      * @param action
@@ -121,7 +127,7 @@ public class SessionLoggedInEventTest {
     private SessionEvent buildEvent(Action action) {
         return SessionEvent.builder()
             .actor(actor)
-            .action(action)
+            .action(action.getValue())
             .object(learningContext.getEdApp())
             .target(target)
             .generated(generated)

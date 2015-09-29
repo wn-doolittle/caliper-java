@@ -33,6 +33,7 @@ import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.entities.reading.WebPage;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -112,6 +113,11 @@ public class NavigationNavigatedToEventTest {
         buildEvent(Action.VIEWED);
     }
 
+    @After
+    public void teardown() {
+        event = null;
+    }
+
     /**
      * Build Navigation event
      * @param action
@@ -120,7 +126,7 @@ public class NavigationNavigatedToEventTest {
     private NavigationEvent buildEvent(Action action) {
         return NavigationEvent.builder()
             .actor(actor)
-            .action(action)
+            .action(action.getValue())
             .object(object)
             .target(target)
             .fromResource(fromResource)

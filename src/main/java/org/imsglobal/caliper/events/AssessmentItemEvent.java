@@ -38,13 +38,13 @@ import javax.annotation.Nonnull;
     Action.REVIEWED,
     Action.VIEWED
 })
-public class AssessmentItemEvent extends Event {
+public class AssessmentItemEvent extends EventBase {
 
     @JsonProperty("@type")
-    private final EventType type;
+    private final String type;
 
     @JsonProperty("action")
-    private final Action action;
+    private final String action;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssessmentItemEvent.class);
@@ -65,7 +65,7 @@ public class AssessmentItemEvent extends Event {
         EventValidator.checkAction(builder.action, AssessmentItemEvent.class);
         EventValidator.checkObjectType(getObject(), AssessmentItem.class);
 
-        if (builder.action == Action.COMPLETED) {
+        if (builder.action.equals(Action.COMPLETED.getValue())) {
             EventValidator.checkGeneratedType(getGenerated(), Response.class);
         } else {
             EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
@@ -81,7 +81,7 @@ public class AssessmentItemEvent extends Event {
      */
     @Override
     @Nonnull
-    public EventType getType() {
+    public String getType() {
         return type;
     }
 
@@ -91,7 +91,7 @@ public class AssessmentItemEvent extends Event {
      */
     @Override
     @Nonnull
-    public Action getAction() {
+    public String getAction() {
         return action;
     }
 
@@ -99,22 +99,22 @@ public class AssessmentItemEvent extends Event {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private EventType type;
-        private Action action;
+    public static abstract class Builder<T extends Builder<T>> extends EventBase.Builder<T>  {
+        private String type;
+        private String action;
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.ASSESSMENT_ITEM);
+            type(EventType.ASSESSMENT_ITEM.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EventType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }
@@ -124,7 +124,7 @@ public class AssessmentItemEvent extends Event {
          * @return builder.
          */
         @Override
-        public T action(Action action) {
+        public T action(String action) {
             this.action = action;
             return self();
         }

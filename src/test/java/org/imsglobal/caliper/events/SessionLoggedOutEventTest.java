@@ -29,6 +29,7 @@ import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -106,6 +107,11 @@ public class SessionLoggedOutEventTest {
         buildEvent(Action.MUTED);
     }
 
+    @After
+    public void teardown() {
+        event = null;
+    }
+
     /**
      * Build Session logout event.
      * @param action
@@ -114,7 +120,7 @@ public class SessionLoggedOutEventTest {
     private SessionEvent buildEvent(Action action) {
         return SessionEvent.builder()
             .actor(actor)
-            .action(action)
+            .action(action.getValue())
             .object(object)
             .target(target)
             .eventTime(eventTime)

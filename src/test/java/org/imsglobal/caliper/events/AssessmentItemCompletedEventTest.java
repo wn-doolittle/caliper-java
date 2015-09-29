@@ -32,6 +32,7 @@ import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.response.FillinBlankResponse;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -109,6 +110,11 @@ public class AssessmentItemCompletedEventTest {
         buildEvent(Action.CHANGED_SIZE);
     }
 
+    @After
+    public void teardown() {
+        event = null;
+    }
+
     /**
      * Build AssessmentItem event.
      * @param action
@@ -117,7 +123,7 @@ public class AssessmentItemCompletedEventTest {
     private AssessmentItemEvent buildEvent(Action action) {
         return AssessmentItemEvent.builder()
             .actor(actor)
-            .action(action)
+            .action(action.getValue())
             .object(object)
             .generated(generated)
             .eventTime(eventTime)

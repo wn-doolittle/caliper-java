@@ -18,10 +18,10 @@
 
 package org.imsglobal.caliper;
 
-import org.imsglobal.caliper.entities.EntityBase;
+import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.events.Event;
-import org.imsglobal.caliper.request.Requestor;
 import org.imsglobal.caliper.request.HttpRequestor;
+import org.imsglobal.caliper.request.Requestor;
 import org.imsglobal.caliper.stats.Statistics;
 import org.imsglobal.caliper.validators.SensorValidator;
 
@@ -105,8 +105,8 @@ public class Client {
      * @param sensor
      * @param data
      */
-    public void describe(Sensor sensor, EntityBase data) {
-        List<EntityBase> dataList = new ArrayList<>();
+    public void describe(Sensor sensor, Entity data) {
+        List<Entity> dataList = new ArrayList<>();
         dataList.add(data);
 
         describe(sensor, dataList);
@@ -117,8 +117,8 @@ public class Client {
      * @param sensor
      * @param data
      */
-    public void describe(Sensor sensor, List<EntityBase> data) {
-        Requestor<EntityBase> requestor = new HttpRequestor<>(options);
+    public void describe(Sensor sensor, List<Entity> data) {
+        Requestor<Entity> requestor = new HttpRequestor<>(options);
         updateStats(requestor.send(sensor, data));
     }
 

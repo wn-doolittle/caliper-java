@@ -20,7 +20,7 @@ package org.imsglobal.caliper;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
-import org.imsglobal.caliper.entities.EntityBase;
+import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.stats.Statistics;
 
@@ -89,7 +89,7 @@ public class Sensor<T> {
      * @param sensor
      * @param data
      */
-    public void describe(Sensor sensor, EntityBase data){
+    public void describe(Sensor sensor, Entity data){
         for(Client client: clients.values()){
             client.describe(sensor, data);
         }
@@ -100,7 +100,7 @@ public class Sensor<T> {
      * @param sensor
      * @param data
      */
-    public void describe(Sensor sensor, List<EntityBase> data){
+    public void describe(Sensor sensor, List<Entity> data){
         for(Client client: clients.values()){
             client.describe(sensor, data);
         }

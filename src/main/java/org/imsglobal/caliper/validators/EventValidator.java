@@ -44,8 +44,8 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkContext(Context context, Context expected) throws IllegalArgumentException {
-        checkArgument(context == expected, "expected @context %s but was %s", expected.getValue(), context.getValue());
+    public static void checkContext(String context, Context expected) throws IllegalArgumentException {
+        checkArgument(context.equals(expected.getValue()), "expected @context %s but was %s", expected.getValue(), context);
     }
 
     /**
@@ -54,8 +54,8 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkType(EventType type, EventType expected) throws IllegalArgumentException {
-        checkArgument(type == expected, "expected @type %s but was %s", expected.getValue(), type.getValue());
+    public static void checkType(String type, EventType expected) throws IllegalArgumentException {
+        checkArgument(type.equals(expected.getValue()), "expected @type %s but was %s", expected.getValue(), type);
     }
 
     /**
@@ -73,7 +73,7 @@ public class EventValidator {
      * @param action
      * @throws IllegalArgumentException
      */
-    public static void checkAction(Action action, Class<? extends Event> clazz) throws IllegalArgumentException {
+    public static void checkAction(String action, Class<? extends Event> clazz) throws IllegalArgumentException {
         checkArgument(action != null, "an action must be specified");
 
         SupportedActions actions = clazz.getAnnotation(SupportedActions.class);
@@ -81,12 +81,12 @@ public class EventValidator {
 
         boolean isSupported = false;
         for (Action supportedAction : actions.value()) {
-            if (supportedAction.equals(action)) {
+            if (action.equals(supportedAction.getValue())) {
                 isSupported = true;
                 break;
             }
         }
-        checkArgument(isSupported, "%s action is not supported", action.getValue());
+        checkArgument(isSupported, "%s action is not supported", action);
     }
 
     /**

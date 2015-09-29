@@ -28,6 +28,7 @@ import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -94,6 +95,11 @@ public class SessionTimedOutEventTest {
         buildEvent(Action.LIKED);
     }
 
+    @After
+    public void teardown() {
+        event = null;
+    }
+
     /**
      * Build Session Timeout event.  Note that the actor is the edApp and
      * the membership of the actor is not specified.
@@ -103,7 +109,7 @@ public class SessionTimedOutEventTest {
     private SessionEvent buildEvent(Action action) {
         return SessionEvent.builder()
             .actor(actor)
-            .action(action)
+            .action(action.getValue())
             .object(object)
             .eventTime(eventTime)
             .edApp(learningContext.getEdApp())

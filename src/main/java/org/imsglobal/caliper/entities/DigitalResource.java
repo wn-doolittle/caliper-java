@@ -246,7 +246,7 @@ public class DigitalResource extends EntityBase implements CreativeWork, Targeta
 
         /**
          * Client invokes build method in order to create an immutable profile object.
-         * @return a new instance of the AssessmentProfile.
+         * @return a new instance of DigitalResource.
          */
         public DigitalResource build() {
             return new DigitalResource(this);

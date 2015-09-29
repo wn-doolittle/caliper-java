@@ -34,7 +34,7 @@ public interface Entity extends Thing {
     String getContext();
 
     /**
-     * Each entity (or node in the graph as defined by JSON-LD) requires an identifier.
+     * Each Entity (or node in the graph as defined by JSON-LD) requires an identifier.
      * The identifier should be expressed as a unique IRI in conformance with the
      * JSON-LD specification.
      * @return the identifier IRI
@@ -42,7 +42,7 @@ public interface Entity extends Thing {
     String getId();
 
     /**
-     * Specifies the type of entity (or node as defined by JSON-LD).  The type should be
+     * Specifies the type of Entity or node in the graph as defined by JSON-LD.  The type should be
      * expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the type IRI
      */

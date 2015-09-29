@@ -31,6 +31,7 @@ import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -106,6 +107,11 @@ public class AnnotationBookmarkedEventTest {
         buildEvent(Action.COMPLETED);
     }
 
+    @After
+    public void teardown() {
+        event = null;
+    }
+
     /**
      * Build Annotation event.
      * @param action
@@ -114,7 +120,7 @@ public class AnnotationBookmarkedEventTest {
     private AnnotationEvent buildEvent(Action action) {
         return AnnotationEvent.builder()
             .actor(actor)
-            .action(action)
+            .action(action.getValue())
             .object(object)
             .generated(generated)
             .eventTime(eventTime)

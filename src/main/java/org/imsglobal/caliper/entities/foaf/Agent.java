@@ -33,7 +33,7 @@ public interface Agent {
     String getId();
 
     /**
-     * Specifies the type of entity (or node as defined by JSON-LD).  The type should be
+     * Specifies the type of Agent or node in the graph as defined by JSON-LD.  The type should be
      * expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the type IRI
      */

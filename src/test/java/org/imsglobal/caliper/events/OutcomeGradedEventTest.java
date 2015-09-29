@@ -32,6 +32,7 @@ import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -115,6 +116,11 @@ public class OutcomeGradedEventTest {
         buildEvent(Action.HID);
     }
 
+    @After
+    public void teardown() {
+        event = null;
+    }
+
     /**
      * Build Outcome event.
      * @param action
@@ -123,7 +129,7 @@ public class OutcomeGradedEventTest {
     private OutcomeEvent buildEvent(Action action) {
         return OutcomeEvent.builder()
             .actor(actor)
-            .action(action)
+            .action(action.getValue())
             .object(object)
             .generated(generated)
             .eventTime(eventTime)
