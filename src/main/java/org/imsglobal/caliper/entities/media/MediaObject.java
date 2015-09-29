@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 /**
  * An image, video, or audio object embedded in a web page.
  */
-public abstract class MediaObject extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.MediaObject {
+public class MediaObject extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.MediaObject {
 
     @JsonProperty("@type")
     private final String type;
@@ -75,8 +75,6 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
         private String type;
         private long duration;
 
-        protected abstract T self();
-
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
@@ -101,6 +99,14 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
             this.duration = duration;
             return self();
         }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of MediaObject.
+         */
+        public MediaObject build() {
+            return new MediaObject(this);
+        }
     }
 
     /**
@@ -111,5 +117,13 @@ public abstract class MediaObject extends DigitalResource implements org.imsglob
         protected Builder2 self() {
             return this;
         }
+    }
+
+    /**
+     * Static factory method.
+     * @return a new instance of the builder.
+     */
+    public static Builder<?> builder() {
+        return new Builder2();
     }
 }
