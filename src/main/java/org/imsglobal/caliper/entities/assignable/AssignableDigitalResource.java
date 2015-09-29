@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 /**
  * Assignable Digital Resource
  */
-public class AssignableDigitalResource extends DigitalResource implements org.imsglobal.caliper.entities.assignable.Assignable {
+public class AssignableDigitalResource extends DigitalResource implements Assignable {
 
     @JsonProperty("@type")
     private final String type;

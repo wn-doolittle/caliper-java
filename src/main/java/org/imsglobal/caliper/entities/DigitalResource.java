@@ -33,7 +33,7 @@ import java.util.List;
  * Caliper representation of a CreativeWork (https://schema.org/CreativeWork).
  */
 
-public class DigitalResource extends EntityBase implements CreativeWork, Targetable {
+public class DigitalResource extends EntityBase implements Resource {
 
     @JsonProperty("@type")
     private final String type;
