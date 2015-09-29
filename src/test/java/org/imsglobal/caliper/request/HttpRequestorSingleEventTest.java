@@ -19,6 +19,7 @@
 package org.imsglobal.caliper.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.Client;
@@ -30,6 +31,7 @@ import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.TestSessionEntities;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -68,6 +70,7 @@ public class HttpRequestorSingleEventTest {
     private EpubSubChapter ePub;
     private Frame target;
     private NavigationEvent event;
+    private Envelope<Event> envelope;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
     private DateTime eventTime = TestDates.getDefaultStartedAtTime();
@@ -124,16 +127,18 @@ public class HttpRequestorSingleEventTest {
 
         // Add event to data array
         data.add(event);
+
+        // Create envelope
+        envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), data);
     }
 
     @Test
     public void testSerializedEnvelope() throws Exception {
-
-        // Create envelope; include null properties, empty objects and empty arrays
-        Envelope<Event> envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), data);
+        // Set up Mapper
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.ALWAYS);
 
         // Serialize envelope
-        String json = httpRequestor.serializeEnvelope(envelope, JsonInclude.Include.ALWAYS);
+        String json = httpRequestor.serializeEnvelope(envelope, mapper);
 
         // Swap out sendTime=DateTime.now() in favor of fixture value (or test will most assuredly fail).
         Pattern pattern = Pattern.compile("\"sendTime\":\"[^\"]*\"");
@@ -146,12 +151,11 @@ public class HttpRequestorSingleEventTest {
 
     @Test
     public void testGeneratePayloadContentType() throws Exception {
-
-        // Create envelope
-        Envelope<Event> envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), data);
+        // Set up Mapper
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.ALWAYS);
 
         // Serialize envelope
-        String json = httpRequestor.serializeEnvelope(envelope, JsonInclude.Include.ALWAYS);
+        String json = httpRequestor.serializeEnvelope(envelope, mapper);
 
         // Create an HTTP StringEntity payload with the envelope JSON.
         StringEntity payload = httpRequestor.generatePayload(json, ContentType.APPLICATION_JSON);

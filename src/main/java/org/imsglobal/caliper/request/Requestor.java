@@ -18,13 +18,12 @@
 
 package org.imsglobal.caliper.request;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.Sensor;
 import org.imsglobal.caliper.payload.Envelope;
-import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 
 import java.io.UnsupportedEncodingException;
@@ -75,12 +74,13 @@ public abstract class Requestor<T> {
 
     /**
      * Serialize Caliper envelope.
-     * @param include
+     * @param envelope
+     * @param mapper
      * @return
      * @throws JsonProcessingException
      */
-    public String serializeEnvelope(Envelope<T> envelope, JsonInclude.Include include) throws JsonProcessingException {
-        return JsonMapper.serialize(envelope, include);
+    public String serializeEnvelope(Envelope<T> envelope, ObjectMapper mapper) throws JsonProcessingException {
+        return mapper.writeValueAsString(envelope);
     }
 
     /**

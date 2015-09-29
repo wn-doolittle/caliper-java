@@ -19,15 +19,16 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.Session;
-import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
@@ -97,7 +98,9 @@ public class SessionLoggedOutEventTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.ALWAYS);
+        String json = mapper.writeValueAsString(event);
+
         String fixture = jsonFixture("fixtures/caliperSessionLogoutEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }

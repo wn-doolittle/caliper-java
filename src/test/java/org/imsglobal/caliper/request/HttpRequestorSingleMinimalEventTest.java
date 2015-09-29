@@ -19,6 +19,7 @@
 package org.imsglobal.caliper.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.Client;
@@ -29,6 +30,7 @@ import org.imsglobal.caliper.TestFreeFormEntity;
 import org.imsglobal.caliper.TestFreeFormEvent;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.payload.Envelope;
@@ -56,6 +58,7 @@ public class HttpRequestorSingleMinimalEventTest {
     private Agent actor;
     private TestFreeFormEntity object;
     private TestFreeFormEvent event;
+    private Envelope<Event> envelope;
     private DateTime eventTime = TestDates.getDefaultStartedAtTime();
     private List<Event> data = new ArrayList<>();
     // private static final Logger log = LoggerFactory.getLogger(HttpRequestorTest.class);
@@ -85,16 +88,18 @@ public class HttpRequestorSingleMinimalEventTest {
 
         // Add event to data array
         data.add(event);
+
+        // Create envelope; include null properties, empty objects and empty arrays
+        envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), data);
     }
 
     @Test
     public void testSerializedEnvelope() throws Exception {
-
-        // Create envelope; include null properties, empty objects and empty arrays
-        Envelope<Event> envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), data);
+        // Set up Mapper; filter out nulls/empties
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY);
 
         // Serialize envelope, excluding null properties, empty objects and empty arrays
-        String json = httpRequestor.serializeEnvelope(envelope, JsonInclude.Include.NON_EMPTY);
+        String json = httpRequestor.serializeEnvelope(envelope, mapper);
 
         // Swap out sendTime=DateTime.now() in favor of fixture value (or test will most assuredly fail).
         Pattern pattern = Pattern.compile("\"sendTime\":\"[^\"]*\"");
@@ -107,17 +112,14 @@ public class HttpRequestorSingleMinimalEventTest {
 
     @Test
     public void testGeneratePayloadContentType() throws Exception {
-
-        // Create envelope
-        Envelope<Event> envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), data);
+        // Set up Mapper; filter out nulls/empties
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY);
 
         // Serialize envelope; include null properties, empty objects and empty arrays
-        String json = httpRequestor.serializeEnvelope(envelope, JsonInclude.Include.NON_EMPTY);
+        String json = httpRequestor.serializeEnvelope(envelope, mapper);
 
         // Create an HTTP StringEntity payload with the envelope JSON.
         StringEntity payload = httpRequestor.generatePayload(json, ContentType.APPLICATION_JSON);
-
-        //System.out.println("CONTENT-TYPE:" + payload.getContentType().toString());
 
         assertEquals("Content-Type: application/json; charset=UTF-8", payload.getContentType().toString());
     }
