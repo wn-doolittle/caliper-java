@@ -18,245 +18,33 @@
 
 package org.imsglobal.caliper.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import org.imsglobal.caliper.context.Context;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
-import org.imsglobal.caliper.validators.EntityValidator;
-import org.joda.time.DateTime;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Map;
 
 /**
- * The base Caliper Entity.  Analogous to a schema.org Thing.
+ * The interface for Caliper Entities.  Analogous to a schema.org Thing and a JSON-LD node in a graph.
+ * For an Entity to be linkable, dereferencing the identifier should result in a representation of the node.
  */
-public abstract class Entity implements Thing {
-
-    @JsonProperty("@context")
-    protected final Context context;
-
-    @JsonProperty("@id")
-    protected final String id;
-
-    @JsonProperty("@type")
-    private final Type type;
-
-    @JsonProperty("name")
-    private final String name;
-
-    @JsonProperty("description")
-    private final String description;
-
-    @JsonProperty("extensions")
-    private final Map<String, String> extensions;
-
-    @JsonProperty("dateCreated")
-    private final DateTime dateCreated;
-
-    @JsonProperty("dateModified")
-    private final DateTime dateModified;
+public interface Entity extends Thing {
 
     /**
-     * @param builder apply builder object properties to the Entity object.
+     * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
+     * should be expressed as a unique IRI in conformance with the JSON-LD specification.
+     * @return the context IRI.
      */
-    protected Entity(Builder<?> builder) {
-
-        EntityValidator.checkContext(builder.context, Context.CONTEXT);
-        EntityValidator.checkId("id", builder.id);
-        EntityValidator.checkType(builder.type, EntityType.ENTITY);
-
-        this.context = builder.context;
-        this.id = builder.id;
-        this.type = builder.type;
-        this.name = builder.name;
-        this.extensions = ImmutableMap.copyOf(builder.extensions);
-        this.description = builder.description;
-        this.dateCreated = builder.dateCreated;
-        this.dateModified = builder.dateModified;
-    }
+    String getContext();
 
     /**
-     * @return the context.
+     * Each Entity (or node in the graph as defined by JSON-LD) requires an identifier.
+     * The identifier should be expressed as a unique IRI in conformance with the
+     * JSON-LD specification.
+     * @return the identifier IRI
      */
-    @Nonnull
-    public Context getContext() {
-        return context;
-    }
+    String getId();
 
     /**
-     * @return the id.
+     * Specifies the type of Entity or node in the graph as defined by JSON-LD.  The type should be
+     * expressed as a unique IRI in conformance with the JSON-LD specification.
+     * @return the type IRI
      */
-    @Nonnull
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @return the type.
-     */
-    @Nonnull
-    public Type getType() {
-        return type;
-    }
-
-    /**
-     * @return name.
-     */
-    @Nullable
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @return description.
-     */
-    @Nullable
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * @return custom extensions (key/value pairs).
-     */
-    @Nullable
-    public Map<String, String> getExtensions() {
-        return extensions;
-    }
-
-    /**
-     * @return date created.
-     */
-    @Nullable
-    public DateTime getDateCreated()
-    {
-        return dateCreated;
-    }
-
-    /**
-     * @return the date modified.
-     */
-    @Nullable
-    public DateTime getDateModified() {
-        return dateModified;
-    }
-
-    /**
-     * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder.
-     */
-    public static abstract class Builder<T extends Builder<T>> {
-        private Context context;
-        private String id;
-        private EntityType type;
-        private String name;
-        private String description;
-        private Map<String, String> extensions = Maps.newHashMap();
-        private DateTime dateCreated;
-        private DateTime dateModified;
-
-        protected abstract T self();
-
-        /**
-         * Constructor
-         */
-        public Builder() {
-            context(Context.CONTEXT);
-            type(EntityType.ENTITY);
-        }
-
-        /**
-         * @param context
-         * @return builder.
-         */
-        private T context(Context context) {
-            this.context = context;
-            return self();
-        }
-
-        /**
-         * @param id
-         * @return builder.
-         */
-        public T id(String id) {
-            this.id = id;
-            return self();
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(EntityType type) {
-            this.type = type;
-            return self();
-        }
-
-        /**
-         * @param name
-         * @return builder.
-         */
-        public T name(String name) {
-            this.name = name;
-            return self();
-        }
-
-        /**
-         * @param description
-         * @return builder.
-         */
-        public T description(String description) {
-            this.description = description;
-            return self();
-        }
-
-        /**
-         * @param key
-         * @param value
-         * @return builder
-         */
-        public T extension(String key, String value) {
-            this.extensions.put(key, value);
-            return self();
-        }
-
-        /**
-         * @param extensions
-         * @return builder
-         */
-        public T extensions(Map<String, String> extensions) {
-            this.extensions.putAll(extensions);
-            return self();
-        }
-
-        /**
-         * @param dateCreated
-         * @return builder.
-         */
-        public T dateCreated(DateTime dateCreated) {
-            this.dateCreated = dateCreated;
-            return self();
-        }
-
-        /**
-         * @param dateModified
-         * @return builder.
-         */
-        public T dateModified(DateTime dateModified) {
-            this.dateModified = dateModified;
-            return self();
-        }
-    }
-
-    /**
-     *
-     */
-    private static class Builder2 extends Builder<Builder2> {
-        @Override
-        protected Builder2 self() {
-            return this;
-        }
-    }
+    String getType();
 }

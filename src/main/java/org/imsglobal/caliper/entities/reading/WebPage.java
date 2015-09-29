@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
 public class WebPage extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.WebPage {
 
     @JsonProperty("@type")
-    private final DigitalResourceType type;
+    private final String type;
 
     /**
      * @param builder apply builder object properties to the WebPage object.
@@ -46,7 +46,7 @@ public class WebPage extends DigitalResource implements org.imsglobal.caliper.en
      */
     @Override
     @Nonnull
-    public DigitalResourceType getType() {
+    public String getType() {
         return type;
     }
 
@@ -55,20 +55,20 @@ public class WebPage extends DigitalResource implements org.imsglobal.caliper.en
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private DigitalResourceType type;
+        private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResourceType.WEB_PAGE);
+            type(DigitalResourceType.WEB_PAGE.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(DigitalResourceType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

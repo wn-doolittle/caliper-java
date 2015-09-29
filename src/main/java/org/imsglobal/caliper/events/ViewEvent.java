@@ -31,13 +31,13 @@ import javax.annotation.Nonnull;
 @SupportedActions({
     Action.VIEWED
 })
-public class ViewEvent extends Event {
+public class ViewEvent extends EventBase {
 
     @JsonProperty("@type")
-    private final EventType type;
+    private final String type;
 
     @JsonProperty("action")
-    private final Action action;
+    private final String action;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(ViewEvent.class);
@@ -68,7 +68,7 @@ public class ViewEvent extends Event {
      */
     @Override
     @Nonnull
-    public EventType getType() {
+    public String getType() {
         return type;
     }
 
@@ -78,7 +78,7 @@ public class ViewEvent extends Event {
      */
     @Override
     @Nonnull
-    public Action getAction() {
+    public String getAction() {
         return action;
     }
 
@@ -86,23 +86,23 @@ public class ViewEvent extends Event {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private EventType type;
-        private Action action;
+    public static abstract class Builder<T extends Builder<T>> extends EventBase.Builder<T>  {
+        private String type;
+        private String action;
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.VIEW);
-            action(Action.VIEWED);
+            type(EventType.VIEW.getValue());
+            action(Action.VIEWED.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EventType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }
@@ -112,7 +112,7 @@ public class ViewEvent extends Event {
          * @return builder.
          */
         @Override
-        public T action(Action action) {
+        public T action(String action) {
             this.action = action;
             return self();
         }

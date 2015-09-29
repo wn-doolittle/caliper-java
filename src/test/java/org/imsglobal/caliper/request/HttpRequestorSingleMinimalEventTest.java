@@ -24,23 +24,15 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.Client;
 import org.imsglobal.caliper.Sensor;
-import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestEpubEntities;
-import org.imsglobal.caliper.TestLisEntities;
-import org.imsglobal.caliper.TestSessionEntities;
+import org.imsglobal.caliper.TestFreeFormAgent;
+import org.imsglobal.caliper.TestFreeFormEntity;
+import org.imsglobal.caliper.TestFreeFormEvent;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.LearningContext;
-import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.reading.EpubVolume;
-import org.imsglobal.caliper.entities.reading.Frame;
-import org.imsglobal.caliper.entities.reading.WebPage;
+import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.events.Event;
-import org.imsglobal.caliper.events.NavigationEvent;
 import org.imsglobal.caliper.payload.Envelope;
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -59,20 +51,14 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class HttpRequestorSingleEventTest {
+public class HttpRequestorSingleMinimalEventTest {
 
     private Sensor<String> sensor ;
     private HttpRequestor<Event> httpRequestor = new HttpRequestor<>(TestUtils.getTestingOptions());
-    private Person actor;
-    private LearningContext learningContext;
-    private EpubVolume object;
-    private DigitalResource fromResource;
-    private EpubSubChapter ePub;
-    private Frame target;
-    private NavigationEvent event;
+    private Agent actor;
+    private TestFreeFormEntity object;
+    private TestFreeFormEvent event;
     private Envelope<Event> envelope;
-    private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateModified = TestDates.getDefaultDateModified();
     private DateTime eventTime = TestDates.getDefaultStartedAtTime();
     private List<Event> data = new ArrayList<>();
     // private static final Logger log = LoggerFactory.getLogger(HttpRequestorTest.class);
@@ -88,56 +74,31 @@ public class HttpRequestorSingleEventTest {
         sensor.registerClient(client.getId(), client);
 
         // Build actor
-        actor = TestAgentEntities.buildStudent554433();
-
-        // Build the Learning Context
-        learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildEpubViewerApp())
-            .group(TestLisEntities.buildGroup())
-            .membership(TestLisEntities.buildMembership())
-            .federatedSession(TestSessionEntities.buildFederatedSession(actor))
-            .build();
+        String actorId = "https://example.edu/user/554433";
+        String actorType = "http://purl.imsglobal.org/caliper/v1/lis/Person";
+        actor = TestFreeFormAgent.create(null, actorId, actorType);
 
         // Build object
-        object = TestEpubEntities.buildEpubVolume43();
-
-        // Build previous location
-        fromResource = WebPage.builder()
-            .id("https://example.edu/politicalScience/2015/american-revolution-101/index.html")
-            .name("American Revolution 101 Landing Page")
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version("1.0")
-            .build();
-
-        // Build target frame
-        ePub = TestEpubEntities.buildEpubSubChap431();
-        target = Frame.builder()
-            .id(ePub.getId())
-            .name(ePub.getName())
-            .isPartOf(ePub.getIsPartOf())
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version(ePub.getVersion())
-            .index(1)
-            .build();
+        String objectId = "https://example.com/viewer/book/34843#epubcfi(/4/3)";
+        String objectType = "http://www.idpf.org/epub/vocab/structure/#volume";
+        object = TestFreeFormEntity.create(null, objectId, objectType);
 
         // Build event
-        event = buildEvent(Action.NAVIGATED_TO);
+        event = buildEvent(Action.VIEWED);
 
         // Add event to data array
         data.add(event);
 
-        // Create envelope
+        // Create envelope; include null properties, empty objects and empty arrays
         envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), data);
     }
 
     @Test
     public void testSerializedEnvelope() throws Exception {
-        // Set up Mapper
-        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.ALWAYS);
+        // Set up Mapper; filter out nulls/empties
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY);
 
-        // Serialize envelope
+        // Serialize envelope, excluding null properties, empty objects and empty arrays
         String json = httpRequestor.serializeEnvelope(envelope, mapper);
 
         // Swap out sendTime=DateTime.now() in favor of fixture value (or test will most assuredly fail).
@@ -145,22 +106,20 @@ public class HttpRequestorSingleEventTest {
         Matcher matcher = pattern.matcher(json);
         json = matcher.replaceFirst("\"sendTime\":\"" + TestDates.getDefaultSendTime() +"\"");
 
-        String fixture = jsonFixture("fixtures/eventStorePayload.json");
+        String fixture = jsonFixture("fixtures/caliperEnvelopeEventViewViewedMinimal.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test
     public void testGeneratePayloadContentType() throws Exception {
-        // Set up Mapper
-        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.ALWAYS);
+        // Set up Mapper; filter out nulls/empties
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY);
 
-        // Serialize envelope
+        // Serialize envelope; include null properties, empty objects and empty arrays
         String json = httpRequestor.serializeEnvelope(envelope, mapper);
 
         // Create an HTTP StringEntity payload with the envelope JSON.
         StringEntity payload = httpRequestor.generatePayload(json, ContentType.APPLICATION_JSON);
-
-        //System.out.println("CONTENT-TYPE:" + payload.getContentType().toString());
 
         assertEquals("Content-Type: application/json; charset=UTF-8", payload.getContentType().toString());
     }
@@ -171,22 +130,16 @@ public class HttpRequestorSingleEventTest {
     }
 
     /**
-     * Build Navigation event
+     * Build minimal event
      * @param action
      * @return event
      */
-    private NavigationEvent buildEvent(Action action) {
-        return NavigationEvent.builder()
+    private TestFreeFormEvent buildEvent(Action action) {
+        return TestFreeFormEvent.builder()
             .actor(actor)
             .action(action.getValue())
             .object(object)
-            .target(target)
-            .fromResource(fromResource)
             .eventTime(eventTime)
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
-            .membership(learningContext.getMembership())
-            .federatedSession(learningContext.getFederatedSession())
             .build();
     }
 }

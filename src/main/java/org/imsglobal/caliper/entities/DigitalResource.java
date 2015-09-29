@@ -33,11 +33,10 @@ import java.util.List;
  * Caliper representation of a CreativeWork (https://schema.org/CreativeWork).
  */
 
-public class DigitalResource extends Entity implements org.imsglobal.caliper.entities.schemadotorg.CreativeWork,
-                                                       org.imsglobal.caliper.entities.Targetable {
+public class DigitalResource extends EntityBase implements Resource {
 
     @JsonProperty("@type")
-    private final Type type;
+    private final String type;
 
     @JsonProperty("objectType")
     private final ImmutableList<String> objectTypes;
@@ -79,7 +78,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      */
     @Override
     @Nonnull
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
@@ -139,8 +138,8 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private EntityType type;
+    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+        private String type;
         private List<String> objectTypes = Lists.newArrayList();
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
@@ -152,14 +151,14 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
          * Constructor
          */
         public Builder() {
-            type(EntityType.DIGITAL_RESOURCE);
+            type(EntityType.DIGITAL_RESOURCE.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }
@@ -247,7 +246,7 @@ public class DigitalResource extends Entity implements org.imsglobal.caliper.ent
 
         /**
          * Client invokes build method in order to create an immutable profile object.
-         * @return a new instance of the AssessmentProfile.
+         * @return a new instance of DigitalResource.
          */
         public DigitalResource build() {
             return new DigitalResource(this);

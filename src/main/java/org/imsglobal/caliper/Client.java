@@ -20,8 +20,8 @@ package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.events.Event;
-import org.imsglobal.caliper.request.Requestor;
 import org.imsglobal.caliper.request.HttpRequestor;
+import org.imsglobal.caliper.request.Requestor;
 import org.imsglobal.caliper.stats.Statistics;
 import org.imsglobal.caliper.validators.SensorValidator;
 

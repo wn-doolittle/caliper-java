@@ -29,6 +29,17 @@ public class TextPositionSelector {
     private String start;
     private String end;
 
+    // Constructor
+    public TextPositionSelector() {
+
+    }
+    
+    // Constructor
+    public TextPositionSelector(String start, String end) {
+        this.start = start;
+        this.end = end;
+    }
+
     /**
      * @return the start
      */

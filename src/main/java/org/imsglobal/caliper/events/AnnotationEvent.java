@@ -20,10 +20,10 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.annotation.Annotation;
-import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,13 +49,13 @@ import javax.annotation.Nonnull;
     Action.SUBSCRIBED,
     Action.TAGGED
 })
-public class AnnotationEvent extends Event {
+public class AnnotationEvent extends EventBase {
 
     @JsonProperty("@type")
-    private final EventType type;
+    private final String type;
 
     @JsonProperty("action")
-    private final Action action;
+    private final String action;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AnnotationEvent.class);
@@ -87,7 +87,7 @@ public class AnnotationEvent extends Event {
      */
     @Override
     @Nonnull
-    public EventType getType() {
+    public String getType() {
         return type;
     }
 
@@ -97,7 +97,7 @@ public class AnnotationEvent extends Event {
      */
     @Override
     @Nonnull
-    public Action getAction() {
+    public String getAction() {
         return action;
     }
 
@@ -105,22 +105,22 @@ public class AnnotationEvent extends Event {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
-        private EventType type;
-        private Action action;
+    public static abstract class Builder<T extends Builder<T>> extends EventBase.Builder<T>  {
+        private String type;
+        private String action;
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.ANNOTATION);
+            type(EventType.ANNOTATION.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EventType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }
@@ -130,7 +130,7 @@ public class AnnotationEvent extends Event {
          * @return builder.
          */
         @Override
-        public T action(Action action) {
+        public T action(String action) {
             this.action = action;
             return self();
         }

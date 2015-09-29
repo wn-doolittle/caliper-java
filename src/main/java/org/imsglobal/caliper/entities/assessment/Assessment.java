@@ -19,13 +19,11 @@
 package org.imsglobal.caliper.entities.assessment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResourceType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 /**
  * Caliper representation of an Assessment.  Part of the Assessment Metric Profile
@@ -33,7 +31,7 @@ import java.util.List;
 public class Assessment extends AssignableDigitalResource {
 
     @JsonProperty("@type")
-    private final AssignableDigitalResourceType type;
+    private final String type;
 
     /**
      * @param builder apply builder object properties to the CaliperAssessment object.
@@ -51,7 +49,7 @@ public class Assessment extends AssignableDigitalResource {
      */
     @Override
     @Nonnull
-    public AssignableDigitalResourceType getType() {
+    public String getType() {
         return type;
     }
 
@@ -60,21 +58,20 @@ public class Assessment extends AssignableDigitalResource {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
-        private AssignableDigitalResourceType type;
-        private List<AssessmentItem> assessmentItems = Lists.newArrayList();
+        private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(AssignableDigitalResourceType.ASSESSMENT);
+            type(AssignableDigitalResourceType.ASSESSMENT.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(AssignableDigitalResourceType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

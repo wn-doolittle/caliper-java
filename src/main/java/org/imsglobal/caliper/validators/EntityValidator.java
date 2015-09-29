@@ -45,8 +45,8 @@ public class EntityValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkContext(Context context, Context expected) throws IllegalArgumentException {
-        checkArgument(context == expected, "expected @context %s but was %s", expected.getValue(), context.getValue());
+    public static void checkContext(String context, Context expected) throws IllegalArgumentException {
+        checkArgument(context.equals(expected.getValue()), "expected @context %s but was %s", expected.getValue(), context);
     }
 
     /**
@@ -64,8 +64,8 @@ public class EntityValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkType(Type type, Type expected) throws IllegalArgumentException {
-        checkArgument(type == expected, "expected @type %s but was %s", expected.getValue(), type.getValue());
+    public static void checkType(String type, Type expected) throws IllegalArgumentException {
+        checkArgument(type.equals(expected.getValue()), "expected @type %s but was %s", expected.getValue(), type);
     }
 
     /**

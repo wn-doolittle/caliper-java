@@ -120,7 +120,7 @@ public class SensorSendEventsTest {
     private NavigationEvent buildEvent(Action action) {
         return NavigationEvent.builder()
             .actor(actor)
-            .action(action)
+            .action(action.getValue())
             .object(object)
             .target(target)
             .fromResource(fromResource)

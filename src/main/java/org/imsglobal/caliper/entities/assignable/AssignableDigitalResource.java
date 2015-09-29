@@ -21,7 +21,6 @@ package org.imsglobal.caliper.entities.assignable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.DigitalResourceType;
-import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -31,10 +30,10 @@ import javax.annotation.Nullable;
 /**
  * Assignable Digital Resource
  */
-public class AssignableDigitalResource extends DigitalResource implements org.imsglobal.caliper.entities.assignable.Assignable {
+public class AssignableDigitalResource extends DigitalResource implements Assignable {
 
     @JsonProperty("@type")
-    private final Type type;
+    private final String type;
 
     @JsonProperty("dateToActivate")
     private DateTime dateToActivate;
@@ -80,7 +79,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      */
     @Override
     @Nonnull
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
@@ -145,7 +144,7 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private DigitalResourceType type;
+        private String type;
         private DateTime dateToActivate, dateToShow, dateToStartOn, dateToSubmit;
         private int maxAttempts, maxSubmits;
         private double maxScore;
@@ -154,14 +153,14 @@ public class AssignableDigitalResource extends DigitalResource implements org.im
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResourceType.ASSIGNABLE_DIGITAL_RESOURCE);
+            type(DigitalResourceType.ASSIGNABLE_DIGITAL_RESOURCE.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(DigitalResourceType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

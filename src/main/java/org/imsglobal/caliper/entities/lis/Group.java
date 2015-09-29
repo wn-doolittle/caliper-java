@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityBase;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
@@ -28,10 +28,10 @@ import javax.annotation.Nonnull;
 /**
  * A Caliper LIS Group represents a Course substructure that a Person is able to join as a member.
  */
-public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.Organization {
+public class Group extends EntityBase implements org.imsglobal.caliper.entities.w3c.Organization {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final String type;
 
     @JsonProperty("subOrganizationOf")
     private final Course subOrganizationOf;
@@ -53,7 +53,7 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public String getType() {
         return type;
     }
 
@@ -69,22 +69,22 @@ public class Group extends Entity implements org.imsglobal.caliper.entities.w3c.
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private EntityType type;
+    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+        private String type;
         private Course subOrganizationOf;
 
         /**
          * Initialize type with default value.  Required if the group type is not specified by the user.
          */
         public Builder() {
-            type(EntityType.GROUP);
+            type(EntityType.GROUP.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

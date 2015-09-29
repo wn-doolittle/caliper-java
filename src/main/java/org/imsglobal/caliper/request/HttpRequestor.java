@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.request;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -28,6 +29,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.imsglobal.caliper.Options;
 import org.imsglobal.caliper.Sensor;
+import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.payload.Envelope;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -41,7 +43,7 @@ public class HttpRequestor<T> extends Requestor<T> {
     private static CloseableHttpClient httpClient;
     private static CloseableHttpResponse response = null;
     private Options options;
-    private static final Logger LOG = LoggerFactory.getLogger(HttpRequestor.class);
+    private static final Logger log = LoggerFactory.getLogger(HttpRequestor.class);
 
     /**
      * Constructor instantiates a new HTTPRequestor. The args options provides the host
@@ -112,14 +114,22 @@ public class HttpRequestor<T> extends Requestor<T> {
         boolean status = Boolean.FALSE;
 
         try {
-            LOG.debug("Entering send()...");
+
+            if (log.isDebugEnabled()) {
+                log.debug("Entering send()...");
+            }
 
             // Check if HttpClient is initialized.
             checkInitialized();
 
+            // Create mapper
+            ObjectMapper mapper = JsonObjectMapper.create(options.getJsonInclude());
+
             // Create envelope, serialize it as a JSON string.
             Envelope<T> envelope = createEnvelope(sensor, DateTime.now(), data);
-            String json = serializeEnvelope(envelope, options.getJsonInclude());
+
+            // Serialize envelope with mapper
+            String json = serializeEnvelope(envelope, mapper);
 
             // Create an HTTP StringEntity payload with the envelope JSON.
             StringEntity payload = generatePayload(json, ContentType.APPLICATION_JSON);
@@ -143,13 +153,17 @@ public class HttpRequestor<T> extends Requestor<T> {
                 response.close();
                 throw new RuntimeException("Failed : HTTP error code : " + statusCode);
             } else {
-                LOG.debug(response.getStatusLine().toString());
-                LOG.debug(EntityUtils.toString(response.getEntity()));
+                if (log.isDebugEnabled()) {
+                    log.debug(response.getStatusLine().toString());
+                    log.debug(EntityUtils.toString(response.getEntity()));
+                }
 
                 response.close();
                 status = Boolean.TRUE;
 
-                LOG.debug("Exiting send()...");
+                if (log.isDebugEnabled()) {
+                    log.debug("Exiting send()...");
+                }
             }
 
         } catch (ClientProtocolException cpe) {

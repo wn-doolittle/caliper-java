@@ -23,10 +23,10 @@ import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
-public class LearningObjective extends org.imsglobal.caliper.entities.Entity {
+public class LearningObjective extends EntityBase {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final String type;
 
     /**
      * @param builder apply builder object properties to the Target object.
@@ -44,7 +44,7 @@ public class LearningObjective extends org.imsglobal.caliper.entities.Entity {
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public String getType() {
         return type;
     }
 
@@ -52,21 +52,21 @@ public class LearningObjective extends org.imsglobal.caliper.entities.Entity {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private EntityType type;
+    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+        private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.LEARNING_OBJECTIVE);
+            type(EntityType.LEARNING_OBJECTIVE.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

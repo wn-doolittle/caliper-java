@@ -16,12 +16,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.session;
+package org.imsglobal.caliper.entities.response;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityBase;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
@@ -29,13 +34,19 @@ import org.joda.time.DateTime;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Session extends EntityBase implements org.imsglobal.caliper.entities.Generatable,
-                                               org.imsglobal.caliper.entities.Targetable {
+public abstract class ResponseBase extends EntityBase implements Response, Generatable {
+
     @JsonProperty("@type")
     private final String type;
 
+    @JsonProperty("assignable")
+    private final DigitalResource assignable;
+
     @JsonProperty("actor")
     private final Agent actor;
+
+    @JsonProperty("attempt")
+    private Attempt attempt;
 
     @JsonProperty("startedAtTime")
     private DateTime startedAtTime;
@@ -47,18 +58,22 @@ public class Session extends EntityBase implements org.imsglobal.caliper.entitie
     private String duration;
 
     /**
-     * @param builder apply builder object properties to the WebPage object.
+     * @param builder apply builder object properties to the Attempt object.
      */
-    protected Session(Builder<?> builder) {
+    protected ResponseBase(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkType(builder.type, EntityType.SESSION);
-        EntityValidator.checkActorType(builder.actor, Person.class);
+        EntityValidator.checkType(builder.type, EntityType.RESPONSE);
+        EntityValidator.checkId("assignable Id", builder.assignable.getId());
+        EntityValidator.checkId("actor Id", builder.actor.getId());
+        EntityValidator.checkAttempt(builder.attempt);
         EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
         EntityValidator.checkDuration(builder.duration);
 
         this.type = builder.type;
+        this.assignable = builder.assignable;
         this.actor = builder.actor;
+        this.attempt = builder.attempt;
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
         this.duration = builder.duration;
@@ -74,15 +89,39 @@ public class Session extends EntityBase implements org.imsglobal.caliper.entitie
     }
 
     /**
+     * Serialization of Assignable associated with this Response is limited to
+     * the identifying URI only.
+     * @return the assignable
+     */
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
+    @Nonnull
+    public DigitalResource getAssignable() {
+        return assignable;
+    }
+
+    /**
+     * Serialization of Agent associated with this Response is limited to
+     * the identifying URI only.
      * @return the actor
      */
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
     @Nonnull
     public Agent getActor() {
         return actor;
     }
 
     /**
-     * @return session start time
+     * @return attempt associated with the response;
+     */
+    @Nonnull
+    public Attempt getAttempt() {
+        return attempt;
+    }
+
+    /**
+     * @return started at time
      */
     @Nullable
     public DateTime getStartedAtTime() {
@@ -90,7 +129,7 @@ public class Session extends EntityBase implements org.imsglobal.caliper.entitie
     }
 
     /**
-     * @return session end time
+     * @return ended at time
      */
     @Nullable
     public DateTime getEndedAtTime() {
@@ -98,7 +137,13 @@ public class Session extends EntityBase implements org.imsglobal.caliper.entitie
     }
 
     /**
-     * @return session duration
+     * An xsd:duration (http://books.xmlschemata.org/relaxng/ch19-77073.html)
+     * The format is expected to be PnYnMnDTnHnMnS.  Valid values include PT1004199059S, PT130S,
+     * PT2M10S, P1DT2S, -P1Y, or P1Y2M3DT5H20M30.123S.  The following values are invalid:
+     * 1Y (leading P is missing), P1S (T separator is missing), P-1Y (all parts must be positive),
+     * P1M2Y (parts order is significant and Y must precede M) or P1Y-1M (all parts must be positive).
+     *
+     * @return duration
      */
     @Nullable
     public String getDuration() {
@@ -111,7 +156,9 @@ public class Session extends EntityBase implements org.imsglobal.caliper.entitie
      */
     public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
         private String type;
+        private DigitalResource assignable;
         private Agent actor;
+        private Attempt attempt;
         private DateTime startedAtTime;
         private DateTime endedAtTime;
         private String duration;
@@ -120,7 +167,7 @@ public class Session extends EntityBase implements org.imsglobal.caliper.entitie
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.SESSION.getValue());
+            type(EntityType.RESPONSE.getValue());
         }
 
         /**
@@ -133,11 +180,29 @@ public class Session extends EntityBase implements org.imsglobal.caliper.entitie
         }
 
         /**
+         * @param assignable
+         * @return builder.
+         */
+        public T assignable(DigitalResource assignable) {
+            this.assignable = assignable;
+            return self();
+        }
+
+        /**
          * @param actor
          * @return builder.
          */
         public T actor(Agent actor) {
             this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param attempt
+         * @return builder.
+         */
+        public T attempt(Attempt attempt) {
+            this.attempt = attempt;
             return self();
         }
 
@@ -167,14 +232,6 @@ public class Session extends EntityBase implements org.imsglobal.caliper.entitie
             this.duration = duration;
             return self();
         }
-
-        /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of Session.
-         */
-        public Session build() {
-            return new Session(this);
-        }
     }
 
     /**
@@ -185,13 +242,5 @@ public class Session extends EntityBase implements org.imsglobal.caliper.entitie
         protected Builder2 self() {
             return this;
         }
-    }
-
-    /**
-     * Static factory method.
-     * @return a new instance of the builder.
-     */
-    public static Builder<?> builder() {
-        return new Builder2();
     }
 }

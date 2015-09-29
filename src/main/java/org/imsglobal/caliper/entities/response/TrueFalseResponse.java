@@ -28,10 +28,10 @@ import javax.annotation.Nullable;
  * Represents response to a multiple choice question that limits options to either 'true or false',
  * 'agree or disagree', etc.
  */
-public class TrueFalseResponse extends Response {
+public class TrueFalseResponse extends ResponseBase {
 
     @JsonProperty("@type")
-    private final ResponseType type;
+    private final String type;
 
     @JsonProperty("value")
     private final String value;
@@ -53,7 +53,7 @@ public class TrueFalseResponse extends Response {
      */
     @Override
     @Nonnull
-    public ResponseType getType() {
+    public String getType() {
         return type;
     }
 
@@ -69,22 +69,22 @@ public class TrueFalseResponse extends Response {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Response.Builder<T>  {
-        private ResponseType type;
+    public static abstract class Builder<T extends Builder<T>> extends ResponseBase.Builder<T>  {
+        private String type;
         private String value;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(ResponseType.TRUEFALSE);
+            type(ResponseType.TRUEFALSE.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(ResponseType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

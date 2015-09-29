@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityBase;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.w3c.Organization;
@@ -44,10 +44,10 @@ import java.util.List;
     Status.DELETED,
     Status.INACTIVE
 })
-public class Membership extends Entity implements org.imsglobal.caliper.entities.w3c.Membership {
+public class Membership extends EntityBase implements org.imsglobal.caliper.entities.w3c.Membership {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final String type;
 
     @JsonProperty("member")
     private final Person member;
@@ -82,7 +82,7 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public String getType() {
         return type;
     }
 
@@ -126,8 +126,8 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T> {
-        private EntityType type;
+    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T> {
+        private String type;
         private Person member;
         private Organization organization;
         private List<org.imsglobal.caliper.entities.w3c.Role> roles = Lists.newArrayList();
@@ -137,14 +137,14 @@ public class Membership extends Entity implements org.imsglobal.caliper.entities
          * Default Constructor
          */
         public Builder() {
-            type(EntityType.MEMBERSHIP);
+            type(EntityType.MEMBERSHIP.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

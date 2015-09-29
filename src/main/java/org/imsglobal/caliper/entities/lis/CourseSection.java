@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
 public class CourseSection extends CourseOffering {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final String type;
 
     @JsonProperty("category")
     private final String category;
@@ -60,7 +60,7 @@ public class CourseSection extends CourseOffering {
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public String getType() {
         return type;
     }
 
@@ -77,21 +77,21 @@ public class CourseSection extends CourseOffering {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends CourseOffering.Builder<T>  {
-        private EntityType type;
+        private String type;
         private String category;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.COURSE_SECTION);
+            type(EntityType.COURSE_SECTION.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

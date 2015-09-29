@@ -31,10 +31,10 @@ import java.util.List;
  *  Represents a response that identifies text from a presented paragraph or list.
  *  The response is the identified string or a mapping to a logical identifier;
  */
-public class SelectTextResponse extends Response {
+public class SelectTextResponse extends ResponseBase {
 
     @JsonProperty("@type")
-    private final ResponseType type;
+    private final String type;
 
     @JsonProperty("values")
     private ImmutableList<String> values;
@@ -56,7 +56,7 @@ public class SelectTextResponse extends Response {
      */
     @Override
     @Nonnull
-    public ResponseType getType() {
+    public String getType() {
         return type;
     }
 
@@ -72,22 +72,22 @@ public class SelectTextResponse extends Response {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Response.Builder<T>  {
-        private ResponseType type;
+    public static abstract class Builder<T extends Builder<T>> extends ResponseBase.Builder<T>  {
+        private String type;
         private List<String> values = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(ResponseType.SELECTTEXT);
+            type(ResponseType.SELECTTEXT.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(ResponseType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

@@ -19,18 +19,20 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.Frame;
-import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -96,7 +98,9 @@ public class AnnotationBookmarkedEventTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.ALWAYS);
+        String json = mapper.writeValueAsString(event);
+
         String fixture = jsonFixture("fixtures/caliperBookmarkAnnotationEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
@@ -104,6 +108,11 @@ public class AnnotationBookmarkedEventTest {
     @Test(expected=IllegalArgumentException.class)
     public void annotationEventRejectsCompletedAction() {
         buildEvent(Action.COMPLETED);
+    }
+
+    @After
+    public void teardown() {
+        event = null;
     }
 
     /**
@@ -114,7 +123,7 @@ public class AnnotationBookmarkedEventTest {
     private AnnotationEvent buildEvent(Action action) {
         return AnnotationEvent.builder()
             .actor(actor)
-            .action(action)
+            .action(action.getValue())
             .object(object)
             .generated(generated)
             .eventTime(eventTime)

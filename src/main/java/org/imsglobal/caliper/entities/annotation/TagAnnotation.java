@@ -18,19 +18,27 @@
 
 package org.imsglobal.caliper.entities.annotation;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.EntityBase;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
+public class TagAnnotation extends EntityBase implements Annotation {
 
     @JsonProperty("@type")
-    private final AnnotationType type;
+    private final String type;
+
+    @JsonProperty("annotated")
+    private DigitalResource annotated;
 
     @JsonProperty("tags")
     private ImmutableList<String> tags;
@@ -42,8 +50,10 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
         super(builder);
 
         EntityValidator.checkType(builder.type, AnnotationType.TAG_ANNOTATION);
+        EntityValidator.checkId("annotated Id", builder.annotated.getId());
 
         this.type = builder.type;
+        this.annotated = builder.annotated;
         this.tags = ImmutableList.copyOf(builder.tags);
     }
 
@@ -52,8 +62,20 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
      */
     @Override
     @Nonnull
-    public AnnotationType getType() {
+    public String getType() {
         return type;
+    }
+
+    /**
+     * Serialization of DigitalResource associated with this Annotation is limited to
+     * the identifying URI only.
+     * @return the annotated object's identifier
+     */
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
+    @Nonnull
+    public DigitalResource getAnnotated() {
+        return annotated;
     }
 
     /**
@@ -69,23 +91,33 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
-        private AnnotationType type;
+    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+        private String type;
+        private DigitalResource annotated;
         private List<String> tags = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(AnnotationType.TAG_ANNOTATION);
+            type(AnnotationType.TAG_ANNOTATION.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(AnnotationType type) {
+        private T type(String type) {
             this.type = type;
+            return self();
+        }
+
+        /**
+         * @param annotated
+         * @return builder.
+         */
+        public T annotated(DigitalResource annotated) {
+            this.annotated = annotated;
             return self();
         }
 

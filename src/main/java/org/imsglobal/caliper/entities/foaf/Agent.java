@@ -18,8 +18,6 @@
 
 package org.imsglobal.caliper.entities.foaf;
 
-import org.imsglobal.caliper.entities.Type;
-
 /**
  * An entity that can do things. Typical kinds of agents include people, organizations and software systems.
  * See http://xmlns.com/foaf/spec/#term_Agent
@@ -27,16 +25,17 @@ import org.imsglobal.caliper.entities.Type;
 public interface Agent {
 
     /**
-     * An identifier used to to uniquely identify the organization.  The identifier should be
-     * expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the identifier.
+     * Each entity (or node in the graph as defined by JSON-LD) requires an identifier.
+     * The identifier should be expressed as a unique IRI in conformance with the
+     * JSON-LD specification.
+     * @return the identifier IRI
      */
     String getId();
 
     /**
-     * The type of an Agent (e.g., person, organization, software application).  The type should be
+     * Specifies the type of Agent or node in the graph as defined by JSON-LD.  The type should be
      * expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the identifier.
+     * @return the type IRI
      */
-    Type getType();
+    String getType();
 }

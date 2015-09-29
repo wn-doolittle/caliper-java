@@ -19,18 +19,20 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.imsglobal.caliper.TestAgentEntities;
 import org.imsglobal.caliper.TestDates;
 import org.imsglobal.caliper.TestEpubEntities;
 import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.reading.EpubSubChapter;
 import org.imsglobal.caliper.entities.reading.EpubVolume;
 import org.imsglobal.caliper.entities.reading.Frame;
-import org.imsglobal.caliper.payload.JsonMapper;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -90,7 +92,9 @@ public class ViewViewedEventTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        String json = JsonMapper.serialize(event, JsonInclude.Include.ALWAYS);
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.ALWAYS);
+        String json = mapper.writeValueAsString(event);
+
         String fixture = jsonFixture("fixtures/caliperViewEvent.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
@@ -98,6 +102,11 @@ public class ViewViewedEventTest {
     @Test(expected=IllegalArgumentException.class)
     public void viewEventRejectsNavigatedToAction() {
         buildEvent(Action.NAVIGATED_TO);
+    }
+
+    @After
+    public void teardown() {
+        event = null;
     }
 
     /**
@@ -108,7 +117,7 @@ public class ViewViewedEventTest {
     private ViewEvent buildEvent(Action action) {
         return ViewEvent.builder()
             .actor(actor)
-            .action(action)
+            .action(action.getValue())
             .object(object)
             .target(target)
             .eventTime(eventTime)

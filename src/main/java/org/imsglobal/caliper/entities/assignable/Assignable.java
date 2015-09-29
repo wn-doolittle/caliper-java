@@ -18,12 +18,13 @@
 
 package org.imsglobal.caliper.entities.assignable;
 
+import org.imsglobal.caliper.entities.Resource;
 import org.joda.time.DateTime;
 
 /**
  * Representation of Assignable from corresponding metric profile
  */
-public interface Assignable {
+public interface Assignable extends Resource {
 
     DateTime getDateToStartOn();
 

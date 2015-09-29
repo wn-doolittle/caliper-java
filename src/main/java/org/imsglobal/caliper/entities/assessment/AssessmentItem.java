@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
 public class AssessmentItem extends AssignableDigitalResource {
 
     @JsonProperty("@type")
-    private final AssignableDigitalResourceType type;
+    private final String type;
 
     @JsonProperty("isTimeDependent")
     private final boolean isTimeDependent;
@@ -53,7 +53,7 @@ public class AssessmentItem extends AssignableDigitalResource {
      */
     @Override
     @Nonnull
-    public AssignableDigitalResourceType getType() {
+    public String getType() {
         return type;
     }
 
@@ -75,21 +75,21 @@ public class AssessmentItem extends AssignableDigitalResource {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
-        private AssignableDigitalResourceType type;
+        private String type;
         private boolean isTimeDependent = false;
 
         /**
          * Constructor
          */
         public Builder() {
-            type(AssignableDigitalResourceType.ASSESSMENT_ITEM);
+            type(AssignableDigitalResourceType.ASSESSMENT_ITEM.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(AssignableDigitalResourceType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }
