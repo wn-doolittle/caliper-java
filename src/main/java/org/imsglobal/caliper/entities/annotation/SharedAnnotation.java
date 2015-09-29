@@ -30,7 +30,7 @@ import java.util.List;
 public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")
-    private final AnnotationType type;
+    private final String type;
 
     @JsonProperty("withAgents")
     private final ImmutableList<Agent> withAgents;
@@ -51,7 +51,7 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
      * @return the type
      */
     @Override
-    public AnnotationType getType() {
+    public String getType() {
         return type;
     }
 
@@ -69,21 +69,21 @@ public class SharedAnnotation extends org.imsglobal.caliper.entities.annotation.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
-        private AnnotationType type;
+        private String type;
         private List<Agent> withAgents = Lists.newArrayList();
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(AnnotationType.SHARED_ANNOTATION);
+            type(AnnotationType.SHARED_ANNOTATION.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(AnnotationType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

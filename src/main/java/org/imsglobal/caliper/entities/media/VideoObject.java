@@ -29,7 +29,7 @@ import javax.annotation.Nonnull;
 public class VideoObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.VideoObject {
 
     @JsonProperty("@type")
-    private final MediaObjectType type;
+    private final String type;
 
     /**
      * @param builder apply builder object properties to the VideoObject object.
@@ -47,7 +47,7 @@ public class VideoObject extends MediaObject implements org.imsglobal.caliper.en
      */
     @Override
     @Nonnull
-    public MediaObjectType getType() {
+    public String getType() {
         return type;
     }
 
@@ -56,20 +56,20 @@ public class VideoObject extends MediaObject implements org.imsglobal.caliper.en
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
-        private MediaObjectType type;
+        private String type;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(MediaObjectType.VIDEO_OBJECT);
+            type(MediaObjectType.VIDEO_OBJECT.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(MediaObjectType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

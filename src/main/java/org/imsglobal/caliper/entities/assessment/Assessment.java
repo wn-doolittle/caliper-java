@@ -33,7 +33,7 @@ import java.util.List;
 public class Assessment extends AssignableDigitalResource {
 
     @JsonProperty("@type")
-    private final AssignableDigitalResourceType type;
+    private final String type;
 
     /**
      * @param builder apply builder object properties to the CaliperAssessment object.
@@ -51,7 +51,7 @@ public class Assessment extends AssignableDigitalResource {
      */
     @Override
     @Nonnull
-    public AssignableDigitalResourceType getType() {
+    public String getType() {
         return type;
     }
 
@@ -60,21 +60,21 @@ public class Assessment extends AssignableDigitalResource {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
-        private AssignableDigitalResourceType type;
+        private String type;
         private List<AssessmentItem> assessmentItems = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(AssignableDigitalResourceType.ASSESSMENT);
+            type(AssignableDigitalResourceType.ASSESSMENT.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(AssignableDigitalResourceType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

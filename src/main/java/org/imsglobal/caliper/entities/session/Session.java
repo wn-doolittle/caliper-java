@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.entities.session;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityBase;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.foaf.Agent;
@@ -29,10 +29,10 @@ import org.joda.time.DateTime;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Session extends Entity implements org.imsglobal.caliper.entities.Generatable,
+public class Session extends EntityBase implements org.imsglobal.caliper.entities.Generatable,
                                                org.imsglobal.caliper.entities.Targetable {
     @JsonProperty("@type")
-    private final EntityType type;
+    private final String type;
 
     @JsonProperty("actor")
     private final Agent actor;
@@ -69,7 +69,7 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public String getType() {
         return type;
     }
 
@@ -109,8 +109,8 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private EntityType type;
+    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+        private String type;
         private Agent actor;
         private DateTime startedAtTime;
         private DateTime endedAtTime;
@@ -120,14 +120,14 @@ public class Session extends Entity implements org.imsglobal.caliper.entities.Ge
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.SESSION);
+            type(EntityType.SESSION.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

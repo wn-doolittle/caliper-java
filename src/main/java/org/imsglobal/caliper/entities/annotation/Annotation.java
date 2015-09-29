@@ -18,11 +18,13 @@
 
 package org.imsglobal.caliper.entities.annotation;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityBase;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -34,10 +36,10 @@ import javax.annotation.Nonnull;
  * which are specified in the Caliper Annotation Metric Profile
  */
 
-public abstract class Annotation extends Entity implements org.imsglobal.caliper.entities.Generatable {
+public abstract class Annotation extends EntityBase implements org.imsglobal.caliper.entities.Generatable {
 
     @JsonProperty("@type")
-    private final Type type;
+    private final String type;
 
     @JsonProperty("annotated")
     private DigitalResource annotated;
@@ -60,7 +62,7 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
      */
     @Override
     @Nonnull
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
@@ -81,22 +83,22 @@ public abstract class Annotation extends Entity implements org.imsglobal.caliper
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private Type type;
+    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+        private String type;
         private DigitalResource annotated;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(EntityType.ANNOTATION);
+            type(EntityType.ANNOTATION.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(Type type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

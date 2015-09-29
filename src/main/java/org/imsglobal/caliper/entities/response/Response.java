@@ -23,10 +23,9 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityBase;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
@@ -35,10 +34,10 @@ import org.joda.time.DateTime;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class Response extends Entity implements Generatable {
+public abstract class Response extends EntityBase implements Generatable {
 
     @JsonProperty("@type")
-    private final Type type;
+    private final String type;
 
     @JsonProperty("assignable")
     private final DigitalResource assignable;
@@ -85,7 +84,7 @@ public abstract class Response extends Entity implements Generatable {
      */
     @Override
     @Nonnull
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
@@ -155,8 +154,8 @@ public abstract class Response extends Entity implements Generatable {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private EntityType type;
+    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+        private String type;
         private DigitalResource assignable;
         private Agent actor;
         private Attempt attempt;
@@ -168,14 +167,14 @@ public abstract class Response extends Entity implements Generatable {
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.RESPONSE);
+            type(EntityType.RESPONSE.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

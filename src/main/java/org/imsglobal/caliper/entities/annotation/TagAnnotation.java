@@ -30,7 +30,7 @@ import java.util.List;
 public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
 
     @JsonProperty("@type")
-    private final AnnotationType type;
+    private final String type;
 
     @JsonProperty("tags")
     private ImmutableList<String> tags;
@@ -52,7 +52,7 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
      */
     @Override
     @Nonnull
-    public AnnotationType getType() {
+    public String getType() {
         return type;
     }
 
@@ -70,21 +70,21 @@ public class TagAnnotation extends org.imsglobal.caliper.entities.annotation.Ann
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
-        private AnnotationType type;
+        private String type;
         private List<String> tags = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(AnnotationType.TAG_ANNOTATION);
+            type(AnnotationType.TAG_ANNOTATION.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(AnnotationType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

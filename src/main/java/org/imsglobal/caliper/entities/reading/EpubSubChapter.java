@@ -34,7 +34,7 @@ import javax.annotation.Nonnull;
 public class EpubSubChapter extends DigitalResource {
 
     @JsonProperty("@type")
-    private final DigitalResourceType type;
+    private final String type;
 
     /**
      * @param builder apply builder object properties to the EpubSubChapter object.
@@ -52,7 +52,7 @@ public class EpubSubChapter extends DigitalResource {
      */
     @Override
     @Nonnull
-    public DigitalResourceType getType() {
+    public String getType() {
         return type;
     }
 
@@ -61,20 +61,20 @@ public class EpubSubChapter extends DigitalResource {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private DigitalResourceType type;
+        private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResourceType.EPUB_SUB_CHAPTER);
+            type(DigitalResourceType.EPUB_SUB_CHAPTER.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(DigitalResourceType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }

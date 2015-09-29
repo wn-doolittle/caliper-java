@@ -19,16 +19,16 @@
 package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityBase;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
-public class Person extends Entity implements org.imsglobal.caliper.entities.foaf.Agent {
+public class Person extends EntityBase implements org.imsglobal.caliper.entities.foaf.Agent {
 
     @JsonProperty("@type")
-    private final EntityType type;
+    private final String type;
 
     /**
      * @param builder apply builder object properties to the Person object.
@@ -46,7 +46,7 @@ public class Person extends Entity implements org.imsglobal.caliper.entities.foa
      */
     @Override
     @Nonnull
-    public EntityType getType() {
+    public String getType() {
         return type;
     }
 
@@ -54,21 +54,21 @@ public class Person extends Entity implements org.imsglobal.caliper.entities.foa
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Entity.Builder<T>  {
-        private EntityType type;
+    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+        private String type;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.PERSON);
+            type(EntityType.PERSON.getValue());
         }
 
         /**
          * @param type
          * @return builder.
          */
-        private T type(EntityType type) {
+        private T type(String type) {
             this.type = type;
             return self();
         }
