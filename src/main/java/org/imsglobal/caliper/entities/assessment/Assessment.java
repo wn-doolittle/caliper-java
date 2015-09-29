@@ -19,13 +19,11 @@
 package org.imsglobal.caliper.entities.assessment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResourceType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 /**
  * Caliper representation of an Assessment.  Part of the Assessment Metric Profile
@@ -61,7 +59,6 @@ public class Assessment extends AssignableDigitalResource {
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
         private String type;
-        private List<AssessmentItem> assessmentItems = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
