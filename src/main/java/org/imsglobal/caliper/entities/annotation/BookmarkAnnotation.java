@@ -18,16 +18,24 @@
 
 package org.imsglobal.caliper.entities.annotation;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.EntityBase;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
+public class BookmarkAnnotation extends EntityBase implements Annotation {
 
     @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("annotated")
+    private DigitalResource annotated;
 
     @JsonProperty("bookmarkNotes")
     private String bookmarkNotes;
@@ -39,8 +47,10 @@ public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotatio
         super(builder);
 
         EntityValidator.checkType(builder.type, AnnotationType.BOOKMARK_ANNOTATION);
+        EntityValidator.checkId("annotated Id", builder.annotated.getId());
 
         this.type = builder.type;
+        this.annotated = builder.annotated;
         this.bookmarkNotes = builder.bookmarkNotes;
     }
 
@@ -51,6 +61,18 @@ public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotatio
     @Nonnull
     public String getType() {
         return type;
+    }
+
+    /**
+     * Serialization of DigitalResource associated with this Annotation is limited to
+     * the identifying URI only.
+     * @return the annotated object's identifier
+     */
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
+    @Nonnull
+    public DigitalResource getAnnotated() {
+        return annotated;
     }
 
     /**
@@ -65,8 +87,9 @@ public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotatio
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
         private String type;
+        private DigitalResource annotated;
         private String bookmarkNotes;
 
         /**
@@ -82,6 +105,15 @@ public class BookmarkAnnotation extends org.imsglobal.caliper.entities.annotatio
          */
         private T type(String type) {
             this.type = type;
+            return self();
+        }
+
+        /**
+         * @param annotated
+         * @return builder.
+         */
+        public T annotated(DigitalResource annotated) {
+            this.annotated = annotated;
             return self();
         }
 

@@ -18,16 +18,24 @@
 
 package org.imsglobal.caliper.entities.annotation;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.EntityBase;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotation.Annotation {
+public class HighlightAnnotation extends EntityBase implements Annotation {
 
     @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("annotated")
+    private DigitalResource annotated;
 
     @JsonProperty("selection")
     private TextPositionSelector selection;
@@ -42,8 +50,10 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
         super(builder);
 
         EntityValidator.checkType(builder.type, AnnotationType.HIGHLIGHT_ANNOTATION);
+        EntityValidator.checkId("annotated Id", builder.annotated.getId());
 
         this.type = builder.type;
+        this.annotated = builder.annotated;
         this.selection = builder.selection;
         this.selectionText = builder.selectionText;
     }
@@ -55,6 +65,18 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
     @Nonnull
     public String getType() {
         return type;
+    }
+
+    /**
+     * Serialization of DigitalResource associated with this Annotation is limited to
+     * the identifying URI only.
+     * @return the annotated object's identifier
+     */
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
+    @JsonIdentityReference(alwaysAsId = true)
+    @Nonnull
+    public DigitalResource getAnnotated() {
+        return annotated;
     }
 
     /**
@@ -77,8 +99,9 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
         private String type;
+        private DigitalResource annotated;
         private TextPositionSelector selection;
         private String selectionText;
 
@@ -96,6 +119,15 @@ public class HighlightAnnotation extends org.imsglobal.caliper.entities.annotati
          */
         private T type(String type) {
             this.type = type;
+            return self();
+        }
+
+        /**
+         * @param annotated
+         * @return builder.
+         */
+        public T annotated(DigitalResource annotated) {
+            this.annotated = annotated;
             return self();
         }
 
