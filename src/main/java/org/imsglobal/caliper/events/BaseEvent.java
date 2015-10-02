@@ -28,6 +28,17 @@ import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 
+/**
+ * This class provides a skeletal implementation of the Event interface in order to minimize the effort
+ * required to implement the interface and achieve Level 0 conformance with the Caliper specification.
+ * To implement a new Event type, perhaps with additional properties and/or behaviors specified, a developer
+ * need only extend this class with a concrete implementation.
+ *
+ * Note that the Event interface specifies the minimum set of properties required to implement a Caliper Event.
+ * Inclusion of the learning context within which learning activities occur is not required.  However, events that
+ * are generated without reference to context will generally fail to reflect the Event model defined by most Metric
+ * Profiles as well as Level 1+ conformance requirements.
+ */
 public abstract class BaseEvent implements Event {
 
     @JsonProperty("@context")

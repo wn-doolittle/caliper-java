@@ -21,8 +21,9 @@ package org.imsglobal.caliper.entities;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
 /**
- * The interface for Caliper Entities.  Analogous to a schema.org Thing and a JSON-LD node in a graph.
- * For an Entity to be linkable, dereferencing the identifier should result in a representation of the node.
+ * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  Analogous
+ * to a schema.org Thing and a JSON-LD node in a graph.  For an Entity to be linkable, dereferencing the identifier
+ * should result in a representation of the node.
  */
 public interface Entity extends Thing {
 

@@ -22,6 +22,12 @@ import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.joda.time.DateTime;
 
+/**
+ * The Event interface provides the minimal set of properties and behaviors required of a Caliper Event.
+ * Note that inclusion of the learning context within which learning activities occur is not required.
+ * However, events that are generated without reference to context will generally fail to reflect the
+ * Event model defined by most Metric Profiles as well as Level 1+ conformance requirements.
+ */
 public interface Event {
 
     /**

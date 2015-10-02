@@ -25,17 +25,48 @@ import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.entities.w3c.Membership;
 import org.imsglobal.caliper.entities.w3c.Organization;
 
-public interface EventContext extends Event {
+public interface EventContext {
 
+    /**
+     * An Entity that represents the target of a learning interaction.  Navigating to a resource while engaged in a
+     * learning activity is an example of a target entity.
+     * @return target entity
+     */
     Targetable getTarget();
 
+    /**
+     * An Entity generated as a result of the learning interaction.  Example entities typed as Generatable include
+     * assignable attempts, assessment item responses and graded outcome results.
+     * @return generated entity
+     */
     Generatable getGenerated();
 
+    /**
+     * The module, application, platform, system and/or service that provides the technological context within which
+     * the learning activity occurs.
+     * @return the edApp context
+     */
     SoftwareApplication getEdApp();
 
+    /**
+     * The group represents a collection of people organized together into a community or other social, commercial
+     * or political structure.  The group has some common purpose or reason for existence which goes beyond the set
+     * of people belonging to it and can act as an Agent.  For learning interactions, a typical group context would
+     * comprise the course context within which the learning activity occurs.
+     * @return the group context
+     */
     Organization getGroup();
 
+    /**
+     * The Membership context defines an actor's roles and status as a member of an organization or group.
+     * @return the membership context.
+     */
     Membership getMembership();
 
+    /**
+     * An LTI-scoped identifier representing the originating Tool Consumer user session during which one or more launch
+     * requests to external Tool Providers are initiated.  Provision of a federated session identifier helps to
+     * correlate Tool Provider learning activities with those of the Tool Consumer during the same "logical" session.
+     */
     Session getFederatedSession();
 }
