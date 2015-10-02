@@ -19,7 +19,7 @@ public class JsonObjectMapper {
     }
 
     /**
-     * Factory method that returns a Caliper-friendly Jackson ObjectMapper instance.
+     * Default factory method that returns a Caliper-friendly Jackson ObjectMapper instance.
      * @param include
      * @return
      */
