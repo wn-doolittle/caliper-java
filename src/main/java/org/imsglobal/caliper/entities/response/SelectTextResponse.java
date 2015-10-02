@@ -31,7 +31,7 @@ import java.util.List;
  *  Represents a response that identifies text from a presented paragraph or list.
  *  The response is the identified string or a mapping to a logical identifier;
  */
-public class SelectTextResponse extends ResponseBase {
+public class SelectTextResponse extends BaseResponse {
 
     @JsonProperty("@type")
     private final String type;
@@ -72,7 +72,7 @@ public class SelectTextResponse extends ResponseBase {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends ResponseBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseResponse.Builder<T>  {
         private String type;
         private List<String> values = Lists.newArrayList();
 

@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.entities.response.ResponseBase;
+import org.imsglobal.caliper.entities.response.BaseResponse;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
@@ -66,7 +66,7 @@ public class AssessmentItemEvent extends BaseEventContext {
         EventValidator.checkObjectType(getObject(), AssessmentItem.class);
 
         if (builder.action.equals(Action.COMPLETED.getValue())) {
-            EventValidator.checkGeneratedType(getGenerated(), ResponseBase.class);
+            EventValidator.checkGeneratedType(getGenerated(), BaseResponse.class);
         } else {
             EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
         }

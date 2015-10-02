@@ -31,7 +31,7 @@ import java.util.List;
  * Represents response text or integer/decimal/scientific numbers that completes a question
  * designed with one or more "fill in the blank" option prompts.
  */
-public class FillinBlankResponse extends ResponseBase {
+public class FillinBlankResponse extends BaseResponse {
 
     @JsonProperty("@type")
     private final String type;
@@ -72,7 +72,7 @@ public class FillinBlankResponse extends ResponseBase {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends ResponseBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseResponse.Builder<T>  {
         private String type;
         private List<String> values = Lists.newArrayList();
 

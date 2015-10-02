@@ -34,7 +34,7 @@ import org.joda.time.DateTime;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class ResponseBase extends EntityBase implements Response, Generatable {
+public abstract class BaseResponse extends EntityBase implements Response, Generatable {
 
     @JsonProperty("@type")
     private final String type;
@@ -60,7 +60,7 @@ public abstract class ResponseBase extends EntityBase implements Response, Gener
     /**
      * @param builder apply builder object properties to the Attempt object.
      */
-    protected ResponseBase(Builder<?> builder) {
+    protected BaseResponse(Builder<?> builder) {
         super(builder);
 
         EntityValidator.checkType(builder.type, EntityType.RESPONSE);
