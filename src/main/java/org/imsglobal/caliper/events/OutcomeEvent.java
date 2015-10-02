@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 @SupportedActions({
     Action.GRADED
 })
-public class OutcomeEvent extends EventBase {
+public class OutcomeEvent extends BaseEventContext {
 
     @JsonProperty("@type")
     private final String type;
@@ -87,7 +87,7 @@ public class OutcomeEvent extends EventBase {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EventBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
         private String type;
         private String action;
 

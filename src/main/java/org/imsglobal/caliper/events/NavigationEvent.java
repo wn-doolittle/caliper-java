@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @SupportedActions({Action.NAVIGATED_TO})
-public class NavigationEvent extends EventBase {
+public class NavigationEvent extends BaseEventContext {
 
     @JsonProperty("@type")
     private final String type;
@@ -100,7 +100,7 @@ public class NavigationEvent extends EventBase {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EventBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
         private String type;
         private String action;
         private DigitalResource fromResource;

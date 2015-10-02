@@ -70,7 +70,7 @@ public class TestFreeFormEvent extends BaseEvent {
          * Initialize type with default values.
          */
         public Builder() {
-            
+
         }
 
         /**
