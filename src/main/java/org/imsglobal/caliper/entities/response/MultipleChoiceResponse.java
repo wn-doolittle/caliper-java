@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 /**
  * Represents a response to a multiple choice question that permits a single option to be selected.
  */
-public class MultipleChoiceResponse extends ResponseBase {
+public class MultipleChoiceResponse extends BaseResponse {
 
     @JsonProperty("@type")
     private final String type;
@@ -68,7 +68,7 @@ public class MultipleChoiceResponse extends ResponseBase {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends ResponseBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseResponse.Builder<T>  {
         private String type;
         private String value;
 

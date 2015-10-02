@@ -40,7 +40,7 @@ import javax.annotation.Nonnull;
     Action.SHOWED,
     Action.STARTED
 })
-public class AssignableEvent extends EventBase {
+public class AssignableEvent extends BaseEventContext {
 
     @JsonProperty("@type")
     private final String type;
@@ -96,7 +96,7 @@ public class AssignableEvent extends EventBase {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EventBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
         private String type;
         private String action;
 

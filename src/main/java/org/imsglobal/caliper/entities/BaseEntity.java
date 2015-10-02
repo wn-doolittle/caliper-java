@@ -30,9 +30,11 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 /**
- * The base Caliper Entity.
+ * This class provides a skeletal implementation of the Entity interface in order to minimize the effort
+ * required to implement the interface.  BaseEntity specifies an additional set of optional properties that together
+ * provide a richer representation of a Caliper Entity, including a map for adding additonal custom extensions.
  */
-public abstract class EntityBase implements Entity {
+public abstract class BaseEntity implements Entity {
 
     @JsonProperty("@context")
     protected final String context;
@@ -61,7 +63,7 @@ public abstract class EntityBase implements Entity {
     /**
      * @param builder apply builder object properties to the Entity object.
      */
-    protected EntityBase(Builder<?> builder) {
+    protected BaseEntity(Builder<?> builder) {
 
         EntityValidator.checkContext(builder.context, Context.CONTEXT);
         EntityValidator.checkId("id", builder.id);

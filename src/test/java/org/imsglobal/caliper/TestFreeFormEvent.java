@@ -21,39 +21,15 @@ package org.imsglobal.caliper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Maps;
-import org.imsglobal.caliper.context.Context;
-import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.events.Event;
-import org.imsglobal.caliper.events.EventType;
-import org.imsglobal.caliper.validators.EventValidator;
-import org.joda.time.DateTime;
+import org.imsglobal.caliper.events.BaseEvent;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class TestFreeFormEvent implements Event {
-    @JsonProperty("@context")
-    private final String context;
-
-    @JsonProperty("@type")
-    private final String type;
-
-    @JsonProperty("actor")
-    private final Agent actor;
-
-    @JsonProperty("action")
-    protected final String action;
-
-    @JsonProperty("object")
-    private final Entity object;
+public class TestFreeFormEvent extends BaseEvent {
 
     @JsonProperty("extensions")
     private Map<String, Object> extensions;
-
-    @JsonProperty("eventTime")
-    private final DateTime eventTime;
 
     @JsonIgnore
     //private static final Logger log = LoggerFactory.getLogger(TestMinimalEvent.class);
@@ -67,61 +43,11 @@ public class TestFreeFormEvent implements Event {
      * @param builder
      */
     protected TestFreeFormEvent(Builder<?> builder) {
+        super(builder);
 
-        EventValidator.checkContext(builder.context, Context.CONTEXT);
+        // EventValidator.checkContext(getContext(), Context.CONTEXT);
 
-        this.context = builder.context;
-        this.type = builder.type;
-        this.actor = builder.actor;
-        this.action = builder.action;
-        this.object = builder.object;
         this.extensions = builder.extensions;
-        this.eventTime = builder.eventTime;
-    }
-
-    /**
-     * Required.
-     * @return the context
-     */
-    @Nonnull
-    public String getContext() {
-        return context;
-    }
-
-    /**
-     * Required.
-     * @return the type
-     */
-    @Nonnull
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * Required.
-     * @return the actor
-     */
-    @Nonnull
-    public Agent getActor() {
-        return actor;
-    }
-
-    /**
-     * Required.
-     * @return the action
-     */
-    @Nonnull
-    public String getAction() {
-        return action;
-    }
-
-    /**
-     * Required.
-     * @return the object
-     */
-    @Nonnull
-    public Entity getObject() {
-        return object;
     }
 
     /**
@@ -134,80 +60,17 @@ public class TestFreeFormEvent implements Event {
     }
 
     /**
-     * Required.
-     * @return the startedAt time
-     */
-    @Nonnull
-    public DateTime getEventTime() {
-        return eventTime;
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> {
-        private String context;
-        private String type;
-        private Agent actor;
-        private String action;
-        private Entity object;
+    public static abstract class Builder<T extends Builder<T>> extends BaseEvent.Builder<T> {
         private Map<String, Object> extensions = Maps.newHashMap();
-        private DateTime eventTime;
-
-        protected abstract T self();
 
         /**
          * Initialize type with default values.
          */
         public Builder() {
-            context(Context.CONTEXT.getValue());
-            type(EventType.EVENT.getValue());
-        }
 
-        /**
-         * @param context
-         * @return builder.
-         */
-        private T context(String context) {
-            this.context = context;
-            return self();
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
-        }
-
-        /**
-         * @param actor
-         * @return builder.
-         */
-        public T actor(Agent actor) {
-            this.actor = actor;
-            return self();
-        }
-
-        /**
-         * @param action
-         * @return builder.
-         */
-        public T action(String action) {
-            this.action = action;
-            return self();
-        }
-
-        /**
-         * @param object
-         * @return builder.
-         */
-        public T object(Entity object) {
-            this.object = object;
-            return self();
         }
 
         /**
@@ -226,15 +89,6 @@ public class TestFreeFormEvent implements Event {
          */
         public T extensions(Map<String, Object> extensions) {
             this.extensions.putAll(extensions);
-            return self();
-        }
-
-        /**
-         * @param eventTime
-         * @return builder.
-         */
-        public T eventTime(DateTime eventTime) {
-            this.eventTime = eventTime;
             return self();
         }
 

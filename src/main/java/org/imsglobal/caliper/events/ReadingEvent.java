@@ -33,7 +33,7 @@ import javax.annotation.Nonnull;
         Action.SEARCHED,
         Action.VIEWED
 })
-public class ReadingEvent extends EventBase {
+public class ReadingEvent extends BaseEventContext {
 
     @JsonProperty("@type")
     private final String type;
@@ -89,7 +89,7 @@ public class ReadingEvent extends EventBase {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EventBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
         private String type;
         private String action;
 

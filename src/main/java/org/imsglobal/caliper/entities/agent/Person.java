@@ -19,13 +19,13 @@
 package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.EntityBase;
+import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
-public class Person extends EntityBase implements org.imsglobal.caliper.entities.foaf.Agent {
+public class Person extends BaseEntity implements org.imsglobal.caliper.entities.foaf.Agent {
 
     @JsonProperty("@type")
     private final String type;
@@ -54,7 +54,7 @@ public class Person extends EntityBase implements org.imsglobal.caliper.entities
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
 
         /**

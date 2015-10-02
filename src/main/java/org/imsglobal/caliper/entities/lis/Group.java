@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.EntityBase;
+import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
 /**
  * A Caliper LIS Group represents a Course substructure that a Person is able to join as a member.
  */
-public class Group extends EntityBase implements org.imsglobal.caliper.entities.w3c.Organization {
+public class Group extends BaseEntity implements org.imsglobal.caliper.entities.w3c.Organization {
 
     @JsonProperty("@type")
     private final String type;
@@ -69,7 +69,7 @@ public class Group extends EntityBase implements org.imsglobal.caliper.entities.
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
         private Course subOrganizationOf;
 

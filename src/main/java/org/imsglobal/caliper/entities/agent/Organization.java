@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.EntityBase;
+import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  * and can act as an Agent. Organizations are often decomposable into hierarchical structures.
  */
 
-public class Organization extends EntityBase implements org.imsglobal.caliper.entities.foaf.Agent,
+public class Organization extends BaseEntity implements org.imsglobal.caliper.entities.foaf.Agent,
                                                     org.imsglobal.caliper.entities.w3c.Organization {
 
     @JsonProperty("@type")
@@ -74,7 +74,7 @@ public class Organization extends EntityBase implements org.imsglobal.caliper.en
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
         private org.imsglobal.caliper.entities.w3c.Organization subOrganizationOf;
 

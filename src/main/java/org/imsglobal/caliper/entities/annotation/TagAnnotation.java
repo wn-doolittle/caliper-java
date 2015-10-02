@@ -25,14 +25,14 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.EntityBase;
+import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TagAnnotation extends EntityBase implements Annotation {
+public class TagAnnotation extends BaseEntity implements Annotation {
 
     @JsonProperty("@type")
     private final String type;
@@ -91,7 +91,7 @@ public class TagAnnotation extends EntityBase implements Annotation {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
         private DigitalResource annotated;
         private List<String> tags = Lists.newArrayList();

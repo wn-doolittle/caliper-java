@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.EntityBase;
+import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.w3c.Organization;
@@ -44,7 +44,7 @@ import java.util.List;
     Status.DELETED,
     Status.INACTIVE
 })
-public class Membership extends EntityBase implements org.imsglobal.caliper.entities.w3c.Membership {
+public class Membership extends BaseEntity implements org.imsglobal.caliper.entities.w3c.Membership {
 
     @JsonProperty("@type")
     private final String type;
@@ -126,7 +126,7 @@ public class Membership extends EntityBase implements org.imsglobal.caliper.enti
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T> {
         private String type;
         private Person member;
         private Organization organization;

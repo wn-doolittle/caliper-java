@@ -30,10 +30,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * Caliper representation of a CreativeWork (https://schema.org/CreativeWork).
+ * Concrete implementation of a generic digital resource.  Analogous to schema.org's CreativeWork.
+ * (see https://schema.org/CreativeWork).
  */
-
-public class DigitalResource extends EntityBase implements Resource {
+public class DigitalResource extends BaseEntity implements Resource {
 
     @JsonProperty("@type")
     private final String type;
@@ -138,7 +138,7 @@ public class DigitalResource extends EntityBase implements Resource {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
         private List<String> objectTypes = Lists.newArrayList();
         private List<LearningObjective> learningObjectives = Lists.newArrayList();

@@ -23,7 +23,7 @@ import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
-public class LearningObjective extends EntityBase {
+public class LearningObjective extends BaseEntity {
 
     @JsonProperty("@type")
     private final String type;
@@ -52,7 +52,7 @@ public class LearningObjective extends EntityBase {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
 
         /**

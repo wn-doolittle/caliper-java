@@ -31,7 +31,7 @@ import java.util.List;
  * Representation of a response to a multiple choice question that permits one or more
  * options to be selected.
  */
-public class MultipleResponseResponse extends ResponseBase {
+public class MultipleResponseResponse extends BaseResponse {
 
     @JsonProperty("@type")
     private final String type;
@@ -72,7 +72,7 @@ public class MultipleResponseResponse extends ResponseBase {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends ResponseBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseResponse.Builder<T>  {
         private String type;
         private List<String> values = Lists.newArrayList();
 
