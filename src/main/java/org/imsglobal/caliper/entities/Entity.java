@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.entities;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
 /**
@@ -25,6 +26,7 @@ import org.imsglobal.caliper.entities.schemadotorg.Thing;
  * to a schema.org Thing and a JSON-LD node in a graph.  For an Entity to be linkable, dereferencing the identifier
  * should result in a representation of the node.
  */
+@JsonFilter("entityFilter")
 public interface Entity extends Thing {
 
     /**
