@@ -44,7 +44,7 @@ public class SensorSendEventsTest {
     private Frame target;
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime eventTime = TestDates.getDefaultStartedAtTime();
+    private DateTime eventTime = TestDates.getDefaultEventTime();
 
     @Test
     public void test() {

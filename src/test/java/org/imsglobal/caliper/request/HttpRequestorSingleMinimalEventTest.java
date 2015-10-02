@@ -20,6 +20,7 @@ package org.imsglobal.caliper.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.Client;
@@ -30,7 +31,9 @@ import org.imsglobal.caliper.TestFreeFormEntity;
 import org.imsglobal.caliper.TestFreeFormEvent;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
+import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.payload.Envelope;
@@ -95,11 +98,10 @@ public class HttpRequestorSingleMinimalEventTest {
 
     @Test
     public void testSerializedEnvelope() throws Exception {
-        // Set up Mapper; filter out nulls/empties
-        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY);
-
-        // Serialize envelope, excluding null properties, empty objects and empty arrays
-        String json = httpRequestor.serializeEnvelope(envelope, mapper);
+        // Serialize envelope, excluding null properties, empty objects, empty arrays and duplicate @context
+        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider);
+        String json = mapper.writeValueAsString(envelope);
 
         // Swap out sendTime=DateTime.now() in favor of fixture value (or test will most assuredly fail).
         Pattern pattern = Pattern.compile("\"sendTime\":\"[^\"]*\"");
@@ -112,11 +114,10 @@ public class HttpRequestorSingleMinimalEventTest {
 
     @Test
     public void testGeneratePayloadContentType() throws Exception {
-        // Set up Mapper; filter out nulls/empties
-        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY);
-
-        // Serialize envelope; include null properties, empty objects and empty arrays
-        String json = httpRequestor.serializeEnvelope(envelope, mapper);
+        // Serialize envelope, excluding null properties, empty objects, empty arrays and duplicate @context
+        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider);
+        String json = mapper.writeValueAsString(envelope);
 
         // Create an HTTP StringEntity payload with the envelope JSON.
         StringEntity payload = httpRequestor.generatePayload(json, ContentType.APPLICATION_JSON);
