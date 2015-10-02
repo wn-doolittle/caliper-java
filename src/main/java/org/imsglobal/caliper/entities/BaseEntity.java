@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * The base Caliper Entity.
  */
-public abstract class EntityBase implements Entity {
+public abstract class BaseEntity implements Entity {
 
     @JsonProperty("@context")
     protected final String context;
@@ -61,7 +61,7 @@ public abstract class EntityBase implements Entity {
     /**
      * @param builder apply builder object properties to the Entity object.
      */
-    protected EntityBase(Builder<?> builder) {
+    protected BaseEntity(Builder<?> builder) {
 
         EntityValidator.checkContext(builder.context, Context.CONTEXT);
         EntityValidator.checkId("id", builder.id);

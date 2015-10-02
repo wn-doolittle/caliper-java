@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.EntityBase;
+import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.w3c.Organization;
 import org.imsglobal.caliper.validators.EntityValidator;
@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  * CourseOffering provides a subset of the CourseOffering properties specified in the IMS LTI 2.0
  * specification, which in turn, draws inspiration from the IMS LIS 1.0 specification.
  */
-public class CourseOffering extends EntityBase implements Course {
+public class CourseOffering extends BaseEntity implements Course {
 
     @JsonProperty("@type")
     private final String type;
@@ -98,7 +98,7 @@ public class CourseOffering extends EntityBase implements Course {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
         private String courseNumber;
         private String academicSession;

@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.EntityBase;
+import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.foaf.Agent;
@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  * Representation of a Result. Result's are generated as
  * part of an interaction represented by an OutcomeEvent.
  */
-public class Result extends EntityBase implements Generatable {
+public class Result extends BaseEntity implements Generatable {
 
     @JsonProperty("@type")
     private final String type;
@@ -196,7 +196,7 @@ public class Result extends EntityBase implements Generatable {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
         private DigitalResource assignable;
         private Agent actor;

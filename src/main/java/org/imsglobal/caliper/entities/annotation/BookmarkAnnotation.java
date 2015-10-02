@@ -23,13 +23,13 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.EntityBase;
+import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BookmarkAnnotation extends EntityBase implements Annotation {
+public class BookmarkAnnotation extends BaseEntity implements Annotation {
 
     @JsonProperty("@type")
     private final String type;
@@ -87,7 +87,7 @@ public class BookmarkAnnotation extends EntityBase implements Annotation {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
         private DigitalResource annotated;
         private String bookmarkNotes;

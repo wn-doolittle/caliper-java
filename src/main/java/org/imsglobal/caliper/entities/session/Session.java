@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.entities.session;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.EntityBase;
+import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.foaf.Agent;
@@ -29,7 +29,7 @@ import org.joda.time.DateTime;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Session extends EntityBase implements org.imsglobal.caliper.entities.Generatable,
+public class Session extends BaseEntity implements org.imsglobal.caliper.entities.Generatable,
                                                org.imsglobal.caliper.entities.Targetable {
     @JsonProperty("@type")
     private final String type;
@@ -109,7 +109,7 @@ public class Session extends EntityBase implements org.imsglobal.caliper.entitie
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends EntityBase.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
         private Agent actor;
         private DateTime startedAtTime;
