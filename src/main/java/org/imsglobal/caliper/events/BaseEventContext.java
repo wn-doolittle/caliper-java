@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class EventBase implements Event {
+public abstract class BaseEventContext implements Event, EventContext {
 
     @JsonProperty("@context")
     private final String context;
@@ -79,7 +79,7 @@ public abstract class EventBase implements Event {
     private final Session federatedSession;
 
     @JsonIgnore
-    private static final Logger log = LoggerFactory.getLogger(EventBase.class);
+    private static final Logger log = LoggerFactory.getLogger(BaseEventContext.class);
 
     /**
      * Utilize builder to construct Event.  Validate object copy rather than the
@@ -89,7 +89,7 @@ public abstract class EventBase implements Event {
      *
      * @param builder
      */
-    protected EventBase(Builder<?> builder) {
+    protected BaseEventContext(Builder<?> builder) {
 
         EventValidator.checkContext(builder.context, Context.CONTEXT);
 
