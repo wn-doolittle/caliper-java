@@ -46,7 +46,7 @@ public interface Event {
 
     /**
      * The actor engaged in the interaction.  Analogous to a subject.
-     * @return
+     * @return the actor
      */
     Agent getActor();
 
@@ -58,14 +58,14 @@ public interface Event {
     String getAction();
 
     /**
-     *  The object of the interaction.  The object should be expressed as a unique IRI in conformance
-     *  with the JSON-LD specification.
+     * The object of the interaction.  The object should be expressed as a unique IRI in conformance
+     * with the JSON-LD specification.
      * @return the object of the interaction
      */
     Entity getObject();
 
     /**
-     * A combined date and time representation (including milliseconds) of when an event occurred
+     * A combined date and time representation (including milliseconds) of when an event occurred,
      * formatted in accordance with the ISO 8601 standard.
      * @return the event time
      */
