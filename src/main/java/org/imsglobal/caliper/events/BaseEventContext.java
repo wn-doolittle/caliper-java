@@ -40,13 +40,14 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * This class provides a skeletal implementation of both the Event and EventContext interfaces in order to minimize
- * the effort required to implement the interface.  To implement a new Event type with properties that provide a
- * means to represent the learning context within which the event occurred required by most Metric Profiles,
- * a developer need only extend this class with a concrete implementation.
+/** 
+ * This class provides a skeletal implementation of the Event interface together with a representation of the 
+ * learning context in order to minimize the effort required to implement a contextualized Caliper Event. 
+ * To implement a new Event type with properties that provide a means to represent the context within 
+ * which the event occurred as required by most Metric Profiles, a developer need only extend this class with 
+ * a concrete implementation. 
  */
-public abstract class BaseEventContext implements Event, EventContext {
+public abstract class BaseEventContext implements Event {
 
     @JsonProperty("@context")
     private final String context;
@@ -114,8 +115,9 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * Required.
-     * @return the context
+     * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
+     * should be expressed as a unique IRI in conformance with the JSON-LD specification.
+     * @return the context IRI.
      */
     @Nonnull
     public String getContext() {
@@ -123,8 +125,9 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * Required.
-     * @return the type
+     * Specifies the type of event or node in the graph as defined by JSON-LD.  The type should be
+     * expressed as a unique IRI in conformance with the JSON-LD specification.
+     * @return the event type IRI
      */
     @Nonnull
     public String getType() {
@@ -132,7 +135,7 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * Required.
+     * The actor engaged in the interaction.  Analogous to a subject.
      * @return the actor
      */
     @Nonnull
@@ -141,8 +144,9 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * Required.
-     * @return the action
+     * The action undertaken by the actor.  Analogous to a predicate or verb.  The action should be
+     * expressed as a unique IRI in conformance with the JSON-LD specification.
+     * @return the action undertaken by the actor
      */
     @Nonnull
     public String getAction() {
@@ -150,8 +154,9 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * Required.
-     * @return the object
+     * The object of the interaction.  The object should be expressed as a unique IRI in conformance
+     * with the JSON-LD specification.
+     * @return the object of the interaction
      */
     @Nonnull
     public Entity getObject() {
@@ -159,8 +164,9 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * Optional.
-     * @return the target
+     * An Entity that represents the target of a learning interaction.  Navigating to a resource while engaged in a
+     * learning activity is an example of a target entity.
+     * @return target entity
      */
     @Nullable
     public Targetable getTarget() {
@@ -168,8 +174,9 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * Optional.
-     * @return generated
+     * An Entity generated as a result of the learning interaction.  Example entities typed as Generatable include
+     * assignable attempts, assessment item responses and graded outcome results.
+     * @return generated entity
      */
     @Nullable
     public Generatable getGenerated() {
@@ -177,8 +184,9 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * Required.
-     * @return the startedAt time
+     * A combined date and time representation (including milliseconds) of when an event occurred,
+     * formatted in accordance with the ISO 8601 standard.
+     * @return the event time
      */
     @Nonnull
     public DateTime getEventTime() {
@@ -186,8 +194,9 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * The edApp context, part of the Caliper Learning Context.  Optional.
-     * @return the edApp
+     * The module, application, platform, system and/or service that provides the technological context within which
+     * the learning activity occurs.
+     * @return the edApp context
      */
     @Nullable
     public SoftwareApplication getEdApp() {
@@ -195,8 +204,11 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * The Group context, part of the Caliper Learning Context.  Optional.
-     * @return the group
+     * The Group represents a collection of people organized together into a community or other social, commercial
+     * or political structure.  The group has some common purpose or reason for existence which goes beyond the set
+     * of people belonging to it and can act as an Agent.  For learning interactions, a typical group context would
+     * comprise the course context within which the learning activity occurs.
+     * @return the group context
      */
     @Nullable
     public Organization getGroup() {
@@ -204,8 +216,8 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * The Membership context, part of the Caliper Learning Context.  Optional.
-     * @return the membership
+     * The Membership context defines an actor's roles and status as a member of an organization or group.
+     * @return the membership context.
      */
     @Nullable
     public Membership getMembership() {
@@ -213,12 +225,14 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * Federated Session object, part of the LTI launch context.  Optional.  Serialization of
-     * FederatedSession is limited to the identifying URI only.
+     * An LTI-scoped identifier representing the originating Tool Consumer user session during which one or more launch
+     * requests to external Tool Providers are initiated.  Provision of a federated session identifier helps to
+     * correlate Tool Provider learning activities with those of the Tool Consumer during the same "logical" session.
      * @return the federated session
      */
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
     @JsonIdentityReference(alwaysAsId = true)
+    @Nullable
     public Session getFederatedSession() {
         return federatedSession;
     }
