@@ -24,9 +24,10 @@ import org.joda.time.DateTime;
 
 /**
  * The Event interface provides the minimal set of properties and behaviors required of a Caliper Event.
- * Note that inclusion of the learning context within which learning activities occur is not required.
- * However, events that are generated without reference to context will generally fail to reflect the
- * Event model defined by most Metric Profiles as well as Level 1+ conformance requirements.
+ * Note that the interface does not require inclusion of the learning context within which the event occurred, in
+ * order to allow for a flexible approach as regards implementation.  However, events that are generated without
+ * reference to the learning context will generally fail to reflect the Event model defined by most Metric Profiles
+ * as well as Level 1+ conformance requirements.
  */
 public interface Event {
 

@@ -40,11 +40,12 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * This class provides a skeletal implementation of both the Event interface in order to minimize
- * the effort required to implement the interface.  To implement a new Event type with properties that provide a
- * means to represent the learning context within which the event occurred required by most Metric Profiles,
- * a developer need only extend this class with a concrete implementation.
+/** 
+ * This class provides a skeletal implementation of the Event interface together with a representation of the 
+ * learning context in order to minimize the effort required to implement a contextualized Caliper Event. 
+ * To implement a new Event type with properties that provide a means to represent the context within 
+ * which the event occurred as required by most Metric Profiles, a developer need only extend this class with 
+ * a concrete implementation. 
  */
 public abstract class BaseEventContext implements Event {
 
