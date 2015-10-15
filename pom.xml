@@ -10,11 +10,11 @@
 
     <groupId>org.imsglobal.caliper</groupId>
     <artifactId>caliper-java</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>caliper-java</name>
-    <description>Caliper Sensor API for Java</description>
+    <description>Caliper Sensor for Java</description>
 
     <organization>
         <name>IMS Global</name>
