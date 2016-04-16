@@ -54,6 +54,9 @@ public abstract class BaseEventContext implements Event, EventContext {
     @JsonProperty("@type")
     private final String type;
 
+    @JsonProperty("sourcedId")
+    private final String sourcedId;
+
     @JsonProperty("actor")
     private final Agent actor;
 
@@ -101,6 +104,7 @@ public abstract class BaseEventContext implements Event, EventContext {
 
         this.context = builder.context;
         this.type = builder.type;
+        this.sourcedId = builder.sourcedId;
         this.actor = builder.actor;
         this.action = builder.action;
         this.object = builder.object;
@@ -129,6 +133,15 @@ public abstract class BaseEventContext implements Event, EventContext {
     @Nonnull
     public String getType() {
         return type;
+    }
+
+    /**
+     * Optional
+     * @return the sourcedId
+     */
+    @Nullable
+    public String getSourcedId() {
+        return sourcedId;
     }
 
     /**
@@ -230,6 +243,7 @@ public abstract class BaseEventContext implements Event, EventContext {
     public static abstract class Builder<T extends Builder<T>> {
         private String context;
         private String type;
+        private String sourcedId;
         private Agent actor;
         private String action;
         private Entity object;
@@ -266,6 +280,15 @@ public abstract class BaseEventContext implements Event, EventContext {
          */
         private T type(String type) {
             this.type = type;
+            return self();
+        }
+
+        /**
+         * @param sourcedId
+         * @return builder.
+         */
+        private T sourcedId(String sourcedId) {
+            this.sourcedId = sourcedId;
             return self();
         }
 
