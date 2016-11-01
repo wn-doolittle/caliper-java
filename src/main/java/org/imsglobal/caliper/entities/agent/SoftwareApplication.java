@@ -24,12 +24,16 @@ import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class SoftwareApplication extends BaseEntity implements org.imsglobal.caliper.entities.foaf.Agent,
                                                            org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication {
 
     @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("version")
+    private final String version;
 
     /**
      * @param builder apply builder object properties to the SoftwareApplication object.
@@ -40,6 +44,7 @@ public class SoftwareApplication extends BaseEntity implements org.imsglobal.cal
         EntityValidator.checkType(builder.type, EntityType.SOFTWARE_APPLICATION);
 
         this.type = builder.type;
+        this.version = builder.version;
     }
 
     /**
@@ -52,11 +57,20 @@ public class SoftwareApplication extends BaseEntity implements org.imsglobal.cal
     }
 
     /**
+     * @return the version
+     */
+    @Nullable
+    public String getVersion() {
+        return version;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
+        private String version;
 
         /**
          * Initialize type with default value.
@@ -71,6 +85,15 @@ public class SoftwareApplication extends BaseEntity implements org.imsglobal.cal
          */
         private T type(String type) {
             this.type = type;
+            return self();
+        }
+
+        /**
+         * @param version
+         * @return builder.
+         */
+        public T version(String version) {
+            this.version = version;
             return self();
         }
 
