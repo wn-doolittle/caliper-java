@@ -24,9 +24,10 @@ import org.joda.time.DateTime;
 
 /**
  * The Event interface provides the minimal set of properties and behaviors required of a Caliper Event.
- * Note that inclusion of the learning context within which learning activities occur is not required.
- * However, events that are generated without reference to context will generally fail to reflect the
- * Event model defined by most Metric Profiles as well as Level 1+ conformance requirements.
+ * Note that the interface does not require inclusion of the learning context within which the event occurred, in
+ * order to allow for a flexible approach as regards implementation.  However, events that are generated without
+ * reference to the learning context will generally fail to reflect the Event model defined by most Metric Profiles
+ * as well as Level 1+ conformance requirements.
  */
 public interface Event {
 
@@ -46,7 +47,7 @@ public interface Event {
 
     /**
      * The actor engaged in the interaction.  Analogous to a subject.
-     * @return
+     * @return the actor
      */
     Agent getActor();
 
@@ -58,14 +59,14 @@ public interface Event {
     String getAction();
 
     /**
-     *  The object of the interaction.  The object should be expressed as a unique IRI in conformance
-     *  with the JSON-LD specification.
+     * The object of the interaction.  The object should be expressed as a unique IRI in conformance
+     * with the JSON-LD specification.
      * @return the object of the interaction
      */
     Entity getObject();
 
     /**
-     * A combined date and time representation (including milliseconds) of when an event occurred
+     * A combined date and time representation (including milliseconds) of when an event occurred,
      * formatted in accordance with the ISO 8601 standard.
      * @return the event time
      */
