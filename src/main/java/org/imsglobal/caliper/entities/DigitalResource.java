@@ -38,8 +38,8 @@ public class DigitalResource extends BaseEntity implements Resource {
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("objectType")
-    private final ImmutableList<String> objectTypes;
+    @JsonProperty("mediaType")
+    private final String mediaType;
 
     @JsonProperty("alignedLearningObjective")
     private final ImmutableList<LearningObjective> learningObjectives;
@@ -65,7 +65,7 @@ public class DigitalResource extends BaseEntity implements Resource {
         EntityValidator.checkType(builder.type, EntityType.DIGITAL_RESOURCE);
 
         this.type = builder.type;
-        this.objectTypes = ImmutableList.copyOf(builder.objectTypes);
+        this.mediaType = builder.mediaType;
         this.learningObjectives = ImmutableList.copyOf(builder.learningObjectives);
         this.keywords = ImmutableList.copyOf(builder.keywords);
         this.isPartOf = builder.isPartOf;
@@ -83,12 +83,11 @@ public class DigitalResource extends BaseEntity implements Resource {
     }
 
     /**
-     * Return an immutable view of the objectTypes list.
-     * @return the objectTypes
+     * @return the mediaType
      */
     @Nullable
-    public ImmutableList<String> getObjectTypes() {
-        return objectTypes;
+    public String getMediaType() {
+        return mediaType;
     }
 
     /**
@@ -140,7 +139,7 @@ public class DigitalResource extends BaseEntity implements Resource {
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
-        private List<String> objectTypes = Lists.newArrayList();
+        private String mediaType;
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
         private CreativeWork isPartOf;
@@ -164,20 +163,11 @@ public class DigitalResource extends BaseEntity implements Resource {
         }
 
         /**
-         * @param objectTypes
+         * @param mediaType
          * @return builder.
          */
-        public T objectTypes(List<String> objectTypes) {
-            this.objectTypes = objectTypes;
-            return self();
-        }
-
-        /**
-         * @param objectType
-         * @return builder.
-         */
-        public T objectType(String objectType) {
-            this.objectTypes.add(objectType);
+        public T mediaType(String mediaType) {
+            this.mediaType = mediaType;
             return self();
         }
 

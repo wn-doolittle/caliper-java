@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
  */
 public interface Resource extends CreativeWork, Entity, Targetable {
 
-    ImmutableList<String> getObjectTypes();
+    String getMediaType();
 
     ImmutableList<LearningObjective> getLearningObjectives();
 
