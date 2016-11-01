@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 @SupportedActions({Action.NAVIGATED_TO})
 public class NavigationEvent extends BaseEventContext {
@@ -38,9 +37,6 @@ public class NavigationEvent extends BaseEventContext {
 
     @JsonProperty("action")
     private final String action;
-
-    @JsonProperty("navigatedFrom")
-    private final DigitalResource fromResource;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(NavigationEvent.class);
@@ -64,7 +60,6 @@ public class NavigationEvent extends BaseEventContext {
 
         this.type = builder.type;
         this.action = builder.action;
-        this.fromResource = builder.fromResource;
     }
 
     /**
@@ -88,22 +83,12 @@ public class NavigationEvent extends BaseEventContext {
     }
 
     /**
-     * Describes the resource from which the navigation commences.
-     * @return the fromResource
-     */
-    @Nullable
-    public DigitalResource getFromResource() {
-        return fromResource;
-    }
-
-    /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
         private String type;
         private String action;
-        private DigitalResource fromResource;
 
         /*
          * Constructor
@@ -129,15 +114,6 @@ public class NavigationEvent extends BaseEventContext {
         @Override
         public T action(String action) {
             this.action = action;
-            return self();
-        }
-
-        /**
-         * @param fromResource
-         * @return builder
-         */
-        public T fromResource(DigitalResource fromResource) {
-            this.fromResource = fromResource;
             return self();
         }
 
