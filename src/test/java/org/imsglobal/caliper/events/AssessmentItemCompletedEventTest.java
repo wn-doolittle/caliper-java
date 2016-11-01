@@ -83,8 +83,6 @@ public class AssessmentItemCompletedEventTest {
         // Build generated response
         generated = FillinBlankResponse.builder()
             .id("https://example.edu/politicalScience/2015/american-revolution-101/assessment/001/item/001/response/001")
-            .actor(actor)
-            .assignable(assessment)
             .attempt(Attempt.builder()
                 .id(assessment.getId() + "/item/001/attempt/789")
                 .assignable(assessment)
