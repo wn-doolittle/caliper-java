@@ -33,7 +33,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
     private final String type;
 
     @JsonProperty("currentTime")
-    private long currentTime;
+    private String currentTime;
 
     /**
      * @param builder apply builder object properties to the MediaLocation object.
@@ -58,7 +58,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
     /**
      * @return the currentTime
      */
-    public long getCurrentTime() {
+    public String getCurrentTime() {
         return currentTime;
     }
 
@@ -68,7 +68,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
-        private long currentTime;
+        private String currentTime;
 
         /**
          * Initialize type with default values.
@@ -90,7 +90,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
          * @param currentTime
          * @return builder
          */
-        public T currentTime(long currentTime) {
+        public T currentTime(String currentTime) {
             this.currentTime = currentTime;
             return self();
         }
