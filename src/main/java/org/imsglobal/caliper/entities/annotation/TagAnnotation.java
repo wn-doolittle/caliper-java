@@ -18,14 +18,12 @@
 
 package org.imsglobal.caliper.entities.annotation;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.BaseEntity;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -40,6 +38,9 @@ public class TagAnnotation extends BaseEntity implements Annotation {
     @JsonProperty("annotated")
     private DigitalResource annotated;
 
+    @JsonProperty("actor")
+    private final Agent actor;
+
     @JsonProperty("tags")
     private ImmutableList<String> tags;
 
@@ -51,9 +52,11 @@ public class TagAnnotation extends BaseEntity implements Annotation {
 
         EntityValidator.checkType(builder.type, AnnotationType.TAG_ANNOTATION);
         EntityValidator.checkId("annotated Id", builder.annotated.getId());
+        EntityValidator.checkId("actor Id", builder.actor.getId());
 
         this.type = builder.type;
         this.annotated = builder.annotated;
+        this.actor = builder.actor;
         this.tags = ImmutableList.copyOf(builder.tags);
     }
 
@@ -67,15 +70,19 @@ public class TagAnnotation extends BaseEntity implements Annotation {
     }
 
     /**
-     * Serialization of DigitalResource associated with this Annotation is limited to
-     * the identifying URI only.
      * @return the annotated object's identifier
      */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
     @Nonnull
     public DigitalResource getAnnotated() {
         return annotated;
+    }
+
+    /**
+     * @return the actor
+     */
+    @Nonnull
+    public Agent getActor() {
+        return actor;
     }
 
     /**
@@ -94,6 +101,7 @@ public class TagAnnotation extends BaseEntity implements Annotation {
     public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
         private DigitalResource annotated;
+        private Agent actor;
         private List<String> tags = Lists.newArrayList();
 
         /**
@@ -118,6 +126,15 @@ public class TagAnnotation extends BaseEntity implements Annotation {
          */
         public T annotated(DigitalResource annotated) {
             this.annotated = annotated;
+            return self();
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Agent actor) {
+            this.actor = actor;
             return self();
         }
 
