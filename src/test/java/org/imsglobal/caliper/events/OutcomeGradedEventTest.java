@@ -91,8 +91,7 @@ public class OutcomeGradedEventTest {
         // Build result
         generated = Result.builder()
             .id(object.getId() + "/result")
-            .assignable(assessment)
-            .actor(actor)
+            .attempt(object)
             .dateCreated(dateCreated)
             .normalScore(3.0d)
             .penaltyScore(0.0d)

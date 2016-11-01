@@ -18,16 +18,11 @@
 
 package org.imsglobal.caliper.entities.response;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -38,12 +33,6 @@ public abstract class BaseResponse extends BaseEntity implements Response, Gener
 
     @JsonProperty("@type")
     private final String type;
-
-    @JsonProperty("assignable")
-    private final DigitalResource assignable;
-
-    @JsonProperty("actor")
-    private final Agent actor;
 
     @JsonProperty("attempt")
     private Attempt attempt;
@@ -64,15 +53,11 @@ public abstract class BaseResponse extends BaseEntity implements Response, Gener
         super(builder);
 
         EntityValidator.checkType(builder.type, EntityType.RESPONSE);
-        EntityValidator.checkId("assignable Id", builder.assignable.getId());
-        EntityValidator.checkId("actor Id", builder.actor.getId());
         EntityValidator.checkAttempt(builder.attempt);
         EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
         EntityValidator.checkDuration(builder.duration);
 
         this.type = builder.type;
-        this.assignable = builder.assignable;
-        this.actor = builder.actor;
         this.attempt = builder.attempt;
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
@@ -86,30 +71,6 @@ public abstract class BaseResponse extends BaseEntity implements Response, Gener
     @Nonnull
     public String getType() {
         return type;
-    }
-
-    /**
-     * Serialization of Assignable associated with this Response is limited to
-     * the identifying URI only.
-     * @return the assignable
-     */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @Nonnull
-    public DigitalResource getAssignable() {
-        return assignable;
-    }
-
-    /**
-     * Serialization of Agent associated with this Response is limited to
-     * the identifying URI only.
-     * @return the actor
-     */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @Nonnull
-    public Agent getActor() {
-        return actor;
     }
 
     /**
@@ -156,8 +117,6 @@ public abstract class BaseResponse extends BaseEntity implements Response, Gener
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
-        private DigitalResource assignable;
-        private Agent actor;
         private Attempt attempt;
         private DateTime startedAtTime;
         private DateTime endedAtTime;
@@ -176,24 +135,6 @@ public abstract class BaseResponse extends BaseEntity implements Response, Gener
          */
         private T type(String type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param assignable
-         * @return builder.
-         */
-        public T assignable(DigitalResource assignable) {
-            this.assignable = assignable;
-            return self();
-        }
-
-        /**
-         * @param actor
-         * @return builder.
-         */
-        public T actor(Agent actor) {
-            this.actor = actor;
             return self();
         }
 
