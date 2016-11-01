@@ -27,6 +27,7 @@ import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -47,6 +48,9 @@ public class Attempt extends BaseEntity implements Generatable {
 
     @JsonProperty("actor")
     private final Agent actor;
+
+    @JsonProperty("isPartOf")
+    private final CreativeWork isPartOf;
 
     @JsonProperty("count")
     private int count;
@@ -76,6 +80,7 @@ public class Attempt extends BaseEntity implements Generatable {
         this.type = builder.type;
         this.assignable = builder.assignable;
         this.actor = builder.actor;
+        this.isPartOf = builder.isPartOf;
         this.count = builder.count;
         this.startedAtTime = builder.startedAtTime;
         this.endedAtTime = builder.endedAtTime;
@@ -113,6 +118,15 @@ public class Attempt extends BaseEntity implements Generatable {
     @Nonnull
     public Agent getActor() {
         return actor;
+    }
+
+    /**
+     * Serialization of the DigitalResource parent is limited to the identifying URI only.
+     * @return the parent reference.
+     */
+    @Nullable
+    public CreativeWork getIsPartOf() {
+        return isPartOf;
     }
 
     /**
@@ -161,6 +175,7 @@ public class Attempt extends BaseEntity implements Generatable {
         private String type;
         private DigitalResource assignable;
         private Agent actor;
+        private CreativeWork isPartOf;
         private int count;
         private DateTime startedAtTime;
         private DateTime endedAtTime;
@@ -197,6 +212,15 @@ public class Attempt extends BaseEntity implements Generatable {
          */
         public T actor(Agent actor) {
             this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param isPartOf
+         * @return builder.
+         */
+        public T isPartOf(CreativeWork isPartOf) {
+            this.isPartOf = isPartOf;
             return self();
         }
 
