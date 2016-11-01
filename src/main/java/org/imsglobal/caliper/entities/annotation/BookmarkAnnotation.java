@@ -18,12 +18,10 @@
 
 package org.imsglobal.caliper.entities.annotation;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.BaseEntity;
+import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -37,6 +35,9 @@ public class BookmarkAnnotation extends BaseEntity implements Annotation {
     @JsonProperty("annotated")
     private DigitalResource annotated;
 
+    @JsonProperty("actor")
+    private final Agent actor;
+
     @JsonProperty("bookmarkNotes")
     private String bookmarkNotes;
 
@@ -48,9 +49,11 @@ public class BookmarkAnnotation extends BaseEntity implements Annotation {
 
         EntityValidator.checkType(builder.type, AnnotationType.BOOKMARK_ANNOTATION);
         EntityValidator.checkId("annotated Id", builder.annotated.getId());
+        EntityValidator.checkId("actor Id", builder.actor.getId());
 
         this.type = builder.type;
         this.annotated = builder.annotated;
+        this.actor = builder.actor;
         this.bookmarkNotes = builder.bookmarkNotes;
     }
 
@@ -64,15 +67,19 @@ public class BookmarkAnnotation extends BaseEntity implements Annotation {
     }
 
     /**
-     * Serialization of DigitalResource associated with this Annotation is limited to
-     * the identifying URI only.
      * @return the annotated object's identifier
      */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
     @Nonnull
     public DigitalResource getAnnotated() {
         return annotated;
+    }
+
+    /**
+     * @return the actor
+     */
+    @Nonnull
+    public Agent getActor() {
+        return actor;
     }
 
     /**
@@ -90,6 +97,7 @@ public class BookmarkAnnotation extends BaseEntity implements Annotation {
     public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
         private DigitalResource annotated;
+        private Agent actor;
         private String bookmarkNotes;
 
         /**
@@ -114,6 +122,15 @@ public class BookmarkAnnotation extends BaseEntity implements Annotation {
          */
         public T annotated(DigitalResource annotated) {
             this.annotated = annotated;
+            return self();
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Agent actor) {
+            this.actor = actor;
             return self();
         }
 
