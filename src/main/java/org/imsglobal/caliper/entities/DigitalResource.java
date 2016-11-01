@@ -41,7 +41,7 @@ public class DigitalResource extends BaseEntity implements Resource {
     @JsonProperty("mediaType")
     private final String mediaType;
 
-    @JsonProperty("alignedLearningObjective")
+    @JsonProperty("learningObjectives")
     private final ImmutableList<LearningObjective> learningObjectives;
 
     @JsonProperty("keywords")
