@@ -25,7 +25,7 @@ import org.imsglobal.caliper.entities.foaf.Agent;
 
 public interface Annotation extends Entity, Generatable {
 
-    Agent getActor();
-
     DigitalResource getAnnotated();
+
+    Agent getActor();
 }
