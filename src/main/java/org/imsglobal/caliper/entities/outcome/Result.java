@@ -18,16 +18,13 @@
 
 package org.imsglobal.caliper.entities.outcome;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.imsglobal.caliper.databind.JsonDoubleSerializer;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
 
@@ -43,11 +40,8 @@ public class Result extends BaseEntity implements Generatable {
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("assignable")
-    private final DigitalResource assignable;
-
-    @JsonProperty("actor")
-    private final Agent actor;
+    @JsonProperty("attempt")
+    private Attempt attempt;
 
     @JsonProperty("normalScore")
     private double normalScore;
@@ -80,12 +74,10 @@ public class Result extends BaseEntity implements Generatable {
         super(builder);
 
         EntityValidator.checkType(builder.type, EntityType.RESULT);
-        EntityValidator.checkId("assignable Id", builder.assignable.getId());
-        EntityValidator.checkId("actor Id", builder.actor.getId());
+        EntityValidator.checkAttempt(builder.attempt);
 
         this.type = builder.type;
-        this.assignable = builder.assignable;
-        this.actor = builder.actor;
+        this.attempt = builder.attempt;
         this.normalScore = builder.normalScore;
         this.penaltyScore = builder.penaltyScore;
         this.extraCreditScore = builder.extraCreditScore;
@@ -106,27 +98,11 @@ public class Result extends BaseEntity implements Generatable {
     }
 
     /**
-     * Serialization of Assignable associated with this Result is limited to
-     * the identifying URI only.
-     * @return the assignable identifier
+     * @return attempt associated with the response;
      */
     @Nonnull
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public DigitalResource getAssignable() {
-        return assignable;
-    }
-
-    /**
-     * Serialization of Agent associated with this Result is limited to
-     * the identifying URI only.
-     * @return the actor identifier
-     */
-    @Nonnull
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public Agent getActor() {
-        return actor;
+    public Attempt getAttempt() {
+        return attempt;
     }
 
     /**
@@ -206,8 +182,7 @@ public class Result extends BaseEntity implements Generatable {
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
-        private DigitalResource assignable;
-        private Agent actor;
+        private Attempt attempt;
         private double normalScore;
         private double penaltyScore;
         private double extraCreditScore;
@@ -234,20 +209,11 @@ public class Result extends BaseEntity implements Generatable {
         }
 
         /**
-         * @param assignable
+         * @param attempt
          * @return builder.
          */
-        public T assignable(DigitalResource assignable) {
-            this.assignable = assignable;
-            return self();
-        }
-
-        /**
-         * @param actor
-         * @return builder.
-         */
-        public T actor(Agent actor) {
-            this.actor = actor;
+        public T attempt(Attempt attempt) {
+            this.attempt = attempt;
             return self();
         }
 
