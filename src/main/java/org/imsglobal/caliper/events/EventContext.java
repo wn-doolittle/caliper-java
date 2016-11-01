@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.events;
 
+import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
@@ -42,6 +43,12 @@ public interface EventContext {
     Generatable getGenerated();
 
     /**
+     * Represents the entity from where the navigation commenced.
+     * @return the referring context
+     */
+     Entity getReferrer();
+
+    /**
      * The module, application, platform, system and/or service that provides the technological context within which
      * the learning activity occurs.
      * @return the edApp context
@@ -64,9 +71,22 @@ public interface EventContext {
     Membership getMembership();
 
     /**
+     * Represents the current user session.
+     * @return the current session context
+     */
+    Session getSession();
+
+    /**
      * An LTI-scoped identifier representing the originating Tool Consumer user session during which one or more launch
      * requests to external Tool Providers are initiated.  Provision of a federated session identifier helps to
      * correlate Tool Provider learning activities with those of the Tool Consumer during the same "logical" session.
+     * @return the originating tool consumer context
      */
     Session getFederatedSession();
+
+    /**
+     * Additional custom properties provided that are germane to the Event.
+     * @return extensions
+     */
+    Object getExtensions();
 }

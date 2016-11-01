@@ -18,11 +18,8 @@
 
 package org.imsglobal.caliper.events;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.imsglobal.caliper.context.Context;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
@@ -72,6 +69,9 @@ public abstract class BaseEventContext implements Event, EventContext {
     @JsonProperty("generated")
     private final Generatable generated;
 
+    @JsonProperty("referrer")
+    private final Entity referrer;
+
     @JsonProperty("eventTime")
     private final DateTime eventTime;
 
@@ -84,8 +84,14 @@ public abstract class BaseEventContext implements Event, EventContext {
     @JsonProperty("membership")
     private final Membership membership;
 
+    @JsonProperty("session")
+    private final Session session;
+
     @JsonProperty("federatedSession")
     private final Session federatedSession;
+
+    @JsonProperty("extensions")
+    private final Object extensions;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(BaseEventContext.class);
@@ -110,11 +116,14 @@ public abstract class BaseEventContext implements Event, EventContext {
         this.object = builder.object;
         this.target = builder.target;
         this.generated = builder.generated;
+        this.referrer = builder.referrer;
         this.eventTime = builder.eventTime;
         this.edApp = builder.edApp;
         this.group = builder.group;
         this.membership = builder.membership;
+        this.session = builder.session;
         this.federatedSession = builder.federatedSession;
+        this.extensions = builder.extensions;
     }
 
     /**
@@ -190,6 +199,15 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
+     * Optional.
+     * @return referrer
+     */
+    @Nullable
+    public Entity getReferrer() {
+        return referrer;
+    }
+
+    /**
      * Required.
      * @return the startedAt time
      */
@@ -226,14 +244,27 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
-     * Federated Session object, part of the LTI launch context.  Optional.  Serialization of
-     * FederatedSession is limited to the identifying URI only.
+     * Current session context.  Optional.
      * @return the federated session
      */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
+    public Session getSession() {
+        return session;
+    }
+
+    /**
+     * Federated Session object, part of the LTI launch context.  Optional.
+     * @return the federated session
+     */
     public Session getFederatedSession() {
         return federatedSession;
+    }
+
+    /**
+     * Custom properties.  Optional.
+     * @return extensions
+     */
+    public Object getExtensions() {
+        return extensions;
     }
 
     /**
@@ -249,11 +280,14 @@ public abstract class BaseEventContext implements Event, EventContext {
         private Entity object;
         private Targetable target;
         private Generatable generated;
+        private Entity referrer;
         private DateTime eventTime;
         private SoftwareApplication edApp;
         private Organization group;
         private Membership membership;
+        private Session session;
         private Session federatedSession;
+        private Object extensions;
 
         protected abstract T self();
 
@@ -338,6 +372,15 @@ public abstract class BaseEventContext implements Event, EventContext {
         }
 
         /**
+         * @param referrer
+         * @return builder.
+         */
+        public T referrer(Entity referrer) {
+            this.referrer = referrer;
+            return self();
+        }
+
+        /**
          * @param eventTime
          * @return builder.
          */
@@ -374,11 +417,29 @@ public abstract class BaseEventContext implements Event, EventContext {
         }
 
         /**
+         * @param session
+         * @return builder.
+         */
+        public T session(Session session) {
+            this.session = session;
+            return self();
+        }
+
+        /**
          * @param federatedSession
          * @return builder.
          */
         public T federatedSession(Session federatedSession) {
             this.federatedSession = federatedSession;
+            return self();
+        }
+
+        /**
+         * @param extensions
+         * @return builder.
+         */
+        public T extensions(Object extensions) {
+            this.extensions = extensions;
             return self();
         }
     }
