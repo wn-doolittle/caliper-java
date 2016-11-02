@@ -18,9 +18,10 @@
 
 package org.imsglobal.caliper.entities;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
@@ -40,6 +41,9 @@ public class DigitalResource extends BaseEntity implements Resource {
 
     @JsonProperty("mediaType")
     private final String mediaType;
+
+    @JsonProperty("creators")
+    private final ImmutableList<Agent> creators;
 
     @JsonProperty("learningObjectives")
     private final ImmutableList<LearningObjective> learningObjectives;
@@ -66,6 +70,7 @@ public class DigitalResource extends BaseEntity implements Resource {
 
         this.type = builder.type;
         this.mediaType = builder.mediaType;
+        this.creators = ImmutableList.copyOf(builder.creators);
         this.learningObjectives = ImmutableList.copyOf(builder.learningObjectives);
         this.keywords = ImmutableList.copyOf(builder.keywords);
         this.isPartOf = builder.isPartOf;
@@ -88,6 +93,15 @@ public class DigitalResource extends BaseEntity implements Resource {
     @Nullable
     public String getMediaType() {
         return mediaType;
+    }
+
+    /**
+     * Return an immutable view of the creators list.
+     * @return the creators of this resource
+     */
+    @Nullable
+    public ImmutableList<Agent> getCreators() {
+        return creators;
     }
 
     /**
@@ -140,6 +154,7 @@ public class DigitalResource extends BaseEntity implements Resource {
     public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
         private String mediaType;
+        private List<Agent> creators = Lists.newArrayList();
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
         private CreativeWork isPartOf;
@@ -168,6 +183,24 @@ public class DigitalResource extends BaseEntity implements Resource {
          */
         public T mediaType(String mediaType) {
             this.mediaType = mediaType;
+            return self();
+        }
+
+        /**
+         * @param creators
+         * @return builder.
+         */
+        public T creators(List<Agent> creators) {
+            this.creators = creators;
+            return self();
+        }
+
+        /**
+         * @param creator
+         * @return builder.
+         */
+        public T creator(Agent creator) {
+            this.creators.add(creator);
             return self();
         }
 
