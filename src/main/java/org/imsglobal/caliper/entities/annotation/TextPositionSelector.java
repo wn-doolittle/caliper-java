@@ -26,8 +26,8 @@ import javax.annotation.Nonnull;
  */
 public class TextPositionSelector {
 
-    private String start;
-    private String end;
+    private int start;
+    private int end;
 
     // Constructor
     public TextPositionSelector() {
@@ -35,7 +35,7 @@ public class TextPositionSelector {
     }
     
     // Constructor
-    public TextPositionSelector(String start, String end) {
+    public TextPositionSelector(int start, int end) {
         this.start = start;
         this.end = end;
     }
@@ -44,7 +44,7 @@ public class TextPositionSelector {
      * @return the start
      */
     @Nonnull
-    public String getStart() {
+    public int getStart() {
         return start;
     }
 
@@ -52,7 +52,7 @@ public class TextPositionSelector {
      * @param start
      * the start to set
      */
-    public void setStart(@Nonnull String start) {
+    public void setStart(@Nonnull int start) {
         this.start = start;
     }
 
@@ -60,7 +60,7 @@ public class TextPositionSelector {
      * @return the end
      */
     @Nonnull
-    public String getEnd() {
+    public int getEnd() {
         return end;
     }
 
@@ -68,7 +68,7 @@ public class TextPositionSelector {
      * @param end
      * the end to set
      */
-    public void setEnd(@Nonnull String end) {
+    public void setEnd(@Nonnull int end) {
         this.end = end;
     }
 }
