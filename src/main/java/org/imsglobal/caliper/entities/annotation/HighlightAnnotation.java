@@ -152,7 +152,7 @@ public class HighlightAnnotation extends BaseEntity implements Annotation {
          * @param start
          * @return text position selector.
          */
-        public T selectionStart(String start) {
+        public T selectionStart(int start) {
             this.selection.setStart(start);
             return self();
         }
@@ -161,7 +161,7 @@ public class HighlightAnnotation extends BaseEntity implements Annotation {
          * @param end
          * @return text position selector.
          */
-        public T selectionEnd(String end) {
+        public T selectionEnd(int end) {
             this.selection.setEnd(end);
             return self();
         }
