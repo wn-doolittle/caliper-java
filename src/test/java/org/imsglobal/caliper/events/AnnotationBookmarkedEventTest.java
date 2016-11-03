@@ -21,20 +21,22 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import org.imsglobal.caliper.TestAgentEntities;
-import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestEpubEntities;
-import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.entities.lis.CourseSection;
+import org.imsglobal.caliper.entities.lis.Membership;
+import org.imsglobal.caliper.entities.lis.Role;
+import org.imsglobal.caliper.entities.lis.Status;
+import org.imsglobal.caliper.entities.reading.Chapter;
+import org.imsglobal.caliper.entities.reading.Document;
+import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,16 +49,18 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AnnotationBookmarkedEventTest {
 
-    private LearningContext learningContext;
     private Person actor;
-    private EpubSubChapter ePub;
-    private Frame object;
+    private Document object;
+    private Chapter annotated;
     private BookmarkAnnotation generated;
+    private SoftwareApplication edApp;
+    private CourseSection group;
+    private Membership membership;
+    private Session session;
     private AnnotationEvent event;
-    private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime eventTime = TestDates.getDefaultEventTime();
     // private static final Logger log = LoggerFactory.getLogger(BookmarkAnnotationEventTest.class);
+
+    private static final String BASE_IRI = "https://example.edu";
 
     /**
      * @throws java.lang.Exception
@@ -64,35 +68,45 @@ public class AnnotationBookmarkedEventTest {
     @Before
     public void setUp() throws Exception {
 
-        // Build the Learning Context
-        learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildEpubViewerApp())
-            .group(TestLisEntities.buildGroup())
-            .membership(TestLisEntities.buildMembership())
+        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+
+        object = Document.builder()
+            .id(BASE_IRI.concat("/etexts/201.epub"))
+            .name("IMS Caliper Implementation Guide")
+            .version("1.1")
             .build();
 
-        // Build actor
-        actor = TestAgentEntities.buildStudent554433();
-
-        // Build Frame
-        ePub = TestEpubEntities.buildEpubSubChap432();
-        object = Frame.builder()
-            .id(ePub.getId())
-            .name(ePub.getName())
-            .isPartOf(ePub.getIsPartOf())
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version(ePub.getVersion())
-            .index(2)
+        annotated = Chapter.builder()
+            .id(BASE_IRI.concat("/etexts/201.epub#epubcfi(/6/4[chap01]!/4[body01]/10[para05]/1:20)"))
             .build();
 
-        // Build Bookmark Annotation
         generated = BookmarkAnnotation.builder()
-            .id("https://example.edu/bookmarks/00001")
-            .annotated(object)
-            .bookmarkNotes("The Intolerable Acts (1774)--bad idea Lord North")
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
+            .id(BASE_IRI.concat("/users/554433/etexts/201/bookmarks/1"))
+            .annotated(annotated)
+            .actor(actor)
+            .bookmarkNotes("Caliper profiles model discrete learning activities or supporting activities that enable learning.")
+            .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+            .build();
+
+        edApp = SoftwareApplication.builder().id(BASE_IRI).name("ePub Reader").version("1.2.3").build();
+
+        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+            .courseNumber("CPS 435-01")
+            .academicSession("Fall 2016")
+            .build();
+
+        membership = Membership.builder()
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
+            .member(actor)
+            .organization(CourseSection.builder().id(group.getId()).build())
+            .status(Status.ACTIVE)
+            .role(Role.LEARNER)
+            .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
+            .build();
+
+        session = Session.builder()
+            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+            .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
         // Build event
@@ -130,10 +144,11 @@ public class AnnotationBookmarkedEventTest {
             .action(action.getValue())
             .object(object)
             .generated(generated)
-            .eventTime(eventTime)
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
-            .membership(learningContext.getMembership())
+            .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+            .edApp(edApp)
+            .group(group)
+            .membership(membership)
+            .session(session)
             .build();
     }
 }
