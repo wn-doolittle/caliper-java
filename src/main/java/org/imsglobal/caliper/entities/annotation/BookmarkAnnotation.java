@@ -48,8 +48,6 @@ public class BookmarkAnnotation extends BaseEntity implements Annotation {
         super(builder);
 
         EntityValidator.checkType(builder.type, AnnotationType.BOOKMARK_ANNOTATION);
-        EntityValidator.checkId("annotated Id", builder.annotated.getId());
-        EntityValidator.checkId("actor Id", builder.actor.getId());
 
         this.type = builder.type;
         this.annotated = builder.annotated;
