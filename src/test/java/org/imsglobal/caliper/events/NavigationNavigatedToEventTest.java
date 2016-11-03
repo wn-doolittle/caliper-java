@@ -21,22 +21,20 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import org.imsglobal.caliper.TestAgentEntities;
-import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestEpubEntities;
-import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.reading.EpubVolume;
-import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
+import org.imsglobal.caliper.entities.lis.CourseSection;
+import org.imsglobal.caliper.entities.lis.Membership;
+import org.imsglobal.caliper.entities.lis.Role;
+import org.imsglobal.caliper.entities.lis.Status;
 import org.imsglobal.caliper.entities.reading.WebPage;
+import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,17 +47,17 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class NavigationNavigatedToEventTest {
 
-    private LearningContext learningContext;
     private Person actor;
-    private EpubVolume object;
-    private Frame target;
-    private DigitalResource fromResource;
-    private EpubSubChapter ePub;
+    private WebPage object;
+    private SoftwareApplication edApp;
+    private CourseSection group;
+    private Membership membership;
+    private WebPage referrer;
+    private Session session;
     private NavigationEvent event;
-    private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(NavigationEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(NavigationNavigatedToEventTest.class);
+
+    private static final String BASE_IRI = "https://example.edu";
 
     /**
      * @throws java.lang.Exception
@@ -67,38 +65,36 @@ public class NavigationNavigatedToEventTest {
     @Before
     public void setUp() throws Exception {
 
-        // Build the Learning Context
-        learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildEpubViewerApp())
-            .group(TestLisEntities.buildGroup())
-            .membership(TestLisEntities.buildMembership())
+        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+
+        object = WebPage.builder()
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/pages/2"))
+            .name("Learning Analytics Specifications")
+            .description("Overview of Learning Analytics Specifications with particular emphasis on IMS Caliper.")
+            .dateCreated(new DateTime(2016, 8, 1, 9, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
-        // Build actor
-        actor = TestAgentEntities.buildStudent554433();
+        referrer = WebPage.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/pages/1")).build();
 
-        // Build object
-        object = TestEpubEntities.buildEpubVolume43();
+        edApp = SoftwareApplication.builder().id(BASE_IRI).build();
 
-        // Build target frame
-        ePub = TestEpubEntities.buildEpubSubChap431();
-        target = Frame.builder()
-            .id(ePub.getId())
-            .name(ePub.getName())
-            .isPartOf(ePub.getIsPartOf())
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version(ePub.getVersion())
-            .index(1)
+        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+            .courseNumber("CPS 435-01")
+            .academicSession("Fall 2016")
             .build();
 
-        // Build previous location
-        fromResource = WebPage.builder()
-            .id("https://example.edu/politicalScience/2015/american-revolution-101/index.html")
-            .name("American Revolution 101 Landing Page")
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version("1.0")
+        membership = Membership.builder()
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
+            .member(actor)
+            .organization(CourseSection.builder().id(group.getId()).build())
+            .status(Status.ACTIVE)
+            .role(Role.LEARNER)
+            .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
+            .build();
+
+        session = Session.builder()
+            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+            .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
         // Build event
@@ -135,12 +131,12 @@ public class NavigationNavigatedToEventTest {
             .actor(actor)
             .action(action.getValue())
             .object(object)
-            .target(target)
-            .fromResource(fromResource)
-            .eventTime(eventTime)
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
-            .membership(learningContext.getMembership())
+            .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+            .referrer(referrer)
+            .edApp(edApp)
+            .group(group)
+            .membership(membership)
+            .session(session)
             .build();
     }
 }
