@@ -21,20 +21,20 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import org.imsglobal.caliper.TestAgentEntities;
-import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestEpubEntities;
-import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.reading.EpubVolume;
-import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
+import org.imsglobal.caliper.entities.lis.CourseSection;
+import org.imsglobal.caliper.entities.lis.Membership;
+import org.imsglobal.caliper.entities.lis.Role;
+import org.imsglobal.caliper.entities.lis.Status;
+import org.imsglobal.caliper.entities.reading.Document;
+import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,16 +47,16 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class ViewViewedEventTest {
 
-    private LearningContext learningContext;
     private Person actor;
-    private EpubVolume object;
-    private EpubSubChapter ePub;
-    private Frame target;
+    private Document object;
+    private SoftwareApplication edApp;
+    private CourseSection group;
+    private Membership membership;
+    private Session session;
     private ViewEvent event;
-    private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(ViewEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(BookmarkAnnotationEventTest.class);
+
+    private static final String BASE_IRI = "https://example.edu";
 
     /**
      * @throws java.lang.Exception
@@ -64,29 +64,35 @@ public class ViewViewedEventTest {
     @Before
     public void setUp() throws Exception {
 
-        // Build the Learning Context
-        learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildEpubViewerApp())
-            .group(TestLisEntities.buildGroup())
-            .membership(TestLisEntities.buildMembership())
+        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+
+        object = Document.builder()
+            .id(BASE_IRI.concat("/etexts/201.epub"))
+            .name("IMS Caliper Implementation Guide")
+            .version("1.1")
+            .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
+            .datePublished(new DateTime(2016, 10, 1, 6, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
-        // Build actor
-        actor = TestAgentEntities.buildStudent554433();
+        edApp = SoftwareApplication.builder().id(BASE_IRI).build();
 
-        // Build object
-        object = TestEpubEntities.buildEpubVolume43();
+        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+            .courseNumber("CPS 435-01")
+            .academicSession("Fall 2016")
+            .build();
 
-        // Build target frame
-        ePub = TestEpubEntities.buildEpubSubChap431();
-        target = Frame.builder()
-            .id(ePub.getId())
-            .name(ePub.getName())
-            .isPartOf(ePub.getIsPartOf())
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version(ePub.getVersion())
-            .index(1)
+        membership = Membership.builder()
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
+            .member(actor)
+            .organization(CourseSection.builder().id(group.getId()).build())
+            .status(Status.ACTIVE)
+            .role(Role.LEARNER)
+            .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
+            .build();
+
+        session = Session.builder()
+            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+            .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
         // Build event
@@ -123,11 +129,11 @@ public class ViewViewedEventTest {
             .actor(actor)
             .action(action.getValue())
             .object(object)
-            .target(target)
-            .eventTime(eventTime)
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
-            .membership(learningContext.getMembership())
+            .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+            .edApp(edApp)
+            .group(group)
+            .membership(membership)
+            .session(session)
             .build();
     }
 }
