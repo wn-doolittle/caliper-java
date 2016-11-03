@@ -35,7 +35,7 @@ public class MediaObject extends DigitalResource implements org.imsglobal.calipe
     private final String type;
 
     @JsonProperty("duration")
-    private long duration;
+    private String duration;
 
     /**
      * @param builder apply builder object properties to the MediaObject object.
@@ -62,7 +62,7 @@ public class MediaObject extends DigitalResource implements org.imsglobal.calipe
      * @return duration
      */
     @Nullable
-    public long getDuration() {
+    public String getDuration() {
         return duration;
     }
 
@@ -73,7 +73,7 @@ public class MediaObject extends DigitalResource implements org.imsglobal.calipe
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
         private String type;
-        private long duration;
+        private String duration;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
@@ -95,7 +95,7 @@ public class MediaObject extends DigitalResource implements org.imsglobal.calipe
          * @param duration
          * @return duration
          */
-        public T duration(long duration) {
+        public T duration(String duration) {
             this.duration = duration;
             return self();
         }
