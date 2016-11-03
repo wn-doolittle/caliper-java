@@ -56,7 +56,7 @@ public class MediaPausedVideoEventTest {
     private Membership membership;
     private Session session;
     private MediaEvent event;
-    // private static final Logger log = LoggerFactory.getLogger(BookmarkAnnotationEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(MediaPausedVideoEventTest.class);
 
     private static final String BASE_IRI = "https://example.edu";
 

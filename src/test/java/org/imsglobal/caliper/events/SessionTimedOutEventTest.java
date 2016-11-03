@@ -54,7 +54,7 @@ public class SessionTimedOutEventTest {
     private DateTime dateEnded = TestDates.getDefaultEndedAtTime();
     private String duration = TestDates.getDefaultPeriod();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(SessionLogoutEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(SessionTimedOutEventTest.class);
 
     /**
      * @throws java.lang.Exception

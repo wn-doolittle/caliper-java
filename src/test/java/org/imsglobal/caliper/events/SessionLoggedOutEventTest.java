@@ -55,7 +55,7 @@ public class SessionLoggedOutEventTest {
     private DateTime dateEnded = TestDates.getDefaultEndedAtTime();
     private String duration = TestDates.getDefaultPeriod();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(SessionLogoutEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(SessionLoggedOutEventTest.class);
 
     /**
      * Constructor

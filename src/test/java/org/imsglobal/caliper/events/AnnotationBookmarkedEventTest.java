@@ -58,7 +58,7 @@ public class AnnotationBookmarkedEventTest {
     private Membership membership;
     private Session session;
     private AnnotationEvent event;
-    // private static final Logger log = LoggerFactory.getLogger(BookmarkAnnotationEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(AnnotationBookmarkedEventTest.class);
 
     private static final String BASE_IRI = "https://example.edu";
 

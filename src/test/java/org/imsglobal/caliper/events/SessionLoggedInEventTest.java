@@ -59,7 +59,7 @@ public class SessionLoggedInEventTest {
     private DateTime dateModified = TestDates.getDefaultDateModified();
     private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(SessionLoginEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(SessionLoggedInEventTest.class);
 
     /**
      * @throws java.lang.Exception

@@ -54,7 +54,7 @@ public class AssessmentStartedEventTest {
     private DateTime dateCreated = TestDates.getDefaultDateCreated();
     private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
     private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(AssessmentEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(AssessmentStartedEventTest.class);
 
     /**
      * @throws java.lang.Exception
