@@ -21,22 +21,23 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.google.common.collect.Lists;
-import org.imsglobal.caliper.TestAgentEntities;
-import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestEpubEntities;
-import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.reading.Frame;
+import org.imsglobal.caliper.entities.lis.CourseSection;
+import org.imsglobal.caliper.entities.lis.Membership;
+import org.imsglobal.caliper.entities.lis.Role;
+import org.imsglobal.caliper.entities.lis.Status;
+import org.imsglobal.caliper.entities.reading.Chapter;
+import org.imsglobal.caliper.entities.reading.Document;
+import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +45,7 @@ import org.junit.experimental.categories.Category;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
@@ -51,16 +53,19 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AnnotationSharedEventTest {
 
-    private LearningContext learningContext;
     private Person actor;
-    private EpubSubChapter ePub;
-    private Frame object;
+    private Document object;
+    private Chapter annotated;
     private SharedAnnotation generated;
+    private SoftwareApplication edApp;
+    private CourseSection group;
+    private Membership membership;
+    private Session session;
+    private List<Agent> agents;
     private AnnotationEvent event;
-    private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(SharedAnnotationEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(BookmarkAnnotationEventTest.class);
+
+    private static final String BASE_IRI = "https://example.edu";
 
     /**
      * @throws java.lang.Exception
@@ -68,48 +73,45 @@ public class AnnotationSharedEventTest {
     @Before
     public void setUp() throws Exception {
 
-        // Build the Learning Context
-        learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildEpubViewerApp())
-            .group(TestLisEntities.buildGroup())
-            .membership(TestLisEntities.buildMembership())
+        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+
+        object = Document.builder()
+            .id(BASE_IRI.concat("/etexts/201.epub"))
+            .name("IMS Caliper Implementation Guide")
+            .version("1.1")
             .build();
 
-        // Build actor
-        actor = TestAgentEntities.buildStudent554433();
+        agents = new ArrayList<Agent>();
+        agents.add(Person.builder().id(BASE_IRI.concat("/users/657585")).build());
+        agents.add(Person.builder().id(BASE_IRI.concat("/users/667788")).build());
 
-        // Build object frame
-        ePub = TestEpubEntities.buildEpubSubChap433();
-        object = Frame.builder()
-            .id(ePub.getId())
-            .name(ePub.getName())
-            .isPartOf(ePub.getIsPartOf())
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version(ePub.getVersion())
-            .index(3)
-            .build();
-
-        // Add shared with agents
-        List<Agent> shared = Lists.newArrayList();
-        shared.add(Person.builder()
-            .id("https://example.edu/user/657585")
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .build());
-        shared.add(Person.builder()
-            .id("https://example.edu/user/667788")
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .build());
-
-        // Build Shared Annotation
         generated = SharedAnnotation.builder()
-            .id("https://example.edu/shared/9999")
-            .annotated(object)
-            .withAgents(shared)
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
+            .id(BASE_IRI.concat("/users/554433/etexts/201/shares/1"))
+            .annotated(Document.builder().id(object.getId()).build())
+            .actor(actor)
+            .withAgents(agents)
+            .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+            .build();
+
+        edApp = SoftwareApplication.builder().id(BASE_IRI).version("1.2.3").build();
+
+        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+            .courseNumber("CPS 435-01")
+            .academicSession("Fall 2016")
+            .build();
+
+        membership = Membership.builder()
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
+            .member(actor)
+            .organization(CourseSection.builder().id(group.getId()).build())
+            .status(Status.ACTIVE)
+            .role(Role.LEARNER)
+            .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
+            .build();
+
+        session = Session.builder()
+            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+            .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
         // Build event
@@ -147,10 +149,11 @@ public class AnnotationSharedEventTest {
             .action(action.getValue())
             .object(object)
             .generated(generated)
-            .eventTime(eventTime)
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
-            .membership(learningContext.getMembership())
+            .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+            .edApp(edApp)
+            .group(group)
+            .membership(membership)
+            .session(session)
             .build();
     }
 }
