@@ -56,7 +56,9 @@ public class NavigationEvent extends BaseEventContext {
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, NavigationEvent.class);
         EventValidator.checkObjectType(getObject(), DigitalResource.class);
-        EventValidator.checkTargetType(getTarget(), DigitalResource.class);
+        if (!(this.getTarget() == null)) {
+            EventValidator.checkTargetType(this.getTarget(), DigitalResource.class);
+        }
 
         this.type = builder.type;
         this.action = builder.action;
