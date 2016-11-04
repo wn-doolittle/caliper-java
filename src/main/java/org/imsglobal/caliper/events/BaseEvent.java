@@ -44,6 +44,9 @@ public abstract class BaseEvent implements Event {
     @JsonProperty("@context")
     private final String context;
 
+    @JsonProperty("id")
+    private final String id;
+
     @JsonProperty("@type")
     private final String type;
 
@@ -75,6 +78,7 @@ public abstract class BaseEvent implements Event {
         EventValidator.checkContext(builder.context, Context.CONTEXT);
 
         this.context = builder.context;
+        this.id = builder.id;
         this.type = builder.type;
         this.actor = builder.actor;
         this.action = builder.action;
@@ -89,6 +93,15 @@ public abstract class BaseEvent implements Event {
     @Nonnull
     public String getContext() {
         return context;
+    }
+
+    /**
+     * Identifier that must be set either by emitting service or the receiving endpoint.
+     * @return the identifier
+     */
+    @Nonnull
+    public String getId() {
+        return id;
     }
 
     /**
@@ -142,6 +155,7 @@ public abstract class BaseEvent implements Event {
      */
     public static abstract class Builder<T extends Builder<T>> {
         private String context;
+        private String id;
         private String type;
         private Agent actor;
         private String action;
@@ -164,6 +178,15 @@ public abstract class BaseEvent implements Event {
          */
         private T context(String context) {
             this.context = context;
+            return self();
+        }
+
+        /**
+         * @param id
+         * @return builder.
+         */
+        public T id(String id) {
+            this.id = id;
             return self();
         }
 

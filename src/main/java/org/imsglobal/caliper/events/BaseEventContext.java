@@ -136,21 +136,21 @@ public abstract class BaseEventContext implements Event, EventContext {
     }
 
     /**
+     * Identifier that must be set either by emitting service or the receiving endpoint.
+     * @return the id
+     */
+    @Nullable
+    public String getId() {
+        return id;
+    }
+
+    /**
      * Required.
      * @return the type
      */
     @Nonnull
     public String getType() {
         return type;
-    }
-
-    /**
-     * Optional
-     * @return the id
-     */
-    @Nullable
-    public String getId() {
-        return id;
     }
 
     /**
@@ -273,8 +273,8 @@ public abstract class BaseEventContext implements Event, EventContext {
      */
     public static abstract class Builder<T extends Builder<T>> {
         private String context;
-        private String type;
         private String id;
+        private String type;
         private Agent actor;
         private String action;
         private Entity object;
@@ -309,20 +309,20 @@ public abstract class BaseEventContext implements Event, EventContext {
         }
 
         /**
+         * @param id
+         * @return builder.
+         */
+        public T id(String id) {
+            this.id = id;
+            return self();
+        }
+
+        /**
          * @param type
          * @return builder.
          */
         private T type(String type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param id
-         * @return builder.
-         */
-        private T id(String id) {
-            this.id = id;
             return self();
         }
 

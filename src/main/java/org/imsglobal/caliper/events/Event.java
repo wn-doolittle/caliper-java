@@ -32,6 +32,12 @@ import org.joda.time.DateTime;
 public interface Event {
 
     /**
+     * Identifier that must be set either by emitting service or the receiving endpoint.
+     * @return the identifier.
+     */
+    String getId();
+
+    /**
      * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
      * should be expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the context IRI.
