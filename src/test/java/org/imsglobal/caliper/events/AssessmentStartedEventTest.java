@@ -71,7 +71,6 @@ public class AssessmentStartedEventTest {
         object = Assessment.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1"))
             .name("Quiz One")
-            .version("1.0")
             .dateToStartOn(new DateTime(2016, 11, 14, 5, 0, 0, 0, DateTimeZone.UTC))
             .dateToSubmit(new DateTime(2016, 11, 18, 11, 59, 59, 0, DateTimeZone.UTC))
             .maxAttempts(2)
