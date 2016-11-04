@@ -21,21 +21,18 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import org.imsglobal.caliper.TestAgentEntities;
-import org.imsglobal.caliper.TestAssessmentEntities;
-import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.entities.lis.CourseSection;
 import org.imsglobal.caliper.entities.outcome.Result;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,16 +45,16 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class OutcomeGradedEventTest {
 
-    private LearningContext learningContext;
-    private Person actor;
-    private Assessment assessment;
+    private SoftwareApplication actor;
+    private Person learner;
     private Attempt object;
+    private Assessment assignable;
     private Result generated;
+    private CourseSection group;
     private OutcomeEvent event;
-    private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
-    private DateTime eventTime = TestDates.getDefaultEventTime();
-    // private static final Logger log = LoggerFactory.getLogger(OutcomeGradedEventTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(ViewViewedEventTest.class);
+
+    private static final String BASE_IRI = "https://example.edu";
 
     /**
      * @throws java.lang.Exception
@@ -65,42 +62,33 @@ public class OutcomeGradedEventTest {
     @Before
     public void setUp() throws Exception {
 
-        // Build the Learning Context
-        learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildAssessmentApp())
-            .group(TestLisEntities.buildGroup())
-            .membership(TestLisEntities.buildMembership())
-            .build();
+        actor = SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).version("v2").build();
+        learner = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        assignable = Assessment.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1")).build();
 
-        // Build actor
-        actor = TestAgentEntities.buildStudent554433();
-
-        // Build assessment
-        assessment = TestAssessmentEntities.buildAssessment();
-
-        // Build attempt
         object = Attempt.builder()
-            .id(assessment.getId() + "/attempt/5678")
-            .assignable(assessment)
-            .actor(actor)
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"))
+            .assignable(assignable)
+            .actor(learner)
             .count(1)
-            .dateCreated(dateCreated)
-            .startedAtTime(dateStarted)
+            .dateCreated(new DateTime(2016, 11, 15, 10, 5, 0, 0, DateTimeZone.UTC))
+            .startedAtTime(new DateTime(2016, 11, 15, 10, 5, 0, 0, DateTimeZone.UTC))
+            .endedAtTime(new DateTime(2016, 11, 15, 10, 55, 12, 0, DateTimeZone.UTC))
+            .duration("PT50M12S")
             .build();
 
-        // Build result
         generated = Result.builder()
-            .id(object.getId() + "/result")
-            .attempt(object)
-            .dateCreated(dateCreated)
-            .normalScore(3.0d)
-            .penaltyScore(0.0d)
-            .extraCreditScore(0.0d)
-            .totalScore(3.0d)
-            .curvedTotalScore(3.0d)
-            .curveFactor(0.0d)
-            .comment("Well done.")
-            .scoredBy((SoftwareApplication) learningContext.getEdApp())
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/results/1"))
+            .attempt(Attempt.builder().id(object.getId()).build())
+            .normalScore(15)
+            .totalScore(15)
+            .scoredBy(SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).build())
+            .dateCreated(new DateTime(2016, 11, 15, 10, 55, 5, 0, DateTimeZone.UTC))
+            .build();
+
+        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+            .courseNumber("CPS 435-01")
+            .academicSession("Fall 2016")
             .build();
 
         // Build Outcome Event
@@ -138,10 +126,8 @@ public class OutcomeGradedEventTest {
             .action(action.getValue())
             .object(object)
             .generated(generated)
-            .eventTime(eventTime)
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
-            .membership(learningContext.getMembership())
+            .group(group)
+            .eventTime(new DateTime(2016, 11, 15, 10, 57, 6, 0, DateTimeZone.UTC))
             .build();
     }
 }
