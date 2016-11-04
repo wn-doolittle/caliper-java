@@ -18,9 +18,8 @@
 
 package org.imsglobal.caliper.entities.outcome;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.imsglobal.caliper.databind.JsonDoubleSerializer;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
@@ -109,7 +108,8 @@ public class Result extends BaseEntity implements Generatable {
      * @return the normalScore
      */
     @Nullable
-    @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getNormalScore() {
         return normalScore;
     }
@@ -118,7 +118,8 @@ public class Result extends BaseEntity implements Generatable {
      * @return the penaltyScore
      */
     @Nullable
-    @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getPenaltyScore() {
         return penaltyScore;
     }
@@ -127,7 +128,8 @@ public class Result extends BaseEntity implements Generatable {
      * @return the extraCreditScore
      */
     @Nullable
-    @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getExtraCreditScore() {
         return extraCreditScore;
     }
@@ -136,7 +138,8 @@ public class Result extends BaseEntity implements Generatable {
      * @return the totalScore
      */
     @Nullable
-    @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getTotalScore() {
         return totalScore;
     }
@@ -145,7 +148,8 @@ public class Result extends BaseEntity implements Generatable {
      * @return the curvedTotalScore
      */
     @Nullable
-    @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getCurvedTotalScore() {
         return curvedTotalScore;
     }
@@ -154,7 +158,8 @@ public class Result extends BaseEntity implements Generatable {
      * @return the curveFactor
      */
     @Nullable
-    @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getCurveFactor() {
         return curveFactor;
     }
