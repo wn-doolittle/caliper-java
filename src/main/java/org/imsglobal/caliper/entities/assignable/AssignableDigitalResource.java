@@ -18,9 +18,8 @@
 
 package org.imsglobal.caliper.entities.assignable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.imsglobal.caliper.databind.JsonDoubleSerializer;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.DigitalResourceType;
 import org.imsglobal.caliper.validators.EntityValidator;
@@ -121,6 +120,7 @@ public class AssignableDigitalResource extends DigitalResource implements Assign
      * @return the maxAttempts
      */
     @Nullable
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public int getMaxAttempts() {
         return maxAttempts;
     }
@@ -129,6 +129,7 @@ public class AssignableDigitalResource extends DigitalResource implements Assign
      * @return the maxSubmits
      */
     @Nullable
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public int getMaxSubmits() {
         return maxSubmits;
     }
@@ -137,7 +138,8 @@ public class AssignableDigitalResource extends DigitalResource implements Assign
      * @return the maxScore
      */
     @Nullable
-    @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getMaxScore() {
         return maxScore;
     }
