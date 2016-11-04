@@ -20,10 +20,10 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +62,9 @@ public class AssessmentEvent extends BaseEventContext {
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, AssessmentEvent.class);
         EventValidator.checkObjectType(getObject(), Assessment.class);
-        EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+        if (!(this.getGenerated() == null)) {
+            EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+        }
 
         this.type = builder.type;
         this.action = builder.action;
