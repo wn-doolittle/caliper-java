@@ -20,11 +20,11 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.assessment.AssessmentItem;
 import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.response.BaseResponse;
-import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,14 +61,18 @@ public class AssessmentItemEvent extends BaseEventContext {
         super(builder);
 
         EventValidator.checkType(builder.type, EventType.ASSESSMENT_ITEM);
-        EventValidator.checkActorType(getActor(), Person.class);
+        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(builder.action, AssessmentItemEvent.class);
-        EventValidator.checkObjectType(getObject(), AssessmentItem.class);
-
         if (builder.action.equals(Action.COMPLETED.getValue())) {
-            EventValidator.checkGeneratedType(getGenerated(), BaseResponse.class);
+            EventValidator.checkObjectType(this.getObject(), Attempt.class);
+            if (!(this.getGenerated() == null)) {
+                EventValidator.checkGeneratedType(this.getGenerated(), BaseResponse.class);
+            }
         } else {
-            EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+            EventValidator.checkObjectType(this.getObject(), AssessmentItem.class);
+            if (!(this.getGenerated() == null)) {
+                EventValidator.checkGeneratedType(this.getGenerated(), Attempt.class);
+            }
         }
 
         this.type = builder.type;
