@@ -20,11 +20,11 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.Session;
-import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,20 +59,21 @@ public class SessionEvent extends BaseEventContext {
         super(builder);
 
         EventValidator.checkType(builder.type, EventType.SESSION);
-        // EventValidator.checkAction(builder.action, SessionEvent.class);
-
         if (builder.action.equals(Action.LOGGED_IN.getValue())) {
-            EventValidator.checkActorType(getActor(), Person.class);
-            EventValidator.checkObjectType(getObject(), SoftwareApplication.class);
-            EventValidator.checkTargetType(getTarget(), DigitalResource.class);
-            EventValidator.checkGeneratedType(getGenerated(), Session.class);
+            EventValidator.checkActorType(this.getActor(), Person.class);
+            EventValidator.checkObjectType(this.getObject(), SoftwareApplication.class);
+            if (!(this.getTarget() == null)) {
+                EventValidator.checkTargetType(this.getTarget(), DigitalResource.class);
+            }
         } else if (builder.action.equals(Action.LOGGED_OUT.getValue())) {
-            EventValidator.checkActorType(getActor(), Person.class);
-            EventValidator.checkObjectType(getObject(), SoftwareApplication.class);
-            EventValidator.checkTargetType(getTarget(), Session.class);
+            EventValidator.checkActorType(this.getActor(), Person.class);
+            EventValidator.checkObjectType(this.getObject(), SoftwareApplication.class);
+            if (!(this.getTarget() == null)) {
+                EventValidator.checkTargetType(this.getTarget(), Session.class);
+            }
         } else if (builder.action.equals(Action.TIMED_OUT)) {
-            EventValidator.checkActorType(getActor(), SoftwareApplication.class);
-            EventValidator.checkObjectType(getObject(), Session.class);
+            EventValidator.checkActorType(this.getActor(), SoftwareApplication.class);
+            EventValidator.checkObjectType(this.getObject(), Session.class);
         } else {
             EventValidator.checkAction(builder.action, SessionEvent.class);
         }
