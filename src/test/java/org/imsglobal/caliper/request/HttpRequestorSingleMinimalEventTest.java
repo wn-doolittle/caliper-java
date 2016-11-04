@@ -25,19 +25,18 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.Client;
 import org.imsglobal.caliper.Sensor;
-import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestFreeFormAgent;
-import org.imsglobal.caliper.TestFreeFormEntity;
-import org.imsglobal.caliper.TestFreeFormEvent;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.reading.Document;
+import org.imsglobal.caliper.events.BasicEvent;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.payload.Envelope;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,39 +57,38 @@ public class HttpRequestorSingleMinimalEventTest {
 
     private Sensor<String> sensor ;
     private HttpRequestor<Event> httpRequestor = new HttpRequestor<>(TestUtils.getTestingOptions());
-    private Agent actor;
-    private TestFreeFormEntity object;
-    private TestFreeFormEvent event;
+    private Person actor;
+    private Document object;
+    private BasicEvent event;
     private Envelope<Event> envelope;
-    private DateTime eventTime = TestDates.getDefaultStartedAtTime();
+    private DateTime sendTime;
     private List<Event> data = new ArrayList<>();
-    // private static final Logger log = LoggerFactory.getLogger(HttpRequestorTest.class);
+    // private static final Logger log = LoggerFactory.getLogger(HttpRequestorSingleMinimalTest.class);
+
+    private static final String BASE_IRI = "https://example.edu";
 
     @Before
     public void setup() {
 
         // Register a Sensor client using the default constructor
-        sensor = new Sensor<>("https://example.edu/sensor/001");
+        sensor = new Sensor<>(BASE_IRI.concat("/sensors/1"));
         Client client = new Client();
         client.setId(sensor.getId() + "/defaultClient");
         client.setOptions(TestUtils.getTestingOptions());
         sensor.registerClient(client.getId(), client);
 
-        // Build actor
-        String actorId = "https://example.edu/user/554433";
-        String actorType = "http://purl.imsglobal.org/caliper/v1/lis/Person";
-        actor = TestFreeFormAgent.create(null, actorId, actorType);
+        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
-        // Build object
-        String objectId = "https://example.com/viewer/book/34843#epubcfi(/4/3)";
-        String objectType = "http://www.idpf.org/epub/vocab/structure/#volume";
-        object = TestFreeFormEntity.create(null, objectId, objectType);
+        object = Document.builder().id(BASE_IRI.concat("/etexts/201.epub")).build();
 
         // Build event
-        event = buildEvent(Action.VIEWED);
+        event = buildEvent(Action.CREATED);
 
         // Add event to data array
         data.add(event);
+
+        // Send time
+        sendTime = new DateTime(2016, 11, 15, 11, 5, 1, 0, DateTimeZone.UTC);
 
         // Create envelope; include null properties, empty objects and empty arrays
         envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), data);
@@ -106,7 +104,7 @@ public class HttpRequestorSingleMinimalEventTest {
         // Swap out sendTime=DateTime.now() in favor of fixture value (or test will most assuredly fail).
         Pattern pattern = Pattern.compile("\"sendTime\":\"[^\"]*\"");
         Matcher matcher = pattern.matcher(json);
-        json = matcher.replaceFirst("\"sendTime\":\"" + TestDates.getDefaultSendTime() +"\"");
+        json = matcher.replaceFirst("\"sendTime\":\"" + sendTime +"\"");
 
         String fixture = jsonFixture("fixtures/caliperEnvelopeEventViewViewedMinimal.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
@@ -135,12 +133,12 @@ public class HttpRequestorSingleMinimalEventTest {
      * @param action
      * @return event
      */
-    private TestFreeFormEvent buildEvent(Action action) {
-        return TestFreeFormEvent.builder()
+    private BasicEvent buildEvent(Action action) {
+        return BasicEvent.builder()
             .actor(actor)
             .action(action.getValue())
             .object(object)
-            .eventTime(eventTime)
+            .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
     }
 }
