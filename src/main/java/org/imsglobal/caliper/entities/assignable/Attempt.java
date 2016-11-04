@@ -25,7 +25,6 @@ import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
@@ -47,7 +46,7 @@ public class Attempt extends BaseEntity implements Generatable {
     private final Agent actor;
 
     @JsonProperty("isPartOf")
-    private final CreativeWork isPartOf;
+    private final Attempt isPartOf;
 
     @JsonProperty("count")
     private int count;
@@ -103,11 +102,10 @@ public class Attempt extends BaseEntity implements Generatable {
     }
 
     /**
-     * Serialization of the DigitalResource parent is limited to the identifying URI only.
-     * @return the parent reference.
+     * @return the parent Attempt if one exists
      */
     @Nullable
-    public CreativeWork getIsPartOf() {
+    public Attempt getIsPartOf() {
         return isPartOf;
     }
 
@@ -158,7 +156,7 @@ public class Attempt extends BaseEntity implements Generatable {
         private String type;
         private DigitalResource assignable;
         private Agent actor;
-        private CreativeWork isPartOf;
+        private Attempt isPartOf;
         private int count;
         private DateTime startedAtTime;
         private DateTime endedAtTime;
@@ -202,7 +200,7 @@ public class Attempt extends BaseEntity implements Generatable {
          * @param isPartOf
          * @return builder.
          */
-        public T isPartOf(CreativeWork isPartOf) {
+        public T isPartOf(Attempt isPartOf) {
             this.isPartOf = isPartOf;
             return self();
         }
