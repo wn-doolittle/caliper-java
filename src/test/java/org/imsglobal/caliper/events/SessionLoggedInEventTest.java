@@ -21,21 +21,15 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import org.imsglobal.caliper.TestAgentEntities;
-import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestEpubEntities;
-import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.reading.Frame;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,18 +42,13 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class SessionLoggedInEventTest {
 
-    private LearningContext learningContext;
     private Person actor;
     private SoftwareApplication object;
-    private EpubSubChapter ePub;
-    private Frame target;
-    private Session generated;
+    private Session session;
     private SessionEvent event;
-    private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
-    private DateTime eventTime = TestDates.getDefaultEventTime();
     // private static final Logger log = LoggerFactory.getLogger(SessionLoggedInEventTest.class);
+
+    private static final String BASE_IRI = "https://example.edu";
 
     /**
      * @throws java.lang.Exception
@@ -67,39 +56,15 @@ public class SessionLoggedInEventTest {
     @Before
     public void setUp() throws Exception {
 
-        // Build the Learning Context
-        learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildEpubViewerApp())
-            .group(TestLisEntities.buildGroup())
-            .membership(TestLisEntities.buildMembership())
-            .build();
+        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
-        // Build actor
-        actor = TestAgentEntities.buildStudent554433();
+        object = SoftwareApplication.builder().id(BASE_IRI).version("v2").build();
 
-        // Build object
-        object = learningContext.getEdApp();
-
-        // Build target
-        ePub = TestEpubEntities.buildEpubSubChap431();
-        target = Frame.builder()
-            .id(ePub.getId())
-            .name(ePub.getName())
-            .isPartOf(ePub.getIsPartOf())
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version(ePub.getVersion())
-            .index(1)
-            .build();
-
-        // Build generated
-        generated = Session.builder()
-            .id("https://example.com/viewer/session-123456789")
-            .name("session-123456789")
+        session = Session.builder()
+            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
             .actor(actor)
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .startedAtTime(dateStarted)
+            .dateCreated(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
+            .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
         // Build event
@@ -133,15 +98,12 @@ public class SessionLoggedInEventTest {
      */
     private SessionEvent buildEvent(Action action) {
         return SessionEvent.builder()
+            .id("341db3d9-71cc-4081-9423-cbed73cb0179")
             .actor(actor)
             .action(action.getValue())
-            .object(learningContext.getEdApp())
-            .target(target)
-            .generated(generated)
-            .eventTime(eventTime)
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
-            .membership(learningContext.getMembership())
+            .object(object)
+            .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+            .session(session)
             .build();
     }
 }
