@@ -63,10 +63,12 @@ public class AssignableEvent extends BaseEventContext {
         super(builder);
 
         EventValidator.checkType(builder.type, EventType.ASSIGNABLE);
-        EventValidator.checkActorType(getActor(), Person.class);
+        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(builder.action, AssignableEvent.class);
-        EventValidator.checkObjectType(getObject(), AssignableDigitalResource.class);
-        EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+        EventValidator.checkObjectType(this.getObject(), AssignableDigitalResource.class);
+        if (!(this.getGenerated() == null)) {
+            EventValidator.checkGeneratedType(this.getGenerated(), Attempt.class);
+        }
 
         this.type = builder.type;
         this.action = builder.action;
