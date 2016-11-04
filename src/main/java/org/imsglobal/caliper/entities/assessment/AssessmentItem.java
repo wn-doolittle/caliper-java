@@ -24,6 +24,7 @@ import org.imsglobal.caliper.entities.assignable.AssignableDigitalResourceType;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Caliper representation of an Assessment Item.  Part of the Assessment Metric Profile.
@@ -34,7 +35,7 @@ public class AssessmentItem extends AssignableDigitalResource {
     private final String type;
 
     @JsonProperty("isTimeDependent")
-    private final boolean isTimeDependent;
+    private final Boolean isTimeDependent;
 
     /**
      * @param builder apply builder object properties to the AssessmentItem object.
@@ -63,10 +64,13 @@ public class AssessmentItem extends AssignableDigitalResource {
      * in a predefined period or where the response sequence is determined by the
      * time taken to complete certain responses.
      *
+     * A Boolean object rather boolean primitive data type is utilized to avoid inadvertently serializing
+     * the boolean primitive's default value (false).
+     *
      * @return true/false
      */
-    @Nonnull
-    public boolean getIsTimeDependent() {
+    @Nullable
+    public Boolean getIsTimeDependent() {
         return isTimeDependent;
     }
 
@@ -76,7 +80,7 @@ public class AssessmentItem extends AssignableDigitalResource {
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
         private String type;
-        private boolean isTimeDependent = false;
+        private Boolean isTimeDependent;
 
         /**
          * Constructor
@@ -95,11 +99,12 @@ public class AssessmentItem extends AssignableDigitalResource {
         }
 
         /**
+         * Wrap primitive in Boolean object to ensure that serializing this property only occurs if set by user.
          * @param isTimeDependent
          * @return builder.
          */
         public T isTimeDependent(boolean isTimeDependent) {
-            this.isTimeDependent = isTimeDependent;
+            this.isTimeDependent = new Boolean(isTimeDependent);
             return self();
         }
 
