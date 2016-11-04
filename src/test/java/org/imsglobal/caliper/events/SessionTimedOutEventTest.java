@@ -21,17 +21,15 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import org.imsglobal.caliper.TestAgentEntities;
-import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
-import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,17 +42,12 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class SessionTimedOutEventTest {
 
-    private LearningContext learningContext;
     private SoftwareApplication actor;
     private Session object;
     private SessionEvent event;
-    private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
-    private DateTime dateEnded = TestDates.getDefaultEndedAtTime();
-    private String duration = TestDates.getDefaultPeriod();
-    private DateTime eventTime = TestDates.getDefaultEventTime();
     // private static final Logger log = LoggerFactory.getLogger(SessionTimedOutEventTest.class);
+
+    private static final String BASE_IRI = "https://example.edu";
 
     /**
      * @throws java.lang.Exception
@@ -62,25 +55,15 @@ public class SessionTimedOutEventTest {
     @Before
     public void setUp() throws Exception {
 
-        // Build the Learning Context
-        learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildEpubViewerApp())
-            .group(TestLisEntities.buildGroup())
-            .build();
+        actor = SoftwareApplication.builder().id(BASE_IRI).build();
 
-        // Build actor
-        actor = learningContext.getEdApp();
-
-        // Build object
         object = Session.builder()
-            .id("https://example.com/viewer/session-123456789")
-            .name("session-123456789")
-            .actor(TestAgentEntities.buildStudent554433())
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .startedAtTime(dateStarted)
-            .endedAtTime(dateEnded)
-            .duration(duration)
+            .id(BASE_IRI.concat("/sessions/7d6b88adf746f0692e2e873308b78c60fb13a864"))
+            .actor(Person.builder().id(BASE_IRI.concat("/users/112233")).build())
+            .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+            .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+            .endedAtTime(new DateTime(2016, 11, 15, 11, 15, 0, 0, DateTimeZone.UTC))
+            .duration("PT3600S")
             .build();
 
         // Build event
@@ -115,12 +98,12 @@ public class SessionTimedOutEventTest {
      */
     private SessionEvent buildEvent(Action action) {
         return SessionEvent.builder()
+            .id("513d4ca1-0ecf-4234-932d-c4cb287884a3")
             .actor(actor)
             .action(action.getValue())
             .object(object)
-            .eventTime(eventTime)
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
+            .eventTime(new DateTime(2016, 11, 15, 11, 15, 0, 0, DateTimeZone.UTC))
+            .edApp(actor)
             .build();
     }
 }

@@ -21,18 +21,15 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import org.imsglobal.caliper.TestAgentEntities;
-import org.imsglobal.caliper.TestDates;
-import org.imsglobal.caliper.TestLisEntities;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
-import org.imsglobal.caliper.entities.LearningContext;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,18 +41,13 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class SessionLoggedOutEventTest {
-    private LearningContext learningContext;
     private Person actor;
     private SoftwareApplication object;
-    private Session target;
+    private Session session;
     private SessionEvent event;
-    private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime dateStarted = TestDates.getDefaultStartedAtTime();
-    private DateTime dateEnded = TestDates.getDefaultEndedAtTime();
-    private String duration = TestDates.getDefaultPeriod();
-    private DateTime eventTime = TestDates.getDefaultEventTime();
     // private static final Logger log = LoggerFactory.getLogger(SessionLoggedOutEventTest.class);
+
+    private static final String BASE_IRI = "https://example.edu";
 
     /**
      * Constructor
@@ -70,29 +62,17 @@ public class SessionLoggedOutEventTest {
     @Before
     public void setUp() throws Exception {
 
-        // Build the Learning Context
-        learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildEpubViewerApp())
-            .group(TestLisEntities.buildGroup())
-            .membership(TestLisEntities.buildMembership())
-            .build();
+        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
-        // Build actor
-        actor = TestAgentEntities.buildStudent554433();
+        object = SoftwareApplication.builder().id(BASE_IRI).version("v2").build();
 
-        //Build object
-        object = learningContext.getEdApp();
-
-        // Build target
-        target = Session.builder()
-            .id("https://example.com/viewer/session-123456789")
-            .name("session-123456789")
+        session = Session.builder()
+            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
             .actor(actor)
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .startedAtTime(dateStarted)
-            .endedAtTime(dateEnded)
-            .duration(duration)
+            .dateCreated(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
+            .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
+            .endedAtTime(new DateTime(2016, 11, 15, 11, 5, 0, 0, DateTimeZone.UTC))
+            .duration("PT3000S")
             .build();
 
         // Build event
@@ -126,14 +106,12 @@ public class SessionLoggedOutEventTest {
      */
     private SessionEvent buildEvent(Action action) {
         return SessionEvent.builder()
+            .id("5fac90a9-531a-41f6-9b8d-7a26e61dcc27")
             .actor(actor)
             .action(action.getValue())
             .object(object)
-            .target(target)
-            .eventTime(eventTime)
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
-            .membership(learningContext.getMembership())
+            .eventTime(new DateTime(2016, 11, 15, 11, 5, 0, 0, DateTimeZone.UTC))
+            .session(session)
             .build();
     }
 }
