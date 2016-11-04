@@ -18,17 +18,14 @@
 
 package org.imsglobal.caliper.entities.assignable;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.BaseEntity;
+import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
-import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
@@ -70,13 +67,6 @@ public class Attempt extends BaseEntity implements Generatable {
     protected Attempt(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkType(builder.type, EntityType.ATTEMPT);
-        EntityValidator.checkId("assignable Id", builder.assignable.getId());
-        EntityValidator.checkId("actor Id", builder.actor.getId());
-        EntityValidator.checkCount(builder.count);
-        EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
-        EntityValidator.checkDuration(builder.duration);
-
         this.type = builder.type;
         this.assignable = builder.assignable;
         this.actor = builder.actor;
@@ -97,25 +87,17 @@ public class Attempt extends BaseEntity implements Generatable {
     }
 
     /**
-     * Serialization of Assignable associated with this Attempt is limited to
-     * the identifying URI only.
      * @return the assignable
      */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @Nonnull
+    @Nullable
     public DigitalResource getAssignable() {
         return assignable;
     }
 
     /**
-     * Serialization of Actor associated with this Attempt is limited to
-     * the identifying URI only.
      * @return the actor
      */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @Nonnull
+    @Nullable
     public Agent getActor() {
         return actor;
     }
@@ -132,7 +114,8 @@ public class Attempt extends BaseEntity implements Generatable {
     /**
      * @return the count
      */
-    @Nonnull
+    @Nullable
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public int getCount() {
         return count;
     }
@@ -140,7 +123,7 @@ public class Attempt extends BaseEntity implements Generatable {
     /**
      * @return started at time
      */
-    @Nonnull
+    @Nullable
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
