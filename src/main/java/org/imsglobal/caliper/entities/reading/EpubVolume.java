@@ -30,6 +30,7 @@ import javax.annotation.Nonnull;
  * A component of a collection
  * http://www.idpf.org/epub/vocab/structure/#volume
  */
+@Deprecated
 public class EpubVolume extends DigitalResource {
 
     @JsonProperty("@type")

@@ -24,6 +24,7 @@ import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 
+@Deprecated
 public class Reading extends DigitalResource {
 
     @JsonProperty("@type")

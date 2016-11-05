@@ -30,6 +30,7 @@ import javax.annotation.Nonnull;
  * A major sub-division of a chapter
  * http://www.idpf.org/epub/vocab/structure/#subchapter
  */
+@Deprecated
 public class EpubSubChapter extends DigitalResource {
 
     @JsonProperty("@type")

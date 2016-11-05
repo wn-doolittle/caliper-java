@@ -31,6 +31,7 @@ import javax.annotation.Nonnull;
  * encapsulating a set of related chapters.
  * http://www.idpf.org/epub/vocab/structure/#part
  */
+@Deprecated
 public class EpubPart extends DigitalResource {
 
     @JsonProperty("@type")

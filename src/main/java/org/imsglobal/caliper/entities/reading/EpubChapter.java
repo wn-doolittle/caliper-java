@@ -30,6 +30,7 @@ import javax.annotation.Nonnull;
  * A major structural division of a piece of writing
  * http://www.idpf.org/epub/vocab/structure/#chapter
  */
+@Deprecated
 public class EpubChapter extends DigitalResource {
 
     @JsonProperty("@type")
