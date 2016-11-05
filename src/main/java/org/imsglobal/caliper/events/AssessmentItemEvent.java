@@ -34,11 +34,9 @@ import javax.annotation.Nonnull;
 @SupportedActions({
     Action.STARTED,
     Action.COMPLETED,
-    Action.SKIPPED,
-    Action.REVIEWED,
-    Action.VIEWED
+    Action.SKIPPED
 })
-public class AssessmentItemEvent extends BaseEventContext {
+public class AssessmentItemEvent extends BaseEvent {
 
     @JsonProperty("@type")
     private final String type;
@@ -103,7 +101,7 @@ public class AssessmentItemEvent extends BaseEventContext {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEvent.Builder<T>  {
         private String type;
         private String action;
 

@@ -24,9 +24,9 @@ import org.imsglobal.caliper.context.Context;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.agent.Organization;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.lis.Membership;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.validators.EventValidator;
@@ -38,12 +38,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * This class provides a skeletal implementation of both the Event and EventContext interfaces in order to minimize
- * the effort required to implement the interface.  To implement a new Event type with properties that provide a
- * means to represent the learning context within which the event occurred required by most Metric Profiles,
- * a developer need only extend this class with a concrete implementation.
+ * This class provides a skeletal implementation of the Event interface in order to minimize
+ * the effort required to implement the interface.  To implement a new Event type a developer
+ * need only extend this class with a concrete implementation.
  */
-public abstract class BaseEventContext implements Event, EventContext {
+public abstract class BaseEvent implements Event {
 
     @JsonProperty("@context")
     private final String context;
@@ -94,7 +93,7 @@ public abstract class BaseEventContext implements Event, EventContext {
     private final Object extensions;
 
     @JsonIgnore
-    private static final Logger log = LoggerFactory.getLogger(BaseEventContext.class);
+    private static final Logger log = LoggerFactory.getLogger(BaseEvent.class);
 
     /**
      * Utilize builder to construct Event.  Validate object copy rather than the
@@ -104,7 +103,7 @@ public abstract class BaseEventContext implements Event, EventContext {
      *
      * @param builder
      */
-    protected BaseEventContext(Builder<?> builder) {
+    protected BaseEvent(Builder<?> builder) {
 
         EventValidator.checkContext(builder.context, Context.CONTEXT);
 

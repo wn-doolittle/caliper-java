@@ -29,10 +29,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
-@SupportedActions({
-    Action.GRADED
-})
-public class OutcomeEvent extends BaseEventContext {
+@SupportedActions({ Action.GRADED })
+public class OutcomeEvent extends BaseEvent {
 
     @JsonProperty("@type")
     private final String type;
@@ -87,7 +85,7 @@ public class OutcomeEvent extends BaseEventContext {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEvent.Builder<T>  {
         private String type;
         private String action;
 
