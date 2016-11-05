@@ -61,7 +61,11 @@ public class AssessmentEvent extends BaseEvent {
         EventValidator.checkType(builder.type, EventType.ASSESSMENT);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, AssessmentEvent.class);
-        EventValidator.checkObjectType(getObject(), Assessment.class);
+        if (builder.action.equals(Action.SUBMITTED.getValue())) {
+            EventValidator.checkObjectType(getObject(), Attempt.class);
+        } else {
+            EventValidator.checkObjectType(getObject(), Assessment.class);
+        }
         if (!(this.getGenerated() == null)) {
             EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
         }
