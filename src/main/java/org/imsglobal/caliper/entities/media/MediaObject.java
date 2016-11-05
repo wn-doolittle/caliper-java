@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 /**
  * An image, video, or audio object embedded in a web page.
  */
-public class MediaObject extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.MediaObject {
+public class MediaObject extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
