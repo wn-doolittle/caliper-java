@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -52,7 +51,7 @@ public class DigitalResource extends BaseEntity implements Resource {
     private final ImmutableList<String> keywords;
 
     @JsonProperty("isPartOf")
-    private final CreativeWork isPartOf;
+    private final Entity isPartOf;
 
     @JsonProperty("datePublished")
     private final DateTime datePublished;
@@ -123,11 +122,10 @@ public class DigitalResource extends BaseEntity implements Resource {
     }
 
     /**
-     * Serialization of the DigitalResource parent is limited to the identifying URI only.
      * @return the parent reference.
      */
     @Nullable
-    public CreativeWork getIsPartOf() {
+    public Entity getIsPartOf() {
         return isPartOf;
     }
 
@@ -157,7 +155,7 @@ public class DigitalResource extends BaseEntity implements Resource {
         private List<Agent> creators = Lists.newArrayList();
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
-        private CreativeWork isPartOf;
+        private Entity isPartOf;
         private DateTime datePublished;
         private String version;
 
@@ -244,7 +242,7 @@ public class DigitalResource extends BaseEntity implements Resource {
          * @param isPartOf
          * @return builder.
          */
-        public T isPartOf(CreativeWork isPartOf) {
+        public T isPartOf(Entity isPartOf) {
             this.isPartOf = isPartOf;
             return self();
         }

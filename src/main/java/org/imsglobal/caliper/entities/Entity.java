@@ -19,15 +19,13 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
-import org.imsglobal.caliper.entities.schemadotorg.Thing;
 
 /**
- * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  Analogous
- * to a schema.org Thing and a JSON-LD node in a graph.  For an Entity to be linkable, dereferencing the identifier
- * should result in a representation of the node.
+ * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  For an
+ * Entity to be linkable, dereferencing the identifier should result in a representation of the node.
  */
 @JsonFilter("entityFilter")
-public interface Entity extends Thing {
+public interface Entity {
 
     /**
      * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
