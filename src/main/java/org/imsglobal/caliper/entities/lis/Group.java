@@ -19,21 +19,18 @@
 package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.agent.Organization;
 
 import javax.annotation.Nonnull;
 
 /**
- * A Caliper LIS Group represents a Course substructure that a Person is able to join as a member.
+ * A Caliper Group represents an ad-hoc organization that a Person is able to join as a member.
  */
-public class Group extends BaseEntity implements org.imsglobal.caliper.entities.w3c.Organization {
+public class Group extends Organization {
 
     @JsonProperty("@type")
     private final String type;
-
-    @JsonProperty("subOrganizationOf")
-    private final Course subOrganizationOf;
 
     /**
      * @param builder apply builder object properties to the Group object.
@@ -41,7 +38,6 @@ public class Group extends BaseEntity implements org.imsglobal.caliper.entities.
     protected Group(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.subOrganizationOf = builder.subOrganizationOf;
     }
 
     /**  
@@ -54,20 +50,11 @@ public class Group extends BaseEntity implements org.imsglobal.caliper.entities.
     }
 
     /**
-     * @return the parent organization
-     */
-    @Nonnull
-    public Course getSubOrganizationOf() {
-        return subOrganizationOf;
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Organization.Builder<T>  {
         private String type;
-        private Course subOrganizationOf;
 
         /**
          * Initialize type with default value.  Required if the group type is not specified by the user.
@@ -82,15 +69,6 @@ public class Group extends BaseEntity implements org.imsglobal.caliper.entities.
          */
         private T type(String type) {
             this.type = type;
-            return self();
-        }
-
-        /**
-         * @param subOrganizationOf
-         * @return builder.
-         */
-        public T subOrganizationOf(Course subOrganizationOf) {
-            this.subOrganizationOf = subOrganizationOf;
             return self();
         }
 

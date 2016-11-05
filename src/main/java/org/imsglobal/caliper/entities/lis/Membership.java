@@ -23,8 +23,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.agent.Organization;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.w3c.Organization;
+import org.imsglobal.caliper.entities.lis.Role;
+import org.imsglobal.caliper.entities.lis.Status;
 import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
@@ -41,7 +43,7 @@ import java.util.List;
     Status.DELETED,
     Status.INACTIVE
 })
-public class Membership extends BaseEntity implements org.imsglobal.caliper.entities.w3c.Membership {
+public class Membership extends BaseEntity {
 
     @JsonProperty("@type")
     private final String type;
@@ -53,10 +55,10 @@ public class Membership extends BaseEntity implements org.imsglobal.caliper.enti
     private final Organization organization;
 
     @JsonProperty("roles")
-    private final ImmutableList<org.imsglobal.caliper.entities.w3c.Role> roles;
+    private final ImmutableList<Role> roles;
 
     @JsonProperty("status")
-    private final org.imsglobal.caliper.entities.w3c.Status status;
+    private final Status status;
 
     /**
      * @param builder apply builder object properties to the Membership object.
@@ -102,7 +104,7 @@ public class Membership extends BaseEntity implements org.imsglobal.caliper.enti
      * @return the roles that the agent plays in a memberIdship relationship with an memberIdship.
      */
     @Nullable
-    public ImmutableList<org.imsglobal.caliper.entities.w3c.Role> getRoles() {
+    public ImmutableList<Role> getRoles() {
         return roles;
     }
 
@@ -110,7 +112,7 @@ public class Membership extends BaseEntity implements org.imsglobal.caliper.enti
      * @return the current status of a membership which applies to all roles.
      */
     @Nonnull
-    public org.imsglobal.caliper.entities.w3c.Status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -122,8 +124,8 @@ public class Membership extends BaseEntity implements org.imsglobal.caliper.enti
         private String type;
         private Person member;
         private Organization organization;
-        private List<org.imsglobal.caliper.entities.w3c.Role> roles = Lists.newArrayList();
-        private org.imsglobal.caliper.entities.w3c.Status status;
+        private List<Role> roles = Lists.newArrayList();
+        private Status status;
 
         /**
          * Default Constructor
@@ -163,7 +165,7 @@ public class Membership extends BaseEntity implements org.imsglobal.caliper.enti
          * @param roles
          * @return builder.
          */
-        public T roles(List<org.imsglobal.caliper.entities.w3c.Role> roles) {
+        public T roles(List<Role> roles) {
             this.roles = roles;
             return self();
         }
@@ -172,7 +174,7 @@ public class Membership extends BaseEntity implements org.imsglobal.caliper.enti
          * @param role
          * @return builder.
          */
-        public T role(org.imsglobal.caliper.entities.w3c.Role role) {
+        public T role(Role role) {
             this.roles.add(role);
             return self();
         }
@@ -181,7 +183,7 @@ public class Membership extends BaseEntity implements org.imsglobal.caliper.enti
          * @param status
          * @return builder.
          */
-        public T status(org.imsglobal.caliper.entities.w3c.Status status) {
+        public T status(Status status) {
             this.status = status;
             return self();
         }

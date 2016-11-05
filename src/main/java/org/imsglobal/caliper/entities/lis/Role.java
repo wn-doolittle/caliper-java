@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * IMS LTI/LIS roles.
  */
-public enum Role implements org.imsglobal.caliper.entities.w3c.Role {
+public enum Role {
     LEARNER("http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"),
     EXTERNAL_LEARNER("http://purl.imsglobal.org/vocab/lis/v2/membership/Learner#ExternalLearner"),
     GUEST_LEARNER("http://purl.imsglobal.org/vocab/lis/v2/membership/Learner#GuestLearner"),

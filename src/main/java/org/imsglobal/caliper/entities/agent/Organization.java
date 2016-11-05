@@ -31,14 +31,13 @@ import javax.annotation.Nullable;
  * and can act as an Agent. Organizations are often decomposable into hierarchical structures.
  */
 
-public class Organization extends BaseEntity implements org.imsglobal.caliper.entities.foaf.Agent,
-                                                    org.imsglobal.caliper.entities.w3c.Organization {
+public class Organization extends BaseEntity implements org.imsglobal.caliper.entities.foaf.Agent {
 
     @JsonProperty("@type")
     private final String type;
 
     @JsonProperty("subOrganizationOf")
-    private final org.imsglobal.caliper.entities.w3c.Organization subOrganizationOf;
+    private final Organization subOrganizationOf;
 
     /**
      * @param builder apply builder object properties to the Organization object.
@@ -62,7 +61,7 @@ public class Organization extends BaseEntity implements org.imsglobal.caliper.en
      * @return parent organization
      */
     @Nullable
-    public org.imsglobal.caliper.entities.w3c.Organization getSubOrganizationOf() {
+    public Organization getSubOrganizationOf() {
         return subOrganizationOf;
     }
 
@@ -72,7 +71,7 @@ public class Organization extends BaseEntity implements org.imsglobal.caliper.en
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
-        private org.imsglobal.caliper.entities.w3c.Organization subOrganizationOf;
+        private Organization subOrganizationOf;
 
         /**
          * Initialize type with default value.
@@ -94,7 +93,7 @@ public class Organization extends BaseEntity implements org.imsglobal.caliper.en
          * @param subOrganizationOf
          * @return builder.
          */
-        public T subOrganizationOf(org.imsglobal.caliper.entities.w3c.Organization subOrganizationOf) {
+        public T subOrganizationOf(Organization subOrganizationOf) {
             this.subOrganizationOf = subOrganizationOf;
             return self();
         }

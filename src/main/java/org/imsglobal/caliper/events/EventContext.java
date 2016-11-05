@@ -21,10 +21,10 @@ package org.imsglobal.caliper.events;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.entities.agent.Organization;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
+import org.imsglobal.caliper.entities.lis.Membership;
 import org.imsglobal.caliper.entities.session.Session;
-import org.imsglobal.caliper.entities.w3c.Membership;
-import org.imsglobal.caliper.entities.w3c.Organization;
 
 public interface EventContext {
 

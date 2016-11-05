@@ -24,7 +24,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Status implements org.imsglobal.caliper.entities.w3c.Status {
+public enum Status {
     ACTIVE("http://purl.imsglobal.org/vocab/lis/v2/status#Active"),
     DELETED("http://purl.imsglobal.org/vocab/lis/v2/status#Deleted"),
     INACTIVE("http://purl.imsglobal.org/vocab/lis/v2/status#Inactive");

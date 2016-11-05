@@ -101,7 +101,7 @@ public class EntityValidator {
      * @param status
      * @throws IllegalArgumentException
      */
-    public static void checkMembershipStatus(org.imsglobal.caliper.entities.w3c.Status status) throws IllegalArgumentException {
+    public static void checkMembershipStatus(Status status) throws IllegalArgumentException {
         checkArgument(status != null, "membership status must be specified");
 
         SupportedStatuses statuses = Membership.class.getAnnotation(SupportedStatuses.class);
