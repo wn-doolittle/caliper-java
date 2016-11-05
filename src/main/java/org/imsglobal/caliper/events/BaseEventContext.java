@@ -26,7 +26,7 @@ import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.agent.Organization;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.lis.Membership;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.validators.EventValidator;

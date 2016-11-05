@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  * and can act as an Agent. Organizations are often decomposable into hierarchical structures.
  */
 
-public class Organization extends BaseEntity implements org.imsglobal.caliper.entities.foaf.Agent {
+public class Organization extends BaseEntity implements Agent {
 
     @JsonProperty("@type")
     private final String type;

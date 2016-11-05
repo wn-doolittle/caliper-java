@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.agent.Agent;
 import org.joda.time.DateTime;
 
 /**

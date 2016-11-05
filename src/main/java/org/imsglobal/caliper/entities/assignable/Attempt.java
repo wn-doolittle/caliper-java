@@ -24,7 +24,7 @@ import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.agent.Agent;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;

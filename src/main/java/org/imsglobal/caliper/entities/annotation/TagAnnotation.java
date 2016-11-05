@@ -24,7 +24,7 @@ import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.agent.Agent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

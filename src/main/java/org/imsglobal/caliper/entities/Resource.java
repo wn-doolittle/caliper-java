@@ -1,7 +1,7 @@
 package org.imsglobal.caliper.entities;
 
 import com.google.common.collect.ImmutableList;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.agent.Agent;
 import org.joda.time.DateTime;
 
 /**

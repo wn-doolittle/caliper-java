@@ -16,11 +16,10 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.foaf;
+package org.imsglobal.caliper.entities.agent;
 
 /**
  * An entity that can do things. Typical kinds of agents include people, organizations and software systems.
- * See http://xmlns.com/foaf/spec/#term_Agent
  */
 public interface Agent {
 

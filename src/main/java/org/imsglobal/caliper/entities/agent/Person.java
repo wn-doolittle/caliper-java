@@ -24,7 +24,7 @@ import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 
-public class Person extends BaseEntity implements org.imsglobal.caliper.entities.foaf.Agent {
+public class Person extends BaseEntity implements Agent {
 
     @JsonProperty("@type")
     private final String type;
