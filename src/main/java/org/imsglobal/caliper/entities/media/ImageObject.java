@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 /**
  * An image object embedded in a web page.
  */
-public class ImageObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.ImageObject {
+public class ImageObject extends MediaObject {
 
     @JsonProperty("@type")
     private final String type;

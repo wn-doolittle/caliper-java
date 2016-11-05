@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 /**
  * A Video object embedded in a web page.
  */
-public class VideoObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.VideoObject {
+public class VideoObject extends MediaObject {
 
     @JsonProperty("@type")
     private final String type;

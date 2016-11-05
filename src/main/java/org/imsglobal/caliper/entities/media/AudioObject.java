@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 /**
  * An audio object embedded in a web page.
  */
-public class AudioObject extends MediaObject implements org.imsglobal.caliper.entities.schemadotorg.AudioObject {
+public class AudioObject extends MediaObject {
 
     @JsonProperty("@type")
     private final String type;
