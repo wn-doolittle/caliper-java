@@ -24,7 +24,7 @@ import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 
-public class WebPage extends DigitalResource implements org.imsglobal.caliper.entities.schemadotorg.WebPage {
+public class WebPage extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
