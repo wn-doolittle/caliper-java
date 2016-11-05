@@ -21,8 +21,8 @@ package org.imsglobal.caliper.entities.annotation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,9 +46,6 @@ public class BookmarkAnnotation extends BaseEntity implements Annotation {
      */
     protected BookmarkAnnotation(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, AnnotationType.BOOKMARK_ANNOTATION);
-
         this.type = builder.type;
         this.annotated = builder.annotated;
         this.actor = builder.actor;
@@ -102,7 +99,7 @@ public class BookmarkAnnotation extends BaseEntity implements Annotation {
          * Initialize type with default value.
          */
         public Builder() {
-            type(AnnotationType.BOOKMARK_ANNOTATION.getValue());
+            type(EntityType.BOOKMARK_ANNOTATION.getValue());
         }
 
         /**

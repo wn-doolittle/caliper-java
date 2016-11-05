@@ -21,8 +21,7 @@ package org.imsglobal.caliper.entities.assignable;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.DigitalResourceType;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.EntityType;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
@@ -62,9 +61,6 @@ public class AssignableDigitalResource extends DigitalResource implements Assign
      */
     protected AssignableDigitalResource(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, DigitalResourceType.ASSIGNABLE_DIGITAL_RESOURCE);
-
         this.type = builder.type;
         this.dateToActivate = builder.dateToActivate;
         this.dateToShow = builder.dateToShow;
@@ -158,7 +154,7 @@ public class AssignableDigitalResource extends DigitalResource implements Assign
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResourceType.ASSIGNABLE_DIGITAL_RESOURCE.getValue());
+            type(EntityType.ASSIGNABLE_DIGITAL_RESOURCE.getValue());
         }
 
         /**

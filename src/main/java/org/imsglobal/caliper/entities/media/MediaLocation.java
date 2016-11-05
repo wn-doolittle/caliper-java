@@ -20,9 +20,8 @@ package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.DigitalResourceType;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 /**
  * Media Location
@@ -40,9 +39,6 @@ public class MediaLocation extends DigitalResource implements Targetable {
      */
     protected MediaLocation(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, DigitalResourceType.MEDIA_LOCATION);
-
         this.type = builder.type;
         this.currentTime = builder.currentTime;
     }
@@ -74,7 +70,7 @@ public class MediaLocation extends DigitalResource implements Targetable {
          * Initialize type with default values.
          */
         public Builder() {
-            type(DigitalResourceType.MEDIA_LOCATION.getValue());
+            type(EntityType.MEDIA_LOCATION.getValue());
         }
 
         /**

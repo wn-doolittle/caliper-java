@@ -20,8 +20,7 @@ package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.DigitalResourceType;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -42,9 +41,6 @@ public class MediaObject extends DigitalResource implements org.imsglobal.calipe
      */
     protected MediaObject(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, DigitalResourceType.MEDIA_OBJECT);
-
         this.type = builder.type;
         this.duration = builder.duration;
     }
@@ -79,7 +75,7 @@ public class MediaObject extends DigitalResource implements org.imsglobal.calipe
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(DigitalResourceType.MEDIA_OBJECT.getValue());
+            type(EntityType.MEDIA_OBJECT.getValue());
         }
 
         /**

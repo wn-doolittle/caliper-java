@@ -23,8 +23,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -49,9 +49,6 @@ public class SharedAnnotation extends BaseEntity implements Annotation {
      */
     protected SharedAnnotation(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, AnnotationType.SHARED_ANNOTATION);
-
         this.type = builder.type;
         this.annotated = builder.annotated;
         this.actor = builder.actor;
@@ -105,7 +102,7 @@ public class SharedAnnotation extends BaseEntity implements Annotation {
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(AnnotationType.SHARED_ANNOTATION.getValue());
+            type(EntityType.SHARED_ANNOTATION.getValue());
         }
 
         /**

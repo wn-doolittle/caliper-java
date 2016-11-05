@@ -65,7 +65,6 @@ public class Attempt extends BaseEntity implements Generatable {
      */
     protected Attempt(Builder<?> builder) {
         super(builder);
-
         this.type = builder.type;
         this.assignable = builder.assignable;
         this.actor = builder.actor;

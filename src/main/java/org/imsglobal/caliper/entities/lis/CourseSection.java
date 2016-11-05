@@ -20,7 +20,6 @@ package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -48,9 +47,6 @@ public class CourseSection extends CourseOffering {
      */
     protected CourseSection(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, EntityType.COURSE_SECTION);
-
         this.type = builder.type;
         this.category = builder.category;
     }

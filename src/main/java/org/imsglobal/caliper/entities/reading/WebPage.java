@@ -20,8 +20,7 @@ package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.DigitalResourceType;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 
@@ -35,9 +34,6 @@ public class WebPage extends DigitalResource implements org.imsglobal.caliper.en
      */
     protected WebPage(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, DigitalResourceType.WEB_PAGE);
-
         this.type = builder.type;
     }
 
@@ -61,7 +57,7 @@ public class WebPage extends DigitalResource implements org.imsglobal.caliper.en
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResourceType.WEB_PAGE.getValue());
+            type(EntityType.WEB_PAGE.getValue());
         }
 
         /**

@@ -19,9 +19,8 @@
 package org.imsglobal.caliper.entities.assessment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
-import org.imsglobal.caliper.entities.assignable.AssignableDigitalResourceType;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
@@ -38,9 +37,6 @@ public class Assessment extends AssignableDigitalResource {
      */
     protected Assessment(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, AssignableDigitalResourceType.ASSESSMENT);
-
         this.type = builder.type;
     }
 
@@ -64,7 +60,7 @@ public class Assessment extends AssignableDigitalResource {
          * Initialize type with default value.
          */
         public Builder() {
-            type(AssignableDigitalResourceType.ASSESSMENT.getValue());
+            type(EntityType.ASSESSMENT.getValue());
         }
 
         /**

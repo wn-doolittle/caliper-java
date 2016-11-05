@@ -19,7 +19,6 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
@@ -33,9 +32,6 @@ public class LearningObjective extends BaseEntity {
      */
     protected LearningObjective(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, EntityType.LEARNING_OBJECTIVE);
-
         this.type = builder.type;
     }
 

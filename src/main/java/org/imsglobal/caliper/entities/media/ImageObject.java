@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 
@@ -36,9 +36,6 @@ public class ImageObject extends MediaObject implements org.imsglobal.caliper.en
      */
     protected ImageObject(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, MediaObjectType.IMAGE_OBJECT);
-
         this.type = builder.type;
     }
 
@@ -62,7 +59,7 @@ public class ImageObject extends MediaObject implements org.imsglobal.caliper.en
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(MediaObjectType.IMAGE_OBJECT.getValue());
+            type(EntityType.IMAGE_OBJECT.getValue());
         }
 
         /**

@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.w3c.Organization;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,9 +50,6 @@ public class CourseOffering extends BaseEntity implements Course {
      */
     protected CourseOffering(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, EntityType.COURSE_OFFERING);
-
         this.type = builder.type;
         this.courseNumber = builder.courseNumber;
         this.academicSession = builder.academicSession;

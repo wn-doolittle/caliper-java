@@ -21,7 +21,6 @@ package org.imsglobal.caliper.entities.lis;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 
@@ -41,9 +40,6 @@ public class Group extends BaseEntity implements org.imsglobal.caliper.entities.
      */
     protected Group(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, EntityType.GROUP);
-
         this.type = builder.type;
         this.subOrganizationOf = builder.subOrganizationOf;
     }

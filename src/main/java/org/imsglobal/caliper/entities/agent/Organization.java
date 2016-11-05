@@ -21,7 +21,6 @@ package org.imsglobal.caliper.entities.agent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,9 +45,6 @@ public class Organization extends BaseEntity implements org.imsglobal.caliper.en
      */
     protected Organization(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, EntityType.ORGANIZATION);
-
         this.type = builder.type;
         this.subOrganizationOf = builder.subOrganizationOf;
     }

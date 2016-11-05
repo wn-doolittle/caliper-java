@@ -20,8 +20,7 @@ package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.DigitalResourceType;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 
@@ -35,9 +34,6 @@ public class Reading extends DigitalResource {
      */
     protected Reading(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, DigitalResourceType.READING);
-
         this.type = builder.type;
     }
 
@@ -61,7 +57,7 @@ public class Reading extends DigitalResource {
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResourceType.READING.getValue());
+            type(EntityType.READING.getValue());
         }
 
         /**

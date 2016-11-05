@@ -21,7 +21,7 @@ package org.imsglobal.caliper.entities.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,9 +44,6 @@ public class SelectTextResponse extends BaseResponse {
      */
     protected SelectTextResponse(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, ResponseType.SELECTTEXT);
-
         this.type = builder.type;
         this.values = ImmutableList.copyOf(builder.values);
     }
@@ -80,7 +77,7 @@ public class SelectTextResponse extends BaseResponse {
          * Initialize type with default value.
          */
         public Builder() {
-            type(ResponseType.SELECTTEXT.getValue());
+            type(EntityType.SELECTTEXT.getValue());
         }
 
         /**

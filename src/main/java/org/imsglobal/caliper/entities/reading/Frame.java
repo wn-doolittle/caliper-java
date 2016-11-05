@@ -20,9 +20,8 @@ package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.DigitalResourceType;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 public class Frame extends DigitalResource implements Targetable {
@@ -38,9 +37,6 @@ public class Frame extends DigitalResource implements Targetable {
      */
     protected Frame(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, DigitalResourceType.FRAME);
-
         this.type = builder.type;
         this.index = builder.index;
     }
@@ -74,7 +70,7 @@ public class Frame extends DigitalResource implements Targetable {
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResourceType.FRAME.getValue());
+            type(EntityType.FRAME.getValue());
         }
 
         /**

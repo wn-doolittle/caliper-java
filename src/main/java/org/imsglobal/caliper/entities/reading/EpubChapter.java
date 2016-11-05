@@ -20,8 +20,7 @@ package org.imsglobal.caliper.entities.reading;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.DigitalResourceType;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 
@@ -41,9 +40,6 @@ public class EpubChapter extends DigitalResource {
      */
     protected EpubChapter(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, DigitalResourceType.EPUB_CHAPTER);
-
         this.type = builder.type;
     }
 
@@ -67,7 +63,7 @@ public class EpubChapter extends DigitalResource {
          * Initialize type with default value.
          */
         public Builder() {
-            type(DigitalResourceType.EPUB_CHAPTER.getValue());
+            type(EntityType.EPUB_CHAPTER.getValue());
         }
 
         /**

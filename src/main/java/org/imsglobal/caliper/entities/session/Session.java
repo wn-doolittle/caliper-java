@@ -51,7 +51,6 @@ public class Session extends BaseEntity implements org.imsglobal.caliper.entitie
     protected Session(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkType(builder.type, EntityType.SESSION);
         EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
         EntityValidator.checkDuration(builder.duration);
 
