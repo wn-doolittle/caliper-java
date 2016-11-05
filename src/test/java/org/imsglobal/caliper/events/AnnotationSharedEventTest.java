@@ -25,15 +25,14 @@ import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.annotation.SharedAnnotation;
-import org.imsglobal.caliper.entities.foaf.Agent;
 import org.imsglobal.caliper.entities.lis.CourseSection;
 import org.imsglobal.caliper.entities.lis.Membership;
 import org.imsglobal.caliper.entities.lis.Role;
 import org.imsglobal.caliper.entities.lis.Status;
-import org.imsglobal.caliper.entities.reading.Chapter;
 import org.imsglobal.caliper.entities.reading.Document;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
@@ -55,7 +54,6 @@ public class AnnotationSharedEventTest {
 
     private Person actor;
     private Document object;
-    private Chapter annotated;
     private SharedAnnotation generated;
     private SoftwareApplication edApp;
     private CourseSection group;
