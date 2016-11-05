@@ -55,7 +55,6 @@ public class NavigationEventNavigatedToTest {
     private WebPage referrer;
     private Session session;
     private NavigationEvent event;
-    // private static final Logger log = LoggerFactory.getLogger(NavigationNavigatedToEventTest.class);
 
     private static final String BASE_IRI = "https://example.edu";
 

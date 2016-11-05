@@ -45,7 +45,6 @@ public class SessionEventTimedOutTest {
     private SoftwareApplication actor;
     private Session object;
     private SessionEvent event;
-    // private static final Logger log = LoggerFactory.getLogger(SessionTimedOutEventTest.class);
 
     private static final String BASE_IRI = "https://example.edu";
 

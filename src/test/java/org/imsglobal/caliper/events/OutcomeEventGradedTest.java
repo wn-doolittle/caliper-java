@@ -52,7 +52,6 @@ public class OutcomeEventGradedTest {
     private Result generated;
     private CourseSection group;
     private OutcomeEvent event;
-    // private static final Logger log = LoggerFactory.getLogger(ViewViewedEventTest.class);
 
     private static final String BASE_IRI = "https://example.edu";
 

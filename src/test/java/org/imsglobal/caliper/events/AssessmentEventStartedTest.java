@@ -56,7 +56,6 @@ public class AssessmentEventStartedTest {
     private Membership membership;
     private Session session;
     private AssessmentEvent event;
-    // private static final Logger log = LoggerFactory.getLogger(AssessmentStartedEventTest.class);
 
     private static final String BASE_IRI = "https://example.edu";
 

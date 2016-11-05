@@ -61,7 +61,6 @@ public class AnnotationEventSharedTest {
     private Session session;
     private List<Agent> agents;
     private AnnotationEvent event;
-    // private static final Logger log = LoggerFactory.getLogger(AnnotationSharedEventTest.class);
 
     private static final String BASE_IRI = "https://example.edu";
 
