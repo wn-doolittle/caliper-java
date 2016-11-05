@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum Action {
     ABANDONED("http://purl.imsglobal.org/vocab/caliper/v1/action#Abandoned"),
     ACTIVATED("http://purl.imsglobal.org/vocab/caliper/v1/action#Activated"),
+    ADDED("http://purl.imsglobal.org/vocab/caliper/v1/action#Added"),
     ATTACHED("http://purl.imsglobal.org/vocab/caliper/v1/action#Attached"),
     BOOKMARKED("http://purl.imsglobal.org/vocab/caliper/v1/action#Bookmarked"),
     CHANGED_RESOLUTION("http://purl.imsglobal.org/vocab/caliper/v1/action#ChangedResolution"),
@@ -37,8 +38,8 @@ public enum Action {
     DEACTIVATED("http://purl.imsglobal.org/vocab/caliper/v1/action#Deactivated"),
     DELETED("http://purl.imsglobal.org/vocab/caliper/v1/action#Deleted"),
     DESCRIBED("http://purl.imsglobal.org/vocab/caliper/v1/action#Described"),
-    DISLIKED("http://purl.imsglobal.org/vocab/caliper/v1/action#Disliked"),
     DISABLED_CLOSED_CAPTIONING("http://purl.imsglobal.org/vocab/caliper/v1/action#DisabledClosedCaptioning"),
+    DISLIKED("http://purl.imsglobal.org/vocab/caliper/v1/action#Disliked"),
     ENABLED_CLOSED_CAPTIONING("http://purl.imsglobal.org/vocab/caliper/v1/action#EnabledClosedCaptioning"),
     ENDED("http://purl.imsglobal.org/vocab/caliper/v1/action#Ended"),
     ENTERED_FULLSCREEN("http://purl.imsglobal.org/vocab/caliper/v1/action#EnteredFullscreen"),
@@ -53,17 +54,20 @@ public enum Action {
     LINKED("http://purl.imsglobal.org/vocab/caliper/v1/action#Linked"),
     LOGGED_IN("http://purl.imsglobal.org/vocab/caliper/v1/action#LoggedIn"),
     LOGGED_OUT("http://purl.imsglobal.org/vocab/caliper/v1/action#LoggedOut"),
+    MARKED_AS_READ("http://purl.imsglobal.org/vocab/caliper/v1/action#MarkedAsRead"),
+    MARKED_AS_UNREAD("http://purl.imsglobal.org/vocab/caliper/v1/action#MarkedAsUnread"),
     MODIFIED("http://purl.imsglobal.org/vocab/caliper/v1/action#Modified"),
     MUTED("http://purl.imsglobal.org/vocab/caliper/v1/action#Muted"),
     NAVIGATED_TO("http://purl.imsglobal.org/vocab/caliper/v1/action#NavigatedTo"),
     OPENED_POPOUT("http://purl.imsglobal.org/vocab/caliper/v1/action#OpenedPopout"),
     PAUSED("http://purl.imsglobal.org/vocab/caliper/v1/action#Paused"),
-    RANKED("http://purl.imsglobal.org/vocab/caliper/v1/action#Ranked"),
+    POSTED("http://purl.imsglobal.org/vocab/caliper/v1/action#Posted"),
     QUESTIONED("http://purl.imsglobal.org/vocab/caliper/v1/action#Questioned"),
+    RANKED("http://purl.imsglobal.org/vocab/caliper/v1/action#Ranked"),
     RECOMMENDED("http://purl.imsglobal.org/vocab/caliper/v1/action#Recommended"),
     REPLIED("http://purl.imsglobal.org/vocab/caliper/v1/action#Replied"),
-    RESTARTED("http://purl.imsglobal.org/vocab/caliper/v1/action#Restarted"),
     RESET("http://purl.imsglobal.org/vocab/caliper/v1/action#Reset"),
+    RESTARTED("http://purl.imsglobal.org/vocab/caliper/v1/action#Restarted"),
     RESUMED("http://purl.imsglobal.org/vocab/caliper/v1/action#Resumed"),
     RETRIEVED("http://purl.imsglobal.org/vocab/caliper/v1/action#Retrieved"),
     REVIEWED("http://purl.imsglobal.org/vocab/caliper/v1/action#Reviewed"),
@@ -77,8 +81,9 @@ public enum Action {
     SUBSCRIBED("http://purl.imsglobal.org/vocab/caliper/v1/action#Subscribed"),
     TAGGED("http://purl.imsglobal.org/vocab/caliper/v1/action#Tagged"),
     TIMED_OUT("http://purl.imsglobal.org/vocab/caliper/v1/action#TimedOut"),
-    VIEWED("http://purl.imsglobal.org/vocab/caliper/v1/action#Viewed"),
-    UNMUTED("http://purl.imsglobal.org/vocab/caliper/v1/action#Unmuted");
+    UNMUTED("http://purl.imsglobal.org/vocab/caliper/v1/action#Unmuted"),
+    UNSUBSCRIBED("http://purl.imsglobal.org/vocab/caliper/v1/action#Unsubscribed"),
+    VIEWED("http://purl.imsglobal.org/vocab/caliper/v1/action#Viewed");
 
     private String value;
 
