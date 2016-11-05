@@ -47,7 +47,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AnnotationBookmarkedEventTest {
+public class AnnotationEventBookmarkedTest {
 
     private Person actor;
     private Document object;

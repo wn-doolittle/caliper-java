@@ -50,7 +50,7 @@ import java.util.List;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AnnotationTaggedEventTest {
+public class AnnotationEventTaggedTest {
 
     private Person actor;
     private Document object;

@@ -40,7 +40,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class SessionLoggedOutEventTest {
+public class SessionEventLoggedOutTest {
     private Person actor;
     private SoftwareApplication object;
     private Session session;
@@ -48,14 +48,7 @@ public class SessionLoggedOutEventTest {
     // private static final Logger log = LoggerFactory.getLogger(SessionLoggedOutEventTest.class);
 
     private static final String BASE_IRI = "https://example.edu";
-
-    /**
-     * Constructor
-     */
-    public SessionLoggedOutEventTest() {
-
-    }
-
+    
     /**
      * @throws java.lang.Exception
      */

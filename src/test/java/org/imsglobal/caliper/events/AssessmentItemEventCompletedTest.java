@@ -52,7 +52,7 @@ import java.util.List;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssessmentItemCompletedEventTest {
+public class AssessmentItemEventCompletedTest {
     private Person actor;
     private AssessmentItem item;
     private Attempt object;

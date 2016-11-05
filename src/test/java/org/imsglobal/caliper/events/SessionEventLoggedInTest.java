@@ -40,7 +40,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class SessionLoggedInEventTest {
+public class SessionEventLoggedInTest {
 
     private Person actor;
     private SoftwareApplication object;

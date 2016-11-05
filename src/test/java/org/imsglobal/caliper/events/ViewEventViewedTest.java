@@ -45,7 +45,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class ViewViewedEventTest {
+public class ViewEventViewedTest {
 
     private Person actor;
     private Document object;

@@ -45,7 +45,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class NavigationNavigatedToEventTest {
+public class NavigationEventNavigatedToTest {
 
     private Person actor;
     private WebPage object;
