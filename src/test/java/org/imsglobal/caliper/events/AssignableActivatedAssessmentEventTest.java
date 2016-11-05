@@ -28,7 +28,6 @@ import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.assessment.Assessment;
-import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.lis.CourseSection;
 import org.imsglobal.caliper.entities.lis.Membership;
 import org.imsglobal.caliper.entities.lis.Role;
@@ -49,7 +48,6 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 public class AssignableActivatedAssessmentEventTest {
     private Person actor;
     private Assessment object;
-    private Attempt generated;
     private SoftwareApplication edApp;
     private CourseSection group;
     private Membership membership;
@@ -138,7 +136,6 @@ public class AssignableActivatedAssessmentEventTest {
             .actor(actor)
             .action(action.getValue())
             .object(object)
-            .generated(generated)
             .eventTime(new DateTime(2016, 11, 12, 10, 15, 0, 0, DateTimeZone.UTC))
             .edApp(edApp)
             .group(group)
