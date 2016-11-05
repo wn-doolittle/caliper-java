@@ -46,7 +46,7 @@ public class Session extends BaseEntity implements org.imsglobal.caliper.entitie
     private String duration;
 
     /**
-     * @param builder apply builder object properties to the WebPage object.
+     * @param builder apply builder object properties to the Session object.
      */
     protected Session(Builder<?> builder) {
         super(builder);
