@@ -49,6 +49,7 @@ public enum EntityType implements Type {
     MEMBERSHIP("http://purl.imsglobal.org/caliper/v1/Membership"),
     MULTIPLECHOICE("http://purl.imsglobal.org/caliper/v1/MultipleChoiceResponse"),
     MULTIPLERESPONSE("http://purl.imsglobal.org/caliper/v1/MultipleResponseResponse"),
+    PAGE("http://purl.imsglobal.org/caliper/v1/Page"),
     PERSON("http://purl.imsglobal.org/caliper/v1/Person"),
     ORGANIZATION("http://purl.imsglobal.org/caliper/v1/Organization"),
     READING("http://purl.imsglobal.org/caliper/v1/Reading"),
