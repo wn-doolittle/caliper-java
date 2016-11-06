@@ -64,10 +64,6 @@ public class NavigationEventNavigatedToFedSessionTest {
 
     private static final String BASE_IRI_COM = "https://example.com";
     private static final String BASE_IRI_EDU = "https://example.edu";
-
-    /**
-     * Lti Launch Parameters
-     */
     private final static String launchParamJson = "{"
         + "  \"lti_message_type\": \"basic-lti-launch-request\","
         + "  \"lti_version\": \"LTI-2p0\","
