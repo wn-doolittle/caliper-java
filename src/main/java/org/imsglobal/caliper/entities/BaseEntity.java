@@ -19,15 +19,12 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import org.imsglobal.caliper.context.Context;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Map;
 
 /**
  * This class provides a skeletal implementation of the Entity interface in order to minimize the effort
@@ -51,14 +48,14 @@ public abstract class BaseEntity implements Entity {
     @JsonProperty("description")
     private final String description;
 
-    @JsonProperty("extensions")
-    private final Map<String, String> extensions;
-
     @JsonProperty("dateCreated")
     private final DateTime dateCreated;
 
     @JsonProperty("dateModified")
     private final DateTime dateModified;
+
+    @JsonProperty("extensions")
+    private final Object extensions;
 
     /**
      * @param builder apply builder object properties to the Entity object.
@@ -73,10 +70,10 @@ public abstract class BaseEntity implements Entity {
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
-        this.extensions = ImmutableMap.copyOf(builder.extensions);
         this.description = builder.description;
         this.dateCreated = builder.dateCreated;
         this.dateModified = builder.dateModified;
+        this.extensions = builder.extensions;
     }
 
     /**
@@ -120,14 +117,6 @@ public abstract class BaseEntity implements Entity {
     }
 
     /**
-     * @return custom extensions (key/value pairs).
-     */
-    @Nullable
-    public Map<String, String> getExtensions() {
-        return extensions;
-    }
-
-    /**
      * @return date created.
      */
     @Nullable
@@ -145,6 +134,14 @@ public abstract class BaseEntity implements Entity {
     }
 
     /**
+     * @return custom extensions object.
+     */
+    @Nullable
+    public Object getExtensions() {
+        return extensions;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
@@ -154,9 +151,9 @@ public abstract class BaseEntity implements Entity {
         private String type;
         private String name;
         private String description;
-        private Map<String, String> extensions = Maps.newHashMap();
         private DateTime dateCreated;
         private DateTime dateModified;
+        private Object extensions;
 
         protected abstract T self();
 
@@ -214,25 +211,6 @@ public abstract class BaseEntity implements Entity {
         }
 
         /**
-         * @param key
-         * @param value
-         * @return builder
-         */
-        public T extension(String key, String value) {
-            this.extensions.put(key, value);
-            return self();
-        }
-
-        /**
-         * @param extensions
-         * @return builder
-         */
-        public T extensions(Map<String, String> extensions) {
-            this.extensions.putAll(extensions);
-            return self();
-        }
-
-        /**
          * @param dateCreated
          * @return builder.
          */
@@ -247,6 +225,15 @@ public abstract class BaseEntity implements Entity {
          */
         public T dateModified(DateTime dateModified) {
             this.dateModified = dateModified;
+            return self();
+        }
+
+        /**
+         * @param extensions
+         * @return builder
+         */
+        public T extensions(Object extensions) {
+            this.extensions = extensions;
             return self();
         }
     }

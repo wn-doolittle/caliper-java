@@ -19,6 +19,7 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import org.joda.time.DateTime;
 
 /**
  * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  For an
@@ -48,4 +49,36 @@ public interface Entity {
      * @return the type IRI
      */
     String getType();
+
+    /**
+     * The name of the Entity.  Optional.
+     * @return
+     */
+    String getName();
+
+    /**
+     * A short description of the entity.  Optional
+     * @return the description
+     */
+    String getDescription();
+
+    /**
+     * A combined date and time representation (including milliseconds) of when an entity was created
+     * in accordance with the ISO 8601 standard.  Optional.
+     * @return the event time
+     */
+    DateTime getDateCreated();
+
+    /**
+     * A combined date and time representation (including milliseconds) of when an entity was modified
+     * in accordance with the ISO 8601 standard.  Optional.
+     * @return the event time
+     */
+    DateTime getDateModified();
+
+    /**
+     * Additional custom properties provided that are germane to the Event.  Optional.
+     * @return extensions
+     */
+    Object getExtensions();
 }
