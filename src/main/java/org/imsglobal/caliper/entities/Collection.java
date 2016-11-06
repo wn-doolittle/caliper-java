@@ -1,4 +1,10 @@
 package org.imsglobal.caliper.entities;
 
-public class Collection {
+import com.google.common.collect.ImmutableList;
+
+public interface Collection<T extends Entity> extends Entity {
+
+    Entity getIsPartOf();
+
+    ImmutableList<T> getItems();
 }

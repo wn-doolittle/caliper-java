@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.Resource;
+import org.imsglobal.caliper.entities.resource.Resource;
 import org.imsglobal.caliper.entities.agent.Agent;
 import org.joda.time.DateTime;
 

@@ -31,7 +31,7 @@ import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.reading.Document;
+import org.imsglobal.caliper.entities.resource.Document;
 import org.imsglobal.caliper.events.BasicEvent;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.payload.Envelope;

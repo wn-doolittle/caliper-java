@@ -31,7 +31,7 @@ import org.imsglobal.caliper.entities.lis.CourseSection;
 import org.imsglobal.caliper.entities.lis.Membership;
 import org.imsglobal.caliper.entities.lis.Role;
 import org.imsglobal.caliper.entities.lis.Status;
-import org.imsglobal.caliper.entities.reading.Document;
+import org.imsglobal.caliper.entities.resource.Document;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;

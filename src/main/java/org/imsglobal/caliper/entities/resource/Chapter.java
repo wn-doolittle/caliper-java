@@ -16,23 +16,22 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 
-public class WebPage extends DigitalResource {
+public class Chapter extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the WebPage object.
+     * @param builder apply builder object properties to the CaliperAssessment object.
      */
-    protected WebPage(Builder<?> builder) {
+    protected Chapter(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -57,7 +56,7 @@ public class WebPage extends DigitalResource {
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.WEB_PAGE.getValue());
+            type(EntityType.CHAPTER.getValue());
         }
 
         /**
@@ -71,10 +70,10 @@ public class WebPage extends DigitalResource {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of WebPage.
+         * @return a new instance of CaliperAssessment.
          */
-        public WebPage build() {
-            return new WebPage(this);
+        public Chapter build() {
+            return new Chapter(this);
         }
     }
 

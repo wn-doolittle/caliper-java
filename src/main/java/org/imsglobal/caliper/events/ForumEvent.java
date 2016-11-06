@@ -20,9 +20,9 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.resource.MediaObject;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.resource.Forum;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,27 +30,10 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 
 @SupportedActions({
-    Action.OPENED_POPOUT,
-    Action.CLOSED_POPOUT,
-    Action.EXITED_FULLSCREEN,
-    Action.ENTERED_FULLSCREEN,
-    Action.CHANGED_SIZE,
-    Action.CHANGED_RESOLUTION,
-    Action.STARTED,
-    Action.REWOUND,
-    Action.RESUMED,
-    Action.FORWARDED_TO,
-    Action.PAUSED,
-    Action.JUMPED_TO,
-    Action.ENDED,
-    Action.CHANGED_SPEED,
-    Action.UNMUTED,
-    Action.MUTED,
-    Action.CHANGED_VOLUME,
-    Action.DISABLED_CLOSED_CAPTIONING,
-    Action.ENABLED_CLOSED_CAPTIONING
+    Action.SUBSCRIBED,
+    Action.UNSUBSCRIBED
 })
-public class MediaEvent extends BaseEvent {
+public class ForumEvent extends BaseEvent {
 
     @JsonProperty("@type")
     private final String type;
@@ -59,30 +42,29 @@ public class MediaEvent extends BaseEvent {
     private final String action;
 
     @JsonIgnore
-    private static final Logger log = LoggerFactory.getLogger(MediaEvent.class);
+    private static final Logger log = LoggerFactory.getLogger(ForumEvent.class);
 
     /**
-     * Utilize builder to construct MediaEvent.  Validate Media object copy rather than the
-     * Media builder.  This approach protects the class against parameter changes from another
+     * Utilize builder to construct ForumEvent.  Validate Forum object copy rather than the
+     * Forum builder.  This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
      * until when they are copied.
      *
      * @param builder
      */
-    protected MediaEvent(Builder<?> builder) {
+    protected ForumEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(builder.type, EventType.MEDIA);
+        EventValidator.checkType(builder.type, EventType.FORUM);
         EventValidator.checkActorType(getActor(), Person.class);
-        EventValidator.checkAction(builder.action, MediaEvent.class);
-        EventValidator.checkObjectType(getObject(), MediaObject.class);
+        EventValidator.checkAction(builder.action, ForumEvent.class);
+        EventValidator.checkObjectType(getObject(), Forum.class);
 
         this.type = builder.type;
         this.action = builder.action;
     }
 
     /**
-     * Required.
      * @return the type
      */
     @Override
@@ -92,7 +74,6 @@ public class MediaEvent extends BaseEvent {
     }
 
     /**
-     * Required.
      * @return the action
      */
     @Override
@@ -113,7 +94,7 @@ public class MediaEvent extends BaseEvent {
          * Constructor
          */
         public Builder() {
-            type(EventType.MEDIA.getValue());
+            type(EventType.FORUM.getValue());
         }
 
         /**
@@ -137,10 +118,10 @@ public class MediaEvent extends BaseEvent {
 
         /**
          * Client invokes build method in order to create an immutable profile object.
-         * @return a new MediaEvent instance.
+         * @return a new ForumEvent instance.
          */
-        public MediaEvent build() {
-            return new MediaEvent(this);
+        public ForumEvent build() {
+            return new ForumEvent(this);
         }
     }
 

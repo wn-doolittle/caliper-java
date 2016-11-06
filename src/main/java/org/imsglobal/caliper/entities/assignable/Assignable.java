@@ -18,7 +18,7 @@
 
 package org.imsglobal.caliper.entities.assignable;
 
-import org.imsglobal.caliper.entities.Resource;
+import org.imsglobal.caliper.entities.resource.Resource;
 import org.joda.time.DateTime;
 
 /**

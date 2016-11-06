@@ -16,33 +16,33 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.media;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.Collection;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
-/**
- * An image, video, or audio object embedded in a web page.
- */
-public class MediaObject extends DigitalResource {
+public class Thread extends DigitalResource implements Collection<Message> {
 
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("duration")
-    private String duration;
+    @JsonProperty("items")
+    private final ImmutableList<Message> items;
 
     /**
-     * @param builder apply builder object properties to the MediaObject object.
+     * @param builder apply builder object properties to the object.
      */
-    protected MediaObject(Builder<?> builder) {
+    protected Thread(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.duration = builder.duration;
+        this.items = ImmutableList.copyOf(builder.items);
     }
 
     /**
@@ -55,27 +55,28 @@ public class MediaObject extends DigitalResource {
     }
 
     /**
-     * @return duration
+     * Return an immutable list of the Collection's items.
+     * @return the items
      */
+    @Override
     @Nullable
-    public String getDuration() {
-        return duration;
+    public ImmutableList<Message> getItems() {
+        return items;
     }
 
     /**
-     * Initialize default parameter values in the builder (not in the outer profile class).  Given the abstract nature
-     * of Profile, the builder's .build() method is omitted.
+     * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
-        private String duration;
+        private List<Message> items = Lists.newArrayList();
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.MEDIA_OBJECT.getValue());
+            type(EntityType.THREAD.getValue());
         }
 
         /**
@@ -88,20 +89,29 @@ public class MediaObject extends DigitalResource {
         }
 
         /**
-         * @param duration
-         * @return duration
+         * @param items
+         * @return builder.
          */
-        public T duration(String duration) {
-            this.duration = duration;
+        public T items(List<Message> items) {
+            this.items = items;
+            return self();
+        }
+
+        /**
+         * @param item
+         * @return builder.
+         */
+        public T item(Message item) {
+            this.items.add(item);
             return self();
         }
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of MediaObject.
+         * @return a new Thread instance.
          */
-        public MediaObject build() {
-            return new MediaObject(this);
+        public Thread build() {
+            return new Thread(this);
         }
     }
 
@@ -117,7 +127,7 @@ public class MediaObject extends DigitalResource {
 
     /**
      * Static factory method.
-     * @return a new instance of the builder.
+     * @return a new Builder instance.
      */
     public static Builder<?> builder() {
         return new Builder2();

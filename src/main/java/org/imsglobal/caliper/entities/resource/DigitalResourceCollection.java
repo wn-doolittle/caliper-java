@@ -16,32 +16,33 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.Collection;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
-/**
- * Representation of an EPUB 3 Volume
- * 
- * A major sub-division of a chapter
- * http://www.idpf.org/epub/vocab/structure/#subchapter
- */
-@Deprecated
-public class EpubSubChapter extends DigitalResource {
+public class DigitalResourceCollection extends DigitalResource implements Collection<Resource> {
 
     @JsonProperty("@type")
     private final String type;
 
+    @JsonProperty("items")
+    private final ImmutableList<Resource> items;
+
     /**
-     * @param builder apply builder object properties to the EpubSubChapter object.
+     * @param builder apply builder object properties to the object.
      */
-    protected EpubSubChapter(Builder<?> builder) {
+    protected DigitalResourceCollection(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
+        this.items = ImmutableList.copyOf(builder.items);
     }
 
     /**
@@ -54,17 +55,28 @@ public class EpubSubChapter extends DigitalResource {
     }
 
     /**
+     * Return an immutable list of the Collection's items.
+     * @return the items
+     */
+    @Override
+    @Nullable
+    public ImmutableList<Resource> getItems() {
+        return items;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
+        private List<Resource> items = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.EPUB_SUB_CHAPTER.getValue());
+            type(EntityType.DIGITAL_RESOURCE_COLLECTION.getValue());
         }
 
         /**
@@ -77,11 +89,29 @@ public class EpubSubChapter extends DigitalResource {
         }
 
         /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of EpubSubChapter.
+         * @param items
+         * @return builder.
          */
-        public EpubSubChapter build() {
-            return new EpubSubChapter(this);
+        public T items(List<Resource> items) {
+            this.items = items;
+            return self();
+        }
+
+        /**
+         * @param item
+         * @return builder.
+         */
+        public T item(Resource item) {
+            this.items.add(item);
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new DigitalResourceCollection instance.
+         */
+        public DigitalResourceCollection build() {
+            return new DigitalResourceCollection(this);
         }
     }
 
@@ -97,7 +127,7 @@ public class EpubSubChapter extends DigitalResource {
 
     /**
      * Static factory method.
-     * @return a new instance of the builder.
+     * @return a new Builder instance.
      */
     public static Builder<?> builder() {
         return new Builder2();

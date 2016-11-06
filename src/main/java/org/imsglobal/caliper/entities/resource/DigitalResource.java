@@ -16,11 +16,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.BaseEntity;
+import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.LearningObjective;
 import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
@@ -60,7 +64,7 @@ public class DigitalResource extends BaseEntity implements Resource {
     private final String version;
 
     /**
-     * @param builder apply builder object properties to the profile object.
+     * @param builder apply builder object properties to the object.
      */
     protected DigitalResource(Builder<?> builder) {
         super(builder);
@@ -146,7 +150,7 @@ public class DigitalResource extends BaseEntity implements Resource {
     }
 
     /**
-     * Initialize default parameter values in the builder.
+     * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
@@ -267,7 +271,7 @@ public class DigitalResource extends BaseEntity implements Resource {
 
         /**
          * Client invokes build method in order to create an immutable profile object.
-         * @return a new instance of DigitalResource.
+         * @return a new DigitalResource instance.
          */
         public DigitalResource build() {
             return new DigitalResource(this);
@@ -286,7 +290,7 @@ public class DigitalResource extends BaseEntity implements Resource {
 
     /**
      * Static factory method.
-     * @return a new instance of the builder.
+     * @return a new Builder instance.
      */
     public static Builder<?> builder() {
         return new Builder2();

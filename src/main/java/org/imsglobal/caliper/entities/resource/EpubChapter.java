@@ -16,30 +16,29 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 
 /**
- * Representation of an EPUB 3 Volume
+ * Representation of an EPUB 3 Volume.
  * 
- * A component of a collection
- * http://www.idpf.org/epub/vocab/structure/#volume
+ * A major structural division of a piece of writing
+ * http://www.idpf.org/epub/vocab/structure/#chapter
  */
 @Deprecated
-public class EpubVolume extends DigitalResource {
+public class EpubChapter extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the EpubVolume object.
+     * @param builder apply builder object properties to the EpubChapter object.
      */
-    protected EpubVolume(Builder<?> builder) {
+    protected EpubChapter(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -64,7 +63,7 @@ public class EpubVolume extends DigitalResource {
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.EPUB_VOLUME.getValue());
+            type(EntityType.EPUB_CHAPTER.getValue());
         }
 
         /**
@@ -78,10 +77,10 @@ public class EpubVolume extends DigitalResource {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of EpubVolume.
+         * @return a new instance of EpubChapter.
          */
-        public EpubVolume build() {
-            return new EpubVolume(this);
+        public EpubChapter build() {
+            return new EpubChapter(this);
         }
     }
 

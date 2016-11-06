@@ -16,23 +16,29 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 
-public class Page extends DigitalResource {
+/**
+ * Representation of an EPUB 3 Volume
+ * 
+ * A major sub-division of a chapter
+ * http://www.idpf.org/epub/vocab/structure/#subchapter
+ */
+@Deprecated
+public class EpubSubChapter extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the CaliperAssessment object.
+     * @param builder apply builder object properties to the EpubSubChapter object.
      */
-    protected Page(Builder<?> builder) {
+    protected EpubSubChapter(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -57,7 +63,7 @@ public class Page extends DigitalResource {
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.PAGE.getValue());
+            type(EntityType.EPUB_SUB_CHAPTER.getValue());
         }
 
         /**
@@ -71,10 +77,10 @@ public class Page extends DigitalResource {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of Page.
+         * @return a new instance of EpubSubChapter.
          */
-        public Page build() {
-            return new Page(this);
+        public EpubSubChapter build() {
+            return new EpubSubChapter(this);
         }
     }
 

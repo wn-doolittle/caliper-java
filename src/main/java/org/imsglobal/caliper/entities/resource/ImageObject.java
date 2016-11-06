@@ -16,61 +16,50 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.media;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.Targetable;
+
+import javax.annotation.Nonnull;
 
 /**
- * Media Location
+ * An image object embedded in a web page.
  */
-public class MediaLocation extends DigitalResource implements Targetable {
+public class ImageObject extends MediaObject {
 
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("currentTime")
-    private String currentTime;
-
     /**
-     * @param builder apply builder object properties to the MediaLocation object.
+     * @param builder apply builder object properties to the ImageObject object.
      */
-    protected MediaLocation(Builder<?> builder) {
+    protected ImageObject(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.currentTime = builder.currentTime;
     }
 
     /**
      * @return the type
      */
     @Override
+    @Nonnull
     public String getType() {
         return type;
-    }
-
-    /**
-     * @return the currentTime
-     */
-    public String getCurrentTime() {
-        return currentTime;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
         private String type;
-        private String currentTime;
 
         /**
-         * Initialize type with default values.
+         * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(EntityType.MEDIA_LOCATION.getValue());
+            type(EntityType.IMAGE_OBJECT.getValue());
         }
 
         /**
@@ -83,20 +72,11 @@ public class MediaLocation extends DigitalResource implements Targetable {
         }
 
         /**
-         * @param currentTime
-         * @return builder
-         */
-        public T currentTime(String currentTime) {
-            this.currentTime = currentTime;
-            return self();
-        }
-
-        /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of MediaLocation.
+         * @return a new instance of ImageObject.
          */
-        public MediaLocation build() {
-            return new MediaLocation(this);
+        public ImageObject build() {
+            return new ImageObject(this);
         }
     }
 

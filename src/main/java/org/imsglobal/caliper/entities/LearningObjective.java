@@ -28,7 +28,7 @@ public class LearningObjective extends BaseEntity {
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the Target object.
+     * @param builder apply builder object properties to the object.
      */
     protected LearningObjective(Builder<?> builder) {
         super(builder);
@@ -69,7 +69,7 @@ public class LearningObjective extends BaseEntity {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the AssessmentProfile.
+         * @return a new LearningObjective instance.
          */
         public LearningObjective build() {
             return new LearningObjective(this);

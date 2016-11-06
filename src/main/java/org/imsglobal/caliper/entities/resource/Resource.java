@@ -1,6 +1,10 @@
-package org.imsglobal.caliper.entities;
+package org.imsglobal.caliper.entities.resource;
 
 import com.google.common.collect.ImmutableList;
+import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.LearningObjective;
+import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.agent.Agent;
 import org.joda.time.DateTime;
 

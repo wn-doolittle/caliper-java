@@ -16,34 +16,30 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.assessment;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Collection;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * Caliper representation of an Assessment.  Part of the Assessment Metric Profile
- */
-public class Assessment extends AssignableDigitalResource implements Assessable, Collection {
+public class Forum extends DigitalResource implements Collection<Thread> {
 
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("learningObjectives")
-    private final ImmutableList<AssessmentItem> items;
+    @JsonProperty("items")
+    private final ImmutableList<Thread> items;
 
     /**
-     * @param builder apply builder object properties to the CaliperAssessment object.
+     * @param builder apply builder object properties to the object.
      */
-    protected Assessment(Builder<?> builder) {
+    protected Forum(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.items = ImmutableList.copyOf(builder.items);
@@ -64,7 +60,7 @@ public class Assessment extends AssignableDigitalResource implements Assessable,
      */
     @Override
     @Nullable
-    public ImmutableList<AssessmentItem> getItems() {
+    public ImmutableList<Thread> getItems() {
         return items;
     }
 
@@ -72,15 +68,15 @@ public class Assessment extends AssignableDigitalResource implements Assessable,
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
-        private List<AssessmentItem> items = Lists.newArrayList();
+        private List<Thread> items = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.ASSESSMENT.getValue());
+            type(EntityType.FORUM.getValue());
         }
 
         /**
@@ -96,7 +92,7 @@ public class Assessment extends AssignableDigitalResource implements Assessable,
          * @param items
          * @return builder.
          */
-        public T items(List<AssessmentItem> items) {
+        public T items(List<Thread> items) {
             this.items = items;
             return self();
         }
@@ -105,17 +101,17 @@ public class Assessment extends AssignableDigitalResource implements Assessable,
          * @param item
          * @return builder.
          */
-        public T item(AssessmentItem item) {
+        public T item(Thread item) {
             this.items.add(item);
             return self();
         }
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of CaliperAssessment.
+         * @return a new Forum instance.
          */
-        public Assessment build() {
-            return new Assessment(this);
+        public Forum build() {
+            return new Forum(this);
         }
     }
 
@@ -131,7 +127,7 @@ public class Assessment extends AssignableDigitalResource implements Assessable,
 
     /**
      * Static factory method.
-     * @return a new instance of the builder.
+     * @return a new Builder instance.
      */
     public static Builder<?> builder() {
         return new Builder2();

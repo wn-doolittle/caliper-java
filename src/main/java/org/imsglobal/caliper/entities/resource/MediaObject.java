@@ -16,25 +16,32 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-public class Document extends DigitalResource {
+/**
+ * An image, video, or audio object embedded in a web page.
+ */
+public class MediaObject extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
 
+    @JsonProperty("duration")
+    private String duration;
+
     /**
-     * @param builder apply builder object properties to the CaliperAssessment object.
+     * @param builder apply builder object properties to the MediaObject object.
      */
-    protected Document(Builder<?> builder) {
+    protected MediaObject(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
+        this.duration = builder.duration;
     }
 
     /**
@@ -47,17 +54,27 @@ public class Document extends DigitalResource {
     }
 
     /**
-     * Builder class provides a fluid interface for setting object properties.
+     * @return duration
+     */
+    @Nullable
+    public String getDuration() {
+        return duration;
+    }
+
+    /**
+     * Initialize default parameter values in the builder (not in the outer profile class).  Given the abstract nature
+     * of Profile, the builder's .build() method is omitted.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
         private String type;
+        private String duration;
 
         /**
-         * Initialize type with default value.
+         * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(EntityType.DOCUMENT.getValue());
+            type(EntityType.MEDIA_OBJECT.getValue());
         }
 
         /**
@@ -70,11 +87,20 @@ public class Document extends DigitalResource {
         }
 
         /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of CaliperAssessment.
+         * @param duration
+         * @return duration
          */
-        public Document build() {
-            return new Document(this);
+        public T duration(String duration) {
+            this.duration = duration;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of MediaObject.
+         */
+        public MediaObject build() {
+            return new MediaObject(this);
         }
     }
 

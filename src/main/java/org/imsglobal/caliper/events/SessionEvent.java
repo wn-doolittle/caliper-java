@@ -21,7 +21,7 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.resource.DigitalResource;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.Session;

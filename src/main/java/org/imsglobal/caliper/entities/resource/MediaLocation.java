@@ -16,41 +16,45 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
-
-import javax.annotation.Nonnull;
+import org.imsglobal.caliper.entities.Targetable;
 
 /**
- * Representation of an EPUB 3 Volume.
- * 
- * A major structural division of a piece of writing
- * http://www.idpf.org/epub/vocab/structure/#chapter
+ * Media Location
  */
-@Deprecated
-public class EpubChapter extends DigitalResource {
+public class MediaLocation extends DigitalResource implements Targetable {
 
     @JsonProperty("@type")
     private final String type;
 
+    @JsonProperty("currentTime")
+    private String currentTime;
+
     /**
-     * @param builder apply builder object properties to the EpubChapter object.
+     * @param builder apply builder object properties to the MediaLocation object.
      */
-    protected EpubChapter(Builder<?> builder) {
+    protected MediaLocation(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
+        this.currentTime = builder.currentTime;
     }
 
     /**
      * @return the type
      */
     @Override
-    @Nonnull
     public String getType() {
         return type;
+    }
+
+    /**
+     * @return the currentTime
+     */
+    public String getCurrentTime() {
+        return currentTime;
     }
 
     /**
@@ -59,12 +63,13 @@ public class EpubChapter extends DigitalResource {
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
+        private String currentTime;
 
         /**
-         * Initialize type with default value.
+         * Initialize type with default values.
          */
         public Builder() {
-            type(EntityType.EPUB_CHAPTER.getValue());
+            type(EntityType.MEDIA_LOCATION.getValue());
         }
 
         /**
@@ -77,11 +82,20 @@ public class EpubChapter extends DigitalResource {
         }
 
         /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of EpubChapter.
+         * @param currentTime
+         * @return builder
          */
-        public EpubChapter build() {
-            return new EpubChapter(this);
+        public T currentTime(String currentTime) {
+            this.currentTime = currentTime;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of MediaLocation.
+         */
+        public MediaLocation build() {
+            return new MediaLocation(this);
         }
     }
 

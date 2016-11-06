@@ -16,25 +16,35 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.EntityType;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
-public class Chapter extends DigitalResource {
+public class CaliperCollection extends BaseEntity {
 
     @JsonProperty("@type")
     private final String type;
 
+    @JsonProperty("isPartOf")
+    private final Entity isPartOf;
+
+    @JsonProperty("items")
+    private final ImmutableList<Entity> items;
+
     /**
-     * @param builder apply builder object properties to the CaliperAssessment object.
+     * @param builder apply builder object properties to the object.
      */
-    protected Chapter(Builder<?> builder) {
+    protected CaliperCollection(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
+        this.isPartOf = builder.isPartOf;
+        this.items = ImmutableList.copyOf(builder.items);
     }
 
     /**
@@ -47,17 +57,36 @@ public class Chapter extends DigitalResource {
     }
 
     /**
+     * @return the parent reference.
+     */
+    @Nullable
+    public Entity getIsPartOf() {
+        return isPartOf;
+    }
+
+    /**
+     * Return an immutable list of the Collection's items.
+     * @return the items
+     */
+    @Nullable
+    public ImmutableList<Entity> getItems() {
+        return items;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
+        private Entity isPartOf;
+        private List<Entity> items = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.CHAPTER.getValue());
+            type(EntityType.COLLECTION.getValue());
         }
 
         /**
@@ -70,11 +99,38 @@ public class Chapter extends DigitalResource {
         }
 
         /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of CaliperAssessment.
+         * @param isPartOf
+         * @return builder.
          */
-        public Chapter build() {
-            return new Chapter(this);
+        public T isPartOf(Entity isPartOf) {
+            this.isPartOf = isPartOf;
+            return self();
+        }
+
+        /**
+         * @param items
+         * @return builder.
+         */
+        public T items(List<Entity> items) {
+            this.items = items;
+            return self();
+        }
+
+        /**
+         * @param item
+         * @return builder.
+         */
+        public T item(Entity item) {
+            this.items.add(item);
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new Collection instance.
+         */
+        public CaliperCollection build() {
+            return new CaliperCollection(this);
         }
     }
 
@@ -90,7 +146,7 @@ public class Chapter extends DigitalResource {
 
     /**
      * Static factory method.
-     * @return a new instance of the builder.
+     * @return a new Builder instance.
      */
     public static Builder<?> builder() {
         return new Builder2();

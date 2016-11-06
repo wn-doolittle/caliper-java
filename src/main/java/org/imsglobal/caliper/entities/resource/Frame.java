@@ -16,27 +16,28 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.media;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.Targetable;
 
 import javax.annotation.Nonnull;
-
-/**
- * A Video object embedded in a web page.
- */
-public class VideoObject extends MediaObject {
+public class Frame extends DigitalResource implements Targetable {
 
     @JsonProperty("@type")
     private final String type;
 
+    @JsonProperty("index")
+    private int index;
+
     /**
-     * @param builder apply builder object properties to the VideoObject object.
+     * @param builder apply builder object properties to the Frame object.
      */
-    protected VideoObject(Builder<?> builder) {
+    protected Frame(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
+        this.index = builder.index;
     }
 
     /**
@@ -49,17 +50,26 @@ public class VideoObject extends MediaObject {
     }
 
     /**
+     * @return numeric index of the location relative to sibling locations in the content
+     */
+    @Nonnull
+    public int getIndex() {
+        return index;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
+        private int index;
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.VIDEO_OBJECT.getValue());
+            type(EntityType.FRAME.getValue());
         }
 
         /**
@@ -72,11 +82,20 @@ public class VideoObject extends MediaObject {
         }
 
         /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of VideoObject.
+         * @param index
+         * @return builder.
          */
-        public VideoObject build() {
-            return new VideoObject(this);
+        public T index(int index) {
+            this.index = index;
+            return self();
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of Frame.
+         */
+        public Frame build() {
+            return new Frame(this);
         }
     }
 
@@ -98,3 +117,4 @@ public class VideoObject extends MediaObject {
         return new Builder2();
     }
 }
+

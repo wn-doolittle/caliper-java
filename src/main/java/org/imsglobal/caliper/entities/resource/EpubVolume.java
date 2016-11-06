@@ -16,7 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.media;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.EntityType;
@@ -24,17 +24,21 @@ import org.imsglobal.caliper.entities.EntityType;
 import javax.annotation.Nonnull;
 
 /**
- * An image object embedded in a web page.
+ * Representation of an EPUB 3 Volume
+ * 
+ * A component of a collection
+ * http://www.idpf.org/epub/vocab/structure/#volume
  */
-public class ImageObject extends MediaObject {
+@Deprecated
+public class EpubVolume extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
 
     /**
-     * @param builder apply builder object properties to the ImageObject object.
+     * @param builder apply builder object properties to the EpubVolume object.
      */
-    protected ImageObject(Builder<?> builder) {
+    protected EpubVolume(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
     }
@@ -52,14 +56,14 @@ public class ImageObject extends MediaObject {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.IMAGE_OBJECT.getValue());
+            type(EntityType.EPUB_VOLUME.getValue());
         }
 
         /**
@@ -73,10 +77,10 @@ public class ImageObject extends MediaObject {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of ImageObject.
+         * @return a new instance of EpubVolume.
          */
-        public ImageObject build() {
-            return new ImageObject(this);
+        public EpubVolume build() {
+            return new EpubVolume(this);
         }
     }
 

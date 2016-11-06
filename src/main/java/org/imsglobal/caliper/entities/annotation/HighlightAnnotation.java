@@ -20,7 +20,7 @@ package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.BaseEntity;
-import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.resource.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.agent.Agent;
 

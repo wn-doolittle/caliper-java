@@ -16,29 +16,32 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.reading;
+package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.Targetable;
 
 import javax.annotation.Nonnull;
-public class Frame extends DigitalResource implements Targetable {
+
+/**
+ * Representation of an EPUB 3 Volume
+ * 
+ * A major structural division of a piece of writing, typically
+ * encapsulating a set of related chapters.
+ * http://www.idpf.org/epub/vocab/structure/#part
+ */
+@Deprecated
+public class EpubPart extends DigitalResource {
 
     @JsonProperty("@type")
     private final String type;
 
-    @JsonProperty("index")
-    private int index;
-
     /**
-     * @param builder apply builder object properties to the Frame object.
+     * @param builder apply builder object properties to the EpubPart object.
      */
-    protected Frame(Builder<?> builder) {
+    protected EpubPart(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
-        this.index = builder.index;
     }
 
     /**
@@ -51,26 +54,17 @@ public class Frame extends DigitalResource implements Targetable {
     }
 
     /**
-     * @return numeric index of the location relative to sibling locations in the content
-     */
-    @Nonnull
-    public int getIndex() {
-        return index;
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
         private String type;
-        private int index;
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.FRAME.getValue());
+            type(EntityType.EPUB_PART.getValue());
         }
 
         /**
@@ -83,20 +77,11 @@ public class Frame extends DigitalResource implements Targetable {
         }
 
         /**
-         * @param index
-         * @return builder.
-         */
-        public T index(int index) {
-            this.index = index;
-            return self();
-        }
-
-        /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of Frame.
+         * @return a new instance of EpubPart.
          */
-        public Frame build() {
-            return new Frame(this);
+        public EpubPart build() {
+            return new EpubPart(this);
         }
     }
 
@@ -118,4 +103,3 @@ public class Frame extends DigitalResource implements Targetable {
         return new Builder2();
     }
 }
-
