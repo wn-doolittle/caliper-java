@@ -21,9 +21,9 @@ package org.imsglobal.caliper.entities.assignable;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.BaseEntity;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.Resource;
 import org.imsglobal.caliper.entities.agent.Agent;
 import org.joda.time.DateTime;
 
@@ -40,7 +40,7 @@ public class Attempt extends BaseEntity implements Generatable {
     private final String type;
 
     @JsonProperty("assignable")
-    private final DigitalResource assignable;
+    private final Resource assignable;
 
     @JsonProperty("actor")
     private final Agent actor;
@@ -88,7 +88,7 @@ public class Attempt extends BaseEntity implements Generatable {
      * @return the assignable
      */
     @Nullable
-    public DigitalResource getAssignable() {
+    public Resource getAssignable() {
         return assignable;
     }
 
@@ -153,7 +153,7 @@ public class Attempt extends BaseEntity implements Generatable {
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
-        private DigitalResource assignable;
+        private Resource assignable;
         private Agent actor;
         private Attempt isPartOf;
         private int count;
@@ -181,7 +181,7 @@ public class Attempt extends BaseEntity implements Generatable {
          * @param assignable
          * @return builder.
          */
-        public T assignable(DigitalResource assignable) {
+        public T assignable(Resource assignable) {
             this.assignable = assignable;
             return self();
         }
