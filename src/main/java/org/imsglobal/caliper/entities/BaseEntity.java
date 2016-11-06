@@ -27,9 +27,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * This class provides a skeletal implementation of the Entity interface in order to minimize the effort
- * required to implement the interface.  BaseEntity specifies an additional set of optional properties that together
- * provide a richer representation of a Caliper Entity, including a map for adding additonal custom extensions.
+ * This abstract class provides a skeletal implementation of the Entity interface in order to minimize the effort
+ * required to implement the interface.
  */
 public abstract class BaseEntity implements Entity {
 
@@ -58,7 +57,7 @@ public abstract class BaseEntity implements Entity {
     private final Object extensions;
 
     /**
-     * @param builder apply builder object properties to the Entity object.
+     * @param builder apply builder object properties to the object.
      */
     protected BaseEntity(Builder<?> builder) {
 
