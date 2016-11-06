@@ -27,7 +27,7 @@ import javax.annotation.Nonnull;
 /**
  * Caliper representation of an Assessment.  Part of the Assessment Metric Profile
  */
-public class Assessment extends AssignableDigitalResource {
+public class Assessment extends AssignableDigitalResource implements Assessable {
 
     @JsonProperty("@type")
     private final String type;
