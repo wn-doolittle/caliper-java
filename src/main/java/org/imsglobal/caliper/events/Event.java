@@ -25,6 +25,7 @@ import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.agent.Organization;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.lis.Membership;
+import org.imsglobal.caliper.entities.session.LtiSession;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
 
@@ -135,7 +136,7 @@ public interface Event {
      * Optional.
      * @return the originating tool consumer context
      */
-    Session getFederatedSession();
+    LtiSession getFederatedSession();
 
     /**
      * Additional custom properties provided that are germane to the Event.  Optional.

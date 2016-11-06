@@ -28,6 +28,7 @@ import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.agent.Organization;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.lis.Membership;
+import org.imsglobal.caliper.entities.session.LtiSession;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.joda.time.DateTime;
@@ -87,7 +88,7 @@ public abstract class BaseEvent implements Event {
     private final Session session;
 
     @JsonProperty("federatedSession")
-    private final Session federatedSession;
+    private final LtiSession federatedSession;
 
     @JsonProperty("extensions")
     private final Object extensions;
@@ -254,7 +255,7 @@ public abstract class BaseEvent implements Event {
      * Federated Session object, part of the LTI launch context.  Optional.
      * @return the federated session
      */
-    public Session getFederatedSession() {
+    public LtiSession getFederatedSession() {
         return federatedSession;
     }
 
@@ -285,7 +286,7 @@ public abstract class BaseEvent implements Event {
         private Organization group;
         private Membership membership;
         private Session session;
-        private Session federatedSession;
+        private LtiSession federatedSession;
         private Object extensions;
 
         protected abstract T self();
@@ -428,7 +429,7 @@ public abstract class BaseEvent implements Event {
          * @param federatedSession
          * @return builder.
          */
-        public T federatedSession(Session federatedSession) {
+        public T federatedSession(LtiSession federatedSession) {
             this.federatedSession = federatedSession;
             return self();
         }
