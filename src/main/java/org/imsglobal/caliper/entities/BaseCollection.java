@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CaliperCollection extends BaseEntity {
+public class BaseCollection extends BaseEntity {
 
     @JsonProperty("@type")
     private final String type;
@@ -40,7 +40,7 @@ public class CaliperCollection extends BaseEntity {
     /**
      * @param builder apply builder object properties to the object.
      */
-    protected CaliperCollection(Builder<?> builder) {
+    protected BaseCollection(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.isPartOf = builder.isPartOf;
@@ -129,8 +129,8 @@ public class CaliperCollection extends BaseEntity {
          * Client invokes build method in order to create an immutable object.
          * @return a new Collection instance.
          */
-        public CaliperCollection build() {
-            return new CaliperCollection(this);
+        public BaseCollection build() {
+            return new BaseCollection(this);
         }
     }
 
