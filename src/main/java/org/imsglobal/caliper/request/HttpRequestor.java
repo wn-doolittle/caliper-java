@@ -18,7 +18,6 @@
 
 package org.imsglobal.caliper.request;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.http.client.ClientProtocolException;
@@ -131,7 +130,7 @@ public class HttpRequestor<T> extends Requestor<T> {
 
             // Create mapper
             SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-            ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider);
+            ObjectMapper mapper = JsonObjectMapper.create(options.getJsonInclude(), provider);
             String json = mapper.writeValueAsString(envelope);
 
             // Create an HTTP StringEntity payload with the envelope JSON.

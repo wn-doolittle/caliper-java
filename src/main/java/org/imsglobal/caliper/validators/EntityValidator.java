@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
 import org.imsglobal.caliper.context.Context;
 import org.imsglobal.caliper.entities.Type;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.lis.Membership;
 import org.imsglobal.caliper.entities.lis.Status;
 import org.imsglobal.caliper.entities.lis.SupportedStatuses;
@@ -101,7 +101,7 @@ public class EntityValidator {
      * @param status
      * @throws IllegalArgumentException
      */
-    public static void checkMembershipStatus(org.imsglobal.caliper.entities.w3c.Status status) throws IllegalArgumentException {
+    public static void checkMembershipStatus(Status status) throws IllegalArgumentException {
         checkArgument(status != null, "membership status must be specified");
 
         SupportedStatuses statuses = Membership.class.getAnnotation(SupportedStatuses.class);

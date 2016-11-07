@@ -19,13 +19,14 @@ public class JsonDoubleSerializer extends JsonSerializer<Double> {
     @Override
     public void serialize(Double value, JsonGenerator jgen, SerializerProvider provider)
                                             throws IOException, JsonGenerationException {
-        if (value.isNaN()) {
+        if (Double.isNaN(value / value)) {
             jgen.writeNull();
         } else {
             // Pattern syntax: "0" = always displayed; "#" = a digit, leading zeroes omitted; "." = decimal separator
             final String pattern = "##0.0#";
             final DecimalFormat formatter = new DecimalFormat(pattern);
             final String output = formatter.format(value);
+
             jgen.writeNumber(output);
         }
     }

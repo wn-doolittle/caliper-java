@@ -19,10 +19,8 @@
 package org.imsglobal.caliper.entities.lis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.w3c.Organization;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.agent.Organization;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,7 +30,7 @@ import javax.annotation.Nullable;
  * CourseOffering provides a subset of the CourseOffering properties specified in the IMS LTI 2.0
  * specification, which in turn, draws inspiration from the IMS LIS 1.0 specification.
  */
-public class CourseOffering extends BaseEntity implements Course {
+public class CourseOffering extends Organization {
 
     @JsonProperty("@type")
     private final String type;
@@ -43,21 +41,14 @@ public class CourseOffering extends BaseEntity implements Course {
     @JsonProperty("academicSession")
     private final String academicSession;
 
-    @JsonProperty("subOrganizationOf")
-    private final Organization subOrganizationOf;
-
     /**
      * @param builder apply builder object properties to the CourseSection object.
      */
     protected CourseOffering(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, EntityType.COURSE_OFFERING);
-
         this.type = builder.type;
         this.courseNumber = builder.courseNumber;
         this.academicSession = builder.academicSession;
-        this.subOrganizationOf = builder.subOrganizationOf;
     }
 
     /**
@@ -87,18 +78,10 @@ public class CourseOffering extends BaseEntity implements Course {
     }
 
     /**
-     * @return parent organization
-     */
-    @Nullable
-    public Organization getSubOrganizationOf() {
-        return subOrganizationOf;
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Organization.Builder<T>  {
         private String type;
         private String courseNumber;
         private String academicSession;
@@ -135,15 +118,6 @@ public class CourseOffering extends BaseEntity implements Course {
          */
         public T academicSession(String academicSession) {
             this.academicSession = academicSession;
-            return self();
-        }
-
-        /**
-         * @param subOrganizationOf
-         * @return builder.
-         */
-        public T subOrganizationOf(Organization subOrganizationOf) {
-            this.subOrganizationOf = subOrganizationOf;
             return self();
         }
 

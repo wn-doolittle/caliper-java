@@ -18,10 +18,10 @@
 
 package org.imsglobal.caliper.entities.annotation;
 
-import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.resource.DigitalResource;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.agent.Agent;
 
 public interface Annotation extends Entity, Generatable {
 

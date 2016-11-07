@@ -40,7 +40,7 @@ import javax.annotation.Nonnull;
     Action.SHOWED,
     Action.STARTED
 })
-public class AssignableEvent extends BaseEventContext {
+public class AssignableEvent extends BaseEvent {
 
     @JsonProperty("@type")
     private final String type;
@@ -63,10 +63,12 @@ public class AssignableEvent extends BaseEventContext {
         super(builder);
 
         EventValidator.checkType(builder.type, EventType.ASSIGNABLE);
-        EventValidator.checkActorType(getActor(), Person.class);
+        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(builder.action, AssignableEvent.class);
-        EventValidator.checkObjectType(getObject(), AssignableDigitalResource.class);
-        EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+        EventValidator.checkObjectType(this.getObject(), AssignableDigitalResource.class);
+        if (!(this.getGenerated() == null)) {
+            EventValidator.checkGeneratedType(this.getGenerated(), Attempt.class);
+        }
 
         this.type = builder.type;
         this.action = builder.action;
@@ -96,7 +98,7 @@ public class AssignableEvent extends BaseEventContext {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEvent.Builder<T>  {
         private String type;
         private String action;
 

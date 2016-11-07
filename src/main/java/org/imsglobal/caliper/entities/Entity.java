@@ -19,15 +19,14 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
-import org.imsglobal.caliper.entities.schemadotorg.Thing;
+import org.joda.time.DateTime;
 
 /**
- * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  Analogous
- * to a schema.org Thing and a JSON-LD node in a graph.  For an Entity to be linkable, dereferencing the identifier
- * should result in a representation of the node.
+ * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  For an
+ * Entity to be linkable, dereferencing the identifier should result in a representation of the node.
  */
 @JsonFilter("entityFilter")
-public interface Entity extends Thing {
+public interface Entity {
 
     /**
      * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
@@ -50,4 +49,36 @@ public interface Entity extends Thing {
      * @return the type IRI
      */
     String getType();
+
+    /**
+     * The name of the Entity.  Optional.
+     * @return
+     */
+    String getName();
+
+    /**
+     * A short description of the entity.  Optional
+     * @return the description
+     */
+    String getDescription();
+
+    /**
+     * A combined date and time representation (including milliseconds) of when an entity was created
+     * in accordance with the ISO 8601 standard.  Optional.
+     * @return the event time
+     */
+    DateTime getDateCreated();
+
+    /**
+     * A combined date and time representation (including milliseconds) of when an entity was modified
+     * in accordance with the ISO 8601 standard.  Optional.
+     * @return the event time
+     */
+    DateTime getDateModified();
+
+    /**
+     * Additional custom properties provided that are germane to the Event.  Optional.
+     * @return extensions
+     */
+    Object getExtensions();
 }

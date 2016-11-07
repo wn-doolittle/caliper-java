@@ -22,7 +22,7 @@ import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.Context;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.events.EventType;
 import org.imsglobal.caliper.events.SupportedActions;

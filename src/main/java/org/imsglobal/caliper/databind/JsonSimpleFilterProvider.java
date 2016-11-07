@@ -21,7 +21,7 @@ public class JsonSimpleFilterProvider {
      */
     private static SimpleFilterProvider create() {
         provider = new SimpleFilterProvider();
-        provider.setDefaultFilter(JsonFilters.SERIALIZE_ALL.filter());
+        provider.setDefaultFilter(JsonFilters.EXCLUDE_CONTEXT.filter());
         provider.setFailOnUnknownId(true);
 
         return provider;

@@ -19,29 +19,34 @@
 package org.imsglobal.caliper.entities.assessment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.Collection;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
-import org.imsglobal.caliper.entities.assignable.AssignableDigitalResourceType;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Caliper representation of an Assessment.  Part of the Assessment Metric Profile
  */
-public class Assessment extends AssignableDigitalResource {
+public class Assessment extends AssignableDigitalResource implements Assessable, Collection {
 
     @JsonProperty("@type")
     private final String type;
+
+    @JsonProperty("learningObjectives")
+    private final ImmutableList<AssessmentItem> items;
 
     /**
      * @param builder apply builder object properties to the CaliperAssessment object.
      */
     protected Assessment(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, AssignableDigitalResourceType.ASSESSMENT);
-
         this.type = builder.type;
+        this.items = ImmutableList.copyOf(builder.items);
     }
 
     /**
@@ -54,17 +59,28 @@ public class Assessment extends AssignableDigitalResource {
     }
 
     /**
+     * Return an immutable list of the Collection's items.
+     * @return the items
+     */
+    @Override
+    @Nullable
+    public ImmutableList<AssessmentItem> getItems() {
+        return items;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
         private String type;
+        private List<AssessmentItem> items = Lists.newArrayList();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(AssignableDigitalResourceType.ASSESSMENT.getValue());
+            type(EntityType.ASSESSMENT.getValue());
         }
 
         /**
@@ -73,6 +89,24 @@ public class Assessment extends AssignableDigitalResource {
          */
         private T type(String type) {
             this.type = type;
+            return self();
+        }
+
+        /**
+         * @param items
+         * @return builder.
+         */
+        public T items(List<AssessmentItem> items) {
+            this.items = items;
+            return self();
+        }
+
+        /**
+         * @param item
+         * @return builder.
+         */
+        public T item(AssessmentItem item) {
+            this.items.add(item);
             return self();
         }
 

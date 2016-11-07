@@ -20,10 +20,10 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.assessment.Assessment;
 import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ import javax.annotation.Nonnull;
     Action.RESTARTED,
     Action.SUBMITTED
 })
-public class AssessmentEvent extends BaseEventContext {
+public class AssessmentEvent extends BaseEvent {
 
     @JsonProperty("@type")
     private final String type;
@@ -61,8 +61,14 @@ public class AssessmentEvent extends BaseEventContext {
         EventValidator.checkType(builder.type, EventType.ASSESSMENT);
         EventValidator.checkActorType(getActor(), Person.class);
         EventValidator.checkAction(builder.action, AssessmentEvent.class);
-        EventValidator.checkObjectType(getObject(), Assessment.class);
-        EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+        if (builder.action.equals(Action.SUBMITTED.getValue())) {
+            EventValidator.checkObjectType(getObject(), Attempt.class);
+        } else {
+            EventValidator.checkObjectType(getObject(), Assessment.class);
+        }
+        if (!(this.getGenerated() == null)) {
+            EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+        }
 
         this.type = builder.type;
         this.action = builder.action;
@@ -90,7 +96,7 @@ public class AssessmentEvent extends BaseEventContext {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEvent.Builder<T>  {
         private String type;
         private String action;
 

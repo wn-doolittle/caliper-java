@@ -21,13 +21,11 @@ package org.imsglobal.caliper.entities.agent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.validators.EntityValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class SoftwareApplication extends BaseEntity implements org.imsglobal.caliper.entities.foaf.Agent,
-                                                           org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication {
+public class SoftwareApplication extends BaseEntity implements Agent {
 
     @JsonProperty("@type")
     private final String type;
@@ -40,9 +38,6 @@ public class SoftwareApplication extends BaseEntity implements org.imsglobal.cal
      */
     protected SoftwareApplication(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, EntityType.SOFTWARE_APPLICATION);
-
         this.type = builder.type;
         this.version = builder.version;
     }

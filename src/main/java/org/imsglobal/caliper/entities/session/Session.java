@@ -21,8 +21,7 @@ package org.imsglobal.caliper.entities.session;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -47,13 +46,11 @@ public class Session extends BaseEntity implements org.imsglobal.caliper.entitie
     private String duration;
 
     /**
-     * @param builder apply builder object properties to the WebPage object.
+     * @param builder apply builder object properties to the Session object.
      */
     protected Session(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkType(builder.type, EntityType.SESSION);
-        EntityValidator.checkActorType(builder.actor, Person.class);
         EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
         EntityValidator.checkDuration(builder.duration);
 
@@ -76,7 +73,7 @@ public class Session extends BaseEntity implements org.imsglobal.caliper.entitie
     /**
      * @return the actor
      */
-    @Nonnull
+    @Nullable
     public Agent getActor() {
         return actor;
     }

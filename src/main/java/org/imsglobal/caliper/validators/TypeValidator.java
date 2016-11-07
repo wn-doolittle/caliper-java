@@ -20,7 +20,7 @@ package org.imsglobal.caliper.validators;
 
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.agent.Agent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 

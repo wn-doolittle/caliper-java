@@ -20,7 +20,7 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.resource.DigitalResource;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
@@ -28,10 +28,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
-@SupportedActions({
-    Action.VIEWED
-})
-public class ViewEvent extends BaseEventContext {
+@SupportedActions({ Action.VIEWED })
+public class ViewEvent extends BaseEvent {
 
     @JsonProperty("@type")
     private final String type;
@@ -55,8 +53,10 @@ public class ViewEvent extends BaseEventContext {
 
         EventValidator.checkType(builder.type, EventType.VIEW);
         EventValidator.checkAction(builder.action, ViewEvent.class);
-        EventValidator.checkObjectType(getObject(), DigitalResource.class);
-        EventValidator.checkTargetType(getTarget(), DigitalResource.class);
+        EventValidator.checkObjectType(this.getObject(), DigitalResource.class);
+        if (!(this.getTarget() == null)) {
+            EventValidator.checkTargetType(this.getTarget(), DigitalResource.class);
+        }
 
         this.type = builder.type;
         this.action = builder.action;
@@ -86,7 +86,7 @@ public class ViewEvent extends BaseEventContext {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEvent.Builder<T>  {
         private String type;
         private String action;
 

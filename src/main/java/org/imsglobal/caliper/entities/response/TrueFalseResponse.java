@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.entities.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -41,9 +41,6 @@ public class TrueFalseResponse extends BaseResponse {
      */
     protected TrueFalseResponse(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, ResponseType.TRUEFALSE);
-
         this.type = builder.type;
         this.value = builder.value;
     }
@@ -77,7 +74,7 @@ public class TrueFalseResponse extends BaseResponse {
          * Initialize type with default value.
          */
         public Builder() {
-            type(ResponseType.TRUEFALSE.getValue());
+            type(EntityType.TRUEFALSE.getValue());
         }
 
         /**

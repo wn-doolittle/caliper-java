@@ -21,7 +21,7 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.DigitalResource;
+import org.imsglobal.caliper.entities.resource.DigitalResource;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.annotation.Annotation;
 import org.imsglobal.caliper.validators.EventValidator;
@@ -31,25 +31,12 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 
 @SupportedActions({
-    Action.ATTACHED,
     Action.BOOKMARKED,
-    Action.CLASSIFIED,
-    Action.COMMENTED,
-    Action.DESCRIBED,
-    Action.DISLIKED,
     Action.HIGHLIGHTED,
-    Action.IDENTIFIED,
-    Action.LIKED,
-    Action.LINKED,
-    Action.RANKED,
-    Action.QUESTIONED,
-    Action.RECOMMENDED,
-    Action.REPLIED,
     Action.SHARED,
-    Action.SUBSCRIBED,
     Action.TAGGED
 })
-public class AnnotationEvent extends BaseEventContext {
+public class AnnotationEvent extends BaseEvent {
 
     @JsonProperty("@type")
     private final String type;
@@ -105,7 +92,7 @@ public class AnnotationEvent extends BaseEventContext {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends BaseEvent.Builder<T>  {
         private String type;
         private String action;
 

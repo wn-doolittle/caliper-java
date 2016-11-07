@@ -18,17 +18,13 @@
 
 package org.imsglobal.caliper.entities.assignable;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.entities.schemadotorg.CreativeWork;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.resource.Resource;
+import org.imsglobal.caliper.entities.agent.Agent;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
@@ -44,13 +40,13 @@ public class Attempt extends BaseEntity implements Generatable {
     private final String type;
 
     @JsonProperty("assignable")
-    private final DigitalResource assignable;
+    private final Resource assignable;
 
     @JsonProperty("actor")
     private final Agent actor;
 
     @JsonProperty("isPartOf")
-    private final CreativeWork isPartOf;
+    private final Attempt isPartOf;
 
     @JsonProperty("count")
     private int count;
@@ -69,14 +65,6 @@ public class Attempt extends BaseEntity implements Generatable {
      */
     protected Attempt(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, EntityType.ATTEMPT);
-        EntityValidator.checkId("assignable Id", builder.assignable.getId());
-        EntityValidator.checkId("actor Id", builder.actor.getId());
-        EntityValidator.checkCount(builder.count);
-        EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
-        EntityValidator.checkDuration(builder.duration);
-
         this.type = builder.type;
         this.assignable = builder.assignable;
         this.actor = builder.actor;
@@ -97,42 +85,34 @@ public class Attempt extends BaseEntity implements Generatable {
     }
 
     /**
-     * Serialization of Assignable associated with this Attempt is limited to
-     * the identifying URI only.
      * @return the assignable
      */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @Nonnull
-    public DigitalResource getAssignable() {
+    @Nullable
+    public Resource getAssignable() {
         return assignable;
     }
 
     /**
-     * Serialization of Actor associated with this Attempt is limited to
-     * the identifying URI only.
      * @return the actor
      */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @Nonnull
+    @Nullable
     public Agent getActor() {
         return actor;
     }
 
     /**
-     * Serialization of the DigitalResource parent is limited to the identifying URI only.
-     * @return the parent reference.
+     * @return the parent Attempt if one exists
      */
     @Nullable
-    public CreativeWork getIsPartOf() {
+    public Attempt getIsPartOf() {
         return isPartOf;
     }
 
     /**
      * @return the count
      */
-    @Nonnull
+    @Nullable
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public int getCount() {
         return count;
     }
@@ -140,7 +120,7 @@ public class Attempt extends BaseEntity implements Generatable {
     /**
      * @return started at time
      */
-    @Nonnull
+    @Nullable
     public DateTime getStartedAtTime() {
         return startedAtTime;
     }
@@ -173,9 +153,9 @@ public class Attempt extends BaseEntity implements Generatable {
      */
     public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
         private String type;
-        private DigitalResource assignable;
+        private Resource assignable;
         private Agent actor;
-        private CreativeWork isPartOf;
+        private Attempt isPartOf;
         private int count;
         private DateTime startedAtTime;
         private DateTime endedAtTime;
@@ -201,7 +181,7 @@ public class Attempt extends BaseEntity implements Generatable {
          * @param assignable
          * @return builder.
          */
-        public T assignable(DigitalResource assignable) {
+        public T assignable(Resource assignable) {
             this.assignable = assignable;
             return self();
         }
@@ -219,7 +199,7 @@ public class Attempt extends BaseEntity implements Generatable {
          * @param isPartOf
          * @return builder.
          */
-        public T isPartOf(CreativeWork isPartOf) {
+        public T isPartOf(Attempt isPartOf) {
             this.isPartOf = isPartOf;
             return self();
         }

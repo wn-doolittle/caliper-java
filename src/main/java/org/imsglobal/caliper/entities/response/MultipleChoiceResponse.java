@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.entities.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,9 +40,6 @@ public class MultipleChoiceResponse extends BaseResponse {
      */
     protected MultipleChoiceResponse(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, ResponseType.MULTIPLECHOICE);
-
         this.type = builder.type;
         this.value = builder.value;
     }
@@ -76,7 +73,7 @@ public class MultipleChoiceResponse extends BaseResponse {
          * Initialize type with default value.
          */
         public Builder() {
-            type(ResponseType.MULTIPLECHOICE.getValue());
+            type(EntityType.MULTIPLECHOICE.getValue());
         }
 
         /**

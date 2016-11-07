@@ -22,9 +22,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.BaseEntity;
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.resource.DigitalResource;
+import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.agent.Agent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -49,11 +49,6 @@ public class TagAnnotation extends BaseEntity implements Annotation {
      */
     protected TagAnnotation(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, AnnotationType.TAG_ANNOTATION);
-        EntityValidator.checkId("annotated Id", builder.annotated.getId());
-        EntityValidator.checkId("actor Id", builder.actor.getId());
-
         this.type = builder.type;
         this.annotated = builder.annotated;
         this.actor = builder.actor;
@@ -108,7 +103,7 @@ public class TagAnnotation extends BaseEntity implements Annotation {
          * Initialize type with default value.
          */
         public Builder() {
-            type(AnnotationType.TAG_ANNOTATION.getValue());
+            type(EntityType.TAG_ANNOTATION.getValue());
         }
 
         /**
