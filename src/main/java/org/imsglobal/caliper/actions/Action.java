@@ -65,6 +65,7 @@ public enum Action {
     QUESTIONED("http://purl.imsglobal.org/vocab/caliper/v1/action#Questioned"),
     RANKED("http://purl.imsglobal.org/vocab/caliper/v1/action#Ranked"),
     RECOMMENDED("http://purl.imsglobal.org/vocab/caliper/v1/action#Recommended"),
+    REMOVED("http://purl.imsglobal.org/vocab/caliper/v1/action#Removed"),
     REPLIED("http://purl.imsglobal.org/vocab/caliper/v1/action#Replied"),
     RESET("http://purl.imsglobal.org/vocab/caliper/v1/action#Reset"),
     RESTARTED("http://purl.imsglobal.org/vocab/caliper/v1/action#Restarted"),
