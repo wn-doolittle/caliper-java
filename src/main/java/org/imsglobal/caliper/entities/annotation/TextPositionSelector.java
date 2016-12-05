@@ -18,6 +18,8 @@
 
 package org.imsglobal.caliper.entities.annotation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -26,7 +28,13 @@ import javax.annotation.Nonnull;
  */
 public class TextPositionSelector {
 
+    @JsonProperty("type")
+    private String type = "TextPositionSelector";
+
+    @JsonProperty("start")
     private int start;
+
+    @JsonProperty("end")
     private int end;
 
     // Constructor
@@ -38,6 +46,14 @@ public class TextPositionSelector {
     public TextPositionSelector(int start, int end) {
         this.start = start;
         this.end = end;
+    }
+
+    /**
+     * @return the type
+     */
+    @Nonnull
+    public String getType() {
+        return type;
     }
 
     /**
