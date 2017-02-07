@@ -1,36 +1,14 @@
-/**
- * This file is part of IMS Caliper Analytics™ and is licensed to
- * IMS Global Learning Consortium, Inc. (http://www.imsglobal.org)
- * under one or more contributor license agreements.  See the NOTICE
- * file distributed with this work for additional information.
- *
- * IMS Caliper is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation, version 3 of the License.
- *
- * IMS Caliper is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License along
- * with this program. If not, see <http://www.gnu.org/licenses/>.
- */
-
 package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.EntityType;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * An image, video, or audio object embedded in a web page.
+ * Concrete implementation of a generic MediaObject.
  */
-public class MediaObject extends DigitalResource {
-
-    @JsonProperty("@type")
-    private final String type;
+public class MediaObject extends AbstractDigitalResource implements Media {
 
     @JsonProperty("duration")
     private String duration;
@@ -40,17 +18,8 @@ public class MediaObject extends DigitalResource {
      */
     protected MediaObject(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
-        this.duration = builder.duration;
-    }
 
-    /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
+        this.duration = builder.duration;
     }
 
     /**
@@ -62,28 +31,17 @@ public class MediaObject extends DigitalResource {
     }
 
     /**
-     * Initialize default parameter values in the builder (not in the outer profile class).  Given the abstract nature
-     * of Profile, the builder's .build() method is omitted.
+     * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T>  {
         private String duration;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(EntityType.MEDIA_OBJECT.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            super.type(EntityType.MEDIA_OBJECT);
         }
 
         /**

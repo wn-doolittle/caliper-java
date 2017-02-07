@@ -21,16 +21,12 @@ package org.imsglobal.caliper.entities.resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.EntityType;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
  * An audio object embedded in a web page.
  */
-public class AudioObject extends MediaObject {
-
-    @JsonProperty("@type")
-    private final String type;
+public class AudioObject extends AbstractDigitalResource implements Media {
 
     @JsonProperty("volumeMin")
     private String volumeMin;
@@ -44,25 +40,19 @@ public class AudioObject extends MediaObject {
     @JsonProperty("muted")
     private boolean muted;
 
+    @JsonProperty("duration")
+    private String duration;
+
     /**
      * @param builder apply builder object properties to the AudioObject object.
      */
     protected AudioObject(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
         this.volumeMin = builder.volumeMin;
         this.volumeMax = builder.volumeMax;
         this.volumeLevel = builder.volumeLevel;
         this.muted = builder.muted;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
+        this.duration = builder.duration;
     }
 
     /**
@@ -90,38 +80,39 @@ public class AudioObject extends MediaObject {
     }
 
     /**
+     * A Boolean object rather than a boolean primitive data type is utilized to avoid inadvertently
+     * serializing the boolean primitive's default value (false).
      * @return muted status (true/false)
      */
     @Nullable
-    public boolean getMuted() {
+    public Boolean getMuted() {
         return muted;
+    }
+
+    /**
+     * @return duration
+     */
+    @Nullable
+    public String getDuration() {
+        return duration;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T>  {
         private String volumeMin;
         private String volumeMax;
         private String volumeLevel;
-        private boolean muted;
+        private Boolean muted;
+        private String duration;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(EntityType.AUDIO_OBJECT.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            super.type(EntityType.AUDIO_OBJECT);
         }
 
         /**
@@ -156,7 +147,16 @@ public class AudioObject extends MediaObject {
          * @return builder
          */
         public T muted (boolean muted) {
-            this.muted = muted;
+            this.muted = new Boolean(muted);
+            return self();
+        }
+
+        /**
+         * @param duration
+         * @return duration
+         */
+        public T duration(String duration) {
+            this.duration = duration;
             return self();
         }
 

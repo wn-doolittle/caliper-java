@@ -27,10 +27,10 @@ import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.assessment.Assessment;
-import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.entities.lis.CourseSection;
+import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.outcome.Result;
+import org.imsglobal.caliper.entities.resource.Assessment;
+import org.imsglobal.caliper.entities.resource.Attempt;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
@@ -44,7 +44,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class OutcomeEventGradedTest {
-
+    private String uuid;
     private SoftwareApplication actor;
     private Person learner;
     private Attempt object;
@@ -60,7 +60,7 @@ public class OutcomeEventGradedTest {
      */
     @Before
     public void setUp() throws Exception {
-
+        uuid = "a50ca17f-5971-47bb-8fca-4e6e6879001d";
         actor = SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).version("v2").build();
         learner = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
         assignable = Assessment.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1")).build();
@@ -121,8 +121,9 @@ public class OutcomeEventGradedTest {
      */
     private OutcomeEvent buildEvent(Action action) {
         return OutcomeEvent.builder()
+            .uuid(uuid)
             .actor(actor)
-            .action(action.getValue())
+            .action(action)
             .object(object)
             .generated(generated)
             .group(group)

@@ -19,30 +19,21 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.assessment.AssessmentItem;
-import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.entities.response.BaseResponse;
+import org.imsglobal.caliper.entities.resource.AssessmentItem;
+import org.imsglobal.caliper.entities.resource.Attempt;
+import org.imsglobal.caliper.entities.response.Response;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.annotation.Nonnull;
 
 @SupportedActions({
     Action.STARTED,
     Action.COMPLETED,
     Action.SKIPPED
 })
-public class AssessmentItemEvent extends BaseEvent {
-
-    @JsonProperty("@type")
-    private final String type;
-
-    @JsonProperty("action")
-    private final String action;
+public class AssessmentItemEvent extends AbstractEvent {
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssessmentItemEvent.class);
@@ -58,13 +49,13 @@ public class AssessmentItemEvent extends BaseEvent {
     protected AssessmentItemEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(builder.type, EventType.ASSESSMENT_ITEM);
+        EventValidator.checkType(this.getType(), EventType.ASSESSMENT_ITEM);
         EventValidator.checkActorType(this.getActor(), Person.class);
-        EventValidator.checkAction(builder.action, AssessmentItemEvent.class);
-        if (builder.action.equals(Action.COMPLETED.getValue())) {
+        EventValidator.checkAction(this.getAction(), AssessmentItemEvent.class);
+        if (this.getAction().equals(Action.COMPLETED)) {
             EventValidator.checkObjectType(this.getObject(), Attempt.class);
             if (!(this.getGenerated() == null)) {
-                EventValidator.checkGeneratedType(this.getGenerated(), BaseResponse.class);
+                EventValidator.checkGeneratedType(this.getGenerated(), Response.class);
             }
         } else {
             EventValidator.checkObjectType(this.getObject(), AssessmentItem.class);
@@ -72,63 +63,19 @@ public class AssessmentItemEvent extends BaseEvent {
                 EventValidator.checkGeneratedType(this.getGenerated(), Attempt.class);
             }
         }
-
-        this.type = builder.type;
-        this.action = builder.action;
-    }
-
-    /**
-     * Required.
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * Required.
-     * @return the action
-     */
-    @Override
-    @Nonnull
-    public String getAction() {
-        return action;
     }
 
     /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEvent.Builder<T>  {
-        private String type;
-        private String action;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.ASSESSMENT_ITEM.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
-        }
-
-        /**
-         * @param action
-         * @return builder.
-         */
-        @Override
-        public T action(String action) {
-            this.action = action;
-            return self();
+            super.type(EventType.ASSESSMENT_ITEM);
         }
 
         /**

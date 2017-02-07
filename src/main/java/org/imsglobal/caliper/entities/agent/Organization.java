@@ -1,99 +1,54 @@
-/**
- * This file is part of IMS Caliper Analytics™ and is licensed to
- * IMS Global Learning Consortium, Inc. (http://www.imsglobal.org)
- * under one or more contributor license agreements.  See the NOTICE
- * file distributed with this work for additional information.
- *
- * IMS Caliper is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation, version 3 of the License.
- *
- * IMS Caliper is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License along
- * with this program. If not, see <http://www.gnu.org/licenses/>.
- */
-
 package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.BaseEntity;
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * A collection of people organized together into a community or other social, commercial or political structure.
- * The group has some common purpose or reason for existence which goes beyond the set of people belonging to it
- * and can act as an Agent. Organizations are often decomposable into hierarchical structures.
+ * Concrete implementation of a generic Organization.
  */
-
-public class Organization extends BaseEntity implements Agent {
-
-    @JsonProperty("@type")
-    private final String type;
+public class Organization extends AbstractEntity implements Org {
 
     @JsonProperty("subOrganizationOf")
-    private final Organization subOrganizationOf;
+    private final Org subOrganizationOf;
 
     /**
-     * @param builder apply builder object properties to the Organization object.
+     * @param builder apply builder object properties to the object.
      */
     protected Organization(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
         this.subOrganizationOf = builder.subOrganizationOf;
     }
 
     /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * @return parent organization
+     * @return the parent organization.
      */
     @Nullable
-    public Organization getSubOrganizationOf() {
+    public Org getSubOrganizationOf() {
         return subOrganizationOf;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
-        private String type;
-        private Organization subOrganizationOf;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
+        private Org subOrganizationOf;
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            type(EntityType.ORGANIZATION.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            super.type(EntityType.ORGANIZATION);
         }
 
         /**
          * @param subOrganizationOf
          * @return builder.
          */
-        public T subOrganizationOf(Organization subOrganizationOf) {
+        public T subOrganizationOf(Org subOrganizationOf) {
             this.subOrganizationOf = subOrganizationOf;
             return self();
         }

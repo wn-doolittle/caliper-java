@@ -38,7 +38,7 @@ public enum Defaults {
     /**
      * @return default string
      */
-    public String getValue() {
+    public String value() {
         return value;
     }
 }

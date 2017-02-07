@@ -18,13 +18,18 @@
 
 package org.imsglobal.caliper.events;
 
+import com.google.common.collect.ImmutableList;
+import org.imsglobal.caliper.Context;
+import org.imsglobal.caliper.Type;
+import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.Referrer;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.agent.Agent;
-import org.imsglobal.caliper.entities.agent.Organization;
+import org.imsglobal.caliper.entities.agent.Membership;
+import org.imsglobal.caliper.entities.agent.Org;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.lis.Membership;
 import org.imsglobal.caliper.entities.session.LtiSession;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
@@ -39,20 +44,20 @@ public interface Event {
      * should be expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the context IRI.
      */
-    String getContext();
+    Context getContext();
 
     /**
      * Identifier that MUST be set either by the emitting service or the receiving endpoint.
      * @return the identifier.
      */
-    String getId();
+    String getUuid();
 
     /**
      * Specifies the type of event or node in the graph as defined by JSON-LD.  The type should be
      * expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the event type IRI
      */
-    String getType();
+    Type getType();
 
     /**
      * The actor engaged in the interaction.  Analogous to a subject.  Required.
@@ -65,7 +70,7 @@ public interface Event {
      * expressed as a unique IRI in conformance with the JSON-LD specification.  Required.
      * @return the action undertaken by the actor
      */
-    String getAction();
+    Action getAction();
 
     /**
      * The object of the interaction.  The object should be expressed as a unique IRI in conformance
@@ -90,7 +95,7 @@ public interface Event {
 
     /**
      * An Entity generated as a result of the learning interaction.  Example entities typed as Generatable include
-     * assignable attempts, assessment item responses and graded outcome results.  Optional.
+     * assignment attempts, assessment item responses and graded outcome results.  Optional.
      * @return generated entity
      */
     Generatable getGenerated();
@@ -99,7 +104,7 @@ public interface Event {
      * Represents the entity from where the navigation commenced.  Optional.
      * @return the referring context
      */
-    Entity getReferrer();
+    Referrer getReferrer();
 
     /**
      * The module, application, platform, system and/or service that provides the technological context within which
@@ -115,7 +120,7 @@ public interface Event {
      * comprise the course context within which the learning activity occurs.  Optional.
      * @return the group context
      */
-    Organization getGroup();
+    Org getGroup();
 
     /**
      * The Membership context defines an actor's roles and status as a member of an organization or group.
@@ -142,5 +147,5 @@ public interface Event {
      * Additional custom properties provided that are germane to the Event.  Optional.
      * @return extensions
      */
-    Object getExtensions();
+    ImmutableList<Object> getExtensions();
 }

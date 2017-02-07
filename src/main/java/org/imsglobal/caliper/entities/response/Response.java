@@ -20,9 +20,12 @@ package org.imsglobal.caliper.entities.response;
 
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.entities.resource.Attempt;
 import org.joda.time.DateTime;
 
+/**
+ * The response interface marks an object type that represents a learner's response to an AssessmentItem.
+ */
 public interface Response extends Entity, Generatable {
 
     Attempt getAttempt();

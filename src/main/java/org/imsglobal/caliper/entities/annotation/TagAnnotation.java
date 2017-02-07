@@ -21,22 +21,20 @@ package org.imsglobal.caliper.entities.annotation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.BaseEntity;
-import org.imsglobal.caliper.entities.resource.DigitalResource;
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.entities.resource.Resource;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TagAnnotation extends BaseEntity implements Annotation {
-
-    @JsonProperty("@type")
-    private final String type;
+public class TagAnnotation extends AbstractEntity implements Annotation, Generatable {
 
     @JsonProperty("annotated")
-    private DigitalResource annotated;
+    private Resource annotated;
 
     @JsonProperty("actor")
     private final Agent actor;
@@ -45,30 +43,21 @@ public class TagAnnotation extends BaseEntity implements Annotation {
     private ImmutableList<String> tags;
 
     /**
-     * @param builder apply builder object properties to the TagAnnotation object.
+     * @param builder apply builder object properties to the object.
      */
     protected TagAnnotation(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
+
         this.annotated = builder.annotated;
         this.actor = builder.actor;
         this.tags = ImmutableList.copyOf(builder.tags);
     }
 
     /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
-    }
-
-    /**
      * @return the annotated object's identifier
      */
     @Nonnull
-    public DigitalResource getAnnotated() {
+    public Resource getAnnotated() {
         return annotated;
     }
 
@@ -91,35 +80,25 @@ public class TagAnnotation extends BaseEntity implements Annotation {
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
-        private String type;
-        private DigitalResource annotated;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
+        private Resource annotated;
         private Agent actor;
         private List<String> tags = Lists.newArrayList();
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            type(EntityType.TAG_ANNOTATION.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            type(EntityType.TAG_ANNOTATION);
         }
 
         /**
          * @param annotated
          * @return builder.
          */
-        public T annotated(DigitalResource annotated) {
+        public T annotated(Resource annotated) {
             this.annotated = annotated;
             return self();
         }
@@ -144,7 +123,7 @@ public class TagAnnotation extends BaseEntity implements Annotation {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of TagAnnotation.
+         * @return a new instance of the TagAnnotation.
          */
         public TagAnnotation build() {
             return new TagAnnotation(this);

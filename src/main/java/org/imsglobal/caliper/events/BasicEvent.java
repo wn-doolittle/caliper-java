@@ -19,85 +19,31 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
-
+/**
+ * Concrete implementation of a generic Event.
+ */
 @SupportedActions({
-    Action.ABANDONED,
-    Action.ACTIVATED,
-    Action.ADDED,
-    Action.ATTACHED,
-    Action.BOOKMARKED,
-    Action.CHANGED_RESOLUTION,
-    Action.CHANGED_SIZE,
-    Action.CHANGED_SPEED,
-    Action.CHANGED_VOLUME,
-    Action.CLASSIFIED,
-    Action.CLOSED_POPOUT,
-    Action.COMMENTED,
-    Action.COMPLETED,
-    Action.CREATED,
-    Action.DEACTIVATED,
-    Action.DELETED,
-    Action.DESCRIBED,
-    Action.DISABLED_CLOSED_CAPTIONING,
-    Action.DISLIKED,
-    Action.ENABLED_CLOSED_CAPTIONING,
-    Action.ENDED,
-    Action.ENTERED_FULLSCREEN,
-    Action.EXITED_FULLSCREEN,
-    Action.FORWARDED_TO,
-    Action.GRADED,
-    Action.HID,
-    Action.HIGHLIGHTED,
-    Action.IDENTIFIED,
-    Action.JUMPED_TO,
-    Action.LIKED,
-    Action.LINKED,
-    Action.LOGGED_IN,
-    Action.LOGGED_OUT,
-    Action.MARKED_AS_READ,
-    Action.MARKED_AS_UNREAD,
-    Action.MODIFIED,
-    Action.MUTED,
-    Action.NAVIGATED_TO,
-    Action.OPENED_POPOUT,
-    Action.PAUSED,
-    Action.POSTED,
-    Action.QUESTIONED,
-    Action.RANKED,
-    Action.RECOMMENDED,
-    Action.REPLIED,
-    Action.RESET,
-    Action.RESTARTED,
-    Action.RESUMED,
-    Action.RETRIEVED,
-    Action.REVIEWED,
-    Action.REWOUND,
-    Action.SEARCHED,
-    Action.SHARED,
-    Action.SHOWED,
-    Action.SKIPPED,
-    Action.STARTED,
-    Action.SUBMITTED,
-    Action.SUBSCRIBED,
-    Action.TAGGED,
-    Action.TIMED_OUT,
-    Action.UNMUTED,
-    Action.UNSUBSCRIBED,
+    Action.ABANDONED, Action.ACTIVATED, Action.ADDED, Action.ATTACHED, Action.BOOKMARKED,
+    Action.CHANGED_RESOLUTION, Action.CHANGED_SIZE, Action.CHANGED_SPEED, Action.CHANGED_VOLUME,
+    Action.CLASSIFIED, Action.CLOSED_POPOUT, Action.COMMENTED, Action.COMPLETED, Action.CREATED,
+    Action.DEACTIVATED, Action.DELETED, Action.DESCRIBED, Action.DISABLED_CLOSED_CAPTIONING, Action.DISLIKED,
+    Action.ENABLED_CLOSED_CAPTIONING, Action.ENDED, Action.ENTERED_FULLSCREEN, Action.EXITED_FULLSCREEN,
+    Action.FORWARDED_TO, Action.GRADED, Action.HID, Action.HIGHLIGHTED, Action.IDENTIFIED, Action.JUMPED_TO,
+    Action.LIKED, Action.LINKED, Action.LOGGED_IN, Action.LOGGED_OUT, Action.MARKED_AS_READ,
+    Action.MARKED_AS_UNREAD, Action.MODIFIED, Action.MUTED, Action.NAVIGATED_TO, Action.OPENED_POPOUT,
+    Action.PAUSED, Action.POSTED, Action.QUESTIONED, Action.RANKED, Action.RECOMMENDED, Action.REPLIED,
+    Action.RESET, Action.RESTARTED, Action.RESUMED, Action.RETRIEVED, Action.REVIEWED, Action.REWOUND,
+    Action.SEARCHED, Action.SHARED, Action.SHOWED, Action.SKIPPED, Action.STARTED, Action.SUBMITTED,
+    Action.SUBSCRIBED, Action.TAGGED, Action.TIMED_OUT, Action.UNMUTED, Action.UNSUBSCRIBED, Action.USED,
     Action.VIEWED
 })
-public class BasicEvent extends BaseEvent {
-
-    @JsonProperty("@type")
-    private final String type;
-
-    @JsonProperty("action")
-    private final String action;
+public class BasicEvent extends AbstractEvent {
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(BasicEvent.class);
@@ -113,64 +59,22 @@ public class BasicEvent extends BaseEvent {
     protected BasicEvent(Builder<?> builder) {
         super(builder);
 
-        // EventValidator.checkAction(builder.action, BasicEvent.class);
-
-        this.type = builder.type;
-        this.action = builder.action;
-    }
-
-    /**
-     * Required.
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * Required.
-     * @return the action
-     */
-    @Override
-    @Nonnull
-    public String getAction() {
-        return action;
+        EventValidator.checkType(this.getType(), EventType.EVENT);
+        EventValidator.checkActorType(this.getActor(), Person.class);
+        EventValidator.checkAction(this.getAction(), BasicEvent.class);
     }
 
     /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEvent.Builder<T>  {
-        private String type;
-        private String action;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.EVENT.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
-        }
-
-        /**
-         * @param action
-         * @return builder.
-         */
-        @Override
-        public T action(String action) {
-            this.action = action;
-            return self();
+            super.type(EventType.EVENT);
         }
 
         /**

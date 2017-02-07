@@ -41,6 +41,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class SessionEventLoggedOutTest {
+    private String uuid;
     private Person actor;
     private SoftwareApplication object;
     private Session session;
@@ -53,6 +54,7 @@ public class SessionEventLoggedOutTest {
      */
     @Before
     public void setUp() throws Exception {
+        uuid = "a438f8ac-1da3-4d48-8c86-94a1b387e0f6";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
@@ -98,9 +100,9 @@ public class SessionEventLoggedOutTest {
      */
     private SessionEvent buildEvent(Action action) {
         return SessionEvent.builder()
-            .id("5fac90a9-531a-41f6-9b8d-7a26e61dcc27")
+            .uuid(uuid)
             .actor(actor)
-            .action(action.getValue())
+            .action(action)
             .object(object)
             .eventTime(new DateTime(2016, 11, 15, 11, 5, 0, 0, DateTimeZone.UTC))
             .session(session)

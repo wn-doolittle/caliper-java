@@ -20,24 +20,16 @@ package org.imsglobal.caliper.entities.outcome;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.BaseEntity;
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.entities.agent.Agent;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.resource.Attempt;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * Representation of a Result. Result's are generated as
- * part of an interaction represented by an OutcomeEvent.
- */
-public class Result extends BaseEntity implements Generatable {
-
-    @JsonProperty("@type")
-    private final String type;
+public class Result extends AbstractEntity implements Generatable {
 
     @JsonProperty("attempt")
     private Attempt attempt;
@@ -67,15 +59,11 @@ public class Result extends BaseEntity implements Generatable {
     private Agent scoredBy;
 
     /**
-     * @param builder apply builder object properties to the Result object.
+     * @param builder apply builder object properties to the object.
      */
     protected Result(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkType(builder.type, EntityType.RESULT);
-        EntityValidator.checkAttempt(builder.attempt);
-
-        this.type = builder.type;
         this.attempt = builder.attempt;
         this.normalScore = builder.normalScore;
         this.penaltyScore = builder.penaltyScore;
@@ -85,15 +73,6 @@ public class Result extends BaseEntity implements Generatable {
         this.curveFactor = builder.curveFactor;
         this.comment = builder.comment;
         this.scoredBy = builder.scoredBy;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
     }
 
     /**
@@ -180,13 +159,11 @@ public class Result extends BaseEntity implements Generatable {
         return scoredBy;
     }
 
-
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
         private Attempt attempt;
         private double normalScore;
         private double penaltyScore;
@@ -198,19 +175,10 @@ public class Result extends BaseEntity implements Generatable {
         private Agent scoredBy;
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Constructor
          */
         public Builder() {
-            type(EntityType.RESULT.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            super.type(EntityType.RESULT);
         }
 
         /**
@@ -296,7 +264,7 @@ public class Result extends BaseEntity implements Generatable {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of Result.
+         * @return a new instance of the Result.
          */
         public Result build() {
             return new Result(this);

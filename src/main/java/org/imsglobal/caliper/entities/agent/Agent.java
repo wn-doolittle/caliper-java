@@ -19,22 +19,10 @@
 package org.imsglobal.caliper.entities.agent;
 
 /**
- * An entity that can do things. Typical kinds of agents include people, organizations and software systems.
+ * The agent interface marks an object type that can be do things.  The interface allows
+ * Caliper to catch errors at compile time for instances of the marked class rather than
+ * at runtime if a marker annotation was defined instead.
  */
 public interface Agent {
 
-    /**
-     * Each entity (or node in the graph as defined by JSON-LD) requires an identifier.
-     * The identifier should be expressed as a unique IRI in conformance with the
-     * JSON-LD specification.
-     * @return the identifier IRI
-     */
-    String getId();
-
-    /**
-     * Specifies the type of Agent or node in the graph as defined by JSON-LD.  The type should be
-     * expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the type IRI
-     */
-    String getType();
 }

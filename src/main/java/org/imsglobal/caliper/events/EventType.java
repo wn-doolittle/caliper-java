@@ -19,22 +19,24 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.imsglobal.caliper.Type;
 
-public enum EventType {
-    ANNOTATION("http://purl.imsglobal.org/caliper/v1/AnnotationEvent"),
-    ASSESSMENT("http://purl.imsglobal.org/caliper/v1/AssessmentEvent"),
-    ASSESSMENT_ITEM("http://purl.imsglobal.org/caliper/v1/AssessmentItemEvent"),
-    ASSIGNABLE("http://purl.imsglobal.org/caliper/v1/AssignableEvent"),
-    EVENT("http://purl.imsglobal.org/caliper/v1/Event"),
-    FORUM("http://purl.imsglobal.org/caliper/v1/ForumEvent"),
-    MEDIA("http://purl.imsglobal.org/caliper/v1/MediaEvent"),
-    MESSAGE("http://purl.imsglobal.org/caliper/v1/MessageEvent"),
-    NAVIGATION("http://purl.imsglobal.org/caliper/v1/NavigationEvent"),
-    OUTCOME("http://purl.imsglobal.org/caliper/v1/OutcomeEvent"),
-    READING("http://purl.imsglobal.org/caliper/v1/ReadingEvent"),
-    SESSION("http://purl.imsglobal.org/caliper/v1/SessionEvent"),
-    THREAD("http://purl.imsglobal.org/caliper/v1/ThreadEvent"),
-    VIEW("http://purl.imsglobal.org/caliper/v1/ViewEvent");
+public enum EventType implements Type {
+    ANNOTATION("AnnotationEvent"),
+    ASSESSMENT("AssessmentEvent"),
+    ASSESSMENT_ITEM("AssessmentItemEvent"),
+    ASSIGNABLE("AssignableEvent"),
+    EVENT("Event"),
+    FORUM("ForumEvent"),
+    MEDIA("MediaEvent"),
+    MESSAGE("MessageEvent"),
+    NAVIGATION("NavigationEvent"),
+    OUTCOME("OutcomeEvent"),
+    READING("ReadingEvent"),
+    SESSION("SessionEvent"),
+    THREAD("ThreadEvent"),
+    TOOL_USE("ToolUseEvent"),
+    VIEW("ViewEvent");
 
     private final String value;
 
@@ -50,7 +52,7 @@ public enum EventType {
      * @return URI string
      */
     @JsonValue
-    public String getValue() {
+    public String value() {
         return value;
     }
 }

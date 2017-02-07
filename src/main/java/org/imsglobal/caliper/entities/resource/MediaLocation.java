@@ -25,10 +25,7 @@ import org.imsglobal.caliper.entities.Targetable;
 /**
  * Media Location
  */
-public class MediaLocation extends DigitalResource implements Targetable {
-
-    @JsonProperty("@type")
-    private final String type;
+public class MediaLocation extends AbstractDigitalResource implements Targetable {
 
     @JsonProperty("currentTime")
     private String currentTime;
@@ -38,16 +35,8 @@ public class MediaLocation extends DigitalResource implements Targetable {
      */
     protected MediaLocation(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
-        this.currentTime = builder.currentTime;
-    }
 
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
+        this.currentTime = builder.currentTime;
     }
 
     /**
@@ -61,24 +50,14 @@ public class MediaLocation extends DigitalResource implements Targetable {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T>  {
         private String currentTime;
 
         /**
          * Initialize type with default values.
          */
         public Builder() {
-            type(EntityType.MEDIA_LOCATION.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            super.type(EntityType.MEDIA_LOCATION);
         }
 
         /**

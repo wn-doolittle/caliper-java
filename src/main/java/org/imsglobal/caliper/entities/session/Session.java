@@ -18,32 +18,24 @@
 
 package org.imsglobal.caliper.entities.session;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.BaseEntity;
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.TimePeriod;
 import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Session extends BaseEntity implements org.imsglobal.caliper.entities.Generatable,
-                                               org.imsglobal.caliper.entities.Targetable {
-    @JsonProperty("@type")
-    private final String type;
+public class Session extends AbstractEntity {
 
     @JsonProperty("actor")
     private final Agent actor;
 
-    @JsonProperty("startedAtTime")
-    private DateTime startedAtTime;
-
-    @JsonProperty("endedAtTime")
-    private DateTime endedAtTime;
-
-    @JsonProperty("duration")
-    private String duration;
+    @JsonIgnore
+    private TimePeriod timePeriod = new TimePeriod();
 
     /**
      * @param builder apply builder object properties to the Session object.
@@ -51,23 +43,13 @@ public class Session extends BaseEntity implements org.imsglobal.caliper.entitie
     protected Session(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
-        EntityValidator.checkDuration(builder.duration);
+        EntityValidator.checkStartTime(builder.timePeriod.getStartedAtTime(), builder.timePeriod.getEndedAtTime());
+        EntityValidator.checkDuration(builder.timePeriod.getDuration());
 
-        this.type = builder.type;
         this.actor = builder.actor;
-        this.startedAtTime = builder.startedAtTime;
-        this.endedAtTime = builder.endedAtTime;
-        this.duration = builder.duration;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
+        this.timePeriod.setStartedAtTime(builder.timePeriod.getStartedAtTime());
+        this.timePeriod.setEndedAtTime(builder.timePeriod.getEndedAtTime());
+        this.timePeriod.setDuration(builder.timePeriod.getDuration());
     }
 
     /**
@@ -79,54 +61,42 @@ public class Session extends BaseEntity implements org.imsglobal.caliper.entitie
     }
 
     /**
-     * @return session start time
+     * @return started at time
      */
     @Nullable
     public DateTime getStartedAtTime() {
-        return startedAtTime;
+        return timePeriod.getStartedAtTime();
     }
 
     /**
-     * @return session end time
+     * @return ended at time
      */
     @Nullable
     public DateTime getEndedAtTime() {
-        return endedAtTime;
+        return timePeriod.getEndedAtTime();
     }
 
     /**
-     * @return session duration
+     * @return duration
      */
     @Nullable
     public String getDuration() {
-        return duration;
+        return timePeriod.getDuration();
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T>  {
         private Agent actor;
-        private DateTime startedAtTime;
-        private DateTime endedAtTime;
-        private String duration;
+        private TimePeriod timePeriod = new TimePeriod();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.SESSION.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            super.type(EntityType.SESSION);
         }
 
         /**
@@ -140,28 +110,28 @@ public class Session extends BaseEntity implements org.imsglobal.caliper.entitie
 
         /**
          * @param startedAtTime
-         * @return builder.
+         * @return
          */
         public T startedAtTime(DateTime startedAtTime) {
-            this.startedAtTime = startedAtTime;
+            this.timePeriod.setStartedAtTime(startedAtTime);
             return self();
         }
 
         /**
          * @param endedAtTime
-         * @return builder.
+         * @return builder
          */
         public T endedAtTime(DateTime endedAtTime) {
-            this.endedAtTime = endedAtTime;
+            this.timePeriod.setEndedAtTime(endedAtTime);
             return self();
         }
 
         /**
          * @param duration
-         * @return builder.
+         * @return
          */
         public T duration(String duration) {
-            this.duration = duration;
+            this.timePeriod.setDuration(duration);
             return self();
         }
 

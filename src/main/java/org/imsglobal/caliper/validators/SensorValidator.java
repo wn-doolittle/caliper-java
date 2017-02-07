@@ -78,12 +78,12 @@ public class SensorValidator {
     }
 
     /**
-     * check connection request timeout
+     * check connection requestors timeout
      * @param connectionRequestTimeout
      * @throws IllegalArgumentException
      */
     public static void checkConnectionRequestTimeout(int connectionRequestTimeout) throws IllegalArgumentException {
-        checkArgument(connectionRequestTimeout >= 1000, "Sensor connection request timeout must be at least 1000 milliseconds");
+        checkArgument(connectionRequestTimeout >= 1000, "Sensor connection requestors timeout must be at least 1000 milliseconds");
     }
 
     /**
@@ -117,6 +117,6 @@ public class SensorValidator {
                 break;
             }
 
-        checkArgument(isMatch, "Sensor JSON payload inclusions enum must be specified");
+        checkArgument(isMatch, "Sensor JSON envelopes inclusions enum must be specified");
     }
 }

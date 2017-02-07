@@ -20,8 +20,8 @@ package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.events.Event;
-import org.imsglobal.caliper.request.HttpRequestor;
-import org.imsglobal.caliper.request.Requestor;
+import org.imsglobal.caliper.requestors.HttpRequestor;
+import org.imsglobal.caliper.requestors.Requestor;
 import org.imsglobal.caliper.stats.Statistics;
 import org.imsglobal.caliper.validators.SensorValidator;
 
@@ -37,7 +37,7 @@ import java.util.List;
  * yourself.
  *
  * This client is designed to be thread-safe and to not block each call in
- * order to make a HTTP request.
+ * order to make a HTTP requestors.
  */
 public class Client {
     private String id;

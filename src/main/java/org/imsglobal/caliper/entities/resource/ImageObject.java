@@ -21,53 +21,54 @@ package org.imsglobal.caliper.entities.resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.EntityType;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * An image object embedded in a web page.
  */
-public class ImageObject extends MediaObject {
+public class ImageObject extends AbstractDigitalResource implements Media {
 
-    @JsonProperty("@type")
-    private final String type;
+    @JsonProperty("duration")
+    private String duration;
 
     /**
      * @param builder apply builder object properties to the ImageObject object.
      */
     protected ImageObject(Builder<?> builder) {
+
         super(builder);
-        this.type = builder.type;
+
+        this.duration = builder.duration;
     }
 
     /**
-     * @return the type
+     * @return duration
      */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
+    @Nullable
+    public String getDuration() {
+        return duration;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T>  {
+        private String duration;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
-            type(EntityType.IMAGE_OBJECT.getValue());
+            super.type(EntityType.IMAGE_OBJECT);
         }
 
         /**
-         * @param type
-         * @return builder.
+         * @param duration
+         * @return duration
          */
-        private T type(String type) {
-            this.type = type;
+        public T duration(String duration) {
+            this.duration = duration;
             return self();
         }
 

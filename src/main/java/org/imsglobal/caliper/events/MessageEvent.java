@@ -19,7 +19,6 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.resource.Message;
@@ -27,20 +26,12 @@ import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
-
 @SupportedActions({
     Action.MARKED_AS_READ,
     Action.MARKED_AS_UNREAD,
     Action.POSTED
 })
-public class MessageEvent extends BaseEvent {
-
-    @JsonProperty("@type")
-    private final String type;
-
-    @JsonProperty("action")
-    private final String action;
+public class MessageEvent extends AbstractEvent {
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(MessageEvent.class);
@@ -56,65 +47,23 @@ public class MessageEvent extends BaseEvent {
     protected MessageEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(builder.type, EventType.MESSAGE);
-        EventValidator.checkActorType(getActor(), Person.class);
-        EventValidator.checkAction(builder.action, MessageEvent.class);
-        EventValidator.checkObjectType(getObject(), Message.class);
-
-        this.type = builder.type;
-        this.action = builder.action;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * @return the action
-     */
-    @Override
-    @Nonnull
-    public String getAction() {
-        return action;
+        EventValidator.checkType(this.getType(), EventType.MESSAGE);
+        EventValidator.checkActorType(this.getActor(), Person.class);
+        EventValidator.checkAction(this.getAction(), MessageEvent.class);
+        EventValidator.checkObjectType(this.getObject(), Message.class);
     }
 
     /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEvent.Builder<T>  {
-        private String type;
-        private String action;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.FORUM.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
-        }
-
-        /**
-         * @param action
-         * @return builder.
-         */
-        @Override
-        public T action(String action) {
-            this.action = action;
-            return self();
+            super.type(EventType.FORUM);
         }
 
         /**

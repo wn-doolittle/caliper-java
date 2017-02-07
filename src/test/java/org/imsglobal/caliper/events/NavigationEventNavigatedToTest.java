@@ -27,10 +27,10 @@ import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.lis.CourseSection;
-import org.imsglobal.caliper.entities.lis.Membership;
-import org.imsglobal.caliper.entities.lis.Role;
-import org.imsglobal.caliper.entities.lis.Status;
+import org.imsglobal.caliper.entities.agent.CourseSection;
+import org.imsglobal.caliper.entities.agent.Membership;
+import org.imsglobal.caliper.entities.agent.Role;
+import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.resource.WebPage;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
@@ -46,7 +46,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class NavigationEventNavigatedToTest {
-
+    private String uuid;
     private Person actor;
     private WebPage object;
     private SoftwareApplication edApp;
@@ -63,6 +63,7 @@ public class NavigationEventNavigatedToTest {
      */
     @Before
     public void setUp() throws Exception {
+        uuid = "ff9ec22a-fc59-4ae1-ae8d-2c9463ee2f8f";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
@@ -127,8 +128,9 @@ public class NavigationEventNavigatedToTest {
      */
     private NavigationEvent buildEvent(Action action) {
         return NavigationEvent.builder()
+            .uuid(uuid)
             .actor(actor)
-            .action(action.getValue())
+            .action(action)
             .object(object)
             .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .referrer(referrer)

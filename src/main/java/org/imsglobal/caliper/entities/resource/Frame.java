@@ -20,65 +20,33 @@ package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.Targetable;
 
-import javax.annotation.Nonnull;
-public class Frame extends DigitalResource implements Targetable {
-
-    @JsonProperty("@type")
-    private final String type;
+public class Frame extends AbstractDigitalResource {
 
     @JsonProperty("index")
     private int index;
 
     /**
-     * @param builder apply builder object properties to the Frame object.
+     * @param builder apply builder object properties to the object.
      */
     protected Frame(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
+
         this.index = builder.index;
     }
 
     /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * @return numeric index of the location relative to sibling locations in the content
-     */
-    @Nonnull
-    public int getIndex() {
-        return index;
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T> {
         private int index;
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            type(EntityType.FRAME.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            super.type(EntityType.CHAPTER);
         }
 
         /**
@@ -92,7 +60,7 @@ public class Frame extends DigitalResource implements Targetable {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of Frame.
+         * @return a new instance of the Frame.
          */
         public Frame build() {
             return new Frame(this);
@@ -117,4 +85,3 @@ public class Frame extends DigitalResource implements Targetable {
         return new Builder2();
     }
 }
-

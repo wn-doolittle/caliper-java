@@ -23,42 +23,37 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.EntityType;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Message extends DigitalResource {
-
-    @JsonProperty("@type")
-    private final String type;
-
-    @JsonProperty("body")
-    private final String body;
+public class Message extends AbstractDigitalResource {
 
     @JsonProperty("replyTo")
     private final Message replyTo;
+
+    @JsonProperty("body")
+    private final String body;
 
     @JsonProperty("attachments")
     private final ImmutableList<Resource> attachments;
 
     /**
-     * @param builder apply builder object properties to the CaliperAssessment object.
+     * @param builder apply builder object properties to the object.
      */
     protected Message(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
-        this.body = builder.body;
+
         this.replyTo = builder.replyTo;
+        this.body = builder.body;
         this.attachments = ImmutableList.copyOf(builder.attachments);
     }
 
     /**
-     * @return the type
+     * @return message which prompted this message
      */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
+    @Nullable
+    public Message getReplyTo() {
+        return replyTo;
     }
 
     /**
@@ -70,14 +65,6 @@ public class Message extends DigitalResource {
     }
 
     /**
-     * @return message which prompted this message
-    */
-    @Nullable
-    public Message getReplyTo() {
-        return replyTo;
-    }
-
-    /**
      * @return attachments linked to this message
      */
     public ImmutableList<Resource> getAttachments() {
@@ -86,27 +73,26 @@ public class Message extends DigitalResource {
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private String type;
-        private String body;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T> {
         private Message replyTo;
+        private String body;
         private List<Resource> attachments = Lists.newArrayList();
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            type(EntityType.MESSAGE.getValue());
+            super.type(EntityType.MESSAGE);
         }
 
         /**
-         * @param type
+         * @param replyTo
          * @return builder.
          */
-        private T type(String type) {
-            this.type = type;
+        public T replyTo(Message replyTo) {
+            this.replyTo = replyTo;
             return self();
         }
 
@@ -116,15 +102,6 @@ public class Message extends DigitalResource {
          */
         public T body(String body) {
             this.body = body;
-            return self();
-        }
-
-        /**
-         * @param replyTo
-         * @return builder.
-         */
-        public T replyTo(Message replyTo) {
-            this.replyTo = replyTo;
             return self();
         }
 
@@ -148,7 +125,7 @@ public class Message extends DigitalResource {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new Message instance.
+         * @return a new instance of the Message.
          */
         public Message build() {
             return new Message(this);
