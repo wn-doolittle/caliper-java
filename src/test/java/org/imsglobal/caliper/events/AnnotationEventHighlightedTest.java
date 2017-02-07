@@ -79,7 +79,7 @@ public class AnnotationEventHighlightedTest {
         generated = HighlightAnnotation.builder()
             .id(BASE_IRI.concat("/users/554433/etexts/201/highlights?start=2300&end=2370"))
             .annotated(Document.builder().id(object.getId()).build())
-            .actor(actor)
+            .annotator(actor)
             .selection(new TextPositionSelector(2300, 2370))
             .selectionText("ISO 8601 formatted date and time expressed with millisecond precision.")
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))

@@ -31,8 +31,8 @@ import javax.annotation.Nullable;
 
 public class Session extends AbstractEntity {
 
-    @JsonProperty("actor")
-    private final Agent actor;
+    @JsonProperty("user")
+    private final Agent user;
 
     @JsonIgnore
     private TimePeriod timePeriod = new TimePeriod();
@@ -46,18 +46,18 @@ public class Session extends AbstractEntity {
         EntityValidator.checkStartTime(builder.timePeriod.getStartedAtTime(), builder.timePeriod.getEndedAtTime());
         EntityValidator.checkDuration(builder.timePeriod.getDuration());
 
-        this.actor = builder.actor;
+        this.user = builder.user;
         this.timePeriod.setStartedAtTime(builder.timePeriod.getStartedAtTime());
         this.timePeriod.setEndedAtTime(builder.timePeriod.getEndedAtTime());
         this.timePeriod.setDuration(builder.timePeriod.getDuration());
     }
 
     /**
-     * @return the actor
+     * @return the session user
      */
     @Nullable
-    public Agent getActor() {
-        return actor;
+    public Agent getUser() {
+        return user;
     }
 
     /**
@@ -89,7 +89,7 @@ public class Session extends AbstractEntity {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T>  {
-        private Agent actor;
+        private Agent user;
         private TimePeriod timePeriod = new TimePeriod();
 
         /**
@@ -100,11 +100,11 @@ public class Session extends AbstractEntity {
         }
 
         /**
-         * @param actor
+         * @param user
          * @return builder.
          */
-        public T actor(Agent actor) {
-            this.actor = actor;
+        public T user(Agent user) {
+            this.user = user;
             return self();
         }
 

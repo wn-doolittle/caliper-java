@@ -34,5 +34,5 @@ public interface Annotation extends Entity {
      * Return the Agent who generated the Annotation.
      * @return Agent
      */
-    Agent getActor();
+    Agent getAnnotator();
 }

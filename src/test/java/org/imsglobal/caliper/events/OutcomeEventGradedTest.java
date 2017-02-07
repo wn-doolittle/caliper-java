@@ -68,7 +68,7 @@ public class OutcomeEventGradedTest {
         object = Attempt.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"))
             .assignable(assignable)
-            .actor(learner)
+            .assignee(learner)
             .count(1)
             .dateCreated(new DateTime(2016, 11, 15, 10, 5, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 5, 0, 0, DateTimeZone.UTC))

@@ -34,8 +34,8 @@ public class HighlightAnnotation extends AbstractEntity implements Annotation, G
     @JsonProperty("annotated")
     private Resource annotated;
 
-    @JsonProperty("actor")
-    private final Agent actor;
+    @JsonProperty("annotator")
+    private final Agent annotator;
 
     @JsonProperty("selection")
     private Selector selection;
@@ -50,7 +50,7 @@ public class HighlightAnnotation extends AbstractEntity implements Annotation, G
         super(builder);
 
         this.annotated = builder.annotated;
-        this.actor = builder.actor;
+        this.annotator = builder.annotator;
         this.selection = builder.selection;
         this.selectionText = builder.selectionText;
     }
@@ -75,8 +75,8 @@ public class HighlightAnnotation extends AbstractEntity implements Annotation, G
      * @return the actor
      */
     @Nonnull
-    public Agent getActor() {
-        return actor;
+    public Agent getAnnotator() {
+        return annotator;
     }
 
     /**
@@ -93,7 +93,7 @@ public class HighlightAnnotation extends AbstractEntity implements Annotation, G
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
         private Resource annotated;
-        private Agent actor;
+        private Agent annotator;
         private Selector selection;
         private String selectionText;
 
@@ -114,11 +114,11 @@ public class HighlightAnnotation extends AbstractEntity implements Annotation, G
         }
 
         /**
-         * @param actor
+         * @param annotator
          * @return builder.
          */
-        public T actor(Agent actor) {
-            this.actor = actor;
+        public T annotator(Agent annotator) {
+            this.annotator = annotator;
             return self();
         }
 

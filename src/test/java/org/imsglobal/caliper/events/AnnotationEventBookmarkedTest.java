@@ -83,7 +83,7 @@ public class AnnotationEventBookmarkedTest {
         generated = BookmarkAnnotation.builder()
             .id(BASE_IRI.concat("/users/554433/etexts/201/bookmarks/1"))
             .annotated(annotated)
-            .actor(actor)
+            .annotator(actor)
             .bookmarkNotes("Caliper profiles model discrete learning activities or supporting activities that enable learning.")
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
