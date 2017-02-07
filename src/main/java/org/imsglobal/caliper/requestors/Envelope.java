@@ -1,4 +1,3 @@
-package org.imsglobal.caliper.requestors;
 /**
  * This file is part of IMS Caliper Analytics™ and is licensed to
  * IMS Global Learning Consortium, Inc. (http://www.imsglobal.org)
@@ -16,6 +15,8 @@ package org.imsglobal.caliper.requestors;
  * You should have received a copy of the GNU Lesser General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+package org.imsglobal.caliper.requestors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.Sensor;
