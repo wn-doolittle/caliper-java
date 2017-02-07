@@ -110,8 +110,7 @@ public class NavigationEventNavigatedToFedSessionTest {
 
         federatedSession = LtiSession.builder()
             .id(BASE_IRI_COM.concat("/sessions/b533eb02823f31024e6b7f53436c42fb99b31241"))
-            .actor(actor)
-            //.launchParameters(createJsonNode(launchParamJson))
+            .user(actor)
             .launchParameters(launchParams)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))

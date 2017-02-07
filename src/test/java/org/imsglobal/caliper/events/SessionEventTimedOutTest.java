@@ -59,7 +59,7 @@ public class SessionEventTimedOutTest {
 
         object = Session.builder()
             .id(BASE_IRI.concat("/sessions/7d6b88adf746f0692e2e873308b78c60fb13a864"))
-            .actor(Person.builder().id(BASE_IRI.concat("/users/112233")).build())
+            .user(Person.builder().id(BASE_IRI.concat("/users/112233")).build())
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .endedAtTime(new DateTime(2016, 11, 15, 11, 15, 0, 0, DateTimeZone.UTC))

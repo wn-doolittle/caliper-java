@@ -40,8 +40,8 @@ public class Attempt extends AbstractEntity implements Generatable {
     @JsonProperty("assignable")
     private final Resource assignable;
 
-    @JsonProperty("actor")
-    private final Agent actor;
+    @JsonProperty("assignee")
+    private final Agent assignee;
 
     @JsonProperty("isPartOf")
     private final Attempt isPartOf;
@@ -62,7 +62,7 @@ public class Attempt extends AbstractEntity implements Generatable {
         EntityValidator.checkDuration(builder.timePeriod.getDuration());
 
         this.assignable = builder.assignable;
-        this.actor = builder.actor;
+        this.assignee = builder.assignee;
         this.isPartOf = builder.isPartOf;
         this.count = builder.count;
         this.timePeriod.setStartedAtTime(builder.timePeriod.getStartedAtTime());
@@ -82,8 +82,8 @@ public class Attempt extends AbstractEntity implements Generatable {
      * @return the actor
      */
     @Nullable
-    public Agent getActor() {
-        return actor;
+    public Agent getAssignee() {
+        return assignee;
     }
 
     /**
@@ -133,7 +133,7 @@ public class Attempt extends AbstractEntity implements Generatable {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
         private Resource assignable;
-        private Agent actor;
+        private Agent assignee;
         private Attempt isPartOf;
         private int count;
         private TimePeriod timePeriod = new TimePeriod();
@@ -155,11 +155,11 @@ public class Attempt extends AbstractEntity implements Generatable {
         }
 
         /**
-         * @param actor
+         * @param assignee
          * @return builder.
          */
-        public T actor(Agent actor) {
-            this.actor = actor;
+        public T assignee(Agent assignee) {
+            this.assignee = assignee;
             return self();
         }
 

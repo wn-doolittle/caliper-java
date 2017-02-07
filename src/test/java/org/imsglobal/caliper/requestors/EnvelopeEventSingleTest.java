@@ -108,7 +108,7 @@ public class EnvelopeEventSingleTest {
         generated = Attempt.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"))
             .assignable(Assessment.builder().id(object.getId()).build())
-            .actor(actor)
+            .assignee(actor)
             .count(1)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))

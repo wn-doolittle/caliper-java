@@ -36,8 +36,8 @@ public class SharedAnnotation extends AbstractEntity implements Annotation, Gene
     @JsonProperty("annotated")
     private Resource annotated;
 
-    @JsonProperty("actor")
-    private final Agent actor;
+    @JsonProperty("annotator")
+    private final Agent annotator;
 
     @JsonProperty("withAgents")
     private final ImmutableList<Agent> withAgents;
@@ -49,7 +49,7 @@ public class SharedAnnotation extends AbstractEntity implements Annotation, Gene
         super(builder);
 
         this.annotated = builder.annotated;
-        this.actor = builder.actor;
+        this.annotator = builder.annotator;
         this.withAgents = ImmutableList.copyOf(builder.withAgents);
     }
 
@@ -65,8 +65,8 @@ public class SharedAnnotation extends AbstractEntity implements Annotation, Gene
      * @return the actor
      */
     @Nonnull
-    public Agent getActor() {
-        return actor;
+    public Agent getAnnotator() {
+        return annotator;
     }
 
     /**
@@ -84,7 +84,7 @@ public class SharedAnnotation extends AbstractEntity implements Annotation, Gene
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
         private Resource annotated;
-        private Agent actor;
+        private Agent annotator;
         private List<Agent> withAgents = Lists.newArrayList();
 
         /**
@@ -104,11 +104,11 @@ public class SharedAnnotation extends AbstractEntity implements Annotation, Gene
         }
 
         /**
-         * @param actor
+         * @param annotator
          * @return builder.
          */
-        public T actor(Agent actor) {
-            this.actor = actor;
+        public T annotator(Agent annotator) {
+            this.annotator = annotator;
             return self();
         }
 

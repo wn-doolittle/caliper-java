@@ -92,7 +92,7 @@ public class AnnotationEventTaggedTest {
         generated = TagAnnotation.builder()
             .id(BASE_IRI.concat("/users/554433/etexts/201/tags/3"))
             .annotated(annotated)
-            .actor(actor)
+            .annotator(actor)
             .tags(tags)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();

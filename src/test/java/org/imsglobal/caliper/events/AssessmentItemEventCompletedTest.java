@@ -85,7 +85,7 @@ public class AssessmentItemEventCompletedTest {
         object = Attempt.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1"))
             .assignable(item)
-            .actor(actor)
+            .assignee(actor)
             .isPartOf(Attempt.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1")).build())
             .count(1)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 2, 0, DateTimeZone.UTC))
