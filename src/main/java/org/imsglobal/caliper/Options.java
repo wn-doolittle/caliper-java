@@ -36,11 +36,11 @@ public class Options {
      * Constructor.  Set default options other than apiKey.
      */
     public Options() {
-        this.host = Defaults.HOST.getValue();
-        this.connectionRequestTimeout = Integer.parseInt(Defaults.CONNECTION_REQUEST_TIMEOUT.getValue());
-        this.connectionTimeout = Integer.parseInt(Defaults.CONNECTION_TIMEOUT.getValue());
-        this.socketTimeout = Integer.parseInt(Defaults.SOCKET_TIMEOUT.getValue());
-        this.jsonInclude = JsonInclude.Include.valueOf(Defaults.JSON_INCLUDE.getValue());
+        this.host = Defaults.HOST.value();
+        this.connectionRequestTimeout = Integer.parseInt(Defaults.CONNECTION_REQUEST_TIMEOUT.value());
+        this.connectionTimeout = Integer.parseInt(Defaults.CONNECTION_TIMEOUT.value());
+        this.socketTimeout = Integer.parseInt(Defaults.SOCKET_TIMEOUT.value());
+        this.jsonInclude = JsonInclude.Include.valueOf(Defaults.JSON_INCLUDE.value());
     }
 
     /**
@@ -115,17 +115,17 @@ public class Options {
     }
 
     /**
-     * Get the Connection request timeout.
-     * @return the connection request timeout
+     * Get the Connection requestors timeout.
+     * @return the connection requestors timeout
      */
     public int getConnectionRequestTimeout() {
         return connectionRequestTimeout;
     }
 
     /**
-     * Sets the Connection request timeout in milliseconds to wait before a flush is marked as timed out.
+     * Sets the Connection requestors timeout in milliseconds to wait before a flush is marked as timed out.
      * @param connectionRequestTimeout
-     * @return connection request timeout
+     * @return connection requestors timeout
      */
     public Options setConnectionRequestTimeout(int connectionRequestTimeout) {
         SensorValidator.checkConnectionRequestTimeout(connectionRequestTimeout);

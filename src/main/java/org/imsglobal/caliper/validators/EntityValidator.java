@@ -19,13 +19,13 @@
 package org.imsglobal.caliper.validators;
 
 import com.google.common.base.Strings;
-import org.imsglobal.caliper.context.Context;
-import org.imsglobal.caliper.entities.Type;
-import org.imsglobal.caliper.entities.assignable.Attempt;
+import org.imsglobal.caliper.Context;
+import org.imsglobal.caliper.Type;
 import org.imsglobal.caliper.entities.agent.Agent;
-import org.imsglobal.caliper.entities.lis.Membership;
-import org.imsglobal.caliper.entities.lis.Status;
-import org.imsglobal.caliper.entities.lis.SupportedStatuses;
+import org.imsglobal.caliper.entities.agent.Membership;
+import org.imsglobal.caliper.entities.agent.Status;
+import org.imsglobal.caliper.entities.agent.SupportedStatuses;
+import org.imsglobal.caliper.entities.resource.Attempt;
 import org.joda.time.DateTime;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -45,8 +45,8 @@ public class EntityValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkContext(String context, Context expected) throws IllegalArgumentException {
-        checkArgument(context.equals(expected.getValue()), "expected @context %s but was %s", expected.getValue(), context);
+    public static void checkContext(Context context, Context expected) throws IllegalArgumentException {
+        checkArgument(context.equals(expected), "expected @context %s but was %s", expected, context);
     }
 
     /**
@@ -64,8 +64,8 @@ public class EntityValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkType(String type, Type expected) throws IllegalArgumentException {
-        checkArgument(type.equals(expected.getValue()), "expected @type %s but was %s", expected.getValue(), type);
+    public static void checkType(Type type, Type expected) throws IllegalArgumentException {
+        checkArgument(type.value().equals(expected.value()), "expected @type %s but was %s", expected.value(), type);
     }
 
     /**

@@ -21,17 +21,18 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.entities.agent.CourseSection;
+import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.agent.Role;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.lis.CourseSection;
-import org.imsglobal.caliper.entities.lis.Membership;
-import org.imsglobal.caliper.entities.lis.Role;
-import org.imsglobal.caliper.entities.lis.Status;
+import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.resource.Document;
 import org.imsglobal.caliper.entities.resource.WebPage;
 import org.imsglobal.caliper.entities.session.LtiSession;
@@ -51,7 +52,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class NavigationEventNavigatedToFedSessionTest {
-
+    private String uuid;
     private Person actor;
     private Document object;
     private SoftwareApplication edApp;
@@ -61,51 +62,17 @@ public class NavigationEventNavigatedToFedSessionTest {
     private LtiSession federatedSession;
     private Session session;
     private NavigationEvent event;
+    private ObjectNode launchParams;
 
     private static final String BASE_IRI_COM = "https://example.com";
     private static final String BASE_IRI_EDU = "https://example.edu";
-    private final static String launchParamJson = "{"
-        + "  \"lti_message_type\": \"basic-lti-launch-request\","
-        + "  \"lti_version\": \"LTI-2p0\","
-        + "  \"resource_link_id\": \"88391-e1919-bb3456\","
-        + "  \"context_id\": \"8213060-006f-27b2066ac545\","
-        + "  \"launch_presentation_document_target\": \"iframe\","
-        + "  \"launch_presentation_height\": 240,"
-        + "  \"launch_presentation_return_url\": \"https://example.edu/terms/201601/courses/7/sections/1/pages/5\","
-        + "  \"launch_presentation_width\": 320,"
-        + "  \"roles\": \"Learner,Student\","
-        + "  \"tool_consumer_instance_guid\": \"example.edu\","
-        + "  \"user_id\": \"0ae836b9-7fc9-4060-006f-27b2066ac545\","
-        + "  \"context_type\": \"CourseSection\","
-        + "  \"launch_presentation_locale\": \"en-US\","
-        + "  \"launch_presentation_css_url\": \"https://example.edu/css/tool.css\","
-        + "  \"role_scope_mentor\": \"f5b2cc6c-8c5c-24e8-75cc-fac5,dc19e42c-b0fe-68b8-167e-4b1a\","
-        + "  \"custom_caliper_session_id\": \"https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259\","
-        + "  \"custom_context_title\": \"CPS 435 Learning Analytics\","
-        + "  \"custom_context_label\": \"CPS 435\","
-        + "  \"custom_resource_link_title\": \"LTI tool\","
-        + "  \"custom_user_image\": \"https://example.edu/users/554433/profile/avatar.jpg\","
-        + "  \"ext_vnd_instructor\": {"
-        + "    \"@context\": {"
-        + "        \"@vocab\": \"http://example.edu/ctx/edu.jsonld\","
-        + "        \"sdo\": \"http://schema.org/\""
-        + "    },"
-        + "   \"@type\": \"Faculty\","
-        + "      \"sdo:jobTitle\": \"Professor\","
-        + "      \"sdo:givenName\": \"Trig\","
-        + "      \"sdo:familyName\": \"Haversine\","
-        + "      \"sdo:email\": \"trighaversine@example.edu\","
-        + "      \"sdo:url\": \"https://example.edu/faculty/trighaversine\","
-        + "      \"isTenured\": true,"
-        + "      \"isOnSabbatical\": false"
-        + "  }"
-        + "}";
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
+        uuid = "4be6d29d-5728-44cd-8a8f-3d3f07e46b61";
 
         actor = Person.builder().id(BASE_IRI_EDU.concat("/users/554433")).build();
 
@@ -139,10 +106,13 @@ public class NavigationEventNavigatedToFedSessionTest {
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
+        launchParams = createExtensionsNode();
+
         federatedSession = LtiSession.builder()
             .id(BASE_IRI_COM.concat("/sessions/b533eb02823f31024e6b7f53436c42fb99b31241"))
             .actor(actor)
-            .launchParameters(createNode(launchParamJson))
+            //.launchParameters(createJsonNode(launchParamJson))
+            .launchParameters(launchParams)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
@@ -179,8 +149,9 @@ public class NavigationEventNavigatedToFedSessionTest {
      */
     private NavigationEvent buildEvent(Action action) {
         return NavigationEvent.builder()
+            .uuid(uuid)
             .actor(actor)
-            .action(action.getValue())
+            .action(action)
             .object(object)
             .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .referrer(referrer)
@@ -197,13 +168,88 @@ public class NavigationEventNavigatedToFedSessionTest {
      * @param json
      * @return JsonNode
      */
-    private JsonNode createNode(String json) {
-        ObjectMapper mapper = new ObjectMapper();
+    private JsonNode createJsonNode(String json) {
+        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.SERIALIZE_ALL);
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider);
+
         try {
             return mapper.readValue(json, JsonNode.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Create faux extensions
+     * @return
+     */
+    private ObjectNode createExtensionsNode() {
+        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.SERIALIZE_ALL);
+        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider);
+
+        ObjectNode jobTitle = mapper.createObjectNode();
+        jobTitle.put("id", "sdo:jobTitle");
+        jobTitle.put("type", "xsd:string");
+
+        ObjectNode givenName = mapper.createObjectNode();
+        givenName.put("id", "sdo:givenName");
+        givenName.put("type", "xsd:string");
+
+        ObjectNode familyName = mapper.createObjectNode();
+        familyName.put("id", "sdo:familyName");
+        familyName.put("type", "xsd:string");
+
+        ObjectNode email = mapper.createObjectNode();
+        email.put("id", "sdo:email");
+        email.put("type", "xsd:string");
+
+        ObjectNode url = mapper.createObjectNode();
+        url.put("id", "sdo:url");
+        url.put("type", "xsd:string");
+
+        ObjectNode context = mapper.createObjectNode();
+        context.put("sdo", "http://schema.org/");
+        context.put("xsd", "http://www.w3.org/2001/XMLSchema#");
+        context.putPOJO("jobTitle", jobTitle);
+        context.putPOJO("givenName", givenName);
+        context.putPOJO("familyName", familyName);
+        context.putPOJO("email", email);
+        context.putPOJO("url", url);
+
+        ObjectNode instructor = mapper.createObjectNode();
+        instructor.putPOJO("@context", context);
+        instructor.put("id", "https://example.edu/faculty/trighaversine");
+        instructor.put("type", "Person");
+        instructor.put("jobTitle", "Professor");
+        instructor.put("givenName", "Trig");
+        instructor.put("familyName", "Haversine");
+        instructor.put("email", "trighaversine@example.edu");
+        instructor.put("url", "https://example.edu/faculty/trighaversine");
+
+        ObjectNode params = mapper.createObjectNode();
+        params.put("lti_message_type", "basic-lti-launch-request");
+        params.put("lti_version", "LTI-2p0");
+        params.put("resource_link_id", "88391-e1919-bb3456");
+        params.put("context_id", "8213060-006f-27b2066ac545");
+        params.put("launch_presentation_document_target", "iframe");
+        params.put("launch_presentation_height", 240);
+        params.put("launch_presentation_return_url", "https://example.edu/terms/201601/courses/7/sections/1/pages/5");
+        params.put("launch_presentation_width", 320);
+        params.put("roles", "Learner,Student");
+        params.put("tool_consumer_instance_guid", "example.edu");
+        params.put("user_id", "0ae836b9-7fc9-4060-006f-27b2066ac545");
+        params.put("context_type", "CourseSection");
+        params.put("launch_presentation_locale", "en-US");
+        params.put("launch_presentation_css_url", "https://example.edu/css/tool.css");
+        params.put("role_scope_mentor", "f5b2cc6c-8c5c-24e8-75cc-fac5,dc19e42c-b0fe-68b8-167e-4b1a");
+        params.put("custom_caliper_session_id", "https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259");
+        params.put("custom_context_title", "CPS 435 Learning Analytics");
+        params.put("custom_context_label", "CPS 435");
+        params.put("custom_resource_link_title", "LTI tool");
+        params.put("custom_user_image", "https://example.edu/users/554433/profile/avatar.jpg");
+        params.putPOJO("ext_vnd_instructor", instructor);
+
+        return params;
     }
 }

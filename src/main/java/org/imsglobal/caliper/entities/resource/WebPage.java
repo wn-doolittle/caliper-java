@@ -18,59 +18,33 @@
 
 package org.imsglobal.caliper.entities.resource;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.EntityType;
 
-import javax.annotation.Nonnull;
-
-public class WebPage extends DigitalResource {
-
-    @JsonProperty("@type")
-    private final String type;
+public class WebPage extends AbstractDigitalResource {
 
     /**
-     * @param builder apply builder object properties to the WebPage object.
+     * @param builder apply builder object properties to the object.
      */
     protected WebPage(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T> {
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            type(EntityType.WEB_PAGE.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            super.type(EntityType.WEB_PAGE);
         }
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of WebPage.
+         * @return a new instance of the WebPage.
          */
         public WebPage build() {
             return new WebPage(this);

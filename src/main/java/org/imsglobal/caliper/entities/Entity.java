@@ -19,6 +19,9 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.google.common.collect.ImmutableList;
+import org.imsglobal.caliper.Context;
+import org.imsglobal.caliper.Type;
 import org.joda.time.DateTime;
 
 /**
@@ -33,7 +36,7 @@ public interface Entity {
      * should be expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the context IRI.
      */
-    String getContext();
+    Context getContext();
 
     /**
      * Each Entity (or node in the graph as defined by JSON-LD) requires an identifier.
@@ -48,7 +51,7 @@ public interface Entity {
      * expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the type IRI
      */
-    String getType();
+    Type getType();
 
     /**
      * The name of the Entity.  Optional.
@@ -80,5 +83,5 @@ public interface Entity {
      * Additional custom properties provided that are germane to the Event.  Optional.
      * @return extensions
      */
-    Object getExtensions();
+    ImmutableList<Object> getExtensions();
 }

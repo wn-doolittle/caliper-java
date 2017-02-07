@@ -28,11 +28,12 @@ import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.annotation.HighlightAnnotation;
-import org.imsglobal.caliper.entities.lis.CourseSection;
-import org.imsglobal.caliper.entities.lis.Membership;
-import org.imsglobal.caliper.entities.lis.Role;
-import org.imsglobal.caliper.entities.lis.Status;
+import org.imsglobal.caliper.entities.agent.CourseSection;
+import org.imsglobal.caliper.entities.agent.Membership;
+import org.imsglobal.caliper.entities.agent.Role;
+import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.resource.Document;
+import org.imsglobal.caliper.selectors.TextPositionSelector;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -47,7 +48,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AnnotationEventHighlightedTest {
-
+    private String uuid;
     private Person actor;
     private Document object;
     private HighlightAnnotation generated;
@@ -64,6 +65,7 @@ public class AnnotationEventHighlightedTest {
      */
     @Before
     public void setUp() throws Exception {
+        uuid = "0067a052-9bb4-4b49-9d1a-87cd43da488a";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
@@ -78,8 +80,7 @@ public class AnnotationEventHighlightedTest {
             .id(BASE_IRI.concat("/users/554433/etexts/201/highlights?start=2300&end=2370"))
             .annotated(Document.builder().id(object.getId()).build())
             .actor(actor)
-            .selectionStart(2300)
-            .selectionEnd(2370)
+            .selection(new TextPositionSelector(2300, 2370))
             .selectionText("ISO 8601 formatted date and time expressed with millisecond precision.")
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
@@ -136,8 +137,9 @@ public class AnnotationEventHighlightedTest {
      */
     private AnnotationEvent buildEvent(Action action) {
         return AnnotationEvent.builder()
+            .uuid(uuid)
             .actor(actor)
-            .action(action.getValue())
+            .action(action)
             .object(object)
             .generated(generated)
             .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))

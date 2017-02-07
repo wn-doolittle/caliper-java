@@ -19,36 +19,23 @@
 package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.BaseEntity;
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.Referrer;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class SoftwareApplication extends BaseEntity implements Agent {
-
-    @JsonProperty("@type")
-    private final String type;
+public class SoftwareApplication extends AbstractEntity implements Agent, Referrer {
 
     @JsonProperty("version")
     private final String version;
 
     /**
-     * @param builder apply builder object properties to the SoftwareApplication object.
+     * @param builder apply builder object properties to the object.
      */
     protected SoftwareApplication(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
         this.version = builder.version;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
     }
 
     /**
@@ -61,26 +48,16 @@ public class SoftwareApplication extends BaseEntity implements Agent {
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
         private String version;
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            type(EntityType.SOFTWARE_APPLICATION.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            super.type(EntityType.SOFTWARE_APPLICATION);
         }
 
         /**

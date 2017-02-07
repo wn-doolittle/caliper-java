@@ -21,10 +21,10 @@ package org.imsglobal.caliper;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.lis.CourseSection;
-import org.imsglobal.caliper.entities.lis.Membership;
-import org.imsglobal.caliper.entities.lis.Role;
-import org.imsglobal.caliper.entities.lis.Status;
+import org.imsglobal.caliper.entities.agent.CourseSection;
+import org.imsglobal.caliper.entities.agent.Membership;
+import org.imsglobal.caliper.entities.agent.Role;
+import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.resource.WebPage;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.Event;
@@ -37,7 +37,7 @@ import static org.junit.Assert.assertEquals;
 
 // @Category(org.imsglobal.caliper.UnitTest.class)
 public class SensorSendEventsTest {
-
+    private String uuid;
     private Person actor;
     private WebPage object;
     private SoftwareApplication edApp;
@@ -57,6 +57,8 @@ public class SensorSendEventsTest {
         Sensor<String> sensor = new Sensor<>("https://example.edu/sensor/001");
         Client client = new Client(sensor.getId() + "/defaultClient", TestUtils.getTestingOptions());
         sensor.registerClient(client.getId(), client);
+
+        uuid = "";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
@@ -121,8 +123,9 @@ public class SensorSendEventsTest {
      */
     private NavigationEvent buildEvent(Action action) {
         return NavigationEvent.builder()
+            .uuid(uuid)
             .actor(actor)
-            .action(action.getValue())
+            .action(action)
             .object(object)
             .eventTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .referrer(referrer)

@@ -18,8 +18,9 @@
 
 package org.imsglobal.caliper.validators;
 
+import org.imsglobal.caliper.Context;
+import org.imsglobal.caliper.Type;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.context.Context;
 import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.agent.Agent;
@@ -44,8 +45,8 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkContext(String context, Context expected) throws IllegalArgumentException {
-        checkArgument(context.equals(expected.getValue()), "expected @context %s but was %s", expected.getValue(), context);
+    public static void checkContext(Context context, Context expected) throws IllegalArgumentException {
+        checkArgument(context.equals(expected), "expected @context %s but was %s", expected, context);
     }
 
     /**
@@ -54,8 +55,8 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkType(String type, EventType expected) throws IllegalArgumentException {
-        checkArgument(type.equals(expected.getValue()), "expected @type %s but was %s", expected.getValue(), type);
+    public static void checkType(Type type, EventType expected) throws IllegalArgumentException {
+        checkArgument(type.value().equals(expected.value()), "expected @type %s but was %s", expected.value(), type);
     }
 
     /**
@@ -73,7 +74,7 @@ public class EventValidator {
      * @param action
      * @throws IllegalArgumentException
      */
-    public static void checkAction(String action, Class<? extends Event> clazz) throws IllegalArgumentException {
+    public static void checkAction(Action action, Class<? extends Event> clazz) throws IllegalArgumentException {
         checkArgument(action != null, "an action must be specified");
 
         SupportedActions actions = clazz.getAnnotation(SupportedActions.class);
@@ -81,7 +82,7 @@ public class EventValidator {
 
         boolean isSupported = false;
         for (Action supportedAction : actions.value()) {
-            if (action.equals(supportedAction.getValue())) {
+            if (action.value().equals(supportedAction.value())) {
                 isSupported = true;
                 break;
             }

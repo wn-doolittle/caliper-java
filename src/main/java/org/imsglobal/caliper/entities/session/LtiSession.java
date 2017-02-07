@@ -18,35 +18,50 @@
 
 package org.imsglobal.caliper.entities.session;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.TimePeriod;
+import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.validators.EntityValidator;
+import org.joda.time.DateTime;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class LtiSession extends Session {
-    @JsonProperty("@type")
-    private final String type;
+public class LtiSession extends AbstractEntity {
+
+    @JsonProperty("actor")
+    private final Agent actor;
 
     @JsonProperty("launchParameters")
     private final Object launchParameters;
+
+    @JsonIgnore
+    private TimePeriod timePeriod = new TimePeriod();
 
     /**
      * @param builder apply builder object properties to the LtiSession object.
      */
     protected LtiSession(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
+
+        EntityValidator.checkStartTime(builder.timePeriod.getStartedAtTime(), builder.timePeriod.getEndedAtTime());
+        EntityValidator.checkDuration(builder.timePeriod.getDuration());
+
+        this.actor = builder.actor;
         this.launchParameters = builder.launchParameters;
+        this.timePeriod.setStartedAtTime(builder.timePeriod.getStartedAtTime());
+        this.timePeriod.setEndedAtTime(builder.timePeriod.getEndedAtTime());
+        this.timePeriod.setDuration(builder.timePeriod.getDuration());
     }
 
     /**
-     * @return the type
+     * @return the actor
      */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
+    @Nullable
+    public Agent getActor() {
+        return actor;
     }
 
     /**
@@ -58,26 +73,51 @@ public class LtiSession extends Session {
     }
 
     /**
+     * @return started at time
+     */
+    @Nullable
+    public DateTime getStartedAtTime() {
+        return timePeriod.getStartedAtTime();
+    }
+
+    /**
+     * @return ended at time
+     */
+    @Nullable
+    public DateTime getEndedAtTime() {
+        return timePeriod.getEndedAtTime();
+    }
+
+    /**
+     * @return duration
+     */
+    @Nullable
+    public String getDuration() {
+        return timePeriod.getDuration();
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Session.Builder<T>  {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T>  {
+        private Agent actor;
         private Object launchParameters;
+        private TimePeriod timePeriod = new TimePeriod();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.LTI_SESSION.getValue());
+            super.type(EntityType.LTI_SESSION);
         }
 
         /**
-         * @param type
+         * @param actor
          * @return builder.
          */
-        private T type(String type) {
-            this.type = type;
+        public T actor(Agent actor) {
+            this.actor = actor;
             return self();
         }
 
@@ -87,6 +127,33 @@ public class LtiSession extends Session {
          */
         public T launchParameters(Object launchParameters) {
             this.launchParameters = launchParameters;
+            return self();
+        }
+
+        /**
+         * @param startedAtTime
+         * @return
+         */
+        public T startedAtTime(DateTime startedAtTime) {
+            this.timePeriod.setStartedAtTime(startedAtTime);
+            return self();
+        }
+
+        /**
+         * @param endedAtTime
+         * @return builder
+         */
+        public T endedAtTime(DateTime endedAtTime) {
+            this.timePeriod.setEndedAtTime(endedAtTime);
+            return self();
+        }
+
+        /**
+         * @param duration
+         * @return
+         */
+        public T duration(String duration) {
+            this.timePeriod.setDuration(duration);
             return self();
         }
 

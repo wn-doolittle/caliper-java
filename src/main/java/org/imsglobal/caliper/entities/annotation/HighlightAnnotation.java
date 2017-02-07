@@ -19,37 +19,36 @@
 package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.BaseEntity;
-import org.imsglobal.caliper.entities.resource.DigitalResource;
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.entities.resource.Resource;
+import org.imsglobal.caliper.selectors.Selector;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class HighlightAnnotation extends BaseEntity implements Annotation {
-
-    @JsonProperty("@type")
-    private final String type;
+public class HighlightAnnotation extends AbstractEntity implements Annotation, Generatable {
 
     @JsonProperty("annotated")
-    private DigitalResource annotated;
+    private Resource annotated;
 
     @JsonProperty("actor")
     private final Agent actor;
 
     @JsonProperty("selection")
-    private TextPositionSelector selection;
+    private Selector selection;
 
     @JsonProperty("selectionText")
     private String selectionText;
 
     /**
-     * @param builder apply builder object properties to the HighlightAnnotation object.
+     * @param builder apply builder object properties to the object.
      */
     protected HighlightAnnotation(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
+
         this.annotated = builder.annotated;
         this.actor = builder.actor;
         this.selection = builder.selection;
@@ -57,19 +56,18 @@ public class HighlightAnnotation extends BaseEntity implements Annotation {
     }
 
     /**
-     * @return the type
+     * @return the id.
      */
-    @Override
     @Nonnull
-    public String getType() {
-        return type;
+    public String getId() {
+        return id;
     }
 
     /**
      * @return the annotated object's identifier
      */
     @Nonnull
-    public DigitalResource getAnnotated() {
+    public Resource getAnnotated() {
         return annotated;
     }
 
@@ -85,51 +83,32 @@ public class HighlightAnnotation extends BaseEntity implements Annotation {
      * @return the selection
      */
     @Nullable
-    public TextPositionSelector getSelection() {
+    public Selector getSelection() {
         return selection;
     }
 
     /**
-     * @return the selectionText
-     */
-    @Nullable
-    public String getSelectionText() {
-        return selectionText;
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
-        private String type;
-        private DigitalResource annotated;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
+        private Resource annotated;
         private Agent actor;
-        private TextPositionSelector selection;
+        private Selector selection;
         private String selectionText;
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            type(EntityType.HIGHLIGHT_ANNOTATION.getValue());
-            selection = new TextPositionSelector();
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            super.type(EntityType.HIGHLIGHT_ANNOTATION);
         }
 
         /**
          * @param annotated
          * @return builder.
          */
-        public T annotated(DigitalResource annotated) {
+        public T annotated(Resource annotated) {
             this.annotated = annotated;
             return self();
         }
@@ -144,26 +123,15 @@ public class HighlightAnnotation extends BaseEntity implements Annotation {
         }
 
         /**
-         * @param start
-         * @return text position selector.
+         * @param selector
+         * @return builder
          */
-        public T selectionStart(int start) {
-            this.selection.setStart(start);
+        public T selection(Selector selector) {
+            this.selection = selector;
             return self();
         }
 
         /**
-         * @param end
-         * @return text position selector.
-         */
-        public T selectionEnd(int end) {
-            this.selection.setEnd(end);
-            return self();
-        }
-
-        /**
-         * TODO does the builder need to instantiate a new TextPositionSelector
-         * per the original constructor or let the user do it?
          * @param selectionText
          * @return annotation selection text.
          */
@@ -174,7 +142,7 @@ public class HighlightAnnotation extends BaseEntity implements Annotation {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of HighlightAnnotation.
+         * @return a new instance of the HighlightAnnotation.
          */
         public HighlightAnnotation build() {
             return new HighlightAnnotation(this);

@@ -28,10 +28,10 @@ import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.annotation.TagAnnotation;
-import org.imsglobal.caliper.entities.lis.CourseSection;
-import org.imsglobal.caliper.entities.lis.Membership;
-import org.imsglobal.caliper.entities.lis.Role;
-import org.imsglobal.caliper.entities.lis.Status;
+import org.imsglobal.caliper.entities.agent.CourseSection;
+import org.imsglobal.caliper.entities.agent.Membership;
+import org.imsglobal.caliper.entities.agent.Role;
+import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.resource.Chapter;
 import org.imsglobal.caliper.entities.resource.Document;
 import org.imsglobal.caliper.entities.session.Session;
@@ -51,7 +51,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AnnotationEventTaggedTest {
-
+    private String uuid;
     private Person actor;
     private Document object;
     private Chapter annotated;
@@ -70,6 +70,7 @@ public class AnnotationEventTaggedTest {
      */
     @Before
     public void setUp() throws Exception {
+        uuid = "b2009c63-2659-4cd2-b71e-6e03c498f02b";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
@@ -148,8 +149,9 @@ public class AnnotationEventTaggedTest {
      */
     private AnnotationEvent buildEvent(Action action) {
         return AnnotationEvent.builder()
+            .uuid(uuid)
             .actor(actor)
-            .action(action.getValue())
+            .action(action)
             .object(object)
             .generated(generated)
             .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))

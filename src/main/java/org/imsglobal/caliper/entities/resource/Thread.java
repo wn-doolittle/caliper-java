@@ -24,14 +24,10 @@ import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.Collection;
 import org.imsglobal.caliper.entities.EntityType;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Thread extends DigitalResource implements Collection<Message> {
-
-    @JsonProperty("@type")
-    private final String type;
+public class Thread extends AbstractDigitalResource implements Collection {
 
     @JsonProperty("items")
     private final ImmutableList<Message> items;
@@ -41,17 +37,8 @@ public class Thread extends DigitalResource implements Collection<Message> {
      */
     protected Thread(Builder<?> builder) {
         super(builder);
-        this.type = builder.type;
-        this.items = ImmutableList.copyOf(builder.items);
-    }
 
-    /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
+        this.items = ImmutableList.copyOf(builder.items);
     }
 
     /**
@@ -66,26 +53,16 @@ public class Thread extends DigitalResource implements Collection<Message> {
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T>  {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T> {
         private List<Message> items = Lists.newArrayList();
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            type(EntityType.THREAD.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
+            super.type(EntityType.THREAD);
         }
 
         /**
@@ -108,7 +85,7 @@ public class Thread extends DigitalResource implements Collection<Message> {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new Thread instance.
+         * @return a new instance of the Thread.
          */
         public Thread build() {
             return new Thread(this);
@@ -127,7 +104,7 @@ public class Thread extends DigitalResource implements Collection<Message> {
 
     /**
      * Static factory method.
-     * @return a new Builder instance.
+     * @return a new instance of the builder.
      */
     public static Builder<?> builder() {
         return new Builder2();

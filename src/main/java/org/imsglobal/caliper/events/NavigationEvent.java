@@ -19,24 +19,15 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.resource.DigitalResource;
 import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.resource.Resource;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
-
 @SupportedActions({ Action.NAVIGATED_TO })
-public class NavigationEvent extends BaseEvent {
-
-    @JsonProperty("@type")
-    private final String type;
-
-    @JsonProperty("action")
-    private final String action;
+public class NavigationEvent extends AbstractEvent {
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(NavigationEvent.class);
@@ -52,71 +43,26 @@ public class NavigationEvent extends BaseEvent {
     protected NavigationEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(builder.type, EventType.NAVIGATION);
+        EventValidator.checkType(this.getType(), EventType.NAVIGATION);
         EventValidator.checkActorType(this.getActor(), Person.class);
-        EventValidator.checkAction(builder.action, NavigationEvent.class);
-        EventValidator.checkObjectType(this.getObject(), DigitalResource.class);
+        EventValidator.checkAction(this.getAction(), NavigationEvent.class);
+        EventValidator.checkObjectType(this.getObject(), Resource.class);
         if (!(this.getTarget() == null)) {
-            EventValidator.checkTargetType(this.getTarget(), DigitalResource.class);
+            EventValidator.checkTargetType(this.getTarget(), Resource.class);
         }
-
-        this.type = builder.type;
-        this.action = builder.action;
-    }
-
-    /**
-     * Required.
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * Required.
-     * @return the action
-     */
-    @Override
-    @Nonnull
-    public String getAction() {
-        return action;
     }
 
     /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEvent.Builder<T>  {
-        private String type;
-        private String action;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.NAVIGATION.getValue());
-            action(Action.NAVIGATED_TO.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
-        }
-
-        /**
-         * @param action
-         * @return builder.
-         */
-        @Override
-        public T action(String action) {
-            this.action = action;
-            return self();
+            super.type(EventType.NAVIGATION);
         }
 
         /**
