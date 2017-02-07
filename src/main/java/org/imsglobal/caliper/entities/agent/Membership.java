@@ -40,7 +40,7 @@ public class Membership extends AbstractEntity {
     private final Person member;
 
     @JsonProperty("organization")
-    private final Organization organization;
+    private final Org organization;
 
     @JsonProperty("roles")
     private final ImmutableList<Role> roles;
@@ -72,7 +72,7 @@ public class Membership extends AbstractEntity {
      * @return the membership in which the person is a memberId.
      */
     @Nonnull
-    public Organization getOrganization() {
+    public Org getOrganization() {
         return organization;
     }
 
@@ -98,7 +98,7 @@ public class Membership extends AbstractEntity {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
         private Person member;
-        private Organization organization;
+        private Org organization;
         private List<Role> roles = Lists.newArrayList();
         private Status status;
 
@@ -122,7 +122,7 @@ public class Membership extends AbstractEntity {
          * @param organization
          * @return builder.
          */
-        public T organization(Organization organization) {
+        public T organization(Org organization) {
             this.organization = organization;
             return self();
         }

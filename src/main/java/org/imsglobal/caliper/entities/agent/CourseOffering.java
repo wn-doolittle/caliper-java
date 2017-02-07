@@ -38,7 +38,7 @@ public class CourseOffering extends AbstractEntity implements Course {
     private final String academicSession;
 
     @JsonProperty("subOrganizationOf")
-    private final Organization subOrganizationOf;
+    private final Org subOrganizationOf;
 
     /**
      * @param builder apply builder object properties to the object.
@@ -72,7 +72,7 @@ public class CourseOffering extends AbstractEntity implements Course {
      * @return the parent organization.
      */
     @Nullable
-    public Organization getSubOrganizationOf() {
+    public Org getSubOrganizationOf() {
         return subOrganizationOf;
     }
 
@@ -83,7 +83,7 @@ public class CourseOffering extends AbstractEntity implements Course {
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
         private String courseNumber;
         private String academicSession;
-        private Organization subOrganizationOf;
+        private Org subOrganizationOf;
 
         /**
          * Constructor
@@ -114,7 +114,7 @@ public class CourseOffering extends AbstractEntity implements Course {
          * @param subOrganizationOf
          * @return builder.
          */
-        public T subOrganizationOf(Organization subOrganizationOf) {
+        public T subOrganizationOf(Org subOrganizationOf) {
             this.subOrganizationOf = subOrganizationOf;
             return self();
         }

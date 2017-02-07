@@ -27,10 +27,10 @@ import javax.annotation.Nullable;
 /**
  * A Caliper Group represents an ad-hoc organization that a Person is able to join as a member.
  */
-public class Group extends AbstractEntity implements Organization {
+public class Group extends AbstractEntity implements Org {
 
     @JsonProperty("subOrganizationOf")
-    private final Organization subOrganizationOf;
+    private final Org subOrganizationOf;
 
     /**
      * @param builder apply builder object properties to the object.
@@ -45,7 +45,7 @@ public class Group extends AbstractEntity implements Organization {
      * @return the parent organization.
      */
     @Nullable
-    public Organization getSubOrganizationOf() {
+    public Org getSubOrganizationOf() {
         return subOrganizationOf;
     }
 
@@ -54,7 +54,7 @@ public class Group extends AbstractEntity implements Organization {
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
-        private Organization subOrganizationOf;
+        private Org subOrganizationOf;
 
         /**
          * Constructor
@@ -67,7 +67,7 @@ public class Group extends AbstractEntity implements Organization {
          * @param subOrganizationOf
          * @return builder.
          */
-        public T subOrganizationOf(Organization subOrganizationOf) {
+        public T subOrganizationOf(Org subOrganizationOf) {
             this.subOrganizationOf = subOrganizationOf;
             return self();
         }

@@ -31,7 +31,7 @@ import org.imsglobal.caliper.entities.Referrer;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.agent.Membership;
-import org.imsglobal.caliper.entities.agent.Organization;
+import org.imsglobal.caliper.entities.agent.Org;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.LtiSession;
 import org.imsglobal.caliper.entities.session.Session;
@@ -84,7 +84,7 @@ public abstract class AbstractEvent implements Event {
     private final SoftwareApplication edApp;
 
     @JsonProperty("group")
-    private final Organization group;
+    private final Org group;
 
     @JsonProperty("membership")
     private final Membership membership;
@@ -235,7 +235,7 @@ public abstract class AbstractEvent implements Event {
      * @return the group
      */
     @Nullable
-    public Organization getGroup() {
+    public Org getGroup() {
         return group;
     }
 
@@ -288,7 +288,7 @@ public abstract class AbstractEvent implements Event {
         private Referrer referrer;
         private DateTime eventTime;
         private SoftwareApplication edApp;
-        private Organization group;
+        private Org group;
         private Membership membership;
         private Session session;
         private LtiSession federatedSession;
@@ -407,7 +407,7 @@ public abstract class AbstractEvent implements Event {
          * @param group
          * @return builder.
          */
-        public T group(Organization group) {
+        public T group(Org group) {
             this.group = group;
             return self();
         }

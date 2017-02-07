@@ -46,7 +46,7 @@ public class CourseSection extends AbstractEntity implements Course {
     private final String category;
 
     @JsonProperty("subOrganizationOf")
-    private final Organization subOrganizationOf;
+    private final Org subOrganizationOf;
 
     /**
      * @param builder apply builder object properties to the object.
@@ -89,7 +89,7 @@ public class CourseSection extends AbstractEntity implements Course {
      * @return the parent organization.
      */
     @Nullable
-    public Organization getSubOrganizationOf() {
+    public Org getSubOrganizationOf() {
         return subOrganizationOf;
     }
 
@@ -101,7 +101,7 @@ public class CourseSection extends AbstractEntity implements Course {
         private String courseNumber;
         private String academicSession;
         private String category;
-        private Organization subOrganizationOf;
+        private Org subOrganizationOf;
 
         /**
          * Constructor
@@ -141,7 +141,7 @@ public class CourseSection extends AbstractEntity implements Course {
          * @param subOrganizationOf
          * @return builder.
          */
-        public T subOrganizationOf(Organization subOrganizationOf) {
+        public T subOrganizationOf(Org subOrganizationOf) {
             this.subOrganizationOf = subOrganizationOf;
             return self();
         }

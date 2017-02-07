@@ -28,7 +28,7 @@ import org.imsglobal.caliper.entities.Referrer;
 import org.imsglobal.caliper.entities.Targetable;
 import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.agent.Membership;
-import org.imsglobal.caliper.entities.agent.Organization;
+import org.imsglobal.caliper.entities.agent.Org;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.LtiSession;
 import org.imsglobal.caliper.entities.session.Session;
@@ -120,7 +120,7 @@ public interface Event {
      * comprise the course context within which the learning activity occurs.  Optional.
      * @return the group context
      */
-    Organization getGroup();
+    Org getGroup();
 
     /**
      * The Membership context defines an actor's roles and status as a member of an organization or group.
