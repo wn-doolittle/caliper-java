@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.Context;
+import org.imsglobal.caliper.config.Context;
 import org.imsglobal.caliper.Type;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.Entity;

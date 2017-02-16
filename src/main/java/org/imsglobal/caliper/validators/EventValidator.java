@@ -18,7 +18,7 @@
 
 package org.imsglobal.caliper.validators;
 
-import org.imsglobal.caliper.Context;
+import org.imsglobal.caliper.config.Context;
 import org.imsglobal.caliper.Type;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.Generatable;

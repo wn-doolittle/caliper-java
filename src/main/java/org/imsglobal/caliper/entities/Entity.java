@@ -20,7 +20,7 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.google.common.collect.ImmutableList;
-import org.imsglobal.caliper.Context;
+import org.imsglobal.caliper.config.Context;
 import org.imsglobal.caliper.Type;
 import org.joda.time.DateTime;
 

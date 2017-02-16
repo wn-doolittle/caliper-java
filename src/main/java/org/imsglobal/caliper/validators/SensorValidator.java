@@ -18,9 +18,8 @@
 
 package org.imsglobal.caliper.validators;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.base.Strings;
-import org.imsglobal.caliper.Options;
+import org.imsglobal.caliper.config.Options;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -33,90 +32,64 @@ public class SensorValidator {
     }
 
     /**
-     * Check if Client identifier is null or empty.
-     * @param id
-     * @throws IllegalArgumentException
-     */
-    public static void checkClientId(String id) throws IllegalArgumentException {
-        checkArgument(!(Strings.isNullOrEmpty(id)), "Client identifier must be specified");
-    }
-
-    /**
-     * Check if Sensor identifier is null or empty.
-     * @param id
-     * @throws IllegalArgumentException
-     */
-    public static void checkSensorId(String id) throws IllegalArgumentException {
-        checkArgument(!(Strings.isNullOrEmpty(id)), "Sensor identifier must be specified");
-    }
-
-    /**
      * Check if apiKey is null or empty.
+     *
      * @param apiKey
      * @throws IllegalArgumentException
      */
-    public static void checkApiKey(String apiKey) throws IllegalArgumentException {
-        checkArgument(!(Strings.isNullOrEmpty(apiKey)), "Sensor client API key must be specified");
+    public static void chkApiKey(String apiKey) throws IllegalArgumentException {
+        checkArgument(!(Strings.isNullOrEmpty(apiKey)), "API key must be specified.");
     }
 
     /**
-     * Check if Host is null or empty.
-     * @param host
+     * Check if identifier is null or empty.
+     *
+     * @param id
      * @throws IllegalArgumentException
      */
-    public static void checkHost(String host) throws IllegalArgumentException {
-        checkArgument(!(Strings.isNullOrEmpty(host)), "Sensor client host must be specified");
+    public static void chkId(String id, String className) throws IllegalArgumentException {
+        checkArgument(!(Strings.isNullOrEmpty(id)), className + " instance id property must be specified.");
     }
 
     /**
      * Check options
+     *
      * @param options
      * @throws IllegalArgumentException
      */
-    public static void checkOptions(Options options) throws IllegalArgumentException {
-        checkArgument(options != null, "Sensor client configuration options must be specified");
+    public static void chkOptions(Options options) throws IllegalArgumentException {
+        checkArgument(options != null, "Sensor client configuration options must be specified.");
     }
 
     /**
-     * check connection requestors timeout
-     * @param connectionRequestTimeout
+     * Check if Sensor identifier is null or empty.
+     *
+     * @param id
      * @throws IllegalArgumentException
      */
-    public static void checkConnectionRequestTimeout(int connectionRequestTimeout) throws IllegalArgumentException {
-        checkArgument(connectionRequestTimeout >= 1000, "Sensor connection requestors timeout must be at least 1000 milliseconds");
+    public static void chkSensorId(String id) throws IllegalArgumentException {
+        checkArgument(!(Strings.isNullOrEmpty(id)), "Sensor identifier must be specified");
     }
 
     /**
-     * check connection timeout
-     * @param connectionTimeout
-     * @throws IllegalArgumentException
+     * Check user-supplied integer value against default config value
+     * and return the larger of the two values compared.
+     * @param builderValue
+     * @param defaultValue
+     * @return
      */
-    public static void checkConnectionTimeout(int connectionTimeout) throws IllegalArgumentException {
-        checkArgument(connectionTimeout >= 1000, "Sensor connection timeout must be at least 1000 milliseconds");
+    public static int chkIntValue(int builderValue, int defaultValue) {
+        return (builderValue > defaultValue) ? builderValue : defaultValue;
     }
 
     /**
-     * check socket timeout
-     * @param socketTimeout
-     * @throws IllegalArgumentException
+     * Check user-supplied integer value against default config value;
+     * if null or empty return default config value.
+     * @param builderValue
+     * @param defaultValue
+     * @return
      */
-    public static void checkSocketTimeout(int socketTimeout) throws IllegalArgumentException {
-        checkArgument(socketTimeout >= 1000, "Sensor socket timeout must be at least 1000 milliseconds");
-    }
-
-    /**
-     * Check enum
-     * @param jsonInclude
-     * @throws IllegalArgumentException
-     */
-    public static void checkJsonInclude(String jsonInclude) throws IllegalArgumentException {
-        boolean isMatch = false;
-        for (JsonInclude.Include include: JsonInclude.Include.values())
-            if (include.name().equals(jsonInclude)) {
-                isMatch = true;
-                break;
-            }
-
-        checkArgument(isMatch, "Sensor JSON envelopes inclusions enum must be specified");
+    public static String chkStrValue(String builderValue, String defaultValue) {
+        return !(Strings.isNullOrEmpty(builderValue)) ? builderValue : defaultValue;
     }
 }

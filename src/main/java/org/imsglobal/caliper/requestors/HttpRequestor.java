@@ -28,9 +28,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.imsglobal.caliper.Config;
-import org.imsglobal.caliper.Options;
 import org.imsglobal.caliper.Sensor;
+import org.imsglobal.caliper.config.Options;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
@@ -79,22 +78,6 @@ public class HttpRequestor<T> extends Requestor<T> {
     }
 
     /**
-     * Get the configurable options
-     * @return the options
-     */
-    public Options getOptions() {
-        return options;
-    }
-
-    /**
-     * Set the configurable options.
-     * @param options
-     */
-    public void setOptions(Options options) {
-        this.options = options;
-    }
-
-    /**
      * Post envelope.
      * @param data
      * @return status
@@ -125,31 +108,26 @@ public class HttpRequestor<T> extends Requestor<T> {
             // Check if HttpClient is initialized.
             checkInitialized();
 
-            // Create envelope, serialize it as a JSON string.
-            Envelope<T> envelope = createEnvelope(sensor, DateTime.now(), Config.REMOTE_CALIPER_JSONLD_CONTEXT.value(), data);
+            // Create envelope.
+            String dataVersion = options.getDataVersion();
+            Envelope<T> envelope = createEnvelope(sensor, DateTime.now(), dataVersion, data);
 
-            // Create mapper
+            // Create mapper and serialize the envelope
             SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-            ObjectMapper mapper = JsonObjectMapper.create(options.getJsonInclude(), provider);
+            ObjectMapper mapper = JsonObjectMapper.create(options.getJacksonJsonInclude(), provider);
             String json = mapper.writeValueAsString(envelope);
 
-            // Create an HTTP StringEntity envelopes with the envelope JSON.
+            // Create an HTTP StringEntity.
             StringEntity payload = generatePayload(json, ContentType.APPLICATION_JSON);
 
-            // Do the post
-            HttpPost httpPost = new HttpPost(this.getOptions().getHost());
-            httpPost.setHeader("Authorization", this.getOptions().getApiKey());
-            httpPost.setHeader(payload.getContentType());
-            //httpPost.setHeader("Content-type", "application/json");
-
-            //System.out.println("HEADER: " + httpPost.getHeaders("Content-type"));
-            //System.out.println("PAYLOAD CONTENT-TYPE" + envelopes.getContentType().toString());
-            //System.out.println("PAYLOAD CONTENT-TYPE.NAME" + envelopes.getContentType().getName());
-            //System.out.println("PAYLOAD CONTENT-TYPE.VALUE" + envelopes.getContentType().getValue());
-
+            // Prep the post
+            HttpPost httpPost = new HttpPost(options.getHttpHost());
+            httpPost.setHeader("Authorization", options.getApiKey());
+            httpPost.setHeader("Content-Type", options.getHttpContentType());
             httpPost.setEntity(payload);
-            response = httpClient.execute(httpPost);
 
+            // Execute POST
+            response = httpClient.execute(httpPost);
             if (response.getStatusLine().getStatusCode() != 200) {
                 int statusCode = response.getStatusLine().getStatusCode();
                 response.close();

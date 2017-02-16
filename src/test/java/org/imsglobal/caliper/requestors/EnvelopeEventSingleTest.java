@@ -18,16 +18,14 @@
 
 package org.imsglobal.caliper.requestors;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.Client;
-import org.imsglobal.caliper.Config;
 import org.imsglobal.caliper.Sensor;
-import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.config.Options;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
@@ -63,7 +61,7 @@ import static org.junit.Assert.assertEquals;
 public class EnvelopeEventSingleTest {
 
     private Sensor<String> sensor ;
-    private HttpRequestor<Event> httpRequestor = new HttpRequestor<>(TestUtils.getTestingOptions());
+    private HttpRequestor<Event> httpRequestor;
     private Envelope<Event> envelope;
     private List<Event> data = new ArrayList<>();
     private String uuid;
@@ -85,9 +83,8 @@ public class EnvelopeEventSingleTest {
 
         // Register a Sensor client using the default constructor
         sensor = new Sensor<>(BASE_IRI.concat("/sensors/1"));
-        Client client = new Client();
-        client.setId(sensor.getId() + "/defaultClient");
-        client.setOptions(TestUtils.getTestingOptions());
+        Options opts = Options.builder("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+        Client client = new Client(sensor.getId().concat("/clients/1"), opts);
         sensor.registerClient(client.getId(), client);
 
         uuid = "c51570e4-f8ed-4c18-bb3a-dfe51b2cc594";
@@ -145,14 +142,15 @@ public class EnvelopeEventSingleTest {
         sendTime = new DateTime(2016, 11, 15, 11, 5, 1, 0, DateTimeZone.UTC);
 
         // Create envelope
-        envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), Config.REMOTE_CALIPER_JSONLD_CONTEXT.value(), data);
+        httpRequestor = new HttpRequestor<>(opts);
+        envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), Options.JSONLD_EXTERNAL_CALIPER_CONTEXT, data);
     }
 
     @Test
     public void testSerializedEnvelope() throws Exception {
         // Serialize envelope, excluding null properties, empty objects, empty arrays and duplicate @context
         SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider);
+        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
         String json = mapper.writeValueAsString(envelope);
 
         // Swap out sendTime=DateTime.now() in favor of fixture value (or test will most assuredly fail).
@@ -168,11 +166,11 @@ public class EnvelopeEventSingleTest {
     public void testGeneratePayloadContentType() throws Exception {
         // Serialize envelope; include null properties, empty objects and empty arrays
         SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider);
+        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
         String json = mapper.writeValueAsString(envelope);
 
         // Create an HTTP StringEntity envelopes with the envelope JSON.
-        StringEntity payload = httpRequestor.generatePayload(json, ContentType.APPLICATION_JSON);
+        StringEntity payload = httpRequestor.generatePayload(json, ContentType.APPLICATION_JSON); // TODO CHECK jsonld-java for replacement
 
         assertEquals("Content-Type: application/json; charset=UTF-8", payload.getContentType().toString());
     }

@@ -16,7 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper;
+package org.imsglobal.caliper.config;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
