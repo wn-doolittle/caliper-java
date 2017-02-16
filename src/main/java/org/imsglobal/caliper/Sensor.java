@@ -23,6 +23,7 @@ import com.google.common.collect.Maps;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.stats.Statistics;
+import org.imsglobal.caliper.validators.SensorValidator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -45,7 +46,9 @@ public class Sensor<T> {
      * Constructor. Initialize Sensor with an identifier.
      * @param id
      */
-    public Sensor(String id) {
+    public Sensor(@Nonnull String id) {
+        SensorValidator.chkId(id, this.getClass().getSimpleName());
+
         this.id = id;
     }
 
@@ -62,7 +65,9 @@ public class Sensor<T> {
      * Set the Sensor Identifier
      * @param id
      */
-    public void setId(@Nonnull String id) {
+    public void setId(String id) {
+
+
         this.id = id;
     }
 

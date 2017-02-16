@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.validators;
 
 import com.google.common.base.Strings;
-import org.imsglobal.caliper.Context;
+import org.imsglobal.caliper.config.Context;
 import org.imsglobal.caliper.Type;
 import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.agent.Membership;

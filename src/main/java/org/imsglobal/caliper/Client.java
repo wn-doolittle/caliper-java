@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper;
 
+import org.imsglobal.caliper.config.Options;
 import org.imsglobal.caliper.entities.Entity;
 import org.imsglobal.caliper.events.Event;
 import org.imsglobal.caliper.requestors.HttpRequestor;
@@ -45,21 +46,12 @@ public class Client {
     private Statistics stats;
 
     /**
-     * Default constructor
-     */
-    public Client() {
-
-    }
-
-    /**
      * Initialize Client with a Client identifier and configurable options.
      * @param options
      */
-    public Client(String id, Options options) {
-        SensorValidator.checkClientId(id);
-        SensorValidator.checkOptions(options);
-        SensorValidator.checkApiKey(options.getApiKey());
-        SensorValidator.checkHost(options.getHost());
+    public Client(@Nonnull String id, @Nonnull Options options) {
+        SensorValidator.chkId(id, this.getClass().getSimpleName());
+        SensorValidator.chkOptions(options);
 
         this.id = id;
         this.options = options;
@@ -76,28 +68,12 @@ public class Client {
     }
 
     /**
-     * Set the Client identifier.
-     * @param id
-     */
-    public void setId(@Nonnull String id) {
-        this.id = id;
-    }
-
-    /**
      * Get the configuration options.
      * @return options
      */
     @Nonnull
     public Options getOptions() {
         return options;
-    }
-
-    /**
-     * Set the Configuration options.
-     * @param options
-     */
-    public void setOptions(@Nonnull Options options) {
-        this.options = options;
     }
 
     /**

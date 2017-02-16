@@ -19,6 +19,7 @@
 package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.config.Options;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.agent.CourseSection;
@@ -54,11 +55,12 @@ public class SensorSendEventsTest {
     public void test() {
 
         // Create Sensor, create client, register client with sensor.
-        Sensor<String> sensor = new Sensor<>("https://example.edu/sensor/001");
-        Client client = new Client(sensor.getId() + "/defaultClient", TestUtils.getTestingOptions());
+        Sensor<String> sensor = new Sensor<>(BASE_IRI.concat("/sensors/1"));
+        Options opts = Options.builder("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+        Client client = new Client(sensor.getId().concat("/clients/1"), opts);
         sensor.registerClient(client.getId(), client);
 
-        uuid = "";
+        uuid = "c51570e4-f8ed-4c18-bb3a-dfe51b2cc594";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
@@ -134,5 +136,10 @@ public class SensorSendEventsTest {
             .membership(membership)
             .session(session)
             .build();
+    }
+
+    private Options TestOptions(String apiKey) {
+        return Options.builder(apiKey).build();
+
     }
 }
