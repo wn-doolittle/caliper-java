@@ -19,6 +19,7 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.annotation.Annotation;
@@ -28,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @SupportedActions({
     Action.BOOKMARKED,
@@ -36,6 +38,15 @@ import javax.annotation.Nonnull;
     Action.TAGGED
 })
 public class AnnotationEvent extends AbstractEvent {
+
+    @JsonProperty("actor")
+    private final Person actor;
+
+    @JsonProperty("object")
+    private final Resource object;
+
+    @JsonProperty("generated")
+    private final Annotation generated;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AnnotationEvent.class);
@@ -52,20 +63,41 @@ public class AnnotationEvent extends AbstractEvent {
         super(builder);
 
         EventValidator.checkType(this.getType(), EventType.ANNOTATION);
-        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(this.getAction(), AnnotationEvent.class);
-        EventValidator.checkObjectType(this.getObject(), Resource.class);
-        EventValidator.checkGeneratedType(this.getGenerated(), Annotation.class);
+
+        this.actor = builder.actor;
+        this.object = builder.object;
+        this.generated = builder.generated;
     }
 
     /**
      * Required.
-     * @return the action
+     * @return the actor
      */
     @Override
     @Nonnull
-    public Action getAction() {
-        return action;
+    public Person getActor() {
+        return actor;
+    }
+
+    /**
+     * Required.
+     * @return the object
+     */
+    @Override
+    @Nonnull
+    public Resource getObject() {
+        return object;
+    }
+
+    /**
+     * Get the generated Annotation.
+     * @return the generated object
+     */
+    @Override
+    @Nullable
+    public Annotation getGenerated() {
+        return generated;
     }
 
     /**
@@ -73,12 +105,42 @@ public class AnnotationEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private Resource object;
+        private Annotation generated;
 
         /*
          * Constructor
          */
         public Builder() {
             super.type(EventType.ANNOTATION);
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Person actor) {
+            this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(Resource object) {
+            this.object = object;
+            return self();
+        }
+
+        /**
+         * @param generated
+         * @return builder.
+         */
+        public T generated(Annotation generated) {
+            this.generated = generated;
+            return self();
         }
 
         /**

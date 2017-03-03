@@ -19,6 +19,7 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.resource.Forum;
@@ -33,6 +34,12 @@ import javax.annotation.Nonnull;
     Action.UNSUBSCRIBED
 })
 public class ForumEvent extends AbstractEvent {
+
+    @JsonProperty("actor")
+    private final Person actor;
+
+    @JsonProperty("object")
+    private final Forum object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(ForumEvent.class);
@@ -49,18 +56,30 @@ public class ForumEvent extends AbstractEvent {
         super(builder);
 
         EventValidator.checkType(this.getType(), EventType.FORUM);
-        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(this.getAction(), ForumEvent.class);
-        EventValidator.checkObjectType(this.getObject(), Forum.class);
+
+        this.actor = builder.actor;
+        this.object = builder.object;
     }
 
     /**
-     * @return the action
+     * Required.
+     * @return the actor
      */
     @Override
     @Nonnull
-    public Action getAction() {
-        return action;
+    public Person getActor() {
+        return actor;
+    }
+
+    /**
+     * Required.
+     * @return the object
+     */
+    @Override
+    @Nonnull
+    public Forum getObject() {
+        return object;
     }
 
     /**
@@ -68,12 +87,32 @@ public class ForumEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private Forum object;
 
         /*
          * Constructor
          */
         public Builder() {
             super.type(EventType.FORUM);
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Person actor) {
+            this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(Forum object) {
+            this.object = object;
+            return self();
         }
 
         /**

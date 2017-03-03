@@ -19,6 +19,7 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.outcome.Result;
 import org.imsglobal.caliper.entities.resource.Attempt;
@@ -26,8 +27,17 @@ import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @SupportedActions({ Action.GRADED })
 public class OutcomeEvent extends AbstractEvent {
+
+    @JsonProperty("object")
+    private final Attempt object;
+
+    @JsonProperty("generated")
+    private final Result generated;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(OutcomeEvent.class);
@@ -45,8 +55,29 @@ public class OutcomeEvent extends AbstractEvent {
 
         EventValidator.checkType(this.getType(), EventType.OUTCOME);
         EventValidator.checkAction(this.getAction(), OutcomeEvent.class);
-        EventValidator.checkObjectType(this.getObject(), Attempt.class);
-        EventValidator.checkGeneratedType(this.getGenerated(), Result.class);
+
+        this.object = builder.object;
+        this.generated = builder.generated;
+    }
+
+    /**
+     * Get the Attempt.
+     * @return the object
+     */
+    @Override
+    @Nonnull
+    public Attempt getObject() {
+        return object;
+    }
+
+    /**
+     * Get the generated Result.
+     * @return the generated object
+     */
+    @Override
+    @Nullable
+    public Result getGenerated() {
+        return generated;
     }
 
     /**
@@ -54,12 +85,32 @@ public class OutcomeEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Attempt object;
+        private Result generated;
 
         /*
          * Constructor
          */
         public Builder() {
             super.type(EventType.OUTCOME);
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(Attempt object) {
+            this.object = object;
+            return self();
+        }
+
+        /**
+         * @param generated
+         * @return builder.
+         */
+        public T generated(Result generated) {
+            this.generated = generated;
+            return self();
         }
 
         /**

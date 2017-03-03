@@ -19,15 +19,20 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.resource.Resource;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+
 @SupportedActions({ Action.NAVIGATED_TO })
 public class NavigationEvent extends AbstractEvent {
+
+    @JsonProperty("actor")
+    private final Person actor;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(NavigationEvent.class);
@@ -44,12 +49,19 @@ public class NavigationEvent extends AbstractEvent {
         super(builder);
 
         EventValidator.checkType(this.getType(), EventType.NAVIGATION);
-        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(this.getAction(), NavigationEvent.class);
-        EventValidator.checkObjectType(this.getObject(), Resource.class);
-        if (!(this.getTarget() == null)) {
-            EventValidator.checkTargetType(this.getTarget(), Resource.class);
-        }
+
+        this.actor = builder.actor;
+    }
+
+    /**
+     * Required.
+     * @return the actor
+     */
+    @Override
+    @Nonnull
+    public Person getActor() {
+        return actor;
     }
 
     /**
@@ -57,12 +69,22 @@ public class NavigationEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
 
         /*
          * Constructor
          */
         public Builder() {
             super.type(EventType.NAVIGATION);
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Person actor) {
+            this.actor = actor;
+            return self();
         }
 
         /**

@@ -19,14 +19,24 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.resource.Resource;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+
 @SupportedActions({ Action.VIEWED })
 public class ViewEvent extends AbstractEvent {
+
+    @JsonProperty("actor")
+    private final Person actor;
+
+    @JsonProperty("object")
+    private final Resource object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(ViewEvent.class);
@@ -42,11 +52,31 @@ public class ViewEvent extends AbstractEvent {
     protected ViewEvent(Builder<?> builder) {
         super(builder);
 
+        EventValidator.checkType(this.getType(), EventType.VIEW);
         EventValidator.checkAction(this.getAction(), ViewEvent.class);
-        EventValidator.checkObjectType(this.getObject(), Resource.class);
-        if (!(this.getTarget() == null)) {
-            EventValidator.checkTargetType(this.getTarget(), Resource.class);
-        }
+
+        this.actor = builder.actor;
+        this.object = builder.object;
+    }
+
+    /**
+     * Required.
+     * @return the actor
+     */
+    @Override
+    @Nonnull
+    public Person getActor() {
+        return actor;
+    }
+
+    /**
+     * Required.
+     * @return the object
+     */
+    @Override
+    @Nonnull
+    public Resource getObject() {
+        return object;
     }
 
     /**
@@ -54,12 +84,32 @@ public class ViewEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private Resource object;
 
         /*
          * Constructor
          */
         public Builder() {
             super.type(EventType.VIEW);
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Person actor) {
+            this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(Resource object) {
+            this.object = object;
+            return self();
         }
 
         /**

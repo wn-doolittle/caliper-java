@@ -19,6 +19,7 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.resource.AssessmentItem;
@@ -28,12 +29,17 @@ import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+
 @SupportedActions({
     Action.STARTED,
     Action.COMPLETED,
     Action.SKIPPED
 })
 public class AssessmentItemEvent extends AbstractEvent {
+
+    @JsonProperty("actor")
+    private final Person actor;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssessmentItemEvent.class);
@@ -50,7 +56,6 @@ public class AssessmentItemEvent extends AbstractEvent {
         super(builder);
 
         EventValidator.checkType(this.getType(), EventType.ASSESSMENT_ITEM);
-        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(this.getAction(), AssessmentItemEvent.class);
         if (this.getAction().equals(Action.COMPLETED)) {
             EventValidator.checkObjectType(this.getObject(), Attempt.class);
@@ -63,6 +68,18 @@ public class AssessmentItemEvent extends AbstractEvent {
                 EventValidator.checkGeneratedType(this.getGenerated(), Attempt.class);
             }
         }
+
+        this.actor = builder.actor;
+    }
+
+    /**
+     * Required.
+     * @return the actor
+     */
+    @Override
+    @Nonnull
+    public Person getActor() {
+        return actor;
     }
 
     /**
@@ -70,12 +87,22 @@ public class AssessmentItemEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
 
         /*
          * Constructor
          */
         public Builder() {
             super.type(EventType.ASSESSMENT_ITEM);
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Person actor) {
+            this.actor = actor;
+            return self();
         }
 
         /**

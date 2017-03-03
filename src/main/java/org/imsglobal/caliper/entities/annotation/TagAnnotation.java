@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.resource.Resource;
 
@@ -31,7 +30,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TagAnnotation extends AbstractEntity implements Annotation, Generatable {
+public class TagAnnotation extends AbstractEntity implements Annotation {
 
     @JsonProperty("annotated")
     private Resource annotated;

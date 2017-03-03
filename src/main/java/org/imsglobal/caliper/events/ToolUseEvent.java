@@ -19,14 +19,24 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+
 @SupportedActions({Action.USED})
 public class ToolUseEvent extends AbstractEvent {
+
+    @JsonProperty("actor")
+    private final Person actor;
+
+    @JsonProperty("object")
+    private final SoftwareApplication object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(ToolUseEvent.class);
@@ -43,8 +53,30 @@ public class ToolUseEvent extends AbstractEvent {
         super(builder);
 
         EventValidator.checkType(this.getType(), EventType.TOOL_USE);
-        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(this.getAction(), ToolUseEvent.class);
+
+        this.actor = builder.actor;
+        this.object = builder.object;
+    }
+
+    /**
+     * Required.
+     * @return the actor
+     */
+    @Override
+    @Nonnull
+    public Person getActor() {
+        return actor;
+    }
+
+    /**
+     * Required.
+     * @return the object
+     */
+    @Override
+    @Nonnull
+    public SoftwareApplication getObject() {
+        return object;
     }
 
     /**
@@ -52,12 +84,32 @@ public class ToolUseEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private SoftwareApplication object;
 
         /*
          * Constructor
          */
         public Builder() {
             super.type(EventType.TOOL_USE);
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Person actor) {
+            this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(SoftwareApplication object) {
+            this.object = object;
+            return self();
         }
 
         /**

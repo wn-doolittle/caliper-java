@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.resource.Resource;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
@@ -55,9 +54,6 @@ public class SessionEvent extends AbstractEvent {
             case "LoggedIn":
                 EventValidator.checkActorType(this.getActor(), Person.class);
                 EventValidator.checkObjectType(this.getObject(), SoftwareApplication.class);
-                if (!(this.getTarget() == null)) {
-                    EventValidator.checkTargetType(this.getTarget(), Resource.class);
-                }
                 break;
             case "LoggedOut":
                 EventValidator.checkActorType(this.getActor(), Person.class);

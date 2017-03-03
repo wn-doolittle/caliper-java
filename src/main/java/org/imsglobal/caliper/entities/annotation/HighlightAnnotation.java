@@ -21,7 +21,6 @@ package org.imsglobal.caliper.entities.annotation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.resource.Resource;
 import org.imsglobal.caliper.selectors.Selector;
@@ -29,7 +28,7 @@ import org.imsglobal.caliper.selectors.Selector;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class HighlightAnnotation extends AbstractEntity implements Annotation, Generatable {
+public class HighlightAnnotation extends AbstractEntity implements Annotation {
 
     @JsonProperty("annotated")
     private Resource annotated;

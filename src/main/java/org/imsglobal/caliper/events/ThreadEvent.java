@@ -19,6 +19,7 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.resource.Thread;
@@ -26,11 +27,19 @@ import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+
 @SupportedActions({
     Action.MARKED_AS_READ,
     Action.MARKED_AS_UNREAD
 })
 public class ThreadEvent extends AbstractEvent {
+
+    @JsonProperty("actor")
+    private final Person actor;
+
+    @JsonProperty("object")
+    private final Thread object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(ThreadEvent.class);
@@ -46,9 +55,31 @@ public class ThreadEvent extends AbstractEvent {
     protected ThreadEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkActorType(this.getActor(), Person.class);
+        EventValidator.checkType(this.getType(), EventType.THREAD);
         EventValidator.checkAction(this.getAction(), ThreadEvent.class);
-        EventValidator.checkObjectType(this.getObject(), Thread.class);
+
+        this.actor = builder.actor;
+        this.object = builder.object;
+    }
+
+    /**
+     * Required.
+     * @return the actor
+     */
+    @Override
+    @Nonnull
+    public Person getActor() {
+        return actor;
+    }
+
+    /**
+     * Required.
+     * @return the object
+     */
+    @Override
+    @Nonnull
+    public Thread getObject() {
+        return object;
     }
 
     /**
@@ -56,12 +87,32 @@ public class ThreadEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private Thread object;
 
         /*
          * Constructor
          */
         public Builder() {
             type(EventType.FORUM);
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Person actor) {
+            this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(Thread object) {
+            this.object = object;
+            return self();
         }
 
         /**

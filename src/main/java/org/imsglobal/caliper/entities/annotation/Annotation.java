@@ -19,10 +19,11 @@
 package org.imsglobal.caliper.entities.annotation;
 
 import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.Generatable;
 import org.imsglobal.caliper.entities.agent.Agent;
 import org.imsglobal.caliper.entities.resource.Resource;
 
-public interface Annotation extends Entity {
+public interface Annotation extends Entity, Generatable {
 
     /**
      * Return the annotated DigitalResource.

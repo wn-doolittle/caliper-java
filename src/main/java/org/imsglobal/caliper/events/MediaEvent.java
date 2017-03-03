@@ -19,12 +19,15 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.resource.Media;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.Nonnull;
 
 @SupportedActions({
     Action.OPENED_POPOUT,
@@ -49,6 +52,12 @@ import org.slf4j.LoggerFactory;
 })
 public class MediaEvent extends AbstractEvent {
 
+    @JsonProperty("actor")
+    private final Person actor;
+
+    @JsonProperty("object")
+    private final Media object;
+
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(MediaEvent.class);
 
@@ -64,9 +73,31 @@ public class MediaEvent extends AbstractEvent {
         super(builder);
 
         EventValidator.checkType(this.getType(), EventType.MEDIA);
-        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(this.getAction(), MediaEvent.class);
-        EventValidator.checkObjectType(this.getObject(), Media.class);
+
+        this.actor = builder.actor;
+        this.object = builder.object;
+
+    }
+
+    /**
+     * Get the Person actor.
+     * @return the actor
+     */
+    @Override
+    @Nonnull
+    public Person getActor() {
+        return actor;
+    }
+
+    /**
+     * Get the Media object.
+     * @return the object
+     */
+    @Override
+    @Nonnull
+    public Media getObject() {
+        return object;
     }
 
     /**
@@ -74,6 +105,8 @@ public class MediaEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private Media object;
 
         /*
          * Constructor
@@ -81,6 +114,25 @@ public class MediaEvent extends AbstractEvent {
         public Builder() {
             type(EventType.MEDIA);
         }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Person actor) {
+            this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(Media object) {
+            this.object = object;
+            return self();
+        }
+
 
         /**
          * Client invokes build method in order to create an immutable profile object.
