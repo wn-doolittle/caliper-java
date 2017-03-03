@@ -19,88 +19,94 @@
 package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
- * A CourseOffering is the occurrence of a course in a specific term, semester, etc.  A Caliper
- * CourseOffering provides a subset of the CourseOffering properties specified in the IMS LTI 2.0
- * specification, which in turn, draws inspiration from the IMS LIS 1.0 specification.
+ * This class provides a skeletal implementation of the Org interface
+ * in order to minimize the effort required to implement the interface.
  */
-public class CourseOffering extends AbstractOrganization implements Course {
+public abstract class AbstractOrganization extends AbstractEntity implements Org {
 
-    @JsonProperty("courseNumber")
-    private final String courseNumber;
+    @JsonProperty("subOrganizationOf")
+    private final Org subOrganizationOf;
 
-    @JsonProperty("academicSession")
-    private final String academicSession;
+    @JsonProperty("members")
+    private final ImmutableList<Agent> members;
 
     /**
      * @param builder apply builder object properties to the object.
      */
-    protected CourseOffering(Builder<?> builder) {
+    protected AbstractOrganization(Builder<?> builder) {
         super(builder);
-        this.courseNumber = builder.courseNumber;
-        this.academicSession = builder.academicSession;
+        this.subOrganizationOf = builder.subOrganizationOf;
+        this.members = ImmutableList.copyOf(builder.members);
     }
 
     /**
-     * The course number, such as "Biology 101". In general, this number is not simply a numeric value.
-     * @return the course number.
+     * @return the parent organization.
      */
     @Nullable
-    public String getCourseNumber() {
-        return courseNumber;
+    public Org getSubOrganizationOf() {
+        return subOrganizationOf;
     }
 
+
     /**
-     * @return academic session
+     * Return an immutable list of the Collection's items.
+     * @return the items
      */
+    @Override
     @Nullable
-    public String getAcademicSession() {
-        return academicSession;
+    public ImmutableList<Agent> getMembers() {
+        return members;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractOrganization.Builder<T> {
-        private String courseNumber;
-        private String academicSession;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
+        private Org subOrganizationOf;
+        private List<Agent> members = Lists.newArrayList();
 
         /**
          * Constructor
          */
         public Builder() {
-            super.type(EntityType.COURSE_OFFERING);
+            super.type(EntityType.ORGANIZATION);
         }
 
         /**
-         * @param courseNumber
+         * @param subOrganizationOf
          * @return builder.
          */
-        public T courseNumber(String courseNumber) {
-            this.courseNumber = courseNumber;
+        public T subOrganizationOf(Org subOrganizationOf) {
+            this.subOrganizationOf = subOrganizationOf;
             return self();
         }
 
         /**
-         * @param academicSession
+         * @param members
          * @return builder.
          */
-        public T academicSession(String academicSession) {
-            this.academicSession = academicSession;
+        public T members(List<Agent> members) {
+            this.members = members;
             return self();
         }
 
         /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the CourseOffering.
+         * @param member
+         * @return builder.
          */
-        public CourseOffering build() {
-            return new CourseOffering(this);
+        public T member(Agent member) {
+            this.members.add(member);
+            return self();
         }
     }
 
@@ -112,13 +118,5 @@ public class CourseOffering extends AbstractOrganization implements Course {
         protected Builder2 self() {
             return this;
         }
-    }
-
-    /**
-     * Static factory method.
-     * @return a new instance of the builder.
-     */
-    public static Builder<?> builder() {
-        return new Builder2();
     }
 }

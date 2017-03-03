@@ -19,7 +19,6 @@
 package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nullable;
@@ -34,7 +33,7 @@ import javax.annotation.Nullable;
  * A Caliper CourseSection provides a subset of the CourseSection properties specified in the
  * IMS LTI 2.0 specification, which in turn, draws inspiration from the IMS LIS 1.0 specification.
  */
-public class CourseSection extends AbstractEntity implements Course {
+public class CourseSection extends AbstractOrganization implements Course {
 
     @JsonProperty("courseNumber")
     private final String courseNumber;
@@ -45,9 +44,6 @@ public class CourseSection extends AbstractEntity implements Course {
     @JsonProperty("category")
     private final String category;
 
-    @JsonProperty("subOrganizationOf")
-    private final Org subOrganizationOf;
-
     /**
      * @param builder apply builder object properties to the object.
      */
@@ -57,7 +53,6 @@ public class CourseSection extends AbstractEntity implements Course {
         this.courseNumber = builder.courseNumber;
         this.academicSession = builder.academicSession;
         this.category = builder.category;
-        this.subOrganizationOf = builder.subOrganizationOf;
     }
 
     /**
@@ -86,22 +81,13 @@ public class CourseSection extends AbstractEntity implements Course {
     }
 
     /**
-     * @return the parent organization.
-     */
-    @Nullable
-    public Org getSubOrganizationOf() {
-        return subOrganizationOf;
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends AbstractOrganization.Builder<T> {
         private String courseNumber;
         private String academicSession;
         private String category;
-        private Org subOrganizationOf;
 
         /**
          * Constructor
@@ -134,15 +120,6 @@ public class CourseSection extends AbstractEntity implements Course {
          */
         public T category(String category) {
             this.category = category;
-            return self();
-        }
-
-        /**
-         * @param subOrganizationOf
-         * @return builder.
-         */
-        public T subOrganizationOf(Org subOrganizationOf) {
-            this.subOrganizationOf = subOrganizationOf;
             return self();
         }
 

@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.entities.agent;
 
+import com.google.common.collect.ImmutableList;
 import org.imsglobal.caliper.entities.Entity;
 
 /**
@@ -30,6 +31,14 @@ public interface Org extends Entity, Agent {
 
     /**
      * Return the parent organization.
+     * @return
      */
     Org getSubOrganizationOf();
+
+
+    /**
+     * Return the members.
+     * @return
+     */
+    ImmutableList<Agent> getMembers();
 }
