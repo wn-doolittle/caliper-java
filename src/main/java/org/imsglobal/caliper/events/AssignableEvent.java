@@ -33,9 +33,9 @@ import javax.annotation.Nonnull;
     Action.ACTIVATED,
     Action.COMPLETED,
     Action.DEACTIVATED,
-    Action.HID,
     Action.REVIEWED,
-    Action.STARTED
+    Action.STARTED,
+    Action.SUBMITTED
 })
 public class AssignableEvent extends AbstractEvent {
 

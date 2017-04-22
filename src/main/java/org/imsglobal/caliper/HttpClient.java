@@ -19,15 +19,14 @@
 package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.requestors.Envelope;
 import org.imsglobal.caliper.requestors.HttpRequestor;
 import org.imsglobal.caliper.requestors.Requestor;
 import org.imsglobal.caliper.stats.Statistics;
 import org.imsglobal.caliper.validators.SensorValidator;
+import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,6 +42,7 @@ import java.util.List;
 public class Client {
     private String id;
     private Options options;
+    private Envelope envelope;
     private Statistics stats;
 
     /**
@@ -76,48 +76,37 @@ public class Client {
         return options;
     }
 
-    /**
-     * Send a single Entity describes to a target event store.
-     * @param sensor
-     * @param data
-     */
-    public void describe(Sensor sensor, Entity data) {
-        List<Entity> dataList = new ArrayList<>();
-        dataList.add(data);
 
-        describe(sensor, dataList);
+    /**
+     * Create the Envelope.
+     * @param sensor
+     * @param sendTime
+     * @param dataVersion
+     * @param data
+     * @return envelope
+     */
+    public Envelope create(Sensor sensor, DateTime sendTime, String dataVersion, List<Object> data) {
+        envelope = new Envelope(sensor, DateTime.now(), dataVersion, data);
+        return envelope;
     }
 
     /**
-     * Send a collection of Entity describes to a target event store.
-     * @param sensor
-     * @param data
+     * Send an envelope to a target endpoint.
+     * @param envelope
      */
-    public void describe(Sensor sensor, List<Entity> data) {
-        Requestor<Entity> requestor = new HttpRequestor<>(options);
-        updateStats(requestor.send(sensor, data));
+    /**
+    public void send(Envelope envelope) {
+        send(envelope);
     }
+     */
 
     /**
-     * Send a single event to a target event store.
-     * @param sensor
-     * @param data
+     * Send a collection of events to a target endpoint.
+     * @param envelope
      */
-    public void send(Sensor sensor, Event data) {
-        List<Event> dataList = new ArrayList<>();
-        dataList.add(data);
-
-        send(sensor, dataList);
-    }
-
-    /**
-     * Send a collection of events to a target event store.
-     * @param sensor
-     * @param data
-     */
-    public void send(Sensor sensor, List<Event> data) {
-        Requestor<Event> requestor = new HttpRequestor<>(options);
-        updateStats(requestor.send(sensor, data));
+    public void send(Envelope envelope) {
+        Requestor requestor = new HttpRequestor(options);
+        updateStats(requestor.send(envelope));
     }
 
     /**
