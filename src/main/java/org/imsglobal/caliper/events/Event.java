@@ -50,7 +50,7 @@ public interface Event {
      * Identifier that MUST be set either by the emitting service or the receiving endpoint.
      * @return the identifier.
      */
-    String getUuid();
+    String getId();
 
     /**
      * Specifies the type of event or node in the graph as defined by JSON-LD.  The type should be

@@ -46,7 +46,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class NavigationEventNavigatedToTest {
-    private String uuid;
+    private String id;
     private Person actor;
     private WebPage object;
     private SoftwareApplication edApp;
@@ -63,7 +63,7 @@ public class NavigationEventNavigatedToTest {
      */
     @Before
     public void setUp() throws Exception {
-        uuid = "ff9ec22a-fc59-4ae1-ae8d-2c9463ee2f8f";
+        id = "ff9ec22a-fc59-4ae1-ae8d-2c9463ee2f8f";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
@@ -128,7 +128,7 @@ public class NavigationEventNavigatedToTest {
      */
     private NavigationEvent buildEvent(Action action) {
         return NavigationEvent.builder()
-            .uuid(uuid)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)

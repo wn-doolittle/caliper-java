@@ -51,7 +51,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AnnotationEventTaggedTest {
-    private String uuid;
+    private String id;
     private Person actor;
     private Document object;
     private Chapter annotated;
@@ -70,7 +70,7 @@ public class AnnotationEventTaggedTest {
      */
     @Before
     public void setUp() throws Exception {
-        uuid = "b2009c63-2659-4cd2-b71e-6e03c498f02b";
+        id = "b2009c63-2659-4cd2-b71e-6e03c498f02b";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
@@ -149,7 +149,7 @@ public class AnnotationEventTaggedTest {
      */
     private AnnotationEvent buildEvent(Action action) {
         return AnnotationEvent.builder()
-            .uuid(uuid)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)

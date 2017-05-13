@@ -47,7 +47,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AssessmentEventSubmittedTest {
-    private String uuid;
+    private String id;
     private Person actor;
     private Assessment assignable;
     private Attempt object;
@@ -64,7 +64,7 @@ public class AssessmentEventSubmittedTest {
      */
     @Before
     public void setUp() throws Exception {
-        uuid = "dad88464-0c20-4a19-a1ba-ddf2f9c3ff33";
+        id = "dad88464-0c20-4a19-a1ba-ddf2f9c3ff33";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
@@ -141,7 +141,7 @@ public class AssessmentEventSubmittedTest {
      */
     private AssessmentEvent buildEvent(Action action) {
         return AssessmentEvent.builder()
-            .uuid(uuid)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)

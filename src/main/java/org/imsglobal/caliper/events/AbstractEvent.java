@@ -56,8 +56,8 @@ public abstract class AbstractEvent implements Event {
     @JsonProperty("type")
     private final Type type;
 
-    @JsonProperty("uuid")
-    private final String uuid;
+    @JsonProperty("id")
+    private final String id;
 
     @JsonProperty("actor")
     private final Agent actor;
@@ -115,7 +115,7 @@ public abstract class AbstractEvent implements Event {
 
         this.context = builder.context;
         this.type = builder.type;
-        this.uuid = builder.uuid;
+        this.id = builder.id;
         this.actor = builder.actor;
         this.action = builder.action;
         this.object = builder.object;
@@ -142,11 +142,11 @@ public abstract class AbstractEvent implements Event {
 
     /**
      * Identifier that must be set either by emitting service or the receiving endpoint.
-     * @return the uuid
+     * @return the id
      */
     @Nullable
-    public String getUuid() {
-        return uuid;
+    public String getId() {
+        return id;
     }
 
     /**
@@ -278,7 +278,7 @@ public abstract class AbstractEvent implements Event {
      */
     public static abstract class Builder<T extends Builder<T>> {
         private Context context;
-        private String uuid;
+        private String id;
         private Type type;
         private Agent actor;
         private Action action;
@@ -314,11 +314,11 @@ public abstract class AbstractEvent implements Event {
         }
 
         /**
-         * @param uuid
+         * @param id
          * @return builder.
          */
-        public T uuid(String uuid) {
-            this.uuid = uuid;
+        public T id(String id) {
+            this.id = id;
             return self();
         }
 

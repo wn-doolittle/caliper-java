@@ -41,7 +41,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class SessionEventTimedOutTest {
-    private String uuid;
+    private String id;
     private SoftwareApplication actor;
     private Session object;
     private SessionEvent event;
@@ -53,7 +53,7 @@ public class SessionEventTimedOutTest {
      */
     @Before
     public void setUp() throws Exception {
-        uuid = "4e61cf6c-ffbe-45bc-893f-afe7ad4079dc";
+        id = "4e61cf6c-ffbe-45bc-893f-afe7ad4079dc";
 
         actor = SoftwareApplication.builder().id(BASE_IRI).build();
 
@@ -98,7 +98,7 @@ public class SessionEventTimedOutTest {
      */
     private SessionEvent buildEvent(Action action) {
         return SessionEvent.builder()
-            .uuid(uuid)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)
