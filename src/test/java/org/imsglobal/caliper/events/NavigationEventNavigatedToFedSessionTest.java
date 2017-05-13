@@ -72,7 +72,7 @@ public class NavigationEventNavigatedToFedSessionTest {
      */
     @Before
     public void setUp() throws Exception {
-        id = "4be6d29d-5728-44cd-8a8f-3d3f07e46b61";
+        id = "urn:uuid:4be6d29d-5728-44cd-8a8f-3d3f07e46b61";
 
         actor = Person.builder().id(BASE_IRI_EDU.concat("/users/554433")).build();
 

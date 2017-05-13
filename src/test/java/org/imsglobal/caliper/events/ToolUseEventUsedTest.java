@@ -61,7 +61,7 @@ public class ToolUseEventUsedTest {
      */
     @Before
     public void setUp() throws Exception {
-        id = "7e10e4f3-a0d8-4430-95bd-783ffae4d916";
+        id = "urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d916";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 

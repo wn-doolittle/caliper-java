@@ -64,7 +64,7 @@ public class MediaEventPausedTest {
      */
     @Before
     public void setUp() throws Exception {
-        id = "956b4a02-8de0-4991-b8c5-b6eebb6b4cab";
+        id = "urn:uuid:956b4a02-8de0-4991-b8c5-b6eebb6b4cab";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 

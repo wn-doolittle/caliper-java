@@ -64,7 +64,7 @@ public class AssessmentEventSubmittedTest {
      */
     @Before
     public void setUp() throws Exception {
-        id = "dad88464-0c20-4a19-a1ba-ddf2f9c3ff33";
+        id = "urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 

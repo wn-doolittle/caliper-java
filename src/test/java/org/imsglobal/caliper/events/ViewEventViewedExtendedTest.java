@@ -64,7 +64,7 @@ public class ViewEventViewedExtendedTest {
      */
     @Before
     public void setUp() throws Exception {
-        id = "3a9bd869-addc-48b1-80f6-a14b2ff591ed";
+        id = "urn:uuid:3a9bd869-addc-48b1-80f6-a14b2ff591ed";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 

@@ -62,7 +62,7 @@ public class AssignableEventActivatedTest {
      */
     @Before
     public void setUp() throws Exception {
-        id = "2635b9dd-0061-4059-ac61-2718ab366f75";
+        id = "urn:uuid:2635b9dd-0061-4059-ac61-2718ab366f75";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/112233")).build();
 

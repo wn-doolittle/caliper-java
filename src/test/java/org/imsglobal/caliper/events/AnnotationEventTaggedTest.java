@@ -33,7 +33,7 @@ import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.annotation.TagAnnotation;
 import org.imsglobal.caliper.entities.resource.Chapter;
-import org.imsglobal.caliper.entities.resource.Document;
+import org.imsglobal.caliper.entities.resource.Page;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -53,8 +53,8 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 public class AnnotationEventTaggedTest {
     private String id;
     private Person actor;
-    private Document object;
     private Chapter annotated;
+    private Page object;
     private TagAnnotation generated;
     private List<String> tags;
     private SoftwareApplication edApp;
@@ -63,25 +63,26 @@ public class AnnotationEventTaggedTest {
     private Session session;
     private AnnotationEvent event;
 
-    private static final String BASE_IRI = "https://example.edu";
+    private static final String BASE_EDU_IRI = "https://example.edu";
+    private static final String BASE_COM_IRI = "https://example.com";
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        id = "b2009c63-2659-4cd2-b71e-6e03c498f02b";
+        id = "urn:uuid:b2009c63-2659-4cd2-b71e-6e03c498f02b";
 
-        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        actor = Person.builder().id(BASE_EDU_IRI.concat("/users/554433")).build();
 
-        object = Document.builder()
-            .id(BASE_IRI.concat("/etexts/201.epub"))
-            .name("IMS Caliper Implementation Guide")
+        object = Page.builder()
+            .id(BASE_COM_IRI.concat("/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0"))
+            .name("IMS Caliper Implementation Guide, pg 5")
             .version("1.1")
             .build();
 
         annotated = Chapter.builder()
-            .id(BASE_IRI.concat("/etexts/201.epub#epubcfi(/6/4[chap01]!/4[body01]/12[para06]/1:97)"))
+            .id(BASE_COM_IRI.concat("/etexts/201.epub#epubcfi(/6/4[chap01]!/4[body01]/12[para06]/1:97)"))
             .build();
 
         tags = new ArrayList<String>();
@@ -90,22 +91,25 @@ public class AnnotationEventTaggedTest {
         tags.add("entity");
 
         generated = TagAnnotation.builder()
-            .id(BASE_IRI.concat("/users/554433/etexts/201/tags/3"))
+            .id(BASE_COM_IRI.concat("/users/554433/texts/imscaliperimplguide/tags/3"))
             .annotated(annotated)
             .annotator(actor)
             .tags(tags)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
 
-        edApp = SoftwareApplication.builder().id(BASE_IRI).version("v2").build();
+        edApp = SoftwareApplication.builder()
+            .id(BASE_COM_IRI.concat("/reader"))
+            .name("ePub Reader")
+            .version("1.2.3").build();
 
-        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+        group = CourseSection.builder().id(BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1"))
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
         membership = Membership.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
+            .id(BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
             .member(actor)
             .organization(CourseSection.builder().id(group.getId()).build())
             .status(Status.ACTIVE)
@@ -114,7 +118,7 @@ public class AnnotationEventTaggedTest {
             .build();
 
         session = Session.builder()
-            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+            .id(BASE_COM_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 

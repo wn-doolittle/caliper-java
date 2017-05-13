@@ -53,7 +53,7 @@ public class SessionEventTimedOutTest {
      */
     @Before
     public void setUp() throws Exception {
-        id = "4e61cf6c-ffbe-45bc-893f-afe7ad4079dc";
+        id = "urn:uuid:4e61cf6c-ffbe-45bc-893f-afe7ad4079dc";
 
         actor = SoftwareApplication.builder().id(BASE_IRI).build();
 

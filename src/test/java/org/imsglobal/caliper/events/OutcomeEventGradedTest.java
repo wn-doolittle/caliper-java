@@ -60,7 +60,7 @@ public class OutcomeEventGradedTest {
      */
     @Before
     public void setUp() throws Exception {
-        id = "a50ca17f-5971-47bb-8fca-4e6e6879001d";
+        id = "urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d";
         actor = SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).version("v2").build();
         learner = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
         assignable = Assessment.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1")).build();

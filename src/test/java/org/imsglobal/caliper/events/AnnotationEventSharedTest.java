@@ -62,44 +62,48 @@ public class AnnotationEventSharedTest {
     private List<Agent> agents;
     private AnnotationEvent event;
 
-    private static final String BASE_IRI = "https://example.edu";
+    private static final String BASE_EDU_IRI = "https://example.edu";
+    private static final String BASE_COM_IRI = "https://example.com";
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        id = "3bdab9e6-11cd-4a0f-9d09-8e363994176b";
+        id = "urn:uuid:3bdab9e6-11cd-4a0f-9d09-8e363994176b";
 
-        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        actor = Person.builder().id(BASE_EDU_IRI.concat("/users/554433")).build();
 
         object = Document.builder()
-            .id(BASE_IRI.concat("/etexts/201.epub"))
+            .id(BASE_COM_IRI.concat("/#/texts/imscaliperimplguide"))
             .name("IMS Caliper Implementation Guide")
             .version("1.1")
             .build();
 
         agents = new ArrayList<Agent>();
-        agents.add(Person.builder().id(BASE_IRI.concat("/users/657585")).build());
-        agents.add(Person.builder().id(BASE_IRI.concat("/users/667788")).build());
+        agents.add(Person.builder().id(BASE_EDU_IRI.concat("/users/657585")).build());
+        agents.add(Person.builder().id(BASE_EDU_IRI.concat("/users/667788")).build());
 
         generated = SharedAnnotation.builder()
-            .id(BASE_IRI.concat("/users/554433/etexts/201/shares/1"))
+            .id(BASE_COM_IRI.concat("/users/554433/texts/imscaliperimplguide/shares/1"))
             .annotated(Document.builder().id(object.getId()).build())
             .annotator(actor)
             .withAgents(agents)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
 
-        edApp = SoftwareApplication.builder().id(BASE_IRI).version("1.2.3").build();
+        edApp = SoftwareApplication.builder()
+            .id(BASE_COM_IRI.concat("/reader"))
+            .name("ePub Reader")
+            .version("1.2.3").build();
 
-        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+        group = CourseSection.builder().id(BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1"))
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
         membership = Membership.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
+            .id(BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
             .member(actor)
             .organization(CourseSection.builder().id(group.getId()).build())
             .status(Status.ACTIVE)
@@ -108,7 +112,7 @@ public class AnnotationEventSharedTest {
             .build();
 
         session = Session.builder()
-            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+            .id(BASE_COM_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 

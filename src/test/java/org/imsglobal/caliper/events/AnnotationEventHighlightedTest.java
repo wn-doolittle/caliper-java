@@ -58,26 +58,27 @@ public class AnnotationEventHighlightedTest {
     private Session session;
     private AnnotationEvent event;
 
-    private static final String BASE_IRI = "https://example.edu";
+    private static final String BASE_EDU_IRI = "https://example.edu";
+    private static final String BASE_COM_IRI = "https://example.com";
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        id = "0067a052-9bb4-4b49-9d1a-87cd43da488a";
+        id = "urn:uuid:0067a052-9bb4-4b49-9d1a-87cd43da488a";
 
-        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        actor = Person.builder().id(BASE_EDU_IRI.concat("/users/554433")).build();
 
         object = Document.builder()
-            .id(BASE_IRI.concat("/etexts/201"))
+            .id(BASE_COM_IRI.concat("/#/texts/imscaliperimplguide"))
             .name("IMS Caliper Implementation Guide")
             .dateCreated(new DateTime(2016, 10, 1, 6, 0, 0, 0, DateTimeZone.UTC))
             .version("1.1")
             .build();
 
         generated = HighlightAnnotation.builder()
-            .id(BASE_IRI.concat("/users/554433/etexts/201/highlights?start=2300&end=2370"))
+            .id(BASE_COM_IRI.concat("/users/554433/texts/imscaliperimplguide/highlights?start=2300&end=2370"))
             .annotated(Document.builder().id(object.getId()).build())
             .annotator(actor)
             .selection(new TextPositionSelector(2300, 2370))
@@ -85,15 +86,18 @@ public class AnnotationEventHighlightedTest {
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
 
-        edApp = SoftwareApplication.builder().id(BASE_IRI).version("v3").build();
+        edApp = SoftwareApplication.builder()
+            .id(BASE_COM_IRI.concat("/reader"))
+            .name("ePub Reader")
+            .version("1.2.3").build();
 
-        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+        group = CourseSection.builder().id(BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1"))
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
         membership = Membership.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
+            .id(BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
             .member(actor)
             .organization(CourseSection.builder().id(group.getId()).build())
             .status(Status.ACTIVE)
@@ -102,7 +106,7 @@ public class AnnotationEventHighlightedTest {
             .build();
 
         session = Session.builder()
-            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+            .id(BASE_COM_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 

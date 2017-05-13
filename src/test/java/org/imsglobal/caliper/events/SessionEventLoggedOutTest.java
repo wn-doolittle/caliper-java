@@ -54,7 +54,7 @@ public class SessionEventLoggedOutTest {
      */
     @Before
     public void setUp() throws Exception {
-        id = "a438f8ac-1da3-4d48-8c86-94a1b387e0f6";
+        id = "urn:uuid:a438f8ac-1da3-4d48-8c86-94a1b387e0f6";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
