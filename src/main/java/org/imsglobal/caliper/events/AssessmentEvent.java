@@ -35,6 +35,7 @@ import javax.annotation.Nullable;
     Action.STARTED,
     Action.PAUSED,
     Action.RESTARTED,
+    Action.RESUMED,
     Action.SUBMITTED
 })
 public class AssessmentEvent extends AbstractEvent {
