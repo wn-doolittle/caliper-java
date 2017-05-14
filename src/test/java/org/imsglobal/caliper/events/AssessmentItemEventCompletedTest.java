@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.databind.CoercibleSimpleModule;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
@@ -66,6 +67,7 @@ public class AssessmentItemEventCompletedTest {
     private AssessmentItemEvent event;
 
     private static final String BASE_IRI = "https://example.edu";
+    private static final String SECTION_IRI = BASE_IRI.concat("/terms/201601/courses/7/sections/1");
 
     /**
      * @throws java.lang.Exception
@@ -75,18 +77,19 @@ public class AssessmentItemEventCompletedTest {
         id = "urn:uuid:e5891791-3d27-4df1-a272-091806a43dfb";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        Person assignee = Person.builder().id(actor.getId()).coercedToId(true).build();
 
         item = AssessmentItem.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/items/3"))
+            .id(SECTION_IRI.concat("/assess/1/items/3"))
             .name("Assessment Item 3")
-            .isPartOf(Assessment.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1")).build())
+            .isPartOf(Assessment.builder().id(SECTION_IRI.concat("/assess/1")).build())
             .build();
 
         object = Attempt.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/attempts/1"))
+            .id(SECTION_IRI.concat("/assess/1/items/3/users/554433/attempts/1"))
             .assignable(item)
-            .assignee(actor)
-            .isPartOf(Attempt.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1")).build())
+            .assignee(assignee)
+            .isPartOf(Attempt.builder().id(SECTION_IRI.concat("/assess/1/users/554433/attempts/1")).coercedToId(true).build())
             .count(1)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 2, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 2, 0, DateTimeZone.UTC))
@@ -100,7 +103,7 @@ public class AssessmentItemEventCompletedTest {
 
         generated = FillinBlankResponse.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/responses/1"))
-            .attempt(Attempt.builder().id(object.getId()).build())
+            .attempt(Attempt.builder().id(object.getId()).coercedToId(true).build())
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 12, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 2, 0, DateTimeZone.UTC))
             .endedAtTime(new DateTime(2016, 11, 15, 10, 15, 12, 0, DateTimeZone.UTC))
@@ -109,15 +112,16 @@ public class AssessmentItemEventCompletedTest {
 
         edApp = SoftwareApplication.builder().id(BASE_IRI).version("v2").build();
 
-        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+        group = CourseSection.builder()
+            .id(SECTION_IRI)
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
         membership = Membership.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
-            .member(actor)
-            .organization(CourseSection.builder().id(group.getId()).build())
+            .id(SECTION_IRI.concat("/rosters/1"))
+            .member(assignee)
+            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
             .role(Role.LEARNER)
             .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
@@ -136,6 +140,7 @@ public class AssessmentItemEventCompletedTest {
     public void caliperEventSerializesToJSON() throws Exception {
         SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
         ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        mapper.registerModule(new CoercibleSimpleModule());
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventAssessmentItemCompleted.json");

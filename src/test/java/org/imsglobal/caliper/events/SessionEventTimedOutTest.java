@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.databind.CoercibleSimpleModule;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
@@ -42,7 +43,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class SessionEventTimedOutTest {
     private String id;
-    private SoftwareApplication actor;
+    private SoftwareApplication actor, edApp;
     private Session object;
     private SessionEvent event;
 
@@ -66,6 +67,8 @@ public class SessionEventTimedOutTest {
             .duration("PT3600S")
             .build();
 
+        edApp = SoftwareApplication.builder().id(actor.getId()).coercedToId(true).build();
+
         // Build event
         event = buildEvent(Action.TIMED_OUT);
     }
@@ -74,6 +77,7 @@ public class SessionEventTimedOutTest {
     public void caliperEventSerializesToJSON() throws Exception {
         SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
         ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        mapper.registerModule(new CoercibleSimpleModule());
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventSessionTimedOut.json");
@@ -103,7 +107,7 @@ public class SessionEventTimedOutTest {
             .action(action)
             .object(object)
             .eventTime(new DateTime(2016, 11, 15, 11, 15, 0, 0, DateTimeZone.UTC))
-            .edApp(actor)
+            .edApp(edApp)
             .build();
     }
 }

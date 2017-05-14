@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.databind.CoercibleSimpleModule;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
@@ -64,6 +65,7 @@ public class AnnotationEventSharedTest {
 
     private static final String BASE_EDU_IRI = "https://example.edu";
     private static final String BASE_COM_IRI = "https://example.com";
+    private static final String SECTION_IRI = BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1");
 
     /**
      * @throws java.lang.Exception
@@ -73,6 +75,7 @@ public class AnnotationEventSharedTest {
         id = "urn:uuid:3bdab9e6-11cd-4a0f-9d09-8e363994176b";
 
         actor = Person.builder().id(BASE_EDU_IRI.concat("/users/554433")).build();
+        Person annotator = Person.builder().id(actor.getId()).coercedToId(true).build();
 
         object = Document.builder()
             .id(BASE_COM_IRI.concat("/#/texts/imscaliperimplguide"))
@@ -86,8 +89,8 @@ public class AnnotationEventSharedTest {
 
         generated = SharedAnnotation.builder()
             .id(BASE_COM_IRI.concat("/users/554433/texts/imscaliperimplguide/shares/1"))
-            .annotated(Document.builder().id(object.getId()).build())
-            .annotator(actor)
+            .annotated(Document.builder().id(object.getId()).coercedToId(true).build())
+            .annotator(annotator)
             .withAgents(agents)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
@@ -97,15 +100,16 @@ public class AnnotationEventSharedTest {
             .name("ePub Reader")
             .version("1.2.3").build();
 
-        group = CourseSection.builder().id(BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1"))
+        group = CourseSection.builder()
+            .id(SECTION_IRI)
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
         membership = Membership.builder()
-            .id(BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
-            .member(actor)
-            .organization(CourseSection.builder().id(group.getId()).build())
+            .id(SECTION_IRI.concat("/rosters/1"))
+            .member(annotator)
+            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
             .role(Role.LEARNER)
             .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
@@ -124,6 +128,7 @@ public class AnnotationEventSharedTest {
     public void caliperEventSerializesToJSON() throws Exception {
         SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
         ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        mapper.registerModule(new CoercibleSimpleModule());
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventAnnotationShared.json");

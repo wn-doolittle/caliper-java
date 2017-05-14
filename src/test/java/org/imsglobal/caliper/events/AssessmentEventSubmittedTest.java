@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.databind.CoercibleSimpleModule;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
@@ -58,6 +59,7 @@ public class AssessmentEventSubmittedTest {
     private AssessmentEvent event;
 
     private static final String BASE_IRI = "https://example.edu";
+    private static final String SECTION_IRI = BASE_IRI.concat("/terms/201601/courses/7/sections/1");
 
     /**
      * @throws java.lang.Exception
@@ -67,9 +69,10 @@ public class AssessmentEventSubmittedTest {
         id = "urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        Person assignee = Person.builder().id(actor.getId()).coercedToId(true).build();
 
         assignable = Assessment.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1"))
+            .id(SECTION_IRI.concat("/assess/1"))
             .name("Quiz One")
             .dateToStartOn(new DateTime(2016, 11, 14, 5, 0, 0, 0, DateTimeZone.UTC))
             .dateToSubmit(new DateTime(2016, 11, 18, 11, 59, 59, 0, DateTimeZone.UTC))
@@ -80,9 +83,9 @@ public class AssessmentEventSubmittedTest {
             .build();
 
         object = Attempt.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"))
+            .id(SECTION_IRI.concat("/assess/1/users/554433/attempts/1"))
             .assignable(assignable)
-            .assignee(actor)
+            .assignee(assignee)
             .count(1)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
@@ -92,15 +95,16 @@ public class AssessmentEventSubmittedTest {
 
         edApp = SoftwareApplication.builder().id(BASE_IRI).version("v2").build();
 
-        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+        group = CourseSection.builder()
+            .id(SECTION_IRI)
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
         membership = Membership.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
-            .member(actor)
-            .organization(CourseSection.builder().id(group.getId()).build())
+            .id(SECTION_IRI.concat("/rosters/1"))
+            .member(assignee)
+            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
             .role(Role.LEARNER)
             .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
@@ -118,6 +122,7 @@ public class AssessmentEventSubmittedTest {
     public void caliperEventSerializesToJSON() throws Exception {
         SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
         ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        mapper.registerModule(new CoercibleSimpleModule());
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventAssessmentSubmitted.json");

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.databind.CoercibleSimpleModule;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
@@ -32,7 +33,6 @@ import org.imsglobal.caliper.entities.agent.Role;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.annotation.BookmarkAnnotation;
-import org.imsglobal.caliper.entities.resource.Chapter;
 import org.imsglobal.caliper.entities.resource.Page;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
@@ -50,7 +50,6 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 public class AnnotationEventBookmarkedTest {
     private String id;
     private Person actor;
-    private Chapter annotated;
     private Page object;
     private BookmarkAnnotation generated;
     private SoftwareApplication edApp;
@@ -61,6 +60,7 @@ public class AnnotationEventBookmarkedTest {
 
     private static final String BASE_EDU_IRI = "https://example.edu";
     private static final String BASE_COM_IRI = "https://example.com";
+    private static final String SECTION_IRI = BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1");
 
     /**
      * @throws java.lang.Exception
@@ -70,6 +70,7 @@ public class AnnotationEventBookmarkedTest {
         id = "urn:uuid:d4618c23-d612-4709-8d9a-478d87808067";
 
         actor = Person.builder().id(BASE_EDU_IRI.concat("/users/554433")).build();
+        Person annotator = Person.builder().id(actor.getId()).coercedToId(true).build();
 
         object = Page.builder()
             .id(BASE_COM_IRI.concat("/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0"))
@@ -77,14 +78,13 @@ public class AnnotationEventBookmarkedTest {
             .version("1.1")
             .build();
 
-        annotated = Chapter.builder()
-            .id(BASE_COM_IRI.concat("/etexts/201.epub#epubcfi(/6/4[chap01]!/4[body01]/10[para05]/1:20)"))
-            .build();
-
         generated = BookmarkAnnotation.builder()
             .id(BASE_COM_IRI.concat("/users/554433/texts/imscaliperimplguide/bookmarks/1"))
-            .annotated(annotated)
-            .annotator(actor)
+            .annotated(Page.builder()
+                .id(BASE_COM_IRI.concat("/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0"))
+                .coercedToId(true)
+                .build())
+            .annotator(annotator)
             .bookmarkNotes("Caliper profiles model discrete learning activities or supporting activities that facilitate learning.")
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
@@ -94,15 +94,16 @@ public class AnnotationEventBookmarkedTest {
             .name("ePub Reader")
             .version("1.2.3").build();
 
-        group = CourseSection.builder().id(BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1"))
+        group = CourseSection.builder()
+            .id(SECTION_IRI)
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
         membership = Membership.builder()
-            .id(BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
-            .member(actor)
-            .organization(CourseSection.builder().id(group.getId()).build())
+            .id(SECTION_IRI.concat("/rosters/1"))
+            .member(annotator)
+            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
             .role(Role.LEARNER)
             .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
@@ -121,6 +122,7 @@ public class AnnotationEventBookmarkedTest {
     public void caliperEventSerializesToJSON() throws Exception {
         SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
         ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        mapper.registerModule(new CoercibleSimpleModule());
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventAnnotationBookmarked.json");

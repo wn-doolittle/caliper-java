@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.databind.CoercibleSimpleModule;
 import org.imsglobal.caliper.databind.JsonFilters;
 import org.imsglobal.caliper.databind.JsonObjectMapper;
 import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
@@ -45,7 +46,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class OutcomeEventGradedTest {
     private String id;
-    private SoftwareApplication actor;
+    private SoftwareApplication actor, edApp;
     private Person learner;
     private Attempt object;
     private Assessment assignable;
@@ -78,14 +79,17 @@ public class OutcomeEventGradedTest {
 
         generated = Result.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/results/1"))
-            .attempt(Attempt.builder().id(object.getId()).build())
+            .attempt(Attempt.builder().id(object.getId()).coercedToId(true).build())
             .normalScore(15)
             .totalScore(15)
-            .scoredBy(SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).build())
+            .scoredBy(SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).coercedToId(true).build())
             .dateCreated(new DateTime(2016, 11, 15, 10, 55, 5, 0, DateTimeZone.UTC))
             .build();
 
-        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+        edApp = SoftwareApplication.builder().id(BASE_IRI).coercedToId(true).build();
+
+        group = CourseSection.builder()
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
@@ -98,6 +102,7 @@ public class OutcomeEventGradedTest {
     public void caliperEventSerializesToJSON() throws Exception {
         SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
         ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        mapper.registerModule(new CoercibleSimpleModule());
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventOutcomeGraded.json");
@@ -126,6 +131,7 @@ public class OutcomeEventGradedTest {
             .action(action)
             .object(object)
             .generated(generated)
+            .edApp(edApp)
             .group(group)
             .eventTime(new DateTime(2016, 11, 15, 10, 57, 6, 0, DateTimeZone.UTC))
             .build();

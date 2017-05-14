@@ -18,11 +18,12 @@
 
 package org.imsglobal.caliper.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.config.Context;
 import org.imsglobal.caliper.Type;
+import org.imsglobal.caliper.config.Context;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -30,10 +31,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class AbstractEntity implements Entity {
+public abstract class AbstractEntity implements Entity, Coercible {
 
     @JsonProperty("@context")
-    protected final Context context;
+    private final Context context;
+
+    @JsonIgnore
+    private final boolean coercedToId;
 
     @JsonProperty("id")
     protected final String id;
@@ -65,6 +69,7 @@ public abstract class AbstractEntity implements Entity {
         EntityValidator.checkId("id", builder.id);
 
         this.context = builder.context;
+        this.coercedToId = builder.coercedToId;
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
@@ -80,6 +85,14 @@ public abstract class AbstractEntity implements Entity {
     @Nonnull
     public Context getContext() {
         return context;
+    }
+
+    /**
+     * @return coerceToId flag
+     */
+    @Nonnull
+    public boolean isCoercedToId() {
+        return coercedToId;
     }
 
     /**
@@ -144,6 +157,7 @@ public abstract class AbstractEntity implements Entity {
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
+        private boolean coercedToId;
         private Context context;
         private String id;
         private Type type;
@@ -159,9 +173,19 @@ public abstract class AbstractEntity implements Entity {
         public Builder() {
             context(Context.REMOTE_CALIPER_JSONLD_CONTEXT);
             type(EntityType.ENTITY);
+            coercedToId(false);
         }
 
         protected abstract T self();
+
+        /**
+         * @param coercedToId
+         * @return builder.
+         */
+        public T coercedToId(boolean coercedToId) {
+            this.coercedToId = coercedToId;
+            return self();
+        }
 
         /**
          * @param context
