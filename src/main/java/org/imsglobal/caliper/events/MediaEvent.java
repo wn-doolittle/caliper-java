@@ -30,25 +30,26 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 
 @SupportedActions({
-    Action.OPENED_POPOUT,
-    Action.CLOSED_POPOUT,
-    Action.EXITED_FULLSCREEN,
-    Action.ENTERED_FULLSCREEN,
-    Action.CHANGED_SIZE,
-    Action.CHANGED_RESOLUTION,
     Action.STARTED,
-    Action.REWOUND,
-    Action.RESUMED,
-    Action.FORWARDED_TO,
-    Action.PAUSED,
-    Action.JUMPED_TO,
     Action.ENDED,
+    Action.PAUSED,
+    Action.RESUMED,
+    Action.RESTARTED,
+    Action.FORWARDED_TO,
+    Action.JUMPED_TO,
+    Action.REWOUND,
+    Action.CHANGED_RESOLUTION,
+    Action.CHANGED_SIZE,
     Action.CHANGED_SPEED,
-    Action.UNMUTED,
-    Action.MUTED,
     Action.CHANGED_VOLUME,
     Action.DISABLED_CLOSED_CAPTIONING,
-    Action.ENABLED_CLOSED_CAPTIONING
+    Action.ENABLED_CLOSED_CAPTIONING,
+    Action.EXITED_FULLSCREEN,
+    Action.ENTERED_FULLSCREEN,
+    Action.OPENED_POPOUT,
+    Action.CLOSED_POPOUT,
+    Action.MUTED,
+    Action.UNMUTED
 })
 public class MediaEvent extends AbstractEvent {
 
