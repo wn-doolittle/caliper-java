@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  * Represents response to a multiple choice question that limits options to either 'true or false',
  * 'agree or disagree', etc.
  */
-public class TrueFalseResponse extends AbstractEntity implements Response {
+public class TrueFalseResponse extends AbstractEntity implements CaliperResponse {
 
     @JsonProperty("attempt")
     private Attempt attempt;

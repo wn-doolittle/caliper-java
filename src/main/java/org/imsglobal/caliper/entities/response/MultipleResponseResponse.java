@@ -37,7 +37,7 @@ import java.util.List;
  * Representation of a response to a multiple choice question that permits one or more
  * options to be selected.
  */
-public class MultipleResponseResponse extends AbstractEntity implements Response {
+public class MultipleResponseResponse extends AbstractEntity implements CaliperResponse {
 
     @JsonProperty("attempt")
     private Attempt attempt;

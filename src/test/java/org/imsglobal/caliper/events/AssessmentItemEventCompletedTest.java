@@ -31,7 +31,7 @@ import org.imsglobal.caliper.entities.resource.Assessment;
 import org.imsglobal.caliper.entities.resource.AssessmentItem;
 import org.imsglobal.caliper.entities.resource.Attempt;
 import org.imsglobal.caliper.entities.response.FillinBlankResponse;
-import org.imsglobal.caliper.entities.response.Response;
+import org.imsglobal.caliper.entities.response.CaliperResponse;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -53,7 +53,7 @@ public class AssessmentItemEventCompletedTest {
     private Person actor;
     private AssessmentItem item;
     private Attempt object;
-    private Response generated;
+    private CaliperResponse generated;
     private List<String> values;
     private SoftwareApplication edApp;
     private CourseSection group;

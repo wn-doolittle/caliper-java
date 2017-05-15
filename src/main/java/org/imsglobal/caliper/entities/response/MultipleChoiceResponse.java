@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
 /**
  * Represents a response to a multiple choice question that permits a single option to be selected.
  */
-public class MultipleChoiceResponse extends AbstractEntity implements Response {
+public class MultipleChoiceResponse extends AbstractEntity implements CaliperResponse {
 
     @JsonProperty("attempt")
     private Attempt attempt;

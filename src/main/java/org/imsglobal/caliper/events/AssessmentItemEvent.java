@@ -24,7 +24,7 @@ import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.resource.AssessmentItem;
 import org.imsglobal.caliper.entities.resource.Attempt;
-import org.imsglobal.caliper.entities.response.Response;
+import org.imsglobal.caliper.entities.response.CaliperResponse;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +60,7 @@ public class AssessmentItemEvent extends AbstractEvent {
         if (this.getAction().equals(Action.COMPLETED)) {
             EventValidator.checkObjectType(this.getObject(), Attempt.class);
             if (!(this.getGenerated() == null)) {
-                EventValidator.checkGeneratedType(this.getGenerated(), Response.class);
+                EventValidator.checkGeneratedType(this.getGenerated(), CaliperResponse.class);
             }
         } else {
             EventValidator.checkObjectType(this.getObject(), AssessmentItem.class);

@@ -1,16 +1,14 @@
-package org.imsglobal.caliper.entities.annotation;
+package org.imsglobal.caliper.entities.agent;
 
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 
-/**
- * A Generic Annotation.
- */
-public class Annotation extends AbstractAnnotation {
+public class Agent extends AbstractEntity implements CaliperAgent {
 
     /**
      * @param builder apply builder object properties to the object.
      */
-    protected Annotation(Builder<?> builder) {
+    protected Agent(Builder<?> builder) {
         super(builder);
     }
 
@@ -18,21 +16,21 @@ public class Annotation extends AbstractAnnotation {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractAnnotation.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
 
         /**
          * Constructor
          */
         public Builder() {
-            super.type(EntityType.ANNOTATION);
+            super.type(EntityType.AGENT);
         }
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the Annotation.
+         * @return a new instance of the Agent.
          */
-        public Annotation build() {
-            return new Annotation(this);
+        public Agent build() {
+            return new Agent(this);
         }
     }
 
