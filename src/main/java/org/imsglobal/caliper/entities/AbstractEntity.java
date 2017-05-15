@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.CaliperType;
-import org.imsglobal.caliper.config.Context;
+import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -34,7 +34,7 @@ import java.util.List;
 public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible {
 
     @JsonProperty("@context")
-    private final Context context;
+    private final JsonldContext context;
 
     @JsonIgnore
     private final boolean coercedToId;
@@ -65,7 +65,6 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
      */
     protected AbstractEntity(Builder<?> builder) {
 
-        EntityValidator.checkContext(builder.context, Context.REMOTE_CALIPER_JSONLD_CONTEXT);
         EntityValidator.checkId("id", builder.id);
 
         this.context = builder.context;
@@ -82,8 +81,8 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
     /**
      * @return the context.
      */
-    @Nonnull
-    public Context getContext() {
+    @Nullable
+    public JsonldContext getContext() {
         return context;
     }
 
@@ -158,7 +157,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
      */
     public static abstract class Builder<T extends Builder<T>> {
         private boolean coercedToId;
-        private Context context;
+        private JsonldContext context;
         private String id;
         private CaliperType type;
         private String name;
@@ -171,7 +170,6 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
          * Constructor
          */
         public Builder() {
-            context(Context.REMOTE_CALIPER_JSONLD_CONTEXT);
             type(EntityType.ENTITY);
             coercedToId(false);
         }
@@ -191,7 +189,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
          * @param context
          * @return builder.
          */
-        public T context(Context context) {
+        public T context(JsonldContext context) {
             this.context = context;
             return self();
         }

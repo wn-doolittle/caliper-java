@@ -18,17 +18,15 @@
 
 package org.imsglobal.caliper.entities;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.google.common.collect.ImmutableList;
-import org.imsglobal.caliper.config.Context;
 import org.imsglobal.caliper.CaliperType;
+import org.imsglobal.caliper.context.JsonldContext;
 import org.joda.time.DateTime;
 
 /**
  * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  For an
  * Entity to be linkable, dereferencing the identifier should result in a representation of the node.
  */
-@JsonFilter("entityFilter")
 public interface CaliperEntity {
 
     /**
@@ -36,7 +34,7 @@ public interface CaliperEntity {
      * should be expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the context IRI.
      */
-    Context getContext();
+    JsonldContext getContext();
 
     /**
      * Each Entity (or node in the graph as defined by JSON-LD) requires an identifier.

@@ -22,11 +22,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.databind.JxnFilterProvider;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.databind.JxnFilters;
-import org.imsglobal.caliper.databind.JxnObjectMapper;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -48,6 +50,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class ViewEventViewedExtendedTest {
+    private JsonldContext context;
     private String id;
     private Person actor;
     private Document object;
@@ -65,6 +68,8 @@ public class ViewEventViewedExtendedTest {
      */
     @Before
     public void setUp() throws Exception {
+        context = JsonldStringContext.getDefault();
+
         id = "urn:uuid:3a9bd869-addc-48b1-80f6-a14b2ff591ed";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
@@ -105,7 +110,15 @@ public class ViewEventViewedExtendedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        ObjectMapper mapper = JxnObjectMapper.create();
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventViewViewedExtended.json");
@@ -129,6 +142,7 @@ public class ViewEventViewedExtendedTest {
      */
     private ViewEvent buildEvent(Action action) {
         return ViewEvent.builder()
+            .context(context)
             .id(id)
             .actor(actor)
             .action(action)
@@ -147,8 +161,18 @@ public class ViewEventViewedExtendedTest {
      * @return
      */
     private ObjectNode createExtensionsNode() {
-        SimpleFilterProvider provider = JxnFilterProvider.create(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
-        ObjectMapper mapper = JxnObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider, new JodaModule());
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true)
+            .addFilter(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModule(new JodaModule());
+
+        //SimpleFilterProvider provider = JxnFilterProvider.create(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
+        //ObjectMapper mapper = JxnObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider, new JodaModule());
 
         ObjectNode jobTag = mapper.createObjectNode();
         jobTag.put("id", "example:jobTag");

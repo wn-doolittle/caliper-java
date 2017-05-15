@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum JxnFilters {
-    EXCLUDE_CONTEXT("entityFilter", SimpleBeanPropertyFilter.serializeAllExcept("@context")),
-    ID_ONLY("idOnlyFilter", SimpleBeanPropertyFilter.filterOutAllExcept("id")),
-    SERIALIZE_ALL("defaultFilter", SimpleBeanPropertyFilter.serializeAll());
+    SERIALIZE_ALL("serializeAll", SimpleBeanPropertyFilter.serializeAll()),
+    SERIALIZE_ID_ONLY("filterOutAllExceptId", SimpleBeanPropertyFilter.filterOutAllExcept("id")),
+    SERIALIZE_WITHOUT_CONTEXT("serializeAllExceptContext", SimpleBeanPropertyFilter.serializeAllExcept("@context"));
 
     private final String id;
     private final SimpleBeanPropertyFilter filter;

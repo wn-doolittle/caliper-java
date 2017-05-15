@@ -16,20 +16,16 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.events;
+package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
-import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.context.JsonldStringContext;
 import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
@@ -42,12 +38,8 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class SessionEventTimedOutTest {
-    private JsonldContext context;
-    private String id;
-    private SoftwareApplication actor, edApp;
-    private Session object;
-    private SessionEvent event;
+public class PersonTest {
+    private Person entity;
 
     private static final String BASE_IRI = "https://example.edu";
 
@@ -56,25 +48,13 @@ public class SessionEventTimedOutTest {
      */
     @Before
     public void setUp() throws Exception {
-        context = JsonldStringContext.getDefault();
 
-        id = "urn:uuid:4e61cf6c-ffbe-45bc-893f-afe7ad4079dc";
-
-        actor = SoftwareApplication.builder().id(BASE_IRI).build();
-
-        object = Session.builder()
-            .id(BASE_IRI.concat("/sessions/7d6b88adf746f0692e2e873308b78c60fb13a864"))
-            .user(Person.builder().id(BASE_IRI.concat("/users/112233")).build())
-            .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
-            .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
-            .endedAtTime(new DateTime(2016, 11, 15, 11, 15, 0, 0, DateTimeZone.UTC))
-            .duration("PT3600S")
+        entity = Person.builder()
+            .context(JsonldStringContext.getDefault())
+            .id(BASE_IRI.concat("/users/554433"))
+            .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
+            .dateModified(new DateTime(2016, 9, 2, 11, 30, 0, 0, DateTimeZone.UTC))
             .build();
-
-        edApp = SoftwareApplication.builder().id(actor.getId()).coercedToId(true).build();
-
-        // Build event
-        event = buildEvent(Action.TIMED_OUT);
     }
 
     @Test
@@ -88,37 +68,14 @@ public class SessionEventTimedOutTest {
             .setFilterProvider(provider)
             .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
 
-        String json = mapper.writeValueAsString(event);
+        String json = mapper.writeValueAsString(entity);
 
-        String fixture = jsonFixture("fixtures/caliperEventSessionTimedOut.json");
+        String fixture = jsonFixture("fixtures/caliperEntityPerson.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void sessionEventRejectsLikedAction() {
-        buildEvent(Action.LIKED);
     }
 
     @After
     public void teardown() {
-        event = null;
-    }
-
-    /**
-     * Build Session Timeout event.  Note that the actor is the edApp and
-     * the membership of the actor is not specified.
-     * @param action
-     * @return event
-     */
-    private SessionEvent buildEvent(Action action) {
-        return SessionEvent.builder()
-            .context(context)
-            .id(id)
-            .actor(actor)
-            .action(action)
-            .object(object)
-            .eventTime(new DateTime(2016, 11, 15, 11, 15, 0, 0, DateTimeZone.UTC))
-            .edApp(edApp)
-            .build();
+        entity = null;
     }
 }

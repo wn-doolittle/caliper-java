@@ -16,28 +16,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.config;
+package org.imsglobal.caliper.context;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+/**
+ * Marker interface.
+ */
+public interface JsonldContext {
 
-public enum Context {
-    REMOTE_CALIPER_JSONLD_CONTEXT("http://purl.imsglobal.org/ctx/caliper/v1p1");
-
-    private final String value;
-
-    /**
-     * Private constructor
-     * @param value
-     */
-    private Context(final String value) {
-        this.value = value;
-    }
-
-    /**
-     * @return default string
-     */
-    @JsonValue
-    public String value() {
-        return value;
-    }
 }

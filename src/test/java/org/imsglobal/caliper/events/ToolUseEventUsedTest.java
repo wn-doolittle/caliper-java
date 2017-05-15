@@ -18,9 +18,15 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.databind.JxnObjectMapper;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -41,6 +47,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class ToolUseEventUsedTest {
+    private JsonldContext context;
     private String id;
     private Person actor;
     private SoftwareApplication object, edApp;
@@ -56,6 +63,8 @@ public class ToolUseEventUsedTest {
      */
     @Before
     public void setUp() throws Exception {
+        context = JsonldStringContext.getDefault();
+
         id = "urn:uuid:7e10e4f3-a0d8-4430-95bd-783ffae4d916";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
@@ -90,7 +99,15 @@ public class ToolUseEventUsedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        ObjectMapper mapper = JxnObjectMapper.create();
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventToolUseUsed.json");
@@ -114,6 +131,7 @@ public class ToolUseEventUsedTest {
      */
     private ToolUseEvent buildEvent(Action action) {
         return ToolUseEvent.builder()
+            .context(context)
             .id(id)
             .actor(actor)
             .action(action)

@@ -18,9 +18,15 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.databind.JxnObjectMapper;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -43,6 +49,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class MediaEventPausedTest {
+    private JsonldContext context;
     private String id;
     private Person actor;
     private VideoObject object;
@@ -60,6 +67,8 @@ public class MediaEventPausedTest {
      */
     @Before
     public void setUp() throws Exception {
+        context = JsonldStringContext.getDefault();
+
         id = "urn:uuid:956b4a02-8de0-4991-b8c5-b6eebb6b4cab";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
@@ -104,7 +113,15 @@ public class MediaEventPausedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        ObjectMapper mapper = JxnObjectMapper.create();
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventMediaPausedVideo.json");
@@ -128,6 +145,7 @@ public class MediaEventPausedTest {
      */
     private MediaEvent buildEvent(Action action) {
         return MediaEvent.builder()
+            .context(context)
             .id(id)
             .actor(actor)
             .action(action)

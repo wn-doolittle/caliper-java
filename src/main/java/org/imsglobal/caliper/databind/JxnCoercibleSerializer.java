@@ -48,7 +48,7 @@ public class JxnCoercibleSerializer extends JsonSerializer<CaliperCoercible> {
     public void serialize(CaliperCoercible value, JsonGenerator jgen, SerializerProvider provider)
         throws IOException, JsonProcessingException {
 
-        // System.out.print("IS_COERCED: " + value.getClass().getSimpleName() + " " + value.isCoercedToId() + "\n");
+        //System.out.print("IS_COERCED: " + value.getClass().getSimpleName() + " " + value.isCoercedToId() + "\n");
 
         if (value.isCoercedToId()) {
             jgen.writeString(value.getId());

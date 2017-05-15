@@ -18,7 +18,6 @@
 
 package org.imsglobal.caliper.config;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.imsglobal.caliper.validators.SensorValidator;
 
 /**
@@ -32,7 +31,6 @@ public class Options {
     private final String dataVersion;
     private final String httpContentType;
     private final String httpHost;
-    private final JsonInclude.Include jacksonJsonInclude;
     private final String jsonldExternalCaliperContext;
     private final int socketTimeout;
     private final String testFixturesBaseDir;
@@ -54,13 +52,8 @@ public class Options {
     /**
      * HTTP Request Header field values.  Update faux Host value.
      */
-    public static final String HTTP_CONTENT_TYPE = "application/ld+json";
-    public static final String HTTP_HOST = "http://example.org";
-
-    /**
-     * Enumeration used with Jackson's JsonInclude that defines which properties are to be serialized.
-     */
-    public static final JsonInclude.Include JACKSON_JSON_INCLUDE = JsonInclude.Include.NON_EMPTY;
+    public static final String HTTP_CONTENT_TYPE = "application/json";
+    public static final String HTTP_HOST = "https://example.org";
 
     /**
      * Default IMS Caliper external context document IRI.
@@ -92,7 +85,6 @@ public class Options {
         this.dataVersion = SensorValidator.chkStrValue(builder.dataVersion, DATA_VERSION);
         this.httpContentType = SensorValidator.chkStrValue(builder.httpContentType, HTTP_CONTENT_TYPE);
         this.httpHost = SensorValidator.chkStrValue(builder.httpHost, HTTP_HOST);
-        this.jacksonJsonInclude = (builder.jacksonJsonInclude != null) ? builder.jacksonJsonInclude : JACKSON_JSON_INCLUDE;
         this.jsonldExternalCaliperContext = SensorValidator.chkStrValue(builder.jsonldExternalCaliperContext, JSONLD_EXTERNAL_CALIPER_CONTEXT);
         this.socketTimeout = SensorValidator.chkIntValue(builder.socketTimeout, SOCKET_TIMEOUT);
         this.testFixturesBaseDir = SensorValidator.chkStrValue(builder.testFixturesBaseDir, TEST_FIXTURES_BASE_DIR);
@@ -156,14 +148,6 @@ public class Options {
     }
 
     /**
-     * Get JsonInclude enumeration.
-     * @return JsonInclude enum
-     */
-    public JsonInclude.Include getJacksonJsonInclude() {
-        return jacksonJsonInclude;
-    }
-
-    /**
      * Get the external Caliper JSON-LD context URI.
      * @return the external Caliper JSON-LD context URI
      */
@@ -206,7 +190,6 @@ public class Options {
         private String dataVersion;
         private String httpContentType;
         private String httpHost;
-        private JsonInclude.Include jacksonJsonInclude;
         private String jsonldExternalCaliperContext;
         private int socketTimeout = 0;
         private String testFixturesBaseDir;
@@ -214,10 +197,18 @@ public class Options {
 
         /**
          * Constructor
-         * @param apiKey
          */
-        public OptionsBuilder(final String apiKey) {
+        public OptionsBuilder() {
+
+        }
+
+        /**
+         * @param apiKey
+         * @return builder
+         */
+        public OptionsBuilder apiKey(final String apiKey) {
             this.apiKey = apiKey;
+            return this;
         }
 
         /**
@@ -275,15 +266,6 @@ public class Options {
         }
 
         /**
-         * @param jacksonJsonInclude
-         * @return builder
-         */
-        public OptionsBuilder jacksonJsonInclude(final JsonInclude.Include jacksonJsonInclude) {
-            this.jacksonJsonInclude = jacksonJsonInclude;
-            return this;
-        }
-
-        /**
          * @param jsonldExternalCaliperContext
          * @return builder
          */
@@ -330,10 +312,9 @@ public class Options {
 
     /**
      * Static Factory method.
-     * @param apiKey
      * @return new builder instance
      */
-    public static OptionsBuilder builder(String apiKey) {
-        return new OptionsBuilder(apiKey);
+    public static OptionsBuilder builder() {
+        return new OptionsBuilder();
     }
 }

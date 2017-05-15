@@ -18,9 +18,15 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.databind.JxnObjectMapper;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -30,8 +36,8 @@ import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.resource.Assessment;
 import org.imsglobal.caliper.entities.resource.AssessmentItem;
 import org.imsglobal.caliper.entities.resource.Attempt;
-import org.imsglobal.caliper.entities.response.FillinBlankResponse;
 import org.imsglobal.caliper.entities.response.CaliperResponse;
+import org.imsglobal.caliper.entities.response.FillinBlankResponse;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -49,6 +55,7 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AssessmentItemEventCompletedTest {
+    private JsonldContext context;
     private String id;
     private Person actor;
     private AssessmentItem item;
@@ -69,6 +76,8 @@ public class AssessmentItemEventCompletedTest {
      */
     @Before
     public void setUp() throws Exception {
+        context = JsonldStringContext.getDefault();
+
         id = "urn:uuid:e5891791-3d27-4df1-a272-091806a43dfb";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
@@ -133,7 +142,15 @@ public class AssessmentItemEventCompletedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        ObjectMapper mapper = JxnObjectMapper.create();
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventAssessmentItemCompleted.json");
@@ -158,6 +175,7 @@ public class AssessmentItemEventCompletedTest {
      */
     private AssessmentItemEvent buildEvent(Action action) {
         return AssessmentItemEvent.builder()
+            .context(context)
             .id(id)
             .actor(actor)
             .action(action)

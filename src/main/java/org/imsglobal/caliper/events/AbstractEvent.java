@@ -24,18 +24,17 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.CaliperType;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Context;
+import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.entities.CaliperEntity;
 import org.imsglobal.caliper.entities.CaliperGeneratable;
 import org.imsglobal.caliper.entities.CaliperReferrer;
 import org.imsglobal.caliper.entities.CaliperTargetable;
 import org.imsglobal.caliper.entities.agent.CaliperAgent;
-import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.CaliperOrganization;
+import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.LtiSession;
 import org.imsglobal.caliper.entities.session.Session;
-import org.imsglobal.caliper.validators.EventValidator;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +50,7 @@ import java.util.List;
 public abstract class AbstractEvent implements CaliperEvent {
 
     @JsonProperty("@context")
-    private final Context context;
+    private final JsonldContext context;
 
     @JsonProperty("type")
     private final CaliperType type;
@@ -110,9 +109,6 @@ public abstract class AbstractEvent implements CaliperEvent {
      * @param builder
      */
     protected AbstractEvent(Builder<?> builder) {
-
-        EventValidator.checkContext(builder.context, Context.REMOTE_CALIPER_JSONLD_CONTEXT);
-
         this.context = builder.context;
         this.type = builder.type;
         this.id = builder.id;
@@ -136,7 +132,7 @@ public abstract class AbstractEvent implements CaliperEvent {
      * @return the context
      */
     @Nonnull
-    public Context getContext() {
+    public JsonldContext getContext() {
         return context;
     }
 
@@ -277,7 +273,7 @@ public abstract class AbstractEvent implements CaliperEvent {
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
-        private Context context;
+        private JsonldContext context;
         private String id;
         private CaliperType type;
         private CaliperAgent actor;
@@ -300,7 +296,6 @@ public abstract class AbstractEvent implements CaliperEvent {
          * Initialize type with default values.
          */
         public Builder() {
-            context(Context.REMOTE_CALIPER_JSONLD_CONTEXT);
             type(EventType.EVENT);
         }
 
@@ -308,7 +303,7 @@ public abstract class AbstractEvent implements CaliperEvent {
          * @param context
          * @return builder.
          */
-        public T context(Context context) {
+        public T context(JsonldContext context) {
             this.context = context;
             return self();
         }

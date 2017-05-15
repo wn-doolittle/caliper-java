@@ -20,6 +20,8 @@ package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -42,6 +44,7 @@ import static org.junit.Assert.assertEquals;
 
 // @Category(org.imsglobal.caliper.UnitTest.class)
 public class SensorSendEventsTest {
+    private JsonldContext context;
     private String id;
     private Person actor;
     private WebPage object;
@@ -63,6 +66,8 @@ public class SensorSendEventsTest {
         Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
         HttpClient client = new HttpClient(manager.getId().concat("/clients/1"), opts);
         manager.registerClient(client.getId(), client);
+
+        context = JsonldStringContext.getDefault();
 
         id = "urn:id:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594";
 
@@ -136,6 +141,7 @@ public class SensorSendEventsTest {
      */
     private NavigationEvent buildEvent(Action action) {
         return NavigationEvent.builder()
+            .context(context)
             .id(id)
             .actor(actor)
             .action(action)

@@ -16,15 +16,29 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities;
+package org.imsglobal.caliper.context;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
-public @interface Context {
-	// Field tag only annotation
+public class JsonldObjectContext implements JsonldContext {
+
+    @JsonProperty("@context")
+    private Object context;
+
+    /**
+     * Constructor.  Private to force use of factory methods.
+     */
+    private JsonldObjectContext(Object context) {
+        this.context = context;
+
+    }
+
+    /**
+     * Factory method
+     * @param context
+     * @return JsonldObjectContext
+     */
+    public static JsonldObjectContext create(Object context) {
+        return new JsonldObjectContext(context);
+    }
 }

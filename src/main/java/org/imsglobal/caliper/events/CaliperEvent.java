@@ -21,14 +21,14 @@ package org.imsglobal.caliper.events;
 import com.google.common.collect.ImmutableList;
 import org.imsglobal.caliper.CaliperType;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Context;
+import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.entities.CaliperEntity;
 import org.imsglobal.caliper.entities.CaliperGeneratable;
 import org.imsglobal.caliper.entities.CaliperReferrer;
 import org.imsglobal.caliper.entities.CaliperTargetable;
 import org.imsglobal.caliper.entities.agent.CaliperAgent;
-import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.CaliperOrganization;
+import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.LtiSession;
 import org.imsglobal.caliper.entities.session.Session;
@@ -44,7 +44,7 @@ public interface CaliperEvent {
      * should be expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the context IRI.
      */
-    Context getContext();
+    JsonldContext getContext();
 
     /**
      * Identifier that MUST be set either by the emitting service or the receiving endpoint.

@@ -33,7 +33,6 @@ import java.text.DecimalFormat;
  * by annotating the target property's accessor using @JsonSerialize annotation.
  */
 public class JxnDoubleSerializer extends JsonSerializer<Double> {
-
     @Override
     public void serialize(Double value, JsonGenerator jgen, SerializerProvider provider)
                                             throws IOException, JsonGenerationException {

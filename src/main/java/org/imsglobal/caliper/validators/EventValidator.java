@@ -18,7 +18,6 @@
 
 package org.imsglobal.caliper.validators;
 
-import org.imsglobal.caliper.config.Context;
 import org.imsglobal.caliper.CaliperType;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.CaliperGeneratable;
@@ -45,9 +44,11 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
+    /**
     public static void checkContext(Context context, Context expected) throws IllegalArgumentException {
         checkArgument(context.equals(expected), "expected @context %s but was %s", expected, context);
     }
+     */
 
     /**
      * Check Event type.
