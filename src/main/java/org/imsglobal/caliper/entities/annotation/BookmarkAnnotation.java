@@ -19,21 +19,11 @@
 package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.agent.Agent;
-import org.imsglobal.caliper.entities.resource.Resource;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BookmarkAnnotation extends AbstractEntity implements Annotation {
-
-    @JsonProperty("annotated")
-    private Resource annotated;
-
-    @JsonProperty("annotator")
-    private final Agent annotator;
+public class BookmarkAnnotation extends AbstractAnnotation {
 
     @JsonProperty("bookmarkNotes")
     private String bookmarkNotes;
@@ -43,26 +33,7 @@ public class BookmarkAnnotation extends AbstractEntity implements Annotation {
      */
     protected BookmarkAnnotation(Builder<?> builder) {
         super(builder);
-
-        this.annotated = builder.annotated;
-        this.annotator = builder.annotator;
         this.bookmarkNotes = builder.bookmarkNotes;
-    }
-
-    /**
-     * @return the annotated object's identifier
-     */
-    @Nonnull
-    public Resource getAnnotated() {
-        return annotated;
-    }
-
-    /**
-     * @return the Annotator
-     */
-    @Nonnull
-    public Agent getAnnotator() {
-        return annotator;
     }
 
     /**
@@ -77,9 +48,7 @@ public class BookmarkAnnotation extends AbstractEntity implements Annotation {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
-        private Resource annotated;
-        private Agent annotator;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractAnnotation.Builder<T> {
         private String bookmarkNotes;
 
         /**
@@ -87,24 +56,6 @@ public class BookmarkAnnotation extends AbstractEntity implements Annotation {
          */
         public Builder() {
             super.type(EntityType.BOOKMARK_ANNOTATION);
-        }
-
-        /**
-         * @param annotated
-         * @return builder.
-         */
-        public T annotated(Resource annotated) {
-            this.annotated = annotated;
-            return self();
-        }
-
-        /**
-         * @param annotator
-         * @return builder.
-         */
-        public T annotator(Agent annotator) {
-            this.annotator = annotator;
-            return self();
         }
 
         /**

@@ -31,13 +31,13 @@ import java.util.List;
  * This class provides a skeletal implementation of the Org interface
  * in order to minimize the effort required to implement the interface.
  */
-public abstract class AbstractOrganization extends AbstractEntity implements Org {
+public abstract class AbstractOrganization extends AbstractEntity implements CaliperOrganization {
 
     @JsonProperty("subOrganizationOf")
-    private final Org subOrganizationOf;
+    private final CaliperOrganization subOrganizationOf;
 
     @JsonProperty("members")
-    private final ImmutableList<Agent> members;
+    private final ImmutableList<CaliperAgent> members;
 
     /**
      * @param builder apply builder object properties to the object.
@@ -52,7 +52,7 @@ public abstract class AbstractOrganization extends AbstractEntity implements Org
      * @return the parent organization.
      */
     @Nullable
-    public Org getSubOrganizationOf() {
+    public CaliperOrganization getSubOrganizationOf() {
         return subOrganizationOf;
     }
 
@@ -63,7 +63,7 @@ public abstract class AbstractOrganization extends AbstractEntity implements Org
      */
     @Override
     @Nullable
-    public ImmutableList<Agent> getMembers() {
+    public ImmutableList<CaliperAgent> getMembers() {
         return members;
     }
 
@@ -72,8 +72,8 @@ public abstract class AbstractOrganization extends AbstractEntity implements Org
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
-        private Org subOrganizationOf;
-        private List<Agent> members = Lists.newArrayList();
+        private CaliperOrganization subOrganizationOf;
+        private List<CaliperAgent> members = Lists.newArrayList();
 
         /**
          * Constructor
@@ -86,7 +86,7 @@ public abstract class AbstractOrganization extends AbstractEntity implements Org
          * @param subOrganizationOf
          * @return builder.
          */
-        public T subOrganizationOf(Org subOrganizationOf) {
+        public T subOrganizationOf(CaliperOrganization subOrganizationOf) {
             this.subOrganizationOf = subOrganizationOf;
             return self();
         }
@@ -95,7 +95,7 @@ public abstract class AbstractOrganization extends AbstractEntity implements Org
          * @param members
          * @return builder.
          */
-        public T members(List<Agent> members) {
+        public T members(List<CaliperAgent> members) {
             this.members = members;
             return self();
         }
@@ -104,7 +104,7 @@ public abstract class AbstractOrganization extends AbstractEntity implements Org
          * @param member
          * @return builder.
          */
-        public T member(Agent member) {
+        public T member(CaliperAgent member) {
             this.members.add(member);
             return self();
         }

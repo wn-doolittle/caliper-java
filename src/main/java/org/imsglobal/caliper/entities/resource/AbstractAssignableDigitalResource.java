@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
  * This class provides a skeletal implementation of the Assignable interface
  * in order to minimize the effort required to implement the interface.
  */
-public abstract class AbstractAssignableDigitalResource extends AbstractDigitalResource implements Assignable {
+public abstract class AbstractAssignableDigitalResource extends AbstractDigitalResource implements CaliperAssignable {
 
     @JsonIgnore
     private Assignment assign = new Assignment();
@@ -103,7 +103,7 @@ public abstract class AbstractAssignableDigitalResource extends AbstractDigitalR
      * @return the maxScore
      */
     @Nullable
-    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getMaxScore() {
         return assign.getMaxScore();

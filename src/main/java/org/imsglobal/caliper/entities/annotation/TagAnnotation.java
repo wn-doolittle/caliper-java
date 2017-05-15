@@ -21,22 +21,12 @@ package org.imsglobal.caliper.entities.annotation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.agent.Agent;
-import org.imsglobal.caliper.entities.resource.Resource;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TagAnnotation extends AbstractEntity implements Annotation {
-
-    @JsonProperty("annotated")
-    private Resource annotated;
-
-    @JsonProperty("annotator")
-    private final Agent annotator;
+public class TagAnnotation extends AbstractAnnotation {
 
     @JsonProperty("tags")
     private ImmutableList<String> tags;
@@ -46,26 +36,7 @@ public class TagAnnotation extends AbstractEntity implements Annotation {
      */
     protected TagAnnotation(Builder<?> builder) {
         super(builder);
-
-        this.annotated = builder.annotated;
-        this.annotator = builder.annotator;
         this.tags = ImmutableList.copyOf(builder.tags);
-    }
-
-    /**
-     * @return the annotated object's identifier
-     */
-    @Nonnull
-    public Resource getAnnotated() {
-        return annotated;
-    }
-
-    /**
-     * @return the actor
-     */
-    @Nonnull
-    public Agent getAnnotator() {
-        return annotator;
     }
 
     /**
@@ -81,9 +52,7 @@ public class TagAnnotation extends AbstractEntity implements Annotation {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
-        private Resource annotated;
-        private Agent annotator;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractAnnotation.Builder<T> {
         private List<String> tags = Lists.newArrayList();
 
         /**
@@ -91,24 +60,6 @@ public class TagAnnotation extends AbstractEntity implements Annotation {
          */
         public Builder() {
             type(EntityType.TAG_ANNOTATION);
-        }
-
-        /**
-         * @param annotated
-         * @return builder.
-         */
-        public T annotated(Resource annotated) {
-            this.annotated = annotated;
-            return self();
-        }
-
-        /**
-         * @param annotator
-         * @return builder.
-         */
-        public T annotator(Agent annotator) {
-            this.annotator = annotator;
-            return self();
         }
 
         /**

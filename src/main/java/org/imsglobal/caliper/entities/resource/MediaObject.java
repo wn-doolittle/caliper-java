@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 /**
  * Concrete implementation of a generic MediaObject.
  */
-public class MediaObject extends AbstractDigitalResource implements Media {
+public class MediaObject extends AbstractDigitalResource implements CaliperMediaObject {
 
     @JsonProperty("duration")
     private String duration;

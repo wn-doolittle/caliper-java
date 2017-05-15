@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * CourseOffering provides a subset of the CourseOffering properties specified in the IMS LTI 2.0
  * specification, which in turn, draws inspiration from the IMS LIS 1.0 specification.
  */
-public class CourseOffering extends AbstractOrganization implements Course {
+public class CourseOffering extends AbstractOrganization implements CaliperCourse {
 
     @JsonProperty("courseNumber")
     private final String courseNumber;

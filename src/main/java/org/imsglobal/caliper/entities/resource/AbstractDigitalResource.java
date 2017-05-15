@@ -22,9 +22,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.imsglobal.caliper.entities.AbstractEntity;
-import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.CaliperEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nullable;
@@ -34,13 +34,13 @@ import java.util.List;
  * This class provides a skeletal implementation of the Resource interface
  * in order to minimize the effort required to implement the interface.
  */
-public abstract class AbstractDigitalResource extends AbstractEntity implements Resource {
+public abstract class AbstractDigitalResource extends AbstractEntity implements CaliperDigitalResource {
 
     @JsonProperty("mediaType")
     private final String mediaType;
 
     @JsonProperty("creators")
-    private final ImmutableList<Agent> creators;
+    private final ImmutableList<CaliperAgent> creators;
 
     @JsonProperty("learningObjectives")
     private final ImmutableList<LearningObjective> learningObjectives;
@@ -49,7 +49,7 @@ public abstract class AbstractDigitalResource extends AbstractEntity implements 
     private final ImmutableList<String> keywords;
 
     @JsonProperty("isPartOf")
-    private final Entity isPartOf;
+    private final CaliperEntity isPartOf;
 
     @JsonProperty("datePublished")
     private final DateTime datePublished;
@@ -85,7 +85,7 @@ public abstract class AbstractDigitalResource extends AbstractEntity implements 
      * @return the creators of this resource
      */
     @Nullable
-    public ImmutableList<Agent> getCreators() {
+    public ImmutableList<CaliperAgent> getCreators() {
         return creators;
     }
 
@@ -111,7 +111,7 @@ public abstract class AbstractDigitalResource extends AbstractEntity implements 
      * @return the parent reference.
      */
     @Nullable
-    public Entity getIsPartOf() {
+    public CaliperEntity getIsPartOf() {
         return isPartOf;
     }
 
@@ -137,10 +137,10 @@ public abstract class AbstractDigitalResource extends AbstractEntity implements 
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T>  {
         private String mediaType;
-        private List<Agent> creators = Lists.newArrayList();
+        private List<CaliperAgent> creators = Lists.newArrayList();
         private List<LearningObjective> learningObjectives = Lists.newArrayList();
         private List<String> keywords = Lists.newArrayList();
-        private Entity isPartOf;
+        private CaliperEntity isPartOf;
         private DateTime datePublished;
         private String version;
 
@@ -164,7 +164,7 @@ public abstract class AbstractDigitalResource extends AbstractEntity implements 
          * @param creators
          * @return builder.
          */
-        public T creators(List<Agent> creators) {
+        public T creators(List<CaliperAgent> creators) {
             this.creators = creators;
             return self();
         }
@@ -173,7 +173,7 @@ public abstract class AbstractDigitalResource extends AbstractEntity implements 
          * @param creator
          * @return builder.
          */
-        public T creator(Agent creator) {
+        public T creator(CaliperAgent creator) {
             this.creators.add(creator);
             return self();
         }
@@ -218,7 +218,7 @@ public abstract class AbstractDigitalResource extends AbstractEntity implements 
          * @param isPartOf
          * @return builder.
          */
-        public T isPartOf(Entity isPartOf) {
+        public T isPartOf(CaliperEntity isPartOf) {
             this.isPartOf = isPartOf;
             return self();
         }

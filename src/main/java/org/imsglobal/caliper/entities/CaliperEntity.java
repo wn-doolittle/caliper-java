@@ -21,7 +21,7 @@ package org.imsglobal.caliper.entities;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.google.common.collect.ImmutableList;
 import org.imsglobal.caliper.config.Context;
-import org.imsglobal.caliper.Type;
+import org.imsglobal.caliper.CaliperType;
 import org.joda.time.DateTime;
 
 /**
@@ -29,7 +29,7 @@ import org.joda.time.DateTime;
  * Entity to be linkable, dereferencing the identifier should result in a representation of the node.
  */
 @JsonFilter("entityFilter")
-public interface Entity {
+public interface CaliperEntity {
 
     /**
      * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
@@ -51,7 +51,7 @@ public interface Entity {
      * expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the type IRI
      */
-    Type getType();
+    CaliperType getType();
 
     /**
      * The name of the Entity.  Optional.

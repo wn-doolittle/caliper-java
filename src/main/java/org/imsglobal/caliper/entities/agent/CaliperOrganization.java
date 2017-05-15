@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.entities.agent;
 
 import com.google.common.collect.ImmutableList;
-import org.imsglobal.caliper.entities.Entity;
+import org.imsglobal.caliper.entities.CaliperEntity;
 
 /**
  * The organization interface marks an object type that represents a collection of people organized
@@ -27,18 +27,18 @@ import org.imsglobal.caliper.entities.Entity;
  * Caliper to catch errors at compile time for instances of the marked class rather than
  * at runtime if a marker annotation was defined instead.
  */
-public interface Org extends Entity, Agent {
+public interface CaliperOrganization extends CaliperEntity, CaliperAgent {
 
     /**
      * Return the parent organization.
      * @return
      */
-    Org getSubOrganizationOf();
+    CaliperOrganization getSubOrganizationOf();
 
 
     /**
      * Return the members.
      * @return
      */
-    ImmutableList<Agent> getMembers();
+    ImmutableList<CaliperAgent> getMembers();
 }

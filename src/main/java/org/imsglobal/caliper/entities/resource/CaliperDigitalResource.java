@@ -19,27 +19,27 @@
 package org.imsglobal.caliper.entities.resource;
 
 import com.google.common.collect.ImmutableList;
-import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.Referrer;
-import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.entities.CaliperEntity;
+import org.imsglobal.caliper.entities.CaliperGeneratable;
+import org.imsglobal.caliper.entities.CaliperReferrer;
+import org.imsglobal.caliper.entities.CaliperTargetable;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.joda.time.DateTime;
 
 /**
  * A generic representation of a resource, analogous to schema.org's CreativeWork.
  */
-public interface Resource extends Entity, Generatable, Referrer, Targetable {
+public interface CaliperDigitalResource extends CaliperEntity, CaliperGeneratable, CaliperReferrer, CaliperTargetable {
 
     String getMediaType();
 
-    ImmutableList<Agent> getCreators();
+    ImmutableList<CaliperAgent> getCreators();
 
     ImmutableList<LearningObjective> getLearningObjectives();
 
     ImmutableList<String> getKeywords();
 
-    Entity getIsPartOf();
+    CaliperEntity getIsPartOf();
 
     DateTime getDatePublished();
 

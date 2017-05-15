@@ -19,9 +19,9 @@
 package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.imsglobal.caliper.Type;
+import org.imsglobal.caliper.CaliperType;
 
-public enum EntityType implements Type {
+public enum EntityType implements CaliperType {
     AGENT("Agent"),
     ANNOTATION("Annotation"),
     ASSESSMENT("Assessment"),

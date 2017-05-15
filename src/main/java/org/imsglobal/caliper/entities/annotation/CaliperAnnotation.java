@@ -18,22 +18,22 @@
 
 package org.imsglobal.caliper.entities.annotation;
 
-import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.agent.Agent;
-import org.imsglobal.caliper.entities.resource.Resource;
+import org.imsglobal.caliper.entities.CaliperEntity;
+import org.imsglobal.caliper.entities.CaliperGeneratable;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
+import org.imsglobal.caliper.entities.resource.CaliperDigitalResource;
 
-public interface Annotation extends Entity, Generatable {
+public interface CaliperAnnotation extends CaliperEntity, CaliperGeneratable {
 
     /**
      * Return the annotated DigitalResource.
      * @return Resource
      */
-    Resource getAnnotated();
+    CaliperDigitalResource getAnnotated();
 
     /**
      * Return the Agent who generated the Annotation.
      * @return Agent
      */
-    Agent getAnnotator();
+    CaliperAgent getAnnotator();
 }

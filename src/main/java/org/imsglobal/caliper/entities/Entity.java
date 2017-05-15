@@ -21,12 +21,12 @@ package org.imsglobal.caliper.entities;
 /**
  * Concrete implementation of a generic Entity.
  */
-public class BasicEntity extends AbstractEntity {
+public class Entity extends AbstractEntity {
 
     /**
      * @param builder apply builder object properties to the object.
      */
-    protected BasicEntity(Builder<?> builder) {
+    protected Entity(Builder<?> builder) {
         super(builder);
     }
 
@@ -47,8 +47,8 @@ public class BasicEntity extends AbstractEntity {
          * Client invokes build method in order to create an immutable object.
          * @return a new instance of the BasicEntity.
          */
-        public BasicEntity build() {
-            return new BasicEntity(this);
+        public Entity build() {
+            return new Entity(this);
         }
     }
 

@@ -20,12 +20,12 @@ package org.imsglobal.caliper.entities.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.entities.CaliperTargetable;
 
 /**
  * Media Location
  */
-public class MediaLocation extends AbstractDigitalResource implements Targetable {
+public class MediaLocation extends AbstractDigitalResource implements CaliperTargetable {
 
     @JsonProperty("currentTime")
     private String currentTime;

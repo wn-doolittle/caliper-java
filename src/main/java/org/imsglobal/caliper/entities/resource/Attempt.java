@@ -23,9 +23,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.Generatable;
+import org.imsglobal.caliper.entities.CaliperGeneratable;
 import org.imsglobal.caliper.entities.TimePeriod;
-import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -35,13 +35,13 @@ import javax.annotation.Nullable;
  * Representation of an Attempt. Attempts are generated as part of or
  * are the object of an interaction represented by an AssignableEvent.
  */
-public class Attempt extends AbstractEntity implements Generatable {
+public class Attempt extends AbstractEntity implements CaliperGeneratable {
 
     @JsonProperty("assignable")
-    private final Resource assignable;
+    private final CaliperDigitalResource assignable;
 
     @JsonProperty("assignee")
-    private final Agent assignee;
+    private final CaliperAgent assignee;
 
     @JsonProperty("isPartOf")
     private final Attempt isPartOf;
@@ -74,7 +74,7 @@ public class Attempt extends AbstractEntity implements Generatable {
      * @return the assignment
      */
     @Nullable
-    public Resource getAssignable() {
+    public CaliperDigitalResource getAssignable() {
         return assignable;
     }
 
@@ -82,7 +82,7 @@ public class Attempt extends AbstractEntity implements Generatable {
      * @return the actor
      */
     @Nullable
-    public Agent getAssignee() {
+    public CaliperAgent getAssignee() {
         return assignee;
     }
 
@@ -132,8 +132,8 @@ public class Attempt extends AbstractEntity implements Generatable {
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
-        private Resource assignable;
-        private Agent assignee;
+        private CaliperDigitalResource assignable;
+        private CaliperAgent assignee;
         private Attempt isPartOf;
         private int count;
         private TimePeriod timePeriod = new TimePeriod();
@@ -149,7 +149,7 @@ public class Attempt extends AbstractEntity implements Generatable {
          * @param assignable
          * @return builder.
          */
-        public T assignable(Resource assignable) {
+        public T assignable(CaliperDigitalResource assignable) {
             this.assignable = assignable;
             return self();
         }
@@ -158,7 +158,7 @@ public class Attempt extends AbstractEntity implements Generatable {
          * @param assignee
          * @return builder.
          */
-        public T assignee(Agent assignee) {
+        public T assignee(CaliperAgent assignee) {
             this.assignee = assignee;
             return self();
         }

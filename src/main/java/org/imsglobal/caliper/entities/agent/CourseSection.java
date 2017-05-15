@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  * A Caliper CourseSection provides a subset of the CourseSection properties specified in the
  * IMS LTI 2.0 specification, which in turn, draws inspiration from the IMS LIS 1.0 specification.
  */
-public class CourseSection extends AbstractOrganization implements Course {
+public class CourseSection extends AbstractOrganization implements CaliperCourse {
 
     @JsonProperty("courseNumber")
     private final String courseNumber;

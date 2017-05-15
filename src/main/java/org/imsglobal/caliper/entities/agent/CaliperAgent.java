@@ -23,6 +23,6 @@ package org.imsglobal.caliper.entities.agent;
  * Caliper to catch errors at compile time for instances of the marked class rather than
  * at runtime if a marker annotation was defined instead.
  */
-public interface Agent {
+public interface CaliperAgent {
 
 }

@@ -23,7 +23,7 @@ import org.imsglobal.caliper.entities.EntityType;
 /**
  * Concrete implementation of a generic Organization.
  */
-public class Organization extends AbstractOrganization implements Org {
+public class Organization extends AbstractOrganization implements CaliperOrganization {
 
     /**
      * @param builder apply builder object properties to the object.

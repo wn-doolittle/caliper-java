@@ -25,7 +25,7 @@ import org.joda.time.DateTime;
  * engage with as part of an assignment.  The interface allows Caliper to catch errors at compile time for
  * instances of the marked class rather than at runtime if a marker annotation was defined instead.
  */
-public interface Assignable extends Resource {
+public interface CaliperAssignable extends CaliperDigitalResource {
 
     DateTime getDateToStartOn();
 

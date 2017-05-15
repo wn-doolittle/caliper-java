@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 /**
  * A Video object embedded in a web page.
  */
-public class VideoObject extends AbstractDigitalResource implements Media {
+public class VideoObject extends AbstractDigitalResource implements CaliperMediaObject {
 
     @JsonProperty("duration")
     private String duration;

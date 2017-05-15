@@ -22,14 +22,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.entities.CaliperGeneratable;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.imsglobal.caliper.entities.resource.Attempt;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Result extends AbstractEntity implements Generatable {
+public class Result extends AbstractEntity implements CaliperGeneratable {
 
     @JsonProperty("attempt")
     private Attempt attempt;
@@ -56,7 +56,7 @@ public class Result extends AbstractEntity implements Generatable {
     private String comment;
 
     @JsonProperty("scoredBy")
-    private Agent scoredBy;
+    private CaliperAgent scoredBy;
 
     /**
      * @param builder apply builder object properties to the object.
@@ -87,7 +87,7 @@ public class Result extends AbstractEntity implements Generatable {
      * @return the normalScore
      */
     @Nullable
-    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getNormalScore() {
         return normalScore;
@@ -97,7 +97,7 @@ public class Result extends AbstractEntity implements Generatable {
      * @return the penaltyScore
      */
     @Nullable
-    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getPenaltyScore() {
         return penaltyScore;
@@ -107,7 +107,7 @@ public class Result extends AbstractEntity implements Generatable {
      * @return the extraCreditScore
      */
     @Nullable
-    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getExtraCreditScore() {
         return extraCreditScore;
@@ -117,7 +117,7 @@ public class Result extends AbstractEntity implements Generatable {
      * @return the totalScore
      */
     @Nullable
-    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getTotalScore() {
         return totalScore;
@@ -127,7 +127,7 @@ public class Result extends AbstractEntity implements Generatable {
      * @return the curvedTotalScore
      */
     @Nullable
-    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getCurvedTotalScore() {
         return curvedTotalScore;
@@ -137,7 +137,7 @@ public class Result extends AbstractEntity implements Generatable {
      * @return the curveFactor
      */
     @Nullable
-    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getCurveFactor() {
         return curveFactor;
@@ -155,7 +155,7 @@ public class Result extends AbstractEntity implements Generatable {
      * @return the agent who scored the result
      */
     @Nullable
-    public Agent getScoredBy() {
+    public CaliperAgent getScoredBy() {
         return scoredBy;
     }
 
@@ -172,7 +172,7 @@ public class Result extends AbstractEntity implements Generatable {
         private double curvedTotalScore;
         private double curveFactor;
         private String comment;
-        private Agent scoredBy;
+        private CaliperAgent scoredBy;
 
         /**
          * Constructor
@@ -257,7 +257,7 @@ public class Result extends AbstractEntity implements Generatable {
          * @param scoredBy
          * @return agent who scored the result.
          */
-        public T scoredBy(Agent scoredBy) {
+        public T scoredBy(CaliperAgent scoredBy) {
             this.scoredBy = scoredBy;
             return self();
         }
