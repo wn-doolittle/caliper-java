@@ -18,9 +18,9 @@
 
 package org.imsglobal.caliper.validators;
 
-import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.entities.CaliperGeneratable;
+import org.imsglobal.caliper.entities.CaliperTargetable;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -32,7 +32,7 @@ public class TypeValidator {
      * @param type
      * @throws IllegalArgumentException
      */
-    protected static void checkActorType(Agent actor, Class<?> type) throws IllegalArgumentException {
+    protected static void checkActorType(CaliperAgent actor, Class<?> type) throws IllegalArgumentException {
         checkArgument(actor != null, "actor must be specified");
         checkArgument(isOfType(actor, type),
             "expected actor %s but was %s",
@@ -60,7 +60,7 @@ public class TypeValidator {
      * @param type
      * @return Validation result
      */
-    protected static void checkTargetType(Targetable target, Class<?> type) throws IllegalArgumentException {
+    protected static void checkTargetType(CaliperTargetable target, Class<?> type) throws IllegalArgumentException {
         checkArgument(target != null, "target must be specified");
         checkArgument(isOfType(target, type),
             "expected event targetable %s but was %s",
@@ -74,7 +74,7 @@ public class TypeValidator {
      * @param type
      * @return Validation result
      */
-    protected static void checkGeneratedType(Generatable generated, Class<?> type) throws IllegalArgumentException {
+    protected static void checkGeneratedType(CaliperGeneratable generated, Class<?> type) throws IllegalArgumentException {
         checkArgument(generated != null, "generated object must be specified");
         checkArgument(isOfType(generated, type),
                 "expected event generatable %s but was %s",

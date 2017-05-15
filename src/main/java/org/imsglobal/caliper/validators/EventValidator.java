@@ -19,12 +19,12 @@
 package org.imsglobal.caliper.validators;
 
 import org.imsglobal.caliper.config.Context;
-import org.imsglobal.caliper.Type;
+import org.imsglobal.caliper.CaliperType;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.entities.agent.Agent;
-import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.entities.CaliperGeneratable;
+import org.imsglobal.caliper.entities.CaliperTargetable;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
+import org.imsglobal.caliper.events.CaliperEvent;
 import org.imsglobal.caliper.events.EventType;
 import org.imsglobal.caliper.events.SupportedActions;
 
@@ -55,7 +55,7 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkType(Type type, EventType expected) throws IllegalArgumentException {
+    public static void checkType(CaliperType type, EventType expected) throws IllegalArgumentException {
         checkArgument(type.value().equals(expected.value()), "expected @type %s but was %s", expected.value(), type);
     }
 
@@ -65,7 +65,7 @@ public class EventValidator {
      * @param type
      * @throws IllegalArgumentException
      */
-    public static void checkActorType(Agent actor, Class<?> type) throws IllegalArgumentException {
+    public static void checkActorType(CaliperAgent actor, Class<?> type) throws IllegalArgumentException {
         TypeValidator.checkActorType(actor, type);
     }
 
@@ -74,7 +74,7 @@ public class EventValidator {
      * @param action
      * @throws IllegalArgumentException
      */
-    public static void checkAction(Action action, Class<? extends Event> clazz) throws IllegalArgumentException {
+    public static void checkAction(Action action, Class<? extends CaliperEvent> clazz) throws IllegalArgumentException {
         checkArgument(action != null, "an action must be specified");
 
         SupportedActions actions = clazz.getAnnotation(SupportedActions.class);
@@ -96,7 +96,7 @@ public class EventValidator {
      * @param type
      * @return Validation result
      */
-    public static void checkGeneratedType(Generatable generated, Class<?> type) throws IllegalArgumentException {
+    public static void checkGeneratedType(CaliperGeneratable generated, Class<?> type) throws IllegalArgumentException {
         TypeValidator.checkGeneratedType(generated, type);
     }
 
@@ -106,7 +106,7 @@ public class EventValidator {
      * @param type
      * @return Validation result
      */
-    public static void checkTargetType(Targetable target, Class<?> type) throws IllegalArgumentException {
+    public static void checkTargetType(CaliperTargetable target, Class<?> type) throws IllegalArgumentException {
         TypeValidator.checkTargetType(target, type);
     }
 
