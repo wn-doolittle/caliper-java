@@ -6,10 +6,10 @@ import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum JsonFilters {
+public enum Filters {
     EXCLUDE_CONTEXT("entityFilter", SimpleBeanPropertyFilter.serializeAllExcept("@context")),
-    SERIALIZE_ALL("defaultFilter", SimpleBeanPropertyFilter.serializeAll()),
-    TYPE_COERCE("typeCoerceFilter", SimpleBeanPropertyFilter.filterOutAllExcept("@id"));
+    ID_ONLY("idOnlyFilter", SimpleBeanPropertyFilter.filterOutAllExcept("id")),
+    SERIALIZE_ALL("defaultFilter", SimpleBeanPropertyFilter.serializeAll());
 
     private final String id;
     private final SimpleBeanPropertyFilter filter;
@@ -17,7 +17,7 @@ public enum JsonFilters {
 
     static {
         Map<String, SimpleBeanPropertyFilter> map = new HashMap<>();
-        for (JsonFilters constants : JsonFilters.values()) {
+        for (Filters constants : Filters.values()) {
             map.put(constants.id(), constants.filter());
         }
         filters = ImmutableMap.copyOf(map);
@@ -27,7 +27,7 @@ public enum JsonFilters {
      * Private constructor
      * @param id
      */
-    private JsonFilters(final String id, final SimpleBeanPropertyFilter filter) {
+    private Filters(final String id, final SimpleBeanPropertyFilter filter) {
         this.id = id;
         this.filter = filter;
     }

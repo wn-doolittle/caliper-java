@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
  * whenever the value is set to 0.0.  Reference this custom serializer
  * by annotating the target property's accessor using @JsonSerialize annotation.
  */
-public class JsonDoubleSerializer extends JsonSerializer<Double> {
+public class DoubleSerializer extends JsonSerializer<Double> {
 
     @Override
     public void serialize(Double value, JsonGenerator jgen, SerializerProvider provider)
