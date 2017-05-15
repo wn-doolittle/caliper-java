@@ -18,15 +18,15 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.CoercibleSimpleModule;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.databind.JxnFilterProvider;
+import org.imsglobal.caliper.databind.JxnFilters;
+import org.imsglobal.caliper.databind.JxnObjectMapper;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -105,9 +105,7 @@ public class ViewEventViewedExtendedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
-        mapper.registerModule(new CoercibleSimpleModule());
+        ObjectMapper mapper = JxnObjectMapper.create();
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventViewViewedExtended.json");
@@ -149,8 +147,8 @@ public class ViewEventViewedExtendedTest {
      * @return
      */
     private ObjectNode createExtensionsNode() {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.SERIALIZE_ALL);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = JxnFilterProvider.create(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
+        ObjectMapper mapper = JxnObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider, new JodaModule());
 
         ObjectNode jobTag = mapper.createObjectNode();
         jobTag.put("id", "example:jobTag");

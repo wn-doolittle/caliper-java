@@ -19,14 +19,9 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.CoercibleSimpleModule;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
-import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.databind.JxnObjectMapper;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -60,7 +55,7 @@ public class AnnotationEventSharedTest {
     private CourseSection group;
     private Membership membership;
     private Session session;
-    private List<Agent> agents;
+    private List<CaliperAgent> agents;
     private AnnotationEvent event;
 
     private static final String BASE_EDU_IRI = "https://example.edu";
@@ -83,7 +78,7 @@ public class AnnotationEventSharedTest {
             .version("1.1")
             .build();
 
-        agents = new ArrayList<Agent>();
+        agents = new ArrayList<CaliperAgent>();
         agents.add(Person.builder().id(BASE_EDU_IRI.concat("/users/657585")).build());
         agents.add(Person.builder().id(BASE_EDU_IRI.concat("/users/667788")).build());
 
@@ -126,9 +121,7 @@ public class AnnotationEventSharedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
-        mapper.registerModule(new CoercibleSimpleModule());
+        ObjectMapper mapper = JxnObjectMapper.create();
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventAnnotationShared.json");

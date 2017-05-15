@@ -19,17 +19,13 @@
 package org.imsglobal.caliper.requestors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.ClientManager;
 import org.imsglobal.caliper.HttpClient;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.CoercibleSimpleModule;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.databind.JxnObjectMapper;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -149,9 +145,7 @@ public class EnvelopeEventSingleTest {
     @Test
     public void testSerializedEnvelope() throws Exception {
         // Serialize envelope, excluding null properties, empty objects, empty arrays and duplicate @context
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
-        mapper.registerModule(new CoercibleSimpleModule());
+        ObjectMapper mapper = JxnObjectMapper.create();
         String json = mapper.writeValueAsString(envelope);
 
         // Swap out sendTime=DateTime.now() in favor of fixture value (or test will most assuredly fail).
@@ -166,9 +160,7 @@ public class EnvelopeEventSingleTest {
     @Test
     public void testGeneratePayloadContentType() throws Exception {
         // Serialize envelope; include null properties, empty objects and empty arrays
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
-        mapper.registerModule(new CoercibleSimpleModule());
+        ObjectMapper mapper = JxnObjectMapper.create();
         String json = mapper.writeValueAsString(envelope);
 
         // Create an HTTP StringEntity envelopes with the envelope JSON.

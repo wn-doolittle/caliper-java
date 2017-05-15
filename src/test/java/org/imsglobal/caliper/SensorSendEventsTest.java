@@ -28,7 +28,7 @@ import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.resource.WebPage;
 import org.imsglobal.caliper.entities.session.Session;
-import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.events.CaliperEvent;
 import org.imsglobal.caliper.events.NavigationEvent;
 import org.imsglobal.caliper.requestors.Envelope;
 import org.joda.time.DateTime;
@@ -100,7 +100,7 @@ public class SensorSendEventsTest {
 
         // Fire event test - Send 50 envelopes containing the above event
         for (int i = 0 ; i < 50 ; i++) {
-            Event event = buildEvent(Action.NAVIGATED_TO);
+            CaliperEvent event = buildEvent(Action.NAVIGATED_TO);
 
             DateTime sendTime = new DateTime(2016, 11, 15, 12, 15, 0, 0, DateTimeZone.UTC);
             List<Object> data = new ArrayList<>();

@@ -18,16 +18,17 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.CoercibleSimpleModule;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.databind.JxnFilters;
+import org.imsglobal.caliper.databind.JxnFilterProvider;
+import org.imsglobal.caliper.databind.JxnObjectMapper;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -48,6 +49,8 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
@@ -125,9 +128,7 @@ public class NavigationEventNavigatedToFedSessionTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
-        mapper.registerModule(new CoercibleSimpleModule());
+        ObjectMapper mapper = JxnObjectMapper.create();
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventNavigationNavigatedToFedSession.json");
@@ -172,8 +173,10 @@ public class NavigationEventNavigatedToFedSessionTest {
      * @return JsonNode
      */
     private JsonNode createJsonNode(String json) {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.SERIALIZE_ALL);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = JxnFilterProvider.create(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
+        List<Module> modules = new ArrayList<>();
+        modules.add(new JodaModule());
+        ObjectMapper mapper = JxnObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider, modules);
 
         try {
             return mapper.readValue(json, JsonNode.class);
@@ -188,8 +191,8 @@ public class NavigationEventNavigatedToFedSessionTest {
      * @return
      */
     private ObjectNode createExtensionsNode() {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.SERIALIZE_ALL);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = JxnFilterProvider.create(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
+        ObjectMapper mapper = JxnObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider, new JodaModule());
 
         ObjectNode jobTitle = mapper.createObjectNode();
         jobTitle.put("id", "sdo:jobTitle");
