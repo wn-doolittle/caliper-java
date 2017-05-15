@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
 import java.util.Map;
 
-public class FilterProvider {
+public class JxnFilterProvider {
 
     /**
      * Constructor
      */
-    private FilterProvider() {
+    private JxnFilterProvider() {
 
     }
 
@@ -54,7 +54,7 @@ public class FilterProvider {
      */
     private static SimpleFilterProvider createBaseSimpleFilterProvider() {
         SimpleFilterProvider provider = new SimpleFilterProvider();
-        provider.setDefaultFilter(Filters.EXCLUDE_CONTEXT.filter());
+        provider.setDefaultFilter(JxnFilters.EXCLUDE_CONTEXT.filter());
         provider.setFailOnUnknownId(true);
 
         return provider;

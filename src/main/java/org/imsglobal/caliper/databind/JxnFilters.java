@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Filters {
+public enum JxnFilters {
     EXCLUDE_CONTEXT("entityFilter", SimpleBeanPropertyFilter.serializeAllExcept("@context")),
     ID_ONLY("idOnlyFilter", SimpleBeanPropertyFilter.filterOutAllExcept("id")),
     SERIALIZE_ALL("defaultFilter", SimpleBeanPropertyFilter.serializeAll());
@@ -17,7 +17,7 @@ public enum Filters {
 
     static {
         Map<String, SimpleBeanPropertyFilter> map = new HashMap<>();
-        for (Filters constants : Filters.values()) {
+        for (JxnFilters constants : JxnFilters.values()) {
             map.put(constants.id(), constants.filter());
         }
         filters = ImmutableMap.copyOf(map);
@@ -27,7 +27,7 @@ public enum Filters {
      * Private constructor
      * @param id
      */
-    private Filters(final String id, final SimpleBeanPropertyFilter filter) {
+    private JxnFilters(final String id, final SimpleBeanPropertyFilter filter) {
         this.id = id;
         this.filter = filter;
     }

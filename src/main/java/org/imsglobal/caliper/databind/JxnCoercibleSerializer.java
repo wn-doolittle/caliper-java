@@ -4,17 +4,17 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import org.imsglobal.caliper.entities.Coercible;
+import org.imsglobal.caliper.entities.CaliperCoercible;
 
 import java.io.IOException;
 
-public class CoercibleSerializer extends JsonSerializer<Coercible> {
+public class JxnCoercibleSerializer extends JsonSerializer<CaliperCoercible> {
     private JsonSerializer<Object> defaultSerializer;
 
     /**
      * Constructor
      */
-    public CoercibleSerializer() {
+    public JxnCoercibleSerializer() {
         this(null);
     }
 
@@ -22,12 +22,12 @@ public class CoercibleSerializer extends JsonSerializer<Coercible> {
      * Constructor that injects default serializer.
      * @param defaultSerializer
      */
-    public CoercibleSerializer(JsonSerializer<Object> defaultSerializer) {
+    public JxnCoercibleSerializer(JsonSerializer<Object> defaultSerializer) {
         this.defaultSerializer = defaultSerializer;
     }
 
     @Override
-    public void serialize(Coercible value, JsonGenerator jgen, SerializerProvider provider)
+    public void serialize(CaliperCoercible value, JsonGenerator jgen, SerializerProvider provider)
         throws IOException, JsonProcessingException {
 
         // System.out.print("IS_COERCED: " + value.getClass().getSimpleName() + " " + value.isCoercedToId() + "\n");
