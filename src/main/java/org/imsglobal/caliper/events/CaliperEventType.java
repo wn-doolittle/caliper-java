@@ -18,40 +18,10 @@
 
 package org.imsglobal.caliper.events;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+/**
+ * The type interface is implemented by a class that provides an Event with it's type identifier.
+ */
+public interface CaliperEventType {
 
-public enum EventType implements CaliperEventType {
-    ANNOTATION("AnnotationEvent"),
-    ASSESSMENT("AssessmentEvent"),
-    ASSESSMENT_ITEM("AssessmentItemEvent"),
-    ASSIGNABLE("AssignableEvent"),
-    EVENT("Event"),
-    FORUM("ForumEvent"),
-    MEDIA("MediaEvent"),
-    MESSAGE("MessageEvent"),
-    NAVIGATION("NavigationEvent"),
-    OUTCOME("OutcomeEvent"),
-    READING("ReadingEvent"),
-    SESSION("SessionEvent"),
-    THREAD("ThreadEvent"),
-    TOOL_USE("ToolUseEvent"),
-    VIEW("ViewEvent");
-
-    private final String value;
-
-    /**
-     * Private constructor
-     * @param value
-     */
-    private EventType(final String value) {
-        this.value = value;
-    }
-
-    /**
-     * @return URI string
-     */
-    @JsonValue
-    public String value() {
-        return value;
-    }
+    String value();
 }

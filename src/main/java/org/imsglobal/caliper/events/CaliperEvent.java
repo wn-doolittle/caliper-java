@@ -19,7 +19,6 @@
 package org.imsglobal.caliper.events;
 
 import com.google.common.collect.ImmutableList;
-import org.imsglobal.caliper.CaliperType;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.entities.CaliperEntity;
@@ -57,7 +56,7 @@ public interface CaliperEvent {
      * expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the event type IRI
      */
-    CaliperType getType();
+    CaliperEventType getType();
 
     /**
      * The actor engaged in the interaction.  Analogous to a subject.  Required.

@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.CaliperType;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.entities.CaliperEntity;
@@ -53,7 +52,7 @@ public abstract class AbstractEvent implements CaliperEvent {
     private final JsonldContext context;
 
     @JsonProperty("type")
-    private final CaliperType type;
+    private final CaliperEventType type;
 
     @JsonProperty("id")
     private final String id;
@@ -150,7 +149,7 @@ public abstract class AbstractEvent implements CaliperEvent {
      * @return the type
      */
     @Nonnull
-    public CaliperType getType() {
+    public CaliperEventType getType() {
         return type;
     }
 
@@ -275,7 +274,7 @@ public abstract class AbstractEvent implements CaliperEvent {
     public static abstract class Builder<T extends Builder<T>> {
         private JsonldContext context;
         private String id;
-        private CaliperType type;
+        private CaliperEventType type;
         private CaliperAgent actor;
         private Action action;
         private CaliperEntity object;
@@ -321,7 +320,7 @@ public abstract class AbstractEvent implements CaliperEvent {
          * @param type
          * @return builder.
          */
-        public T type(CaliperType type) {
+        public T type(CaliperEventType type) {
             this.type = type;
             return self();
         }
