@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.CaliperType;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
@@ -43,7 +42,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
     protected final String id;
 
     @JsonProperty("type")
-    private final CaliperType type;
+    private final CaliperEntityType type;
 
     @JsonProperty("name")
     private final String name;
@@ -106,7 +105,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
      * @return the type.
      */
     @Nonnull
-    public CaliperType getType() {
+    public CaliperEntityType getType() {
         return type;
     }
 
@@ -159,7 +158,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
         private boolean coercedToId;
         private JsonldContext context;
         private String id;
-        private CaliperType type;
+        private CaliperEntityType type;
         private String name;
         private String description;
         private DateTime dateCreated;
@@ -207,7 +206,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
          * @param type
          * @return builder.
          */
-        public T type(CaliperType type) {
+        public T type(CaliperEntityType type) {
             this.type = type;
             return self();
         }

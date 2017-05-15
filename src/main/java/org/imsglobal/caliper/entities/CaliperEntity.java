@@ -19,7 +19,6 @@
 package org.imsglobal.caliper.entities;
 
 import com.google.common.collect.ImmutableList;
-import org.imsglobal.caliper.CaliperType;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.joda.time.DateTime;
 
@@ -49,7 +48,7 @@ public interface CaliperEntity {
      * expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the type IRI
      */
-    CaliperType getType();
+    CaliperEntityType getType();
 
     /**
      * The name of the Entity.  Optional.
