@@ -42,10 +42,10 @@ import org.slf4j.LoggerFactory;
     Action.SUBSCRIBED, Action.TAGGED, Action.TIMED_OUT, Action.UNMUTED, Action.UNSUBSCRIBED, Action.USED,
     Action.VIEWED
 })
-public class BasicEvent extends AbstractEvent {
+public class Event extends AbstractEvent {
 
     @JsonIgnore
-    private static final Logger log = LoggerFactory.getLogger(BasicEvent.class);
+    private static final Logger log = LoggerFactory.getLogger(Event.class);
 
     /**
      * Utilize builder to construct BasicEvent.  Validate View object copy rather than the
@@ -55,11 +55,11 @@ public class BasicEvent extends AbstractEvent {
      *
      * @param builder
      */
-    protected BasicEvent(Builder<?> builder) {
+    protected Event(Builder<?> builder) {
         super(builder);
 
         EventValidator.checkType(this.getType(), EventType.EVENT);
-        EventValidator.checkAction(this.getAction(), BasicEvent.class);
+        EventValidator.checkAction(this.getAction(), Event.class);
     }
 
     /**
@@ -79,8 +79,8 @@ public class BasicEvent extends AbstractEvent {
          * Client invokes build method in order to create an immutable profile object.
          * @return a new BasicEvent instance.
          */
-        public BasicEvent build() {
-            return new BasicEvent(this);
+        public Event build() {
+            return new Event(this);
         }
     }
 

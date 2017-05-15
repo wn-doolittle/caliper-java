@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.resource.Resource;
+import org.imsglobal.caliper.entities.resource.CaliperDigitalResource;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class ViewEvent extends AbstractEvent {
     private final Person actor;
 
     @JsonProperty("object")
-    private final Resource object;
+    private final CaliperDigitalResource object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(ViewEvent.class);
@@ -75,7 +75,7 @@ public class ViewEvent extends AbstractEvent {
      */
     @Override
     @Nonnull
-    public Resource getObject() {
+    public CaliperDigitalResource getObject() {
         return object;
     }
 
@@ -85,7 +85,7 @@ public class ViewEvent extends AbstractEvent {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
         private Person actor;
-        private Resource object;
+        private CaliperDigitalResource object;
 
         /*
          * Constructor
@@ -107,7 +107,7 @@ public class ViewEvent extends AbstractEvent {
          * @param object
          * @return builder.
          */
-        public T object(Resource object) {
+        public T object(CaliperDigitalResource object) {
             this.object = object;
             return self();
         }

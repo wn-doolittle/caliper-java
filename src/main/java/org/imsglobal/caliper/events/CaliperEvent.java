@@ -19,13 +19,13 @@
 package org.imsglobal.caliper.events;
 
 import com.google.common.collect.ImmutableList;
-import org.imsglobal.caliper.Type;
+import org.imsglobal.caliper.CaliperType;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Context;
-import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.Referrer;
-import org.imsglobal.caliper.entities.Targetable;
+import org.imsglobal.caliper.entities.CaliperEntity;
+import org.imsglobal.caliper.entities.CaliperGeneratable;
+import org.imsglobal.caliper.entities.CaliperReferrer;
+import org.imsglobal.caliper.entities.CaliperTargetable;
 import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.CaliperOrganization;
@@ -37,7 +37,7 @@ import org.joda.time.DateTime;
 /**
  * Caliper Event interface.
  */
-public interface Event {
+public interface CaliperEvent {
 
     /**
      * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
@@ -57,7 +57,7 @@ public interface Event {
      * expressed as a unique IRI in conformance with the JSON-LD specification.
      * @return the event type IRI
      */
-    Type getType();
+    CaliperType getType();
 
     /**
      * The actor engaged in the interaction.  Analogous to a subject.  Required.
@@ -77,7 +77,7 @@ public interface Event {
      * with the JSON-LD specification.  Required.
      * @return the object of the interaction
      */
-    Entity getObject();
+    CaliperEntity getObject();
 
     /**
      * A combined date and time representation (including milliseconds) of when an event occurred,
@@ -91,20 +91,20 @@ public interface Event {
      * learning activity is an example of a target entity.  Required.
      * @return target entity
      */
-    Targetable getTarget();
+    CaliperTargetable getTarget();
 
     /**
      * An Entity generated as a result of the learning interaction.  Example entities typed as Generatable include
      * assignment attempts, assessment item responses and graded outcome results.  Optional.
      * @return generated entity
      */
-    Generatable getGenerated();
+    CaliperGeneratable getGenerated();
 
     /**
      * Represents the entity from where the navigation commenced.  Optional.
      * @return the referring context
      */
-    Referrer getReferrer();
+    CaliperReferrer getReferrer();
 
     /**
      * The module, application, platform, system and/or service that provides the technological context within which

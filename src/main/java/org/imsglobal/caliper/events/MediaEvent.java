@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.resource.Media;
+import org.imsglobal.caliper.entities.resource.CaliperMediaObject;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +57,7 @@ public class MediaEvent extends AbstractEvent {
     private final Person actor;
 
     @JsonProperty("object")
-    private final Media object;
+    private final CaliperMediaObject object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(MediaEvent.class);
@@ -97,7 +97,7 @@ public class MediaEvent extends AbstractEvent {
      */
     @Override
     @Nonnull
-    public Media getObject() {
+    public CaliperMediaObject getObject() {
         return object;
     }
 
@@ -107,7 +107,7 @@ public class MediaEvent extends AbstractEvent {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
         private Person actor;
-        private Media object;
+        private CaliperMediaObject object;
 
         /*
          * Constructor
@@ -129,7 +129,7 @@ public class MediaEvent extends AbstractEvent {
          * @param object
          * @return builder.
          */
-        public T object(Media object) {
+        public T object(CaliperMediaObject object) {
             this.object = object;
             return self();
         }

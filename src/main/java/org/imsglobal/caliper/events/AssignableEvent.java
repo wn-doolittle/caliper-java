@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.resource.Assignable;
+import org.imsglobal.caliper.entities.resource.CaliperAssignable;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class AssignableEvent extends AbstractEvent {
     private final Person actor;
 
     @JsonProperty("object")
-    private final Assignable object;
+    private final CaliperAssignable object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssignableEvent.class);
@@ -82,7 +82,7 @@ public class AssignableEvent extends AbstractEvent {
      */
     @Override
     @Nonnull
-    public Assignable getObject() {
+    public CaliperAssignable getObject() {
         return object;
     }
 
@@ -92,7 +92,7 @@ public class AssignableEvent extends AbstractEvent {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
         private Person actor;
-        private Assignable object;
+        private CaliperAssignable object;
 
         /*
          * Constructor
@@ -114,7 +114,7 @@ public class AssignableEvent extends AbstractEvent {
          * @param object
          * @return builder.
          */
-        public T object(Assignable object) {
+        public T object(CaliperAssignable object) {
             this.object = object;
             return self();
         }

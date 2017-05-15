@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.annotation.Annotation;
-import org.imsglobal.caliper.entities.resource.Resource;
+import org.imsglobal.caliper.entities.annotation.CaliperAnnotation;
+import org.imsglobal.caliper.entities.resource.CaliperDigitalResource;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,10 +43,10 @@ public class AnnotationEvent extends AbstractEvent {
     private final Person actor;
 
     @JsonProperty("object")
-    private final Resource object;
+    private final CaliperDigitalResource object;
 
     @JsonProperty("generated")
-    private final Annotation generated;
+    private final CaliperAnnotation generated;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AnnotationEvent.class);
@@ -86,7 +86,7 @@ public class AnnotationEvent extends AbstractEvent {
      */
     @Override
     @Nonnull
-    public Resource getObject() {
+    public CaliperDigitalResource getObject() {
         return object;
     }
 
@@ -96,7 +96,7 @@ public class AnnotationEvent extends AbstractEvent {
      */
     @Override
     @Nullable
-    public Annotation getGenerated() {
+    public CaliperAnnotation getGenerated() {
         return generated;
     }
 
@@ -106,8 +106,8 @@ public class AnnotationEvent extends AbstractEvent {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
         private Person actor;
-        private Resource object;
-        private Annotation generated;
+        private CaliperDigitalResource object;
+        private CaliperAnnotation generated;
 
         /*
          * Constructor
@@ -129,7 +129,7 @@ public class AnnotationEvent extends AbstractEvent {
          * @param object
          * @return builder.
          */
-        public T object(Resource object) {
+        public T object(CaliperDigitalResource object) {
             this.object = object;
             return self();
         }
@@ -138,7 +138,7 @@ public class AnnotationEvent extends AbstractEvent {
          * @param generated
          * @return builder.
          */
-        public T generated(Annotation generated) {
+        public T generated(CaliperAnnotation generated) {
             this.generated = generated;
             return self();
         }
