@@ -21,16 +21,16 @@ package org.imsglobal.caliper.entities.resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.Collection;
+import org.imsglobal.caliper.entities.CaliperCollection;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class DigitalResourceCollection extends AbstractDigitalResource implements Collection {
+public class DigitalResourceCollection extends AbstractDigitalResource implements CaliperCollection {
 
     @JsonProperty("items")
-    private final ImmutableList<Resource> items;
+    private final ImmutableList<CaliperDigitalResource> items;
 
     /**
      * @param builder apply builder object properties to the object.
@@ -47,7 +47,7 @@ public class DigitalResourceCollection extends AbstractDigitalResource implement
      */
     @Override
     @Nullable
-    public ImmutableList<Resource> getItems() {
+    public ImmutableList<CaliperDigitalResource> getItems() {
         return items;
     }
 
@@ -56,7 +56,7 @@ public class DigitalResourceCollection extends AbstractDigitalResource implement
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T> {
-        private List<Resource> items = Lists.newArrayList();
+        private List<CaliperDigitalResource> items = Lists.newArrayList();
 
         /**
          * Constructor
@@ -69,7 +69,7 @@ public class DigitalResourceCollection extends AbstractDigitalResource implement
          * @param items
          * @return builder.
          */
-        public T items(List<Resource> items) {
+        public T items(List<CaliperDigitalResource> items) {
             this.items = items;
             return self();
         }
@@ -78,7 +78,7 @@ public class DigitalResourceCollection extends AbstractDigitalResource implement
          * @param item
          * @return builder.
          */
-        public T item(Resource item) {
+        public T item(CaliperDigitalResource item) {
             this.items.add(item);
             return self();
         }

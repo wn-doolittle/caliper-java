@@ -18,17 +18,18 @@
 
 package org.imsglobal.caliper.requestors;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.imsglobal.caliper.Client;
-import org.imsglobal.caliper.Sensor;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -39,7 +40,10 @@ import org.imsglobal.caliper.entities.resource.Assessment;
 import org.imsglobal.caliper.entities.resource.Attempt;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.AssessmentEvent;
-import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.sensors.CaliperSensor;
+import org.imsglobal.caliper.sensors.Client;
+import org.imsglobal.caliper.sensors.HttpClient;
+import org.imsglobal.caliper.sensors.Sensor;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
@@ -59,12 +63,8 @@ import static org.junit.Assert.assertEquals;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class EnvelopeEventSingleTest {
-
-    private Sensor<String> sensor ;
-    private HttpRequestor<Event> httpRequestor;
-    private Envelope<Event> envelope;
-    private List<Event> data = new ArrayList<>();
-    private String uuid;
+    private JsonldContext context;
+    private String id;
     private Person actor;
     private Assessment object;
     private Attempt generated;
@@ -74,22 +74,20 @@ public class EnvelopeEventSingleTest {
     private Session session;
     private AssessmentEvent event;
     private DateTime sendTime;
+    private Envelope envelope;
+
     // private static final Logger log = LoggerFactory.getLogger(HttpRequestorSingleEventTest.class);
 
     private static final String BASE_IRI = "https://example.edu";
 
     @Before
     public void setup() {
+        context = JsonldStringContext.getDefault();
 
-        // Register a Sensor client using the default constructor
-        sensor = new Sensor<>(BASE_IRI.concat("/sensors/1"));
-        Options opts = Options.builder("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
-        Client client = new Client(sensor.getId().concat("/clients/1"), opts);
-        sensor.registerClient(client.getId(), client);
-
-        uuid = "c51570e4-f8ed-4c18-bb3a-dfe51b2cc594";
+        id = "urn:uuid:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        Person actorToId = Person.builder().id(actor.getId()).coercedToId(true).build();
 
         object = Assessment.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1"))
@@ -104,8 +102,8 @@ public class EnvelopeEventSingleTest {
 
         generated = Attempt.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"))
-            .assignable(Assessment.builder().id(object.getId()).build())
-            .assignee(actor)
+            .assignable(Assessment.builder().id(object.getId()).coercedToId(true).build())
+            .assignee(actorToId)
             .count(1)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
@@ -120,8 +118,8 @@ public class EnvelopeEventSingleTest {
 
         membership = Membership.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
-            .member(actor)
-            .organization(CourseSection.builder().id(group.getId()).build())
+            .member(actorToId)
+            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
             .role(Role.LEARNER)
             .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
@@ -136,21 +134,42 @@ public class EnvelopeEventSingleTest {
         event = buildEvent(Action.STARTED);
 
         // Add event to data array
+        List<Object> data = new ArrayList<>();
         data.add(event);
 
         // Send time
         sendTime = new DateTime(2016, 11, 15, 11, 5, 1, 0, DateTimeZone.UTC);
 
+        // Initialize Sensor
+        CaliperSensor sensor = Sensor.create(BASE_IRI.concat("/sensors/1"));
+        Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+        Client client = HttpClient.create(sensor.getId().concat("/clients/1"), HttpRequestor.create(opts));
+        sensor.registerClient(client);
+
+        /**
+         Sensor<String> manager = new Sensor<>(BASE_IRI.concat("/sensors/1"));
+         Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+         SensorHttpClient client = new SensorHttpClient(manager.getId(), opts);
+         manager.registerClient(client.getId(), client);
+         **/
+
         // Create envelope
-        httpRequestor = new HttpRequestor<>(opts);
-        envelope = httpRequestor.createEnvelope(sensor, DateTime.now(), Options.JSONLD_EXTERNAL_CALIPER_CONTEXT, data);
+        envelope = sensor.create(sensor.getId(), sendTime, Options.DATA_VERSION, data);
+        // sensor.send(client, envelope);
     }
 
     @Test
     public void testSerializedEnvelope() throws Exception {
         // Serialize envelope, excluding null properties, empty objects, empty arrays and duplicate @context
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(envelope);
 
         // Swap out sendTime=DateTime.now() in favor of fixture value (or test will most assuredly fail).
@@ -165,12 +184,21 @@ public class EnvelopeEventSingleTest {
     @Test
     public void testGeneratePayloadContentType() throws Exception {
         // Serialize envelope; include null properties, empty objects and empty arrays
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(envelope);
 
         // Create an HTTP StringEntity envelopes with the envelope JSON.
-        StringEntity payload = httpRequestor.generatePayload(json, ContentType.APPLICATION_JSON); // TODO CHECK jsonld-java for replacement
+        Options opts = Options.builder().apiKey("faux_key_123").build();
+        Requestor requestor = HttpRequestor.create(opts);
+        StringEntity payload = requestor.generatePayload(json, ContentType.APPLICATION_JSON);
 
         assertEquals("Content-Type: application/json; charset=UTF-8", payload.getContentType().toString());
     }
@@ -187,7 +215,8 @@ public class EnvelopeEventSingleTest {
      */
     private AssessmentEvent buildEvent(Action action) {
         return AssessmentEvent.builder()
-            .uuid(uuid)
+            .context(context)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)

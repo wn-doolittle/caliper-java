@@ -18,134 +18,87 @@
 
 package org.imsglobal.caliper.events;
 
-import com.google.common.collect.ImmutableList;
-import org.imsglobal.caliper.config.Context;
-import org.imsglobal.caliper.Type;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.Referrer;
-import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.entities.agent.Agent;
-import org.imsglobal.caliper.entities.agent.Membership;
-import org.imsglobal.caliper.entities.agent.Org;
-import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.session.LtiSession;
-import org.imsglobal.caliper.entities.session.Session;
-import org.joda.time.DateTime;
+import org.imsglobal.caliper.validators.EventValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Caliper Event interface.
+ * Concrete implementation of a generic Event.
  */
-public interface Event {
+@SupportedActions({
+    Action.ABANDONED, Action.ACTIVATED, Action.ADDED, Action.ATTACHED, Action.BOOKMARKED,
+    Action.CHANGED_RESOLUTION, Action.CHANGED_SIZE, Action.CHANGED_SPEED, Action.CHANGED_VOLUME,
+    Action.CLASSIFIED, Action.CLOSED_POPOUT, Action.COMMENTED, Action.COMPLETED, Action.CREATED,
+    Action.DEACTIVATED, Action.DELETED, Action.DESCRIBED, Action.DISABLED_CLOSED_CAPTIONING, Action.DISLIKED,
+    Action.ENABLED_CLOSED_CAPTIONING, Action.ENDED, Action.ENTERED_FULLSCREEN, Action.EXITED_FULLSCREEN,
+    Action.FORWARDED_TO, Action.GRADED, Action.HID, Action.HIGHLIGHTED, Action.IDENTIFIED, Action.JUMPED_TO,
+    Action.LIKED, Action.LINKED, Action.LOGGED_IN, Action.LOGGED_OUT, Action.MARKED_AS_READ,
+    Action.MARKED_AS_UNREAD, Action.MODIFIED, Action.MUTED, Action.NAVIGATED_TO, Action.OPENED_POPOUT,
+    Action.PAUSED, Action.POSTED, Action.QUESTIONED, Action.RANKED, Action.RECOMMENDED, Action.REPLIED,
+    Action.RESET, Action.RESTARTED, Action.RESUMED, Action.RETRIEVED, Action.REVIEWED, Action.REWOUND,
+    Action.SEARCHED, Action.SHARED, Action.SHOWED, Action.SKIPPED, Action.STARTED, Action.SUBMITTED,
+    Action.SUBSCRIBED, Action.TAGGED, Action.TIMED_OUT, Action.UNMUTED, Action.UNSUBSCRIBED, Action.USED,
+    Action.VIEWED
+})
+public class Event extends AbstractEvent {
+
+    @JsonIgnore
+    private static final Logger log = LoggerFactory.getLogger(Event.class);
 
     /**
-     * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
-     * should be expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the context IRI.
+     * Utilize builder to construct BasicEvent.  Validate View object copy rather than the
+     * View builder.  This approach protects the class against parameter changes from another
+     * thread during the "window of vulnerability" between the time the parameters are checked
+     * until when they are copied.
+     *
+     * @param builder
      */
-    Context getContext();
+    protected Event(Builder<?> builder) {
+        super(builder);
+
+        EventValidator.checkType(this.getType(), EventType.EVENT);
+        EventValidator.checkAction(this.getAction(), Event.class);
+    }
 
     /**
-     * Identifier that MUST be set either by the emitting service or the receiving endpoint.
-     * @return the identifier.
+     * Initialize default parameter values in the builder.
+     * @param <T> builder
      */
-    String getUuid();
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+
+        /*
+         * Constructor
+         */
+        public Builder() {
+            super.type(EventType.EVENT);
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable profile object.
+         * @return a new BasicEvent instance.
+         */
+        public Event build() {
+            return new Event(this);
+        }
+    }
 
     /**
-     * Specifies the type of event or node in the graph as defined by JSON-LD.  The type should be
-     * expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the event type IRI
+     * Self-reference that permits sub-classing of builder.
      */
-    Type getType();
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
 
     /**
-     * The actor engaged in the interaction.  Analogous to a subject.  Required.
-     * @return the actor
+     * Static factory method.
+     * @return a new instance of the builder.
      */
-    Agent getActor();
-
-    /**
-     * The action undertaken by the actor.  Analogous to a predicate or verb.  The action should be
-     * expressed as a unique IRI in conformance with the JSON-LD specification.  Required.
-     * @return the action undertaken by the actor
-     */
-    Action getAction();
-
-    /**
-     * The object of the interaction.  The object should be expressed as a unique IRI in conformance
-     * with the JSON-LD specification.  Required.
-     * @return the object of the interaction
-     */
-    Entity getObject();
-
-    /**
-     * A combined date and time representation (including milliseconds) of when an event occurred,
-     * formatted in accordance with the ISO 8601 standard.  Required.
-     * @return the event time
-     */
-    DateTime getEventTime();
-
-    /**
-     * An Entity that represents the target of a learning interaction.  Navigating to a resource while engaged in a
-     * learning activity is an example of a target entity.  Required.
-     * @return target entity
-     */
-    Targetable getTarget();
-
-    /**
-     * An Entity generated as a result of the learning interaction.  Example entities typed as Generatable include
-     * assignment attempts, assessment item responses and graded outcome results.  Optional.
-     * @return generated entity
-     */
-    Generatable getGenerated();
-
-    /**
-     * Represents the entity from where the navigation commenced.  Optional.
-     * @return the referring context
-     */
-    Referrer getReferrer();
-
-    /**
-     * The module, application, platform, system and/or service that provides the technological context within which
-     * the learning activity occurs.  Optional.
-     * @return the edApp context
-     */
-    SoftwareApplication getEdApp();
-
-    /**
-     * The group represents a collection of people organized together into a community or other social, commercial
-     * or political structure.  The group has some common purpose or reason for existence which goes beyond the set
-     * of people belonging to it and can act as an Agent.  For learning interactions, a typical group context would
-     * comprise the course context within which the learning activity occurs.  Optional.
-     * @return the group context
-     */
-    Org getGroup();
-
-    /**
-     * The Membership context defines an actor's roles and status as a member of an organization or group.
-     * @return the membership context.  Optional.
-     */
-    Membership getMembership();
-
-    /**
-     * Represents the current user session.  Optional.
-     * @return the current session context
-     */
-    Session getSession();
-
-    /**
-     * An LTI-scoped identifier representing the originating Tool Consumer user session during which one or more launch
-     * requests to external Tool Providers are initiated.  Provision of a federated session identifier helps to
-     * correlate Tool Provider learning activities with those of the Tool Consumer during the same "logical" session.
-     * Optional.
-     * @return the originating tool consumer context
-     */
-    LtiSession getFederatedSession();
-
-    /**
-     * Additional custom properties provided that are germane to the Event.  Optional.
-     * @return extensions
-     */
-    ImmutableList<Object> getExtensions();
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 }

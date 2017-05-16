@@ -19,6 +19,7 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.resource.Assessment;
@@ -27,13 +28,23 @@ import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @SupportedActions({
     Action.STARTED,
     Action.PAUSED,
     Action.RESTARTED,
+    Action.RESUMED,
     Action.SUBMITTED
 })
 public class AssessmentEvent extends AbstractEvent {
+
+    @JsonProperty("actor")
+    private final Person actor;
+
+    @JsonProperty("generated")
+    private final Attempt generated;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssessmentEvent.class);
@@ -50,16 +61,35 @@ public class AssessmentEvent extends AbstractEvent {
         super(builder);
 
         EventValidator.checkType(this.getType(), EventType.ASSESSMENT);
-        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(this.getAction(), AssessmentEvent.class);
         if (this.getAction().equals(Action.SUBMITTED)) {
             EventValidator.checkObjectType(this.getObject(), Attempt.class);
         } else {
             EventValidator.checkObjectType(this.getObject(), Assessment.class);
         }
-        if (!(this.getGenerated() == null)) {
-            EventValidator.checkGeneratedType(this.getGenerated(), Attempt.class);
-        }
+
+        this.actor = builder.actor;
+        this.generated = builder.generated;
+    }
+
+    /**
+     * Required.
+     * @return the actor
+     */
+    @Override
+    @Nonnull
+    public Person getActor() {
+        return actor;
+    }
+
+    /**
+     * Get the generated Attempt.
+     * @return the generated object
+     */
+    @Override
+    @Nullable
+    public Attempt getGenerated() {
+        return generated;
     }
 
     /**
@@ -67,12 +97,32 @@ public class AssessmentEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private Attempt generated;
 
         /*
          * Constructor
          */
         public Builder() {
             super.type(EventType.ASSESSMENT);
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Person actor) {
+            this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param generated
+         * @return builder.
+         */
+        public T generated(Attempt generated) {
+            this.generated = generated;
+            return self();
         }
 
         /**

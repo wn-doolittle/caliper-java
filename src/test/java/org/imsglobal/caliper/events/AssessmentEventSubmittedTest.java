@@ -18,13 +18,15 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -47,7 +49,8 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AssessmentEventSubmittedTest {
-    private String uuid;
+    private JsonldContext context;
+    private String id;
     private Person actor;
     private Assessment assignable;
     private Attempt object;
@@ -58,18 +61,22 @@ public class AssessmentEventSubmittedTest {
     private AssessmentEvent event;
 
     private static final String BASE_IRI = "https://example.edu";
+    private static final String SECTION_IRI = BASE_IRI.concat("/terms/201601/courses/7/sections/1");
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        uuid = "dad88464-0c20-4a19-a1ba-ddf2f9c3ff33";
+        context = JsonldStringContext.getDefault();
+
+        id = "urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        Person assignee = Person.builder().id(actor.getId()).coercedToId(true).build();
 
         assignable = Assessment.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1"))
+            .id(SECTION_IRI.concat("/assess/1"))
             .name("Quiz One")
             .dateToStartOn(new DateTime(2016, 11, 14, 5, 0, 0, 0, DateTimeZone.UTC))
             .dateToSubmit(new DateTime(2016, 11, 18, 11, 59, 59, 0, DateTimeZone.UTC))
@@ -80,9 +87,9 @@ public class AssessmentEventSubmittedTest {
             .build();
 
         object = Attempt.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"))
+            .id(SECTION_IRI.concat("/assess/1/users/554433/attempts/1"))
             .assignable(assignable)
-            .assignee(actor)
+            .assignee(assignee)
             .count(1)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
@@ -92,15 +99,16 @@ public class AssessmentEventSubmittedTest {
 
         edApp = SoftwareApplication.builder().id(BASE_IRI).version("v2").build();
 
-        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+        group = CourseSection.builder()
+            .id(SECTION_IRI)
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
         membership = Membership.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
-            .member(actor)
-            .organization(CourseSection.builder().id(group.getId()).build())
+            .id(SECTION_IRI.concat("/rosters/1"))
+            .member(assignee)
+            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
             .role(Role.LEARNER)
             .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
@@ -116,8 +124,15 @@ public class AssessmentEventSubmittedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventAssessmentSubmitted.json");
@@ -141,7 +156,8 @@ public class AssessmentEventSubmittedTest {
      */
     private AssessmentEvent buildEvent(Action action) {
         return AssessmentEvent.builder()
-            .uuid(uuid)
+            .context(context)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)

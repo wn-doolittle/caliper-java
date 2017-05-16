@@ -18,13 +18,14 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -48,7 +49,8 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AnnotationEventHighlightedTest {
-    private String uuid;
+    private JsonldStringContext context;
+    private String id;
     private Person actor;
     private Document object;
     private HighlightAnnotation generated;
@@ -58,51 +60,60 @@ public class AnnotationEventHighlightedTest {
     private Session session;
     private AnnotationEvent event;
 
-    private static final String BASE_IRI = "https://example.edu";
+    private static final String BASE_EDU_IRI = "https://example.edu";
+    private static final String BASE_COM_IRI = "https://example.com";
+    private static final String SECTION_IRI = BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1");
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        uuid = "0067a052-9bb4-4b49-9d1a-87cd43da488a";
+        context = JsonldStringContext.getDefault();
 
-        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        id = "urn:uuid:0067a052-9bb4-4b49-9d1a-87cd43da488a";
+
+        actor = Person.builder().id(BASE_EDU_IRI.concat("/users/554433")).build();
+        Person annotator = Person.builder().id(actor.getId()).coercedToId(true).build();
 
         object = Document.builder()
-            .id(BASE_IRI.concat("/etexts/201"))
+            .id(BASE_COM_IRI.concat("/#/texts/imscaliperimplguide"))
             .name("IMS Caliper Implementation Guide")
             .dateCreated(new DateTime(2016, 10, 1, 6, 0, 0, 0, DateTimeZone.UTC))
             .version("1.1")
             .build();
 
         generated = HighlightAnnotation.builder()
-            .id(BASE_IRI.concat("/users/554433/etexts/201/highlights?start=2300&end=2370"))
-            .annotated(Document.builder().id(object.getId()).build())
-            .annotator(actor)
+            .id(BASE_COM_IRI.concat("/users/554433/texts/imscaliperimplguide/highlights?start=2300&end=2370"))
+            .annotated(Document.builder().id(object.getId()).coercedToId(true).build())
+            .annotator(annotator)
             .selection(new TextPositionSelector(2300, 2370))
             .selectionText("ISO 8601 formatted date and time expressed with millisecond precision.")
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
 
-        edApp = SoftwareApplication.builder().id(BASE_IRI).version("v3").build();
+        edApp = SoftwareApplication.builder()
+            .id(BASE_COM_IRI.concat("/reader"))
+            .name("ePub Reader")
+            .version("1.2.3").build();
 
-        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+        group = CourseSection.builder()
+            .id(BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1"))
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
         membership = Membership.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
-            .member(actor)
-            .organization(CourseSection.builder().id(group.getId()).build())
+            .id(SECTION_IRI.concat("/rosters/1"))
+            .member(annotator)
+            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
             .role(Role.LEARNER)
             .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
         session = Session.builder()
-            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+            .id(BASE_COM_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
@@ -112,8 +123,15 @@ public class AnnotationEventHighlightedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventAnnotationHighlighted.json");
@@ -137,7 +155,8 @@ public class AnnotationEventHighlightedTest {
      */
     private AnnotationEvent buildEvent(Action action) {
         return AnnotationEvent.builder()
-            .uuid(uuid)
+            .context(context)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)

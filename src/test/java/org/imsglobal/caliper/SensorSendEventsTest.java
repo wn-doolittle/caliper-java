@@ -20,25 +20,37 @@ package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.agent.SoftwareApplication;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
+import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.Role;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.resource.WebPage;
 import org.imsglobal.caliper.entities.session.Session;
-import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.events.CaliperEvent;
 import org.imsglobal.caliper.events.NavigationEvent;
+import org.imsglobal.caliper.requestors.Envelope;
+import org.imsglobal.caliper.requestors.HttpRequestor;
+import org.imsglobal.caliper.sensors.CaliperSensor;
+import org.imsglobal.caliper.sensors.Client;
+import org.imsglobal.caliper.sensors.HttpClient;
+import org.imsglobal.caliper.sensors.Sensor;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 // @Category(org.imsglobal.caliper.UnitTest.class)
 public class SensorSendEventsTest {
-    private String uuid;
+    private JsonldContext context;
+    private String id;
     private Person actor;
     private WebPage object;
     private SoftwareApplication edApp;
@@ -53,14 +65,9 @@ public class SensorSendEventsTest {
 
     @Test
     public void test() {
+        context = JsonldStringContext.getDefault();
 
-        // Create Sensor, create client, register client with sensor.
-        Sensor<String> sensor = new Sensor<>(BASE_IRI.concat("/sensors/1"));
-        Options opts = Options.builder("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
-        Client client = new Client(sensor.getId().concat("/clients/1"), opts);
-        sensor.registerClient(client.getId(), client);
-
-        uuid = "c51570e4-f8ed-4c18-bb3a-dfe51b2cc594";
+        id = "urn:id:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
@@ -93,16 +100,37 @@ public class SensorSendEventsTest {
             .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
+        
+        // Initialize Sensor
+        CaliperSensor sensor = Sensor.create(BASE_IRI.concat("/sensors/1"));
+        Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+        Client client = HttpClient.create(sensor.getId().concat("/clients/1"), HttpRequestor.create(opts));
+        sensor.registerClient(client);
 
-        // Fire event test - Send 50 events
+        // Create Client, register client with sensor.
+        /**
+        Sensor<String> manager = new Sensor<>(BASE_IRI.concat("/sensors/1"));
+        Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+        SensorHttpClient client = new SensorHttpClient(manager.getId().concat("/clients/1"), opts);
+        manager.registerClient(client.getId(), client);
+         */
+
+        // Fire event test - Send 50 envelopes containing the above event
         for (int i = 0 ; i < 50 ; i++) {
-            Event event = buildEvent(Action.NAVIGATED_TO);
-            sensor.send(sensor, event);
+            CaliperEvent event = buildEvent(Action.NAVIGATED_TO);
+
+            DateTime sendTime = new DateTime(2016, 11, 15, 12, 15, 0, 0, DateTimeZone.UTC);
+            List<Object> data = new ArrayList<>();
+            data.add(event);
+            Envelope envelope = sensor.create(client.getId(), sendTime, Options.DATA_VERSION, data);
+            sensor.send(envelope);
         }
 
         // There should be two caliperEvents queued
         assertEquals("Expect fifty Caliper events to be sent", 50,
                 sensor.getStatistics().get("default").getMeasures().getCount());
+
+        //Statistic statistics = client.getStatistics().get("default");
 
         // TODO - Describes test - Send five describes
 
@@ -125,7 +153,8 @@ public class SensorSendEventsTest {
      */
     private NavigationEvent buildEvent(Action action) {
         return NavigationEvent.builder()
-            .uuid(uuid)
+            .context(context)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)
@@ -136,10 +165,5 @@ public class SensorSendEventsTest {
             .membership(membership)
             .session(session)
             .build();
-    }
-
-    private Options TestOptions(String apiKey) {
-        return Options.builder(apiKey).build();
-
     }
 }

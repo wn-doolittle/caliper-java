@@ -18,13 +18,15 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
@@ -44,8 +46,9 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class OutcomeEventGradedTest {
-    private String uuid;
-    private SoftwareApplication actor;
+    private JsonldContext context;
+    private String id;
+    private SoftwareApplication actor, edApp;
     private Person learner;
     private Attempt object;
     private Assessment assignable;
@@ -60,7 +63,10 @@ public class OutcomeEventGradedTest {
      */
     @Before
     public void setUp() throws Exception {
-        uuid = "a50ca17f-5971-47bb-8fca-4e6e6879001d";
+        context = JsonldStringContext.getDefault();
+
+        id = "urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d";
+
         actor = SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).version("v2").build();
         learner = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
         assignable = Assessment.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1")).build();
@@ -78,14 +84,17 @@ public class OutcomeEventGradedTest {
 
         generated = Result.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/results/1"))
-            .attempt(Attempt.builder().id(object.getId()).build())
+            .attempt(Attempt.builder().id(object.getId()).coercedToId(true).build())
             .normalScore(15)
             .totalScore(15)
-            .scoredBy(SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).build())
+            .scoredBy(SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).coercedToId(true).build())
             .dateCreated(new DateTime(2016, 11, 15, 10, 55, 5, 0, DateTimeZone.UTC))
             .build();
 
-        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+        edApp = SoftwareApplication.builder().id(BASE_IRI).coercedToId(true).build();
+
+        group = CourseSection.builder()
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
@@ -96,8 +105,15 @@ public class OutcomeEventGradedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventOutcomeGraded.json");
@@ -121,11 +137,13 @@ public class OutcomeEventGradedTest {
      */
     private OutcomeEvent buildEvent(Action action) {
         return OutcomeEvent.builder()
-            .uuid(uuid)
+            .context(context)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)
             .generated(generated)
+            .edApp(edApp)
             .group(group)
             .eventTime(new DateTime(2016, 11, 15, 10, 57, 6, 0, DateTimeZone.UTC))
             .build();

@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 /**
  * An audio object embedded in a web page.
  */
-public class AudioObject extends AbstractDigitalResource implements Media {
+public class AudioObject extends AbstractDigitalResource implements CaliperMediaObject {
 
     @JsonProperty("volumeMin")
     private String volumeMin;

@@ -18,15 +18,18 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
+import org.imsglobal.caliper.databind.JxnFilters;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -52,7 +55,8 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class NavigationEventNavigatedToFedSessionTest {
-    private String uuid;
+    private JsonldContext context;
+    private String id;
     private Person actor;
     private Document object;
     private SoftwareApplication edApp;
@@ -72,9 +76,12 @@ public class NavigationEventNavigatedToFedSessionTest {
      */
     @Before
     public void setUp() throws Exception {
-        uuid = "4be6d29d-5728-44cd-8a8f-3d3f07e46b61";
+        context = JsonldStringContext.getDefault();
+
+        id = "urn:uuid:4be6d29d-5728-44cd-8a8f-3d3f07e46b61";
 
         actor = Person.builder().id(BASE_IRI_EDU.concat("/users/554433")).build();
+        Person actorToId = Person.builder().id(actor.getId()).coercedToId(true).build();
 
         object = Document.builder()
             .id(BASE_IRI_COM.concat("/lti/reader/202.epub"))
@@ -85,17 +92,18 @@ public class NavigationEventNavigatedToFedSessionTest {
 
         referrer = WebPage.builder().id(BASE_IRI_EDU.concat("/terms/201601/courses/7/sections/1/pages/4")).build();
 
-        edApp = SoftwareApplication.builder().id(BASE_IRI_COM).build();
+        edApp = SoftwareApplication.builder().id(BASE_IRI_COM).coercedToId(true).build();
 
-        group = CourseSection.builder().id(BASE_IRI_EDU.concat("/terms/201601/courses/7/sections/1"))
+        group = CourseSection.builder()
+            .id(BASE_IRI_EDU.concat("/terms/201601/courses/7/sections/1"))
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
         membership = Membership.builder()
             .id(BASE_IRI_EDU.concat("/terms/201601/courses/7/sections/1/rosters/1"))
-            .member(actor)
-            .organization(CourseSection.builder().id(group.getId()).build())
+            .member(actorToId)
+            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
             .role(Role.LEARNER)
             .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
@@ -110,7 +118,7 @@ public class NavigationEventNavigatedToFedSessionTest {
 
         federatedSession = LtiSession.builder()
             .id(BASE_IRI_COM.concat("/sessions/b533eb02823f31024e6b7f53436c42fb99b31241"))
-            .user(actor)
+            .user(actorToId)
             .launchParameters(launchParams)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
@@ -122,8 +130,15 @@ public class NavigationEventNavigatedToFedSessionTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventNavigationNavigatedToFedSession.json");
@@ -148,7 +163,8 @@ public class NavigationEventNavigatedToFedSessionTest {
      */
     private NavigationEvent buildEvent(Action action) {
         return NavigationEvent.builder()
-            .uuid(uuid)
+            .context(context)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)
@@ -168,8 +184,21 @@ public class NavigationEventNavigatedToFedSessionTest {
      * @return JsonNode
      */
     private JsonNode createJsonNode(String json) {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.SERIALIZE_ALL);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true)
+            .addFilter(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModule(new JodaModule());
+
+
+        //SimpleFilterProvider provider = JxnFilterProvider.create(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
+        //List<Module> modules = new ArrayList<>();
+        //modules.add(new JodaModule());
+        //ObjectMapper mapper = JxnObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider, modules);
 
         try {
             return mapper.readValue(json, JsonNode.class);
@@ -184,8 +213,18 @@ public class NavigationEventNavigatedToFedSessionTest {
      * @return
      */
     private ObjectNode createExtensionsNode() {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.SERIALIZE_ALL);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true)
+            .addFilter(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModule(new JodaModule());
+
+        //SimpleFilterProvider provider = JxnFilterProvider.create(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
+        //ObjectMapper mapper = JxnObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider, new JodaModule());
 
         ObjectNode jobTitle = mapper.createObjectNode();
         jobTitle.put("id", "sdo:jobTitle");

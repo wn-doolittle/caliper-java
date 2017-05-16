@@ -19,23 +19,12 @@
 package org.imsglobal.caliper.entities.annotation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.agent.Agent;
-import org.imsglobal.caliper.entities.resource.Resource;
 import org.imsglobal.caliper.selectors.Selector;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class HighlightAnnotation extends AbstractEntity implements Annotation, Generatable {
-
-    @JsonProperty("annotated")
-    private Resource annotated;
-
-    @JsonProperty("annotator")
-    private final Agent annotator;
+public class HighlightAnnotation extends AbstractAnnotation {
 
     @JsonProperty("selection")
     private Selector selection;
@@ -48,35 +37,8 @@ public class HighlightAnnotation extends AbstractEntity implements Annotation, G
      */
     protected HighlightAnnotation(Builder<?> builder) {
         super(builder);
-
-        this.annotated = builder.annotated;
-        this.annotator = builder.annotator;
         this.selection = builder.selection;
         this.selectionText = builder.selectionText;
-    }
-
-    /**
-     * @return the id.
-     */
-    @Nonnull
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @return the annotated object's identifier
-     */
-    @Nonnull
-    public Resource getAnnotated() {
-        return annotated;
-    }
-
-    /**
-     * @return the actor
-     */
-    @Nonnull
-    public Agent getAnnotator() {
-        return annotator;
     }
 
     /**
@@ -91,9 +53,7 @@ public class HighlightAnnotation extends AbstractEntity implements Annotation, G
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
-        private Resource annotated;
-        private Agent annotator;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractAnnotation.Builder<T> {
         private Selector selection;
         private String selectionText;
 
@@ -102,24 +62,6 @@ public class HighlightAnnotation extends AbstractEntity implements Annotation, G
          */
         public Builder() {
             super.type(EntityType.HIGHLIGHT_ANNOTATION);
-        }
-
-        /**
-         * @param annotated
-         * @return builder.
-         */
-        public T annotated(Resource annotated) {
-            this.annotated = annotated;
-            return self();
-        }
-
-        /**
-         * @param annotator
-         * @return builder.
-         */
-        public T annotator(Agent annotator) {
-            this.annotator = annotator;
-            return self();
         }
 
         /**

@@ -22,20 +22,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.config.Context;
-import org.imsglobal.caliper.Type;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.Referrer;
-import org.imsglobal.caliper.entities.Targetable;
-import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.entities.CaliperEntity;
+import org.imsglobal.caliper.entities.CaliperGeneratable;
+import org.imsglobal.caliper.entities.CaliperReferrer;
+import org.imsglobal.caliper.entities.CaliperTargetable;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
+import org.imsglobal.caliper.entities.agent.CaliperOrganization;
 import org.imsglobal.caliper.entities.agent.Membership;
-import org.imsglobal.caliper.entities.agent.Org;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.LtiSession;
 import org.imsglobal.caliper.entities.session.Session;
-import org.imsglobal.caliper.validators.EventValidator;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,34 +46,34 @@ import java.util.List;
  * This class provides a skeletal implementation of the Event interface
  * in order to minimize the effort required to implement the interface.
  */
-public abstract class AbstractEvent implements Event {
+public abstract class AbstractEvent implements CaliperEvent {
 
     @JsonProperty("@context")
-    private final Context context;
+    private final JsonldContext context;
 
     @JsonProperty("type")
-    private final Type type;
+    private final CaliperEventType type;
 
-    @JsonProperty("uuid")
-    private final String uuid;
+    @JsonProperty("id")
+    private final String id;
 
     @JsonProperty("actor")
-    private final Agent actor;
+    private final CaliperAgent actor;
 
     @JsonProperty("action")
     protected final Action action;
 
     @JsonProperty("object")
-    private final Entity object;
+    private final CaliperEntity object;
 
     @JsonProperty("target")
-    private final Targetable target;
+    private final CaliperTargetable target;
 
     @JsonProperty("generated")
-    private final Generatable generated;
+    private final CaliperGeneratable generated;
 
     @JsonProperty("referrer")
-    private final Referrer referrer;
+    private final CaliperReferrer referrer;
 
     @JsonProperty("eventTime")
     private final DateTime eventTime;
@@ -84,7 +82,7 @@ public abstract class AbstractEvent implements Event {
     private final SoftwareApplication edApp;
 
     @JsonProperty("group")
-    private final Org group;
+    private final CaliperOrganization group;
 
     @JsonProperty("membership")
     private final Membership membership;
@@ -110,12 +108,9 @@ public abstract class AbstractEvent implements Event {
      * @param builder
      */
     protected AbstractEvent(Builder<?> builder) {
-
-        EventValidator.checkContext(builder.context, Context.REMOTE_CALIPER_JSONLD_CONTEXT);
-
         this.context = builder.context;
         this.type = builder.type;
-        this.uuid = builder.uuid;
+        this.id = builder.id;
         this.actor = builder.actor;
         this.action = builder.action;
         this.object = builder.object;
@@ -136,17 +131,17 @@ public abstract class AbstractEvent implements Event {
      * @return the context
      */
     @Nonnull
-    public Context getContext() {
+    public JsonldContext getContext() {
         return context;
     }
 
     /**
      * Identifier that must be set either by emitting service or the receiving endpoint.
-     * @return the uuid
+     * @return the id
      */
     @Nullable
-    public String getUuid() {
-        return uuid;
+    public String getId() {
+        return id;
     }
 
     /**
@@ -154,7 +149,7 @@ public abstract class AbstractEvent implements Event {
      * @return the type
      */
     @Nonnull
-    public Type getType() {
+    public CaliperEventType getType() {
         return type;
     }
 
@@ -163,7 +158,7 @@ public abstract class AbstractEvent implements Event {
      * @return the actor
      */
     @Nonnull
-    public Agent getActor() {
+    public CaliperAgent getActor() {
         return actor;
     }
 
@@ -181,7 +176,7 @@ public abstract class AbstractEvent implements Event {
      * @return the object
      */
     @Nonnull
-    public Entity getObject() {
+    public CaliperEntity getObject() {
         return object;
     }
 
@@ -190,7 +185,7 @@ public abstract class AbstractEvent implements Event {
      * @return the target
      */
     @Nullable
-    public Targetable getTarget() {
+    public CaliperTargetable getTarget() {
         return target;
     }
 
@@ -199,7 +194,7 @@ public abstract class AbstractEvent implements Event {
      * @return generated
      */
     @Nullable
-    public Generatable getGenerated() {
+    public CaliperGeneratable getGenerated() {
         return generated;
     }
 
@@ -208,7 +203,7 @@ public abstract class AbstractEvent implements Event {
      * @return referrer
      */
     @Nullable
-    public Referrer getReferrer() {
+    public CaliperReferrer getReferrer() {
         return referrer;
     }
 
@@ -235,7 +230,7 @@ public abstract class AbstractEvent implements Event {
      * @return the group
      */
     @Nullable
-    public Org getGroup() {
+    public CaliperOrganization getGroup() {
         return group;
     }
 
@@ -277,18 +272,18 @@ public abstract class AbstractEvent implements Event {
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
-        private Context context;
-        private String uuid;
-        private Type type;
-        private Agent actor;
+        private JsonldContext context;
+        private String id;
+        private CaliperEventType type;
+        private CaliperAgent actor;
         private Action action;
-        private Entity object;
-        private Targetable target;
-        private Generatable generated;
-        private Referrer referrer;
+        private CaliperEntity object;
+        private CaliperTargetable target;
+        private CaliperGeneratable generated;
+        private CaliperReferrer referrer;
         private DateTime eventTime;
         private SoftwareApplication edApp;
-        private Org group;
+        private CaliperOrganization group;
         private Membership membership;
         private Session session;
         private LtiSession federatedSession;
@@ -300,7 +295,6 @@ public abstract class AbstractEvent implements Event {
          * Initialize type with default values.
          */
         public Builder() {
-            context(Context.REMOTE_CALIPER_JSONLD_CONTEXT);
             type(EventType.EVENT);
         }
 
@@ -308,17 +302,17 @@ public abstract class AbstractEvent implements Event {
          * @param context
          * @return builder.
          */
-        public T context(Context context) {
+        public T context(JsonldContext context) {
             this.context = context;
             return self();
         }
 
         /**
-         * @param uuid
+         * @param id
          * @return builder.
          */
-        public T uuid(String uuid) {
-            this.uuid = uuid;
+        public T id(String id) {
+            this.id = id;
             return self();
         }
 
@@ -326,7 +320,7 @@ public abstract class AbstractEvent implements Event {
          * @param type
          * @return builder.
          */
-        public T type(Type type) {
+        public T type(CaliperEventType type) {
             this.type = type;
             return self();
         }
@@ -335,7 +329,7 @@ public abstract class AbstractEvent implements Event {
          * @param actor
          * @return builder.
          */
-        public T actor(Agent actor) {
+        public T actor(CaliperAgent actor) {
             this.actor = actor;
             return self();
         }
@@ -353,7 +347,7 @@ public abstract class AbstractEvent implements Event {
          * @param object
          * @return builder.
          */
-        public T object(Entity object) {
+        public T object(CaliperEntity object) {
             this.object = object;
             return self();
         }
@@ -362,7 +356,7 @@ public abstract class AbstractEvent implements Event {
          * @param target
          * @return builder.
          */
-        public T target(Targetable target) {
+        public T target(CaliperTargetable target) {
             this.target = target;
             return self();
         }
@@ -371,7 +365,7 @@ public abstract class AbstractEvent implements Event {
          * @param generated
          * @return builder.
          */
-        public T generated(Generatable generated) {
+        public T generated(CaliperGeneratable generated) {
             this.generated = generated;
             return self();
         }
@@ -380,7 +374,7 @@ public abstract class AbstractEvent implements Event {
          * @param referrer
          * @return builder.
          */
-        public T referrer(Referrer referrer) {
+        public T referrer(CaliperReferrer referrer) {
             this.referrer = referrer;
             return self();
         }
@@ -407,7 +401,7 @@ public abstract class AbstractEvent implements Event {
          * @param group
          * @return builder.
          */
-        public T group(Org group) {
+        public T group(CaliperOrganization group) {
             this.group = group;
             return self();
         }

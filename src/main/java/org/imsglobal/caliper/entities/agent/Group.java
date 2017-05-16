@@ -18,58 +18,31 @@
 
 package org.imsglobal.caliper.entities.agent;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 
-import javax.annotation.Nullable;
-
 /**
- * A Caliper Group represents an ad-hoc organization that a Person is able to join as a member.
+ * A Caliper Group represents an ad-hoc organization that an Agent, typically a Person or another Group is able to join as a member.
  */
-public class Group extends AbstractEntity implements Org {
-
-    @JsonProperty("subOrganizationOf")
-    private final Org subOrganizationOf;
+public class Group extends AbstractOrganization {
 
     /**
      * @param builder apply builder object properties to the object.
      */
     protected Group(Builder<?> builder) {
         super(builder);
-
-        this.subOrganizationOf = builder.subOrganizationOf;
-    }
-
-    /**
-     * @return the parent organization.
-     */
-    @Nullable
-    public Org getSubOrganizationOf() {
-        return subOrganizationOf;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
-        private Org subOrganizationOf;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractOrganization.Builder<T> {
 
         /**
          * Constructor
          */
         public Builder() {
             super.type(EntityType.GROUP);
-        }
-
-        /**
-         * @param subOrganizationOf
-         * @return builder.
-         */
-        public T subOrganizationOf(Org subOrganizationOf) {
-            this.subOrganizationOf = subOrganizationOf;
-            return self();
         }
 
         /**

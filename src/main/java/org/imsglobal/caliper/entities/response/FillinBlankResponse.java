@@ -37,7 +37,7 @@ import java.util.List;
  * Represents response text or integer/decimal/scientific numbers that completes a question
  * designed with one or more "fill in the blank" option prompts.
  */
-public class FillinBlankResponse extends AbstractEntity implements Response {
+public class FillinBlankResponse extends AbstractEntity implements CaliperResponse {
 
     @JsonProperty("attempt")
     private Attempt attempt;

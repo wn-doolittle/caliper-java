@@ -18,13 +18,15 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -32,8 +34,7 @@ import org.imsglobal.caliper.entities.agent.Role;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.annotation.TagAnnotation;
-import org.imsglobal.caliper.entities.resource.Chapter;
-import org.imsglobal.caliper.entities.resource.Document;
+import org.imsglobal.caliper.entities.resource.Page;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -51,10 +52,10 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AnnotationEventTaggedTest {
-    private String uuid;
+    private JsonldContext context;
+    private String id;
     private Person actor;
-    private Document object;
-    private Chapter annotated;
+    private Page object;
     private TagAnnotation generated;
     private List<String> tags;
     private SoftwareApplication edApp;
@@ -63,25 +64,26 @@ public class AnnotationEventTaggedTest {
     private Session session;
     private AnnotationEvent event;
 
-    private static final String BASE_IRI = "https://example.edu";
+    private static final String BASE_EDU_IRI = "https://example.edu";
+    private static final String BASE_COM_IRI = "https://example.com";
+    private static final String SECTION_IRI = BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1");
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        uuid = "b2009c63-2659-4cd2-b71e-6e03c498f02b";
+        context = JsonldStringContext.getDefault();
 
-        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        id = "urn:uuid:b2009c63-2659-4cd2-b71e-6e03c498f02b";
 
-        object = Document.builder()
-            .id(BASE_IRI.concat("/etexts/201.epub"))
-            .name("IMS Caliper Implementation Guide")
+        actor = Person.builder().id(BASE_EDU_IRI.concat("/users/554433")).build();
+        Person annotator = Person.builder().id(actor.getId()).coercedToId(true).build();
+
+        object = Page.builder()
+            .id(BASE_COM_IRI.concat("/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0"))
+            .name("IMS Caliper Implementation Guide, pg 5")
             .version("1.1")
-            .build();
-
-        annotated = Chapter.builder()
-            .id(BASE_IRI.concat("/etexts/201.epub#epubcfi(/6/4[chap01]!/4[body01]/12[para06]/1:97)"))
             .build();
 
         tags = new ArrayList<String>();
@@ -90,31 +92,37 @@ public class AnnotationEventTaggedTest {
         tags.add("entity");
 
         generated = TagAnnotation.builder()
-            .id(BASE_IRI.concat("/users/554433/etexts/201/tags/3"))
-            .annotated(annotated)
-            .annotator(actor)
+            .id(BASE_COM_IRI.concat("/users/554433/texts/imscaliperimplguide/tags/3"))
+            .annotated(Page.builder()
+                .id(BASE_COM_IRI.concat("/#/texts/imscaliperimplguide/cfi/6/10!/4/2/2/2@0:0"))
+                .coercedToId(true)
+                .build())
+            .annotator(annotator)
             .tags(tags)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
 
-        edApp = SoftwareApplication.builder().id(BASE_IRI).version("v2").build();
+        edApp = SoftwareApplication.builder()
+            .id(BASE_COM_IRI.concat("/reader"))
+            .name("ePub Reader")
+            .version("1.2.3").build();
 
-        group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+        group = CourseSection.builder().id(SECTION_IRI)
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
         membership = Membership.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
-            .member(actor)
-            .organization(CourseSection.builder().id(group.getId()).build())
+            .id(SECTION_IRI.concat("/rosters/1"))
+            .member(annotator)
+            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
             .role(Role.LEARNER)
             .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
         session = Session.builder()
-            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+            .id(BASE_COM_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
@@ -124,8 +132,15 @@ public class AnnotationEventTaggedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventAnnotationTagged.json");
@@ -149,7 +164,8 @@ public class AnnotationEventTaggedTest {
      */
     private AnnotationEvent buildEvent(Action action) {
         return AnnotationEvent.builder()
-            .uuid(uuid)
+            .context(context)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)

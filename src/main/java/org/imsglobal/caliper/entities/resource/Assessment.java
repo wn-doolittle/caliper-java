@@ -21,7 +21,7 @@ package org.imsglobal.caliper.entities.resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.Collection;
+import org.imsglobal.caliper.entities.CaliperCollection;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nullable;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Caliper representation of an Assessment.  Part of the Assessment Metric Profile
  */
-public class Assessment extends AbstractAssignableDigitalResource implements Assessable, Collection {
+public class Assessment extends AbstractAssignableDigitalResource implements CaliperAssessable, CaliperCollection {
 
     @JsonProperty("items")
     private final ImmutableList<AssessmentItem> items;

@@ -18,13 +18,15 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
+import org.imsglobal.caliper.context.JsonldContext;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.Session;
@@ -41,9 +43,10 @@ import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class SessionEventLoggedOutTest {
-    private String uuid;
+    private JsonldContext context;
+    private String id;
     private Person actor;
-    private SoftwareApplication object;
+    private SoftwareApplication object, edApp;
     private Session session;
     private SessionEvent event;
 
@@ -54,15 +57,19 @@ public class SessionEventLoggedOutTest {
      */
     @Before
     public void setUp() throws Exception {
-        uuid = "a438f8ac-1da3-4d48-8c86-94a1b387e0f6";
+        context = JsonldStringContext.getDefault();
+
+        id = "urn:uuid:a438f8ac-1da3-4d48-8c86-94a1b387e0f6";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
         object = SoftwareApplication.builder().id(BASE_IRI).version("v2").build();
 
+        edApp = SoftwareApplication.builder().id(object.getId()).coercedToId(true).build();
+
         session = Session.builder()
             .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
-            .user(actor)
+            .user(Person.builder().id(actor.getId()).coercedToId(true).build())
             .dateCreated(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .endedAtTime(new DateTime(2016, 11, 15, 11, 5, 0, 0, DateTimeZone.UTC))
@@ -75,8 +82,15 @@ public class SessionEventLoggedOutTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-        ObjectMapper mapper = JsonObjectMapper.create(Options.JACKSON_JSON_INCLUDE, provider);
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventSessionLoggedOut.json");
@@ -100,11 +114,13 @@ public class SessionEventLoggedOutTest {
      */
     private SessionEvent buildEvent(Action action) {
         return SessionEvent.builder()
-            .uuid(uuid)
+            .context(context)
+            .id(id)
             .actor(actor)
             .action(action)
             .object(object)
             .eventTime(new DateTime(2016, 11, 15, 11, 5, 0, 0, DateTimeZone.UTC))
+            .edApp(edApp)
             .session(session)
             .build();
     }

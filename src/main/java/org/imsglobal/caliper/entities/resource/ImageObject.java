@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 /**
  * An image object embedded in a web page.
  */
-public class ImageObject extends AbstractDigitalResource implements Media {
+public class ImageObject extends AbstractDigitalResource implements CaliperMediaObject {
 
     @JsonProperty("duration")
     private String duration;

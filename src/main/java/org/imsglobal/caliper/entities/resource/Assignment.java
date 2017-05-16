@@ -159,7 +159,7 @@ public class Assignment {
      * @return the maxScore
      */
     @Nullable
-    // @JsonSerialize(using=JsonDoubleSerializer.class)
+    // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public double getMaxScore() {
         return maxScore;

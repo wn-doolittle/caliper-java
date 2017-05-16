@@ -19,9 +19,8 @@
 package org.imsglobal.caliper.validators;
 
 import com.google.common.base.Strings;
-import org.imsglobal.caliper.config.Context;
-import org.imsglobal.caliper.Type;
-import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.events.CaliperEventType;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.agent.SupportedStatuses;
@@ -45,9 +44,11 @@ public class EntityValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
+    /**
     public static void checkContext(Context context, Context expected) throws IllegalArgumentException {
         checkArgument(context.equals(expected), "expected @context %s but was %s", expected, context);
     }
+     */
 
     /**
      * Check if identifier is null or empty.
@@ -64,7 +65,7 @@ public class EntityValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkType(Type type, Type expected) throws IllegalArgumentException {
+    public static void checkType(CaliperEventType type, CaliperEventType expected) throws IllegalArgumentException {
         checkArgument(type.value().equals(expected.value()), "expected @type %s but was %s", expected.value(), type);
     }
 
@@ -74,7 +75,7 @@ public class EntityValidator {
      * @param type
      * @throws IllegalArgumentException
      */
-    public static void checkActorType(Agent actor, Class<?> type) throws IllegalArgumentException {
+    public static void checkActorType(CaliperAgent actor, Class<?> type) throws IllegalArgumentException {
         TypeValidator.checkActorType(actor, type);
     }
 

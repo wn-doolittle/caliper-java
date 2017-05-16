@@ -18,11 +18,11 @@
 
 package org.imsglobal.caliper.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.config.Context;
-import org.imsglobal.caliper.Type;
+import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -30,16 +30,23 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class AbstractEntity implements Entity {
+/**
+ * This class provides a skeletal implementation of the Entity interface
+ * in order to minimize the effort required to implement the interface.
+ */
+public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible {
 
     @JsonProperty("@context")
-    protected final Context context;
+    private final JsonldContext context;
+
+    @JsonIgnore
+    private final boolean coercedToId;
 
     @JsonProperty("id")
     protected final String id;
 
     @JsonProperty("type")
-    private final Type type;
+    private final CaliperEntityType type;
 
     @JsonProperty("name")
     private final String name;
@@ -61,10 +68,10 @@ public abstract class AbstractEntity implements Entity {
      */
     protected AbstractEntity(Builder<?> builder) {
 
-        EntityValidator.checkContext(builder.context, Context.REMOTE_CALIPER_JSONLD_CONTEXT);
         EntityValidator.checkId("id", builder.id);
 
         this.context = builder.context;
+        this.coercedToId = builder.coercedToId;
         this.id = builder.id;
         this.type = builder.type;
         this.name = builder.name;
@@ -77,9 +84,17 @@ public abstract class AbstractEntity implements Entity {
     /**
      * @return the context.
      */
-    @Nonnull
-    public Context getContext() {
+    @Nullable
+    public JsonldContext getContext() {
         return context;
+    }
+
+    /**
+     * @return coerceToId flag
+     */
+    @Nonnull
+    public boolean isCoercedToId() {
+        return coercedToId;
     }
 
     /**
@@ -94,7 +109,7 @@ public abstract class AbstractEntity implements Entity {
      * @return the type.
      */
     @Nonnull
-    public Type getType() {
+    public CaliperEntityType getType() {
         return type;
     }
 
@@ -144,9 +159,10 @@ public abstract class AbstractEntity implements Entity {
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
-        private Context context;
+        private boolean coercedToId;
+        private JsonldContext context;
         private String id;
-        private Type type;
+        private CaliperEntityType type;
         private String name;
         private String description;
         private DateTime dateCreated;
@@ -157,17 +173,26 @@ public abstract class AbstractEntity implements Entity {
          * Constructor
          */
         public Builder() {
-            context(Context.REMOTE_CALIPER_JSONLD_CONTEXT);
             type(EntityType.ENTITY);
+            coercedToId(false);
         }
 
         protected abstract T self();
 
         /**
+         * @param coercedToId
+         * @return builder.
+         */
+        public T coercedToId(boolean coercedToId) {
+            this.coercedToId = coercedToId;
+            return self();
+        }
+
+        /**
          * @param context
          * @return builder.
          */
-        public T context(Context context) {
+        public T context(JsonldContext context) {
             this.context = context;
             return self();
         }
@@ -185,7 +210,7 @@ public abstract class AbstractEntity implements Entity {
          * @param type
          * @return builder.
          */
-        public T type(Type type) {
+        public T type(CaliperEntityType type) {
             this.type = type;
             return self();
         }

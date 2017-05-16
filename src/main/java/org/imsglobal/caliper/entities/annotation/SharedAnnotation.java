@@ -21,52 +21,23 @@ package org.imsglobal.caliper.entities.annotation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.Generatable;
-import org.imsglobal.caliper.entities.agent.Agent;
-import org.imsglobal.caliper.entities.resource.Resource;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class SharedAnnotation extends AbstractEntity implements Annotation, Generatable {
-
-    @JsonProperty("annotated")
-    private Resource annotated;
-
-    @JsonProperty("annotator")
-    private final Agent annotator;
+public class SharedAnnotation extends AbstractAnnotation {
 
     @JsonProperty("withAgents")
-    private final ImmutableList<Agent> withAgents;
+    private final ImmutableList<CaliperAgent> withAgents;
 
     /**
      * @param builder apply builder object properties to the object.
      */
     protected SharedAnnotation(Builder<?> builder) {
         super(builder);
-
-        this.annotated = builder.annotated;
-        this.annotator = builder.annotator;
         this.withAgents = ImmutableList.copyOf(builder.withAgents);
-    }
-
-    /**
-     * @return the annotated object's identifier
-     */
-    @Nonnull
-    public Resource getAnnotated() {
-        return annotated;
-    }
-
-    /**
-     * @return the actor
-     */
-    @Nonnull
-    public Agent getAnnotator() {
-        return annotator;
     }
 
     /**
@@ -74,7 +45,7 @@ public class SharedAnnotation extends AbstractEntity implements Annotation, Gene
      * @return the users
      */
     @Nullable
-    public ImmutableList<Agent> getWithAgents() {
+    public ImmutableList<CaliperAgent> getWithAgents() {
         return withAgents;
     }
 
@@ -82,10 +53,8 @@ public class SharedAnnotation extends AbstractEntity implements Annotation, Gene
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
-        private Resource annotated;
-        private Agent annotator;
-        private List<Agent> withAgents = Lists.newArrayList();
+    public static abstract class Builder<T extends Builder<T>> extends AbstractAnnotation.Builder<T> {
+        private List<CaliperAgent> withAgents = Lists.newArrayList();
 
         /**
          * Constructor
@@ -95,28 +64,10 @@ public class SharedAnnotation extends AbstractEntity implements Annotation, Gene
         }
 
         /**
-         * @param annotated
-         * @return builder.
-         */
-        public T annotated(Resource annotated) {
-            this.annotated = annotated;
-            return self();
-        }
-
-        /**
-         * @param annotator
-         * @return builder.
-         */
-        public T annotator(Agent annotator) {
-            this.annotator = annotator;
-            return self();
-        }
-
-        /**
          * @param withAgents
          * @return shared agents.
          */
-        public T withAgents(List<Agent> withAgents) {
+        public T withAgents(List<CaliperAgent> withAgents) {
             this.withAgents = withAgents;
             return self();
         }

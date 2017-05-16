@@ -37,7 +37,7 @@ import java.util.List;
  *  Represents a response that identifies text from a presented paragraph or list.
  *  The response is the identified string or a mapping to a logical identifier;
  */
-public class SelectTextResponse extends AbstractEntity implements Response {
+public class SelectTextResponse extends AbstractEntity implements CaliperResponse {
 
     @JsonProperty("attempt")
     private Attempt attempt;

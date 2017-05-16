@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.TimePeriod;
-import org.imsglobal.caliper.entities.agent.Agent;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
 public class Session extends AbstractEntity {
 
     @JsonProperty("user")
-    private final Agent user;
+    private final CaliperAgent user;
 
     @JsonIgnore
     private TimePeriod timePeriod = new TimePeriod();
@@ -56,7 +56,7 @@ public class Session extends AbstractEntity {
      * @return the session user
      */
     @Nullable
-    public Agent getUser() {
+    public CaliperAgent getUser() {
         return user;
     }
 
@@ -89,7 +89,7 @@ public class Session extends AbstractEntity {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T>  {
-        private Agent user;
+        private CaliperAgent user;
         private TimePeriod timePeriod = new TimePeriod();
 
         /**
@@ -103,7 +103,7 @@ public class Session extends AbstractEntity {
          * @param user
          * @return builder.
          */
-        public T user(Agent user) {
+        public T user(CaliperAgent user) {
             this.user = user;
             return self();
         }

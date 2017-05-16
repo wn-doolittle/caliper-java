@@ -18,70 +18,55 @@
 
 package org.imsglobal.caliper.entities;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.google.common.collect.ImmutableList;
-import org.imsglobal.caliper.config.Context;
-import org.imsglobal.caliper.Type;
-import org.joda.time.DateTime;
-
 /**
- * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  For an
- * Entity to be linkable, dereferencing the identifier should result in a representation of the node.
+ * Concrete implementation of a generic Entity.
  */
-@JsonFilter("entityFilter")
-public interface Entity {
+public class Entity extends AbstractEntity {
 
     /**
-     * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
-     * should be expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the context IRI.
+     * @param builder apply builder object properties to the object.
      */
-    Context getContext();
+    protected Entity(Builder<?> builder) {
+        super(builder);
+    }
 
     /**
-     * Each Entity (or node in the graph as defined by JSON-LD) requires an identifier.
-     * The identifier should be expressed as a unique IRI in conformance with the
-     * JSON-LD specification.
-     * @return the identifier IRI
+     * Builder class provides a fluid interface for setting object properties.
+     * @param <T> builder.
      */
-    String getId();
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
+
+        /**
+         * Constructor
+         */
+        public Builder() {
+            super.type(EntityType.ENTITY);
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of the BasicEntity.
+         */
+        public Entity build() {
+            return new Entity(this);
+        }
+    }
 
     /**
-     * Specifies the type of Entity or node in the graph as defined by JSON-LD.  The type should be
-     * expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the type IRI
+     *
      */
-    Type getType();
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
 
     /**
-     * The name of the Entity.  Optional.
-     * @return
+     * Static factory method.
+     * @return a new instance of the builder.
      */
-    String getName();
-
-    /**
-     * A short description of the entity.  Optional
-     * @return the description
-     */
-    String getDescription();
-
-    /**
-     * A combined date and time representation (including milliseconds) of when an entity was created
-     * in accordance with the ISO 8601 standard.  Optional.
-     * @return the event time
-     */
-    DateTime getDateCreated();
-
-    /**
-     * A combined date and time representation (including milliseconds) of when an entity was modified
-     * in accordance with the ISO 8601 standard.  Optional.
-     * @return the event time
-     */
-    DateTime getDateModified();
-
-    /**
-     * Additional custom properties provided that are germane to the Event.  Optional.
-     * @return extensions
-     */
-    ImmutableList<Object> getExtensions();
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 }

@@ -19,35 +19,45 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.resource.Media;
+import org.imsglobal.caliper.entities.resource.CaliperMediaObject;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+
 @SupportedActions({
-    Action.OPENED_POPOUT,
-    Action.CLOSED_POPOUT,
-    Action.EXITED_FULLSCREEN,
-    Action.ENTERED_FULLSCREEN,
-    Action.CHANGED_SIZE,
-    Action.CHANGED_RESOLUTION,
     Action.STARTED,
-    Action.REWOUND,
-    Action.RESUMED,
-    Action.FORWARDED_TO,
-    Action.PAUSED,
-    Action.JUMPED_TO,
     Action.ENDED,
+    Action.PAUSED,
+    Action.RESUMED,
+    Action.RESTARTED,
+    Action.FORWARDED_TO,
+    Action.JUMPED_TO,
+    Action.REWOUND,
+    Action.CHANGED_RESOLUTION,
+    Action.CHANGED_SIZE,
     Action.CHANGED_SPEED,
-    Action.UNMUTED,
-    Action.MUTED,
     Action.CHANGED_VOLUME,
     Action.DISABLED_CLOSED_CAPTIONING,
-    Action.ENABLED_CLOSED_CAPTIONING
+    Action.ENABLED_CLOSED_CAPTIONING,
+    Action.EXITED_FULLSCREEN,
+    Action.ENTERED_FULLSCREEN,
+    Action.OPENED_POPOUT,
+    Action.CLOSED_POPOUT,
+    Action.MUTED,
+    Action.UNMUTED
 })
 public class MediaEvent extends AbstractEvent {
+
+    @JsonProperty("actor")
+    private final Person actor;
+
+    @JsonProperty("object")
+    private final CaliperMediaObject object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(MediaEvent.class);
@@ -64,9 +74,31 @@ public class MediaEvent extends AbstractEvent {
         super(builder);
 
         EventValidator.checkType(this.getType(), EventType.MEDIA);
-        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(this.getAction(), MediaEvent.class);
-        EventValidator.checkObjectType(this.getObject(), Media.class);
+
+        this.actor = builder.actor;
+        this.object = builder.object;
+
+    }
+
+    /**
+     * Get the Person actor.
+     * @return the actor
+     */
+    @Override
+    @Nonnull
+    public Person getActor() {
+        return actor;
+    }
+
+    /**
+     * Get the Media object.
+     * @return the object
+     */
+    @Override
+    @Nonnull
+    public CaliperMediaObject getObject() {
+        return object;
     }
 
     /**
@@ -74,6 +106,8 @@ public class MediaEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private CaliperMediaObject object;
 
         /*
          * Constructor
@@ -81,6 +115,25 @@ public class MediaEvent extends AbstractEvent {
         public Builder() {
             type(EventType.MEDIA);
         }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Person actor) {
+            this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(CaliperMediaObject object) {
+            this.object = object;
+            return self();
+        }
+
 
         /**
          * Client invokes build method in order to create an immutable profile object.

@@ -35,7 +35,7 @@ public class Message extends AbstractDigitalResource {
     private final String body;
 
     @JsonProperty("attachments")
-    private final ImmutableList<Resource> attachments;
+    private final ImmutableList<CaliperDigitalResource> attachments;
 
     /**
      * @param builder apply builder object properties to the object.
@@ -67,7 +67,7 @@ public class Message extends AbstractDigitalResource {
     /**
      * @return attachments linked to this message
      */
-    public ImmutableList<Resource> getAttachments() {
+    public ImmutableList<CaliperDigitalResource> getAttachments() {
         return attachments;
     }
 
@@ -78,7 +78,7 @@ public class Message extends AbstractDigitalResource {
     public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T> {
         private Message replyTo;
         private String body;
-        private List<Resource> attachments = Lists.newArrayList();
+        private List<CaliperDigitalResource> attachments = Lists.newArrayList();
 
         /**
          * Constructor
@@ -109,7 +109,7 @@ public class Message extends AbstractDigitalResource {
          * @param attachments
          * @return builder.
          */
-        public T attachments(List<Resource> attachments) {
+        public T attachments(List<CaliperDigitalResource> attachments) {
             this.attachments = attachments;
             return self();
         }
@@ -118,7 +118,7 @@ public class Message extends AbstractDigitalResource {
          * @param attachment
          * @return builder.
          */
-        public T attachment(Resource attachment) {
+        public T attachment(CaliperDigitalResource attachment) {
             this.attachments.add(attachment);
             return self();
         }

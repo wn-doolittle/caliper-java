@@ -19,7 +19,6 @@
 package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nullable;
@@ -29,7 +28,7 @@ import javax.annotation.Nullable;
  * CourseOffering provides a subset of the CourseOffering properties specified in the IMS LTI 2.0
  * specification, which in turn, draws inspiration from the IMS LIS 1.0 specification.
  */
-public class CourseOffering extends AbstractEntity implements Course {
+public class CourseOffering extends AbstractOrganization implements CaliperCourse {
 
     @JsonProperty("courseNumber")
     private final String courseNumber;
@@ -37,18 +36,13 @@ public class CourseOffering extends AbstractEntity implements Course {
     @JsonProperty("academicSession")
     private final String academicSession;
 
-    @JsonProperty("subOrganizationOf")
-    private final Org subOrganizationOf;
-
     /**
      * @param builder apply builder object properties to the object.
      */
     protected CourseOffering(Builder<?> builder) {
         super(builder);
-
         this.courseNumber = builder.courseNumber;
         this.academicSession = builder.academicSession;
-        this.subOrganizationOf = builder.subOrganizationOf;
     }
 
     /**
@@ -69,21 +63,12 @@ public class CourseOffering extends AbstractEntity implements Course {
     }
 
     /**
-     * @return the parent organization.
-     */
-    @Nullable
-    public Org getSubOrganizationOf() {
-        return subOrganizationOf;
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends AbstractOrganization.Builder<T> {
         private String courseNumber;
         private String academicSession;
-        private Org subOrganizationOf;
 
         /**
          * Constructor
@@ -107,15 +92,6 @@ public class CourseOffering extends AbstractEntity implements Course {
          */
         public T academicSession(String academicSession) {
             this.academicSession = academicSession;
-            return self();
-        }
-
-        /**
-         * @param subOrganizationOf
-         * @return builder.
-         */
-        public T subOrganizationOf(Org subOrganizationOf) {
-            this.subOrganizationOf = subOrganizationOf;
             return self();
         }
 

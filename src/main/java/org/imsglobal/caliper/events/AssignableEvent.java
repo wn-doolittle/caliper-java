@@ -19,10 +19,10 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.resource.Assignable;
-import org.imsglobal.caliper.entities.resource.Attempt;
+import org.imsglobal.caliper.entities.resource.CaliperAssignable;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +33,17 @@ import javax.annotation.Nonnull;
     Action.ACTIVATED,
     Action.COMPLETED,
     Action.DEACTIVATED,
-    Action.HID,
     Action.REVIEWED,
-    Action.STARTED
+    Action.STARTED,
+    Action.SUBMITTED
 })
 public class AssignableEvent extends AbstractEvent {
+
+    @JsonProperty("actor")
+    private final Person actor;
+
+    @JsonProperty("object")
+    private final CaliperAssignable object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssignableEvent.class);
@@ -54,22 +60,30 @@ public class AssignableEvent extends AbstractEvent {
         super(builder);
 
         EventValidator.checkType(this.getType(), EventType.ASSIGNABLE);
-        EventValidator.checkActorType(this.getActor(), Person.class);
         EventValidator.checkAction(this.getAction(), AssignableEvent.class);
-        EventValidator.checkObjectType(this.getObject(), Assignable.class);
-        if (!(this.getGenerated() == null)) {
-            EventValidator.checkGeneratedType(this.getGenerated(), Attempt.class);
-        }
+
+        this.actor = builder.actor;
+        this.object = builder.object;
     }
 
     /**
      * Required.
-     * @return the action
+     * @return the actor
      */
     @Override
     @Nonnull
-    public Action getAction() {
-        return action;
+    public Person getActor() {
+        return actor;
+    }
+
+    /**
+     * Required.
+     * @return the object
+     */
+    @Override
+    @Nonnull
+    public CaliperAssignable getObject() {
+        return object;
     }
 
     /**
@@ -77,12 +91,32 @@ public class AssignableEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private CaliperAssignable object;
 
         /*
          * Constructor
          */
         public Builder() {
             super.type(EventType.ASSIGNABLE);
+        }
+
+        /**
+         * @param actor
+         * @return builder.
+         */
+        public T actor(Person actor) {
+            this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(CaliperAssignable object) {
+            this.object = object;
+            return self();
         }
 
         /**

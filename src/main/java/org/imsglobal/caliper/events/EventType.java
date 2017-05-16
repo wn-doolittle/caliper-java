@@ -19,9 +19,8 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.imsglobal.caliper.Type;
 
-public enum EventType implements Type {
+public enum EventType implements CaliperEventType {
     ANNOTATION("AnnotationEvent"),
     ASSESSMENT("AssessmentEvent"),
     ASSESSMENT_ITEM("AssessmentItemEvent"),
