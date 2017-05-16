@@ -33,6 +33,11 @@ import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.CaliperEvent;
 import org.imsglobal.caliper.events.NavigationEvent;
 import org.imsglobal.caliper.requestors.Envelope;
+import org.imsglobal.caliper.requestors.HttpRequestor;
+import org.imsglobal.caliper.sensors.CaliperSensor;
+import org.imsglobal.caliper.sensors.Client;
+import org.imsglobal.caliper.sensors.HttpClient;
+import org.imsglobal.caliper.sensors.Sensor;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
@@ -60,13 +65,6 @@ public class SensorSendEventsTest {
 
     @Test
     public void test() {
-
-        // Create Client, register client with sensor.
-        ClientManager<String> manager = new ClientManager<>(BASE_IRI.concat("/sensors/1"));
-        Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
-        HttpClient client = new HttpClient(manager.getId().concat("/clients/1"), opts);
-        manager.registerClient(client.getId(), client);
-
         context = JsonldStringContext.getDefault();
 
         id = "urn:id:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594";
@@ -102,6 +100,20 @@ public class SensorSendEventsTest {
             .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
+        
+        // Initialize Sensor
+        CaliperSensor sensor = Sensor.create(BASE_IRI.concat("/sensors/1"));
+        Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+        Client client = HttpClient.create(sensor.getId().concat("/clients/1"), HttpRequestor.create(opts));
+        sensor.registerClient(client);
+
+        // Create Client, register client with sensor.
+        /**
+        Sensor<String> manager = new Sensor<>(BASE_IRI.concat("/sensors/1"));
+        Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+        SensorHttpClient client = new SensorHttpClient(manager.getId().concat("/clients/1"), opts);
+        manager.registerClient(client.getId(), client);
+         */
 
         // Fire event test - Send 50 envelopes containing the above event
         for (int i = 0 ; i < 50 ; i++) {
@@ -110,15 +122,15 @@ public class SensorSendEventsTest {
             DateTime sendTime = new DateTime(2016, 11, 15, 12, 15, 0, 0, DateTimeZone.UTC);
             List<Object> data = new ArrayList<>();
             data.add(event);
-            Envelope envelope = client.create(client.getId(), sendTime, Options.DATA_VERSION, data);
-            client.send(envelope);
+            Envelope envelope = sensor.create(client.getId(), sendTime, Options.DATA_VERSION, data);
+            sensor.send(envelope);
         }
 
         // There should be two caliperEvents queued
         assertEquals("Expect fifty Caliper events to be sent", 50,
-                manager.getStatistics().get("default").getMeasures().getCount());
+                sensor.getStatistics().get("default").getMeasures().getCount());
 
-        //Statistic stats = client.getStatistics().get("default");
+        //Statistic statistics = client.getStatistics().get("default");
 
         // TODO - Describes test - Send five describes
 
@@ -126,11 +138,11 @@ public class SensorSendEventsTest {
         // Caliper.getStatistics().getDescribes().getCount());
 
         // There should be two message successfully sent
-        int successes = manager.getStatistics().get("default").getSuccessful().getCount();
+        int successes = sensor.getStatistics().get("default").getSuccessful().getCount();
         assertEquals("Expect fifty messages to be sent successfully", 50, successes);
 
         // There should be zero failures
-        int failures = manager.getStatistics().get("default").getFailed().getCount();
+        int failures = sensor.getStatistics().get("default").getFailed().getCount();
         assertEquals("Expect zero message failures to be sent", 0, failures);
     }
 

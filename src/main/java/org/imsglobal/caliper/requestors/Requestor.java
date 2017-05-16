@@ -22,63 +22,43 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.imsglobal.caliper.Sensor;
-import org.joda.time.DateTime;
+import org.imsglobal.caliper.config.Options;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
-public abstract class Requestor<T> {
+public abstract class Requestor {
+    private Options options;
 
     /**
      * Constructor
      */
-    public Requestor() {
-
+    public Requestor(Options opts) {
+        this.options = opts;
     }
 
     /**
-     * Send Caliper data to a target event store.
-     * @param sensor
-     * @param data
-     * @return true/false boolean on success/failure
+     * Retrieve options
+     * @return options
      */
-    public abstract boolean send(Sensor sensor, T data);
-
-    /**
-     * Send a collection of Caliper data to a target event store.
-     * @param sensor
-     * @param data
-     * @return true/false boolean on success/failure
-     */
-    public abstract boolean send(Sensor sensor, List<T> data);
-
-    /**
-     * Generate an HTTP StringEntity from the provided JSON string.  Set the ContentType to 'application/json'.
-     * @param json
-     * @return String Entity
-     * @throws JsonProcessingException
-     * @throws UnsupportedEncodingException
-     */
-
-    /**
-     * Create Caliper envelope
-     * @param sensor
-     * @param data
-     * @return
-     */
-    public Envelope createEnvelope(Sensor sensor, DateTime sendTime, String dataVersion, List<T> data) {
-        return new Envelope<>(sensor, sendTime, dataVersion, data);
+    public Options getOptions() {
+        return options;
     }
+
+    /**
+     * Send Envelope to a target endpoint
+     * @param envelope
+     * @return true/false boolean on success/failure
+     */
+    public abstract boolean send(Envelope envelope);
 
     /**
      * Serialize Caliper envelope.
      * @param envelope
      * @param mapper
-     * @return
+     * @return String
      * @throws JsonProcessingException
      */
-    public String serializeEnvelope(Envelope<T> envelope, ObjectMapper mapper) throws JsonProcessingException {
+    public String serializeEnvelope(Envelope envelope, ObjectMapper mapper) throws JsonProcessingException {
         return mapper.writeValueAsString(envelope);
     }
 

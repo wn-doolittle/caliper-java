@@ -18,8 +18,11 @@
 
 package org.imsglobal.caliper.requestors;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -28,33 +31,26 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.imsglobal.caliper.Sensor;
 import org.imsglobal.caliper.config.Options;
-import org.imsglobal.caliper.databind.JsonFilters;
-import org.imsglobal.caliper.databind.JsonObjectMapper;
-import org.imsglobal.caliper.databind.JsonSimpleFilterProvider;
-import org.joda.time.DateTime;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class HttpRequestor<T> extends Requestor<T> {
+public class HttpRequestor extends Requestor {
     private static CloseableHttpClient httpClient;
     private static CloseableHttpResponse response = null;
-    private Options options;
     private static final Logger log = LoggerFactory.getLogger(HttpRequestor.class);
 
     /**
-     * Constructor instantiates a new HTTPRequestor. The args options provides the host
-     * details to the HttpClient.
+     * Constructor instantiates a new HttpRequestor. The args options provides the host
+     * details to the HttpClient.  Scoped private to force use of static factory method
+     * for instantiating an HttpRequestor.
      * @param options
      */
-    public HttpRequestor(Options options) {
-        super();
-        this.options = options;
+    private HttpRequestor(Options options) {
+        super(options);
 
         initialize();
     }
@@ -79,28 +75,14 @@ public class HttpRequestor<T> extends Requestor<T> {
 
     /**
      * Post envelope.
-     * @param data
+     * @param envelope
      * @return status
      */
     @Override
-    public boolean send(Sensor sensor, T data) {
-        List<T> dataList = new ArrayList<>();
-        dataList.add(data);
-
-        return send(sensor, dataList);
-    }
-
-    /**
-     * Post envelope.
-     * @param data
-     * @return status
-     */
-    @Override
-    public boolean send(Sensor sensor, List<T> data) {
+    public boolean send(Envelope envelope) {
         boolean status = Boolean.FALSE;
 
         try {
-
             if (log.isDebugEnabled()) {
                 log.debug("Entering send()...");
             }
@@ -108,22 +90,25 @@ public class HttpRequestor<T> extends Requestor<T> {
             // Check if HttpClient is initialized.
             checkInitialized();
 
-            // Create envelope.
-            String dataVersion = options.getDataVersion();
-            Envelope<T> envelope = createEnvelope(sensor, DateTime.now(), dataVersion, data);
-
             // Create mapper and serialize the envelope
-            SimpleFilterProvider provider = JsonSimpleFilterProvider.create(JsonFilters.EXCLUDE_CONTEXT);
-            ObjectMapper mapper = JsonObjectMapper.create(options.getJacksonJsonInclude(), provider);
+            SimpleFilterProvider provider = new SimpleFilterProvider()
+                .setFailOnUnknownId(true);
+
+            ObjectMapper mapper = new ObjectMapper()
+                .setDateFormat(new ISO8601DateFormat())
+                .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+                .setFilterProvider(provider)
+                .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
             String json = mapper.writeValueAsString(envelope);
 
             // Create an HTTP StringEntity.
             StringEntity payload = generatePayload(json, ContentType.APPLICATION_JSON);
 
             // Prep the post
-            HttpPost httpPost = new HttpPost(options.getHttpHost());
-            httpPost.setHeader("Authorization", options.getApiKey());
-            httpPost.setHeader("Content-Type", options.getHttpContentType());
+            HttpPost httpPost = new HttpPost(super.getOptions().getHttpHost());
+            httpPost.setHeader("Authorization",super.getOptions().getApiKey());
+            httpPost.setHeader("Content-Type", super.getOptions().getHttpContentType());
             httpPost.setEntity(payload);
 
             // Execute POST
@@ -145,13 +130,20 @@ public class HttpRequestor<T> extends Requestor<T> {
                     log.debug("Exiting send()...");
                 }
             }
-
         } catch (ClientProtocolException cpe) {
             cpe.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
         return status;
+    }
+
+    /**
+     * Factory Method for instantiating an HttpRequestor.
+     * @param opts
+     * @return
+     */
+    public static HttpRequestor create(Options opts) {
+        return new HttpRequestor(opts);
     }
 }

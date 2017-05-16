@@ -30,6 +30,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * This class provides a skeletal implementation of the Entity interface
+ * in order to minimize the effort required to implement the interface.
+ */
 public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible {
 
     @JsonProperty("@context")

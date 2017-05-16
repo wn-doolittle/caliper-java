@@ -16,7 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.stats;
+package org.imsglobal.caliper.statistics;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -59,5 +59,4 @@ public class StatisticsMap extends ConcurrentHashMap<String, Statistic> {
 
         return builder.toString();
     }
-
 }

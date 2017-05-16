@@ -19,13 +19,12 @@
 package org.imsglobal.caliper.requestors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.Sensor;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class Envelope<T> {
+public class Envelope {
 
     @JsonProperty("sensor")
     private String sensorId;
@@ -37,23 +36,16 @@ public class Envelope<T> {
     private String dataVersion;
 
     @JsonProperty("data")
-    private List<T> data;
+    private List<Object> data;
 
     /**
      * Constructor
-     */
-    public Envelope() {
-
-    }
-
-    /**
-     * Constructor
-     * @param sensor
+     * @param id
      * @param sendTime
      * @param data
      */
-    public Envelope(Sensor sensor, DateTime sendTime, String dataVersion, List<T> data) {
-        this.sensorId = sensor.getId();
+    public Envelope(@Nonnull String id, @Nonnull DateTime sendTime, @Nonnull String dataVersion, @Nonnull List<Object> data) {
+        this.sensorId = id;
 
         if (sendTime == null) {
             this.sendTime = DateTime.now();
@@ -74,43 +66,21 @@ public class Envelope<T> {
     }
 
     /**
-     * Set the sensor identifier.
-     * @param sensor
-     */
-    public void setSensorId(@Nonnull Sensor sensor) {
-        this.sensorId = sensor.getId();
-    }
-
-    /**
      * Get the sent time.
      * @return the sent time.
      */
+    @Nonnull
     public DateTime getSendTime() {
         return sendTime;
-    }
-
-    /**
-     * Set the time.
-     * @param sendTime
-     */
-    public void setSendTime(DateTime sendTime) {
-        this.sendTime = sendTime;
     }
 
     /**
      * Get the dataVersion.
      * @return the dataVersion
      */
+    @Nonnull
     public String getDataVersion() {
         return dataVersion;
-    }
-
-    /**
-     * Set the dataVersion
-     * @param dataVersion
-     */
-    public void setDataVersion(String dataVersion) {
-        this.dataVersion = dataVersion;
     }
 
     /**
@@ -118,15 +88,7 @@ public class Envelope<T> {
      * @return the data
      */
     @Nonnull
-    public List<T> getData() {
+    public List<Object> getData() {
         return data;
-    }
-
-    /**
-     * Set the data.
-     * @param data
-     */
-    public void setData(@Nonnull List<T> data) {
-        this.data = data;
     }
 }

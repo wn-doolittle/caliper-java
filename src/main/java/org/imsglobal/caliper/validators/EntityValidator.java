@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.validators;
 
 import com.google.common.base.Strings;
-import org.imsglobal.caliper.CaliperType;
+import org.imsglobal.caliper.events.CaliperEventType;
 import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Status;
@@ -65,7 +65,7 @@ public class EntityValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkType(CaliperType type, CaliperType expected) throws IllegalArgumentException {
+    public static void checkType(CaliperEventType type, CaliperEventType expected) throws IllegalArgumentException {
         checkArgument(type.value().equals(expected.value()), "expected @type %s but was %s", expected.value(), type);
     }
 

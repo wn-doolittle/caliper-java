@@ -25,8 +25,6 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.imsglobal.caliper.ClientManager;
-import org.imsglobal.caliper.HttpClient;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.config.Options;
 import org.imsglobal.caliper.context.JsonldContext;
@@ -42,6 +40,10 @@ import org.imsglobal.caliper.entities.resource.Assessment;
 import org.imsglobal.caliper.entities.resource.Attempt;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.AssessmentEvent;
+import org.imsglobal.caliper.sensors.CaliperSensor;
+import org.imsglobal.caliper.sensors.Client;
+import org.imsglobal.caliper.sensors.HttpClient;
+import org.imsglobal.caliper.sensors.Sensor;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
@@ -72,8 +74,6 @@ public class EnvelopeEventSingleTest {
     private Session session;
     private AssessmentEvent event;
     private DateTime sendTime;
-    //private Sensor<String> sensor ;
-    //private HttpRequestor httpRequestor;
     private Envelope envelope;
 
     // private static final Logger log = LoggerFactory.getLogger(HttpRequestorSingleEventTest.class);
@@ -82,11 +82,6 @@ public class EnvelopeEventSingleTest {
 
     @Before
     public void setup() {
-        ClientManager<String> manager = new ClientManager<>(BASE_IRI.concat("/sensors/1"));
-        Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
-        HttpClient client = new HttpClient(manager.getId(), opts);
-        manager.registerClient(client.getId(), client);
-
         context = JsonldStringContext.getDefault();
 
         id = "urn:uuid:c51570e4-f8ed-4c18-bb3a-dfe51b2cc594";
@@ -145,9 +140,22 @@ public class EnvelopeEventSingleTest {
         // Send time
         sendTime = new DateTime(2016, 11, 15, 11, 5, 1, 0, DateTimeZone.UTC);
 
+        // Initialize Sensor
+        CaliperSensor sensor = Sensor.create(BASE_IRI.concat("/sensors/1"));
+        Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+        Client client = HttpClient.create(sensor.getId().concat("/clients/1"), HttpRequestor.create(opts));
+        sensor.registerClient(client);
+
+        /**
+         Sensor<String> manager = new Sensor<>(BASE_IRI.concat("/sensors/1"));
+         Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+         SensorHttpClient client = new SensorHttpClient(manager.getId(), opts);
+         manager.registerClient(client.getId(), client);
+         **/
+
         // Create envelope
-        envelope = client.create(client.getId(), sendTime, Options.DATA_VERSION, data);
-        // client.send(envelope);
+        envelope = sensor.create(sensor.getId(), sendTime, Options.DATA_VERSION, data);
+        // sensor.send(client, envelope);
     }
 
     @Test
@@ -189,7 +197,7 @@ public class EnvelopeEventSingleTest {
 
         // Create an HTTP StringEntity envelopes with the envelope JSON.
         Options opts = Options.builder().apiKey("faux_key_123").build();
-        HttpRequestor requestor = new HttpRequestor(opts);
+        Requestor requestor = HttpRequestor.create(opts);
         StringEntity payload = requestor.generatePayload(json, ContentType.APPLICATION_JSON);
 
         assertEquals("Content-Type: application/json; charset=UTF-8", payload.getContentType().toString());

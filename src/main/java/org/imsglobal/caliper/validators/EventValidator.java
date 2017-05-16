@@ -18,7 +18,7 @@
 
 package org.imsglobal.caliper.validators;
 
-import org.imsglobal.caliper.CaliperType;
+import org.imsglobal.caliper.events.CaliperEventType;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.CaliperGeneratable;
 import org.imsglobal.caliper.entities.CaliperTargetable;
@@ -56,7 +56,7 @@ public class EventValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkType(CaliperType type, EventType expected) throws IllegalArgumentException {
+    public static void checkType(CaliperEventType type, EventType expected) throws IllegalArgumentException {
         checkArgument(type.value().equals(expected.value()), "expected @type %s but was %s", expected.value(), type);
     }
 

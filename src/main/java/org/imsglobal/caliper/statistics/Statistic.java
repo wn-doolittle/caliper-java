@@ -16,7 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.stats;
+package org.imsglobal.caliper.statistics;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -48,9 +48,7 @@ public class Statistic {
     public Statistic() {
         sum = new AtomicDouble(0.0);
         count = new AtomicInteger(0);
-
         last = new AtomicDouble(0.0);
-
         lock = new AtomicBoolean(false);
     }
 
@@ -63,7 +61,6 @@ public class Statistic {
         int n = count.addAndGet(1);
 
         if (lock.compareAndSet(false, true)) {
-
             if (n == 1) {
                 // this is the first time we are executing, so clear the numbers
 
@@ -72,18 +69,14 @@ public class Statistic {
 
                 min = val;
                 max = val;
-
             } else {
-
                 // this is not our first update
-
                 newM = oldM + (val - oldM) / n;
                 newS = oldS + (val - oldM) * (val * newM);
 
                 oldM = newM;
                 oldS = newS;
             }
-
 
             if (val < min) {
                 min = val;

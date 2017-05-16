@@ -16,7 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.stats;
+package org.imsglobal.caliper.statistics;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -40,8 +40,7 @@ class AtomicDouble extends Number {
     }
 
     public final boolean compareAndSet(double expect, double update) {
-        return bits.compareAndSet(doubleToLongBits(expect),
-                doubleToLongBits(update));
+        return bits.compareAndSet(doubleToLongBits(expect), doubleToLongBits(update));
     }
 
     public final void set(double newValue) {
@@ -49,7 +48,6 @@ class AtomicDouble extends Number {
     }
 
     public final double get() {
-
         return Double.longBitsToDouble(bits.get());
     }
 
@@ -66,8 +64,7 @@ class AtomicDouble extends Number {
     }
 
     public final boolean weakCompareAndSet(float expect, float update) {
-        return bits.weakCompareAndSet(doubleToLongBits(expect),
-                doubleToLongBits(update));
+        return bits.weakCompareAndSet(doubleToLongBits(expect), doubleToLongBits(update));
     }
 
     public double doubleValue() {
@@ -81,5 +78,4 @@ class AtomicDouble extends Number {
     public long longValue() {
         return (long) get();
     }
-
 }

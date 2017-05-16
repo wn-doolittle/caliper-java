@@ -16,7 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.stats;
+package org.imsglobal.caliper.statistics;
 
 
 public class Statistics extends StatisticsMap {
