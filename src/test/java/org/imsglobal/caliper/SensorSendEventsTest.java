@@ -100,7 +100,7 @@ public class SensorSendEventsTest {
             .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
-        
+
         // Initialize Sensor
         CaliperSensor sensor = Sensor.create(BASE_IRI.concat("/sensors/1"));
         Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
