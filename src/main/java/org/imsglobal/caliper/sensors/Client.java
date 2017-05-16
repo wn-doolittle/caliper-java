@@ -1,10 +1,13 @@
 package org.imsglobal.caliper.sensors;
 
+import org.imsglobal.caliper.requestors.Envelope;
 import org.imsglobal.caliper.requestors.Requestor;
 import org.imsglobal.caliper.statistics.Statistics;
 import org.imsglobal.caliper.validators.SensorValidator;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class provides a skeletal implementation of the Sensor Client interface
@@ -12,21 +15,18 @@ import javax.annotation.Nonnull;
  */
 public abstract class Client {
     private String id;
-    private Requestor requestor;
+    private Map<String, Requestor> requestors = new HashMap<>();
     private Statistics statistics;
 
     /**
      * Constructor
      * @param id
-     * @param requestor
      */
-    public Client(String id, Requestor requestor) {
-
+    protected Client(String id) {
         SensorValidator.chkId(id, this.getClass().getSimpleName());
-        SensorValidator.chkOptions(requestor.getOptions());
+        //SensorValidator.chkOptions(requestor.getOptions());
 
         this.id = id;
-        this.requestor = requestor;
         this.statistics = new Statistics();
     }
 
@@ -40,36 +40,64 @@ public abstract class Client {
     }
 
     /**
-     * Get the associated requestor.
-     * @return requestor
+     * Register a Requestor.
+     * @param requestor the requestor
      */
-    public Requestor getRequestor() {
-        return requestor;
+    public void registerRequestor(Requestor requestor) {
+        requestors.put(requestor.getId(), requestor);
     }
 
     /**
-     * Create and return an Envelope
-     * @param id
-     * @param sendTime
-     * @param dataVersion
-     * @param data
-     * @return envelope
+     * Unregister a Sensor client.
+     * @param key
+     * @return
      */
-    /**
-    public Envelope create(String id, DateTime sendTime, String dataVersion, List<Object> data) {
-        return sensor.create(id, DateTime.now(), dataVersion, data);
+    public void unregisterClient(String key) {
+        requestors.remove(key);
     }
-     */
 
     /**
-     * Send Envelope.
+     * Retrieve a requestor.
+     * @param key
+     * @return
+     */
+    public Requestor getRequestor(String key) {
+        return requestors.get(key);
+    }
+
+    /**
+     * Retrieve Map of clients.
+     * @return clients
+     */
+    public Map<String, Requestor> getRequestors() {
+        return requestors;
+    }
+
+    /**
+     * Delegate serialization and transmission of the Envelope to all registered Requestors.
      * @param envelope
      */
-    /**
     public void send(Envelope envelope) {
-        sensor.send(this, envelope);
+        if (requestors.size() > 0) {
+            for(Requestor requestor: requestors.values()){
+                requestor.send(envelope);
+            }
+        } else {
+            throw new IllegalStateException("No Requestors have been registered.");
+        }
     }
+
+    /**
+     * Delegate serialization and transmission of the Envelope to a particular registered Requestor.
+     * @param envelope
      */
+    public void send(Requestor requestor, Envelope envelope) {
+        if (requestors.containsKey(requestor.getId())) {
+            requestor.send(envelope);
+        } else {
+            throw new IllegalArgumentException(requestor.getId() + " is not a registered Requestor.");
+        }
+    }
 
     /**
     public Map<T, Statistics> statistics() {

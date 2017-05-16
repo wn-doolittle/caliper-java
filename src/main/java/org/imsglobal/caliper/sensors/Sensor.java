@@ -12,12 +12,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Concrete implementation of the Caliper Sensor interface.
+ * Concrete implementation of the Caliper Sensor interface.  Caliper Events and Entity describes
+ * are sent via an Envelope.  Serialization and transmission of the Envelope is delegated to
+ * one or more registered Clients which in turn delegate serialization and transmission to
+ * an associated Requestor.  The delegation chain is thus Sensor to Client to Requestor.
  */
 public class Sensor implements CaliperSensor {
     private String id;
     private Map<String, Client> clients = new HashMap<>();
-    //private Envelope envelope;
 
     /**
      * Constructor. Scope is private to force use of the static factory method for instantiating a Sensor.
@@ -35,6 +37,40 @@ public class Sensor implements CaliperSensor {
     }
 
     /**
+     * Register a Sensor client.
+     * @param client the client object
+     */
+    public void registerClient(Client client) {
+        clients.put(client.getId(), client);
+    }
+
+    /**
+     * Unregister a Sensor client.
+     * @param key
+     * @return
+     */
+    public void unregisterClient(String key) {
+        clients.remove(key);
+    }
+
+    /**
+     * Retrieve a client.
+     * @param key
+     * @return
+     */
+    public Client getClient(String key) {
+        return clients.get(key);
+    }
+
+    /**
+     * Retrieve Map of clients.
+     * @return clients
+     */
+    public Map<String, Client> getClients() {
+        return clients;
+    }
+
+    /**
      * Create the Envelope.
      * @param id
      * @param sendTime
@@ -47,47 +83,13 @@ public class Sensor implements CaliperSensor {
     }
 
     /**
-     * Register a Sensor client.
-     * @param client the client object
-     */
-    public void registerClient(Client client) {
-        this.clients.put(client.getId(), client);
-    }
-
-    /**
-     * Unregister a Sensor client.
-     * @param key
-     * @return
-     */
-    public void unregisterClient(String key) {
-        this.clients.remove(key);
-    }
-
-    /**
-     * Retrieve a client.
-     * @param key
-     * @return
-     */
-    public Client getClient(String key) {
-        return this.clients.get(key);
-    }
-
-    /**
-     * Retrieve Map of clients.
-     * @return clients
-     */
-    public Map<String, Client> getClients() {
-        return clients;
-    }
-
-    /**
-     * Send an envelope to all registered Clients.
+     * Delegate serialization and transmission of the Envelope to all registered Clients.
      * @param envelope
      */
     public void send(Envelope envelope) {
         if (clients.size() > 0) {
             for(Client client: clients.values()){
-                client.getRequestor().send(envelope);
+                client.send(envelope);
             }
         } else {
             throw new IllegalStateException("No Clients have been registered.");
@@ -95,14 +97,14 @@ public class Sensor implements CaliperSensor {
     }
 
     /**
-     * Send an envelope to a particular registered Client.
+     * Delegate serialization and transmission of the Envelope to a particular registered Client.
      * @param envelope
      */
     public void send(Client client, Envelope envelope) {
         if (clients.containsKey(client.getId())) {
-            client.getRequestor().send(envelope);
+            client.send(envelope);
         } else {
-            throw new IllegalArgumentException(client.getId() + " is not listed among the registered clients.");
+            throw new IllegalArgumentException(client.getId() + " is not a registered Client.");
         }
     }
 

@@ -24,16 +24,28 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.config.Options;
 
+import javax.annotation.Nonnull;
 import java.io.UnsupportedEncodingException;
 
 public abstract class Requestor {
+    private String id;
     private Options options;
 
     /**
      * Constructor
      */
-    public Requestor(Options opts) {
+    protected Requestor(String id, Options opts) {
+        this.id = id;
         this.options = opts;
+    }
+
+    /**
+     * Get identifier.
+     * @return id
+     */
+    @Nonnull
+    public String getId() {
+        return id;
     }
 
     /**
