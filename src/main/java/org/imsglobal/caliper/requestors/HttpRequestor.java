@@ -47,10 +47,11 @@ public class HttpRequestor extends Requestor {
      * Constructor instantiates a new HttpRequestor. The args options provides the host
      * details to the HttpClient.  Scoped private to force use of static factory method
      * for instantiating an HttpRequestor.
+     * @param id
      * @param options
      */
-    private HttpRequestor(Options options) {
-        super(options);
+    private HttpRequestor(String id, Options options) {
+        super(id, options);
 
         initialize();
     }
@@ -140,10 +141,11 @@ public class HttpRequestor extends Requestor {
 
     /**
      * Factory Method for instantiating an HttpRequestor.
+     * @param id
      * @param opts
-     * @return
+     * @return HttpRequestor
      */
-    public static HttpRequestor create(Options opts) {
-        return new HttpRequestor(opts);
+    public static HttpRequestor create(String id, Options opts) {
+        return new HttpRequestor(id, opts);
     }
 }
