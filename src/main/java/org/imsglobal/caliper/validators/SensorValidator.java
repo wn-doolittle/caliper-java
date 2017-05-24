@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.validators;
 
 import com.google.common.base.Strings;
-import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.clients.CaliperClientOptions;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -57,7 +57,7 @@ public class SensorValidator {
      * @param options
      * @throws IllegalArgumentException
      */
-    public static void chkOptions(Options options) throws IllegalArgumentException {
+    public static void chkOptions(CaliperClientOptions options) throws IllegalArgumentException {
         checkArgument(options != null, "Sensor client configuration options must be specified.");
     }
 

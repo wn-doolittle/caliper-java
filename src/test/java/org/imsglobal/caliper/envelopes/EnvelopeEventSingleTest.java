@@ -16,7 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.requestors;
+package org.imsglobal.caliper.envelopes;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,8 +25,12 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.imsglobal.caliper.Envelope;
+import org.imsglobal.caliper.Sensor;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.clients.HttpClient;
+import org.imsglobal.caliper.clients.HttpClientOptions;
+import org.imsglobal.caliper.config.Config;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.context.JsonldStringContext;
 import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
@@ -40,10 +44,6 @@ import org.imsglobal.caliper.entities.resource.Assessment;
 import org.imsglobal.caliper.entities.resource.Attempt;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.AssessmentEvent;
-import org.imsglobal.caliper.sensors.CaliperSensor;
-import org.imsglobal.caliper.sensors.Client;
-import org.imsglobal.caliper.sensors.HttpClient;
-import org.imsglobal.caliper.sensors.Sensor;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
@@ -141,15 +141,13 @@ public class EnvelopeEventSingleTest {
         sendTime = new DateTime(2016, 11, 15, 11, 5, 1, 0, DateTimeZone.UTC);
 
         // For fun, initialize Sensor, Client and Requestor provisioned with Options
-        CaliperSensor sensor = Sensor.create(BASE_IRI.concat("/sensors/1"));
-        Client client = HttpClient.create(sensor.getId().concat("/clients/1"));
-        Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
-        Requestor requestor = HttpRequestor.create(client.getId().concat("/requestors/1"), opts);
-        client.registerRequestor(requestor);
+        Sensor sensor = Sensor.create(BASE_IRI.concat("/sensors/1"));
+        HttpClientOptions opts = HttpClientOptions.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+        HttpClient client = HttpClient.create(sensor.getId(), opts);
         sensor.registerClient(client);
 
         // Create envelope
-        envelope = sensor.create(sensor.getId(), sendTime, Options.DATA_VERSION, data);
+        envelope = sensor.create(sensor.getId(), sendTime, Config.DATA_VERSION, data);
 
         // Don't send
         // sensor.send(client, envelope);
@@ -192,12 +190,11 @@ public class EnvelopeEventSingleTest {
 
         String json = mapper.writeValueAsString(envelope);
 
-        // Create an HTTP StringEntity envelopes with the envelope JSON.
-        Options opts = Options.builder().apiKey("faux_api_key_123").build();
-        Requestor requestor = HttpRequestor.create("faux_requestor_key_456", opts);
-        StringEntity payload = requestor.generatePayload(json, ContentType.APPLICATION_JSON);
+        // Create an HTTP StringEntity with the envelope JSON and default ContentType.
+        HttpClientOptions opts = HttpClientOptions.builder().apiKey("faux_key").build();
+        StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
 
-        assertEquals("Content-Type: application/json; charset=UTF-8", payload.getContentType().toString());
+        assertEquals("Content-Type: application/json; charset=UTF-8", entity.getContentType().toString());
     }
 
     @After

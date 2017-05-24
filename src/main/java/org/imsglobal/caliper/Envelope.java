@@ -16,7 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.requestors;
+package org.imsglobal.caliper;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.time.DateTime;

@@ -19,7 +19,9 @@
 package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.clients.HttpClient;
+import org.imsglobal.caliper.clients.HttpClientOptions;
+import org.imsglobal.caliper.config.Config;
 import org.imsglobal.caliper.context.JsonldStringContext;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
@@ -30,13 +32,6 @@ import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.resource.WebPage;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.NavigationEvent;
-import org.imsglobal.caliper.requestors.Envelope;
-import org.imsglobal.caliper.requestors.HttpRequestor;
-import org.imsglobal.caliper.requestors.Requestor;
-import org.imsglobal.caliper.sensors.CaliperSensor;
-import org.imsglobal.caliper.sensors.Client;
-import org.imsglobal.caliper.sensors.HttpClient;
-import org.imsglobal.caliper.sensors.Sensor;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
@@ -57,11 +52,9 @@ public class SensorSendEventsTest {
     public void test() {
 
         // Initialize Sensor, Client and Requestor provisioned with Options
-        CaliperSensor sensor = Sensor.create(BASE_IRI.concat("/sensors/1"));
-        Client client = HttpClient.create(sensor.getId().concat("/clients/1"));
-        Options opts = Options.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
-        Requestor requestor = HttpRequestor.create(client.getId().concat("/requestors/1"), opts);
-        client.registerRequestor(requestor);
+        Sensor sensor = Sensor.create(BASE_IRI.concat("/sensors/1"));
+        HttpClientOptions opts = HttpClientOptions.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+        HttpClient client = HttpClient.create(sensor.getId(), opts);
         sensor.registerClient(client);
 
         // Fire event test - Send 50 envelopes containing the above event
@@ -124,7 +117,7 @@ public class SensorSendEventsTest {
             List<Object> data = new ArrayList<>();
             data.add(event);
 
-            Envelope envelope = sensor.create(client.getId(), sendTime, Options.DATA_VERSION, data);
+            Envelope envelope = sensor.create(client.getId(), sendTime, Config.DATA_VERSION, data);
 
             // Send envelope
             sensor.send(client, envelope);
