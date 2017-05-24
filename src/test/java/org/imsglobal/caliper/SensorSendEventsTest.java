@@ -19,6 +19,8 @@
 package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.clients.HttpClient;
+import org.imsglobal.caliper.clients.HttpClientOptions;
 import org.imsglobal.caliper.config.Config;
 import org.imsglobal.caliper.context.JsonldStringContext;
 import org.imsglobal.caliper.entities.agent.CourseSection;
@@ -30,9 +32,6 @@ import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.resource.WebPage;
 import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.NavigationEvent;
-import org.imsglobal.caliper.clients.AbstractClient;
-import org.imsglobal.caliper.clients.HttpClient;
-import org.imsglobal.caliper.clients.HttpClientOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
@@ -55,7 +54,7 @@ public class SensorSendEventsTest {
         // Initialize Sensor, Client and Requestor provisioned with Options
         Sensor sensor = Sensor.create(BASE_IRI.concat("/sensors/1"));
         HttpClientOptions opts = HttpClientOptions.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
-        AbstractClient client = HttpClient.create(sensor.getId(), opts);
+        HttpClient client = HttpClient.create(sensor.getId(), opts);
         sensor.registerClient(client);
 
         // Fire event test - Send 50 envelopes containing the above event
