@@ -18,16 +18,18 @@
 
 package org.imsglobal.caliper.clients;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.imsglobal.caliper.Envelope;
+import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.statistics.Statistics;
 import org.imsglobal.caliper.validators.SensorValidator;
 
 import javax.annotation.Nonnull;
-import java.io.UnsupportedEncodingException;
 
 /**
  * This class provides a skeletal implementation of the Sensor Client interface
@@ -80,25 +82,21 @@ public abstract class AbstractClient implements CaliperClient {
     /**
      * Serialize Caliper envelope.
      * @param envelope
-     * @param mapper
      * @return String
      * @throws JsonProcessingException
      */
-    protected String serializeEnvelope(Envelope envelope, ObjectMapper mapper) throws JsonProcessingException {
-        return mapper.writeValueAsString(envelope);
-    }
+    protected String serializeEnvelope(Envelope envelope) throws JsonProcessingException {
+        // Create mapper and serialize the envelope
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true);
 
-    /**
-     * Generate an HTTP StringEntity from the provided JSON string.  Set the ContentType to 'application/json'.
-     * @param value
-     * @param contentType
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-    protected StringEntity createStringEntity(String value, ContentType contentType) throws UnsupportedEncodingException {
-        StringEntity entity = new StringEntity(value);
-        entity.setContentType(contentType.toString());
-        return entity;
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
+
+        return mapper.writeValueAsString(envelope);
     }
 
     /**

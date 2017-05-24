@@ -18,11 +18,6 @@
 
 package org.imsglobal.caliper.clients;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -32,7 +27,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.imsglobal.caliper.Envelope;
-import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,22 +86,13 @@ public class HttpClient extends AbstractClient {
             // Check if HttpClient is initialized.
             checkInitialized();
 
-            // Create mapper and serialize the envelope
-            SimpleFilterProvider provider = new SimpleFilterProvider()
-                .setFailOnUnknownId(true);
-
-            ObjectMapper mapper = new ObjectMapper()
-                .setDateFormat(new ISO8601DateFormat())
-                .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-                .setFilterProvider(provider)
-                .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
-
-            String json = mapper.writeValueAsString(envelope);
+            // Serialize the envelope
+            String json = this.serializeEnvelope(envelope);
 
             // Prep the post
             HttpPost post = new HttpPost(super.getOptions().getHost());
-            post.setHeader("Authorization", super.getOptions().getApiKey());
-            post.setHeader("Content-Type", super.getOptions().getContentType());
+            post.setHeader("Authorization", this.getOptions().getApiKey());
+            post.setHeader("Content-Type", this.getOptions().getContentType());
             post.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
 
             // Execute POST
