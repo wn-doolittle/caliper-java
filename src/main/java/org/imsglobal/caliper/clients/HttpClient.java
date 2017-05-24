@@ -16,7 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.requestors;
+package org.imsglobal.caliper.clients;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,28 +31,29 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.Envelope;
 import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class HttpRequestor extends Requestor {
+/**
+ * Provisions the Sensor with an HttpClient that binds to one or more Requestors.
+ */
+public class HttpClient extends AbstractClient {
     private static CloseableHttpClient httpClient;
     private static CloseableHttpResponse response = null;
-    private static final Logger log = LoggerFactory.getLogger(HttpRequestor.class);
+
+    private static final Logger log = LoggerFactory.getLogger(HttpClient.class);
 
     /**
-     * Constructor instantiates a new HttpRequestor. The args options provides the host
-     * details to the HttpClient.  Scoped private to force use of static factory method
-     * for instantiating an HttpRequestor.
+     * Constructor.  The args options provides the host details to the HttpClient.  Scope is private
+     * to force use of the static factory method for instantiating an HttpClient.
      * @param id
-     * @param options
      */
-    private HttpRequestor(String id, Options options) {
+    private HttpClient(String id, HttpClientOptions options) {
         super(id, options);
-
         initialize();
     }
 
@@ -70,7 +71,7 @@ public class HttpRequestor extends Requestor {
      */
     private static void checkInitialized() {
         if (httpClient == null) {
-            throw new IllegalStateException("Http Client is not initialized.");
+            throw new IllegalStateException("HttpClient is not initialized.");
         }
     }
 
@@ -80,7 +81,7 @@ public class HttpRequestor extends Requestor {
      * @return status
      */
     @Override
-    public boolean send(Envelope envelope) {
+    public void send(Envelope envelope) {
         boolean status = Boolean.FALSE;
 
         try {
@@ -103,29 +104,33 @@ public class HttpRequestor extends Requestor {
 
             String json = mapper.writeValueAsString(envelope);
 
-            // Create an HTTP StringEntity.
-            StringEntity payload = generatePayload(json, ContentType.APPLICATION_JSON);
-
             // Prep the post
-            HttpPost httpPost = new HttpPost(super.getOptions().getHttpHost());
-            httpPost.setHeader("Authorization",super.getOptions().getApiKey());
-            httpPost.setHeader("Content-Type", super.getOptions().getHttpContentType());
-            httpPost.setEntity(payload);
+            HttpPost post = new HttpPost(super.getOptions().getHost());
+            post.setHeader("Authorization", super.getOptions().getApiKey());
+            post.setHeader("Content-Type", super.getOptions().getContentType());
+            post.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
 
             // Execute POST
-            response = httpClient.execute(httpPost);
-            if (response.getStatusLine().getStatusCode() != 200) {
-                int statusCode = response.getStatusLine().getStatusCode();
+            response = httpClient.execute(post);
+
+            // HTTP Response code
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode < 200 || statusCode > 202) {
                 response.close();
-                throw new RuntimeException("Failed : HTTP error code : " + statusCode);
+
+                // Update statistics
+                updateStatistics(Boolean.FALSE);
+
+                throw new RuntimeException("WARN: HTTP POST failed; status code=" + statusCode);
             } else {
                 if (log.isDebugEnabled()) {
                     log.debug(response.getStatusLine().toString());
                     log.debug(EntityUtils.toString(response.getEntity()));
                 }
-
                 response.close();
-                status = Boolean.TRUE;
+
+                // Update statistics
+                updateStatistics(Boolean.TRUE);
 
                 if (log.isDebugEnabled()) {
                     log.debug("Exiting send()...");
@@ -136,16 +141,14 @@ public class HttpRequestor extends Requestor {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        return status;
     }
 
     /**
-     * Factory Method for instantiating an HttpRequestor.
+     * Factory method for instantiating an HttpClient.
      * @param id
-     * @param opts
-     * @return HttpRequestor
+     * @return HttpClient
      */
-    public static HttpRequestor create(String id, Options opts) {
-        return new HttpRequestor(id, opts);
+    public static HttpClient create(String id, HttpClientOptions options) {
+        return new HttpClient(id, options);
     }
 }

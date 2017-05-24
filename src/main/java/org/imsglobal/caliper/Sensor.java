@@ -1,8 +1,8 @@
-package org.imsglobal.caliper.sensors;
+package org.imsglobal.caliper;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
-import org.imsglobal.caliper.requestors.Envelope;
+import org.imsglobal.caliper.clients.CaliperClient;
 import org.imsglobal.caliper.statistics.Statistics;
 import org.joda.time.DateTime;
 
@@ -17,9 +17,9 @@ import java.util.Map;
  * one or more registered Clients which in turn delegate serialization and transmission to
  * an associated Requestor.  The delegation chain is thus Sensor to Client to Requestor.
  */
-public class Sensor implements CaliperSensor {
+public class Sensor {
     private String id;
-    private Map<String, Client> clients = new HashMap<>();
+    private Map<String, CaliperClient> clients = new HashMap<>();
 
     /**
      * Constructor. Scope is private to force use of the static factory method for instantiating a Sensor.
@@ -40,7 +40,7 @@ public class Sensor implements CaliperSensor {
      * Register a Sensor client.
      * @param client the client object
      */
-    public void registerClient(Client client) {
+    public void registerClient(CaliperClient client) {
         clients.put(client.getId(), client);
     }
 
@@ -58,7 +58,7 @@ public class Sensor implements CaliperSensor {
      * @param key
      * @return
      */
-    public Client getClient(String key) {
+    public CaliperClient getClient(String key) {
         return clients.get(key);
     }
 
@@ -66,7 +66,7 @@ public class Sensor implements CaliperSensor {
      * Retrieve Map of clients.
      * @return clients
      */
-    public Map<String, Client> getClients() {
+    public Map<String, CaliperClient> getClients() {
         return clients;
     }
 
@@ -83,28 +83,28 @@ public class Sensor implements CaliperSensor {
     }
 
     /**
+     * Delegate serialization and transmission of the Envelope to a particular registered Client.
+     * @param envelope
+     */
+    public void send(CaliperClient client, Envelope envelope) {
+        if (clients.containsKey(client.getId())) {
+            client.send(envelope);
+        } else {
+            throw new IllegalArgumentException(client.getId() + " is not a registered Client.");
+        }
+    }
+
+    /**
      * Delegate serialization and transmission of the Envelope to all registered Clients.
      * @param envelope
      */
     public void send(Envelope envelope) {
         if (clients.size() > 0) {
-            for(Client client: clients.values()){
+            for(CaliperClient client: clients.values()){
                 client.send(envelope);
             }
         } else {
             throw new IllegalStateException("No Clients have been registered.");
-        }
-    }
-
-    /**
-     * Delegate serialization and transmission of the Envelope to a particular registered Client.
-     * @param envelope
-     */
-    public void send(Client client, Envelope envelope) {
-        if (clients.containsKey(client.getId())) {
-            client.send(envelope);
-        } else {
-            throw new IllegalArgumentException(client.getId() + " is not a registered Client.");
         }
     }
 
@@ -114,10 +114,10 @@ public class Sensor implements CaliperSensor {
      * @return a map
      */
     public Map<String, Statistics> getStatistics() {
-        return Maps.transformValues(clients, new Function<Client, Statistics>() {
+        return Maps.transformValues(clients, new Function<CaliperClient, Statistics>() {
             @Nullable
             @Override
-            public Statistics apply(@Nullable Client client) {
+            public Statistics apply(@Nullable CaliperClient client) {
                 return client.getStatistics();
             }
         });

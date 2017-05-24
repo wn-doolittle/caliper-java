@@ -20,7 +20,7 @@ package org.imsglobal.caliper.context;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.config.Config;
 import org.imsglobal.caliper.entities.CaliperCoercible;
 
 import javax.annotation.Nonnull;
@@ -71,6 +71,6 @@ public class JsonldStringContext implements JsonldContext, CaliperCoercible {
      * @return
      */
     public static JsonldStringContext getDefault() {
-        return new JsonldStringContext(Options.JSONLD_EXTERNAL_CALIPER_CONTEXT);
+        return new JsonldStringContext(Config.JSONLD_EXTERNAL_CALIPER_CONTEXT);
     }
 }

@@ -16,27 +16,39 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.requestors;
+package org.imsglobal.caliper.clients;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.imsglobal.caliper.config.Options;
+import org.imsglobal.caliper.Envelope;
+import org.imsglobal.caliper.statistics.Statistics;
+import org.imsglobal.caliper.validators.SensorValidator;
 
 import javax.annotation.Nonnull;
 import java.io.UnsupportedEncodingException;
 
-public abstract class Requestor {
+/**
+ * This class provides a skeletal implementation of the Sensor Client interface
+ * in order to minimize the effort required to implement the interface.
+ */
+public abstract class AbstractClient implements CaliperClient {
     private String id;
-    private Options options;
+    private HttpClientOptions options;
+    private Statistics statistics;
 
     /**
      * Constructor
+     * @param id
      */
-    protected Requestor(String id, Options opts) {
+    protected AbstractClient(String id, HttpClientOptions options) {
+        SensorValidator.chkId(id, this.getClass().getSimpleName());
+        //SensorValidator.chkOptions(this.getOptions());
+
         this.id = id;
-        this.options = opts;
+        this.options = options;
+        this.statistics = new Statistics();
     }
 
     /**
@@ -52,16 +64,18 @@ public abstract class Requestor {
      * Retrieve options
      * @return options
      */
-    public Options getOptions() {
+    public HttpClientOptions getOptions() {
         return options;
     }
 
     /**
-     * Send Envelope to a target endpoint
-     * @param envelope
-     * @return true/false boolean on success/failure
+     * Get statistics.
+     * @return statistics
      */
-    public abstract boolean send(Envelope envelope);
+    @Nonnull
+    public Statistics getStatistics() {
+        return this.statistics;
+    }
 
     /**
      * Serialize Caliper envelope.
@@ -70,7 +84,7 @@ public abstract class Requestor {
      * @return String
      * @throws JsonProcessingException
      */
-    public String serializeEnvelope(Envelope envelope, ObjectMapper mapper) throws JsonProcessingException {
+    protected String serializeEnvelope(Envelope envelope, ObjectMapper mapper) throws JsonProcessingException {
         return mapper.writeValueAsString(envelope);
     }
 
@@ -81,10 +95,28 @@ public abstract class Requestor {
      * @return
      * @throws UnsupportedEncodingException
      */
-    public StringEntity generatePayload(String value, ContentType contentType) throws UnsupportedEncodingException {
-        StringEntity payload = new StringEntity(value);
-        payload.setContentType(contentType.toString());
+    protected StringEntity createStringEntity(String value, ContentType contentType) throws UnsupportedEncodingException {
+        StringEntity entity = new StringEntity(value);
+        entity.setContentType(contentType.toString());
+        return entity;
+    }
 
-        return payload;
+    /**
+     * Send Envelope to a target endpoint
+     * @param envelope
+     */
+    public abstract void send(Envelope envelope);
+
+    /**
+     * Update statistics
+     * @param status
+     */
+    protected void updateStatistics(boolean status) {
+        this.statistics.updateMeasures(1);
+        if (status) {
+            statistics.updateSuccessful(1);
+        } else {
+            statistics.updateFailed(1);
+        }
     }
 }
