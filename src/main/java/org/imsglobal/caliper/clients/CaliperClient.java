@@ -33,7 +33,7 @@ public interface CaliperClient {
      * Retrieve client options
      * @return options
      */
-    ClientOptions getOptions();
+    CaliperClientOptions getOptions();
 
     /**
      * Get statistics

@@ -21,6 +21,6 @@ package org.imsglobal.caliper.clients;
 /**
  * Marker interface
  */
-public interface ClientOptions {
+public interface CaliperClientOptions {
 
 }

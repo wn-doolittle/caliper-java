@@ -24,7 +24,7 @@ import org.imsglobal.caliper.validators.SensorValidator;
 /**
  * Caliper client options.  Review default constants and update placeholder entries (e.g., HTTP_HOST).
  */
-public class HttpClientOptions implements ClientOptions {
+public class HttpClientOptions implements CaliperClientOptions {
     private final String apiKey;
     private final int connectionTimeout;
     private final String contentType;
