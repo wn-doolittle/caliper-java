@@ -43,6 +43,9 @@ public class AssessmentEvent extends AbstractEvent {
     @JsonProperty("actor")
     private final Person actor;
 
+    @JsonProperty("object")
+    private final Assessment object;
+
     @JsonProperty("generated")
     private final Attempt generated;
 
@@ -62,13 +65,9 @@ public class AssessmentEvent extends AbstractEvent {
 
         EventValidator.checkType(this.getType(), EventType.ASSESSMENT);
         EventValidator.checkAction(this.getAction(), AssessmentEvent.class);
-        if (this.getAction().equals(Action.SUBMITTED)) {
-            EventValidator.checkObjectType(this.getObject(), Attempt.class);
-        } else {
-            EventValidator.checkObjectType(this.getObject(), Assessment.class);
-        }
 
         this.actor = builder.actor;
+        this.object = builder.object;
         this.generated = builder.generated;
     }
 
@@ -80,6 +79,16 @@ public class AssessmentEvent extends AbstractEvent {
     @Nonnull
     public Person getActor() {
         return actor;
+    }
+
+    /**
+     * Required.
+     * @return the object
+     */
+    @Override
+    @Nonnull
+    public Assessment getObject() {
+        return object;
     }
 
     /**
@@ -98,6 +107,7 @@ public class AssessmentEvent extends AbstractEvent {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
         private Person actor;
+        private Assessment object;
         private Attempt generated;
 
         /*
@@ -113,6 +123,15 @@ public class AssessmentEvent extends AbstractEvent {
          */
         public T actor(Person actor) {
             this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(Assessment object) {
+            this.object = object;
             return self();
         }
 

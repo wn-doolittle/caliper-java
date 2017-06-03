@@ -58,10 +58,8 @@ public class AssessmentItemEventCompletedTest {
     private JsonldContext context;
     private String id;
     private Person actor;
-    private AssessmentItem item;
-    private Attempt object;
+    private AssessmentItem object;
     private CaliperResponse generated;
-    private List<String> values;
     private SoftwareApplication edApp;
     private CourseSection group;
     private Membership membership;
@@ -81,33 +79,51 @@ public class AssessmentItemEventCompletedTest {
         id = "urn:uuid:e5891791-3d27-4df1-a272-091806a43dfb";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
-        Person assignee = Person.builder().id(actor.getId()).coercedToId(true).build();
 
-        item = AssessmentItem.builder()
+        object = AssessmentItem.builder()
             .id(SECTION_IRI.concat("/assess/1/items/3"))
             .name("Assessment Item 3")
             .isPartOf(Assessment.builder().id(SECTION_IRI.concat("/assess/1")).build())
+            .version("1.0")
+            .dateToStartOn(new DateTime(2016, 11, 14, 5, 0, 0, 0, DateTimeZone.UTC))
+            .dateToSubmit(new DateTime(2016, 11, 18, 11, 59, 59, 0, DateTimeZone.UTC))
+            .maxAttempts(2)
+            .maxSubmits(2)
+            .maxScore(1)
+            .isTimeDependent(false)
+            .version("1.0")
             .build();
 
-        object = Attempt.builder()
+        Assessment assessment = Assessment.builder().id(SECTION_IRI.concat("/assess/1")).build();
+
+        Attempt assessmentAttempt = Attempt.builder()
+            .id(assessment.getId().concat("/users/554433/attempts/1"))
+            .coercedToId(true)
+            .build();
+
+        Attempt attempt = Attempt.builder()
             .id(SECTION_IRI.concat("/assess/1/items/3/users/554433/attempts/1"))
-            .assignable(item)
-            .assignee(assignee)
-            .isPartOf(Attempt.builder().id(SECTION_IRI.concat("/assess/1/users/554433/attempts/1")).coercedToId(true).build())
+            .assignee(Person.builder().id(actor.getId()).coercedToId(true).build())
+            .assignable(AssessmentItem.builder()
+                .id(object.getId())
+                .name(object.getName())
+                .isPartOf(assessment)
+                .build())
+            .isPartOf(assessmentAttempt)
             .count(1)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 2, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 2, 0, DateTimeZone.UTC))
             .endedAtTime(new DateTime(2016, 11, 15, 10, 15, 12, 0, DateTimeZone.UTC))
             .build();
 
-        values = new ArrayList<String>();
+        List<String> values = new ArrayList<String>();
         values.add("subject");
         values.add("object");
         values.add("predicate");
 
         generated = FillinBlankResponse.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/items/3/users/554433/responses/1"))
-            .attempt(Attempt.builder().id(object.getId()).coercedToId(true).build())
+            .attempt(attempt)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 12, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 2, 0, DateTimeZone.UTC))
             .endedAtTime(new DateTime(2016, 11, 15, 10, 15, 12, 0, DateTimeZone.UTC))
@@ -124,7 +140,7 @@ public class AssessmentItemEventCompletedTest {
 
         membership = Membership.builder()
             .id(SECTION_IRI.concat("/rosters/1"))
-            .member(assignee)
+            .member(Person.builder().id(actor.getId()).coercedToId(true).build())
             .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
             .role(Role.LEARNER)

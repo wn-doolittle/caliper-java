@@ -52,8 +52,8 @@ public class AssessmentEventSubmittedTest {
     private JsonldContext context;
     private String id;
     private Person actor;
-    private Assessment assignable;
-    private Attempt object;
+    private Assessment object;
+    private Attempt generated;
     private SoftwareApplication edApp;
     private CourseSection group;
     private Membership membership;
@@ -73,9 +73,8 @@ public class AssessmentEventSubmittedTest {
         id = "urn:uuid:dad88464-0c20-4a19-a1ba-ddf2f9c3ff33";
 
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
-        Person assignee = Person.builder().id(actor.getId()).coercedToId(true).build();
 
-        assignable = Assessment.builder()
+        object = Assessment.builder()
             .id(SECTION_IRI.concat("/assess/1"))
             .name("Quiz One")
             .dateToStartOn(new DateTime(2016, 11, 14, 5, 0, 0, 0, DateTimeZone.UTC))
@@ -86,10 +85,10 @@ public class AssessmentEventSubmittedTest {
             .version("1.0")
             .build();
 
-        object = Attempt.builder()
+        generated = Attempt.builder()
             .id(SECTION_IRI.concat("/assess/1/users/554433/attempts/1"))
-            .assignable(assignable)
-            .assignee(assignee)
+            .assignable(Assessment.builder().id(object.getId()).coercedToId(true).build())
+            .assignee(Person.builder().id(actor.getId()).coercedToId(true).build())
             .count(1)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
@@ -107,7 +106,7 @@ public class AssessmentEventSubmittedTest {
 
         membership = Membership.builder()
             .id(SECTION_IRI.concat("/rosters/1"))
-            .member(assignee)
+            .member(Person.builder().id(actor.getId()).coercedToId(true).build())
             .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
             .role(Role.LEARNER)
@@ -163,6 +162,7 @@ public class AssessmentEventSubmittedTest {
             .object(object)
             .eventTime(new DateTime(2016, 11, 15, 10, 25, 30, 0, DateTimeZone.UTC))
             .edApp(edApp)
+            .generated(generated)
             .group(group)
             .membership(membership)
             .session(session)
