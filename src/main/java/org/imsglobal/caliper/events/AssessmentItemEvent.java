@@ -41,6 +41,9 @@ public class AssessmentItemEvent extends AbstractEvent {
     @JsonProperty("actor")
     private final Person actor;
 
+    @JsonProperty("object")
+    private final AssessmentItem object;
+
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssessmentItemEvent.class);
 
@@ -57,19 +60,17 @@ public class AssessmentItemEvent extends AbstractEvent {
 
         EventValidator.checkType(this.getType(), EventType.ASSESSMENT_ITEM);
         EventValidator.checkAction(this.getAction(), AssessmentItemEvent.class);
-        if (this.getAction().equals(Action.COMPLETED)) {
-            EventValidator.checkObjectType(this.getObject(), Attempt.class);
-            if (!(this.getGenerated() == null)) {
-                EventValidator.checkGeneratedType(this.getGenerated(), CaliperResponse.class);
-            }
-        } else {
-            EventValidator.checkObjectType(this.getObject(), AssessmentItem.class);
-            if (!(this.getGenerated() == null)) {
-                EventValidator.checkGeneratedType(this.getGenerated(), Attempt.class);
-            }
+
+        if (this.getAction().equals(Action.STARTED) && !(this.getGenerated() == null)) {
+            EventValidator.checkGeneratedType(this.getGenerated(), Attempt.class);
+        }
+
+        if (this.getAction().equals(Action.COMPLETED) && !(this.getGenerated() == null)) {
+            EventValidator.checkGeneratedType(this.getGenerated(), CaliperResponse.class);
         }
 
         this.actor = builder.actor;
+        this.object = builder.object;
     }
 
     /**
@@ -83,11 +84,22 @@ public class AssessmentItemEvent extends AbstractEvent {
     }
 
     /**
+     * Required.
+     * @return the object
+     */
+    @Override
+    @Nonnull
+    public AssessmentItem getObject() {
+        return object;
+    }
+
+    /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
         private Person actor;
+        private AssessmentItem object;
 
         /*
          * Constructor
@@ -102,6 +114,15 @@ public class AssessmentItemEvent extends AbstractEvent {
          */
         public T actor(Person actor) {
             this.actor = actor;
+            return self();
+        }
+
+        /**
+         * @param object
+         * @return builder.
+         */
+        public T object(AssessmentItem object) {
+            this.object = object;
             return self();
         }
 
