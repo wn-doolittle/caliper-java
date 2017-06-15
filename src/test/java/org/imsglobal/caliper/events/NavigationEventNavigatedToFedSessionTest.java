@@ -110,14 +110,14 @@ public class NavigationEventNavigatedToFedSessionTest {
             .build();
 
         session = Session.builder()
-            .id(BASE_IRI_COM.concat("/sessions/b533eb02823f31024e6b7f53436c42fb99b31241"))
+            .id(BASE_IRI_COM.concat("/sessions/c25fd3da-87fa-45f5-8875-b682113fa5ee"))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
         launchParams = createExtensionsNode();
 
         federatedSession = LtiSession.builder()
-            .id(BASE_IRI_COM.concat("/sessions/b533eb02823f31024e6b7f53436c42fb99b31241"))
+            .id(BASE_IRI_EDU.concat("/sessions/b533eb02823f31024e6b7f53436c42fb99b31241"))
             .user(actorToId)
             .launchParameters(launchParams)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
