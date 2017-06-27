@@ -21,12 +21,11 @@ package org.imsglobal.caliper.entities.outcome;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.AbstractEntity;
-import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.CaliperGeneratable;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.imsglobal.caliper.entities.resource.Attempt;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class Result extends AbstractEntity implements CaliperGeneratable {
@@ -34,23 +33,11 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
     @JsonProperty("attempt")
     private Attempt attempt;
 
-    @JsonProperty("normalScore")
-    private double normalScore;
+    @JsonProperty("maxResultScore")
+    private double maxResultScore;
 
-    @JsonProperty("penaltyScore")
-    private double penaltyScore;
-
-    @JsonProperty("extraCreditScore")
-    private double extraCreditScore;
-
-    @JsonProperty("totalScore")
-    private double totalScore;
-
-    @JsonProperty("curvedTotalScore")
-    private double curvedTotalScore;
-
-    @JsonProperty("curveFactor")
-    private double curveFactor;
+    @JsonProperty("resultScore")
+    private double resultScore;
 
     @JsonProperty("comment")
     private String comment;
@@ -65,12 +52,8 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
         super(builder);
 
         this.attempt = builder.attempt;
-        this.normalScore = builder.normalScore;
-        this.penaltyScore = builder.penaltyScore;
-        this.extraCreditScore = builder.extraCreditScore;
-        this.totalScore = builder.totalScore;
-        this.curvedTotalScore = builder.curvedTotalScore;
-        this.curveFactor = builder.curveFactor;
+        this.maxResultScore = builder.maxResultScore;
+        this.resultScore = builder.resultScore;
         this.comment = builder.comment;
         this.scoredBy = builder.scoredBy;
     }
@@ -78,69 +61,29 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
     /**
      * @return attempt associated with the response;
      */
-    @Nonnull
+    @Nullable
     public Attempt getAttempt() {
         return attempt;
     }
 
     /**
-     * @return the normalScore
+     * @return the maxResultScore
      */
     @Nullable
     // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getNormalScore() {
-        return normalScore;
+    public double getMaxResultScore() {
+        return maxResultScore;
     }
 
     /**
-     * @return the penaltyScore
+     * @return the resultScore
      */
     @Nullable
     // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getPenaltyScore() {
-        return penaltyScore;
-    }
-
-    /**
-     * @return the extraCreditScore
-     */
-    @Nullable
-    // @JsonSerialize(using=DoubleSerializer.class)
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getExtraCreditScore() {
-        return extraCreditScore;
-    }
-
-    /**
-     * @return the totalScore
-     */
-    @Nullable
-    // @JsonSerialize(using=DoubleSerializer.class)
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getTotalScore() {
-        return totalScore;
-    }
-
-    /**
-     * @return the curvedTotalScore
-     */
-    @Nullable
-    // @JsonSerialize(using=DoubleSerializer.class)
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getCurvedTotalScore() {
-        return curvedTotalScore;
-    }
-
-    /**
-     * @return the curveFactor
-     */
-    @Nullable
-    // @JsonSerialize(using=DoubleSerializer.class)
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getCurveFactor() {
-        return curveFactor;
+    public double getResultScore() {
+        return resultScore;
     }
 
     /**
@@ -165,12 +108,8 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
         private Attempt attempt;
-        private double normalScore;
-        private double penaltyScore;
-        private double extraCreditScore;
-        private double totalScore;
-        private double curvedTotalScore;
-        private double curveFactor;
+        private double maxResultScore;
+        private double resultScore;
         private String comment;
         private CaliperAgent scoredBy;
 
@@ -191,56 +130,20 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
         }
 
         /**
-         * @param normalScore
+         * @param maxResultScore
          * @return normal score.
          */
-        public T normalScore(double normalScore) {
-            this.normalScore = normalScore;
+        public T maxResultScore(double maxResultScore) {
+            this.maxResultScore = maxResultScore;
             return self();
         }
 
         /**
-         * @param penaltyScore
+         * @param resultScore
          * @return penalty score.
          */
-        public T penaltyScore(double penaltyScore) {
-            this.penaltyScore = penaltyScore;
-            return self();
-        }
-
-        /**
-         * @param extraCreditScore
-         * @return extra credit score.
-         */
-        public T extraCreditScore(double extraCreditScore) {
-            this.extraCreditScore = extraCreditScore;
-            return self();
-        }
-
-        /**
-         * @param totalScore
-         * @return total score.
-         */
-        public T totalScore(double totalScore) {
-            this.totalScore = totalScore;
-            return self();
-        }
-
-        /**
-         * @param curvedTotalScore
-         * @return curved total score.
-         */
-        public T curvedTotalScore(double curvedTotalScore) {
-            this.curvedTotalScore = curvedTotalScore;
-            return self();
-        }
-
-        /**
-         * @param curveFactor
-         * @return curve factor.
-         */
-        public T curveFactor(double curveFactor) {
-            this.curveFactor = curveFactor;
+        public T resultScore(double resultScore) {
+            this.resultScore = resultScore;
             return self();
         }
 
