@@ -117,7 +117,7 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
          * Constructor
          */
         public Builder() {
-            super.type(EntityType.RESULT);
+            super.type(EntityType.SCORE);
         }
 
         /**

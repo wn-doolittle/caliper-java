@@ -30,7 +30,7 @@ import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.outcome.Result;
+import org.imsglobal.caliper.entities.outcome.Score;
 import org.imsglobal.caliper.entities.resource.Assessment;
 import org.imsglobal.caliper.entities.resource.Attempt;
 import org.joda.time.DateTime;
@@ -45,16 +45,16 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class OutcomeEventGradedTest {
+public class GradeEventGradedTest {
     private JsonldContext context;
     private String id;
     private SoftwareApplication actor, edApp;
     private Person learner;
     private Attempt object;
     private Assessment assignable;
-    private Result generated;
+    private Score generated;
     private CourseSection group;
-    private OutcomeEvent event;
+    private GradeEvent event;
 
     private static final String BASE_IRI = "https://example.edu";
 
@@ -82,13 +82,14 @@ public class OutcomeEventGradedTest {
             .duration("PT50M12S")
             .build();
 
-        generated = Result.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/results/1"))
+        generated = Score.builder()
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1/scores/1"))
             .attempt(Attempt.builder().id(object.getId()).coercedToId(true).build())
-            .normalScore(15)
-            .totalScore(15)
+            .maxScore(15)
+            .scoreGiven(10)
             .scoredBy(SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).coercedToId(true).build())
-            .dateCreated(new DateTime(2016, 11, 15, 10, 55, 5, 0, DateTimeZone.UTC))
+            .comment("auto-graded exam")
+            .dateCreated(new DateTime(2016, 11, 15, 10, 56, 0, 0, DateTimeZone.UTC))
             .build();
 
         edApp = SoftwareApplication.builder().id(BASE_IRI).coercedToId(true).build();
@@ -116,7 +117,7 @@ public class OutcomeEventGradedTest {
 
         String json = mapper.writeValueAsString(event);
 
-        String fixture = jsonFixture("fixtures/caliperEventOutcomeGraded.json");
+        String fixture = jsonFixture("fixtures/caliperEventGradeGraded.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -135,8 +136,8 @@ public class OutcomeEventGradedTest {
      * @param action
      * @return event
      */
-    private OutcomeEvent buildEvent(Action action) {
-        return OutcomeEvent.builder()
+    private GradeEvent buildEvent(Action action) {
+        return GradeEvent.builder()
             .context(context)
             .id(id)
             .actor(actor)

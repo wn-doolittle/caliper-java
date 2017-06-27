@@ -21,7 +21,7 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.outcome.Result;
+import org.imsglobal.caliper.entities.outcome.Score;
 import org.imsglobal.caliper.entities.resource.Attempt;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
@@ -31,16 +31,16 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @SupportedActions({ Action.GRADED })
-public class OutcomeEvent extends AbstractEvent {
+public class GradeEvent extends AbstractEvent {
 
     @JsonProperty("object")
     private final Attempt object;
 
     @JsonProperty("generated")
-    private final Result generated;
+    private final Score generated;
 
     @JsonIgnore
-    private static final Logger log = LoggerFactory.getLogger(OutcomeEvent.class);
+    private static final Logger log = LoggerFactory.getLogger(GradeEvent.class);
 
     /**
      * Utilize builder to construct OutcomeEvent.  Validate Outcome object copy rather than the
@@ -50,11 +50,11 @@ public class OutcomeEvent extends AbstractEvent {
      *
      * @param builder
      */
-    protected OutcomeEvent(Builder<?> builder) {
+    protected GradeEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(this.getType(), EventType.OUTCOME);
-        EventValidator.checkAction(this.getAction(), OutcomeEvent.class);
+        EventValidator.checkType(this.getType(), EventType.GRADE);
+        EventValidator.checkAction(this.getAction(), GradeEvent.class);
 
         this.object = builder.object;
         this.generated = builder.generated;
@@ -71,12 +71,12 @@ public class OutcomeEvent extends AbstractEvent {
     }
 
     /**
-     * Get the generated Result.
+     * Get the generated Score.
      * @return the generated object
      */
     @Override
     @Nullable
-    public Result getGenerated() {
+    public Score getGenerated() {
         return generated;
     }
 
@@ -86,13 +86,13 @@ public class OutcomeEvent extends AbstractEvent {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
         private Attempt object;
-        private Result generated;
+        private Score generated;
 
         /*
          * Constructor
          */
         public Builder() {
-            super.type(EventType.OUTCOME);
+            super.type(EventType.GRADE);
         }
 
         /**
@@ -108,7 +108,7 @@ public class OutcomeEvent extends AbstractEvent {
          * @param generated
          * @return builder.
          */
-        public T generated(Result generated) {
+        public T generated(Score generated) {
             this.generated = generated;
             return self();
         }
@@ -117,8 +117,8 @@ public class OutcomeEvent extends AbstractEvent {
          * Client invokes build method in order to create an immutable profile object.
          * @return a new OutcomeEvent instance.
          */
-        public OutcomeEvent build() {
-            return new OutcomeEvent(this);
+        public GradeEvent build() {
+            return new GradeEvent(this);
         }
     }
 

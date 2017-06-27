@@ -61,6 +61,7 @@ public enum EntityType implements CaliperEntityType {
     READING("Reading"),
     RESPONSE("Response"),
     RESULT("Result"),
+    SCORE("Score"),
     SELECTTEXT("SelectTextResponse"),
     SESSION("Session"),
     SHARED_ANNOTATION("SharedAnnotation"),
