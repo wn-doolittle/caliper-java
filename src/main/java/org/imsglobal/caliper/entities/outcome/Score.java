@@ -21,12 +21,11 @@ package org.imsglobal.caliper.entities.outcome;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.AbstractEntity;
-import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.CaliperGeneratable;
+import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.imsglobal.caliper.entities.resource.Attempt;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class Score extends AbstractEntity implements CaliperGeneratable {
@@ -62,7 +61,7 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
     /**
      * @return attempt associated with the response;
      */
-    @Nonnull
+    @Nullable
     public Attempt getAttempt() {
         return attempt;
     }
