@@ -122,7 +122,7 @@ public class GradeEventGradedTest {
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void outcomeEventRejectsHidAction() {
+    public void gradeEventRejectsHidAction() {
         buildEvent(Action.HID);
     }
 
