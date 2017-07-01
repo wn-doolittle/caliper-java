@@ -71,9 +71,6 @@ public class NavigationEventNavigatedToFedSessionTest {
     private static final String BASE_IRI_COM = "https://example.com";
     private static final String BASE_IRI_EDU = "https://example.edu";
 
-    /**
-     * @throws java.lang.Exception
-     */
     @Before
     public void setUp() throws Exception {
         context = JsonldStringContext.getDefault();

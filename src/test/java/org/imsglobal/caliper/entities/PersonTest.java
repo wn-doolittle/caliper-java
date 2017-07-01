@@ -43,9 +43,6 @@ public class PersonTest {
 
     private static final String BASE_IRI = "https://example.edu";
 
-    /**
-     * @throws java.lang.Exception
-     */
     @Before
     public void setUp() throws Exception {
 
