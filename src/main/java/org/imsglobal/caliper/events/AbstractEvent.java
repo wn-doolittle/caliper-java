@@ -20,8 +20,6 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.entities.CaliperEntity;
@@ -40,7 +38,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * This class provides a skeletal implementation of the Event interface
@@ -94,7 +91,7 @@ public abstract class AbstractEvent implements CaliperEvent {
     private final LtiSession federatedSession;
 
     @JsonProperty("extensions")
-    private final ImmutableList<Object> extensions;
+    private final Object extensions;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AbstractEvent.class);
@@ -123,7 +120,7 @@ public abstract class AbstractEvent implements CaliperEvent {
         this.membership = builder.membership;
         this.session = builder.session;
         this.federatedSession = builder.federatedSession;
-        this.extensions = ImmutableList.copyOf(builder.extensions);
+        this.extensions = builder.extensions;
     }
 
     /**
@@ -263,7 +260,7 @@ public abstract class AbstractEvent implements CaliperEvent {
      * Custom properties.  Optional.
      * @return extensions
      */
-    public ImmutableList<Object> getExtensions() {
+    public Object getExtensions() {
         return extensions;
     }
 
@@ -287,7 +284,7 @@ public abstract class AbstractEvent implements CaliperEvent {
         private Membership membership;
         private Session session;
         private LtiSession federatedSession;
-        private List<Object> extensions = Lists.newArrayList();
+        private Object extensions;
 
         protected abstract T self();
 
@@ -437,17 +434,8 @@ public abstract class AbstractEvent implements CaliperEvent {
          * @param extensions
          * @return builder.
          */
-        public T extensions(List<Object> extensions) {
+        public T extensions(Object extensions) {
             this.extensions = extensions;
-            return self();
-        }
-
-        /**
-         * @param extension
-         * @return builder.
-         */
-        public T extension(Object extension) {
-            this.extensions.add(extension);
             return self();
         }
     }
