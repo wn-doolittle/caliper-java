@@ -95,7 +95,7 @@ public class MessageEvent extends AbstractEvent {
          * Constructor
          */
         public Builder() {
-            super.type(EventType.FORUM);
+            super.type(EventType.MESSAGE);
         }
 
         /**

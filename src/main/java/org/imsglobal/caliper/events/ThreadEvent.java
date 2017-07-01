@@ -94,7 +94,7 @@ public class ThreadEvent extends AbstractEvent {
          * Constructor
          */
         public Builder() {
-            type(EventType.FORUM);
+            type(EventType.THREAD);
         }
 
         /**
