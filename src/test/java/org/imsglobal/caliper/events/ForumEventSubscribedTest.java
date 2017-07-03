@@ -130,7 +130,7 @@ public class ForumEventSubscribedTest {
     }
 
     /**
-     * Build Media event.
+     * Build Forum event.
      * @param action
      * @return event
      */
