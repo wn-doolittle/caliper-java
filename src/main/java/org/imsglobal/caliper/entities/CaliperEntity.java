@@ -18,7 +18,6 @@
 
 package org.imsglobal.caliper.entities;
 
-import com.google.common.collect.ImmutableList;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.joda.time.DateTime;
 
@@ -80,5 +79,5 @@ public interface CaliperEntity {
      * Additional custom properties provided that are germane to the Event.  Optional.
      * @return extensions
      */
-    ImmutableList<Object> getExtensions();
+    Object getExtensions();
 }

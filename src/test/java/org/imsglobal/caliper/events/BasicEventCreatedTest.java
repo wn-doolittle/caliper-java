@@ -49,10 +49,8 @@ public class BasicEventCreatedTest {
     private Event event;
 
     private static final String BASE_IRI = "https://example.edu";
+    private static final String SECTION_IRI = BASE_IRI.concat("/terms/201601/courses/7/sections/1");
 
-    /**
-     * @throws java.lang.Exception
-     */
     @Before
     public void setUp() throws Exception {
         context = JsonldStringContext.getDefault();
@@ -62,7 +60,7 @@ public class BasicEventCreatedTest {
         actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
         object = Document.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/resources/123"))
+            .id(SECTION_IRI.concat("/resources/123"))
             .name("Course Syllabus")
             .dateCreated(new DateTime(2016, 11, 12, 7, 15, 0, 0, DateTimeZone.UTC))
             .version("1")

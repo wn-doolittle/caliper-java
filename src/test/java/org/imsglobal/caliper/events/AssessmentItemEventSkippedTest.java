@@ -28,11 +28,15 @@ import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.context.JsonldStringContext;
 import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
+import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.agent.Role;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.outcome.Result;
+import org.imsglobal.caliper.entities.agent.Status;
 import org.imsglobal.caliper.entities.resource.Assessment;
+import org.imsglobal.caliper.entities.resource.AssessmentItem;
 import org.imsglobal.caliper.entities.resource.Attempt;
+import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
@@ -45,62 +49,68 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class OutcomeEventGradedTest {
+public class AssessmentItemEventSkippedTest {
     private JsonldContext context;
     private String id;
-    private SoftwareApplication actor, edApp;
-    private Person learner;
-    private Attempt object;
-    private Assessment assignable;
-    private Result generated;
+    private Person actor;
+    private AssessmentItem object;
+    private Attempt generated;
+    private SoftwareApplication edApp;
     private CourseSection group;
-    private OutcomeEvent event;
+    private Membership membership;
+    private Session session;
+    private AssessmentItemEvent event;
 
     private static final String BASE_IRI = "https://example.edu";
+    private static final String SECTION_IRI = BASE_IRI.concat("/terms/201601/courses/7/sections/1");
 
-    /**
-     * @throws java.lang.Exception
-     */
     @Before
     public void setUp() throws Exception {
         context = JsonldStringContext.getDefault();
 
-        id = "urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d";
+        id = "urn:uuid:04e27704-73bf-4d3c-912c-1b2da40aef8f";
 
-        actor = SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).version("v2").build();
-        learner = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
-        assignable = Assessment.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1")).build();
+        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        Person assignee = Person.builder().id(actor.getId()).coercedToId(true).build();
 
-        object = Attempt.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"))
-            .assignable(assignable)
-            .assignee(learner)
-            .count(1)
-            .dateCreated(new DateTime(2016, 11, 15, 10, 5, 0, 0, DateTimeZone.UTC))
-            .startedAtTime(new DateTime(2016, 11, 15, 10, 5, 0, 0, DateTimeZone.UTC))
-            .endedAtTime(new DateTime(2016, 11, 15, 10, 55, 12, 0, DateTimeZone.UTC))
-            .duration("PT50M12S")
+        object = AssessmentItem.builder()
+            .id(SECTION_IRI.concat("/assess/1/items/2"))
+            .name("Assessment Item 2")
+            .isPartOf(Assessment.builder().id(SECTION_IRI.concat("/assess/1")).build())
+            .version("1.0")
+            .dateToStartOn(new DateTime(2016, 11, 14, 5, 0, 0, 0, DateTimeZone.UTC))
+            .dateToSubmit(new DateTime(2016, 11, 18, 11, 59, 59, 0, DateTimeZone.UTC))
+            .maxAttempts(2)
+            .maxSubmits(2)
+            .maxScore(1)
+            .isTimeDependent(false)
+            .version("1.0")
             .build();
 
-        generated = Result.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/results/1"))
-            .attempt(Attempt.builder().id(object.getId()).coercedToId(true).build())
-            .normalScore(15)
-            .totalScore(15)
-            .scoredBy(SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).coercedToId(true).build())
-            .dateCreated(new DateTime(2016, 11, 15, 10, 55, 5, 0, DateTimeZone.UTC))
-            .build();
-
-        edApp = SoftwareApplication.builder().id(BASE_IRI).coercedToId(true).build();
+        edApp = SoftwareApplication.builder().id(BASE_IRI).version("v2").build();
 
         group = CourseSection.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+            .id(SECTION_IRI)
             .courseNumber("CPS 435-01")
             .academicSession("Fall 2016")
             .build();
 
-        // Build Outcome Event
-        event = buildEvent(Action.GRADED);
+        membership = Membership.builder()
+            .id(SECTION_IRI.concat("/rosters/1"))
+            .member(assignee)
+            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
+            .status(Status.ACTIVE)
+            .role(Role.LEARNER)
+            .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
+            .build();
+
+        session = Session.builder()
+            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+            .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
+            .build();
+
+        // Build event
+        event = buildEvent(Action.SKIPPED);
     }
 
     @Test
@@ -116,13 +126,13 @@ public class OutcomeEventGradedTest {
 
         String json = mapper.writeValueAsString(event);
 
-        String fixture = jsonFixture("fixtures/caliperEventOutcomeGraded.json");
+        String fixture = jsonFixture("fixtures/caliperEventAssessmentItemSkipped.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void outcomeEventRejectsHidAction() {
-        buildEvent(Action.HID);
+    public void assessmentItemEventRejectsChangedVolumeAction() {
+        buildEvent(Action.CHANGED_VOLUME);
     }
 
     @After
@@ -131,21 +141,22 @@ public class OutcomeEventGradedTest {
     }
 
     /**
-     * Build Outcome event.
+     * Build AssessmentItem event.
      * @param action
      * @return event
      */
-    private OutcomeEvent buildEvent(Action action) {
-        return OutcomeEvent.builder()
+    private AssessmentItemEvent buildEvent(Action action) {
+        return AssessmentItemEvent.builder()
             .context(context)
             .id(id)
             .actor(actor)
             .action(action)
             .object(object)
-            .generated(generated)
+            .eventTime(new DateTime(2016, 11, 15, 10, 14, 30, 0, DateTimeZone.UTC))
             .edApp(edApp)
             .group(group)
-            .eventTime(new DateTime(2016, 11, 15, 10, 57, 6, 0, DateTimeZone.UTC))
+            .membership(membership)
+            .session(session)
             .build();
     }
 }

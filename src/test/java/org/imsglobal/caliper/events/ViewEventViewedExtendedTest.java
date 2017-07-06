@@ -63,9 +63,6 @@ public class ViewEventViewedExtendedTest {
 
     private static final String BASE_IRI = "https://example.edu";
 
-    /**
-     * @throws java.lang.Exception
-     */
     @Before
     public void setUp() throws Exception {
         context = JsonldStringContext.getDefault();
@@ -152,7 +149,7 @@ public class ViewEventViewedExtendedTest {
             .group(group)
             .membership(membership)
             .session(session)
-            .extension(extensionsNode)
+            .extensions(extensionsNode)
             .build();
     }
 
@@ -171,35 +168,12 @@ public class ViewEventViewedExtendedTest {
             .setFilterProvider(provider)
             .registerModule(new JodaModule());
 
-        //SimpleFilterProvider provider = JxnFilterProvider.create(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
-        //ObjectMapper mapper = JxnObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider, new JodaModule());
-
-        ObjectNode jobTag = mapper.createObjectNode();
-        jobTag.put("id", "example:jobTag");
-        jobTag.put("type", "xsd:string");
-
-        ObjectNode jobDate = mapper.createObjectNode();
-        jobDate.put("id", "example:jobDate");
-        jobDate.put("type", "xsd:dateTime");
-
-        ObjectNode context = mapper.createObjectNode();
-        context.put("id", "@id");
-        context.put("type", "@type");
-        context.put("example", "http://example.edu/ctx/edu");
-        context.put("xsd", "http://www.w3.org/2001/XMLSchema#");
-        context.put("ChronJob", "example:ChronJob");
-        context.put("job", "example:job");
-        context.putPOJO("jobTag", jobTag);
-        context.putPOJO("jobDate", jobDate);
-
         ObjectNode job = mapper.createObjectNode();
-        job.put("id", "https://example.edu/data/jobs/08c1233d-9ba3-40ac-952f-004c47a50ff7");
-        job.put("type", "ChronJob");
-        job.put("jobTag", "caliper");
+        job.put("id", "08c1233d-9ba3-40ac-952f-004c47a50ff7");
+        job.put("jobTag", "caliper_batch_job");
         job.put("jobDate","2016-11-16T01:01:00.000Z");
 
         ObjectNode obj = mapper.createObjectNode();
-        obj.putPOJO("@context", context);
         obj.putPOJO("job", job);
 
         return obj;

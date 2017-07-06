@@ -68,9 +68,6 @@ public class AnnotationEventTaggedTest {
     private static final String BASE_COM_IRI = "https://example.com";
     private static final String SECTION_IRI = BASE_EDU_IRI.concat("/terms/201601/courses/7/sections/1");
 
-    /**
-     * @throws java.lang.Exception
-     */
     @Before
     public void setUp() throws Exception {
         context = JsonldStringContext.getDefault();

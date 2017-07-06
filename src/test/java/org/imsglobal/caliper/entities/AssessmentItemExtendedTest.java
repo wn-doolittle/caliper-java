@@ -20,12 +20,13 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
-import com.google.common.collect.Lists;
 import org.imsglobal.caliper.context.JsonldStringContext;
 import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
+import org.imsglobal.caliper.databind.JxnFilters;
 import org.imsglobal.caliper.entities.resource.Assessment;
 import org.imsglobal.caliper.entities.resource.AssessmentItem;
 import org.joda.time.DateTime;
@@ -37,13 +38,11 @@ import org.junit.experimental.categories.Category;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import java.util.List;
-
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssessmentTest {
-    private Assessment entity;
+public class AssessmentItemExtendedTest {
+    private AssessmentItem entity;
 
     private static final String BASE_IRI = "https://example.edu";
     private static final String SECTION_IRI = BASE_IRI.concat("/terms/201601/courses/7/sections/1");
@@ -51,27 +50,24 @@ public class AssessmentTest {
     @Before
     public void setUp() throws Exception {
 
-        List<AssessmentItem> items = Lists.newArrayList();
-        items.add(AssessmentItem.builder().id(SECTION_IRI.concat("/assess/1/items/1")).build());
-        items.add(AssessmentItem.builder().id(SECTION_IRI.concat("/assess/1/items/2")).build());
-        items.add(AssessmentItem.builder().id(SECTION_IRI.concat("/assess/1/items/3")).build());
+        // Parent
+        Assessment assessment = Assessment.builder()
+            .id("https://example.edu/terms/201601/courses/7/sections/1/assess/1")
+            .build();
 
-        entity = Assessment.builder()
+        // Extensions
+        ObjectNode extensions = createExtensionsNode();
+
+        entity = AssessmentItem.builder()
             .context(JsonldStringContext.getDefault())
-            .id(SECTION_IRI.concat("/assess/1"))
-            .name("Quiz One")
-            .items(items)
+            .id(SECTION_IRI.concat("/assess/1/items/3"))
+            .isPartOf(assessment)
             .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
-            .dateModified(new DateTime(2016, 9, 2, 11, 30, 0, 0, DateTimeZone.UTC))
             .datePublished(new DateTime(2016, 8, 15, 9, 30, 0, 0, DateTimeZone.UTC))
-            .dateToActivate(new DateTime(2016, 8, 16, 5, 0, 0, 0, DateTimeZone.UTC))
-            .dateToShow(new DateTime(2016, 8, 16, 5, 0, 0, 0, DateTimeZone.UTC))
-            .dateToStartOn(new DateTime(2016, 8, 16, 5, 0, 0, 0, DateTimeZone.UTC))
-            .dateToSubmit(new DateTime(2016, 9, 28, 11, 59, 59, 0, DateTimeZone.UTC))
-            .maxAttempts(2)
+            .maxScore(1.0)
             .maxSubmits(2)
-            .maxScore(15.0)
-            .version("1.0")
+            .isTimeDependent(false)
+            .extensions(extensions)
             .build();
     }
 
@@ -88,12 +84,35 @@ public class AssessmentTest {
 
         String json = mapper.writeValueAsString(entity);
 
-        String fixture = jsonFixture("fixtures/caliperEntityAssessment.json");
+        String fixture = jsonFixture("fixtures/caliperEntityAssessmentItemExtended.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @After
     public void teardown() {
         entity = null;
+    }
+
+    /**
+     * Create faux extensions
+     * @return
+     */
+    private ObjectNode createExtensionsNode() {
+        SimpleFilterProvider provider = new SimpleFilterProvider()
+            .setFailOnUnknownId(true)
+            .addFilter(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
+
+        ObjectMapper mapper = new ObjectMapper()
+            .setDateFormat(new ISO8601DateFormat())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .setFilterProvider(provider)
+            .registerModule(new JodaModule());
+
+        ObjectNode extensions = mapper.createObjectNode();
+        extensions.put("questionType", "Dichotomous");
+        extensions.put("questionText", "Is a Caliper SoftwareApplication a subtype of Caliper Agent?");
+        extensions.put("correctResponse","yes");
+
+        return extensions;
     }
 }

@@ -28,13 +28,11 @@ import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.context.JsonldStringContext;
 import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
-import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.agent.Role;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
-import org.imsglobal.caliper.entities.agent.Status;
+import org.imsglobal.caliper.entities.outcome.Score;
 import org.imsglobal.caliper.entities.resource.Assessment;
-import org.imsglobal.caliper.entities.session.Session;
+import org.imsglobal.caliper.entities.resource.Attempt;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
@@ -47,16 +45,16 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssignableEventActivatedTest {
+public class GradeEventGradedTest {
     private JsonldContext context;
     private String id;
-    private Person actor;
-    private Assessment object;
-    private SoftwareApplication edApp;
+    private SoftwareApplication actor, edApp;
+    private Person learner;
+    private Attempt object;
+    private Assessment assignable;
+    private Score generated;
     private CourseSection group;
-    private Membership membership;
-    private Session session;
-    private AssignableEvent event;
+    private GradeEvent event;
 
     private static final String BASE_IRI = "https://example.edu";
 
@@ -64,27 +62,34 @@ public class AssignableEventActivatedTest {
     public void setUp() throws Exception {
         context = JsonldStringContext.getDefault();
 
-        id = "urn:uuid:2635b9dd-0061-4059-ac61-2718ab366f75";
+        id = "urn:uuid:a50ca17f-5971-47bb-8fca-4e6e6879001d";
 
-        actor = Person.builder().id(BASE_IRI.concat("/users/112233")).build();
+        actor = SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).version("v2").build();
+        learner = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+        assignable = Assessment.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1")).build();
 
-        object = Assessment.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1"))
-            .name("Quiz One")
-            .version("1.0")
-            .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
-            .dateModified(new DateTime(2016, 9, 2, 11, 30, 0, 0, DateTimeZone.UTC))
-            .datePublished(new DateTime(2016, 11, 12, 10, 10, 0, 0, DateTimeZone.UTC))
-            .dateToActivate(new DateTime(2016, 11, 12, 10, 15, 0, 0, DateTimeZone.UTC))
-            .dateToStartOn(new DateTime(2016, 11, 14, 5, 0, 0, 0, DateTimeZone.UTC))
-            .dateToSubmit(new DateTime(2016, 11, 18, 11, 59, 59, 0, DateTimeZone.UTC))
-            .maxAttempts(2)
-            .maxSubmits(2)
-            .maxScore(25)
-            .version("1.0")
+        object = Attempt.builder()
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1"))
+            .assignable(assignable)
+            .assignee(learner)
+            .count(1)
+            .dateCreated(new DateTime(2016, 11, 15, 10, 5, 0, 0, DateTimeZone.UTC))
+            .startedAtTime(new DateTime(2016, 11, 15, 10, 5, 0, 0, DateTimeZone.UTC))
+            .endedAtTime(new DateTime(2016, 11, 15, 10, 55, 12, 0, DateTimeZone.UTC))
+            .duration("PT50M12S")
             .build();
 
-        edApp = SoftwareApplication.builder().id(BASE_IRI).version("v2").build();
+        generated = Score.builder()
+            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1/users/554433/attempts/1/scores/1"))
+            .attempt(Attempt.builder().id(object.getId()).coercedToId(true).build())
+            .maxScore(15)
+            .scoreGiven(10)
+            .scoredBy(SoftwareApplication.builder().id(BASE_IRI.concat("/autograder")).coercedToId(true).build())
+            .comment("auto-graded exam")
+            .dateCreated(new DateTime(2016, 11, 15, 10, 56, 0, 0, DateTimeZone.UTC))
+            .build();
+
+        edApp = SoftwareApplication.builder().id(BASE_IRI).coercedToId(true).build();
 
         group = CourseSection.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
@@ -92,22 +97,8 @@ public class AssignableEventActivatedTest {
             .academicSession("Fall 2016")
             .build();
 
-        membership = Membership.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
-            .member(Person.builder().id(actor.getId()).coercedToId(true).build())
-            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
-            .status(Status.ACTIVE)
-            .role(Role.INSTRUCTOR)
-            .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
-            .build();
-
-        session = Session.builder()
-            .id(BASE_IRI.concat("/sessions/f095bbd391ea4a5dd639724a40b606e98a631823"))
-            .startedAtTime(new DateTime(2016, 11, 12, 10, 0, 0, 0, DateTimeZone.UTC))
-            .build();
-
-        // Build event
-        event = buildEvent(Action.ACTIVATED);
+        // Build Outcome Event
+        event = buildEvent(Action.GRADED);
     }
 
     @Test
@@ -123,13 +114,13 @@ public class AssignableEventActivatedTest {
 
         String json = mapper.writeValueAsString(event);
 
-        String fixture = jsonFixture("fixtures/caliperEventAssignableActivated.json");
+        String fixture = jsonFixture("fixtures/caliperEventGradeGraded.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void assignableEventRejectsSearchedAction() {
-        buildEvent(Action.SEARCHED);
+    public void gradeEventRejectsHidAction() {
+        buildEvent(Action.HID);
     }
 
     @After
@@ -138,22 +129,21 @@ public class AssignableEventActivatedTest {
     }
 
     /**
-     * Build Assignable event.
+     * Build Outcome event.
      * @param action
      * @return event
      */
-    private AssignableEvent buildEvent(Action action) {
-        return AssignableEvent.builder()
+    private GradeEvent buildEvent(Action action) {
+        return GradeEvent.builder()
             .context(context)
             .id(id)
             .actor(actor)
             .action(action)
             .object(object)
-            .eventTime(new DateTime(2016, 11, 12, 10, 15, 0, 0, DateTimeZone.UTC))
+            .generated(generated)
             .edApp(edApp)
             .group(group)
-            .membership(membership)
-            .session(session)
+            .eventTime(new DateTime(2016, 11, 15, 10, 57, 6, 0, DateTimeZone.UTC))
             .build();
     }
 }

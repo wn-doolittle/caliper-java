@@ -63,9 +63,6 @@ public class AssessmentEventSubmittedTest {
     private static final String BASE_IRI = "https://example.edu";
     private static final String SECTION_IRI = BASE_IRI.concat("/terms/201601/courses/7/sections/1");
 
-    /**
-     * @throws java.lang.Exception
-     */
     @Before
     public void setUp() throws Exception {
         context = JsonldStringContext.getDefault();

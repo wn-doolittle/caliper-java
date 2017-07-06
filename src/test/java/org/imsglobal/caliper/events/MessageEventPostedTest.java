@@ -33,7 +33,9 @@ import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.Role;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.agent.Status;
-import org.imsglobal.caliper.entities.resource.Assessment;
+import org.imsglobal.caliper.entities.resource.Forum;
+import org.imsglobal.caliper.entities.resource.Message;
+import org.imsglobal.caliper.entities.resource.Thread;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -47,44 +49,48 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
-public class AssignableEventActivatedTest {
+public class MessageEventPostedTest {
     private JsonldContext context;
     private String id;
     private Person actor;
-    private Assessment object;
+    private Message object;
     private SoftwareApplication edApp;
     private CourseSection group;
     private Membership membership;
     private Session session;
-    private AssignableEvent event;
+    private MessageEvent event;
 
     private static final String BASE_IRI = "https://example.edu";
+    private static final String SECTION_IRI = BASE_IRI.concat("/terms/201601/courses/7/sections/1");
 
     @Before
     public void setUp() throws Exception {
         context = JsonldStringContext.getDefault();
 
-        id = "urn:uuid:2635b9dd-0061-4059-ac61-2718ab366f75";
+        id = "urn:uuid:0d015a85-abf5-49ee-abb1-46dbd57fe64e";
 
-        actor = Person.builder().id(BASE_IRI.concat("/users/112233")).build();
+        actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
 
-        object = Assessment.builder()
-            .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/assess/1"))
-            .name("Quiz One")
-            .version("1.0")
-            .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
-            .dateModified(new DateTime(2016, 9, 2, 11, 30, 0, 0, DateTimeZone.UTC))
-            .datePublished(new DateTime(2016, 11, 12, 10, 10, 0, 0, DateTimeZone.UTC))
-            .dateToActivate(new DateTime(2016, 11, 12, 10, 15, 0, 0, DateTimeZone.UTC))
-            .dateToStartOn(new DateTime(2016, 11, 14, 5, 0, 0, 0, DateTimeZone.UTC))
-            .dateToSubmit(new DateTime(2016, 11, 18, 11, 59, 59, 0, DateTimeZone.UTC))
-            .maxAttempts(2)
-            .maxSubmits(2)
-            .maxScore(25)
-            .version("1.0")
+        Forum forum = Forum.builder()
+            .id(SECTION_IRI.concat("/forums/2"))
+            .name("Caliper Forum")
             .build();
 
-        edApp = SoftwareApplication.builder().id(BASE_IRI).version("v2").build();
+        Thread thread = Thread.builder()
+            .id(forum.getId().concat("/topics/1"))
+            .name("Caliper Adoption")
+            .isPartOf(forum)
+            .build();
+
+        object = Message.builder()
+            .id(SECTION_IRI.concat("/forums/2/topics/1/messages/2"))
+            .creator(actor)
+            .body("Are the Caliper Sensor reference implementations production-ready?")
+            .isPartOf(thread)
+            .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+            .build();
+
+        edApp = SoftwareApplication.builder().id(BASE_IRI.concat("/forums")).version("v2").build();
 
         group = CourseSection.builder()
             .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
@@ -97,17 +103,17 @@ public class AssignableEventActivatedTest {
             .member(Person.builder().id(actor.getId()).coercedToId(true).build())
             .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
             .status(Status.ACTIVE)
-            .role(Role.INSTRUCTOR)
+            .role(Role.LEARNER)
             .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
         session = Session.builder()
-            .id(BASE_IRI.concat("/sessions/f095bbd391ea4a5dd639724a40b606e98a631823"))
-            .startedAtTime(new DateTime(2016, 11, 12, 10, 0, 0, 0, DateTimeZone.UTC))
+            .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+            .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
         // Build event
-        event = buildEvent(Action.ACTIVATED);
+        event = buildEvent(Action.POSTED);
     }
 
     @Test
@@ -123,13 +129,13 @@ public class AssignableEventActivatedTest {
 
         String json = mapper.writeValueAsString(event);
 
-        String fixture = jsonFixture("fixtures/caliperEventAssignableActivated.json");
+        String fixture = jsonFixture("fixtures/caliperEventMessagePosted.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void assignableEventRejectsSearchedAction() {
-        buildEvent(Action.SEARCHED);
+    public void messageEventRejectsStartedAction() {
+        buildEvent(Action.STARTED);
     }
 
     @After
@@ -138,18 +144,18 @@ public class AssignableEventActivatedTest {
     }
 
     /**
-     * Build Assignable event.
+     * Build Media event.
      * @param action
      * @return event
      */
-    private AssignableEvent buildEvent(Action action) {
-        return AssignableEvent.builder()
+    private MessageEvent buildEvent(Action action) {
+        return MessageEvent.builder()
             .context(context)
             .id(id)
             .actor(actor)
             .action(action)
             .object(object)
-            .eventTime(new DateTime(2016, 11, 12, 10, 15, 0, 0, DateTimeZone.UTC))
+            .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .edApp(edApp)
             .group(group)
             .membership(membership)

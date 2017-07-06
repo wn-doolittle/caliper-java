@@ -18,7 +18,6 @@
 
 package org.imsglobal.caliper.events;
 
-import com.google.common.collect.ImmutableList;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.entities.CaliperEntity;
@@ -146,5 +145,5 @@ public interface CaliperEvent {
      * Additional custom properties provided that are germane to the Event.  Optional.
      * @return extensions
      */
-    ImmutableList<Object> getExtensions();
+    Object getExtensions();
 }

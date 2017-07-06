@@ -30,7 +30,7 @@ public enum EventType implements CaliperEventType {
     MEDIA("MediaEvent"),
     MESSAGE("MessageEvent"),
     NAVIGATION("NavigationEvent"),
-    OUTCOME("OutcomeEvent"),
+    GRADE("GradeEvent"),
     READING("ReadingEvent"),
     SESSION("SessionEvent"),
     THREAD("ThreadEvent"),

@@ -71,9 +71,6 @@ public class NavigationEventNavigatedToFedSessionTest {
     private static final String BASE_IRI_COM = "https://example.com";
     private static final String BASE_IRI_EDU = "https://example.edu";
 
-    /**
-     * @throws java.lang.Exception
-     */
     @Before
     public void setUp() throws Exception {
         context = JsonldStringContext.getDefault();
@@ -227,24 +224,24 @@ public class NavigationEventNavigatedToFedSessionTest {
         //ObjectMapper mapper = JxnObjectMapper.create(JsonInclude.Include.NON_EMPTY, provider, new JodaModule());
 
         ObjectNode jobTitle = mapper.createObjectNode();
-        jobTitle.put("id", "sdo:jobTitle");
-        jobTitle.put("type", "xsd:string");
+        jobTitle.put("@id", "sdo:jobTitle");
+        jobTitle.put("@type", "xsd:string");
 
         ObjectNode givenName = mapper.createObjectNode();
-        givenName.put("id", "sdo:givenName");
-        givenName.put("type", "xsd:string");
+        givenName.put("@id", "sdo:givenName");
+        givenName.put("@type", "xsd:string");
 
         ObjectNode familyName = mapper.createObjectNode();
-        familyName.put("id", "sdo:familyName");
-        familyName.put("type", "xsd:string");
+        familyName.put("@id", "sdo:familyName");
+        familyName.put("@type", "xsd:string");
 
         ObjectNode email = mapper.createObjectNode();
-        email.put("id", "sdo:email");
-        email.put("type", "xsd:string");
+        email.put("@id", "sdo:email");
+        email.put("@type", "xsd:string");
 
         ObjectNode url = mapper.createObjectNode();
-        url.put("id", "sdo:url");
-        url.put("type", "xsd:string");
+        url.put("@id", "sdo:url");
+        url.put("@type", "xsd:string");
 
         ObjectNode context = mapper.createObjectNode();
         context.put("sdo", "http://schema.org/");

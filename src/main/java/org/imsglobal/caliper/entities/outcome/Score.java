@@ -28,16 +28,16 @@ import org.imsglobal.caliper.entities.resource.Attempt;
 
 import javax.annotation.Nullable;
 
-public class Result extends AbstractEntity implements CaliperGeneratable {
+public class Score extends AbstractEntity implements CaliperGeneratable {
 
     @JsonProperty("attempt")
     private Attempt attempt;
 
-    @JsonProperty("maxResultScore")
-    private double maxResultScore;
+    @JsonProperty("maxScore")
+    private double maxScore;
 
-    @JsonProperty("resultScore")
-    private double resultScore;
+    @JsonProperty("scoreGiven")
+    private double scoreGiven;
 
     @JsonProperty("comment")
     private String comment;
@@ -48,12 +48,12 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
     /**
      * @param builder apply builder object properties to the object.
      */
-    protected Result(Builder<?> builder) {
+    protected Score(Builder<?> builder) {
         super(builder);
 
         this.attempt = builder.attempt;
-        this.maxResultScore = builder.maxResultScore;
-        this.resultScore = builder.resultScore;
+        this.maxScore = builder.maxScore;
+        this.scoreGiven = builder.scoreGiven;
         this.comment = builder.comment;
         this.scoredBy = builder.scoredBy;
     }
@@ -67,23 +67,23 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
     }
 
     /**
-     * @return the maxResultScore
+     * @return the maxScore
      */
     @Nullable
     // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getMaxResultScore() {
-        return maxResultScore;
+    public double getMaxScore() {
+        return maxScore;
     }
 
     /**
-     * @return the resultScore
+     * @return the scoreGiven
      */
     @Nullable
     // @JsonSerialize(using=DoubleSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getResultScore() {
-        return resultScore;
+    public double getScoreGiven() {
+        return scoreGiven;
     }
 
     /**
@@ -108,8 +108,8 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
         private Attempt attempt;
-        private double maxResultScore;
-        private double resultScore;
+        private double maxScore;
+        private double scoreGiven;
         private String comment;
         private CaliperAgent scoredBy;
 
@@ -117,7 +117,7 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
          * Constructor
          */
         public Builder() {
-            super.type(EntityType.RESULT);
+            super.type(EntityType.SCORE);
         }
 
         /**
@@ -130,20 +130,20 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
         }
 
         /**
-         * @param maxResultScore
-         * @return normal score.
+         * @param maxScore
+         * @return max score.
          */
-        public T maxResultScore(double maxResultScore) {
-            this.maxResultScore = maxResultScore;
+        public T maxScore(double maxScore) {
+            this.maxScore = maxScore;
             return self();
         }
 
         /**
-         * @param resultScore
-         * @return penalty score.
+         * @param scoreGiven
+         * @return score given.
          */
-        public T resultScore(double resultScore) {
-            this.resultScore = resultScore;
+        public T scoreGiven(double scoreGiven) {
+            this.scoreGiven = scoreGiven;
             return self();
         }
 
@@ -167,10 +167,10 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the Result.
+         * @return a new instance of the Score.
          */
-        public Result build() {
-            return new Result(this);
+        public Score build() {
+            return new Score(this);
         }
     }
 
