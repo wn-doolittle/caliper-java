@@ -144,18 +144,6 @@ public class BasicEventModifiedExtendedTest {
             .version("1")
             .build();
 
-/**
-        ObjectNode doc2 = mapper.createObjectNode();
-        doc2.put("id", SECTION_IRI.concat("/resources/123?version=2"));
-        doc2.put("dateCreated", "2016-11-12T07:15:00.000Z");
-        doc2.put("dateModified","2016-11-13T11:00:00.000Z");
-        doc2.put("version", "2");
-
-        ObjectNode doc1 = mapper.createObjectNode();
-        doc1.put("id", SECTION_IRI.concat("/resources/123?version=1"));
-        doc1.put("dateCreated", "2016-11-12T07:15:00.000Z");
-        doc1.put("version", "1");
-*/
         ArrayNode array = mapper.createArrayNode();
         array.addPOJO(doc2);
         array.addPOJO(doc1);
@@ -166,23 +154,3 @@ public class BasicEventModifiedExtendedTest {
         return extensions;
     }
 }
-
-/**
- "extensions": {
- "archive": [
- {
- "id": "https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=2",
- "type": "Document",
- "dateCreated": "2016-11-12T07:15:00.000Z",
- "dateModified": "2016-11-13T11:00:00.000Z",
- "version": "2"
- },
- {
- "id": "https://example.edu/terms/201601/courses/7/sections/1/resources/123?version=1",
- "type": "Document",
- "dateCreated": "2016-11-12T07:15:00.000Z",
- "version": "1"
- }
- ]
- }
- */
