@@ -18,17 +18,12 @@
 
 package org.imsglobal.caliper.events;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
+import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.context.JsonldStringContext;
-import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
-import org.imsglobal.caliper.databind.JxnFilters;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.Session;
@@ -84,15 +79,7 @@ public class SessionEventLoggedInExtendedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = new SimpleFilterProvider()
-            .setFailOnUnknownId(true);
-
-        ObjectMapper mapper = new ObjectMapper()
-            .setDateFormat(new ISO8601DateFormat())
-            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-            .setFilterProvider(provider)
-            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
-
+        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventSessionLoggedInExtended.json");
@@ -132,15 +119,7 @@ public class SessionEventLoggedInExtendedTest {
      * @return
      */
     private ObjectNode createExtensionsNode() {
-        SimpleFilterProvider provider = new SimpleFilterProvider()
-            .setFailOnUnknownId(true)
-            .addFilter(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
-
-        ObjectMapper mapper = new ObjectMapper()
-            .setDateFormat(new ISO8601DateFormat())
-            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-            .setFilterProvider(provider)
-            .registerModule(new JodaModule());
+        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
 
         ObjectNode request = mapper.createObjectNode();
         request.put("id", "d71016dc-ed2f-46f9-ac2c-b93f15f38fdc");
@@ -153,39 +132,3 @@ public class SessionEventLoggedInExtendedTest {
         return extensions;
     }
 }
-
-
-/**
-{/**
-    "@context": "http://purl.imsglobal.org/ctx/caliper/v1p1",
-    "id": "urn:uuid:4ec2c31e-3ec0-4fe1-a017-b81561b075d7",
-    "type": "SessionEvent",
-    "actor": {
-    "id": "https://example.edu/users/554433",
-    "type": "Person"
-    },
-    "action": "LoggedIn",
-    "object": {
-    "id": "https://example.edu",
-    "type": "SoftwareApplication",
-    "version": "v2"
-    },
-    "eventTime": "2016-11-15T20:11:15.000Z",
-    "edApp": "https://example.edu",
-    "session": {
-    "id": "https://example.edu/sessions/1f6442a482de72ea6ad134943812bff564a76259",
-    "type": "Session",
-    "user": "https://example.edu/users/554433",
-    "dateCreated": "2016-11-15T20:11:15.000Z",
-    "startedAtTime": "2016-11-15T20:11:15.000Z",
-    "extensions": {
-    "request":  {
-    "id": "d71016dc-ed2f-46f9-ac2c-b93f15f38fdc",
-    "hostname": "example.com",
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
-    }
-    }
-    }
-    }
-
-    */
