@@ -18,22 +18,18 @@
 
 package org.imsglobal.caliper.envelopes;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.imsglobal.caliper.Envelope;
 import org.imsglobal.caliper.Sensor;
+import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.clients.HttpClient;
 import org.imsglobal.caliper.clients.HttpClientOptions;
 import org.imsglobal.caliper.config.Config;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.context.JsonldStringContext;
-import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -155,16 +151,7 @@ public class EnvelopeEventSingleTest {
 
     @Test
     public void testSerializedEnvelope() throws Exception {
-        // Serialize envelope, excluding null properties, empty objects, empty arrays and duplicate @context
-        SimpleFilterProvider provider = new SimpleFilterProvider()
-            .setFailOnUnknownId(true);
-
-        ObjectMapper mapper = new ObjectMapper()
-            .setDateFormat(new ISO8601DateFormat())
-            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-            .setFilterProvider(provider)
-            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
-
+        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
         String json = mapper.writeValueAsString(envelope);
 
         // Swap out sendTime=DateTime.now() in favor of fixture value (or test will most assuredly fail).
@@ -178,16 +165,7 @@ public class EnvelopeEventSingleTest {
 
     @Test
     public void testGeneratePayloadContentType() throws Exception {
-        // Serialize envelope; include null properties, empty objects and empty arrays
-        SimpleFilterProvider provider = new SimpleFilterProvider()
-            .setFailOnUnknownId(true);
-
-        ObjectMapper mapper = new ObjectMapper()
-            .setDateFormat(new ISO8601DateFormat())
-            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-            .setFilterProvider(provider)
-            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
-
+        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
         String json = mapper.writeValueAsString(envelope);
 
         // Create an HTTP StringEntity with the envelope JSON and default ContentType.

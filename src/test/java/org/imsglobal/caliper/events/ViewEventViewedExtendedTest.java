@@ -18,17 +18,12 @@
 
 package org.imsglobal.caliper.events;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
+import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.context.JsonldStringContext;
-import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
-import org.imsglobal.caliper.databind.JxnFilters;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -107,15 +102,7 @@ public class ViewEventViewedExtendedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = new SimpleFilterProvider()
-            .setFailOnUnknownId(true);
-
-        ObjectMapper mapper = new ObjectMapper()
-            .setDateFormat(new ISO8601DateFormat())
-            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-            .setFilterProvider(provider)
-            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
-
+        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventViewViewedExtended.json");
@@ -158,15 +145,7 @@ public class ViewEventViewedExtendedTest {
      * @return
      */
     private ObjectNode createExtensionsNode() {
-        SimpleFilterProvider provider = new SimpleFilterProvider()
-            .setFailOnUnknownId(true)
-            .addFilter(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
-
-        ObjectMapper mapper = new ObjectMapper()
-            .setDateFormat(new ISO8601DateFormat())
-            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-            .setFilterProvider(provider)
-            .registerModule(new JodaModule());
+        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
 
         ObjectNode job = mapper.createObjectNode();
         job.put("id", "08c1233d-9ba3-40ac-952f-004c47a50ff7");

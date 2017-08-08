@@ -18,18 +18,13 @@
 
 package org.imsglobal.caliper.events;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
+import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.context.JsonldStringContext;
-import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
-import org.imsglobal.caliper.databind.JxnFilters;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.resource.Document;
 import org.joda.time.DateTime;
@@ -79,15 +74,7 @@ public class BasicEventModifiedExtendedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = new SimpleFilterProvider()
-            .setFailOnUnknownId(true);
-
-        ObjectMapper mapper = new ObjectMapper()
-            .setDateFormat(new ISO8601DateFormat())
-            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-            .setFilterProvider(provider)
-            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
-
+        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventBasicModifiedExtended.json");
@@ -100,7 +87,7 @@ public class BasicEventModifiedExtendedTest {
     }
 
     /**
-     * Build Media event.
+     * Build basic event.
      * @param action
      * @return event
      */
@@ -121,16 +108,6 @@ public class BasicEventModifiedExtendedTest {
      * @return
      */
     private ObjectNode createExtensionsNode() {
-        SimpleFilterProvider provider = new SimpleFilterProvider()
-            .setFailOnUnknownId(true)
-            .addFilter(JxnFilters.SERIALIZE_ALL.id(), JxnFilters.SERIALIZE_ALL.filter());
-
-        ObjectMapper mapper = new ObjectMapper()
-            .setDateFormat(new ISO8601DateFormat())
-            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-            .setFilterProvider(provider)
-            .registerModule(new JodaModule());
-
         Document doc2 = Document.builder()
             .id(SECTION_IRI.concat("/resources/123?version=2"))
             .dateCreated(new DateTime(2016, 11, 12, 7, 15, 0, 0, DateTimeZone.UTC))
@@ -143,6 +120,8 @@ public class BasicEventModifiedExtendedTest {
             .dateCreated(new DateTime(2016, 11, 12, 7, 15, 0, 0, DateTimeZone.UTC))
             .version("1")
             .build();
+
+        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
 
         ArrayNode array = mapper.createArrayNode();
         array.addPOJO(doc2);

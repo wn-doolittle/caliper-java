@@ -18,15 +18,11 @@
 
 package org.imsglobal.caliper.events;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
+import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.context.JsonldStringContext;
-import org.imsglobal.caliper.databind.JxnCoercibleSimpleModule;
 import org.imsglobal.caliper.entities.agent.CourseSection;
 import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
@@ -119,15 +115,7 @@ public class AssessmentEventStartedTest {
 
     @Test
     public void caliperEventSerializesToJSON() throws Exception {
-        SimpleFilterProvider provider = new SimpleFilterProvider()
-            .setFailOnUnknownId(true);
-
-        ObjectMapper mapper = new ObjectMapper()
-            .setDateFormat(new ISO8601DateFormat())
-            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-            .setFilterProvider(provider)
-            .registerModules(new JodaModule(), new JxnCoercibleSimpleModule());
-
+        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
         String json = mapper.writeValueAsString(event);
 
         String fixture = jsonFixture("fixtures/caliperEventAssessmentStarted.json");
