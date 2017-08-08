@@ -34,8 +34,8 @@ public class LtiSession extends AbstractEntity {
     @JsonProperty("user")
     private final CaliperAgent user;
 
-    @JsonProperty("launchParameters")
-    private final Object launchParameters;
+    @JsonProperty("messageParameters")
+    private final Object messageParameters;
 
     @JsonIgnore
     private TimePeriod timePeriod = new TimePeriod();
@@ -50,7 +50,7 @@ public class LtiSession extends AbstractEntity {
         EntityValidator.checkDuration(builder.timePeriod.getDuration());
 
         this.user = builder.user;
-        this.launchParameters = builder.launchParameters;
+        this.messageParameters = builder.messageParameters;
         this.timePeriod.setStartedAtTime(builder.timePeriod.getStartedAtTime());
         this.timePeriod.setEndedAtTime(builder.timePeriod.getEndedAtTime());
         this.timePeriod.setDuration(builder.timePeriod.getDuration());
@@ -65,11 +65,11 @@ public class LtiSession extends AbstractEntity {
     }
 
     /**
-     * @return the LTI launchParameters
+     * @return the LTI messageParameters
      */
     @Nullable
-    public Object getLaunchParameters() {
-        return launchParameters;
+    public Object getMessageParameters() {
+        return messageParameters;
     }
 
     /**
@@ -102,7 +102,7 @@ public class LtiSession extends AbstractEntity {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T>  {
         private CaliperAgent user;
-        private Object launchParameters;
+        private Object messageParameters;
         private TimePeriod timePeriod = new TimePeriod();
 
         /**
@@ -122,11 +122,11 @@ public class LtiSession extends AbstractEntity {
         }
 
         /**
-         * @param launchParameters
+         * @param messageParameters
          * @return builder.
          */
-        public T launchParameters(Object launchParameters) {
-            this.launchParameters = launchParameters;
+        public T messageParameters(Object messageParameters) {
+            this.messageParameters = messageParameters;
             return self();
         }
 
