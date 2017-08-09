@@ -33,13 +33,7 @@ import javax.annotation.Nullable;
  * A Caliper CourseSection provides a subset of the CourseSection properties specified in the
  * IMS LTI 2.0 specification, which in turn, draws inspiration from the IMS LIS 1.0 specification.
  */
-public class CourseSection extends AbstractOrganization implements CaliperCourse {
-
-    @JsonProperty("courseNumber")
-    private final String courseNumber;
-
-    @JsonProperty("academicSession")
-    private final String academicSession;
+public class CourseSection extends CourseOffering {
 
     @JsonProperty("category")
     private final String category;
@@ -50,26 +44,7 @@ public class CourseSection extends AbstractOrganization implements CaliperCourse
     protected CourseSection(Builder<?> builder) {
         super(builder);
 
-        this.courseNumber = builder.courseNumber;
-        this.academicSession = builder.academicSession;
         this.category = builder.category;
-    }
-
-    /**
-     * The course number, such as "Biology 101". In general, this number is not simply a numeric value.
-     * @return the course number.
-     */
-    @Nullable
-    public String getCourseNumber() {
-        return courseNumber;
-    }
-
-    /**
-     * @return academic session
-     */
-    @Nullable
-    public String getAcademicSession() {
-        return academicSession;
     }
 
     /**
@@ -84,9 +59,7 @@ public class CourseSection extends AbstractOrganization implements CaliperCourse
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractOrganization.Builder<T> {
-        private String courseNumber;
-        private String academicSession;
+    public static abstract class Builder<T extends Builder<T>> extends CourseOffering.Builder<T> {
         private String category;
 
         /**
@@ -94,24 +67,6 @@ public class CourseSection extends AbstractOrganization implements CaliperCourse
          */
         public Builder() {
             super.type(EntityType.COURSE_SECTION);
-        }
-
-        /**
-         * @param courseNumber
-         * @return builder.
-         */
-        public T courseNumber(String courseNumber) {
-            this.courseNumber = courseNumber;
-            return self();
-        }
-
-        /**
-         * @param academicSession
-         * @return builder.
-         */
-        public T academicSession(String academicSession) {
-            this.academicSession = academicSession;
-            return self();
         }
 
         /**
