@@ -37,7 +37,7 @@ import java.util.List;
 public class Membership extends AbstractEntity {
 
     @JsonProperty("member")
-    private final Person member;
+    private final CaliperAgent member;
 
     @JsonProperty("organization")
     private final CaliperOrganization organization;
@@ -64,7 +64,7 @@ public class Membership extends AbstractEntity {
      * @return the person involved in the membership relationship.
      */
     @Nonnull
-    public Person getMember() {
+    public CaliperAgent getMember() {
         return member;
     }
 
@@ -97,7 +97,7 @@ public class Membership extends AbstractEntity {
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
-        private Person member;
+        private CaliperAgent member;
         private CaliperOrganization organization;
         private List<Role> roles = Lists.newArrayList();
         private Status status;
@@ -113,7 +113,7 @@ public class Membership extends AbstractEntity {
          * @param member
          * @return builder.
          */
-        public T member(Person member) {
+        public T member(CaliperAgent member) {
             this.member = member;
             return self();
         }

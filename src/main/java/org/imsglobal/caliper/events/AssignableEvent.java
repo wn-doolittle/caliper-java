@@ -21,7 +21,6 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.entities.resource.CaliperAssignable;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
@@ -38,9 +37,6 @@ import javax.annotation.Nonnull;
     Action.SUBMITTED
 })
 public class AssignableEvent extends AbstractEvent {
-
-    @JsonProperty("actor")
-    private final Person actor;
 
     @JsonProperty("object")
     private final CaliperAssignable object;
@@ -62,18 +58,7 @@ public class AssignableEvent extends AbstractEvent {
         EventValidator.checkType(this.getType(), EventType.ASSIGNABLE);
         EventValidator.checkAction(this.getAction(), AssignableEvent.class);
 
-        this.actor = builder.actor;
         this.object = builder.object;
-    }
-
-    /**
-     * Required.
-     * @return the actor
-     */
-    @Override
-    @Nonnull
-    public Person getActor() {
-        return actor;
     }
 
     /**
@@ -91,7 +76,6 @@ public class AssignableEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
-        private Person actor;
         private CaliperAssignable object;
 
         /*
@@ -99,15 +83,6 @@ public class AssignableEvent extends AbstractEvent {
          */
         public Builder() {
             super.type(EventType.ASSIGNABLE);
-        }
-
-        /**
-         * @param actor
-         * @return builder.
-         */
-        public T actor(Person actor) {
-            this.actor = actor;
-            return self();
         }
 
         /**
