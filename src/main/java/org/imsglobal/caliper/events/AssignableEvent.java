@@ -21,7 +21,7 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.imsglobal.caliper.entities.resource.CaliperAssignable;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ import javax.annotation.Nonnull;
 public class AssignableEvent extends AbstractEvent {
 
     @JsonProperty("actor")
-    private final Person actor;
+    private final CaliperAgent actor;
 
     @JsonProperty("object")
     private final CaliperAssignable object;
@@ -72,7 +72,7 @@ public class AssignableEvent extends AbstractEvent {
      */
     @Override
     @Nonnull
-    public Person getActor() {
+    public CaliperAgent getActor() {
         return actor;
     }
 
@@ -91,7 +91,7 @@ public class AssignableEvent extends AbstractEvent {
      * @param <T> builder
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
-        private Person actor;
+        private CaliperAgent actor;
         private CaliperAssignable object;
 
         /*
@@ -105,7 +105,7 @@ public class AssignableEvent extends AbstractEvent {
          * @param actor
          * @return builder.
          */
-        public T actor(Person actor) {
+        public T actor(CaliperAgent actor) {
             this.actor = actor;
             return self();
         }
