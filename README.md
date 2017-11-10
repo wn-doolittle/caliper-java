@@ -5,6 +5,8 @@ caliper-java is a Java client for [Caliper](http://www.imsglobal.org/caliper) th
 
 ## Building caliper-java
 
+`caliper-common-fixtures` is required. Clone `caliper-common-fixtures` and add a symbolic link: `ln -s /Path/to/caliper-common-fixtures/src/test/resources/fixtures/ src/test/resources/fixtures`
+
 You can build `caliper-java` by running:
 ```
 mvn clean install
