@@ -41,7 +41,7 @@ mvn clean -P uber-jar install
 This will create a jar in: `target/caliper-java-{version}.jar`
 
 ### Dependency Management
-You can specify `caliper-java` as a project or module dependency in the appropriate `pom.xml` file:
+You can specify *caliper-java* as a project or module dependency in the appropriate `pom.xml` file:
 
 ```
 <dependency>
