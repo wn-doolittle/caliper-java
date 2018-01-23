@@ -18,153 +18,120 @@
 
 package org.imsglobal.caliper.entities.session;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.BaseEntity;
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.foaf.Agent;
+import org.imsglobal.caliper.entities.TimePeriod;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Session extends BaseEntity implements org.imsglobal.caliper.entities.Generatable,
-                                               org.imsglobal.caliper.entities.Targetable {
-    @JsonProperty("@type")
-    private final String type;
+public class Session extends AbstractEntity {
 
-    @JsonProperty("actor")
-    private final Agent actor;
+    @JsonProperty("user")
+    private final CaliperAgent user;
 
-    @JsonProperty("startedAtTime")
-    private DateTime startedAtTime;
-
-    @JsonProperty("endedAtTime")
-    private DateTime endedAtTime;
-
-    @JsonProperty("duration")
-    private String duration;
+    @JsonIgnore
+    private TimePeriod timePeriod = new TimePeriod();
 
     /**
-     * @param builder apply builder object properties to the WebPage object.
+     * @param builder apply builder object properties to the Session object.
      */
     protected Session(Builder<?> builder) {
         super(builder);
 
-        EntityValidator.checkType(builder.type, EntityType.SESSION);
-        EntityValidator.checkActorType(builder.actor, Person.class);
-        EntityValidator.checkStartTime(builder.startedAtTime, builder.endedAtTime);
-        EntityValidator.checkDuration(builder.duration);
+        EntityValidator.checkStartTime(builder.timePeriod.getStartedAtTime(), builder.timePeriod.getEndedAtTime());
+        EntityValidator.checkDuration(builder.timePeriod.getDuration());
 
-        this.type = builder.type;
-        this.actor = builder.actor;
-        this.startedAtTime = builder.startedAtTime;
-        this.endedAtTime = builder.endedAtTime;
-        this.duration = builder.duration;
+        this.user = builder.user;
+        this.timePeriod.setStartedAtTime(builder.timePeriod.getStartedAtTime());
+        this.timePeriod.setEndedAtTime(builder.timePeriod.getEndedAtTime());
+        this.timePeriod.setDuration(builder.timePeriod.getDuration());
     }
 
     /**
-     * @return the type
+     * @return the session user
      */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
+    @Nullable
+    public CaliperAgent getUser() {
+        return user;
     }
 
     /**
-     * @return the actor
-     */
-    @Nonnull
-    public Agent getActor() {
-        return actor;
-    }
-
-    /**
-     * @return session start time
+     * @return started at time
      */
     @Nullable
     public DateTime getStartedAtTime() {
-        return startedAtTime;
+        return timePeriod.getStartedAtTime();
     }
 
     /**
-     * @return session end time
+     * @return ended at time
      */
     @Nullable
     public DateTime getEndedAtTime() {
-        return endedAtTime;
+        return timePeriod.getEndedAtTime();
     }
 
     /**
-     * @return session duration
+     * @return duration
      */
     @Nullable
     public String getDuration() {
-        return duration;
+        return timePeriod.getDuration();
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
-        private String type;
-        private Agent actor;
-        private DateTime startedAtTime;
-        private DateTime endedAtTime;
-        private String duration;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T>  {
+        private CaliperAgent user;
+        private TimePeriod timePeriod = new TimePeriod();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            type(EntityType.SESSION.getValue());
+            super.type(EntityType.SESSION);
         }
 
         /**
-         * @param type
+         * @param user
          * @return builder.
          */
-        private T type(String type) {
-            this.type = type;
-            return self();
-        }
-
-        /**
-         * @param actor
-         * @return builder.
-         */
-        public T actor(Agent actor) {
-            this.actor = actor;
+        public T user(CaliperAgent user) {
+            this.user = user;
             return self();
         }
 
         /**
          * @param startedAtTime
-         * @return builder.
+         * @return
          */
         public T startedAtTime(DateTime startedAtTime) {
-            this.startedAtTime = startedAtTime;
+            this.timePeriod.setStartedAtTime(startedAtTime);
             return self();
         }
 
         /**
          * @param endedAtTime
-         * @return builder.
+         * @return builder
          */
         public T endedAtTime(DateTime endedAtTime) {
-            this.endedAtTime = endedAtTime;
+            this.timePeriod.setEndedAtTime(endedAtTime);
             return self();
         }
 
         /**
          * @param duration
-         * @return builder.
+         * @return
          */
         public T duration(String duration) {
-            this.duration = duration;
+            this.timePeriod.setDuration(duration);
             return self();
         }
 

@@ -18,89 +18,31 @@
 
 package org.imsglobal.caliper.entities.agent;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.BaseEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.validators.EntityValidator;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
- * A collection of people organized together into a community or other social, commercial or political structure.
- * The group has some common purpose or reason for existence which goes beyond the set of people belonging to it
- * and can act as an Agent. Organizations are often decomposable into hierarchical structures.
+ * Concrete implementation of a generic Organization.
  */
-
-public class Organization extends BaseEntity implements org.imsglobal.caliper.entities.foaf.Agent,
-                                                    org.imsglobal.caliper.entities.w3c.Organization {
-
-    @JsonProperty("@type")
-    private final String type;
-
-    @JsonProperty("subOrganizationOf")
-    private final org.imsglobal.caliper.entities.w3c.Organization subOrganizationOf;
+public class Organization extends AbstractOrganization implements CaliperOrganization {
 
     /**
-     * @param builder apply builder object properties to the Organization object.
+     * @param builder apply builder object properties to the object.
      */
     protected Organization(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, EntityType.ORGANIZATION);
-
-        this.type = builder.type;
-        this.subOrganizationOf = builder.subOrganizationOf;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * @return parent organization
-     */
-    @Nullable
-    public org.imsglobal.caliper.entities.w3c.Organization getSubOrganizationOf() {
-        return subOrganizationOf;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
-        private String type;
-        private org.imsglobal.caliper.entities.w3c.Organization subOrganizationOf;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractOrganization.Builder<T> {
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            type(EntityType.ORGANIZATION.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
-        }
-
-        /**
-         * @param subOrganizationOf
-         * @return builder.
-         */
-        public T subOrganizationOf(org.imsglobal.caliper.entities.w3c.Organization subOrganizationOf) {
-            this.subOrganizationOf = subOrganizationOf;
-            return self();
+            super.type(EntityType.ORGANIZATION);
         }
 
         /**

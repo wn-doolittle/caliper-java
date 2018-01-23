@@ -18,64 +18,26 @@
 
 package org.imsglobal.caliper.entities.annotation;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.BaseEntity;
-import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class SharedAnnotation extends BaseEntity implements Annotation {
-
-    @JsonProperty("@type")
-    private final String type;
-
-    @JsonProperty("annotated")
-    private DigitalResource annotated;
+public class SharedAnnotation extends AbstractAnnotation {
 
     @JsonProperty("withAgents")
-    private final ImmutableList<Agent> withAgents;
+    private final ImmutableList<CaliperAgent> withAgents;
 
     /**
-     * @param builder apply builder object properties to the SharedAnnotation object.
+     * @param builder apply builder object properties to the object.
      */
     protected SharedAnnotation(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, AnnotationType.SHARED_ANNOTATION);
-        EntityValidator.checkId("annotated Id", builder.annotated.getId());
-
-        this.type = builder.type;
-        this.annotated = builder.annotated;
         this.withAgents = ImmutableList.copyOf(builder.withAgents);
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * Serialization of DigitalResource associated with this Annotation is limited to
-     * the identifying URI only.
-     * @return the annotated object's identifier
-     */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @Nonnull
-    public DigitalResource getAnnotated() {
-        return annotated;
     }
 
     /**
@@ -83,56 +45,36 @@ public class SharedAnnotation extends BaseEntity implements Annotation {
      * @return the users
      */
     @Nullable
-    public ImmutableList<Agent> getWithAgents() {
+    public ImmutableList<CaliperAgent> getWithAgents() {
         return withAgents;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
-        private String type;
-        private DigitalResource annotated;
-        private List<Agent> withAgents = Lists.newArrayList();
+    public static abstract class Builder<T extends Builder<T>> extends AbstractAnnotation.Builder<T> {
+        private List<CaliperAgent> withAgents = Lists.newArrayList();
 
         /**
-         * Initialize type with default value.  Required if builder().type() is not set by user.
+         * Constructor
          */
         public Builder() {
-            type(AnnotationType.SHARED_ANNOTATION.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
-        }
-
-        /**
-         * @param annotated
-         * @return builder.
-         */
-        public T annotated(DigitalResource annotated) {
-            this.annotated = annotated;
-            return self();
+            super.type(EntityType.SHARED_ANNOTATION);
         }
 
         /**
          * @param withAgents
          * @return shared agents.
          */
-        public T withAgents(List<Agent> withAgents) {
+        public T withAgents(List<CaliperAgent> withAgents) {
             this.withAgents = withAgents;
             return self();
         }
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of SharedAnnotation.
+         * @return a new instance of the SharedAnnotation.
          */
         public SharedAnnotation build() {
             return new SharedAnnotation(this);

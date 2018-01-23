@@ -67,7 +67,7 @@ public class TimeValidator {
      * @throws IllegalArgumentException
      */
     protected static void checkStartTime(DateTime start, DateTime end) throws IllegalArgumentException {
-        checkArgument(checkDateTime(start), "start time must be specified");
+        // checkArgument(checkDateTime(start), "start time must be specified"); // SHOULD not MUST
         if (checkDateTime(end)) {
             checkArgument(isBefore(start, end), "start time %s must precede specified end time %s", start, end);
         }

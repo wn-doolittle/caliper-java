@@ -19,13 +19,12 @@
 package org.imsglobal.caliper.validators;
 
 import com.google.common.base.Strings;
-import org.imsglobal.caliper.context.Context;
-import org.imsglobal.caliper.entities.Type;
-import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.entities.foaf.Agent;
-import org.imsglobal.caliper.entities.lis.Membership;
-import org.imsglobal.caliper.entities.lis.Status;
-import org.imsglobal.caliper.entities.lis.SupportedStatuses;
+import org.imsglobal.caliper.events.CaliperEventType;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
+import org.imsglobal.caliper.entities.agent.Membership;
+import org.imsglobal.caliper.entities.agent.Status;
+import org.imsglobal.caliper.entities.agent.SupportedStatuses;
+import org.imsglobal.caliper.entities.resource.Attempt;
 import org.joda.time.DateTime;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -45,9 +44,11 @@ public class EntityValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkContext(String context, Context expected) throws IllegalArgumentException {
-        checkArgument(context.equals(expected.getValue()), "expected @context %s but was %s", expected.getValue(), context);
+    /**
+    public static void checkContext(Context context, Context expected) throws IllegalArgumentException {
+        checkArgument(context.equals(expected), "expected @context %s but was %s", expected, context);
     }
+     */
 
     /**
      * Check if identifier is null or empty.
@@ -64,8 +65,8 @@ public class EntityValidator {
      * @param expected
      * @throws IllegalArgumentException
      */
-    public static void checkType(String type, Type expected) throws IllegalArgumentException {
-        checkArgument(type.equals(expected.getValue()), "expected @type %s but was %s", expected.getValue(), type);
+    public static void checkType(CaliperEventType type, CaliperEventType expected) throws IllegalArgumentException {
+        checkArgument(type.value().equals(expected.value()), "expected @type %s but was %s", expected.value(), type);
     }
 
     /**
@@ -74,7 +75,7 @@ public class EntityValidator {
      * @param type
      * @throws IllegalArgumentException
      */
-    public static void checkActorType(Agent actor, Class<?> type) throws IllegalArgumentException {
+    public static void checkActorType(CaliperAgent actor, Class<?> type) throws IllegalArgumentException {
         TypeValidator.checkActorType(actor, type);
     }
 
@@ -101,7 +102,7 @@ public class EntityValidator {
      * @param status
      * @throws IllegalArgumentException
      */
-    public static void checkMembershipStatus(org.imsglobal.caliper.entities.w3c.Status status) throws IllegalArgumentException {
+    public static void checkMembershipStatus(Status status) throws IllegalArgumentException {
         checkArgument(status != null, "membership status must be specified");
 
         SupportedStatuses statuses = Membership.class.getAnnotation(SupportedStatuses.class);

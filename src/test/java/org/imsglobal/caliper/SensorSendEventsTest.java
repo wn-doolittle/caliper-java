@@ -19,84 +19,115 @@
 package org.imsglobal.caliper;
 
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.LearningContext;
+import org.imsglobal.caliper.clients.HttpClient;
+import org.imsglobal.caliper.clients.HttpClientOptions;
+import org.imsglobal.caliper.config.Config;
+import org.imsglobal.caliper.context.JsonldStringContext;
+import org.imsglobal.caliper.entities.agent.CourseSection;
+import org.imsglobal.caliper.entities.agent.Membership;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.reading.EpubSubChapter;
-import org.imsglobal.caliper.entities.reading.EpubVolume;
-import org.imsglobal.caliper.entities.reading.Frame;
-import org.imsglobal.caliper.entities.reading.WebPage;
-import org.imsglobal.caliper.events.Event;
+import org.imsglobal.caliper.entities.agent.Role;
+import org.imsglobal.caliper.entities.agent.SoftwareApplication;
+import org.imsglobal.caliper.entities.agent.Status;
+import org.imsglobal.caliper.entities.resource.WebPage;
+import org.imsglobal.caliper.entities.session.Session;
 import org.imsglobal.caliper.events.NavigationEvent;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
 // @Category(org.imsglobal.caliper.UnitTest.class)
 public class SensorSendEventsTest {
+    private static final String BASE_IRI = "https://example.edu";
 
-    private LearningContext learningContext;
-    private Person actor;
-    private EpubVolume object;
-    private DigitalResource fromResource;
-    private EpubSubChapter ePub;
-    private Frame target;
-    private DateTime dateCreated = TestDates.getDefaultDateCreated();
-    private DateTime dateModified = TestDates.getDefaultDateModified();
-    private DateTime eventTime = TestDates.getDefaultStartedAtTime();
+    // private static final Logger log = LoggerFactory.getLogger(SensorSendEventsTest.class);
 
     @Test
     public void test() {
 
-        // Create Sensor, create client, register client with sensor.
-        Sensor<String> sensor = new Sensor<>("https://example.edu/sensor/001");
-        Client client = new Client(sensor.getId() + "/defaultClient", TestUtils.getTestingOptions());
-        sensor.registerClient(client.getId(), client);
+        // Initialize Sensor, Client and Requestor provisioned with Options
+        Sensor sensor = Sensor.create(BASE_IRI.concat("/sensors/1"));
+        HttpClientOptions opts = HttpClientOptions.builder().apiKey("869e5ce5-214c-4e85-86c6-b99e8458a592").build();
+        HttpClient client = HttpClient.create(sensor.getId(), opts);
+        sensor.registerClient(client);
 
-        // Build the Learning Context
-        learningContext = LearningContext.builder()
-            .edApp(TestAgentEntities.buildEpubViewerApp())
-            .group(TestLisEntities.buildGroup())
-            .membership(TestLisEntities.buildMembership())
-            .build();
-
-        // Build actor
-        actor = TestAgentEntities.buildStudent554433();
-
-        // Build object
-        object = TestEpubEntities.buildEpubVolume43();
-
-        // Build previous location
-        fromResource = WebPage.builder()
-            .id("https://example.edu/politicalScience/2015/american-revolution-101/index.html")
-            .name("American Revolution 101 Landing Page")
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version("1.0")
-            .build();
-
-        // Build target frame
-        ePub = TestEpubEntities.buildEpubSubChap431();
-        target = Frame.builder()
-            .id(ePub.getId())
-            .name(ePub.getName())
-            .isPartOf(ePub.getIsPartOf())
-            .dateCreated(dateCreated)
-            .dateModified(dateModified)
-            .version(ePub.getVersion())
-            .index(1)
-            .build();
-
-        // Fire event test - Send 50 events
+        // Fire event test - Send 50 envelopes containing the above event
         for (int i = 0 ; i < 50 ; i++) {
-            Event event = buildEvent(Action.NAVIGATED_TO);
-            sensor.send(sensor, event);
+            JsonldStringContext context = JsonldStringContext.getDefault();
+
+            String id = "urn:id:" + UUID.randomUUID().toString();
+
+            Person actor = Person.builder().id(BASE_IRI.concat("/users/554433")).build();
+
+            String currentLocation = BASE_IRI.concat("/terms/201601/courses/7/sections/1/pages/" + (i + 2));
+            String previousLocation = BASE_IRI.concat("/terms/201601/courses/7/sections/1/pages/" + (i + 1));
+
+            WebPage object = WebPage.builder()
+                .id(currentLocation)
+                .name("Learning Analytics Specifications")
+                .description("Overview of Learning Analytics Specifications with particular emphasis on IMS Caliper.")
+                .dateCreated(new DateTime(2016, 8, 1, 9, 0, 0, 0, DateTimeZone.UTC))
+                .build();
+
+            WebPage referrer = WebPage.builder().id(previousLocation).build();
+
+            SoftwareApplication edApp = SoftwareApplication.builder().id(BASE_IRI).build();
+
+            CourseSection group = CourseSection.builder().id(BASE_IRI.concat("/terms/201601/courses/7/sections/1"))
+                .courseNumber("CPS 435-01")
+                .academicSession("Fall 2016")
+                .build();
+
+            Membership membership = Membership.builder()
+                .id(BASE_IRI.concat("/terms/201601/courses/7/sections/1/rosters/1"))
+                .member(actor)
+                .organization(CourseSection.builder().id(group.getId()).build())
+                .status(Status.ACTIVE)
+                .role(Role.LEARNER)
+                .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
+                .build();
+
+            Session session = Session.builder()
+                .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
+                .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
+                .build();
+
+            NavigationEvent event = NavigationEvent.builder()
+                .context(context)
+                .id(id)
+                .actor(actor)
+                .action(Action.NAVIGATED_TO)
+                .object(object)
+                .eventTime(new DateTime(DateTimeZone.UTC))
+                .referrer(referrer)
+                .edApp(edApp)
+                .group(group)
+                .membership(membership)
+                .session(session)
+                .build();
+
+            // Prep envelope
+            DateTime sendTime = new DateTime(DateTimeZone.UTC);
+            List<Object> data = new ArrayList<>();
+            data.add(event);
+
+            Envelope envelope = sensor.create(client.getId(), sendTime, Config.DATA_VERSION, data);
+
+            // Send envelope
+            sensor.send(client, envelope);
         }
 
         // There should be two caliperEvents queued
         assertEquals("Expect fifty Caliper events to be sent", 50,
                 sensor.getStatistics().get("default").getMeasures().getCount());
+
+        //Statistic statistics = client.getStatistics().get("default");
 
         // TODO - Describes test - Send five describes
 
@@ -110,24 +141,5 @@ public class SensorSendEventsTest {
         // There should be zero failures
         int failures = sensor.getStatistics().get("default").getFailed().getCount();
         assertEquals("Expect zero message failures to be sent", 0, failures);
-    }
-
-    /**
-     * Build Navigation event
-     * @param action
-     * @return event
-     */
-    private NavigationEvent buildEvent(Action action) {
-        return NavigationEvent.builder()
-            .actor(actor)
-            .action(action.getValue())
-            .object(object)
-            .target(target)
-            .fromResource(fromResource)
-            .eventTime(eventTime)
-            .edApp(learningContext.getEdApp())
-            .group(learningContext.getGroup())
-            .membership(learningContext.getMembership())
-            .build();
     }
 }

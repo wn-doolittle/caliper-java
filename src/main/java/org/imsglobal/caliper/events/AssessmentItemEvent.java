@@ -20,11 +20,11 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.assessment.AssessmentItem;
-import org.imsglobal.caliper.entities.assignable.Attempt;
-import org.imsglobal.caliper.entities.response.BaseResponse;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.resource.AssessmentItem;
+import org.imsglobal.caliper.entities.resource.Attempt;
+import org.imsglobal.caliper.entities.response.CaliperResponse;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,17 +34,15 @@ import javax.annotation.Nonnull;
 @SupportedActions({
     Action.STARTED,
     Action.COMPLETED,
-    Action.SKIPPED,
-    Action.REVIEWED,
-    Action.VIEWED
+    Action.SKIPPED
 })
-public class AssessmentItemEvent extends BaseEventContext {
+public class AssessmentItemEvent extends AbstractEvent {
 
-    @JsonProperty("@type")
-    private final String type;
+    @JsonProperty("actor")
+    private final Person actor;
 
-    @JsonProperty("action")
-    private final String action;
+    @JsonProperty("object")
+    private final AssessmentItem object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssessmentItemEvent.class);
@@ -60,72 +58,71 @@ public class AssessmentItemEvent extends BaseEventContext {
     protected AssessmentItemEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(builder.type, EventType.ASSESSMENT_ITEM);
-        EventValidator.checkActorType(getActor(), Person.class);
-        EventValidator.checkAction(builder.action, AssessmentItemEvent.class);
-        EventValidator.checkObjectType(getObject(), AssessmentItem.class);
+        EventValidator.checkType(this.getType(), EventType.ASSESSMENT_ITEM);
+        EventValidator.checkAction(this.getAction(), AssessmentItemEvent.class);
 
-        if (builder.action.equals(Action.COMPLETED.getValue())) {
-            EventValidator.checkGeneratedType(getGenerated(), BaseResponse.class);
-        } else {
-            EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+        if (this.getAction().equals(Action.STARTED) && !(this.getGenerated() == null)) {
+            EventValidator.checkGeneratedType(this.getGenerated(), Attempt.class);
         }
 
-        this.type = builder.type;
-        this.action = builder.action;
+        if (this.getAction().equals(Action.COMPLETED) && !(this.getGenerated() == null)) {
+            EventValidator.checkGeneratedType(this.getGenerated(), CaliperResponse.class);
+        }
+
+        this.actor = builder.actor;
+        this.object = builder.object;
     }
 
     /**
      * Required.
-     * @return the type
+     * @return the actor
      */
     @Override
     @Nonnull
-    public String getType() {
-        return type;
+    public Person getActor() {
+        return actor;
     }
 
     /**
      * Required.
-     * @return the action
+     * @return the object
      */
     @Override
     @Nonnull
-    public String getAction() {
-        return action;
+    public AssessmentItem getObject() {
+        return object;
     }
 
     /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
-        private String type;
-        private String action;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private AssessmentItem object;
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.ASSESSMENT_ITEM.getValue());
+            super.type(EventType.ASSESSMENT_ITEM);
         }
 
         /**
-         * @param type
+         * @param actor
          * @return builder.
          */
-        private T type(String type) {
-            this.type = type;
+        public T actor(Person actor) {
+            this.actor = actor;
             return self();
         }
 
         /**
-         * @param action
+         * @param object
          * @return builder.
          */
-        @Override
-        public T action(String action) {
-            this.action = action;
+        public T object(AssessmentItem object) {
+            this.object = object;
             return self();
         }
 

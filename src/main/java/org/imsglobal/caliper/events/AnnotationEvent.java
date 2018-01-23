@@ -21,41 +21,32 @@ package org.imsglobal.caliper.events;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.annotation.Annotation;
+import org.imsglobal.caliper.entities.annotation.CaliperAnnotation;
+import org.imsglobal.caliper.entities.resource.CaliperDigitalResource;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @SupportedActions({
-    Action.ATTACHED,
     Action.BOOKMARKED,
-    Action.CLASSIFIED,
-    Action.COMMENTED,
-    Action.DESCRIBED,
-    Action.DISLIKED,
     Action.HIGHLIGHTED,
-    Action.IDENTIFIED,
-    Action.LIKED,
-    Action.LINKED,
-    Action.RANKED,
-    Action.QUESTIONED,
-    Action.RECOMMENDED,
-    Action.REPLIED,
     Action.SHARED,
-    Action.SUBSCRIBED,
     Action.TAGGED
 })
-public class AnnotationEvent extends BaseEventContext {
+public class AnnotationEvent extends AbstractEvent {
 
-    @JsonProperty("@type")
-    private final String type;
+    @JsonProperty("actor")
+    private final Person actor;
 
-    @JsonProperty("action")
-    private final String action;
+    @JsonProperty("object")
+    private final CaliperDigitalResource object;
+
+    @JsonProperty("generated")
+    private final CaliperAnnotation generated;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AnnotationEvent.class);
@@ -71,67 +62,84 @@ public class AnnotationEvent extends BaseEventContext {
     protected AnnotationEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(builder.type, EventType.ANNOTATION);
-        EventValidator.checkActorType(getActor(), Person.class);
-        EventValidator.checkAction(builder.action, AnnotationEvent.class);
-        EventValidator.checkObjectType(getObject(), DigitalResource.class);
-        EventValidator.checkGeneratedType(getGenerated(), Annotation.class);
+        EventValidator.checkType(this.getType(), EventType.ANNOTATION);
+        EventValidator.checkAction(this.getAction(), AnnotationEvent.class);
 
-        this.type = builder.type;
-        this.action = builder.action;
+        this.actor = builder.actor;
+        this.object = builder.object;
+        this.generated = builder.generated;
     }
 
     /**
      * Required.
-     * @return the type
+     * @return the actor
      */
     @Override
     @Nonnull
-    public String getType() {
-        return type;
+    public Person getActor() {
+        return actor;
     }
 
     /**
      * Required.
-     * @return the action
+     * @return the object
      */
     @Override
     @Nonnull
-    public String getAction() {
-        return action;
+    public CaliperDigitalResource getObject() {
+        return object;
+    }
+
+    /**
+     * Get the generated Annotation.
+     * @return the generated object
+     */
+    @Override
+    @Nullable
+    public CaliperAnnotation getGenerated() {
+        return generated;
     }
 
     /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
-        private String type;
-        private String action;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private CaliperDigitalResource object;
+        private CaliperAnnotation generated;
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.ANNOTATION.getValue());
+            super.type(EventType.ANNOTATION);
         }
 
         /**
-         * @param type
+         * @param actor
          * @return builder.
          */
-        private T type(String type) {
-            this.type = type;
+        public T actor(Person actor) {
+            this.actor = actor;
             return self();
         }
 
         /**
-         * @param action
+         * @param object
          * @return builder.
          */
-        @Override
-        public T action(String action) {
-            this.action = action;
+        public T object(CaliperDigitalResource object) {
+            this.object = object;
+            return self();
+        }
+
+        /**
+         * @param generated
+         * @return builder.
+         */
+        public T generated(CaliperAnnotation generated) {
+            this.generated = generated;
             return self();
         }
 

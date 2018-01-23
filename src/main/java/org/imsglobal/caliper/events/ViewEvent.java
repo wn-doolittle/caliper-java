@@ -20,24 +20,23 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.DigitalResource;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.resource.CaliperDigitalResource;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 
-@SupportedActions({
-    Action.VIEWED
-})
-public class ViewEvent extends BaseEventContext {
+@SupportedActions({ Action.VIEWED })
+public class ViewEvent extends AbstractEvent {
 
-    @JsonProperty("@type")
-    private final String type;
+    @JsonProperty("actor")
+    private final Person actor;
 
-    @JsonProperty("action")
-    private final String action;
+    @JsonProperty("object")
+    private final CaliperDigitalResource object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(ViewEvent.class);
@@ -53,67 +52,63 @@ public class ViewEvent extends BaseEventContext {
     protected ViewEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(builder.type, EventType.VIEW);
-        EventValidator.checkAction(builder.action, ViewEvent.class);
-        EventValidator.checkObjectType(getObject(), DigitalResource.class);
-        EventValidator.checkTargetType(getTarget(), DigitalResource.class);
+        EventValidator.checkType(this.getType(), EventType.VIEW);
+        EventValidator.checkAction(this.getAction(), ViewEvent.class);
 
-        this.type = builder.type;
-        this.action = builder.action;
+        this.actor = builder.actor;
+        this.object = builder.object;
     }
 
     /**
      * Required.
-     * @return the type
+     * @return the actor
      */
     @Override
     @Nonnull
-    public String getType() {
-        return type;
+    public Person getActor() {
+        return actor;
     }
 
     /**
      * Required.
-     * @return the action
+     * @return the object
      */
     @Override
     @Nonnull
-    public String getAction() {
-        return action;
+    public CaliperDigitalResource getObject() {
+        return object;
     }
 
     /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
-        private String type;
-        private String action;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private CaliperDigitalResource object;
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.VIEW.getValue());
-            action(Action.VIEWED.getValue());
+            super.type(EventType.VIEW);
         }
 
         /**
-         * @param type
+         * @param actor
          * @return builder.
          */
-        private T type(String type) {
-            this.type = type;
+        public T actor(Person actor) {
+            this.actor = actor;
             return self();
         }
 
         /**
-         * @param action
+         * @param object
          * @return builder.
          */
-        @Override
-        public T action(String action) {
-            this.action = action;
+        public T object(CaliperDigitalResource object) {
+            this.object = object;
             return self();
         }
 

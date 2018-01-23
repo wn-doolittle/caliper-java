@@ -20,29 +20,34 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.assessment.Assessment;
-import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.resource.Assessment;
+import org.imsglobal.caliper.entities.resource.Attempt;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @SupportedActions({
     Action.STARTED,
     Action.PAUSED,
     Action.RESTARTED,
+    Action.RESUMED,
     Action.SUBMITTED
 })
-public class AssessmentEvent extends BaseEventContext {
+public class AssessmentEvent extends AbstractEvent {
 
-    @JsonProperty("@type")
-    private final String type;
+    @JsonProperty("actor")
+    private final Person actor;
 
-    @JsonProperty("action")
-    private final String action;
+    @JsonProperty("object")
+    private final Assessment object;
+
+    @JsonProperty("generated")
+    private final Attempt generated;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssessmentEvent.class);
@@ -58,65 +63,84 @@ public class AssessmentEvent extends BaseEventContext {
     protected AssessmentEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(builder.type, EventType.ASSESSMENT);
-        EventValidator.checkActorType(getActor(), Person.class);
-        EventValidator.checkAction(builder.action, AssessmentEvent.class);
-        EventValidator.checkObjectType(getObject(), Assessment.class);
-        EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+        EventValidator.checkType(this.getType(), EventType.ASSESSMENT);
+        EventValidator.checkAction(this.getAction(), AssessmentEvent.class);
 
-        this.type = builder.type;
-        this.action = builder.action;
+        this.actor = builder.actor;
+        this.object = builder.object;
+        this.generated = builder.generated;
     }
 
     /**
-     * @return the type
+     * Required.
+     * @return the actor
      */
     @Override
     @Nonnull
-    public String getType() {
-        return type;
+    public Person getActor() {
+        return actor;
     }
 
     /**
-     * @return the action
+     * Required.
+     * @return the object
      */
     @Override
     @Nonnull
-    public String getAction() {
-        return action;
+    public Assessment getObject() {
+        return object;
+    }
+
+    /**
+     * Get the generated Attempt.
+     * @return the generated object
+     */
+    @Override
+    @Nullable
+    public Attempt getGenerated() {
+        return generated;
     }
 
     /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
-        private String type;
-        private String action;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private Assessment object;
+        private Attempt generated;
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.ASSESSMENT.getValue());
+            super.type(EventType.ASSESSMENT);
         }
 
         /**
-         * @param type
+         * @param actor
          * @return builder.
          */
-        private T type(String type) {
-            this.type = type;
+        public T actor(Person actor) {
+            this.actor = actor;
             return self();
         }
 
         /**
-         * @param action
+         * @param object
          * @return builder.
          */
-        @Override
-        public T action(String action) {
-            this.action = action;
+        public T object(Assessment object) {
+            this.object = object;
+            return self();
+        }
+
+        /**
+         * @param generated
+         * @return builder.
+         */
+        public T generated(Attempt generated) {
+            this.generated = generated;
             return self();
         }
 

@@ -19,58 +19,53 @@
 package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.BaseEntity;
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.CaliperReferrer;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-public class SoftwareApplication extends BaseEntity implements org.imsglobal.caliper.entities.foaf.Agent,
-                                                           org.imsglobal.caliper.entities.schemadotorg.SoftwareApplication {
+public class SoftwareApplication extends AbstractEntity implements CaliperAgent, CaliperReferrer {
 
-    @JsonProperty("@type")
-    private final String type;
+    @JsonProperty("version")
+    private final String version;
 
     /**
-     * @param builder apply builder object properties to the SoftwareApplication object.
+     * @param builder apply builder object properties to the object.
      */
     protected SoftwareApplication(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, EntityType.SOFTWARE_APPLICATION);
-
-        this.type = builder.type;
+        this.version = builder.version;
     }
 
     /**
-     * @return the type
+     * @return the version
      */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
+    @Nullable
+    public String getVersion() {
+        return version;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
-        private String type;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
+        private String version;
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            type(EntityType.SOFTWARE_APPLICATION.getValue());
+            super.type(EntityType.SOFTWARE_APPLICATION);
         }
 
         /**
-         * @param type
+         * @param version
          * @return builder.
          */
-        private T type(String type) {
-            this.type = type;
+        public T version(String version) {
+            this.version = version;
             return self();
         }
 

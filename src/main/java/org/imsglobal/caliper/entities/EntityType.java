@@ -20,23 +20,57 @@ package org.imsglobal.caliper.entities;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum EntityType implements Type {
-    ANNOTATION("http://purl.imsglobal.org/caliper/v1/Annotation"),
-    ATTEMPT("http://purl.imsglobal.org/caliper/v1/Attempt"),
-    COURSE_OFFERING("http://purl.imsglobal.org/caliper/v1/lis/CourseOffering"),
-    COURSE_SECTION("http://purl.imsglobal.org/caliper/v1/lis/CourseSection"),
-    DIGITAL_RESOURCE("http://purl.imsglobal.org/caliper/v1/DigitalResource"),
-    ENTITY("http://purl.imsglobal.org/caliper/v1/Entity"),
-    GROUP("http://purl.imsglobal.org/caliper/v1/lis/Group"),
-    LEARNING_OBJECTIVE("http://purl.imsglobal.org/caliper/v1/LearningObjective"),
-    MEMBERSHIP("http://purl.imsglobal.org/caliper/v1/lis/Membership"),
-    PERSON("http://purl.imsglobal.org/caliper/v1/lis/Person"),
-    ORGANIZATION("http://purl.imsglobal.org/caliper/v1/w3c/Organization"),
-    RESPONSE("http://purl.imsglobal.org/caliper/v1/Response"),
-    RESULT("http://purl.imsglobal.org/caliper/v1/Result"),
-    SESSION("http://purl.imsglobal.org/caliper/v1/Session"),
-    SOFTWARE_APPLICATION("http://purl.imsglobal.org/caliper/v1/SoftwareApplication"),
-    VIEW("http://purl.imsglobal.org/caliper/v1/View");
+public enum EntityType implements CaliperEntityType {
+    AGENT("Agent"),
+    ANNOTATION("Annotation"),
+    ASSESSMENT("Assessment"),
+    ASSESSMENT_ITEM("AssessmentItem"),
+    ASSIGNABLE_DIGITAL_RESOURCE("AssignableDigitalResource"),
+    ATTEMPT("Attempt"),
+    AUDIO_OBJECT("AudioObject"),
+    BOOKMARK_ANNOTATION("BookmarkAnnotation"),
+    CHAPTER("Chapter"),
+    COLLECTION("Collection"),
+    COURSE_OFFERING("CourseOffering"),
+    COURSE_SECTION("CourseSection"),
+    DIGITAL_RESOURCE("DigitalResource"),
+    DIGITAL_RESOURCE_COLLECTION("DigitalResourceCollection"),
+    DOCUMENT("Document"),
+    ENTITY("Entity"),
+    EPUB_CHAPTER("EpubChapter"),
+    EPUB_PART("EpubPart"),
+    EPUB_SUB_CHAPTER("EpubSubChapter"),
+    EPUB_VOLUME("EpubVolume"),
+    FILLINBLANK("FillinBlankResponse"),
+    FORUM("Forum"),
+    FRAME("Frame"),
+    GROUP("Group"),
+    HIGHLIGHT_ANNOTATION("HighlightAnnotation"),
+    IMAGE_OBJECT("ImageObject"),
+    LEARNING_OBJECTIVE("LearningObjective"),
+    LTI_SESSION("LtiSession"),
+    MEDIA_LOCATION("MediaLocation"),
+    MEDIA_OBJECT("MediaObject"),
+    MEMBERSHIP("Membership"),
+    MESSAGE("Message"),
+    MULTIPLECHOICE("MultipleChoiceResponse"),
+    MULTIPLERESPONSE("MultipleResponseResponse"),
+    PAGE("Page"),
+    PERSON("Person"),
+    ORGANIZATION("Organization"),
+    READING("Reading"),
+    RESPONSE("Response"),
+    RESULT("Result"),
+    SCORE("Score"),
+    SELECTTEXT("SelectTextResponse"),
+    SESSION("Session"),
+    SHARED_ANNOTATION("SharedAnnotation"),
+    SOFTWARE_APPLICATION("SoftwareApplication"),
+    TAG_ANNOTATION("TagAnnotation"),
+    THREAD("Thread"),
+    TRUEFALSE("TrueFalseResponse"),
+    VIDEO_OBJECT("VideoObject"),
+    WEB_PAGE("WebPage");
 
     private final String value;
 
@@ -52,7 +86,7 @@ public enum EntityType implements Type {
      * @return URI string
      */
     @JsonValue
-    public String getValue() {
+    public String value() {
         return value;
     }
 }

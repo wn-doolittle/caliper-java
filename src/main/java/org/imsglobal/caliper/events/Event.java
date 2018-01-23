@@ -18,57 +18,87 @@
 
 package org.imsglobal.caliper.events;
 
-import org.imsglobal.caliper.entities.Entity;
-import org.imsglobal.caliper.entities.foaf.Agent;
-import org.joda.time.DateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.validators.EventValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * The Event interface provides the minimal set of properties and behaviors required of a Caliper Event.
- * Note that the interface does not require inclusion of the learning context within which the event occurred, in
- * order to allow for a flexible approach as regards implementation.  However, events that are generated without
- * reference to the learning context will generally fail to reflect the Event model defined by most Metric Profiles
- * as well as Level 1+ conformance requirements.
+ * Concrete implementation of a generic Event.
  */
-public interface Event {
+@SupportedActions({
+    Action.ABANDONED, Action.ACTIVATED, Action.ADDED, Action.ATTACHED, Action.BOOKMARKED,
+    Action.CHANGED_RESOLUTION, Action.CHANGED_SIZE, Action.CHANGED_SPEED, Action.CHANGED_VOLUME,
+    Action.CLASSIFIED, Action.CLOSED_POPOUT, Action.COMMENTED, Action.COMPLETED, Action.CREATED,
+    Action.DEACTIVATED, Action.DELETED, Action.DESCRIBED, Action.DISABLED_CLOSED_CAPTIONING, Action.DISLIKED,
+    Action.ENABLED_CLOSED_CAPTIONING, Action.ENDED, Action.ENTERED_FULLSCREEN, Action.EXITED_FULLSCREEN,
+    Action.FORWARDED_TO, Action.GRADED, Action.HID, Action.HIGHLIGHTED, Action.IDENTIFIED, Action.JUMPED_TO,
+    Action.LIKED, Action.LINKED, Action.LOGGED_IN, Action.LOGGED_OUT, Action.MARKED_AS_READ,
+    Action.MARKED_AS_UNREAD, Action.MODIFIED, Action.MUTED, Action.NAVIGATED_TO, Action.OPENED_POPOUT,
+    Action.PAUSED, Action.POSTED, Action.QUESTIONED, Action.RANKED, Action.RECOMMENDED, Action.REPLIED,
+    Action.RESET, Action.RESTARTED, Action.RESUMED, Action.RETRIEVED, Action.REVIEWED, Action.REWOUND,
+    Action.SEARCHED, Action.SHARED, Action.SHOWED, Action.SKIPPED, Action.STARTED, Action.SUBMITTED,
+    Action.SUBSCRIBED, Action.TAGGED, Action.TIMED_OUT, Action.UNMUTED, Action.UNSUBSCRIBED, Action.USED,
+    Action.VIEWED
+})
+public class Event extends AbstractEvent {
+
+    @JsonIgnore
+    private static final Logger log = LoggerFactory.getLogger(Event.class);
 
     /**
-     * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
-     * should be expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the context IRI.
+     * Utilize builder to construct BasicEvent.  Validate View object copy rather than the
+     * View builder.  This approach protects the class against parameter changes from another
+     * thread during the "window of vulnerability" between the time the parameters are checked
+     * until when they are copied.
+     *
+     * @param builder
      */
-    String getContext();
+    protected Event(Builder<?> builder) {
+        super(builder);
+
+        EventValidator.checkType(this.getType(), EventType.EVENT);
+        EventValidator.checkAction(this.getAction(), Event.class);
+    }
 
     /**
-     * Specifies the type of event or node in the graph as defined by JSON-LD.  The type should be
-     * expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the event type IRI
+     * Initialize default parameter values in the builder.
+     * @param <T> builder
      */
-    String getType();
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+
+        /*
+         * Constructor
+         */
+        public Builder() {
+            super.type(EventType.EVENT);
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable profile object.
+         * @return a new BasicEvent instance.
+         */
+        public Event build() {
+            return new Event(this);
+        }
+    }
 
     /**
-     * The actor engaged in the interaction.  Analogous to a subject.
-     * @return the actor
+     * Self-reference that permits sub-classing of builder.
      */
-    Agent getActor();
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
 
     /**
-     * The action undertaken by the actor.  Analogous to a predicate or verb.  The action should be
-     * expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the action undertaken by the actor
+     * Static factory method.
+     * @return a new instance of the builder.
      */
-    String getAction();
-
-    /**
-     * The object of the interaction.  The object should be expressed as a unique IRI in conformance
-     * with the JSON-LD specification.
-     * @return the object of the interaction
-     */
-    Entity getObject();
-
-    /**
-     * A combined date and time representation (including milliseconds) of when an event occurred,
-     * formatted in accordance with the ISO 8601 standard.
-     * @return the event time
-     */
-    DateTime getEventTime();
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 }

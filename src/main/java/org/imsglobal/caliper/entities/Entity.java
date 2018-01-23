@@ -18,34 +18,55 @@
 
 package org.imsglobal.caliper.entities;
 
-import org.imsglobal.caliper.entities.schemadotorg.Thing;
-
 /**
- * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  Analogous
- * to a schema.org Thing and a JSON-LD node in a graph.  For an Entity to be linkable, dereferencing the identifier
- * should result in a representation of the node.
+ * Concrete implementation of a generic Entity.
  */
-public interface Entity extends Thing {
+public class Entity extends AbstractEntity {
 
     /**
-     * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
-     * should be expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the context IRI.
+     * @param builder apply builder object properties to the object.
      */
-    String getContext();
+    protected Entity(Builder<?> builder) {
+        super(builder);
+    }
 
     /**
-     * Each Entity (or node in the graph as defined by JSON-LD) requires an identifier.
-     * The identifier should be expressed as a unique IRI in conformance with the
-     * JSON-LD specification.
-     * @return the identifier IRI
+     * Builder class provides a fluid interface for setting object properties.
+     * @param <T> builder.
      */
-    String getId();
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
+
+        /**
+         * Constructor
+         */
+        public Builder() {
+            super.type(EntityType.ENTITY);
+        }
+
+        /**
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of the BasicEntity.
+         */
+        public Entity build() {
+            return new Entity(this);
+        }
+    }
 
     /**
-     * Specifies the type of Entity or node in the graph as defined by JSON-LD.  The type should be
-     * expressed as a unique IRI in conformance with the JSON-LD specification.
-     * @return the type IRI
+     *
      */
-    String getType();
+    private static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
+
+    /**
+     * Static factory method.
+     * @return a new instance of the builder.
+     */
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 }

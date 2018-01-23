@@ -20,9 +20,9 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.media.MediaObject;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.agent.Person;
+import org.imsglobal.caliper.entities.resource.CaliperMediaObject;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,33 +30,34 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 
 @SupportedActions({
-    Action.OPENED_POPOUT,
-    Action.CLOSED_POPOUT,
-    Action.EXITED_FULLSCREEN,
-    Action.ENTERED_FULLSCREEN,
-    Action.CHANGED_SIZE,
-    Action.CHANGED_RESOLUTION,
     Action.STARTED,
-    Action.REWOUND,
-    Action.RESUMED,
-    Action.FORWARDED_TO,
-    Action.PAUSED,
-    Action.JUMPED_TO,
     Action.ENDED,
+    Action.PAUSED,
+    Action.RESUMED,
+    Action.RESTARTED,
+    Action.FORWARDED_TO,
+    Action.JUMPED_TO,
+    Action.REWOUND,
+    Action.CHANGED_RESOLUTION,
+    Action.CHANGED_SIZE,
     Action.CHANGED_SPEED,
-    Action.UNMUTED,
-    Action.MUTED,
     Action.CHANGED_VOLUME,
     Action.DISABLED_CLOSED_CAPTIONING,
-    Action.ENABLED_CLOSED_CAPTIONING
+    Action.ENABLED_CLOSED_CAPTIONING,
+    Action.EXITED_FULLSCREEN,
+    Action.ENTERED_FULLSCREEN,
+    Action.OPENED_POPOUT,
+    Action.CLOSED_POPOUT,
+    Action.MUTED,
+    Action.UNMUTED
 })
-public class MediaEvent extends BaseEventContext {
+public class MediaEvent extends AbstractEvent {
 
-    @JsonProperty("@type")
-    private final String type;
+    @JsonProperty("actor")
+    private final Person actor;
 
-    @JsonProperty("action")
-    private final String action;
+    @JsonProperty("object")
+    private final CaliperMediaObject object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(MediaEvent.class);
@@ -72,68 +73,67 @@ public class MediaEvent extends BaseEventContext {
     protected MediaEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(builder.type, EventType.MEDIA);
-        EventValidator.checkActorType(getActor(), Person.class);
-        EventValidator.checkAction(builder.action, MediaEvent.class);
-        EventValidator.checkObjectType(getObject(), MediaObject.class);
+        EventValidator.checkType(this.getType(), EventType.MEDIA);
+        EventValidator.checkAction(this.getAction(), MediaEvent.class);
 
-        this.type = builder.type;
-        this.action = builder.action;
+        this.actor = builder.actor;
+        this.object = builder.object;
+
     }
 
     /**
-     * Required.
-     * @return the type
+     * Get the Person actor.
+     * @return the actor
      */
     @Override
     @Nonnull
-    public String getType() {
-        return type;
+    public Person getActor() {
+        return actor;
     }
 
     /**
-     * Required.
-     * @return the action
+     * Get the Media object.
+     * @return the object
      */
     @Override
     @Nonnull
-    public String getAction() {
-        return action;
+    public CaliperMediaObject getObject() {
+        return object;
     }
 
     /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
-        private String type;
-        private String action;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private Person actor;
+        private CaliperMediaObject object;
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.MEDIA.getValue());
+            type(EventType.MEDIA);
         }
 
         /**
-         * @param type
+         * @param actor
          * @return builder.
          */
-        private T type(String type) {
-            this.type = type;
+        public T actor(Person actor) {
+            this.actor = actor;
             return self();
         }
 
         /**
-         * @param action
+         * @param object
          * @return builder.
          */
-        @Override
-        public T action(String action) {
-            this.action = action;
+        public T object(CaliperMediaObject object) {
+            this.object = object;
             return self();
         }
+
 
         /**
          * Client invokes build method in order to create an immutable profile object.

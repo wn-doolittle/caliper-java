@@ -3,6 +3,7 @@
 .project
 .settings
 bin/
+src/test/resources
 
 # Intellij
 .idea/

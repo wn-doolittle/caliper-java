@@ -20,10 +20,8 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.assignable.AssignableDigitalResource;
-import org.imsglobal.caliper.entities.assignable.Attempt;
 import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.entities.resource.CaliperAssignable;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,22 +29,17 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 
 @SupportedActions({
-    Action.ABANDONED,
     Action.ACTIVATED,
     Action.COMPLETED,
     Action.DEACTIVATED,
-    Action.HID,
     Action.REVIEWED,
-    Action.SHOWED,
-    Action.STARTED
+    Action.STARTED,
+    Action.SUBMITTED
 })
-public class AssignableEvent extends BaseEventContext {
+public class AssignableEvent extends AbstractEvent {
 
-    @JsonProperty("@type")
-    private final String type;
-
-    @JsonProperty("action")
-    private final String action;
+    @JsonProperty("object")
+    private final CaliperAssignable object;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AssignableEvent.class);
@@ -62,67 +55,42 @@ public class AssignableEvent extends BaseEventContext {
     protected AssignableEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(builder.type, EventType.ASSIGNABLE);
-        EventValidator.checkActorType(getActor(), Person.class);
-        EventValidator.checkAction(builder.action, AssignableEvent.class);
-        EventValidator.checkObjectType(getObject(), AssignableDigitalResource.class);
-        EventValidator.checkGeneratedType(getGenerated(), Attempt.class);
+        EventValidator.checkType(this.getType(), EventType.ASSIGNABLE);
+        EventValidator.checkAction(this.getAction(), AssignableEvent.class);
 
-        this.type = builder.type;
-        this.action = builder.action;
+        this.object = builder.object;
     }
 
     /**
      * Required.
-     * @return the type
+     * @return the object
      */
     @Override
     @Nonnull
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * Required.
-     * @return the action
-     */
-    @Override
-    @Nonnull
-    public String getAction() {
-        return action;
+    public CaliperAssignable getObject() {
+        return object;
     }
 
     /**
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEventContext.Builder<T>  {
-        private String type;
-        private String action;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+        private CaliperAssignable object;
 
         /*
          * Constructor
          */
         public Builder() {
-            type(EventType.ASSIGNABLE.getValue());
+            super.type(EventType.ASSIGNABLE);
         }
 
         /**
-         * @param type
+         * @param object
          * @return builder.
          */
-        private T type(String type) {
-            this.type = type;
-            return self();
-        }
-
-        /**
-         * @param action
-         * @return builder.
-         */
-        @Override
-        public T action(String action) {
-            this.action = action;
+        public T object(CaliperAssignable object) {
+            this.object = object;
             return self();
         }
 

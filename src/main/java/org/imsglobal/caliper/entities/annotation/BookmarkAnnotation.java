@@ -18,61 +18,22 @@
 
 package org.imsglobal.caliper.entities.annotation;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.imsglobal.caliper.entities.DigitalResource;
-import org.imsglobal.caliper.entities.BaseEntity;
-import org.imsglobal.caliper.validators.EntityValidator;
+import org.imsglobal.caliper.entities.EntityType;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BookmarkAnnotation extends BaseEntity implements Annotation {
-
-    @JsonProperty("@type")
-    private final String type;
-
-    @JsonProperty("annotated")
-    private DigitalResource annotated;
+public class BookmarkAnnotation extends AbstractAnnotation {
 
     @JsonProperty("bookmarkNotes")
     private String bookmarkNotes;
 
     /**
-     * @param builder apply builder object properties to the BookmarkAnnotation object.
+     * @param builder apply builder object properties to the object.
      */
     protected BookmarkAnnotation(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkType(builder.type, AnnotationType.BOOKMARK_ANNOTATION);
-        EntityValidator.checkId("annotated Id", builder.annotated.getId());
-
-        this.type = builder.type;
-        this.annotated = builder.annotated;
         this.bookmarkNotes = builder.bookmarkNotes;
-    }
-
-    /**
-     * @return the type
-     */
-    @Override
-    @Nonnull
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * Serialization of DigitalResource associated with this Annotation is limited to
-     * the identifying URI only.
-     * @return the annotated object's identifier
-     */
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @Nonnull
-    public DigitalResource getAnnotated() {
-        return annotated;
     }
 
     /**
@@ -85,36 +46,16 @@ public class BookmarkAnnotation extends BaseEntity implements Annotation {
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends BaseEntity.Builder<T>  {
-        private String type;
-        private DigitalResource annotated;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractAnnotation.Builder<T> {
         private String bookmarkNotes;
 
         /**
-         * Initialize type with default value.
+         * Constructor
          */
         public Builder() {
-            type(AnnotationType.BOOKMARK_ANNOTATION.getValue());
-        }
-
-        /**
-         * @param type
-         * @return builder.
-         */
-        private T type(String type) {
-            this.type = type;
-            return self();
-        }
-
-        /**
-         * @param annotated
-         * @return builder.
-         */
-        public T annotated(DigitalResource annotated) {
-            this.annotated = annotated;
-            return self();
+            super.type(EntityType.BOOKMARK_ANNOTATION);
         }
 
         /**
@@ -128,7 +69,7 @@ public class BookmarkAnnotation extends BaseEntity implements Annotation {
 
         /**
          * Client invokes build method in order to create an immutable object.
-         * @return a new instance of BookmarkAnnotation.
+         * @return a new instance of the BookmarkAnnotation.
          */
         public BookmarkAnnotation build() {
             return new BookmarkAnnotation(this);
