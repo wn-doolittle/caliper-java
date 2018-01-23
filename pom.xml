@@ -22,14 +22,9 @@
     </organization>
 
     <issueManagement>
-        <url>https://www.pivotaltracker.com/s/projects/978266</url>
-        <system>Pivotal Tracker</system>
+        <url>https://github.com/IMSGlobal/caliper-java/issues</url>
+        <system>Github</system>
     </issueManagement>
-
-    <ciManagement>
-        <url>http://travisci.org</url>
-        <system>TravisCI</system>
-    </ciManagement>
 
     <licenses>
         <license>
@@ -64,11 +59,9 @@
         <url>https://github.com/IMSGlobal/caliper-java.git</url>
     </scm>
 
-    <!--
     <prerequisites>
         <maven>3.0</maven>
     </prerequisites>
-    -->
 
     <properties>
         <caliper.jdk.version>1.8</caliper.jdk.version>
