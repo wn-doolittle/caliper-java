@@ -20,7 +20,10 @@ package org.imsglobal.caliper.actions;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum Action {
+/**
+ * Caliper action vocabulary.
+ */
+public enum Action implements CaliperAction {
     ABANDONED("Abandoned"),
     ACTIVATED("Activated"),
     ADDED("Added"),
@@ -89,10 +92,19 @@ public enum Action {
 
     private String value;
 
+    /**
+     * Constructor
+     * @param value
+     */
     private Action(String value){
         this.value = value;
     }
 
+    /**
+     * Enum string value.
+     * @return string value.
+     */
+    @Override
     @JsonValue
     public String value() {
         return value;

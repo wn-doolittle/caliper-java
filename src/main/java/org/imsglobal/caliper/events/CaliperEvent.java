@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.CaliperSendable;
-import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.actions.CaliperAction;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.entities.CaliperEntity;
 import org.imsglobal.caliper.entities.CaliperGeneratable;
@@ -69,7 +69,7 @@ public interface CaliperEvent extends CaliperSendable {
      * expressed as a unique IRI in conformance with the JSON-LD specification.  Required.
      * @return the action undertaken by the actor
      */
-    Action getAction();
+    CaliperAction getAction();
 
     /**
      * The object of the interaction.  The object should be expressed as a unique IRI in conformance
