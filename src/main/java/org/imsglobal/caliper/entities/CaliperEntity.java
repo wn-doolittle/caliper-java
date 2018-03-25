@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.entities;
 
+import org.imsglobal.caliper.CaliperSendable;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.joda.time.DateTime;
 
@@ -25,7 +26,7 @@ import org.joda.time.DateTime;
  * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  For an
  * Entity to be linkable, dereferencing the identifier should result in a representation of the node.
  */
-public interface CaliperEntity {
+public interface CaliperEntity extends CaliperSendable {
 
     /**
      * The JSON-LD context provides a mapping of terms to IRIs.  The identifier

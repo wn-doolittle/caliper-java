@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.events;
 
+import org.imsglobal.caliper.CaliperSendable;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.entities.CaliperEntity;
@@ -35,7 +36,7 @@ import org.joda.time.DateTime;
 /**
  * Caliper Event interface.
  */
-public interface CaliperEvent {
+public interface CaliperEvent extends CaliperSendable {
 
     /**
      * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
