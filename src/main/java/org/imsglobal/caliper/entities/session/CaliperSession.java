@@ -38,20 +38,20 @@ public interface CaliperSession extends CaliperEntity {
     /**
      * A combined date and time representation (including milliseconds) indicating the Session start time, formatted
      * in accordance with the ISO 8601 standard.  Optional.
-     * @return
+     * @return startedAtTime
      */
     DateTime getStartedAtTime();
 
     /**
      * A combined date and time representation (including milliseconds) indicating the Session end time, formatted
      * in accordance with the ISO 8601 standard.  Optional.
-     * @return
+     * @return endedAtTime
      */
     DateTime getEndedAtTime();
 
     /**
      * Session duration formatted in accordance with the ISO 8601 standard.  Optional.
-     * @return
+     * @return duration
      */
     String getDuration();
 }
