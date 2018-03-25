@@ -75,7 +75,7 @@ public class AbstractResponse extends AbstractEntity implements CaliperResponse 
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Response.Builder<T>> extends AbstractEntity.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T>  {
         private Attempt attempt;
         private TimePeriod timePeriod = new TimePeriod();
 
@@ -127,7 +127,7 @@ public class AbstractResponse extends AbstractEntity implements CaliperResponse 
     /**
      *
      */
-    private static class Builder2 extends Response.Builder<Builder2> {
+    private static class Builder2 extends Builder<Builder2> {
         @Override
         protected Builder2 self() {
             return this;
