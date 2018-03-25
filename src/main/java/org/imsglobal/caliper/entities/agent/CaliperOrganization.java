@@ -19,7 +19,6 @@
 package org.imsglobal.caliper.entities.agent;
 
 import com.google.common.collect.ImmutableList;
-import org.imsglobal.caliper.entities.CaliperEntity;
 
 /**
  * The organization interface marks an object type that represents a collection of people organized

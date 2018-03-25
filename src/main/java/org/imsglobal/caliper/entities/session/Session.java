@@ -18,16 +18,7 @@
 
 package org.imsglobal.caliper.entities.session;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.TimePeriod;
-import org.imsglobal.caliper.entities.agent.CaliperAgent;
-import org.imsglobal.caliper.validators.EntityValidator;
-import org.joda.time.DateTime;
-
-import javax.annotation.Nullable;
 
 public class Session extends AbstractSession {
 
