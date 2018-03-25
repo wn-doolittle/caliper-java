@@ -28,11 +28,29 @@ import org.joda.time.DateTime;
  */
 public interface CaliperResponse extends CaliperEntity, CaliperGeneratable {
 
+    /**
+     * Attempt contains a count of the number of times an assignee, typically a Person, has interacted with an
+     * assignable resource.
+     */
     Attempt getAttempt();
 
+    /**
+     * A combined date and time representation (including milliseconds) indicating the Response start time, formatted
+     * in accordance with the ISO 8601 standard.  Optional.
+     * @return startedAtTime
+     */
     DateTime getStartedAtTime();
 
+    /**
+     * A combined date and time representation (including milliseconds) indicating the Response end time, formatted
+     * in accordance with the ISO 8601 standard.  Optional.
+     * @return endedAtTime
+     */
     DateTime getEndedAtTime();
 
+    /**
+     * Session duration formatted in accordance with the ISO 8601 standard.  Optional.
+     * @return duration
+     */
     String getDuration();
 }

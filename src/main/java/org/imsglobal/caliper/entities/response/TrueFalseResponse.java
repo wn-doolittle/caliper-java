@@ -34,39 +34,17 @@ import javax.annotation.Nullable;
  * Represents response to a multiple choice question that limits options to either 'true or false',
  * 'agree or disagree', etc.
  */
-public class TrueFalseResponse extends AbstractEntity implements CaliperResponse {
-
-    @JsonProperty("attempt")
-    private Attempt attempt;
+public class TrueFalseResponse extends Response {
 
     @JsonProperty("value")
     private String value;
-
-    @JsonIgnore
-    private TimePeriod timePeriod = new TimePeriod();
 
     /**
      * @param builder apply builder object properties to the Response object.
      */
     protected TrueFalseResponse(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkStartTime(builder.timePeriod.getStartedAtTime(), builder.timePeriod.getEndedAtTime());
-        EntityValidator.checkDuration(builder.timePeriod.getDuration());
-
-        this.attempt = builder.attempt;
         this.value = builder.value;
-        this.timePeriod.setStartedAtTime(builder.timePeriod.getStartedAtTime());
-        this.timePeriod.setEndedAtTime(builder.timePeriod.getEndedAtTime());
-        this.timePeriod.setDuration(builder.timePeriod.getDuration());
-    }
-
-    /**
-     * @return attempt associated with the response;
-     */
-    @Nonnull
-    public Attempt getAttempt() {
-        return attempt;
     }
 
     /**
@@ -78,37 +56,11 @@ public class TrueFalseResponse extends AbstractEntity implements CaliperResponse
     }
 
     /**
-     * @return started at time
-     */
-    @Nullable
-    public DateTime getStartedAtTime() {
-        return timePeriod.getStartedAtTime();
-    }
-
-    /**
-     * @return ended at time
-     */
-    @Nullable
-    public DateTime getEndedAtTime() {
-        return timePeriod.getEndedAtTime();
-    }
-
-    /**
-     * @return duration
-     */
-    @Nullable
-    public String getDuration() {
-        return timePeriod.getDuration();
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T>  {
-        private Attempt attempt;
+    public static abstract class Builder<T extends Builder<T>> extends Response.Builder<T>  {
         private String value;
-        private TimePeriod timePeriod = new TimePeriod();
 
         /**
          * Initialize type with default value.
@@ -117,14 +69,6 @@ public class TrueFalseResponse extends AbstractEntity implements CaliperResponse
             super.type(EntityType.TRUEFALSE);
         }
 
-        /**
-         * @param attempt
-         * @return builder.
-         */
-        public T attempt(Attempt attempt) {
-            this.attempt = attempt;
-            return self();
-        }
 
         /**
          * @param value
@@ -132,34 +76,6 @@ public class TrueFalseResponse extends AbstractEntity implements CaliperResponse
          */
         public T value(String value) {
             this.value = value;
-            return self();
-        }
-
-        /**
-         * @param startedAtTime
-         * @return
-         */
-        public T startedAtTime(DateTime startedAtTime) {
-            this.timePeriod.setStartedAtTime(startedAtTime);
-
-            return self();
-        }
-
-        /**
-         * @param endedAtTime
-         * @return builder
-         */
-        public T endedAtTime(DateTime endedAtTime) {
-            this.timePeriod.setEndedAtTime(endedAtTime);
-            return self();
-        }
-
-        /**
-         * @param duration
-         * @return
-         */
-        public T duration(String duration) {
-            this.timePeriod.setDuration(duration);
             return self();
         }
 
