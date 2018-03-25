@@ -18,18 +18,11 @@
 
 package org.imsglobal.caliper.entities.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import org.imsglobal.caliper.entities.TimePeriod;
-import org.imsglobal.caliper.entities.resource.Attempt;
-import org.imsglobal.caliper.validators.EntityValidator;
-import org.joda.time.DateTime;
-
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
