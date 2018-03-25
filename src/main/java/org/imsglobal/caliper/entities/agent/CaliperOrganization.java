@@ -27,7 +27,7 @@ import org.imsglobal.caliper.entities.CaliperEntity;
  * Caliper to catch errors at compile time for instances of the marked class rather than
  * at runtime if a marker annotation was defined instead.
  */
-public interface CaliperOrganization extends CaliperEntity, CaliperAgent {
+public interface CaliperOrganization extends CaliperAgent {
 
     /**
      * Return the parent organization.
