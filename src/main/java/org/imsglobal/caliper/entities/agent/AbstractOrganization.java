@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * This class provides a skeletal implementation of the Org interface
+ * This class provides a skeletal implementation of the Organization interface
  * in order to minimize the effort required to implement the interface.
  */
 public abstract class AbstractOrganization extends AbstractEntity implements CaliperOrganization {
@@ -55,7 +55,6 @@ public abstract class AbstractOrganization extends AbstractEntity implements Cal
     public CaliperOrganization getSubOrganizationOf() {
         return subOrganizationOf;
     }
-
 
     /**
      * Return an immutable list of the Collection's items.

@@ -24,24 +24,50 @@ import org.imsglobal.caliper.entities.EntityType;
 import javax.annotation.Nullable;
 
 /**
- * A CourseOffering is the occurrence of a course in a specific term, semester, etc.  A Caliper
- * CourseOffering provides a subset of the CourseOffering properties specified in the IMS LTI 2.0
- * specification, which in turn, draws inspiration from the IMS LIS 1.0 specification.
+ * This class provides a skeletal implementation of the Course interface
+ * in order to minimize the effort required to implement the interface.
  */
-public class CourseOffering extends AbstractCourse {
+public class AbstractCourse extends AbstractOrganization implements CaliperCourse {
+
+    @JsonProperty("courseNumber")
+    private final String courseNumber;
+
+    @JsonProperty("academicSession")
+    private final String academicSession;
 
     /**
      * @param builder apply builder object properties to the object.
      */
-    protected CourseOffering(Builder<?> builder) {
+    protected AbstractCourse(Builder<?> builder) {
         super(builder);
+        this.courseNumber = builder.courseNumber;
+        this.academicSession = builder.academicSession;
+    }
+
+    /**
+     * The course number, such as "Biology 101". In general, this number is not simply a numeric value.
+     * @return the course number.
+     */
+    @Nullable
+    public String getCourseNumber() {
+        return courseNumber;
+    }
+
+    /**
+     * @return academic session
+     */
+    @Nullable
+    public String getAcademicSession() {
+        return academicSession;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractCourse.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends AbstractOrganization.Builder<T> {
+        private String courseNumber;
+        private String academicSession;
 
         /**
          * Constructor
@@ -51,11 +77,21 @@ public class CourseOffering extends AbstractCourse {
         }
 
         /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of the CourseOffering.
+         * @param courseNumber
+         * @return builder.
          */
-        public CourseOffering build() {
-            return new CourseOffering(this);
+        public T courseNumber(String courseNumber) {
+            this.courseNumber = courseNumber;
+            return self();
+        }
+
+        /**
+         * @param academicSession
+         * @return builder.
+         */
+        public T academicSession(String academicSession) {
+            this.academicSession = academicSession;
+            return self();
         }
     }
 
@@ -67,13 +103,5 @@ public class CourseOffering extends AbstractCourse {
         protected Builder2 self() {
             return this;
         }
-    }
-
-    /**
-     * Static factory method.
-     * @return a new instance of the builder.
-     */
-    public static Builder<?> builder() {
-        return new Builder2();
     }
 }
