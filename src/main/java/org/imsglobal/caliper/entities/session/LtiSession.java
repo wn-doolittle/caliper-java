@@ -23,7 +23,7 @@ import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 import javax.annotation.Nullable;
 
-public class LtiSession extends AbstractSession {
+public class LtiSession extends Session {
 
     @JsonProperty("messageParameters")
     private final Object messageParameters;
@@ -48,7 +48,7 @@ public class LtiSession extends AbstractSession {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractSession.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Session.Builder<T>  {
         private Object messageParameters;
 
         /**
