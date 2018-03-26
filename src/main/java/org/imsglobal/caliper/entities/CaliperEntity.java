@@ -22,6 +22,8 @@ import org.imsglobal.caliper.CaliperSendable;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.joda.time.DateTime;
 
+import java.util.Map;
+
 /**
  * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  For an
  * Entity to be linkable, dereferencing the identifier should result in a representation of the node.
@@ -80,5 +82,5 @@ public interface CaliperEntity extends CaliperSendable {
      * Additional custom properties provided that are germane to the Event.  Optional.
      * @return extensions
      */
-    Object getExtensions();
+    Map<String, Object> getExtensions();
 }

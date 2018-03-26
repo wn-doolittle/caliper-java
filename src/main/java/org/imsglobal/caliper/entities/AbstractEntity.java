@@ -26,6 +26,7 @@ import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
  * This class provides a skeletal implementation of the Entity interface
@@ -58,7 +59,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
     private final DateTime dateModified;
 
     @JsonProperty("extensions")
-    private final Object extensions;
+    private final Map<String, Object> extensions;
 
     /**
      * @param builder apply builder object properties to the object.
@@ -147,7 +148,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
      * @return custom extensions object.
      */
     @Nullable
-    public Object getExtensions() {
+    public Map<String, Object> getExtensions() {
         return extensions;
     }
 
@@ -164,7 +165,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
         private String description;
         private DateTime dateCreated;
         private DateTime dateModified;
-        private Object extensions;
+        private Map<String, Object> extensions;
 
         /**
          * Constructor
@@ -252,7 +253,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
          * @param extensions
          * @return builder.
          */
-        public T extensions(Object extensions) {
+        public T extensions(Map<String, Object> extensions) {
             this.extensions = extensions;
             return self();
         }

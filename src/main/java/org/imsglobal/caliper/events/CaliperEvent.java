@@ -32,6 +32,7 @@ import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.entities.session.LtiSession;
 import org.imsglobal.caliper.entities.session.Session;
 import org.joda.time.DateTime;
+import java.util.Map;
 
 /**
  * Caliper Event interface.
@@ -146,5 +147,6 @@ public interface CaliperEvent extends CaliperSendable {
      * Additional custom properties provided that are germane to the Event.  Optional.
      * @return extensions
      */
-    Object getExtensions();
+    //Object getExtensions();
+    Map<String, Object> getExtensions();
 }
