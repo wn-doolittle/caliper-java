@@ -21,7 +21,7 @@ package org.imsglobal.caliper.entities.agent;
 import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 
-public class Person extends AbstractEntity implements CaliperAgent {
+public class Person extends Agent {
 
     /**
      * @param builder apply builder object properties to the object.
@@ -34,7 +34,7 @@ public class Person extends AbstractEntity implements CaliperAgent {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T> {
 
         /**
          * Constructor
