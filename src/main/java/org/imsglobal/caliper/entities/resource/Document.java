@@ -20,7 +20,7 @@ package org.imsglobal.caliper.entities.resource;
 
 import org.imsglobal.caliper.entities.EntityType;
 
-public class Document extends AbstractDigitalResource {
+public class Document extends DigitalResource {
 
     /**
      * @param builder apply builder object properties to the object.
@@ -33,7 +33,7 @@ public class Document extends AbstractDigitalResource {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
 
         /**
          * Constructor
