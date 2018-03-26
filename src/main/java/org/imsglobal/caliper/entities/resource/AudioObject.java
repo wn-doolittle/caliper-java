@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 /**
  * An audio object embedded in a web page.
  */
-public class AudioObject extends AbstractDigitalResource implements CaliperMediaObject {
+public class AudioObject extends MediaObject {
 
     @JsonProperty("volumeMin")
     private String volumeMin;
@@ -40,9 +40,6 @@ public class AudioObject extends AbstractDigitalResource implements CaliperMedia
     @JsonProperty("muted")
     private boolean muted;
 
-    @JsonProperty("duration")
-    private String duration;
-
     /**
      * @param builder apply builder object properties to the AudioObject object.
      */
@@ -52,7 +49,6 @@ public class AudioObject extends AbstractDigitalResource implements CaliperMedia
         this.volumeMax = builder.volumeMax;
         this.volumeLevel = builder.volumeLevel;
         this.muted = builder.muted;
-        this.duration = builder.duration;
     }
 
     /**
@@ -90,23 +86,14 @@ public class AudioObject extends AbstractDigitalResource implements CaliperMedia
     }
 
     /**
-     * @return duration
-     */
-    @Nullable
-    public String getDuration() {
-        return duration;
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
         private String volumeMin;
         private String volumeMax;
         private String volumeLevel;
         private Boolean muted;
-        private String duration;
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
@@ -148,15 +135,6 @@ public class AudioObject extends AbstractDigitalResource implements CaliperMedia
          */
         public T muted (boolean muted) {
             this.muted = new Boolean(muted);
-            return self();
-        }
-
-        /**
-         * @param duration
-         * @return duration
-         */
-        public T duration(String duration) {
-            this.duration = duration;
             return self();
         }
 
