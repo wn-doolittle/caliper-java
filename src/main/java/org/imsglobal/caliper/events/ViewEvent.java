@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 
 @SupportedActions({ Action.VIEWED })
-public class ViewEvent extends AbstractEvent {
+public class ViewEvent extends Event {
 
     @JsonProperty("actor")
     private final Person actor;
@@ -83,7 +83,7 @@ public class ViewEvent extends AbstractEvent {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private Person actor;
         private CaliperDigitalResource object;
 

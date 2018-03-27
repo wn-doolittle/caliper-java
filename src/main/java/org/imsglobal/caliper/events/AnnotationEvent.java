@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
     Action.SHARED,
     Action.TAGGED
 })
-public class AnnotationEvent extends AbstractEvent {
+public class AnnotationEvent extends Event {
 
     @JsonProperty("actor")
     private final Person actor;
@@ -104,7 +104,7 @@ public class AnnotationEvent extends AbstractEvent {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private Person actor;
         private CaliperDigitalResource object;
         private CaliperAnnotation generated;
