@@ -134,7 +134,9 @@ public class FillinBlankResponse extends AbstractEntity implements CaliperRespon
          * @return builder.
          */
         public T values(List<String> values) {
-            this.values = values;
+            if(values != null) {
+                this.values.addAll(values);
+            }
             return self();
         }
 

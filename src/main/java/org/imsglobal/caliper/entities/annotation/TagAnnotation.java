@@ -67,7 +67,9 @@ public class TagAnnotation extends AbstractAnnotation {
          * @return annotation tags.
          */
         public T tags(List<String> tags) {
-            this.tags = tags;
+            if(tags != null) {
+                this.tags.addAll(tags);
+            }
             return self();
         }
 

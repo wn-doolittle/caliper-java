@@ -134,7 +134,9 @@ public class MultipleResponseResponse extends AbstractEntity implements CaliperR
          * @return builder.
          */
         public T values(List<String> values) {
-            this.values = values;
+            if(values != null) {
+                this.values.addAll(values);
+            }
             return self();
         }
 

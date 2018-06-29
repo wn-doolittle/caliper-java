@@ -70,7 +70,9 @@ public class Forum extends AbstractDigitalResource implements CaliperCollection 
          * @return builder.
          */
         public T items(List<Thread> items) {
-            this.items = items;
+            if(items != null) {
+                this.items.addAll(items);
+            }
             return self();
         }
 

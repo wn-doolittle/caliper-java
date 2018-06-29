@@ -134,7 +134,9 @@ public class SelectTextResponse extends AbstractEntity implements CaliperRespons
          * @return builder.
          */
         public T values(List<String> values) {
-            this.values = values;
+            if(values != null) {
+                this.values.addAll(values);
+            }
             return self();
         }
 
@@ -153,7 +155,6 @@ public class SelectTextResponse extends AbstractEntity implements CaliperRespons
          */
         public T startedAtTime(DateTime startedAtTime) {
             this.timePeriod.setStartedAtTime(startedAtTime);
-
             return self();
         }
 
