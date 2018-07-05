@@ -185,7 +185,7 @@ public abstract class AbstractDigitalResource extends AbstractEntity implements 
          * @return builder.
          */
         public T learningObjectives(List<LearningObjective> learningObjectives) {
-            if(this.learningObjectives != null) {
+            if(learningObjectives != null) {
                 this.learningObjectives.addAll(learningObjectives);
             }
             return self();
