@@ -132,7 +132,9 @@ public class Membership extends AbstractEntity {
          * @return builder.
          */
         public T roles(List<Role> roles) {
-            this.roles = roles;
+            if(roles != null) {
+                this.roles.addAll(roles);
+            }
             return self();
         }
 

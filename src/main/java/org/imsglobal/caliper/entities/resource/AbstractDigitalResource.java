@@ -165,7 +165,9 @@ public abstract class AbstractDigitalResource extends AbstractEntity implements 
          * @return builder.
          */
         public T creators(List<CaliperAgent> creators) {
-            this.creators = creators;
+            if(creators != null) {
+                this.creators.addAll(creators);
+            }
             return self();
         }
 
@@ -183,7 +185,9 @@ public abstract class AbstractDigitalResource extends AbstractEntity implements 
          * @return builder.
          */
         public T learningObjectives(List<LearningObjective> learningObjectives) {
-            this.learningObjectives = learningObjectives;
+            if(learningObjectives != null) {
+                this.learningObjectives.addAll(learningObjectives);
+            }
             return self();
         }
 
@@ -201,7 +205,9 @@ public abstract class AbstractDigitalResource extends AbstractEntity implements 
          * @return builder.
          */
         public T keywords(List<String> keywords) {
-            this.keywords = keywords;
+            if(keywords != null) {
+                this.keywords.addAll(keywords);
+            }
             return self();
         }
 

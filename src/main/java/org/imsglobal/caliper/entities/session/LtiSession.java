@@ -18,50 +18,22 @@
 
 package org.imsglobal.caliper.entities.session;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
-import org.imsglobal.caliper.entities.TimePeriod;
-import org.imsglobal.caliper.entities.agent.CaliperAgent;
-import org.imsglobal.caliper.validators.EntityValidator;
-import org.joda.time.DateTime;
-
 import javax.annotation.Nullable;
 
-public class LtiSession extends AbstractEntity {
-
-    @JsonProperty("user")
-    private final CaliperAgent user;
+public class LtiSession extends Session {
 
     @JsonProperty("messageParameters")
     private final Object messageParameters;
-
-    @JsonIgnore
-    private TimePeriod timePeriod = new TimePeriod();
 
     /**
      * @param builder apply builder object properties to the LtiSession object.
      */
     protected LtiSession(Builder<?> builder) {
         super(builder);
-
-        EntityValidator.checkStartTime(builder.timePeriod.getStartedAtTime(), builder.timePeriod.getEndedAtTime());
-        EntityValidator.checkDuration(builder.timePeriod.getDuration());
-
-        this.user = builder.user;
         this.messageParameters = builder.messageParameters;
-        this.timePeriod.setStartedAtTime(builder.timePeriod.getStartedAtTime());
-        this.timePeriod.setEndedAtTime(builder.timePeriod.getEndedAtTime());
-        this.timePeriod.setDuration(builder.timePeriod.getDuration());
-    }
-
-    /**
-     * @return the session user
-     */
-    @Nullable
-    public CaliperAgent getUser() {
-        return user;
     }
 
     /**
@@ -73,37 +45,11 @@ public class LtiSession extends AbstractEntity {
     }
 
     /**
-     * @return started at time
-     */
-    @Nullable
-    public DateTime getStartedAtTime() {
-        return timePeriod.getStartedAtTime();
-    }
-
-    /**
-     * @return ended at time
-     */
-    @Nullable
-    public DateTime getEndedAtTime() {
-        return timePeriod.getEndedAtTime();
-    }
-
-    /**
-     * @return duration
-     */
-    @Nullable
-    public String getDuration() {
-        return timePeriod.getDuration();
-    }
-
-    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T>  {
-        private CaliperAgent user;
+    public static abstract class Builder<T extends Builder<T>> extends Session.Builder<T>  {
         private Object messageParameters;
-        private TimePeriod timePeriod = new TimePeriod();
 
         /**
          * Initialize type with default value.
@@ -113,47 +59,11 @@ public class LtiSession extends AbstractEntity {
         }
 
         /**
-         * @param user
-         * @return builder.
-         */
-        public T user(CaliperAgent user) {
-            this.user = user;
-            return self();
-        }
-
-        /**
          * @param messageParameters
          * @return builder.
          */
         public T messageParameters(Object messageParameters) {
             this.messageParameters = messageParameters;
-            return self();
-        }
-
-        /**
-         * @param startedAtTime
-         * @return
-         */
-        public T startedAtTime(DateTime startedAtTime) {
-            this.timePeriod.setStartedAtTime(startedAtTime);
-            return self();
-        }
-
-        /**
-         * @param endedAtTime
-         * @return builder
-         */
-        public T endedAtTime(DateTime endedAtTime) {
-            this.timePeriod.setEndedAtTime(endedAtTime);
-            return self();
-        }
-
-        /**
-         * @param duration
-         * @return
-         */
-        public T duration(String duration) {
-            this.timePeriod.setDuration(duration);
             return self();
         }
 

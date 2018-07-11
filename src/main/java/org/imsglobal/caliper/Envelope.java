@@ -36,7 +36,7 @@ public class Envelope {
     private String dataVersion;
 
     @JsonProperty("data")
-    private List<Object> data;
+    private List<CaliperSendable> data;
 
     /**
      * Constructor
@@ -44,7 +44,7 @@ public class Envelope {
      * @param sendTime
      * @param data
      */
-    public Envelope(@Nonnull String id, @Nonnull DateTime sendTime, @Nonnull String dataVersion, @Nonnull List<Object> data) {
+    public Envelope(@Nonnull String id, @Nonnull DateTime sendTime, @Nonnull String dataVersion, @Nonnull List<CaliperSendable> data) {
         this.sensorId = id;
 
         if (sendTime == null) {
@@ -88,7 +88,7 @@ public class Envelope {
      * @return the data
      */
     @Nonnull
-    public List<Object> getData() {
+    public List<CaliperSendable> getData() {
         return data;
     }
 }

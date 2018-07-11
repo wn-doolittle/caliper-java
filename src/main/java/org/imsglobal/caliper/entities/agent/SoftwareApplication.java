@@ -25,7 +25,7 @@ import org.imsglobal.caliper.entities.CaliperReferrer;
 
 import javax.annotation.Nullable;
 
-public class SoftwareApplication extends AbstractEntity implements CaliperAgent, CaliperReferrer {
+public class SoftwareApplication extends Agent implements CaliperReferrer {
 
     @JsonProperty("version")
     private final String version;
@@ -50,7 +50,7 @@ public class SoftwareApplication extends AbstractEntity implements CaliperAgent,
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends Agent.Builder<T> {
         private String version;
 
         /**

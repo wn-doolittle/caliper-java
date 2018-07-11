@@ -18,8 +18,9 @@
 
 package org.imsglobal.caliper.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Maps;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.context.JsonldStringContext;
 import org.imsglobal.caliper.entities.resource.Assessment;
@@ -33,11 +34,14 @@ import org.junit.experimental.categories.Category;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
+import java.util.Map;
+
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
 public class AssessmentItemExtendedTest {
     private AssessmentItem entity;
+    private Map<String, Object> extensions;
 
     private static final String BASE_IRI = "https://example.edu";
     private static final String SECTION_IRI = BASE_IRI.concat("/terms/201601/courses/7/sections/1");
@@ -50,8 +54,12 @@ public class AssessmentItemExtendedTest {
             .id("https://example.edu/terms/201601/courses/7/sections/1/assess/1")
             .build();
 
-        // Extensions
-        ObjectNode extensions = createExtensionsNode();
+        // Add AssessmentItem Extensions
+        Question question = Question.create();
+        Map<String, Object> extensions = Maps.newHashMap();
+        extensions.put("questionType", question.getQuestionType());
+        extensions.put("questionText", question.getQuestionText());
+        extensions.put("correctResponse", question.getCorrectResponse());
 
         entity = AssessmentItem.builder()
             .context(JsonldStringContext.getDefault())
@@ -81,17 +89,55 @@ public class AssessmentItemExtendedTest {
     }
 
     /**
-     * Create faux extensions
-     * @return
+     * Question extension
      */
-    private ObjectNode createExtensionsNode() {
-        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
+    static class Question {
+        private String questionType;
+        private String questionText;
+        private String correctResponse;
 
-        ObjectNode extensions = mapper.createObjectNode();
-        extensions.put("questionType", "Dichotomous");
-        extensions.put("questionText", "Is a Caliper SoftwareApplication a subtype of Caliper Agent?");
-        extensions.put("correctResponse","yes");
+        /**
+         * Constructor
+         */
+        private Question() {
+            this.questionType = "Dichotomous";
+            this.questionText = "Is a Caliper SoftwareApplication a subtype of Caliper Agent?";
+            this.correctResponse = "yes";
+        }
 
-        return extensions;
+        /**
+         * Get the question type.
+         * @return the questionType
+         */
+        @JsonProperty("questionType")
+        private String getQuestionType() {
+            return questionType;
+        }
+
+        /**
+         * Get the question text.
+         * @return the questionText
+         */
+        @JsonProperty("questionText")
+        private String getQuestionText() {
+            return questionText;
+        }
+
+        /**
+         * Get the correct response.
+         * @return the correctResponse
+         */
+        @JsonProperty("correctResponse")
+        private String getCorrectResponse() {
+            return correctResponse;
+        }
+
+        /**
+         * Factory method
+         * @return new Question
+         */
+        private static Question create() {
+            return new Question();
+        }
     }
 }

@@ -43,7 +43,6 @@ public class CourseSection extends CourseOffering {
      */
     protected CourseSection(Builder<?> builder) {
         super(builder);
-
         this.category = builder.category;
     }
 

@@ -57,9 +57,6 @@ public class Event extends AbstractEvent {
      */
     protected Event(Builder<?> builder) {
         super(builder);
-
-        EventValidator.checkType(this.getType(), EventType.EVENT);
-        EventValidator.checkAction(this.getAction(), Event.class);
     }
 
     /**

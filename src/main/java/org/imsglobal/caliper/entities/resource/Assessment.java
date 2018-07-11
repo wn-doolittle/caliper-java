@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Caliper representation of an Assessment.  Part of the Assessment Metric Profile
  */
-public class Assessment extends AbstractAssignableDigitalResource implements CaliperAssessable, CaliperCollection {
+public class Assessment extends AssignableDigitalResource implements CaliperAssessable, CaliperCollection {
 
     @JsonProperty("items")
     private final ImmutableList<AssessmentItem> items;
@@ -57,7 +57,7 @@ public class Assessment extends AbstractAssignableDigitalResource implements Cal
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractAssignableDigitalResource.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends AssignableDigitalResource.Builder<T>  {
         private List<AssessmentItem> items = Lists.newArrayList();
 
         /**
@@ -72,7 +72,9 @@ public class Assessment extends AbstractAssignableDigitalResource implements Cal
          * @return builder.
          */
         public T items(List<AssessmentItem> items) {
-            this.items = items;
+            if(items != null) {
+                this.items.addAll(items);
+            }
             return self();
         }
 

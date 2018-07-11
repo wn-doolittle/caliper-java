@@ -36,7 +36,7 @@ import javax.annotation.Nonnull;
     Action.STARTED,
     Action.SUBMITTED
 })
-public class AssignableEvent extends AbstractEvent {
+public class AssignableEvent extends Event {
 
     @JsonProperty("object")
     private final CaliperAssignable object;
@@ -75,7 +75,7 @@ public class AssignableEvent extends AbstractEvent {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
         private CaliperAssignable object;
 
         /*

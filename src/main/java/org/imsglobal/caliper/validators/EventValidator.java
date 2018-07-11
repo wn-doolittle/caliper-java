@@ -19,7 +19,7 @@
 package org.imsglobal.caliper.validators;
 
 import org.imsglobal.caliper.events.CaliperEventType;
-import org.imsglobal.caliper.actions.Action;
+import org.imsglobal.caliper.actions.CaliperAction;
 import org.imsglobal.caliper.entities.CaliperGeneratable;
 import org.imsglobal.caliper.entities.CaliperTargetable;
 import org.imsglobal.caliper.entities.agent.CaliperAgent;
@@ -75,14 +75,14 @@ public class EventValidator {
      * @param action
      * @throws IllegalArgumentException
      */
-    public static void checkAction(Action action, Class<? extends CaliperEvent> clazz) throws IllegalArgumentException {
+    public static void checkAction(CaliperAction action, Class<? extends CaliperEvent> clazz) throws IllegalArgumentException {
         checkArgument(action != null, "an action must be specified");
 
         SupportedActions actions = clazz.getAnnotation(SupportedActions.class);
         checkArgument(actions != null, "supported actions must be specified");
 
         boolean isSupported = false;
-        for (Action supportedAction : actions.value()) {
+        for (CaliperAction supportedAction : actions.value()) {
             if (action.value().equals(supportedAction.value())) {
                 isSupported = true;
                 break;

@@ -26,7 +26,7 @@ import org.imsglobal.caliper.entities.EntityType;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Message extends AbstractDigitalResource {
+public class Message extends DigitalResource {
 
     @JsonProperty("replyTo")
     private final Message replyTo;
@@ -75,7 +75,7 @@ public class Message extends AbstractDigitalResource {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
         private Message replyTo;
         private String body;
         private List<CaliperDigitalResource> attachments = Lists.newArrayList();
@@ -110,7 +110,9 @@ public class Message extends AbstractDigitalResource {
          * @return builder.
          */
         public T attachments(List<CaliperDigitalResource> attachments) {
-            this.attachments = attachments;
+            if(attachments != null) {
+                this.attachments.addAll(attachments);
+            }
             return self();
         }
 
