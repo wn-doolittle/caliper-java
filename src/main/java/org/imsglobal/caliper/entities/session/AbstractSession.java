@@ -16,71 +16,99 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.response;
+package org.imsglobal.caliper.entities.session;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
+import org.imsglobal.caliper.entities.TimePeriod;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
+import org.imsglobal.caliper.validators.EntityValidator;
+import org.joda.time.DateTime;
+
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
- *  Represents a response that identifies text from a presented paragraph or list.
- *  The response is the identified string or a mapping to a logical identifier;
+ * This class provides a skeletal implementation of the Session interface
+ * in order to minimize the effort required to implement the interface.
  */
-public class SelectTextResponse extends Response {
+public abstract class AbstractSession extends AbstractEntity implements CaliperSession {
 
-    @JsonProperty("values")
-    private ImmutableList<String> values;
+    @JsonProperty("user")
+    private final CaliperAgent user;
+
+    @JsonIgnore
+    private TimePeriod timePeriod = new TimePeriod();
 
     /**
-     * @param builder apply builder object properties to the Response object.
+     * @param builder apply builder object properties to the Session object.
      */
-    protected SelectTextResponse(Builder<?> builder) {
+    protected AbstractSession(Builder<?> builder) {
         super(builder);
-        this.values = ImmutableList.copyOf(builder.values);
+
+        EntityValidator.checkStartTime(builder.timePeriod.getStartedAtTime(), builder.timePeriod.getEndedAtTime());
+        EntityValidator.checkDuration(builder.timePeriod.getDuration());
+
+        this.user = builder.user;
+        this.timePeriod.setStartedAtTime(builder.timePeriod.getStartedAtTime());
+        this.timePeriod.setEndedAtTime(builder.timePeriod.getEndedAtTime());
+        this.timePeriod.setDuration(builder.timePeriod.getDuration());
     }
 
     /**
-     * @return response values
+     * @return the session user
      */
     @Nullable
-    public List<String> getValues() {
-        return values;
+    public CaliperAgent getUser() {
+        return user;
+    }
+
+    /**
+     * @return started at time
+     */
+    @Nullable
+    public DateTime getStartedAtTime() {
+        return timePeriod.getStartedAtTime();
+    }
+
+    /**
+     * @return ended at time
+     */
+    @Nullable
+    public DateTime getEndedAtTime() {
+        return timePeriod.getEndedAtTime();
+    }
+
+    /**
+     * @return duration
+     */
+    @Nullable
+    public String getDuration() {
+        return timePeriod.getDuration();
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Response.Builder<T>  {
-        private List<String> values = Lists.newArrayList();
+    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T>  {
+        private CaliperAgent user;
+        private TimePeriod timePeriod = new TimePeriod();
 
         /**
          * Initialize type with default value.
          */
         public Builder() {
-            super.type(EntityType.SELECTTEXT);
+            super.type(EntityType.SESSION);
         }
 
         /**
-         * @param values
+         * @param user
          * @return builder.
          */
-        public T values(List<String> values) {
-            if(values != null) {
-                this.values.addAll(values);
-            }
-            return self();
-        }
-
-        /**
-         * @param value
-         * @return builder.
-         */
-        public T value(String value) {
-            this.values.add(value);
+        public T user(CaliperAgent user) {
+            this.user = user;
             return self();
         }
 
@@ -90,7 +118,6 @@ public class SelectTextResponse extends Response {
          */
         public T startedAtTime(DateTime startedAtTime) {
             this.timePeriod.setStartedAtTime(startedAtTime);
-
             return self();
         }
 
@@ -111,14 +138,6 @@ public class SelectTextResponse extends Response {
             this.timePeriod.setDuration(duration);
             return self();
         }
-
-        /**
-         * Client invokes build method in order to create an immutable object.
-         * @return a new instance of SelectTextResponse.
-         */
-        public SelectTextResponse build() {
-            return new SelectTextResponse(this);
-        }
     }
 
     /**
@@ -129,13 +148,5 @@ public class SelectTextResponse extends Response {
         protected Builder2 self() {
             return this;
         }
-    }
-
-    /**
-     * Static factory method.
-     * @return a new instance of the builder.
-     */
-    public static Builder<?> builder() {
-        return new Builder2();
     }
 }

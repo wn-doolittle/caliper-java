@@ -18,8 +18,9 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Maps;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
@@ -41,6 +42,8 @@ import org.junit.experimental.categories.Category;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
+import java.util.Map;
+
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
@@ -54,7 +57,7 @@ public class ViewEventViewedExtendedTest {
     private Membership membership;
     private Session session;
     private ViewEvent event;
-    private ObjectNode extensionsNode;
+    private Map<String, Object> extensions;
 
     private static final String BASE_IRI = "https://example.edu";
 
@@ -94,7 +97,10 @@ public class ViewEventViewedExtendedTest {
             .startedAtTime(new DateTime(2016, 11, 15, 10, 0, 0, 0, DateTimeZone.UTC))
             .build();
 
-        extensionsNode = createExtensionsNode();
+        // Add extensions
+        Job job = Job.create();
+        extensions = Maps.newHashMap();
+        extensions.put("job", job);
 
         // Build event
         event = buildEvent(Action.VIEWED);
@@ -136,25 +142,60 @@ public class ViewEventViewedExtendedTest {
             .group(group)
             .membership(membership)
             .session(session)
-            .extensions(extensionsNode)
+            .extensions(extensions)
             .build();
     }
 
     /**
-     * Create faux extensions
-     * @return
+     * Job extension
      */
-    private ObjectNode createExtensionsNode() {
-        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
+    static class Job {
+        private String id;
+        private String jobTag;
+        private DateTime jobDate;
 
-        ObjectNode job = mapper.createObjectNode();
-        job.put("id", "08c1233d-9ba3-40ac-952f-004c47a50ff7");
-        job.put("jobTag", "caliper_batch_job");
-        job.put("jobDate","2016-11-16T01:01:00.000Z");
+        /**
+         * Constructor
+         */
+        private Job() {
+            this.id = "08c1233d-9ba3-40ac-952f-004c47a50ff7";
+            this.jobTag = "caliper_batch_job";
+            this.jobDate = new DateTime(2016, 11, 16, 1, 1, 0, 0, DateTimeZone.UTC);
+        }
 
-        ObjectNode obj = mapper.createObjectNode();
-        obj.putPOJO("job", job);
+        /**
+         * Get the Job identifier.
+         * @return the id
+         */
+        @JsonProperty("id")
+        private String getId() {
+            return id;
+        }
 
-        return obj;
+        /**
+         * Get the Job Tag.
+         * @return the jobTag
+         */
+        @JsonProperty("jobTag")
+        private String getJobTag() {
+            return jobTag;
+        }
+
+        /**
+         * Get the Job Date.
+         * @return the jobDate
+         */
+        @JsonProperty("jobDate")
+        private DateTime getJobDate() {
+            return jobDate;
+        }
+
+        /**
+         * Factory method
+         * @return new Job
+         */
+        private static Job create() {
+            return new Job();
+        }
     }
 }

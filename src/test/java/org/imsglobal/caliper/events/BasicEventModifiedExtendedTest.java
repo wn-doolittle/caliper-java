@@ -17,10 +17,9 @@
  */
 
 package org.imsglobal.caliper.events;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
@@ -36,6 +35,9 @@ import org.junit.experimental.categories.Category;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
+import java.util.List;
+import java.util.Map;
+
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
@@ -44,7 +46,7 @@ public class BasicEventModifiedExtendedTest {
     private String id;
     private Person actor;
     private Document object;
-    private ObjectNode extensionsNode;
+    private Map<String, Object> extensions;
     private Event event;
 
     private static final String BASE_IRI = "https://example.edu";
@@ -66,7 +68,22 @@ public class BasicEventModifiedExtendedTest {
             .version("3")
             .build();
 
-        extensionsNode = createExtensionsNode();
+        // Add extensions "archive"
+        List<Document> list = Lists.newArrayList();
+        list.add(Document.builder()
+                .id(SECTION_IRI.concat("/resources/123?version=2"))
+                .dateCreated(new DateTime(2016, 11, 12, 7, 15, 0, 0, DateTimeZone.UTC))
+                .dateModified(new DateTime(2016, 11, 13, 11, 0, 0, 0, DateTimeZone.UTC))
+                .version("2")
+                .build());
+        list.add(Document.builder()
+                .id(SECTION_IRI.concat("/resources/123?version=1"))
+                .dateCreated(new DateTime(2016, 11, 12, 7, 15, 0, 0, DateTimeZone.UTC))
+                .version("1")
+                .build());
+
+        extensions = Maps.newHashMap();
+        extensions.put("archive", list);
 
         // Build event
         event = buildEvent(Action.MODIFIED);
@@ -99,37 +116,7 @@ public class BasicEventModifiedExtendedTest {
             .action(action)
             .object(object)
             .eventTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
-            .extensions(extensionsNode)
+            .extensions(extensions)
             .build();
-    }
-
-    /**
-     * Create faux extensions
-     * @return
-     */
-    private ObjectNode createExtensionsNode() {
-        Document doc2 = Document.builder()
-            .id(SECTION_IRI.concat("/resources/123?version=2"))
-            .dateCreated(new DateTime(2016, 11, 12, 7, 15, 0, 0, DateTimeZone.UTC))
-            .dateModified(new DateTime(2016, 11, 13, 11, 0, 0, 0, DateTimeZone.UTC))
-            .version("2")
-            .build();
-
-        Document doc1 = Document.builder()
-            .id(SECTION_IRI.concat("/resources/123?version=1"))
-            .dateCreated(new DateTime(2016, 11, 12, 7, 15, 0, 0, DateTimeZone.UTC))
-            .version("1")
-            .build();
-
-        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
-
-        ArrayNode array = mapper.createArrayNode();
-        array.addPOJO(doc2);
-        array.addPOJO(doc1);
-
-        ObjectNode extensions = mapper.createObjectNode();
-        extensions.putArray("archive").addAll(array);
-
-        return extensions;
     }
 }

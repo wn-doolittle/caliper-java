@@ -18,11 +18,13 @@
 
 package org.imsglobal.caliper.entities.agent;
 
+import org.imsglobal.caliper.entities.CaliperEntity;
+
 /**
  * The agent interface marks an object type that can be do things.  The interface allows
  * Caliper to catch errors at compile time for instances of the marked class rather than
  * at runtime if a marker annotation was defined instead.
  */
-public interface CaliperAgent {
+public interface CaliperAgent extends CaliperEntity {
 
 }

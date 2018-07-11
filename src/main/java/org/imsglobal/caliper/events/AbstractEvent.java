@@ -20,7 +20,10 @@ package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.imsglobal.caliper.actions.Action;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.imsglobal.caliper.actions.CaliperAction;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.entities.CaliperEntity;
 import org.imsglobal.caliper.entities.CaliperGeneratable;
@@ -38,6 +41,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
  * This class provides a skeletal implementation of the Event interface
@@ -58,7 +62,7 @@ public abstract class AbstractEvent implements CaliperEvent {
     private final CaliperAgent actor;
 
     @JsonProperty("action")
-    protected final Action action;
+    protected final CaliperAction action;
 
     @JsonProperty("object")
     private final CaliperEntity object;
@@ -91,7 +95,8 @@ public abstract class AbstractEvent implements CaliperEvent {
     private final LtiSession federatedSession;
 
     @JsonProperty("extensions")
-    private final Object extensions;
+    //private final Object extensions;
+    private final Map<String, Object> extensions;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AbstractEvent.class);
@@ -120,7 +125,7 @@ public abstract class AbstractEvent implements CaliperEvent {
         this.membership = builder.membership;
         this.session = builder.session;
         this.federatedSession = builder.federatedSession;
-        this.extensions = builder.extensions;
+        this.extensions = ImmutableMap.copyOf(builder.extensions);
     }
 
     /**
@@ -164,7 +169,7 @@ public abstract class AbstractEvent implements CaliperEvent {
      * @return the action
      */
     @Nonnull
-    public Action getAction() {
+    public CaliperAction getAction() {
         return action;
     }
 
@@ -260,7 +265,12 @@ public abstract class AbstractEvent implements CaliperEvent {
      * Custom properties.  Optional.
      * @return extensions
      */
+    /**
     public Object getExtensions() {
+        return extensions;
+    }
+     */
+    public Map<String, Object> getExtensions() {
         return extensions;
     }
 
@@ -273,7 +283,7 @@ public abstract class AbstractEvent implements CaliperEvent {
         private String id;
         private CaliperEventType type;
         private CaliperAgent actor;
-        private Action action;
+        private CaliperAction action;
         private CaliperEntity object;
         private CaliperTargetable target;
         private CaliperGeneratable generated;
@@ -284,7 +294,8 @@ public abstract class AbstractEvent implements CaliperEvent {
         private Membership membership;
         private Session session;
         private LtiSession federatedSession;
-        private Object extensions;
+        //private Object extensions;
+        private Map<String, Object> extensions = Maps.newHashMap();
 
         protected abstract T self();
 
@@ -335,7 +346,7 @@ public abstract class AbstractEvent implements CaliperEvent {
          * @param action
          * @return builder.
          */
-        public T action(Action action) {
+        public T action(CaliperAction action) {
             this.action = action;
             return self();
         }
@@ -434,7 +445,14 @@ public abstract class AbstractEvent implements CaliperEvent {
          * @param extensions
          * @return builder.
          */
+        /**
         public T extensions(Object extensions) {
+            this.extensions = extensions;
+            return self();
+        }
+         */
+
+        public T extensions(Map<String, Object> extensions) {
             this.extensions = extensions;
             return self();
         }

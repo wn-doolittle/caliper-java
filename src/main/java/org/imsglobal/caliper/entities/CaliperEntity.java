@@ -18,14 +18,17 @@
 
 package org.imsglobal.caliper.entities;
 
+import org.imsglobal.caliper.CaliperSendable;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.joda.time.DateTime;
+
+import java.util.Map;
 
 /**
  * The Entity interface provides the minimal set of properties and behaviors required of a Caliper Entity.  For an
  * Entity to be linkable, dereferencing the identifier should result in a representation of the node.
  */
-public interface CaliperEntity {
+public interface CaliperEntity extends CaliperSendable {
 
     /**
      * The JSON-LD context provides a mapping of terms to IRIs.  The identifier
@@ -79,5 +82,5 @@ public interface CaliperEntity {
      * Additional custom properties provided that are germane to the Event.  Optional.
      * @return extensions
      */
-    Object getExtensions();
+    Map<String, Object> getExtensions();
 }

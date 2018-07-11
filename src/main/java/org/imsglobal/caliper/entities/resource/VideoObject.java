@@ -18,7 +18,6 @@
 
 package org.imsglobal.caliper.entities.resource;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nullable;
@@ -26,49 +25,26 @@ import javax.annotation.Nullable;
 /**
  * A Video object embedded in a web page.
  */
-public class VideoObject extends AbstractDigitalResource implements CaliperMediaObject {
-
-    @JsonProperty("duration")
-    private String duration;
+public class VideoObject extends MediaObject {
 
     /**
      * @param builder apply builder object properties to the VideoObject object.
      */
     protected VideoObject(Builder<?> builder) {
         super(builder);
-
-        this.duration = builder.duration;
-    }
-
-    /**
-     * @return duration
-     */
-    @Nullable
-    public String getDuration() {
-        return duration;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T>  {
-        private String duration;
+    public static abstract class Builder<T extends Builder<T>> extends MediaObject.Builder<T>  {
 
         /**
          * Initialize type with default value.  Required if builder().type() is not set by user.
          */
         public Builder() {
             super.type(EntityType.VIDEO_OBJECT);
-        }
-
-        /**
-         * @param duration
-         * @return duration
-         */
-        public T duration(String duration) {
-            this.duration = duration;
-            return self();
         }
 
         /**

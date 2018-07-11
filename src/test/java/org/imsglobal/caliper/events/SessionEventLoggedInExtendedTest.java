@@ -18,8 +18,9 @@
 
 package org.imsglobal.caliper.events;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Maps;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
@@ -36,6 +37,8 @@ import org.junit.experimental.categories.Category;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
+import java.util.Map;
+
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
 @Category(org.imsglobal.caliper.UnitTest.class)
@@ -45,7 +48,7 @@ public class SessionEventLoggedInExtendedTest {
     private Person actor;
     private SoftwareApplication object, edApp;
     private Session session;
-    private Object extensions;
+    private Map<String, Object> extensions;
     private SessionEvent event;
 
     private static final String BASE_IRI = "https://example.edu";
@@ -63,7 +66,10 @@ public class SessionEventLoggedInExtendedTest {
 
         edApp = SoftwareApplication.builder().id(object.getId()).coercedToId(true).build();
 
-        extensions = createExtensionsNode();
+        // Create Session extensions
+        Request request = Request.create();
+        extensions = Maps.newHashMap();
+        extensions.put("request", request);
 
         session = Session.builder()
             .id(BASE_IRI.concat("/sessions/1f6442a482de72ea6ad134943812bff564a76259"))
@@ -115,20 +121,55 @@ public class SessionEventLoggedInExtendedTest {
     }
 
     /**
-     * Create faux extensions
-     * @return
+     * Request extension
      */
-    private ObjectNode createExtensionsNode() {
-        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
+    static class Request {
+        private String id;
+        private String hostname;
+        private String userAgent;
 
-        ObjectNode request = mapper.createObjectNode();
-        request.put("id", "d71016dc-ed2f-46f9-ac2c-b93f15f38fdc");
-        request.put("hostname", "example.com");
-        request.put("userAgent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36");
+        /**
+         * Constructor
+         */
+        private Request() {
+            this.id = "d71016dc-ed2f-46f9-ac2c-b93f15f38fdc";
+            this.hostname = "example.com";
+            this.userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36";
+        }
 
-        ObjectNode extensions = mapper.createObjectNode();
-        extensions.putPOJO("request", request);
+        /**
+         * Get the Job identifier.
+         * @return the id
+         */
+        @JsonProperty("id")
+        private String getId() {
+            return id;
+        }
 
-        return extensions;
+        /**
+         * Get the Hostname.
+         * @return the hostname
+         */
+        @JsonProperty("hostname")
+        private String getHostname() {
+            return hostname;
+        }
+
+        /**
+         * Get the User Agent string.
+         * @return the userAgent
+         */
+        @JsonProperty("userAgent")
+        private String getUserAgent() {
+            return userAgent;
+        }
+
+        /**
+         * Factory method
+         * @return new Job
+         */
+        private static Request create() {
+            return new Request();
+        }
     }
 }

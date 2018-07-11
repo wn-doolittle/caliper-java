@@ -16,30 +16,19 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.config;
+package org.imsglobal.caliper.entities.agent;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
-public enum Timeout {
-    CONNECTION_REQUESTOR_TIMEOUT(10000),
-    CONNECTION_TIMEOUT(10000),
-    SOCKET_TIMEOUT(10000);
-
-    private final int value;
+public interface CaliperCourse extends CaliperOrganization {
 
     /**
-     * Private constructor
-     * @param value
+     * The course number assigned to the course.
+     * @return courseNumber
      */
-    private Timeout(final int value) {
-        this.value = value;
-    }
+    String getCourseNumber();
 
     /**
-     * @return default string
+     * The academic session to which the course belongs (e.g. "Fall 2018")
+     * @return academicSession
      */
-    @JsonValue
-    public int value() {
-        return value;
-    }
+    String getAcademicSession();
 }

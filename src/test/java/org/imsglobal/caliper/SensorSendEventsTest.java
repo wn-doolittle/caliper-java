@@ -114,7 +114,7 @@ public class SensorSendEventsTest {
 
             // Prep envelope
             DateTime sendTime = new DateTime(DateTimeZone.UTC);
-            List<Object> data = new ArrayList<>();
+            List<CaliperSendable> data = new ArrayList<>();
             data.add(event);
 
             Envelope envelope = sensor.create(client.getId(), sendTime, Config.DATA_VERSION, data);
