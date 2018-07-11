@@ -83,35 +83,7 @@ public class SelectTextResponse extends Response {
             this.values.add(value);
             return self();
         }
-
-        /**
-         * @param startedAtTime
-         * @return
-         */
-        public T startedAtTime(DateTime startedAtTime) {
-            this.timePeriod.setStartedAtTime(startedAtTime);
-
-            return self();
-        }
-
-        /**
-         * @param endedAtTime
-         * @return builder
-         */
-        public T endedAtTime(DateTime endedAtTime) {
-            this.timePeriod.setEndedAtTime(endedAtTime);
-            return self();
-        }
-
-        /**
-         * @param duration
-         * @return
-         */
-        public T duration(String duration) {
-            this.timePeriod.setDuration(duration);
-            return self();
-        }
-
+        
         /**
          * Client invokes build method in order to create an immutable object.
          * @return a new instance of SelectTextResponse.
