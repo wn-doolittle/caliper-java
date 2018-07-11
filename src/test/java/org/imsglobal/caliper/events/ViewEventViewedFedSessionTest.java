@@ -170,31 +170,22 @@ public class ViewEventViewedFedSessionTest {
 
         Map<String, Object> params = Maps.newHashMap();
         params.put("lti_message_type", "basic-lti-launch-request");
-        params.put("lti_version", "LTI-2p0");
+        params.put("lti_version", "LTI-1p0");
         params.put("context_id", "4f1a161f-59c3-43e5-be37-445ad09e3f76");
-        params.put("context_type", "CourseSection");
+        params.put("context_type", "urn:lti:context-type:ims/lis/CourseSection");
+        params.put("context_label", "SI182");
+        params.put("context_title", "Design of Personal Environments");
         params.put("resource_link_id", "6b37a950-42c9-4117-8f4f-03e6e5c88d24");
 
         List<String> roles = Lists.newArrayList();
-        roles.add("Learner");
+        roles.add("urn:lti:role:ims/lis/Learner");
 
         params.put("roles", roles);
+        params.put("tool_consumer_instance_guid", "SomeLMS.example.edu");
+        params.put("tool_consumer_instance_description", "Sample University (SomeLMS)");
         params.put("user_id", "0ae836b9-7fc9-4060-006f-27b2066ac545");
-
-        Map<String, String> custom = Maps.newHashMap();
-        custom.put("caliper_profile_url", "https://example.edu/lti/tc/cps");
-        custom.put("caliper_session_id", "1c519ff7-3dfa-4764-be48-d2fb35a2925a");
-        custom.put("tool_consumer_instance_url", "https://example.edu");
-
-        params.put("custom", custom);
-
-        Map<String, String> ext = Maps.newHashMap();
-        ext.put("edu_example_course_section", "https://example.edu/terms/201601/courses/7/sections/1");
-        ext.put("edu_example_course_section_roster", "https://example.edu/terms/201601/courses/7/sections/1/rosters/1");
-        ext.put("edu_example_course_section_learner", "https://example.edu/users/554433");
-        ext.put("edu_example_course_section_instructor", "https://example.edu/faculty/1234");
-
-        params.put("ext", ext);
+        params.put("custom_xstart", "2016-08-21T01:00:00Z");
+        params.put("ext_com_somelms_example_course_section_instructor","https://example.edu/faculty/1234");
 
         return params;
     }
