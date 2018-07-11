@@ -16,33 +16,34 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.entities.response;
+package org.imsglobal.caliper.entities.session;
 
 import org.imsglobal.caliper.entities.CaliperEntity;
-import org.imsglobal.caliper.entities.CaliperGeneratable;
-import org.imsglobal.caliper.entities.resource.Attempt;
+import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import org.joda.time.DateTime;
 
 /**
- * The response interface marks an object type that represents a learner's response to an AssessmentItem.
+ * The session interface marks an object type that represents a user session.  The interface allows
+ * Caliper to catch errors at compile time for instances of the marked class rather than
+ * at runtime.
  */
-public interface CaliperResponse extends CaliperEntity, CaliperGeneratable {
+public interface CaliperSession extends CaliperEntity {
 
     /**
-     * Attempt contains a count of the number of times an assignee, typically a Person, has interacted with an
-     * assignable resource.
+     * Agent, typically a Person, who initiated the Session.
+     * @return Agent associated with this Session.
      */
-    Attempt getAttempt();
+    CaliperAgent getUser();
 
     /**
-     * A combined date and time representation (including milliseconds) indicating the Response start time, formatted
+     * A combined date and time representation (including milliseconds) indicating the Session start time, formatted
      * in accordance with the ISO 8601 standard.  Optional.
      * @return startedAtTime
      */
     DateTime getStartedAtTime();
 
     /**
-     * A combined date and time representation (including milliseconds) indicating the Response end time, formatted
+     * A combined date and time representation (including milliseconds) indicating the Session end time, formatted
      * in accordance with the ISO 8601 standard.  Optional.
      * @return endedAtTime
      */

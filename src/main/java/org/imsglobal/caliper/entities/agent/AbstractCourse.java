@@ -19,94 +19,78 @@
 package org.imsglobal.caliper.entities.agent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import org.imsglobal.caliper.entities.AbstractEntity;
 import org.imsglobal.caliper.entities.EntityType;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
- * This class provides a skeletal implementation of the Organization interface
+ * This class provides a skeletal implementation of the Course interface
  * in order to minimize the effort required to implement the interface.
  */
-public abstract class AbstractOrganization extends AbstractEntity implements CaliperOrganization {
+public class AbstractCourse extends AbstractOrganization implements CaliperCourse {
 
-    @JsonProperty("subOrganizationOf")
-    private final CaliperOrganization subOrganizationOf;
+    @JsonProperty("courseNumber")
+    private final String courseNumber;
 
-    @JsonProperty("members")
-    private final ImmutableList<CaliperAgent> members;
+    @JsonProperty("academicSession")
+    private final String academicSession;
 
     /**
      * @param builder apply builder object properties to the object.
      */
-    protected AbstractOrganization(Builder<?> builder) {
+    protected AbstractCourse(Builder<?> builder) {
         super(builder);
-        this.subOrganizationOf = builder.subOrganizationOf;
-        this.members = ImmutableList.copyOf(builder.members);
+        this.courseNumber = builder.courseNumber;
+        this.academicSession = builder.academicSession;
     }
 
     /**
-     * @return the parent organization.
+     * The course number, such as "Biology 101". In general, this number is not simply a numeric value.
+     * @return the course number.
      */
     @Nullable
-    public CaliperOrganization getSubOrganizationOf() {
-        return subOrganizationOf;
+    public String getCourseNumber() {
+        return courseNumber;
     }
 
     /**
-     * Return an immutable list of the Collection's items.
-     * @return the items
+     * @return academic session
      */
-    @Override
     @Nullable
-    public ImmutableList<CaliperAgent> getMembers() {
-        return members;
+    public String getAcademicSession() {
+        return academicSession;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
-        private CaliperOrganization subOrganizationOf;
-        private List<CaliperAgent> members = Lists.newArrayList();
+    public static abstract class Builder<T extends Builder<T>> extends AbstractOrganization.Builder<T> {
+        private String courseNumber;
+        private String academicSession;
 
         /**
          * Constructor
          */
         public Builder() {
-            super.type(EntityType.ORGANIZATION);
+            super.type(EntityType.COURSE_OFFERING);
         }
 
         /**
-         * @param subOrganizationOf
+         * @param courseNumber
          * @return builder.
          */
-        public T subOrganizationOf(CaliperOrganization subOrganizationOf) {
-            this.subOrganizationOf = subOrganizationOf;
+        public T courseNumber(String courseNumber) {
+            this.courseNumber = courseNumber;
             return self();
         }
 
         /**
-         * @param members
+         * @param academicSession
          * @return builder.
          */
-        public T members(List<CaliperAgent> members) {
-            if(members != null){
-                this.members.addAll(members);
-            }
-            return self();
-        }
-
-        /**
-         * @param member
-         * @return builder.
-         */
-        public T member(CaliperAgent member) {
-            this.members.add(member);
+        public T academicSession(String academicSession) {
+            this.academicSession = academicSession;
             return self();
         }
     }

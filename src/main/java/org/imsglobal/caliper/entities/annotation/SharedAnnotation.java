@@ -27,7 +27,7 @@ import org.imsglobal.caliper.entities.agent.CaliperAgent;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class SharedAnnotation extends AbstractAnnotation {
+public class SharedAnnotation extends Annotation {
 
     @JsonProperty("withAgents")
     private final ImmutableList<CaliperAgent> withAgents;
@@ -53,7 +53,7 @@ public class SharedAnnotation extends AbstractAnnotation {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractAnnotation.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends Annotation.Builder<T> {
         private List<CaliperAgent> withAgents = Lists.newArrayList();
 
         /**
@@ -68,7 +68,9 @@ public class SharedAnnotation extends AbstractAnnotation {
          * @return shared agents.
          */
         public T withAgents(List<CaliperAgent> withAgents) {
-            this.withAgents = withAgents;
+            if(withAgents != null) {
+                this.withAgents.addAll(withAgents);
+            }
             return self();
         }
 

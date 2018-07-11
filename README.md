@@ -15,7 +15,7 @@ analysis and use.
 to this branch.
 
 ## Tags
-*caliper-java* releases are tagged and versioned MAJOR.MINOR.PATCH\[-label\] (e.g., 1.1.0). 
+*caliper-java* releases are tagged and versioned MAJOR.MINOR.PATCH\[-label\] (e.g., 1.1.1). 
 Pre-release tags are identified with an extensions label (e.g., "1.2.0-RC01").  The tags are stored 
 in this repository.
 
@@ -63,7 +63,7 @@ You can specify *caliper-java* as a project or module dependency in the appropri
 <dependency>
     <groupId>org.imsglobal.caliper</groupId>
     <artifactId>caliper-java</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 </dependency>
 ```  
 

@@ -16,30 +16,18 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.config;
+package org.imsglobal.caliper.actions;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
-public enum Timeout {
-    CONNECTION_REQUESTOR_TIMEOUT(10000),
-    CONNECTION_TIMEOUT(10000),
-    SOCKET_TIMEOUT(10000);
-
-    private final int value;
+/**
+ * The CaliperAction interface allows an implementor to extend the otherwise static list of Caliper actions with
+ * additional actions.  The implementer can follow up by writing an enum manager in order to join the core and custom
+ * action enums together.
+ */
+public interface CaliperAction {
 
     /**
-     * Private constructor
-     * @param value
+     * Action string.
+     * @return action value
      */
-    private Timeout(final int value) {
-        this.value = value;
-    }
-
-    /**
-     * @return default string
-     */
-    @JsonValue
-    public int value() {
-        return value;
-    }
+    String value();
 }

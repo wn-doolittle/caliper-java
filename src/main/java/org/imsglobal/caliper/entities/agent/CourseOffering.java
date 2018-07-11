@@ -28,71 +28,26 @@ import javax.annotation.Nullable;
  * CourseOffering provides a subset of the CourseOffering properties specified in the IMS LTI 2.0
  * specification, which in turn, draws inspiration from the IMS LIS 1.0 specification.
  */
-public class CourseOffering extends AbstractOrganization {
-
-    @JsonProperty("courseNumber")
-    private final String courseNumber;
-
-    @JsonProperty("academicSession")
-    private final String academicSession;
+public class CourseOffering extends AbstractCourse {
 
     /**
      * @param builder apply builder object properties to the object.
      */
     protected CourseOffering(Builder<?> builder) {
         super(builder);
-        this.courseNumber = builder.courseNumber;
-        this.academicSession = builder.academicSession;
-    }
-
-    /**
-     * The course number, such as "Biology 101". In general, this number is not simply a numeric value.
-     * @return the course number.
-     */
-    @Nullable
-    public String getCourseNumber() {
-        return courseNumber;
-    }
-
-    /**
-     * @return academic session
-     */
-    @Nullable
-    public String getAcademicSession() {
-        return academicSession;
     }
 
     /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractOrganization.Builder<T> {
-        private String courseNumber;
-        private String academicSession;
+    public static abstract class Builder<T extends Builder<T>> extends AbstractCourse.Builder<T> {
 
         /**
          * Constructor
          */
         public Builder() {
             super.type(EntityType.COURSE_OFFERING);
-        }
-
-        /**
-         * @param courseNumber
-         * @return builder.
-         */
-        public T courseNumber(String courseNumber) {
-            this.courseNumber = courseNumber;
-            return self();
-        }
-
-        /**
-         * @param academicSession
-         * @return builder.
-         */
-        public T academicSession(String academicSession) {
-            this.academicSession = academicSession;
-            return self();
         }
 
         /**

@@ -16,30 +16,13 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.config;
+package org.imsglobal.caliper;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+/**
+ * The sendable interface marks an object type that can be added to an Envelope's data payload.
+ * The interface allows Caliper to catch errors at compile time for instances of the marked class rather
+ * than at runtime if a marker annotation was defined instead.
+ */
+public interface CaliperSendable {
 
-public enum Timeout {
-    CONNECTION_REQUESTOR_TIMEOUT(10000),
-    CONNECTION_TIMEOUT(10000),
-    SOCKET_TIMEOUT(10000);
-
-    private final int value;
-
-    /**
-     * Private constructor
-     * @param value
-     */
-    private Timeout(final int value) {
-        this.value = value;
-    }
-
-    /**
-     * @return default string
-     */
-    @JsonValue
-    public int value() {
-        return value;
-    }
 }

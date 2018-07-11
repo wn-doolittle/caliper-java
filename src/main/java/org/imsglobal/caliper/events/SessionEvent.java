@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
         Action.LOGGED_OUT,
         Action.TIMED_OUT
 })
-public class SessionEvent extends AbstractEvent {
+public class SessionEvent extends Event {
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(SessionEvent.class);
@@ -76,7 +76,7 @@ public class SessionEvent extends AbstractEvent {
      * Initialize default parameter values in the builder.
      * @param <T> builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractEvent.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
 
         /*
          * Constructor

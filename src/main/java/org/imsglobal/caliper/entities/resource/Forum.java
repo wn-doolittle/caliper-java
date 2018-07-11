@@ -27,7 +27,7 @@ import org.imsglobal.caliper.entities.EntityType;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Forum extends AbstractDigitalResource implements CaliperCollection {
+public class Forum extends DigitalResource implements CaliperCollection {
 
     @JsonProperty("items")
     private final ImmutableList<Thread> items;
@@ -55,7 +55,7 @@ public class Forum extends AbstractDigitalResource implements CaliperCollection 
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
         private List<Thread> items = Lists.newArrayList();
 
         /**
@@ -70,7 +70,9 @@ public class Forum extends AbstractDigitalResource implements CaliperCollection 
          * @return builder.
          */
         public T items(List<Thread> items) {
-            this.items = items;
+            if(items != null) {
+                this.items.addAll(items);
+            }
             return self();
         }
 

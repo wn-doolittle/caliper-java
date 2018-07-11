@@ -19,8 +19,8 @@
 package org.imsglobal.caliper.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.imsglobal.caliper.TestUtils;
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.context.JsonldContext;
@@ -43,6 +43,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
+
+import java.util.List;
+import java.util.Map;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.jsonFixture;
 
@@ -81,7 +84,8 @@ public class ViewEventViewedFedSessionTest {
 
         edApp = SoftwareApplication.builder().id(BASE_IRI_COM).coercedToId(true).build();
 
-        ObjectNode groupExtensions = createGroupExtensionsNode();
+        Map<String, Object> groupExtensions = Maps.newHashMap();
+        groupExtensions.put("edu_example_course_section_instructor", "https://example.edu/faculty/1234");
 
         group = CourseSection.builder()
             .id(BASE_IRI_EDU.concat("/terms/201601/courses/7/sections/1"))
@@ -103,12 +107,12 @@ public class ViewEventViewedFedSessionTest {
             .startedAtTime(new DateTime(2016, 11, 15, 10, 20, 0, 0, DateTimeZone.UTC))
             .build();
 
-        ObjectNode messageParams = createMessageParametersNode();
+        Map<String, Object> messageParameters = getMessageParameters();
 
         federatedSession = LtiSession.builder()
             .id("urn:uuid:1c519ff7-3dfa-4764-be48-d2fb35a2925a")
             .user(actorToId)
-            .messageParameters(messageParams)
+            .messageParameters(messageParameters)
             .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
             .build();
@@ -159,51 +163,39 @@ public class ViewEventViewedFedSessionTest {
     }
 
     /**
-     * Create faux extensions
-     * @return
+     * LTI message parameters
+     * @return messageParameters
      */
-    private ObjectNode createMessageParametersNode() {
-        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
+    private Map<String, Object> getMessageParameters() {
 
-        ObjectNode node = mapper.createObjectNode();
-        node.put("lti_message_type", "basic-lti-launch-request");
-        node.put("lti_version", "LTI-2p0");
-        node.put("context_id", "4f1a161f-59c3-43e5-be37-445ad09e3f76");
-        node.put("context_type", "CourseSection");
-        node.put("resource_link_id", "6b37a950-42c9-4117-8f4f-03e6e5c88d24");
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("lti_message_type", "basic-lti-launch-request");
+        params.put("lti_version", "LTI-2p0");
+        params.put("context_id", "4f1a161f-59c3-43e5-be37-445ad09e3f76");
+        params.put("context_type", "CourseSection");
+        params.put("resource_link_id", "6b37a950-42c9-4117-8f4f-03e6e5c88d24");
 
-        ArrayNode roles = mapper.createArrayNode();
+        List<String> roles = Lists.newArrayList();
         roles.add("Learner");
-        node.putArray("roles").addAll(roles);
 
-        node.put("user_id", "0ae836b9-7fc9-4060-006f-27b2066ac545");
+        params.put("roles", roles);
+        params.put("user_id", "0ae836b9-7fc9-4060-006f-27b2066ac545");
 
-        ObjectNode custom = mapper.createObjectNode();
+        Map<String, String> custom = Maps.newHashMap();
         custom.put("caliper_profile_url", "https://example.edu/lti/tc/cps");
         custom.put("caliper_session_id", "1c519ff7-3dfa-4764-be48-d2fb35a2925a");
         custom.put("tool_consumer_instance_url", "https://example.edu");
-        node.putPOJO("custom", custom);
 
-        ObjectNode ext = mapper.createObjectNode();
+        params.put("custom", custom);
+
+        Map<String, String> ext = Maps.newHashMap();
         ext.put("edu_example_course_section", "https://example.edu/terms/201601/courses/7/sections/1");
         ext.put("edu_example_course_section_roster", "https://example.edu/terms/201601/courses/7/sections/1/rosters/1");
         ext.put("edu_example_course_section_learner", "https://example.edu/users/554433");
         ext.put("edu_example_course_section_instructor", "https://example.edu/faculty/1234");
-        node.putPOJO("ext", ext);
 
-        return node;
-    }
+        params.put("ext", ext);
 
-    /**
-     * Create faux extensions
-     * @return ObjectNode
-     */
-    private ObjectNode createGroupExtensionsNode() {
-        ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
-        
-        ObjectNode node = mapper.createObjectNode();
-        node.put("edu_example_course_section_instructor", "https://example.edu/faculty/1234");
-
-        return node;
+        return params;
     }
 }

@@ -23,7 +23,7 @@ import org.imsglobal.caliper.entities.EntityType;
 /**
  * A Caliper Group represents an ad-hoc organization that an Agent, typically a Person or another Group is able to join as a member.
  */
-public class Group extends AbstractOrganization {
+public class Group extends Organization {
 
     /**
      * @param builder apply builder object properties to the object.
@@ -36,7 +36,7 @@ public class Group extends AbstractOrganization {
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractOrganization.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends Organization.Builder<T> {
 
         /**
          * Constructor

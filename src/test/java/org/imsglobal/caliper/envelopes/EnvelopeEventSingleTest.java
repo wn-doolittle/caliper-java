@@ -21,6 +21,7 @@ package org.imsglobal.caliper.envelopes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.imsglobal.caliper.CaliperSendable;
 import org.imsglobal.caliper.Envelope;
 import org.imsglobal.caliper.Sensor;
 import org.imsglobal.caliper.TestUtils;
@@ -130,7 +131,7 @@ public class EnvelopeEventSingleTest {
         event = buildEvent(Action.STARTED);
 
         // Add event to data array
-        List<Object> data = new ArrayList<>();
+        List<CaliperSendable> data = new ArrayList<>();
         data.add(event);
 
         // Send time

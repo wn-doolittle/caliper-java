@@ -97,7 +97,7 @@ public abstract class AbstractAnnotation extends AbstractEntity implements Calip
     /**
      *
      */
-    private static class Builder2 extends AbstractAnnotation.Builder<Builder2> {
+    private static class Builder2 extends Builder<Builder2> {
         @Override
         protected Builder2 self() {
             return this;
