@@ -70,7 +70,9 @@ public class Thread extends DigitalResource implements CaliperCollection {
          * @return builder.
          */
         public T items(List<Message> items) {
-            this.items = items;
+            if(items != null) {
+                this.items.addAll(items);
+            }
             return self();
         }
 

@@ -72,7 +72,9 @@ public class Assessment extends AssignableDigitalResource implements CaliperAsse
          * @return builder.
          */
         public T items(List<AssessmentItem> items) {
-            this.items = items;
+            if(items != null) {
+                this.items.addAll(items);
+            }
             return self();
         }
 

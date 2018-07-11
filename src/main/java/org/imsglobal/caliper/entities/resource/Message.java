@@ -110,7 +110,9 @@ public class Message extends DigitalResource {
          * @return builder.
          */
         public T attachments(List<CaliperDigitalResource> attachments) {
-            this.attachments = attachments;
+            if(attachments != null) {
+                this.attachments.addAll(attachments);
+            }
             return self();
         }
 

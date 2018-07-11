@@ -69,7 +69,9 @@ public class SelectTextResponse extends Response {
          * @return builder.
          */
         public T values(List<String> values) {
-            this.values = values;
+            if(values != null) {
+                this.values.addAll(values);
+            }
             return self();
         }
 
@@ -81,7 +83,7 @@ public class SelectTextResponse extends Response {
             this.values.add(value);
             return self();
         }
-
+        
         /**
          * Client invokes build method in order to create an immutable object.
          * @return a new instance of SelectTextResponse.

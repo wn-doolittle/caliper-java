@@ -68,7 +68,9 @@ public class SharedAnnotation extends Annotation {
          * @return shared agents.
          */
         public T withAgents(List<CaliperAgent> withAgents) {
-            this.withAgents = withAgents;
+            if(withAgents != null) {
+                this.withAgents.addAll(withAgents);
+            }
             return self();
         }
 

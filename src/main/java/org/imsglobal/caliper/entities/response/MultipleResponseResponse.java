@@ -71,7 +71,9 @@ public class MultipleResponseResponse extends Response {
          * @return builder.
          */
         public T values(List<String> values) {
-            this.values = values;
+            if(values != null) {
+                this.values.addAll(values);
+            }
             return self();
         }
 

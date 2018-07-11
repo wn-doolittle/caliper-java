@@ -70,7 +70,9 @@ public class DigitalResourceCollection extends DigitalResource implements Calipe
          * @return builder.
          */
         public T items(List<CaliperDigitalResource> items) {
-            this.items = items;
+            if(items != null) {
+                this.items.addAll(items);
+            }
             return self();
         }
 

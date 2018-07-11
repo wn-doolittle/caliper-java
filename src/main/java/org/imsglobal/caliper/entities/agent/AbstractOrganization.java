@@ -95,7 +95,9 @@ public abstract class AbstractOrganization extends AbstractEntity implements Cal
          * @return builder.
          */
         public T members(List<CaliperAgent> members) {
-            this.members = members;
+            if(members != null){
+                this.members.addAll(members);
+            }
             return self();
         }
 
