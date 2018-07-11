@@ -10,7 +10,7 @@
 
     <groupId>org.imsglobal.caliper</groupId>
     <artifactId>caliper-java</artifactId>
-    <version>1.1.0-bb1-192a7f6</version>
+    <version>1.1.1</version>
     <packaging>jar</packaging>
 
     <name>caliper-java</name>
