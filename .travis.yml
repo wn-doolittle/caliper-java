@@ -3,7 +3,6 @@ language: java
 cache:
   directories:
     - "$HOME/.m2"
-    - "$HOME/caliper-common-fixtures"
 
 install: "git clone https://github.com/IMSGlobal/caliper-common-fixtures.git $HOME/caliper-common-fixtures && ln -s $HOME/caliper-common-fixtures/src/test/resources/ src/test/resources"
 
