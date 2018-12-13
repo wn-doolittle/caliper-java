@@ -5,12 +5,11 @@ cache:
     - "$HOME/.m2"
     - "$HOME/caliper-common-fixtures"
 
-install: skip
+install: "git clone https://github.com/IMSGlobal/caliper-common-fixtures.git $HOME/caliper-common-fixtures && ln -s $HOME/caliper-common-fixtures/src/test/resources/ src/test/resources"
 
 deploy:
   provider: script
-  install: "git clone https://github.com/IMSGlobal/caliper-common-fixtures.git $HOME/caliper-common-fixtures"
-  script: "cp .travis.settings.xml $HOME/.m2/settings.xml && ln -s $HOME/caliper-common-fixtures/src/test/resources/ src/test/resources && mvn -DaltSnapshotDeploymentRepository=packagecloud-weldnorthanalytics::default::packagecloud+https://packagecloud.io/weldnorthanalytics/doolittle deploy"
+  script: "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn -DaltSnapshotDeploymentRepository=packagecloud-weldnorthanalytics::default::packagecloud+https://packagecloud.io/weldnorthanalytics/doolittle deploy"
   skip_cleanup: true
   on:
     branch: master
