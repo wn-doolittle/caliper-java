@@ -5,6 +5,8 @@ cache:
     - "$HOME/.m2"
     - "$HOME/caliper-common-fixtures"
 
+install: skip
+
 deploy:
   provider: script
   install: "git clone https://github.com/IMSGlobal/caliper-common-fixtures.git $HOME/caliper-common-fixtures"
