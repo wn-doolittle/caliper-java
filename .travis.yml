@@ -8,7 +8,7 @@ install: "git clone https://github.com/IMSGlobal/caliper-common-fixtures.git $HO
 
 deploy:
   provider: script
-  script: "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn -DaltDeploymentRepository=packagecloud-weldnorthanalytics::default::packagecloud+https://packagecloud.io/weldnorthanalytics/doolittle deploy"
+  script: "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn -DaltDeploymentRepository=io.cloudrepo::default::https://weldnorthanalytics.mycloudrepo.io/repositories/doolittle deploy"
   skip_cleanup: true
   on:
     branch: master

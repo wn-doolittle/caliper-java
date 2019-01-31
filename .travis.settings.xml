@@ -5,9 +5,10 @@
 
   <servers>
     <server>
-      <id>packagecloud-weldnorthanalytics</id>
-      <password>${env.PACKAGECLOUD_TOKEN}</password>
+      <id>io.cloudrepo</id>
+      <username>ops+ci@weldnorthanalytics.com</username>
+      <password>${env.CLOUDREPO_PASSWORD}</password>
     </server>
-  </servers>
+	</servers>
 
 </settings>
