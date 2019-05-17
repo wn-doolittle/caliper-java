@@ -1,3 +1,6 @@
+[![Master Build Status](https://img.shields.io/travis/IMSGlobal/caliper-java.svg?label=master)](https://travis-ci.org/IMSGlobal/caliper-java)
+[![Develop Build Status](https://img.shields.io/travis/IMSGlobal/caliper-java/develop.svg?label=develop)](https://travis-ci.org/IMSGlobal/caliper-java/develop)
+
 # IMS Global Learning Consortium, Inc.
 
 # caliper-java
@@ -63,7 +66,7 @@ You can specify *caliper-java* as a project or module dependency in the appropri
 <dependency>
     <groupId>org.imsglobal.caliper</groupId>
     <artifactId>caliper-java</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 </dependency>
 ```  
 
