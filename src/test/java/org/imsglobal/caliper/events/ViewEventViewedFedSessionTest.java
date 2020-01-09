@@ -35,6 +35,8 @@ import org.imsglobal.caliper.entities.resource.Document;
 import org.imsglobal.caliper.entities.resource.WebPage;
 import org.imsglobal.caliper.entities.session.LtiSession;
 import org.imsglobal.caliper.entities.session.Session;
+import org.imsglobal.caliper.events.ViewEvent;
+import org.imsglobal.caliper.lti.*;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
@@ -76,11 +78,11 @@ public class ViewEventViewedFedSessionTest {
         Person actorToId = Person.builder().id(actor.getId()).coercedToId(true).build();
 
         object = Document.builder()
-            .id(BASE_IRI_COM.concat("/lti/reader/202.epub"))
-            .mediaType("application/epub+zip")
-            .name("Caliper Case Studies")
-            .dateCreated(new DateTime(2016, 8, 1, 9, 0, 0, 0, DateTimeZone.UTC))
-            .build();
+                .id(BASE_IRI_COM.concat("/lti/reader/202.epub"))
+                .mediaType("application/epub+zip")
+                .name("Caliper Case Studies")
+                .dateCreated(new DateTime(2016, 8, 1, 9, 0, 0, 0, DateTimeZone.UTC))
+                .build();
 
         edApp = SoftwareApplication.builder().id(BASE_IRI_COM).coercedToId(true).build();
 
@@ -88,34 +90,36 @@ public class ViewEventViewedFedSessionTest {
         groupExtensions.put("edu_example_course_section_instructor", "https://example.edu/faculty/1234");
 
         group = CourseSection.builder()
-            .id(BASE_IRI_EDU.concat("/terms/201601/courses/7/sections/1"))
-            .extensions(groupExtensions)
-            .build();
+                .id(BASE_IRI_EDU.concat("/terms/201601/courses/7/sections/1"))
+                .extensions(groupExtensions)
+                .build();
 
         membership = Membership.builder()
-            .id(BASE_IRI_EDU.concat("/terms/201601/courses/7/sections/1/rosters/1"))
-            .member(actorToId)
-            .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
-            .status(Status.ACTIVE)
-            .role(Role.LEARNER)
-            .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
-            .build();
+                .id(BASE_IRI_EDU.concat("/terms/201601/courses/7/sections/1/rosters/1"))
+                .member(actorToId)
+                .organization(CourseSection.builder().id(group.getId()).coercedToId(true).build())
+                .status(Status.ACTIVE)
+                .role(Role.LEARNER)
+                .dateCreated(new DateTime(2016, 8, 1, 6, 0, 0, 0, DateTimeZone.UTC))
+                .build();
 
         session = Session.builder()
-            .id(BASE_IRI_COM.concat("/sessions/c25fd3da-87fa-45f5-8875-b682113fa5ee"))
-            .dateCreated(new DateTime(2016, 11, 15, 10, 20, 0, 0, DateTimeZone.UTC))
-            .startedAtTime(new DateTime(2016, 11, 15, 10, 20, 0, 0, DateTimeZone.UTC))
-            .build();
+                .id(BASE_IRI_COM.concat("/sessions/c25fd3da-87fa-45f5-8875-b682113fa5ee"))
+                .dateCreated(new DateTime(2016, 11, 15, 10, 20, 0, 0, DateTimeZone.UTC))
+                .startedAtTime(new DateTime(2016, 11, 15, 10, 20, 0, 0, DateTimeZone.UTC))
+                .build();
 
-        Map<String, Object> messageParameters = getMessageParameters();
+        Map<String, Object> messageParameters = Maps.newHashMap();
+        messageParameters.putAll(getMessageParameters());
+        //messageParameters = getMessageParameters();
 
         federatedSession = LtiSession.builder()
-            .id("urn:uuid:1c519ff7-3dfa-4764-be48-d2fb35a2925a")
-            .user(actorToId)
-            .messageParameters(messageParameters)
-            .dateCreated(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
-            .startedAtTime(new DateTime(2016, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
-            .build();
+                .id(BASE_IRI_EDU.concat("/lti/sessions/b533eb02823f31024e6b7f53436c42fb99b31241"))
+                .user(actor)
+                .messageParameters(messageParameters)
+                .dateCreated(new DateTime(2018, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+                .startedAtTime(new DateTime(2018, 11, 15, 10, 15, 0, 0, DateTimeZone.UTC))
+                .build();
 
         // Build event
         event = buildEvent(Action.VIEWED);
@@ -126,7 +130,7 @@ public class ViewEventViewedFedSessionTest {
         ObjectMapper mapper = TestUtils.createCaliperObjectMapper();
         String json = mapper.writeValueAsString(event);
 
-        String fixture = jsonFixture("fixtures/caliperEventViewViewedFedSession.json");
+        String fixture = jsonFixture("fixtures/v1p1/caliperEventViewViewedFedSession.json");
         JSONAssert.assertEquals(fixture, json, JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -148,53 +152,113 @@ public class ViewEventViewedFedSessionTest {
      */
     private ViewEvent buildEvent(Action action) {
         return ViewEvent.builder()
-            .context(context)
-            .id(id)
-            .actor(actor)
-            .action(action)
-            .object(object)
-            .eventTime(new DateTime(2016, 11, 15, 10, 20, 0, 0, DateTimeZone.UTC))
-            .edApp(edApp)
-            .group(group)
-            .membership(membership)
-            .session(session)
-            .federatedSession(federatedSession)
-            .build();
+                .context(context)
+                .id(id)
+                .actor(actor)
+                .action(action)
+                .object(object)
+                .eventTime(new DateTime(2016, 11, 15, 10, 20, 0, 0, DateTimeZone.UTC))
+                .edApp(edApp)
+                .group(group)
+                .membership(membership)
+                .session(session)
+                .federatedSession(federatedSession)
+                .build();
     }
 
     /**
      * LTI message parameters
+     *
      * @return messageParameters
      */
     private Map<String, Object> getMessageParameters() {
-
         Map<String, Object> params = Maps.newHashMap();
-        params.put("lti_message_type", "basic-lti-launch-request");
-        params.put("lti_version", "LTI-2p0");
-        params.put("context_id", "4f1a161f-59c3-43e5-be37-445ad09e3f76");
-        params.put("context_type", "CourseSection");
-        params.put("resource_link_id", "6b37a950-42c9-4117-8f4f-03e6e5c88d24");
+        params.put("iss", "https://example.edu");
+        params.put("sub", "https://example.edu/users/554433");
+
+        List<String> auds = Lists.newArrayList();
+        auds.add("https://example.com/lti/tool");
+
+        params.put("aud", auds);
+        params.put("exp", 1510185728);
+        params.put("iat", 1510185228);
+        params.put("azp", "962fa4d8-bcbf-49a0-94b2-2de05ad274af");
+        params.put("nonce", "fc5fdc6d-5dd6-47f4-b2c9-5d1216e9b771");
+        params.put("name", "Ms Jane Marie Doe");
+        params.put("given_name", "Jane");
+        params.put("family_name", "Doe");
+        params.put("middle_name", "Marie");
+        params.put("picture", "https://example.edu/jane.jpg");
+        params.put("email", "jane@example.edu");
+        params.put("locale", "en-US");
+        params.put("https://purl.imsglobal.org/spec/lti/claim/deployment_id", "07940580-b309-415e-a37c-914d387c1150");
+        params.put("https://purl.imsglobal.org/spec/lti/claim/message_type", "LtiResourceLinkRequest");
+        params.put("https://purl.imsglobal.org/spec/lti/claim/version", "1.3.0");
 
         List<String> roles = Lists.newArrayList();
-        roles.add("Learner");
+        roles.add("http://purl.imsglobal.org/vocab/lis/v2/institution/person#Student");
+        roles.add("http://purl.imsglobal.org/vocab/lis/v2/membership#Learner");
+        roles.add("http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor");
 
-        params.put("roles", roles);
-        params.put("user_id", "0ae836b9-7fc9-4060-006f-27b2066ac545");
+        params.put("https://purl.imsglobal.org/spec/lti/claim/roles", roles);
 
-        Map<String, String> custom = Maps.newHashMap();
-        custom.put("caliper_profile_url", "https://example.edu/lti/tc/cps");
-        custom.put("caliper_session_id", "1c519ff7-3dfa-4764-be48-d2fb35a2925a");
-        custom.put("tool_consumer_instance_url", "https://example.edu");
+        List<String> mentors = Lists.newArrayList();
+        mentors.add("http://purl.imsglobal.org/vocab/lis/v2/institution/person#Administrator");
 
-        params.put("custom", custom);
+        params.put("https://purl.imsglobal.org/spec/lti/claim/role_scope_mentor", mentors);
 
-        Map<String, String> ext = Maps.newHashMap();
-        ext.put("edu_example_course_section", "https://example.edu/terms/201601/courses/7/sections/1");
-        ext.put("edu_example_course_section_roster", "https://example.edu/terms/201601/courses/7/sections/1/rosters/1");
-        ext.put("edu_example_course_section_learner", "https://example.edu/users/554433");
-        ext.put("edu_example_course_section_instructor", "https://example.edu/faculty/1234");
+        List<String> types = Lists.newArrayList();
+        types.add("http://purl.imsglobal.org/vocab/lis/v2/course#CourseSection");
 
-        params.put("ext", ext);
+        ContextClaim contextClaim = ContextClaim.builder()
+                .id("https://example.edu/terms/201801/courses/7/sections/1")
+                .label("CPS 435-01")
+                .title("CPS 435 Learning Analytics, Section 01")
+                .type(types)
+                .build();
+        params.put("https://purl.imsglobal.org/spec/lti/claim/context", contextClaim);
+
+        CustomClaim customClaim = CustomClaim.builder()
+                .xstart("2017-04-21T01:00:00Z")
+                .requestURL("https://tool.com/link/123")
+                .build();
+        params.put("https://purl.imsglobal.org/spec/lti/claim/custom", customClaim);
+
+        LaunchPresentationClaim launchPresentationClaim = LaunchPresentationClaim.builder()
+                .documentTarget("iframe")
+                .height(320)
+                .width(240)
+                .returnUrl("https://example.edu/terms/201801/courses/7/sections/1/pages/1")
+                .build();
+        params.put("https://purl.imsglobal.org/spec/lti/claim/launch_presentation", launchPresentationClaim);
+
+        LisClaim lisClaim = LisClaim.builder()
+                .personSourcedId("example.edu:71ee7e42-f6d2-414a-80db-b69ac2defd4")
+                .courseOfferingSourcedId("example.edu:SI182-F16")
+                .courseSectionSourcedId("example.edu:SI182-001-F16")
+                .build();
+        params.put("https://purl.imsglobal.org/spec/lti/claim/lis", lisClaim);
+
+        ResourceLinkClaim resourceLinkClaim = ResourceLinkClaim.builder()
+                .id("200d101f-2c14-434a-a0f3-57c2a42369fd")
+                .description("Assignment to introduce who you are")
+                .title("Introduction Assignment")
+                .build();
+        params.put("https://purl.imsglobal.org/spec/lti/claim/resource_link", resourceLinkClaim);
+
+        ToolPlatformClaim toolPlatformClaim = ToolPlatformClaim.builder()
+                .guid("https://example.edu")
+                .contactEmail("support@example.edu")
+                .description("An Example Tool Platform")
+                .name("Example Tool Platform")
+                .url("https://example.edu")
+                .productFamilyCode("ExamplePlatformVendor-Product")
+                .version("1.0")
+                .build();
+        params.put("https://purl.imsglobal.org/spec/lti/claim/tool_platform", toolPlatformClaim);
+
+        MessageParameterSession messageParamSession = MessageParameterSession.builder().id("89023sj890dju080").build();
+        params.put("http://www.ExamplePlatformVendor.com/session", messageParamSession);
 
         return params;
     }
