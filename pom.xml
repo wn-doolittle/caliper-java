@@ -73,9 +73,9 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
+            <id>io.cloudrepo</id>
             <name>Sonatype Nexus Snapshots</name>
-            <url>${sonatypeOssDistMgmtSnapshotsUrl}</url>
+            <url>https://weldnorthanalytics.mycloudrepo.io/repositories/doolittle</url>
         </snapshotRepository>
         <repository>
             <id>sonatype-nexus-staging</id>
