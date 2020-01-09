@@ -1,16 +1,20 @@
 language: java
-jdk: openjdk11
-dist: xenial
+jdk: oraclejdk8
+
+install: true
+script: ./mvnw clean install
+
+branches:
+  only:
+    - master
+    - develop
 
 cache:
   directories:
-    - "$HOME/.m2"
+    - $HOME/.m2
 
-install: "git clone https://github.com/IMSGlobal/caliper-common-fixtures.git $HOME/caliper-common-fixtures && ln -s $HOME/caliper-common-fixtures/src/test/resources/ src/test/resources"
-
-deploy:
-  provider: script
-  script: "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn -DaltDeploymentRepository=io.cloudrepo::default::https://weldnorthanalytics.mycloudrepo.io/repositories/doolittle deploy"
-  skip_cleanup: true
-  on:
-    branch: master
+before_script:
+  - wget https://github.com/IMSGlobal/caliper-common-fixtures/archive/develop.zip
+  - unzip develop.zip -d ..
+  - mkdir -p src/test/resources/fixtures
+  - mv ../caliper-common-fixtures-develop/v1p1 src/test/resources/fixtures
