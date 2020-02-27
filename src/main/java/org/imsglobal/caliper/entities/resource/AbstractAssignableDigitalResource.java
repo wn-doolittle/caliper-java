@@ -85,8 +85,8 @@ public abstract class AbstractAssignableDigitalResource extends AbstractDigitalR
      * @return the maxAttempts
      */
     @Nullable
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public int getMaxAttempts() {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public Integer getMaxAttempts() {
         return assign.getMaxAttempts();
     }
 
@@ -94,8 +94,8 @@ public abstract class AbstractAssignableDigitalResource extends AbstractDigitalR
      * @return the maxSubmits
      */
     @Nullable
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public int getMaxSubmits() {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public Integer getMaxSubmits() {
         return assign.getMaxSubmits();
     }
 
@@ -104,8 +104,8 @@ public abstract class AbstractAssignableDigitalResource extends AbstractDigitalR
      */
     @Nullable
     // @JsonSerialize(using=DoubleSerializer.class)
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getMaxScore() {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public Double getMaxScore() {
         return assign.getMaxScore();
     }
 
@@ -163,7 +163,7 @@ public abstract class AbstractAssignableDigitalResource extends AbstractDigitalR
          * @param maxAttempts
          * @return builder
          */
-        public T maxAttempts(int maxAttempts) {
+        public T maxAttempts(Integer maxAttempts) {
             this.assign.setMaxAttempts(maxAttempts);
             return self();
         }
@@ -172,7 +172,7 @@ public abstract class AbstractAssignableDigitalResource extends AbstractDigitalR
          * @param maxSubmits
          * @return builder
          */
-        public T maxSubmits(int maxSubmits) {
+        public T maxSubmits(Integer maxSubmits) {
             this.assign.setMaxSubmits(maxSubmits);
             return self();
         }
@@ -181,7 +181,7 @@ public abstract class AbstractAssignableDigitalResource extends AbstractDigitalR
          * @param maxScore
          * @return builder
          */
-        public T maxScore(double maxScore) {
+        public T maxScore(Double maxScore) {
             this.assign.setMaxScore(maxScore);
             return self();
         }

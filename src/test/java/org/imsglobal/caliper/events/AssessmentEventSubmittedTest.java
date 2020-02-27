@@ -74,7 +74,7 @@ public class AssessmentEventSubmittedTest {
             .dateToSubmit(new DateTime(2016, 11, 18, 11, 59, 59, 0, DateTimeZone.UTC))
             .maxAttempts(2)
             .maxSubmits(2)
-            .maxScore(25)
+            .maxScore(25.0)
             .version("1.0")
             .build();
 

@@ -82,7 +82,7 @@ public class AssessmentItemEventCompletedTest {
             .dateToSubmit(new DateTime(2016, 11, 18, 11, 59, 59, 0, DateTimeZone.UTC))
             .maxAttempts(2)
             .maxSubmits(2)
-            .maxScore(1)
+            .maxScore(1.0)
             .isTimeDependent(false)
             .version("1.0")
             .build();
