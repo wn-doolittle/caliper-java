@@ -47,7 +47,7 @@ public class Attempt extends AbstractEntity implements CaliperGeneratable {
     private final Attempt isPartOf;
 
     @JsonProperty("count")
-    private int count;
+    private Integer count;
 
     @JsonIgnore
     private TimePeriod timePeriod = new TimePeriod();
@@ -98,8 +98,8 @@ public class Attempt extends AbstractEntity implements CaliperGeneratable {
      * @return the count
      */
     @Nullable
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public int getCount() {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public Integer getCount() {
         return count;
     }
 
@@ -135,7 +135,7 @@ public class Attempt extends AbstractEntity implements CaliperGeneratable {
         private CaliperDigitalResource assignable;
         private CaliperAgent assignee;
         private Attempt isPartOf;
-        private int count;
+        private Integer count;
         private TimePeriod timePeriod = new TimePeriod();
 
         /**
@@ -176,7 +176,7 @@ public class Attempt extends AbstractEntity implements CaliperGeneratable {
          * @param count
          * @return builder
          */
-        public T count(int count) {
+        public T count(Integer count) {
             this.count = count;
             return self();
         }

@@ -42,13 +42,13 @@ public class Assignment {
     private DateTime dateToSubmit;
 
     @JsonProperty("maxAttempts")
-    private int maxAttempts;
+    private Integer maxAttempts;
 
     @JsonProperty("maxSubmits")
-    private int maxSubmits;
+    private Integer maxSubmits;
 
     @JsonProperty("maxScore")
-    private double maxScore;
+    private Double maxScore;
 
     /**
      * Constructor
@@ -125,8 +125,8 @@ public class Assignment {
      * @return the maxAttempts
      */
     @Nullable
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public int getMaxAttempts() {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Integer getMaxAttempts() {
         return maxAttempts;
     }
 
@@ -134,7 +134,7 @@ public class Assignment {
      * Set the maximum attempts permitted for this assignment.
      * @param maxAttempts
      */
-    public void setMaxAttempts(int maxAttempts) {
+    public void setMaxAttempts(Integer maxAttempts) {
         this.maxAttempts = maxAttempts;
     }
 
@@ -142,8 +142,8 @@ public class Assignment {
      * @return the maxSubmits
      */
     @Nullable
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public int getMaxSubmits() {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public Integer getMaxSubmits() {
         return maxSubmits;
     }
 
@@ -151,7 +151,7 @@ public class Assignment {
      * Set the maximum number of submissions permitted for this assignment.
      * @param maxSubmits
      */
-    public void setMaxSubmits(int maxSubmits) {
+    public void setMaxSubmits(Integer maxSubmits) {
         this.maxSubmits = maxSubmits;
     }
 
@@ -160,8 +160,8 @@ public class Assignment {
      */
     @Nullable
     // @JsonSerialize(using=DoubleSerializer.class)
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getMaxScore() {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public Double getMaxScore() {
         return maxScore;
     }
 
@@ -169,7 +169,7 @@ public class Assignment {
      * Set the maximum score permitted for this assignment.
      * @param maxScore
      */
-    public void setMaxScore(double maxScore) {
+    public void setMaxScore(Double maxScore) {
         this.maxScore = maxScore;
     }
 }

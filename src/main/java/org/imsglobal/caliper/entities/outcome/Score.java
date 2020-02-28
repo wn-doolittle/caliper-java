@@ -34,10 +34,10 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
     private Attempt attempt;
 
     @JsonProperty("maxScore")
-    private double maxScore;
+    private Double maxScore;
 
     @JsonProperty("scoreGiven")
-    private double scoreGiven;
+    private Double scoreGiven;
 
     @JsonProperty("comment")
     private String comment;
@@ -71,8 +71,8 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
      */
     @Nullable
     // @JsonSerialize(using=DoubleSerializer.class)
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getMaxScore() {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public Double getMaxScore() {
         return maxScore;
     }
 
@@ -81,8 +81,8 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
      */
     @Nullable
     // @JsonSerialize(using=DoubleSerializer.class)
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getScoreGiven() {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public Double getScoreGiven() {
         return scoreGiven;
     }
 
@@ -108,8 +108,8 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
         private Attempt attempt;
-        private double maxScore;
-        private double scoreGiven;
+        private Double maxScore;
+        private Double scoreGiven;
         private String comment;
         private CaliperAgent scoredBy;
 
@@ -133,7 +133,7 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
          * @param maxScore
          * @return max score.
          */
-        public T maxScore(double maxScore) {
+        public T maxScore(Double maxScore) {
             this.maxScore = maxScore;
             return self();
         }
@@ -142,7 +142,7 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
          * @param scoreGiven
          * @return score given.
          */
-        public T scoreGiven(double scoreGiven) {
+        public T scoreGiven(Double scoreGiven) {
             this.scoreGiven = scoreGiven;
             return self();
         }

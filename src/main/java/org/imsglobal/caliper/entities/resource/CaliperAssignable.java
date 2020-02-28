@@ -35,9 +35,9 @@ public interface CaliperAssignable extends CaliperDigitalResource {
 
     DateTime getDateToSubmit();
 
-    int getMaxAttempts();
+    Integer getMaxAttempts();
 
-    double getMaxScore();
+    Double getMaxScore();
 
-    int getMaxSubmits();
+    Integer getMaxSubmits();
 }

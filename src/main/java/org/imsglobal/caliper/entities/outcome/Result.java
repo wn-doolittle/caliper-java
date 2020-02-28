@@ -34,10 +34,10 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
     private Attempt attempt;
 
     @JsonProperty("maxResultScore")
-    private double maxResultScore;
+    private Double maxResultScore;
 
     @JsonProperty("resultScore")
-    private double resultScore;
+    private Double resultScore;
 
     @JsonProperty("comment")
     private String comment;
@@ -71,8 +71,8 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
      */
     @Nullable
     // @JsonSerialize(using=DoubleSerializer.class)
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getMaxResultScore() {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public Double getMaxResultScore() {
         return maxResultScore;
     }
 
@@ -81,8 +81,8 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
      */
     @Nullable
     // @JsonSerialize(using=DoubleSerializer.class)
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    public double getResultScore() {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public Double getResultScore() {
         return resultScore;
     }
 
@@ -108,8 +108,8 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
      */
     public static abstract class Builder<T extends Builder<T>> extends AbstractEntity.Builder<T> {
         private Attempt attempt;
-        private double maxResultScore;
-        private double resultScore;
+        private Double maxResultScore;
+        private Double resultScore;
         private String comment;
         private CaliperAgent scoredBy;
 
@@ -133,7 +133,7 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
          * @param maxResultScore
          * @return normal score.
          */
-        public T maxResultScore(double maxResultScore) {
+        public T maxResultScore(Double maxResultScore) {
             this.maxResultScore = maxResultScore;
             return self();
         }
@@ -142,7 +142,7 @@ public class Result extends AbstractEntity implements CaliperGeneratable {
          * @param resultScore
          * @return penalty score.
          */
-        public T resultScore(double resultScore) {
+        public T resultScore(Double resultScore) {
             this.resultScore = resultScore;
             return self();
         }

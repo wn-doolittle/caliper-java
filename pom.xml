@@ -205,10 +205,10 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://github.com/IMSGlobal/caliper-common-fixtures/archive/develop.zip</url>
+                            <url>https://github.com/wn-doolittle/caliper-common-fixtures/archive/develop.zip</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}</outputDirectory>
-                            <md5>5935ad0534660d9b4e4f61be33887e73</md5>
+                            <md5>c09385e0ce844b19792b8d7e871bcabc</md5>
                         </configuration>
                     </execution>
                 </executions>
