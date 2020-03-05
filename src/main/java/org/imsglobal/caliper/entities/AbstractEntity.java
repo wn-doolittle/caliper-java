@@ -18,15 +18,18 @@
 
 package org.imsglobal.caliper.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.validators.EntityValidator;
 import org.joda.time.DateTime;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Maps;
 
 /**
  * This class provides a skeletal implementation of the Entity interface
@@ -62,7 +65,8 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
     private final Map<String, Object> extensions;
 
     /**
-     * @param builder apply builder object properties to the object.
+     * @param builder
+     *            apply builder object properties to the object.
      */
     protected AbstractEntity(Builder<?> builder) {
 
@@ -76,7 +80,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
         this.description = builder.description;
         this.dateCreated = builder.dateCreated;
         this.dateModified = builder.dateModified;
-        this.extensions = builder.extensions;
+        this.extensions = builder.extensions == null ? Maps.<String, Object> newHashMap() : builder.extensions;
     }
 
     /**
@@ -131,8 +135,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
      * @return date created.
      */
     @Nullable
-    public DateTime getDateCreated()
-    {
+    public DateTime getDateCreated() {
         return dateCreated;
     }
 
@@ -154,7 +157,9 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder.
+     * 
+     * @param <T>
+     *            builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
         private boolean coercedToId;
