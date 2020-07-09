@@ -88,7 +88,9 @@ public enum Action implements CaliperAction {
     UNMUTED("Unmuted"),
     UNSUBSCRIBED("Unsubscribed"),
     USED("Used"),
-    VIEWED("Viewed");
+    VIEWED("Viewed"),
+    TAKE_LAUNCHED("TakeLaunched"),
+    TAKE_COMPLETED("TakeCompleted");
 
     private String value;
 
