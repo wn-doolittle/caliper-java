@@ -19,8 +19,6 @@
 package org.imsglobal.caliper.events;
 
 import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.entities.agent.Person;
-import org.imsglobal.caliper.entities.agent.SoftwareApplication;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,21 +42,9 @@ public class PathEvent extends Event {
     protected PathEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(this.getType(), EventType.SESSION);
+        EventValidator.checkType(this.getType(), EventType.PATH);
+        EventValidator.checkAction(this.getAction(), PathEvent.class);
 
-        switch (this.getAction().value()) {
-            case "TakeLaunched":
-                EventValidator.checkActorType(this.getActor(), Person.class);
-                EventValidator.checkObjectType(this.getObject(), SoftwareApplication.class);
-                break;
-            case "TakeCompleted":
-                EventValidator.checkActorType(this.getActor(), Person.class);
-                EventValidator.checkObjectType(this.getObject(), SoftwareApplication.class);
-                break;
-            default:
-                EventValidator.checkAction(this.getAction(), PathEvent.class);
-                break;
-        }
     }
 
     /**
