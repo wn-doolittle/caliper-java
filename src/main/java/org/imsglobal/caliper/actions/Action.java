@@ -62,6 +62,7 @@ public enum Action implements CaliperAction {
     MODIFIED("Modified"),
     MUTED("Muted"),
     NAVIGATED_TO("NavigatedTo"),
+    NAVIGATED_AWAY_FROM("NavigatedAwayFrom"),
     OPENED_POPOUT("OpenedPopout"),
     PAUSED("Paused"),
     POSTED("Posted"),
