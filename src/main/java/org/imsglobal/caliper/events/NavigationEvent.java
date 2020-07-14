@@ -18,17 +18,18 @@
 
 package org.imsglobal.caliper.events;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.annotation.Nonnull;
+
 import org.imsglobal.caliper.actions.Action;
 import org.imsglobal.caliper.entities.agent.Person;
 import org.imsglobal.caliper.validators.EventValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@SupportedActions({ Action.NAVIGATED_TO })
+@SupportedActions({ Action.NAVIGATED_TO, Action.NAVIGATED_AWAY_FROM })
 public class NavigationEvent extends Event {
 
     @JsonProperty("actor")
@@ -38,8 +39,8 @@ public class NavigationEvent extends Event {
     private static final Logger log = LoggerFactory.getLogger(NavigationEvent.class);
 
     /**
-     * Utilize builder to construct NavigationEvent.  Validate Navigation object copy rather than the
-     * Navigation builder.  This approach protects the class against parameter changes from another
+     * Utilize builder to construct NavigationEvent. Validate Navigation object copy rather than the
+     * Navigation builder. This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
      * until when they are copied.
      *
@@ -56,6 +57,7 @@ public class NavigationEvent extends Event {
 
     /**
      * Required.
+     * 
      * @return the actor
      */
     @Override
@@ -66,9 +68,11 @@ public class NavigationEvent extends Event {
 
     /**
      * Initialize default parameter values in the builder.
-     * @param <T> builder
+     * 
+     * @param <T>
+     *            builder
      */
-    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T>  {
+    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T> {
         private Person actor;
 
         /*
@@ -89,6 +93,7 @@ public class NavigationEvent extends Event {
 
         /**
          * Client invokes build method in order to create an immutable profile object.
+         * 
          * @return a new NavigationEvent instance.
          */
         public NavigationEvent build() {
@@ -108,6 +113,7 @@ public class NavigationEvent extends Event {
 
     /**
      * Static factory method.
+     * 
      * @return a new instance of the builder.
      */
     public static Builder<?> builder() {
