@@ -18,11 +18,11 @@
 
 package org.imsglobal.caliper.events;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.imsglobal.caliper.actions.CaliperAction;
 import org.imsglobal.caliper.context.JsonldContext;
 import org.imsglobal.caliper.entities.CaliperEntity;
@@ -39,9 +39,10 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 /**
  * This class provides a skeletal implementation of the Event interface
@@ -95,15 +96,15 @@ public abstract class AbstractEvent implements CaliperEvent {
     private final LtiSession federatedSession;
 
     @JsonProperty("extensions")
-    //private final Object extensions;
+    // private final Object extensions;
     private final Map<String, Object> extensions;
 
     @JsonIgnore
     private static final Logger log = LoggerFactory.getLogger(AbstractEvent.class);
 
     /**
-     * Utilize builder to construct Event.  Validate object copy rather than the
-     * builder.  This approach protects the class against parameter changes from another
+     * Utilize builder to construct Event. Validate object copy rather than the
+     * builder. This approach protects the class against parameter changes from another
      * thread during the "window of vulnerability" between the time the parameters are checked
      * until when they are copied.
      *
@@ -130,6 +131,7 @@ public abstract class AbstractEvent implements CaliperEvent {
 
     /**
      * Required.
+     * 
      * @return the context
      */
     @Nonnull
@@ -139,6 +141,7 @@ public abstract class AbstractEvent implements CaliperEvent {
 
     /**
      * Identifier that must be set either by emitting service or the receiving endpoint.
+     * 
      * @return the id
      */
     @Nullable
@@ -148,6 +151,7 @@ public abstract class AbstractEvent implements CaliperEvent {
 
     /**
      * Required.
+     * 
      * @return the type
      */
     @Nonnull
@@ -157,6 +161,7 @@ public abstract class AbstractEvent implements CaliperEvent {
 
     /**
      * Required.
+     * 
      * @return the actor
      */
     @Nonnull
@@ -166,6 +171,7 @@ public abstract class AbstractEvent implements CaliperEvent {
 
     /**
      * Required.
+     * 
      * @return the action
      */
     @Nonnull
@@ -175,6 +181,7 @@ public abstract class AbstractEvent implements CaliperEvent {
 
     /**
      * Required.
+     * 
      * @return the object
      */
     @Nonnull
@@ -184,6 +191,7 @@ public abstract class AbstractEvent implements CaliperEvent {
 
     /**
      * Optional.
+     * 
      * @return the target
      */
     @Nullable
@@ -193,6 +201,7 @@ public abstract class AbstractEvent implements CaliperEvent {
 
     /**
      * Optional.
+     * 
      * @return generated
      */
     @Nullable
@@ -202,6 +211,7 @@ public abstract class AbstractEvent implements CaliperEvent {
 
     /**
      * Optional.
+     * 
      * @return referrer
      */
     @Nullable
@@ -211,6 +221,7 @@ public abstract class AbstractEvent implements CaliperEvent {
 
     /**
      * Required.
+     * 
      * @return the startedAt time
      */
     @Nonnull
@@ -219,7 +230,8 @@ public abstract class AbstractEvent implements CaliperEvent {
     }
 
     /**
-     * The edApp context, part of the Caliper Learning Context.  Optional.
+     * The edApp context, part of the Caliper Learning Context. Optional.
+     * 
      * @return the edApp
      */
     @Nullable
@@ -228,7 +240,8 @@ public abstract class AbstractEvent implements CaliperEvent {
     }
 
     /**
-     * The Group context, part of the Caliper Learning Context.  Optional.
+     * The Group context, part of the Caliper Learning Context. Optional.
+     * 
      * @return the group
      */
     @Nullable
@@ -237,7 +250,8 @@ public abstract class AbstractEvent implements CaliperEvent {
     }
 
     /**
-     * The Membership context, part of the Caliper Learning Context.  Optional.
+     * The Membership context, part of the Caliper Learning Context. Optional.
+     * 
      * @return the membership
      */
     @Nullable
@@ -246,7 +260,8 @@ public abstract class AbstractEvent implements CaliperEvent {
     }
 
     /**
-     * Current session context.  Optional.
+     * Current session context. Optional.
+     * 
      * @return the federated session
      */
     public Session getSession() {
@@ -254,7 +269,8 @@ public abstract class AbstractEvent implements CaliperEvent {
     }
 
     /**
-     * Federated Session object, part of the LTI launch context.  Optional.
+     * Federated Session object, part of the LTI launch context. Optional.
+     * 
      * @return the federated session
      */
     public LtiSession getFederatedSession() {
@@ -262,13 +278,14 @@ public abstract class AbstractEvent implements CaliperEvent {
     }
 
     /**
-     * Custom properties.  Optional.
+     * Custom properties. Optional.
+     * 
      * @return extensions
      */
     /**
-    public Object getExtensions() {
-        return extensions;
-    }
+     * public Object getExtensions() {
+     * return extensions;
+     * }
      */
     public Map<String, Object> getExtensions() {
         return extensions;
@@ -276,7 +293,9 @@ public abstract class AbstractEvent implements CaliperEvent {
 
     /**
      * Builder class provides a fluid interface for setting object properties.
-     * @param <T> builder.
+     * 
+     * @param <T>
+     *            builder.
      */
     public static abstract class Builder<T extends Builder<T>> {
         private JsonldContext context;
@@ -294,7 +313,7 @@ public abstract class AbstractEvent implements CaliperEvent {
         private Membership membership;
         private Session session;
         private LtiSession federatedSession;
-        //private Object extensions;
+        // private Object extensions;
         private Map<String, Object> extensions = Maps.newHashMap();
 
         protected abstract T self();
@@ -446,14 +465,19 @@ public abstract class AbstractEvent implements CaliperEvent {
          * @return builder.
          */
         /**
-        public T extensions(Object extensions) {
-            this.extensions = extensions;
-            return self();
-        }
+         * public T extensions(Object extensions) {
+         * this.extensions = extensions;
+         * return self();
+         * }
          */
 
         public T extensions(Map<String, Object> extensions) {
             this.extensions = extensions;
+            return self();
+        }
+
+        public T updateExtensions(Map<String, Object> additionalExtensions) {
+            this.extensions.putAll(additionalExtensions);
             return self();
         }
     }
