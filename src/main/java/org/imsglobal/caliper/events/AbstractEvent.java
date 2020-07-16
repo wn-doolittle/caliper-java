@@ -41,7 +41,6 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 /**
@@ -126,7 +125,7 @@ public abstract class AbstractEvent implements CaliperEvent {
         this.membership = builder.membership;
         this.session = builder.session;
         this.federatedSession = builder.federatedSession;
-        this.extensions = ImmutableMap.copyOf(builder.extensions);
+        this.extensions = builder.extensions;
     }
 
     /**
