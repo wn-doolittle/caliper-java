@@ -64,8 +64,8 @@
     </prerequisites>
 
     <properties>
-        <caliper.jdk.version>1.8</caliper.jdk.version>
-        <jackson.version>2.9.9</jackson.version>
+        <caliper.jdk.version>11</caliper.jdk.version>
+        <jackson.version>2.11.0</jackson.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
         <arguments />
