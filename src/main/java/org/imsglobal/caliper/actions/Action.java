@@ -91,7 +91,8 @@ public enum Action implements CaliperAction {
     USED("Used"),
     VIEWED("Viewed"),
     TAKE_LAUNCHED("TakeLaunched"),
-    TAKE_COMPLETED("TakeCompleted");
+    TAKE_COMPLETED("TakeCompleted"),
+    SAVED("Saved");
 
     private String value;
 

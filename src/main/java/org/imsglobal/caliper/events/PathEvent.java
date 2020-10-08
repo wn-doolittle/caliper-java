@@ -27,7 +27,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SupportedActions({
         Action.TAKE_LAUNCHED,
-        Action.TAKE_COMPLETED
+        Action.TAKE_COMPLETED,
+        Action.SAVED,
+        Action.DELETED
 })
 public class PathEvent extends Event {
 
