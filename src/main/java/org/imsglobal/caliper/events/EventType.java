@@ -28,6 +28,7 @@ public enum EventType implements CaliperEventType {
     EVENT("Event"),
     FORUM("ForumEvent"),
     MEDIA("MediaEvent"),
+    MEDIAWISTIAEVENT("VideoWistiaEvent"),
     MESSAGE("MessageEvent"),
     NAVIGATION("NavigationEvent"),
     GRADE("GradeEvent"),
