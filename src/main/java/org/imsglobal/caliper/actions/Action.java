@@ -27,6 +27,7 @@ public enum Action implements CaliperAction {
     ABANDONED("Abandoned"),
     ACTIVATED("Activated"),
     ADDED("Added"),
+    ASSIGNED_ALIAS("AssignedAlias"),
     ATTACHED("Attached"),
     BOOKMARKED("Bookmarked"),
     CHANGED_RESOLUTION("ChangedResolution"),
