@@ -39,7 +39,8 @@ public enum EventType implements CaliperEventType {
     TOOL_USE("ToolUseEvent"),
     VIEW("ViewEvent"),
     PATH("PathEvent"),
-    CONTENT("ContentEvent");
+    CONTENT("ContentEvent"),
+    DESIGNER_PATH_SAVE("DesignerPathSave");
 
     private final String value;
 
