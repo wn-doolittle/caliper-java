@@ -38,7 +38,8 @@ public enum EventType implements CaliperEventType {
     THREAD("ThreadEvent"),
     TOOL_USE("ToolUseEvent"),
     VIEW("ViewEvent"),
-    PATH("PathEvent");
+    PATH("PathEvent"),
+    CONTENT("ContentEvent");
 
     private final String value;
 
