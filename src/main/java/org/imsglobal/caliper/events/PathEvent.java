@@ -29,7 +29,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
         Action.TAKE_LAUNCHED,
         Action.TAKE_COMPLETED,
         Action.SAVED,
-        Action.DELETED
+        Action.DELETED,
+        Action.ASSIGNED_ALIAS
 })
 public class PathEvent extends Event {
 
