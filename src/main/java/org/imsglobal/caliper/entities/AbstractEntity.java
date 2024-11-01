@@ -64,6 +64,9 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
     @JsonProperty("extensions")
     private final Map<String, Object> extensions;
 
+    @JsonProperty("language")
+    private final String language;
+
     /**
      * @param builder
      *            apply builder object properties to the object.
@@ -81,6 +84,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
         this.dateCreated = builder.dateCreated;
         this.dateModified = builder.dateModified;
         this.extensions = builder.extensions == null ? Maps.<String, Object> newHashMap() : builder.extensions;
+        this.language = builder.language;
     }
 
     /**
@@ -156,6 +160,14 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
     }
 
     /**
+     * @return language.
+     */
+    @Nullable
+    public String getLanguage() {
+        return language;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * 
      * @param <T>
@@ -171,6 +183,7 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
         private DateTime dateCreated;
         private DateTime dateModified;
         private Map<String, Object> extensions;
+        private String language;
 
         /**
          * Constructor
@@ -260,6 +273,15 @@ public abstract class AbstractEntity implements CaliperEntity, CaliperCoercible 
          */
         public T extensions(Map<String, Object> extensions) {
             this.extensions = extensions;
+            return self();
+        }
+
+        /**
+         * @param language
+         * @return builder.
+         */
+        public T language(String language) {
+            this.language = language;
             return self();
         }
     }
