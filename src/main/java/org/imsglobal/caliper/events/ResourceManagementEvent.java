@@ -35,7 +35,7 @@ public class ResourceManagementEvent extends Event {
     private static final Logger log = LoggerFactory.getLogger(ResourceManagementEvent.class);
 
     /**
-     * Utilize builder to construct PathEvent
+     * Utilize builder to construct ResourceManagementEvent
      *
      * @param builder
      */
@@ -65,7 +65,7 @@ public class ResourceManagementEvent extends Event {
         /**
          * Client invokes build method in order to create an immutable profile object.
          *
-         * @return a new PathEvent instance.
+         * @return a new ResourceManagementEvent instance.
          */
         public ResourceManagementEvent build() {
             return new ResourceManagementEvent(this);
