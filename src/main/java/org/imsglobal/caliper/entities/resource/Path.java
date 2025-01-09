@@ -16,65 +16,43 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.imsglobal.caliper.events;
+package org.imsglobal.caliper.entities.resource;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.imsglobal.caliper.actions.Action;
-import org.imsglobal.caliper.validators.EventValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.imsglobal.caliper.entities.EntityType;
 
-@SupportedActions({
-        Action.TAKE_LAUNCHED,
-        Action.TAKE_COMPLETED,
-        Action.SAVED,
-        Action.DELETED
-})
-public class ContentEvent extends Event {
-
-    @JsonIgnore
-    private static final Logger log = LoggerFactory.getLogger(ContentEvent.class);
+public class Path extends DigitalResource {
 
     /**
-     * Utilize builder to construct ContentEvent
-     *
-     * @param builder
+     * @param builder apply builder object properties to the object.
      */
-    protected ContentEvent(Builder<?> builder) {
+    protected Path(Builder<?> builder) {
         super(builder);
-
-        EventValidator.checkType(this.getType(), EventType.CONTENT);
-        EventValidator.checkAction(this.getAction(), ContentEvent.class);
-
     }
 
     /**
-     * Initialize default parameter values in the builder.
-     * 
-     * @param <T>
-     *            builder
+     * Builder class provides a fluid interface for setting object properties.
+     * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends Event.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
 
-        /*
+        /**
          * Constructor
          */
         public Builder() {
-            super.type(EventType.CONTENT);
+            super.type(EntityType.PATH);
         }
 
         /**
-         * Client invokes build method in order to create an immutable profile object.
-         * 
-         * @return a new ContentEvent instance.
+         * Client invokes build method in order to create an immutable object.
+         * @return a new instance of the Page.
          */
-        public ContentEvent build() {
-            return new ContentEvent(this);
+        public Path build() {
+            return new Path(this);
         }
     }
 
     /**
-     * Self-reference that permits sub-classing of builder.
+     *
      */
     private static class Builder2 extends Builder<Builder2> {
         @Override
@@ -85,7 +63,6 @@ public class ContentEvent extends Event {
 
     /**
      * Static factory method.
-     * 
      * @return a new instance of the builder.
      */
     public static Builder<?> builder() {
