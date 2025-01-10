@@ -25,31 +25,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SupportedActions({
-        Action.ALIASED,
-        Action.DELETED,
-        Action.SAVED
+        Action.TAKE_LAUNCHED,
+        Action.TAKE_COMPLETED,
+        Action.SAVED,
+        Action.DELETED
 })
-public class ResourceManagementEvent extends Event {
+public class DesignerPathSaveEvent extends Event {
 
     @JsonIgnore
-    private static final Logger log = LoggerFactory.getLogger(ResourceManagementEvent.class);
+    private static final Logger log = LoggerFactory.getLogger(DesignerPathSaveEvent.class);
 
     /**
-     * Utilize builder to construct ResourceManagementEvent
+     * Utilize builder to construct DesignerPathSaveEvent
      *
      * @param builder
      */
-    protected ResourceManagementEvent(Builder<?> builder) {
+    protected DesignerPathSaveEvent(Builder<?> builder) {
         super(builder);
 
-        EventValidator.checkType(this.getType(), EventType.RESOURCE_MANAGEMENT_EVENT);
-        EventValidator.checkAction(this.getAction(), ResourceManagementEvent.class);
+        EventValidator.checkType(this.getType(), EventType.DESIGNER_PATH_SAVE);
+        EventValidator.checkAction(this.getAction(), DesignerPathSaveEvent.class);
 
     }
 
     /**
      * Initialize default parameter values in the builder.
-     *
+     * 
      * @param <T>
      *            builder
      */
@@ -59,16 +60,16 @@ public class ResourceManagementEvent extends Event {
          * Constructor
          */
         public Builder() {
-            super.type(EventType.RESOURCE_MANAGEMENT_EVENT);
+            super.type(EventType.DESIGNER_PATH_SAVE);
         }
 
         /**
          * Client invokes build method in order to create an immutable profile object.
-         *
-         * @return a new ResourceManagementEvent instance.
+         * 
+         * @return a new DesignerPathSaveEvent instance.
          */
-        public ResourceManagementEvent build() {
-            return new ResourceManagementEvent(this);
+        public DesignerPathSaveEvent build() {
+            return new DesignerPathSaveEvent(this);
         }
     }
 
@@ -84,7 +85,7 @@ public class ResourceManagementEvent extends Event {
 
     /**
      * Static factory method.
-     *
+     * 
      * @return a new instance of the builder.
      */
     public static Builder<?> builder() {
