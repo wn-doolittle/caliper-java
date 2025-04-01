@@ -27,7 +27,9 @@ import org.slf4j.LoggerFactory;
 @SupportedActions({
         Action.ALIASED,
         Action.DELETED,
-        Action.SAVED
+        Action.PUBLISHED,
+        Action.SAVED,
+        Action.UNPUBLISHED
 })
 public class ResourceManagementEvent extends Event {
 
