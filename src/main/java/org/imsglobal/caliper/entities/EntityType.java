@@ -34,6 +34,7 @@ public enum EntityType implements CaliperEntityType {
     CONTENT("Content"),
     COURSE_OFFERING("CourseOffering"),
     COURSE_SECTION("CourseSection"),
+    CTK_HIERARCHY("CtkHierarchy"),
     DIGITAL_RESOURCE("DigitalResource"),
     DIGITAL_RESOURCE_COLLECTION("DigitalResourceCollection"),
     DOCUMENT("Document"),
