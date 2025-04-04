@@ -9,7 +9,7 @@ import org.imsglobal.caliper.entities.EntityType;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CtkHierarchy extends AbstractDigitalResource implements CaliperCollection<CaliperDigitalResource> {
+public class CtkHierarchy extends DigitalResource implements CaliperCollection<CaliperDigitalResource> {
 
     /**
      * Collection of Hierarchy children.
@@ -55,7 +55,7 @@ public class CtkHierarchy extends AbstractDigitalResource implements CaliperColl
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
-    public static abstract class Builder<T extends Builder<T>> extends AbstractDigitalResource.Builder<T> {
+    public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
         private List<CaliperDigitalResource> items = Lists.newArrayList();
         private String hierarchyType;
 
