@@ -29,7 +29,7 @@
     <licenses>
         <license>
             <name>IMS GLobal</name>
-            <url> http://imsglobal.org/license</url>
+            <url>http://imsglobal.org/license</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -67,8 +67,9 @@
         <caliper.jdk.version>11</caliper.jdk.version>
         <jackson.version>2.11.0</jackson.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
-        <arguments />
+        <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/
+        </sonatypeOssDistMgmtSnapshotsUrl>
+        <arguments/>
     </properties>
 
     <distributionManagement>
@@ -226,7 +227,7 @@
                         <configuration>
                             <target>
                                 <copy todir="${project.build.directory}/test-classes/fixtures">
-                                    <fileset dir="${project.build.directory}/caliper-common-fixtures-develop/fixtures" />
+                                    <fileset dir="${project.build.directory}/caliper-common-fixtures-develop/fixtures"/>
                                 </copy>
                             </target>
                         </configuration>
@@ -296,9 +297,36 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.12</version>
+                    <executions>
+                        <execution>
+                            <id>prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.directory}/coverage</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
@@ -409,7 +437,7 @@
                                 <configuration>
                                     <transformers>
                                         <transformer
-                                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                         <transformer
                                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                         </transformer>
