@@ -24,12 +24,19 @@ public class CtkHierarchy extends DigitalResource implements CaliperCollection<C
     private final String hierarchyType;
 
     /**
+     * Publish Designation
+     */
+    @JsonProperty("publishDesignation")
+    private final String publishDesignation;
+
+    /**
      * @param builder apply builder object properties to the object.
      */
     protected CtkHierarchy(Builder<?> builder) {
         super(builder);
         this.items = ImmutableList.copyOf(builder.items);
         this.hierarchyType = builder.hierarchyType;
+        this.publishDesignation = builder.publishDesignation;
     }
 
     /**
@@ -52,12 +59,22 @@ public class CtkHierarchy extends DigitalResource implements CaliperCollection<C
     }
 
     /**
+     * Return the publish designation.
+     * @return the publishDesignation
+     */
+    @Nullable
+    public String getPublishDesignation() {
+        return publishDesignation;
+    }
+
+    /**
      * Builder class provides a fluid interface for setting object properties.
      * @param <T> builder.
      */
     public static abstract class Builder<T extends Builder<T>> extends DigitalResource.Builder<T> {
         private List<CaliperDigitalResource> items = Lists.newArrayList();
         private String hierarchyType;
+        private String publishDesignation;
 
         /**
          * Constructor
@@ -71,7 +88,7 @@ public class CtkHierarchy extends DigitalResource implements CaliperCollection<C
          * @return builder.
          */
         public T items(List<CaliperDigitalResource> items) {
-            if(items != null) {
+            if (items != null) {
                 this.items.addAll(items);
             }
             return self();
@@ -92,6 +109,15 @@ public class CtkHierarchy extends DigitalResource implements CaliperCollection<C
          */
         public T hierarchyType(String hierarchyType) {
             this.hierarchyType = hierarchyType;
+            return self();
+        }
+
+        /**
+         * @param publishDesignation
+         * @return builder.
+         */
+        public T publishDesignation(String publishDesignation) {
+            this.publishDesignation = publishDesignation;
             return self();
         }
 
