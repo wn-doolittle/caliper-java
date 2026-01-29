@@ -50,6 +50,8 @@ public class Assignment {
     @JsonProperty("maxScore")
     private Double maxScore;
 
+    @JsonProperty("correctResponse")
+    private String correctResponse;
     /**
      * Constructor
      */
@@ -171,5 +173,18 @@ public class Assignment {
      */
     public void setMaxScore(Double maxScore) {
         this.maxScore = maxScore;
+    }
+
+    /**
+     * @return the correctResponse
+     */
+    @Nullable
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public String getCorrectResponse() {
+        return correctResponse;
+    }
+
+    public void setCorrectResponse(String correctResponse) {
+        this.correctResponse = correctResponse;
     }
 }
