@@ -187,6 +187,7 @@ public abstract class AbstractAssignableDigitalResource extends AbstractDigitalR
             return self();
         }
 
+        
         public T correctResponse(String correctResponse) {
             this.assign.setCorrectResponse(correctResponse);
             return self();
