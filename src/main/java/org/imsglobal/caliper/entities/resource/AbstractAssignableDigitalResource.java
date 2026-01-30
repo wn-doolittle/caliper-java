@@ -47,6 +47,7 @@ public abstract class AbstractAssignableDigitalResource extends AbstractDigitalR
         this.assign.setMaxAttempts(builder.assign.getMaxAttempts());
         this.assign.setMaxSubmits(builder.assign.getMaxSubmits());
         this.assign.setMaxScore(builder.assign.getMaxScore());
+        this.assign.setCorrectResponse(builder.assign.getCorrectResponse());
     }
 
     /**
@@ -183,6 +184,12 @@ public abstract class AbstractAssignableDigitalResource extends AbstractDigitalR
          */
         public T maxScore(Double maxScore) {
             this.assign.setMaxScore(maxScore);
+            return self();
+        }
+
+        
+        public T correctResponse(String correctResponse) {
+            this.assign.setCorrectResponse(correctResponse);
             return self();
         }
     }
