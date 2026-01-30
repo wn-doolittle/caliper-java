@@ -85,6 +85,7 @@ public class AssessmentItemEventCompletedTest {
             .maxScore(0.0)
             .isTimeDependent(false)
             .version("1.0")
+             .correctResponse("[\"1\",\"2\"]")
             .build();
 
         Assessment assessment = Assessment.builder().id(SECTION_IRI.concat("/assess/1")).build();
@@ -101,6 +102,7 @@ public class AssessmentItemEventCompletedTest {
                 .id(object.getId())
                 .name(object.getName())
                 .isPartOf(assessment)
+                 .correctResponse(object.getCorrectResponse())
                 .build())
             .isPartOf(assessmentAttempt)
             .count(1)
