@@ -18,6 +18,7 @@
 
 package org.imsglobal.caliper.entities.resource;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.time.DateTime;
@@ -179,7 +180,7 @@ public class Assignment {
      * @return the correctResponse
      */
     @Nullable
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonIgnore
     public String getCorrectResponse() {
         return correctResponse;
     }

@@ -100,6 +100,12 @@ public abstract class AbstractAssignableDigitalResource extends AbstractDigitalR
         return assign.getMaxSubmits();
     }
 
+    @Nullable
+    @JsonIgnore
+    public String getCorrectResponse() {
+        return assign.getCorrectResponse();
+    }
+
     /**
      * @return the maxScore
      */

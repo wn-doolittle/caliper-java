@@ -40,4 +40,6 @@ public interface CaliperAssignable extends CaliperDigitalResource {
     Double getMaxScore();
 
     Integer getMaxSubmits();
+
+    String getCorrectResponse();
 }

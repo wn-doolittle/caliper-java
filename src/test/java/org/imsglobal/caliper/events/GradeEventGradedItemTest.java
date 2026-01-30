@@ -72,6 +72,7 @@ public class GradeEventGradedItemTest {
             .id(SECTION_IRI.concat("/assess/1/items/3"))
             .name("Assessment Item 3")
             .isPartOf(assessment)
+             .correctResponse("[\"1\",\"2\"]")
             .build();
 
         Attempt parentAttempt = Attempt.builder()
