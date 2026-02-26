@@ -45,8 +45,8 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
     @JsonProperty("scoredBy")
     private CaliperAgent scoredBy;
 
-    @JsonProperty("finalScoreGiven")
-    private Double finalScoreGiven;
+    @JsonProperty("exactScore")
+    private Double exactScore;
 
     /**
      * @param builder apply builder object properties to the object.
@@ -59,7 +59,7 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
         this.scoreGiven = builder.scoreGiven;
         this.comment = builder.comment;
         this.scoredBy = builder.scoredBy;
-        this.finalScoreGiven = builder.finalScoreGiven;
+        this.exactScore = builder.exactScore;
     }
 
     /**
@@ -107,12 +107,12 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
     }
 
     /**
-     * @return the finalScoreGiven
+     * @return the exactScore
      */
     @Nullable
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public Double getFinalScoreGiven() {
-        return finalScoreGiven;
+    public Double getExactScore() {
+        return exactScore;
     }
 
     /**
@@ -125,7 +125,7 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
         private Double scoreGiven;
         private String comment;
         private CaliperAgent scoredBy;
-        private Double finalScoreGiven;
+        private Double exactScore;
 
         /**
          * Constructor
@@ -180,11 +180,11 @@ public class Score extends AbstractEntity implements CaliperGeneratable {
         }
 
         /**
-         * @param finalScoreGiven
-         * @return final score given.
+         * @param exactScore
+         * @return exact score.
          */
-        public T finalScoreGiven(Double finalScoreGiven) {
-            this.finalScoreGiven = finalScoreGiven;
+        public T exactScore(Double exactScore) {
+            this.exactScore = exactScore;
             return self();
         }
 
