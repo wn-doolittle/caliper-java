@@ -10,7 +10,7 @@
 
     <groupId>org.imsglobal.caliper</groupId>
     <artifactId>caliper-java</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>1.1.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>caliper-java</name>
@@ -73,28 +73,28 @@
     </properties>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>io.cloudrepo</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://weldnorthanalytics.mycloudrepo.io/repositories/doolittle</url>
-        </snapshotRepository>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>github ImagineLearning</id>
+            <name>github ImagineLearning</name>
+            <url>https://maven.pkg.github.com/ImagineLearning/ctk-java-packages</url>
         </repository>
+        <snapshotRepository>
+            <id>github ImagineLearning</id>
+            <name>github ImagineLearning</name>
+            <url>https://maven.pkg.github.com/ImagineLearning/ctk-java-packages</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <repositories>
         <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>github ImagineLearning</id>
+            <url>https://maven.pkg.github.com/ImagineLearning/*</url>
             <releases>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </releases>
             <snapshots>
                 <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
     </repositories>
