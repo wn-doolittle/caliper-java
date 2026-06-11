@@ -74,24 +74,45 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>io.cloudrepo</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://weldnorthanalytics.mycloudrepo.io/repositories/doolittle</url>
+            <id>github-imaginelearning</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/ImagineLearning/ctk-java-packages</url>
         </snapshotRepository>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>github-imaginelearning</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/ImagineLearning/ctk-java-packages</url>
         </repository>
     </distributionManagement>
 
     <repositories>
         <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
             <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
                 <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>github-imaginelearning</id>
+            <name>GitHub Packages - ImagineLearning</name>
+            <url>https://maven.pkg.github.com/ImagineLearning/*</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>github-wn-doolittle</id>
+            <name>GitHub Packages - wn-doolittle</name>
+            <url>https://maven.pkg.github.com/wn-doolittle/*</url>
+            <releases>
+                <enabled>true</enabled>
             </releases>
             <snapshots>
                 <enabled>true</enabled>
