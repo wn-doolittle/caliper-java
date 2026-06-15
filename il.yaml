@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://schema-validator.imaginelearning.tech/il.yaml/v2.0.json
+
+meta:
+  owner: content
+  trackingId: 87b2338d-3ea4-45cc-bd63-73d1f4a73a6c
+  domain: content
+  system: ctk
+
+otk:
+  enabled: true
+  build:
+    language: java
+    languageVersion: "17"
+    platform: amd64
+    linuxDistribution: alpine
+    publishPackage: true
+    publishPackageDirectories:
+      - ./
+    java:
+      mavenDeploy: true
+  deployConfig:
+    environments:
+      - dev # Make il.yaml validation pass. This library has no deployables.
