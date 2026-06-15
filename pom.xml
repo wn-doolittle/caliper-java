@@ -74,12 +74,12 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>github-imaginelearning</id>
+            <id>github ImagineLearning</id>
             <name>GitHub Packages</name>
             <url>https://maven.pkg.github.com/ImagineLearning/ctk-java-packages</url>
         </snapshotRepository>
         <repository>
-            <id>github-imaginelearning</id>
+            <id>github ImagineLearning</id>
             <name>GitHub Packages</name>
             <url>https://maven.pkg.github.com/ImagineLearning/ctk-java-packages</url>
         </repository>
@@ -97,7 +97,7 @@
             </snapshots>
         </repository>
         <repository>
-            <id>github-imaginelearning</id>
+            <id>github ImagineLearning</id>
             <name>GitHub Packages - ImagineLearning</name>
             <url>https://maven.pkg.github.com/ImagineLearning/*</url>
             <releases>
